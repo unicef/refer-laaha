@@ -1,125 +1,87 @@
-This is a Composer-based installer for the
-[EzContent](https://www.drupal.org/project/ezcontent) Drupal distribution.
+# Unicef eRPW Drupal application
 
-## Getting Started with Drupal 8 Installation
+This is Unicef eRPW Drupal application based on EzConent Drupal distribution created by Srijan technologies PVT LTD
 
-EzContent can be installed in two ways:
+## RequirEment
 
-1. Via Drupal Composer
+1. Docker
+2. Docksal https://docs.docksal.io/
 
-* Choose a name for your project, like “MY_PROJECT”
-* Use the given command to create the project
-* The command will download Drupal core along with necessary modules,
-  EzContent profile, and all other dependencies necessary for the project
-```bash
-composer create-project srijanone/ezcontent-project:^1.0 MY_PROJECT --no-interaction
-```
+## Installation
 
-Note: In case you come across any memory issues, run this command -
-```bash
-php -d memory_limit=-1 /path/to/composer.phar create-project
-srijanone/ezcontent-project:^1.0 MY_PROJECT --no-interaction
-```
-
-2. Via Acquia BLT
-
-To create a new Acquia BLT project using EzContent, use the following commands
-```bash
-composer create-project --no-interaction acquia/blt-project MY_PROJECT;
-cd MY_PROJECT;
-composer require srijanone/ezcontent:^1.0;
-```
-Warning: There may be updates to BLT, Lightning which may break the setup. If
-you see any issue, please open a new issue in the issue queue.
-
-## Getting Started with Drupal 9 Installation
-
-1. Via Drupal Composer
+Simply clone this repo and run the following command from the repo root.
 
 ```bash
-composer create-project srijanone/ezcontent-project:^2.0
-MY_PROJECT --no-interaction
+fin init
 ```
-2. Via Acquia BLT
+
+This will spin up the required development stack with docker and install the Drupal. The installation output will show the admin credential to login.
+
+To see all available `fin` commands run:
 
 ```bash
-composer create-project --no-interaction acquia/drupal-recommended-project
-MY_PROJECT;
-cd MY_PROJECT;
-composer require srijanone/ezcontent:^2.0.0-alpha1;
+fin help
 ```
 
-By using these commands you will get a EzContent site as your final output.
-Login to your site using your database and webserver. Composer will install
-all the required dependency into vendor folder. Always remember composer.json
-and composer.lock files that exist they are controlling your dependencies.
+This project uses composer to install all dependency and BLT to setup Drupal instance. **Docksal should be used to extend the available development tooling instead of manually installing any development tools. BLT should be used to setup drupal, run test and for deployment.**
 
-## Upgrading from Drupal 8 to Drupal 9
+Most of the Drupal development toolings are already provided by docksal. See https://docs.docksal.io/tools/ for more detail.
 
-Before upgrading, please make sure that the Drupal 9 environment requirements
-are met and all the site-specific modules (required into root composer.json)
-are D9 compatible.
+## Important Note
 
-Post that, please execute the following commands:
-
-1. Drupal Composer Installation
+This project is created with composer with following command:
 
 ```bash
-# Require D9 compatible packages:
-composer require drupal/core-composer-scaffold:~9.0.0 --no-update
- && composer require drupal/core-recommended:~9.0.0 --no-update
-  && composer require drush/drush:^10 --no-update
-   && composer require srijanone/ezcontent:^2.0.0-alpha1 --no-update;
-
-# Update packages:
-COMPOSER_MEMORY_LIMIT=-1 composer update --no-cache;
-
-# Apply database updates:
-drush updb;
-
-# Rebuild cache:
-drush cr;
+composer create-project srijanone/ezcontent-project:^2.0 MY_PROJECT --no-interaction
 ```
 
-2. Acquia BLT Installation
+This project is not using `acquia/drupal-recommended-project` because that is based on acquia lightning profile and acquia lightning is going away. See [Frequently Asked Questions (FAQ) regarding End of Support for Acquia Lightning](https://support.acquia.com/hc/en-us/articles/1500006393601-Frequently-Asked-Questions-FAQ-regarding-End-of-Support-for-Acquia-Lightning)
 
-BLT 11 only supports Drupal 8, and BLT 12 only supports Drupal 9, meaning that
-you must upgrade to Drupal 9 and BLT 12 simultaneously.
+## Debugging
 
-For upgrading from BLT 11 to BLT 12, please read: https://bit.ly/3wiojxI Please
-ensure that you have followed the **Before upgrading** steps mentioned in the
-link.
+Docksal comes with xdebug installed. Xdebug can be enabled by setting `XDEBUG_ENABLED=1` in `.docksal/docksal.env` file and restarting the project with `fin project restart`
 
-Next steps to upgrade:
-```bash
-# Remove blt-require-dev:
-composer remove --dev acquia/blt-require-dev;
+## Code Linting
 
-# Remove acquia/lightning as it is not required:
-composer remove acquia/lightning;
+PHPCode sniffer
 
-# Require D9 compatible version of site specific modules eg. drupal/devel:
-composer require drupal/devel:^4.1 --no-update;
-
-# Require BLT 12.x and d9 compatible packages:
-composer require acquia/blt:^12 --no-update
- && composer require drupal/core-composer-scaffold:~9.0.0 --no-update
-  && composer require drupal/core-recommended:~9.0.0 --no-update;
-
-# Require D9 compatible version of srijanone/ezcontent:
-composer require srijanone/ezcontent:^2.0.0-alpha1 --no-update;
-
-# Update the packages:
-COMPOSER_MEMORY_LIMIT=-1 composer update --no-cache;
-# If this step fails, ensure that you've first removed any incompatible modules
-# as advised above.
-
-# Apply database updates:
-drush updb;
-
-# Rebuild cache:
-drush cr;
+```
+fin phpcs
 ```
 
-## Docksal Support
-This project installer has [Docksal](https://docksal.io/) support.
+Eslint
+
+```
+fin eslint
+```
+
+## Development tools
+
+Run NPM
+
+```
+fin npm
+```
+
+Run NPX
+
+```
+fin npx
+```
+
+Run BLT
+
+```
+fin blt
+```
+
+Run Drush
+```
+fin drush
+```
+
+Run drupal console
+
+```
+fin drupal
+```
