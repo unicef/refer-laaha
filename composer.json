@@ -72,6 +72,15 @@
       ],
       "docroot/themes/contrib/{$name}": [
         "type:drupal-theme"
+      ],
+      "drush/Commands/contrib/{$name}": [
+        "type:drupal-drush"
+      ],
+      "docroot/modules/custom/{$name}": [
+        "type:drupal-custom-module"
+      ],
+      "docroot/themes/custom/{$name}": [
+        "type:drupal-custom-theme"
       ]
     },
     "installer-types": [
