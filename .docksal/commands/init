@@ -41,6 +41,7 @@ fin exec COMPOSER_MEMORY_LIMIT=-1 composer install
 
 # Set up blt
 cd $DOCROOT_PATH
+fin npm install
 fin blt blt:init:settings -n
 fin blt drupal:install -n
 
