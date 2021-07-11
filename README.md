@@ -23,7 +23,10 @@ To see all available `fin` commands run:
 fin help
 ```
 
-This project uses composer to install all dependency and BLT to setup Drupal instance. **Docksal should be used to extend the available development tooling instead of manually installing any development tools. BLT should be used to setup drupal, run test and for deployment.**
+This project uses composer to install all dependency and BLT to setup Drupal instance.
+
+1. **Docksal should be used to extend the available development tooling instead of manually installing any development tools.**
+2. **BLT should be used to setup drupal, run test and for deployment.**
 
 Most of the Drupal development toolings are already provided by docksal. See https://docs.docksal.io/tools/ for more detail.
 
@@ -35,7 +38,7 @@ This project is created with composer with following command:
 composer create-project srijanone/ezcontent-project:^2.0 MY_PROJECT --no-interaction
 ```
 
-This project is not using `acquia/drupal-recommended-project` because that is based on acquia lightning profile and acquia lightning is going away. See [Frequently Asked Questions (FAQ) regarding End of Support for Acquia Lightning](https://support.acquia.com/hc/en-us/articles/1500006393601-Frequently-Asked-Questions-FAQ-regarding-End-of-Support-for-Acquia-Lightning)
+This project is **not** using `acquia/drupal-recommended-project` because that is based on acquia lightning profile and acquia lightning is going away. See [Frequently Asked Questions (FAQ) regarding End of Support for Acquia Lightning](https://support.acquia.com/hc/en-us/articles/1500006393601-Frequently-Asked-Questions-FAQ-regarding-End-of-Support-for-Acquia-Lightning)
 
 ## Debugging
 
