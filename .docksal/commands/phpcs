@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+## Run phpcs command to run php code sniffer against custom code.
+##
+## Usage: fin phpcs
+
 fin run phpcs \
     --standard="Drupal,DrupalPractice" -n \
     --extensions="php,module,inc,install,test,profile,theme" \
