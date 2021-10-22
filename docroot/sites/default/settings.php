@@ -774,6 +774,7 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
 
+$settings["config_sync_directory"] = "../config";
 
 // On Acquia Cloud, this include file configures Drupal to use the correct
 // database in each site environment (Dev, Stage, or Prod). To use this
