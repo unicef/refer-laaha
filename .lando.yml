@@ -1,0 +1,32 @@
+name: vss
+recipe: acquia
+config:
+  acli_version: latest
+  ah_application_uuid: 249931c2-c947-4980-b6e4-953c4206177c
+  ah_site_group: vss2
+  php: '7.4'
+  via: apache
+  webroot: docroot/
+  drush: ^10
+  xdebug: false
+tooling:
+  "drush":
+    cmd: "/app/vendor/bin/drush --root=/app/docroot"
+    description: "Runs drush command. Ex: lando drush _yourcommand_"
+  "blt":
+    service: appserver
+    cmd: /app/vendor/bin/blt
+proxy:
+  appserver:
+    - vss.lndo.site
+services:
+  vss:
+    type: mysql
+    portforward: true
+    config:
+      confd: lando/mysql/conf.d
+  appserver:
+    build:
+      - "cd /app && composer install"
+    run:
+      - composer self-update
