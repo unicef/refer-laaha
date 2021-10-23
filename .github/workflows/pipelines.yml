@@ -38,4 +38,4 @@ jobs:
           ./vendor/bin/phpcs -p -s
       - name: Run phplint with Drupal coding standards.
         run: > 
-           ./vendor/bin/phpcs 
+           ./vendor/bin/phplint  
