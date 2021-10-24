@@ -36,9 +36,10 @@ jobs:
       - name: Run phpcs with Drupal coding standards.
         run: >
           ./vendor/bin/phpcs -p -s
-      - name: Run phplint with Drupal coding standards.
-        run: > 
-           ./vendor/bin/phplint 
+      # ---- This will be uncommented for linter-----
+      # - name: Run phplint with Drupal coding standards.
+      #   run: > 
+      #      ./vendor/bin/phplint 
       -  name: BLT  
          uses: actions/checkout@v2
       - name: Install SSH key for accessing Acquia Repository
@@ -63,15 +64,15 @@ jobs:
         run: git checkout .
           
       - name: Trigger BLT script to deploy to Acquia
-        run: ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/}) --no-interaction --verbose
+        run: blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/}) --no-interaction --verbose
            
       - name: Excecute Drush Commands at comstage21
         if: github.ref == 'refs/heads/localisation-stage'
         run : ./vendor/bin/drush @tracelink.comstage21 updb -y;  ./vendor/bin/drush @tracelink.comstage21 cim -y; ./vendor/bin/drush @tracelink.comstage21 cr -y; ./vendor/bin/drush @tracelink.comstage21 cohesion:rebuild -y; ./vendor/bin/drush @tracelink.comstage21 cr -y;
        
       - name: Excecute Drush Commands at comdev21
-        if: github.ref == 'refs/heads/localisation-develop'
-        run : ./vendor/bin/drushx @tracelink.comdev21 updb -y;  ./vendor/bin/drush @tracelink.comdev21 cim -y; ./vendor/bin/drush @tracelink.comdev21 cr -y; ./vendor/bin/drush @tracelink.comdev21 cohesion:rebuild -y; ./vendor/bin/drush @tracelink.comdev21 cr -y;
+        if: github.ref == 'refs/heads/devops'
+        run : ./vendor/bin/drush @tracelink.comdev21 updb -y;  ./vendor/bin/drush @tracelink.comdev21 cim -y; ./vendor/bin/drush @tracelink.comdev21 cr -y; ./vendor/bin/drush @tracelink.comdev21 cohesion:rebuild -y; ./vendor/bin/drush @tracelink.comdev21 cr -y;
            
         # - name: Deployment Status - Acquia BLT
         #   uses: ravsamhq/notify-slack-action@master
