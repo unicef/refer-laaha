@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Acquia application run security checks CI
 
 # Controls when the workflow will run
 on:
@@ -38,4 +38,47 @@ jobs:
           ./vendor/bin/phpcs -p -s
       - name: Run phplint with Drupal coding standards.
         run: > 
-           ./vendor/bin/phplint  
+           ./vendor/bin/phplint 
+      -  name: BLT  
+         uses: actions/checkout@v2
+      - name: Install SSH key for accessing Acquia Repository
+        uses: shimataro/ssh-key-action@v2
+        with:
+            key: ${{ secrets.SSH_PRIVATE }}
+            known_hosts: ${{ secrets.SSH_KNOWN_HOST }}
+        
+      - name: Setup PHP with PECL extension & Composer v1
+        uses: shivammathur/setup-php@v2
+        with:
+            php-version: '7.4'
+            tools: composer:v2
+        
+      # - name: Install composer dependencies
+      #   run:  composer install --prefer-dist --no-progress
+        
+#         - name: Get Modifield files list
+#           run: files= $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }});
+        
+      - name: Checkout modified files 
+        run: git checkout .
+          
+      - name: Trigger BLT script to deploy to Acquia
+        run: ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/}) --no-interaction --verbose
+           
+      - name: Excecute Drush Commands at comstage21
+        if: github.ref == 'refs/heads/localisation-stage'
+        run : ./vendor/bin/drush @tracelink.comstage21 updb -y;  ./vendor/bin/drush @tracelink.comstage21 cim -y; ./vendor/bin/drush @tracelink.comstage21 cr -y; ./vendor/bin/drush @tracelink.comstage21 cohesion:rebuild -y; ./vendor/bin/drush @tracelink.comstage21 cr -y;
+       
+      - name: Excecute Drush Commands at comdev21
+        if: github.ref == 'refs/heads/localisation-develop'
+        run : ./vendor/bin/drushx @tracelink.comdev21 updb -y;  ./vendor/bin/drush @tracelink.comdev21 cim -y; ./vendor/bin/drush @tracelink.comdev21 cr -y; ./vendor/bin/drush @tracelink.comdev21 cohesion:rebuild -y; ./vendor/bin/drush @tracelink.comdev21 cr -y;
+           
+        # - name: Deployment Status - Acquia BLT
+        #   uses: ravsamhq/notify-slack-action@master
+        #   if: always()
+        #   with:
+        #    status: ${{ job.status }}
+        #    notification_title: '{workflow} has {status_message}'
+        #    notify_when: 'success,failure,warnings'
+        #   env:
+        #    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} 
