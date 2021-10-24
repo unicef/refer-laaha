@@ -64,7 +64,8 @@ jobs:
         run: git checkout .
           
       - name: Trigger BLT script to deploy to Acquia
-        run: ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/}) --no-interaction --verbose
+        run: >
+           ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/}) --no-interaction --verbose
            
       - name: Excecute Drush Commands at comstage21
         if: github.ref == 'refs/heads/localisation-stage'
