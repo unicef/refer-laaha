@@ -62,6 +62,8 @@ jobs:
         
       - name: Checkout modified files 
         run: git checkout .
+      - name:  update Terminals
+        run: source /home/runner/.bash_profile
           
       - name: Trigger BLT script to deploy to Acquia
         run: >  
