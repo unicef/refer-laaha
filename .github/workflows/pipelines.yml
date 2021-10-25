@@ -62,8 +62,8 @@ jobs:
         
       - name: Checkout modified files 
         run: git checkout .
-      - name:  update Terminals
-        run: source /home/runner/.bash_profile
+      # - name:  update Terminals
+      #   run: source /home/runner/.bash_profile
           
       - name: Trigger BLT script to deploy to Acquia
         run:  blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/}) --no-interaction --verbose
