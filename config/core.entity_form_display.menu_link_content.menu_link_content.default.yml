@@ -1,0 +1,34 @@
+uuid: db22bcbe-103d-44c7-ba95-963ee43bfc6f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.menu_link_content.menu_link_content.field_icon
+    - image.style.thumbnail
+  module:
+    - image
+    - link
+    - menu_link_content
+    - menu_item_fields
+id: menu_link_content.menu_link_content.default
+targetEntityType: menu_link_content
+bundle: menu_link_content
+mode: default
+content:
+  field_icon:
+    weight: 1
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }
