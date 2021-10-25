@@ -6,9 +6,9 @@ name: Acquia application run security checks CI
 on:
   # Triggers the workflow on push or pull request events but only for the dev branch
   push:
-    branches: [ devops ]
+    branches: [ devops,dev,stage,master ]
   pull_request:
-    branches: [ devops ]
+    branches: [ devops,dev,stage,master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -57,23 +57,20 @@ jobs:
       # - name: Install composer dependencies
       #   run:  composer install --prefer-dist --no-progress
         
-#         - name: Get Modifield files list
-#           run: files= $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }});
+      - name: Get Modifield files list
+        run: files= $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }});
         
       - name: Checkout modified files 
         run: git checkout .
-      # - name:  update Terminals
-      #   run: source /home/runner/.bash_profile
-          
       - name: Trigger BLT script to deploy to Acquia
         run:  ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch dev --no-interaction --verbose
            
       - name: Excecute Drush Commands at comstage21
-        if: github.ref == 'refs/heads/localisation-stage'
-        run : ./vendor/bin/drush @tracelink.comstage21 updb -y;  ./vendor/bin/drush @tracelink.comstage21 cim -y; ./vendor/bin/drush @tracelink.comstage21 cr -y; ./vendor/bin/drush @tracelink.comstage21 cohesion:rebuild -y; ./vendor/bin/drush @tracelink.comstage21 cr -y;
+        if: github.ref == 'refs/heads/stage'
+        run : ./vendor/bin/drush @vss2.dev updb -y;  ./vendor/bin/drush @vss2.dev cim -y; ./vendor/bin/drush @vss2.dev cr -y; ./vendor/bin/drush @vss2.dev cohesion:rebuild -y; ./vendor/bin/drush @vss2.dev cr -y;
        
       - name: Excecute Drush Commands at comdev21
-        if: github.ref == 'refs/heads/devops'
+        if: github.ref == 'refs/heads/dev'
         run : ./vendor/bin/drush @tracelink.comdev21 updb -y;  ./vendor/bin/drush @tracelink.comdev21 cim -y; ./vendor/bin/drush @tracelink.comdev21 cr -y; ./vendor/bin/drush @tracelink.comdev21 cohesion:rebuild -y; ./vendor/bin/drush @tracelink.comdev21 cr -y;
            
         # - name: Deployment Status - Acquia BLT
