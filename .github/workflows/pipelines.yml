@@ -40,8 +40,8 @@ jobs:
       # - name: Run phplint with Drupal coding standards.
       #   run: > 
       #      ./vendor/bin/phplint 
-      # -  name: BLT  
-      #    uses: actions/checkout@v2
+      -  name: BLT  
+         uses: actions/checkout@v2
       - name: Install SSH key for accessing Acquia Repository
         uses: shimataro/ssh-key-action@v2
         with:
@@ -66,7 +66,7 @@ jobs:
       #   run: source /home/runner/.bash_profile
           
       - name: Trigger BLT script to deploy to Acquia
-        run:  ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/}) --no-interaction --verbose
+        run:  blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch dev --no-interaction --verbose
            
       - name: Excecute Drush Commands at comstage21
         if: github.ref == 'refs/heads/localisation-stage'
