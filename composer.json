@@ -129,9 +129,6 @@
         },
         "enable-patching": true,
         "patches": {
-            "drupal/core": {
-                "Site UUID issue": "patches/site_uuid.patch"
-            },
             "drupal/amp": {
                "amp theme issue": "https://www.drupal.org/files/issues/2021-03-18/amp-crash_core-3186185-12.patch",
                "big pipe": "https://www.drupal.org/files/issues/2019-02-20/amp-bigpipe-2723627-25.patch"
