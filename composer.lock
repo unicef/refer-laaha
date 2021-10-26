@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ce02e5ed717ceb17f6a673109d44601",
+    "content-hash": "9f98e630bd0d9e1b000fb9cb77512c8f",
     "packages": [
         {
             "name": "acquia/blt",
@@ -2254,6 +2254,54 @@
             "homepage": "https://www.drupal.org/project/mysql56",
             "support": {
                 "source": "https://git.drupalcode.org/project/mysql56"
+            }
+        },
+        {
+            "name": "drupal/recreate_block_content",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/recreate_block_content.git",
+                "reference": "8.x-2.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/recreate_block_content-8.x-2.1.zip",
+                "reference": "8.x-2.1",
+                "shasum": "415c9787c171e0e2863c3b0cc5d67c697aca781a"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-2.1",
+                    "datestamp": "1604512966",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Joao Sausen",
+                    "homepage": "https://www.drupal.org/user/1504028"
+                }
+            ],
+            "description": "Recreates the block content for a exported block.",
+            "homepage": "https://www.drupal.org/project/recreate_block_content",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/recreate_block_content",
+                "issues": "https://www.drupal.org/project/issues/recreate_block_content"
             }
         },
         {
