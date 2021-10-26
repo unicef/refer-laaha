@@ -54,8 +54,8 @@ jobs:
       # - name: Install composer dependencies
       #   run:  composer install --prefer-dist --no-progress
         
-      - name: Get Modifield files list
-        run: files= $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }});
+      # - name: Get Modifield files list
+      #   run: files= $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }});
         
       - name: Checkout modified files 
         run: git checkout .
