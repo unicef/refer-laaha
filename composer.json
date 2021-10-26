@@ -22,9 +22,42 @@
         "drupal/core-project-message": "^9",
         "drupal/core-recommended": "^9",
         "drupal/core-vendor-hardening": "^9",
+        "drupal/default_content": "^2.0@alpha",
+        "drupal/default_content_extra": "^1.0@beta",
+        "drupal/menu_item_fields": "^1.5",
+        "drupal/menus_attribute": "^1.2",
+        "drupal/mysql56": "^1.0@beta",
         "drush/drush": "^10.2",
         "drupal/coder": "^8.3.9",
-        "drupal/mysql56": "^1.0@beta"
+        "drupal/mysql56": "^1.0@beta",
+        "cweagans/composer-patches": "^1.7",
+        "drupal/access_unpublished": "^1.3",
+        "drupal/admin_toolbar": "^3.0",
+        "drupal/amp": "^3.5",
+        "drupal/amptheme": "^3.0",
+        "drupal/autosave_form": "^1.2",
+        "drupal/blazy": "^2.5",
+        "drupal/config_ignore": "^2.3",
+        "drupal/config_split": "^1.7",
+        "drupal/content_lock": "^2.2",
+        "drupal/devel": "^4.1",
+        "drupal/domain": "1.x-dev@dev",
+        "drupal/domain_lang": "1.x-dev@dev",
+        "drupal/domain_language_negotiation": "3.0.x-dev@dev",
+        "drupal/dropzonejs": "^2.5",
+        "drupal/entity_browser": "^2.6",
+        "drupal/lang_dropdown": "^2.0@beta",
+        "drupal/layout_paragraphs": "^1.0",
+        "drupal/metatag": "^1.16",
+        "drupal/paragraphs": "^1.12",
+        "drupal/pathauto": "^1.8",
+        "drupal/seckit": "^2.0",
+        "drupal/shield": "^1.4",
+        "drupal/simple_sitemap": "^3.11",
+        "drupal/site_audit": "^3.0@RC",
+        "drupal/update_helper": "^2.0",
+        "drupal/video_embed_field": "^2.4",
+        "drupal/warmer": "^2.0"
     },
     "require-dev": {
         "drupal/core-dev": "^9",
@@ -93,6 +126,16 @@
                 "  * Remove the plugin that prints this message:",
                 "      composer remove drupal/core-project-message"
             ]
+        },
+        "enable-patching": true,
+        "patches": {
+            "drupal/amp": {
+               "amp theme issue": "https://www.drupal.org/files/issues/2021-03-18/amp-crash_core-3186185-12.patch",
+               "big pipe": "https://www.drupal.org/files/issues/2019-02-20/amp-bigpipe-2723627-25.patch"
+            },
+            "drupal/domain_language_negotiation": {
+                "lang issue": "patches/active_lang.patch"
+             }
         }
     }
 }
