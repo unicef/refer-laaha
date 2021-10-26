@@ -1,0 +1,45 @@
+_meta:
+  version: '1.0'
+  entity_type: menu_link_content
+  uuid: 577a70ad-4818-4d29-97be-f41797181b1f
+  bundle: menu_link_content
+  default_langcode: en
+  depends:
+    d667ca00-45a3-4b31-9c84-8f6dca508c96: file
+default:
+  enabled:
+    -
+      value: true
+  title:
+    -
+      value: FAQs
+  menu_name:
+    -
+      value: quick-links
+  link:
+    -
+      uri: 'internal:/'
+      title: ''
+      options: {  }
+  external:
+    -
+      value: false
+  rediscover:
+    -
+      value: true
+  weight:
+    -
+      value: 1
+  expanded:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  field_icon:
+    -
+      entity: d667ca00-45a3-4b31-9c84-8f6dca508c96
+      alt: FAQs
+      title: ''
+      width: 40
+      height: 41
