@@ -36,6 +36,9 @@ tooling:
   "drush":
     cmd: "/app/vendor/bin/drush --root=/app/docroot"
     description: "Runs drush command. Ex: lando drush _yourcommand_"
+  "gulp":
+    service: node
+    cmd: "gulp"
   "npm":
     service: node
     cmd: "npm"

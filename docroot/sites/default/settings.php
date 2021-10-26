@@ -782,7 +782,7 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 if (file_exists('/var/www/site-php/vss2/vss2-settings.inc')) {
   require('/var/www/site-php/vss2/vss2-settings.inc');
 }
-require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
+// require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
 /**
  * IMPORTANT.
  *
