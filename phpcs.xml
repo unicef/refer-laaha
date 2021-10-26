@@ -30,11 +30,11 @@
     <!-- Ignore specific sniffs. -->
     <exclude name="DrupalPractice.InfoFiles.NamespacedDependency"/>
   </rule>
-
-  <file>docroot/modules/custom</file>
+<!---uncomment this when custom module added-->
+  <!-- <file>docroot/modules/custom</file>
   <file>docroot/profiles/custom</file>
   <file>docroot/themes/custom</file>
-  <file>config</file>
+  <file>config</file> -->
   <!-- <file>docroot/profiles/custom</file>
   <file>docroot/themes/custom</file>
   <file>tests</file> -->
