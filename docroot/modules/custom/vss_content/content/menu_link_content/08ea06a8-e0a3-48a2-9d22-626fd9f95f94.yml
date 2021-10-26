@@ -1,0 +1,45 @@
+_meta:
+  version: '1.0'
+  entity_type: menu_link_content
+  uuid: 08ea06a8-e0a3-48a2-9d22-626fd9f95f94
+  bundle: menu_link_content
+  default_langcode: en
+  depends:
+    4a2f4ecd-8136-4df2-a0c5-d844176909e9: file
+default:
+  enabled:
+    -
+      value: true
+  title:
+    -
+      value: 'Get in Touch'
+  menu_name:
+    -
+      value: quick-links
+  link:
+    -
+      uri: 'internal:/'
+      title: ''
+      options: {  }
+  external:
+    -
+      value: false
+  rediscover:
+    -
+      value: true
+  weight:
+    -
+      value: 2
+  expanded:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  field_icon:
+    -
+      entity: 4a2f4ecd-8136-4df2-a0c5-d844176909e9
+      alt: 'Get in Touch'
+      title: ''
+      width: 10
+      height: 11
