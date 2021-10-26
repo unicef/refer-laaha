@@ -1,0 +1,81 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Acquia application run security checks CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the dev branch
+  push:
+    branches: [ devops,develop,stage,master ]
+  pull_request:
+    branches: [ devops,develop,stage,master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php_version: ['7.4']
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP ${{ matrix.php_version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run phpcs with Drupal coding standards.
+        run: >
+          ./vendor/bin/phpcs -p -s
+      - name: Run phplint with Drupal coding standards.
+        run: > 
+           ./vendor/bin/phplint 
+      - name: Install SSH key for accessing Acquia Repository
+        uses: shimataro/ssh-key-action@v2
+        with:
+            key: ${{ secrets.SSH_PRIVATE }}
+            known_hosts: ${{ secrets.SSH_KNOWN_HOST }}
+        
+      # - name: Setup PHP with PECL extension & Composer v1
+      #   uses: shivammathur/setup-php@v2
+      #   with:
+      #       php-version: '7.4'
+      #       tools: composer:v2
+        
+      # - name: Install composer dependencies
+      #   run:  composer install --prefer-dist --no-progress
+        
+      # - name: Get Modifield files list
+      #   run: files= $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }});
+        
+      - name: Checkout modified files 
+        run: git checkout .
+      - name: Trigger BLT script to deploy to Acquia
+        run:  ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/})  --ignore-dirty --no-interaction --verbose
+           
+      - name: Excecute Drush Commands at comDev
+        if: github.ref == 'refs/heads/develop'
+        run : ./vendor/bin/drush @vss2.dev updb -y;  ./vendor/bin/drush @vss2.dev cim -y; ./vendor/bin/drush @vss2.dev cr -y; ./vendor/bin/drush @vss2.dev cohesion:rebuild -y; ./vendor/bin/drush @vss2.dev cr -y;
+       
+      - name: Excecute Drush Commands at comStage
+        if: github.ref == 'refs/heads/stage'
+        run : ./vendor/bin/drush @vss2.test updb -y;  ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cohesion:rebuild -y; ./vendor/bin/drush @vss2.test cr -y;
+           
+        # - name: Deployment Status - Acquia BLT
+        #   uses: ravsamhq/notify-slack-action@master
+        #   if: always()
+        #   with:
+        #    status: ${{ job.status }}
+        #    notification_title: '{workflow} has {status_message}'
+        #    notify_when: 'success,failure,warnings'
+        #   env:
+        #    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} 

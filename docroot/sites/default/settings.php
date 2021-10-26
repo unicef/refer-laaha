@@ -774,6 +774,7 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
 
+
 // On Acquia Cloud, this include file configures Drupal to use the correct
 // database in each site environment (Dev, Stage, or Prod). To use this
 // settings.php for development on your local workstation, set $db_url
@@ -781,4 +782,13 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 if (file_exists('/var/www/site-php/vss2/vss2-settings.inc')) {
   require('/var/www/site-php/vss2/vss2-settings.inc');
 }
+require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
+/**
+ * IMPORTANT.
+ *
+ * Do not include additional settings here. Instead, add them to settings
+ * included by `blt.settings.php`. See BLT's documentation for more detail.
+ *
+ * @link https://docs.acquia.com/blt/
+ */
 $settings["config_sync_directory"] = "../config";
