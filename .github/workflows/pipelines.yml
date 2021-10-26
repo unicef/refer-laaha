@@ -39,8 +39,6 @@ jobs:
       - name: Run phplint with Drupal coding standards.
         run: > 
            ./vendor/bin/phplint 
-      -  name: BLT  
-         uses: actions/checkout@v2
       - name: Install SSH key for accessing Acquia Repository
         uses: shimataro/ssh-key-action@v2
         with:
