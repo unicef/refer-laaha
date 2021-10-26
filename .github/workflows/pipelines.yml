@@ -6,9 +6,9 @@ name: Acquia application run security checks CI
 on:
   # Triggers the workflow on push or pull request events but only for the dev branch
   push:
-    branches: [ devops,dev,stage,master ]
+    branches: [ devops,develop,stage,master ]
   pull_request:
-    branches: [ devops,dev,stage,master ]
+    branches: [ devops,develop,stage,master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -36,12 +36,11 @@ jobs:
       - name: Run phpcs with Drupal coding standards.
         run: >
           ./vendor/bin/phpcs -p -s
-      # ---- This will be uncommented for linter-----
-      # - name: Run phplint with Drupal coding standards.
-      #   run: > 
-      #      ./vendor/bin/phplint 
-      # -  name: BLT  
-      #    uses: actions/checkout@v2
+      - name: Run phplint with Drupal coding standards.
+        run: > 
+           ./vendor/bin/phplint 
+      -  name: BLT  
+         uses: actions/checkout@v2
       - name: Install SSH key for accessing Acquia Repository
         uses: shimataro/ssh-key-action@v2
         with:
@@ -66,12 +65,12 @@ jobs:
         run:  ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/})  --no-interaction --verbose
            
       - name: Excecute Drush Commands at comDev
-        if: github.ref == 'refs/heads/devops'
+        if: github.ref == 'refs/heads/develop'
         run : ./vendor/bin/drush @vss2.dev updb -y;  ./vendor/bin/drush @vss2.dev cim -y; ./vendor/bin/drush @vss2.dev cr -y; ./vendor/bin/drush @vss2.dev cohesion:rebuild -y; ./vendor/bin/drush @vss2.dev cr -y;
        
       - name: Excecute Drush Commands at comStage
         if: github.ref == 'refs/heads/stage'
-        run : ./vendor/bin/drush @tracelink.comdev21 updb -y;  ./vendor/bin/drush @tracelink.comdev21 cim -y; ./vendor/bin/drush @tracelink.comdev21 cr -y; ./vendor/bin/drush @tracelink.comdev21 cohesion:rebuild -y; ./vendor/bin/drush @tracelink.comdev21 cr -y;
+        run : ./vendor/bin/drush @vss2.test updb -y;  ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cohesion:rebuild -y; ./vendor/bin/drush @vss2.test cr -y;
            
         # - name: Deployment Status - Acquia BLT
         #   uses: ravsamhq/notify-slack-action@master
