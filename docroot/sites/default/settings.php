@@ -791,4 +791,5 @@ if (file_exists('/var/www/site-php/vss2/vss2-settings.inc')) {
  *
  * @link https://docs.acquia.com/blt/
  */
+
 $settings["config_sync_directory"] = "../config";
