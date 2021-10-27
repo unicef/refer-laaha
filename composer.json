@@ -88,22 +88,22 @@
             "docroot/libraries/{$name}": [
                 "type:drupal-library"
             ],
-            "docroot/modules/contrib/{$name}": [
+            "docroot/profiles/unicef/modules/contrib/{$name}": [
                 "type:drupal-module"
             ],
             "docroot/profiles/contrib/{$name}": [
                 "type:drupal-profile"
             ],
-            "docroot/themes/contrib/{$name}": [
+            "docroot/profiles/unicef/themes/contrib/{$name}": [
                 "type:drupal-theme"
             ],
             "docroot/drush/Commands/contrib/{$name}": [
                 "type:drupal-drush"
             ],
-            "docroot/modules/custom/{$name}": [
+            "docroot/profiles/unicef/modules/custom/{$name}": [
                 "type:drupal-custom-module"
             ],
-            "docroot/themes/custom/{$name}": [
+            "docroot/profiles/unicef/themes/custom/{$name}": [
                 "type:drupal-custom-theme"
             ]
         },
@@ -130,9 +130,6 @@
         },
         "enable-patching": true,
         "patches": {
-            "drupal/core": {
-                "Site UUID issue": "https://www.drupal.org/files/issues/2020-03-28/3047392-16.patch"
-            },
             "drupal/amp": {
                 "amp theme issue": "https://www.drupal.org/files/issues/2021-03-18/amp-crash_core-3186185-12.patch",
                 "big pipe": "https://www.drupal.org/files/issues/2019-02-20/amp-bigpipe-2723627-25.patch"
