@@ -17,6 +17,11 @@ services:
     portforward: true
     config:
       confd: lando/mysql/conf.d
+  erpw:
+    type: mysql
+    portforward: true
+    config:
+      confd: lando/mysql/conf.d
   node:
     type: node:14
     build:
@@ -32,6 +37,7 @@ services:
 proxy:
   appserver:
     - vss.lndo.site
+    - erpw.lndo.site
 tooling:
   "drush":
     cmd: "/app/vendor/bin/drush --root=/app/docroot"

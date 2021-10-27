@@ -55,5 +55,8 @@
  * @see \Drupal\Core\DrupalKernel::getSitePath()
  * @see https://www.drupal.org/documentation/install/multi-site
  */
+
+$sites['vss.lndo.site'] = 'default'; 
+$sites['erpw.lndo.site'] = 'erpw';
 $sites['dev.virtualsafespace.net'] = 'default'; 
 $sites['dev.erefer.org'] = 'erpw';
