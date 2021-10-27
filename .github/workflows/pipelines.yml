@@ -64,11 +64,11 @@ jobs:
            
       - name: Excecute Drush Commands at comDev
         if: github.ref == 'refs/heads/develop'
-        run : ./vendor/bin/drush @vss2.dev updb -y;  ./vendor/bin/drush @vss2.dev cim -y; ./vendor/bin/drush @vss2.dev cr -y; ./vendor/bin/drush @vss2.dev cr -y;
+        run : ./vendor/bin/drush @vss2.dev cr -y;  ./vendor/bin/drush @vss2.dev updb -y; ./vendor/bin/drush @vss2.dev cim -y; ./vendor/bin/drush @vss2.dev cr -y;
        
       - name: Excecute Drush Commands at comStage
         if: github.ref == 'refs/heads/stage'
-        run : ./vendor/bin/drush @vss2.test updb -y;  ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cr -y;
+        run : ./vendor/bin/drush @vss2.test cr -y;  ./vendor/bin/drush @vss2.test updb -y; ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cr -y;
            
         # - name: Deployment Status - Acquia BLT
         #   uses: ravsamhq/notify-slack-action@master
