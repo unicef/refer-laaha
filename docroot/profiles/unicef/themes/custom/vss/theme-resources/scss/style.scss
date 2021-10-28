@@ -1,19 +1,19 @@
-// @import "vars/*";
+@import 'vars';
 // @import "functions/*";
 // @import "mixins/*";
 
 // @import "../../node_modules/normalize-scss/sass/_normalize";
 
 // General DOM selector styles
-// @import "base/*";
+@import 'base';
 
 // Fonts & General Type Styling
-// @import "typography/*"; 
+@import 'typography';
 // 3rd Party Addons
 // @import "plugins/*";
 
 // Atomic Design
-// @import "atoms/**/*";
+@import 'atoms';
 // @import "molecules/**/*";
 // @import "organisms/**/*";
 // @import "templates/**/*";
@@ -24,3 +24,4 @@
 // @import "states/*";
 
 // @import "utility/**";
+
