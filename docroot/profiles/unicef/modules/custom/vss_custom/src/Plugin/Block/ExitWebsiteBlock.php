@@ -22,7 +22,7 @@ class ExitWebsiteBlock extends BlockBase {
    */
   public function build() {
     return [
-      '#theme' => 'exit_website'
+      '#theme' => 'exit_website',
     ];
   }
 
