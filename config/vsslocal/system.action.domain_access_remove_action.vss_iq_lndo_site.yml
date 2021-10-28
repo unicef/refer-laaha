@@ -1,0 +1,14 @@
+uuid: f0e3bcec-d475-495c-b9c6-21a8cbe1588a
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.vss_iq_lndo_site
+  module:
+    - domain_access
+id: domain_access_remove_action.vss_iq_lndo_site
+label: 'Remove selected content from the Local Iraq Virtualsafespace domain'
+type: node
+plugin: domain_access_remove_action
+configuration:
+  domain_id: vss_iq_lndo_site
