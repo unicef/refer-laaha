@@ -1,7 +1,7 @@
 vss_custom.exit_website:
   path: 'exit-website'
   defaults:
-    _controller: '\Drupal\vss_custom\Controller\ExitController::clear_all_data'
+    _controller: '\Drupal\vss_custom\Controller\ExitController::clearAllData'
     _title: 'Exit Website'
   requirements:
     _access: 'TRUE'
