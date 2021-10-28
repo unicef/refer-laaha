@@ -797,3 +797,17 @@ $settings["config_sync_directory"] = "../config/vss";
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
   include $app_root . '/' . $site_path . '/settings.local.php'; 
 }
+
+if (isset($_ENV['AH_SITE_ENVIRONMENT'])) {
+  switch ($_ENV['AH_SITE_ENVIRONMENT']) {
+    case 'dev':
+      include $app_root . '/' . $site_path . '/settings.dev.php'; 
+      break;
+    case 'test':
+      include $app_root . '/' . $site_path . '/settings.test.php'; 
+      break;
+    case 'prod':
+      include $app_root . '/' . $site_path . '/settings.prod.php'; 
+      break;
+  }
+}

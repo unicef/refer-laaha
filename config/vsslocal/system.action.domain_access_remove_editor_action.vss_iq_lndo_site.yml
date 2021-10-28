@@ -1,0 +1,14 @@
+uuid: 2483f01e-512e-426a-b9bc-e73f5f604876
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.vss_iq_lndo_site
+  module:
+    - domain_access
+id: domain_access_remove_editor_action.vss_iq_lndo_site
+label: 'Remove editors from the Local Iraq Virtualsafespace domain'
+type: user
+plugin: domain_access_remove_editor_action
+configuration:
+  domain_id: vss_iq_lndo_site

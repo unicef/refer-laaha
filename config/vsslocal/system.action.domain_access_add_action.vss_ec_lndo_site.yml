@@ -1,0 +1,14 @@
+uuid: 6058c508-36a2-4d90-9204-dffb3e50a118
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.vss_ec_lndo_site
+  module:
+    - domain_access
+id: domain_access_add_action.vss_ec_lndo_site
+label: 'Add selected content to the Local EC Virtualsafespace domain'
+type: node
+plugin: domain_access_add_action
+configuration:
+  domain_id: vss_ec_lndo_site
