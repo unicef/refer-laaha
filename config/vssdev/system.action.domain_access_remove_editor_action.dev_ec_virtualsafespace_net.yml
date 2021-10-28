@@ -1,0 +1,14 @@
+uuid: ca3773d7-8643-4ce1-a076-8b0d8eff71ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.dev_ec_virtualsafespace_net
+  module:
+    - domain_access
+id: domain_access_remove_editor_action.dev_ec_virtualsafespace_net
+label: 'Remove editors from the Dev Ecuador Virtualsafespace domain'
+type: user
+plugin: domain_access_remove_editor_action
+configuration:
+  domain_id: dev_ec_virtualsafespace_net

@@ -1,0 +1,14 @@
+uuid: 82dce42a-0384-4aa1-a1e8-00691367f24d
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.dev_ec_virtualsafespace_net
+  module:
+    - domain_access
+id: domain_access_add_action.dev_ec_virtualsafespace_net
+label: 'Add selected content to the Dev Ecuador Virtualsafespace domain'
+type: node
+plugin: domain_access_add_action
+configuration:
+  domain_id: dev_ec_virtualsafespace_net
