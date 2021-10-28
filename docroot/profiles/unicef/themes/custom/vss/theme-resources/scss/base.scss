@@ -1,0 +1,19 @@
+body {
+     margin-top: 0;
+}
+.navbar{
+    min-height: auto;
+    background:$base-primary-bgcolor;   
+
+}
+.container-fluid > .navbar-header{
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.exit-website-btn{
+    background: $base-secondary-bgcolor;
+    color: $base-secondary-color;
+    i{
+        padding-right:12px;
+    }
+}
