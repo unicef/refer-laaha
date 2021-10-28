@@ -1,0 +1,14 @@
+uuid: 9d77a1ea-362b-4012-b220-1d022ad3aca7
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.dev_iq_virtualsafespace_net
+  module:
+    - domain_access
+id: domain_access_remove_action.dev_iq_virtualsafespace_net
+label: 'Remove selected content from the Dev Iraq Virtualsafespace domain'
+type: node
+plugin: domain_access_remove_action
+configuration:
+  domain_id: dev_iq_virtualsafespace_net

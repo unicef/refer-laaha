@@ -1,0 +1,14 @@
+uuid: 10869b1f-2cbe-41ba-93c1-8599b5ecc22d
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.dev_ec_virtualsafespace_net
+  module:
+    - domain_access
+id: domain_access_remove_action.dev_ec_virtualsafespace_net
+label: 'Remove selected content from the Dev Ecuador Virtualsafespace domain'
+type: node
+plugin: domain_access_remove_action
+configuration:
+  domain_id: dev_ec_virtualsafespace_net
