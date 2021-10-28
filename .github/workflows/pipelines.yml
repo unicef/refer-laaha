@@ -70,12 +70,12 @@ jobs:
         if: github.ref == 'refs/heads/stage'
         run : ./vendor/bin/drush @vss2.test cr -y;  ./vendor/bin/drush @vss2.test updb -y; ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cr -y;
            
-        # - name: Deployment Status - Acquia BLT
-        #   uses: ravsamhq/notify-slack-action@master
-        #   if: always()
-        #   with:
-        #    status: ${{ job.status }}
-        #    notification_title: '{workflow} has {status_message}'
-        #    notify_when: 'success,failure,warnings'
-        #   env:
-        #    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} 
+      - name: Deployment Status - Acquia BLT
+        uses: ravsamhq/notify-slack-action@master
+        if: always()
+        with:
+          status: ${{ job.status }}
+          notification_title: '{workflow} has {status_message}'
+          notify_when: 'success,failure,warnings'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} 
