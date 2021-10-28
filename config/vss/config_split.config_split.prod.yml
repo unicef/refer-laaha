@@ -1,0 +1,16 @@
+uuid: 973cee86-335f-4c59-8880-f2070bfaf2bd
+langcode: en
+status: false
+dependencies: {  }
+id: prod
+label: prod
+description: 'Configuration for Prod Environment'
+folder: ../config/vssprod
+module: {  }
+theme: {  }
+blacklist:
+  - core.extension
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0

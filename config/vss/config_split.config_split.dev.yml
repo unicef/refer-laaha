@@ -1,0 +1,16 @@
+uuid: eb006857-8bd8-4901-99c9-801dca2b8b77
+langcode: en
+status: false
+dependencies: {  }
+id: dev
+label: dev
+description: 'Configuration for Dev Environment'
+folder: ../config/vssdev
+module: {  }
+theme: {  }
+blacklist:
+  - core.extension
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0
