@@ -1,0 +1,104 @@
+description: 'Encuentre y gestione a las personas que interactúan con su sitio.'
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Filtro
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          tags:
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
+            first: '« Primero'
+            last: 'Último »'
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
+      fields:
+        user_bulk_form:
+          label: 'Actualización masiva'
+        name:
+          label: 'Nombre de usuario'
+        status:
+          label: Estado
+          settings:
+            format_custom_true: Activo
+            format_custom_false: Bloqueado
+        roles_target_id:
+          label: Roles
+        field_domain_access:
+          separator: ', '
+        field_domain_all_affiliates:
+          separator: ', '
+        created:
+          label: 'Miembro desde hace'
+        access:
+          label: 'Último acceso'
+        operations:
+          label: Operaciones
+        mail:
+          separator: ', '
+      filters:
+        combine:
+          expose:
+            label: 'Nombre o correo electrónico contiene'
+        roles_target_id:
+          expose:
+            label: Rol
+        permission:
+          expose:
+            label: Permiso
+        status:
+          group_info:
+            label: Estado
+            group_items:
+              1:
+                title: Activo
+              2:
+                title: Bloqueado
+      title: Usuarios
+      empty:
+        area_text_custom:
+          content: 'No people available.'
+      use_more_text: más
+  page_1:
+    display_options:
+      menu:
+        title: Listado
+        description: 'Encuentre y gestione a las personas que interactúan con su sitio.'
+      tab_options:
+        title: Usuarios
+        description: 'Gestionar cuentas, roles y permisos de usuarios.'
+      arguments:
+        field_domain_access_target_id:
+          exception:
+            title: Todo(s)
+  page_2:
+    display_options:
+      filters:
+        combine:
+          expose:
+            label: 'Nombre o correo electrónico contiene'
+        roles_target_id:
+          expose:
+            label: Rol
+        permission:
+          expose:
+            label: Permiso
+        status:
+          group_info:
+            label: Estado
+            group_items:
+              1:
+                title: Activo
+              2:
+                title: Bloqueado
+        field_domain_access_target_id:
+          expose:
+            label: Dominio

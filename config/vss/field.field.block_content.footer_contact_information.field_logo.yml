@@ -6,7 +6,14 @@ dependencies:
     - block_content.type.footer_contact_information
     - field.storage.block_content.field_logo
   module:
+    - content_translation
     - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      file: file
+      alt: '0'
+      title: '0'
 id: block_content.footer_contact_information.field_logo
 field_name: field_logo
 entity_type: block_content
@@ -14,7 +21,7 @@ bundle: footer_contact_information
 label: Logo
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
