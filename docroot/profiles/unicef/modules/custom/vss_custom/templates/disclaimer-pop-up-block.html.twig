@@ -1,0 +1,24 @@
+{#
+/**
+* @file
+* Default theme implementation to display a block.
+*
+* @see template_preprocess_block()
+*
+* @ingroup themeable
+*/
+#}
+{% set classes = [
+    'clear-both',
+    'pop-up-speech'
+] %}
+<button class="btn-narrate">Narrate</button>
+
+<div{{ attributes.addClass(classes) }}>
+    {% if content is not empty %}
+        {{content}}
+    {% endif %}
+
+</div>
+<button type="button" class="pop-up">{{'OK!'|t}}</button>
+
