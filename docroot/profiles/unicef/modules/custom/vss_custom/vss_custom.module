@@ -23,3 +23,22 @@ function vss_custom_theme() {
     ],
   ];
 }
+
+/**
+ * Use language label for the language switcher
+ *
+ * @param $variables
+ */
+function vss_custom_preprocess_links__language_block(&$variables) {
+
+  if (isset($variables['links'])) {
+    // Get the language list used and provided by Drupal core.
+    $language_manager = \Drupal::languageManager();
+    $language_list = $language_manager::getStandardLanguageList();
+
+    // Go through each link present in the output and change it's title.
+    foreach ($variables['links'] as $link_langcode => $link) {
+      $variables['links'][$link_langcode]['link']['#title'] = $language_list[$link_langcode][1];
+    }
+  }
+}
