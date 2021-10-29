@@ -1,0 +1,14 @@
+uuid: 25cff548-190d-4cf5-82d0-b3f18942fe09
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.vss_ec_lndo_site
+  module:
+    - domain_access
+id: domain_access_remove_action.vss_ec_lndo_site
+label: 'Remove selected content from the Local EC Virtualsafespace domain'
+type: node
+plugin: domain_access_remove_action
+configuration:
+  domain_id: vss_ec_lndo_site

@@ -6,11 +6,21 @@ id: dev
 label: dev
 description: 'Configuration for Dev Environment'
 folder: ../config/vssdev
-module: {  }
+module:
+  domain: 0
+  domain_access: 0
+  domain_config: 0
+  domain_config_ui: 0
+  domain_lang: 0
+  domain_language_negotiation: 0
 theme: {  }
 blacklist:
   - core.extension
-graylist: {  }
+graylist:
+  - domain.language.dev_ec_virtualsafespace_net.language.negotiation
+  - domain.language.dev_iq_virtualsafespace_net.language.negotiation
+  - domain.record.dev_ec_virtualsafespace_net
+  - domain.record.dev_iq_virtualsafespace_net
 graylist_dependents: true
 graylist_skip_equal: true
 weight: 0

@@ -1,0 +1,14 @@
+uuid: bcec7b40-c883-474f-bcfd-3ad0581c3be3
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.vss_ec_lndo_site
+  module:
+    - domain_access
+id: domain_access_remove_editor_action.vss_ec_lndo_site
+label: 'Remove editors from the Local EC Virtualsafespace domain'
+type: user
+plugin: domain_access_remove_editor_action
+configuration:
+  domain_id: vss_ec_lndo_site

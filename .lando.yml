@@ -34,9 +34,14 @@ services:
       - composer self-update
       - echo "▶️  Enable git core hookpath ..."
       - git config core.hooksPath .githooks
+    run_as_root:
+      - echo "127.0.0.1 vss.ec.lndo.site" >> /etc/hosts
+      - echo "127.0.0.1 vss.iq.lndo.site" >> /etc/hosts
 proxy:
   appserver:
     - vss.lndo.site
+    - vss.ec.lndo.site
+    - vss.iq.lndo.site
     - erpw.lndo.site
 tooling:
   "drush":
