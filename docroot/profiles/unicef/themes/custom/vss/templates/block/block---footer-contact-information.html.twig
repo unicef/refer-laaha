@@ -37,16 +37,25 @@
   ]
 %}
 <div{{attributes.addClass(classes)}}>
+	<div class="logo-title-wrapper">
+	{{ content.field_logo }}
 	{{ title_prefix }}
 	{% if label %}
 		<h2{{title_attributes}}>{{ label }}</h2>
 	{% endif %}
 	{{ title_suffix }}
+	</div>
 	{% block content %}
 		<div{{content_attributes.addClass('content')}}>
-			{{ content }}
+			{{ content|without('field_logo') }}
 		</div>
 	{% endblock %}
 </div>
 
-{{phone}} {{email}} {{address}}
+<div class="address-info">
+<ul>
+<li><img src ="{{ base_path ~ directory }}/images/phone-icon.png" alt="phone" />{{phone}}  </li>
+<li><img src ="{{ base_path ~ directory }}/images/envlope-icon.png"  alt="email"  /></i>{{email}} </li>
+<li><img src ="{{ base_path ~ directory }}/images/map-pointer-icon.png"  alt="address"  /></i>{{address}}</li>
+<ul>
+</div>

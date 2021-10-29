@@ -45,3 +45,10 @@ function vss_theme_suggestions_block_alter(array &$suggestions, array $variables
     }
   }
 }
+
+/**
+ * Implements hook_preprocess() .
+ */
+function vss_preprocess(&$variables, $hook){
+    $variables['base_path'] = base_path();
+}

@@ -1,0 +1,30 @@
+@mixin flex-ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-left: 0;
+}
+@mixin footer-default-styles{
+    color:$base-black-color;
+    font-size: $base-footer-font-size;
+    font-family: $base-font-family ;
+    font-weight: $base-footer-font-weight;
+    
+}
+@mixin quick-link-font {
+    font-size: $base-footer-font-size-small;
+    font-family: $base-font-family ;
+    font-weight: $base-footer-font-weight;
+}
+@mixin quick-link-anchor{
+    font-size: $base-font-size;
+    font-family: $base-font-family ;
+    font-weight: $base-footer-font-weight-medium;
+    color: $base-black-color;
+}
+@mixin footer-header2 {
+    font-size: $base-h2-font-size;
+    font-weight: $base-footer-font-weight-medium;
+    line-height: $base-h2-line-height;
+}
