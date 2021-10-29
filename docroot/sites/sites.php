@@ -59,4 +59,8 @@
 $sites['vss.lndo.site'] = 'default'; 
 $sites['erpw.lndo.site'] = 'erpw';
 $sites['dev.virtualsafespace.net'] = 'default'; 
+$sites['stage.virtualsafespace.net'] = 'default'; 
+$sites['virtualsafespace.net'] = 'default'; 
 $sites['dev.erefer.org'] = 'erpw';
+$sites['stage.erefer.org'] = 'erpw';
+$sites['erefer.org'] = 'erpw';
