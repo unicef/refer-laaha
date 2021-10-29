@@ -1,0 +1,29 @@
+uuid: f861b95c-7e72-41cb-beca-3735029e5072
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain
+    - language
+  theme:
+    - vss
+id: languageswitcher
+theme: vss
+region: navigation
+weight: 1
+provider: null
+plugin: 'language_block:language_interface'
+settings:
+  id: 'language_block:language_interface'
+  label: 'Language switcher'
+  provider: language
+  label_display: '0'
+visibility:
+  domain:
+    id: domain
+    domains:
+      vss_iq_lndo_site: vss_iq_lndo_site
+      vss_ec_lndo_site: vss_ec_lndo_site
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
