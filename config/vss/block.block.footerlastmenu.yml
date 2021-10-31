@@ -1,0 +1,27 @@
+uuid: 55105a1f-069f-4175-bfa1-1627a3b9af8a
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.footer-last-menu
+  module:
+    - menu_item_fields
+  theme:
+    - vss
+id: footerlastmenu
+theme: vss
+region: footer
+weight: 0
+provider: null
+plugin: 'menu_item_fields:footer-last-menu'
+settings:
+  id: 'menu_item_fields:footer-last-menu'
+  label: 'Footer Last Menu'
+  provider: menu_item_fields
+  label_display: visible
+  level: '1'
+  depth: '0'
+  expand_all_items: 0
+  view_mode: default
+  view_mode_override_field: _none
+visibility: {  }
