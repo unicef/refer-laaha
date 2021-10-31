@@ -1,0 +1,118 @@
+description: 'Encontrar y administrar contenido.'
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Filtro
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          tags:
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
+            first: '« Primero'
+            last: 'Último »'
+      fields:
+        title:
+          label: Título
+        type:
+          separator: ', '
+        field_domain_access:
+          separator: ', '
+        field_domain_all_affiliates:
+          separator: ', '
+        name:
+          label: Autor
+        status:
+          label: Estado
+          settings:
+            format_custom_true: Publicado
+            format_custom_false: 'Sin publicar'
+        changed:
+          label: Actualizado
+        operations:
+          label: Operaciones
+      filters:
+        status:
+          expose:
+            label: Estado
+          group_info:
+            label: 'Estado de publicación'
+            group_items:
+              1:
+                title: Publicado
+              2:
+                title: 'Sin publicar'
+        type:
+          expose:
+            label: Tipo
+        title:
+          expose:
+            label: Título
+        langcode:
+          expose:
+            label: Idioma
+      empty:
+        area_text_custom:
+          content: 'No hay contenido disponible.'
+      arguments:
+        field_domain_access_target_id:
+          exception:
+            title: Todo(s)
+  page_1:
+    display_options:
+      menu:
+        title: Contenido
+      tab_options:
+        title: Contenido
+        description: 'Encuentre y gestione el contenido'
+      filters:
+        status:
+          expose:
+            label: Estado
+          group_info:
+            label: 'Estado de publicación'
+            group_items:
+              1:
+                title: Publicado
+              2:
+                title: 'Sin publicar'
+        type:
+          expose:
+            label: Tipo
+        title:
+          expose:
+            label: Título
+        langcode:
+          expose:
+            label: Idioma
+      title: Contenido
+  page_2:
+    display_options:
+      filters:
+        status:
+          expose:
+            label: Estado
+          group_info:
+            label: 'Estado de publicación'
+            group_items:
+              1:
+                title: Publicado
+              2:
+                title: 'Sin publicar'
+        type:
+          expose:
+            label: Tipo
+        title:
+          expose:
+            label: Título
+        langcode:
+          expose:
+            label: Idioma
+        field_domain_access_target_id:
+          expose:
+            label: Dominio
