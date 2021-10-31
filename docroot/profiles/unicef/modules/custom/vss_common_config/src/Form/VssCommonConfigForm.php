@@ -6,9 +6,6 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
-use Drupal\file\Entity\File;
 
 /**
  * Class VssCommonConfigForm.
@@ -67,7 +64,6 @@ class VssCommonConfigForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('vss_common_config.vsscommonconfig');
     $commonConfig = $config->get('vss_common_config');
-    // $domains = $this->entityTypeManager->getStorage('domain')->loadMultiple();
     $form['contactform'] = [
       '#type' => 'vertical_tabs',
     ];
@@ -121,13 +117,13 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#type'                 => 'managed_file',
       '#upload_location'      => 'public://disclaimer/',
       '#multiple'             => FALSE,
-      '#description'          => t('Allowed extensions: gif png jpg jpeg'),
+      '#description'          => $this->t('Allowed extensions: gif png jpg jpeg'),
       '#upload_validators'    => [
         'file_validate_is_image'      => [],
         'file_validate_extensions'    => ['gif png jpg jpeg'],
-        'file_validate_size'          => [25600000]
+        'file_validate_size'          => [25600000],
       ],
-      '#title'                => t('Upload an image file.'),
+      '#title'                => $this->t('Upload an image file.'),
       '#default_value' => !empty($commonConfig['disclaimer_image']) ? [$commonConfig['disclaimer_image'][0]] : '',
     ];
     return parent::buildForm($form, $form_state);
@@ -141,12 +137,11 @@ class VssCommonConfigForm extends ConfigFormBase {
     $config = $this->config('vss_common_config.vsscommonconfig');
     $config->set('vss_common_config', $form_state->getValues());
     $config->save();
-    if($image = $form_state->getValue('disclaimer_image')) {
-      $file = File::load($image[0]);
+    if ($image = $form_state->getValue('disclaimer_image')) {
+      $file = $this->entityTypeManager->getStorage('file')->load($image[0]);
       $file->setPermanent();
       $file->save();
     }
-
 
   }
 

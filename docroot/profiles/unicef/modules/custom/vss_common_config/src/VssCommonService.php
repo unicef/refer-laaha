@@ -1,16 +1,18 @@
 <?php
 
 namespace Drupal\vss_common_config;
+
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\language\ConfigurableLanguageManagerInterface;
-use Drupal\Core\Config\CachedStorage;
 use Drupal\domain_config_ui\Config\ConfigFactory;
 use Drupal\domain\DomainNegotiator;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Drupal\file\Entity\File;
 
 /**
  * Class VssCommonService.
+ *
+ * This class/service is responsible for getting domain, language specific
+ * data.
  */
 class VssCommonService implements VssCommonInterface {
 
@@ -29,7 +31,7 @@ class VssCommonService implements VssCommonInterface {
   protected $languageManager;
 
   /**
-   * \Symfony\Component\HttpFoundation\RequestStack definition.
+   * Symfony\Component\HttpFoundation\RequestStack definition.
    *
    * @var \Symfony\Component\HttpFoundation\RequestStack
    */
@@ -69,7 +71,7 @@ class VssCommonService implements VssCommonInterface {
     $host = $this->request->getCurrentRequest()->getHost();
     $rawData = [];
     if ($activeDomain->getHostName() === $host) {
-      $rawData = $this->configFactory->get('domain.config.' . $activeDomain->id() .'.' . $langId .'.vss_common_config.vsscommonconfig')->getRawData();
+      $rawData = $this->configFactory->get('domain.config.' . $activeDomain->id() . '.' . $langId . '.vss_common_config.vsscommonconfig')->getRawData();
     }
     return $rawData;
   }
@@ -79,12 +81,11 @@ class VssCommonService implements VssCommonInterface {
    */
   public function getVssDomainWithoutLanguageConfiguration() : array {
     $activeDomain = $this->domainNegotiator->getActiveDomain();
-    $langId = $this->languageManager->getCurrentLanguage()->getId();
     $host = $this->request->getCurrentRequest()->getHost();
     $rawData = [];
-      if ($activeDomain->getHostName() === $host) {
-        $rawData = $this->configFactory->get('domain.config.' . $activeDomain->id() . '.vss_common_config.vsscommonconfig')->getRawData();
-      }
+    if ($activeDomain->getHostName() === $host) {
+      $rawData = $this->configFactory->get('domain.config.' . $activeDomain->id() . '.vss_common_config.vsscommonconfig')->getRawData();
+    }
     return $rawData;
   }
 
@@ -97,6 +98,9 @@ class VssCommonService implements VssCommonInterface {
     return $rawData;
   }
 
+  /**
+   * Function to get footer details.
+   */
   public function getFooterDetails(): array {
     $data = $this->checkConfiguration();
     $footerDetails = [];
@@ -108,6 +112,9 @@ class VssCommonService implements VssCommonInterface {
     return $footerDetails;
   }
 
+  /**
+   * Function to get disclaimer data.
+   */
   public function getDisclaimer(): array {
     $data = $this->checkConfiguration();
     $disclaimer = [];
@@ -115,13 +122,16 @@ class VssCommonService implements VssCommonInterface {
       $disclaimer['disclaimer_title'] = $data['vss_common_config']['disclaimer_title'];
       $disclaimer['disclaimer_description'] = $data['vss_common_config']['disclaimer_description']['value'];
       if (isset($data['vss_common_config']['disclaimer_image'])) {
-        $file = File::load($data['vss_common_config']['disclaimer_image'][0]);
+        $file = $this->entityTypeManager->getStorage('file')->load($data['vss_common_config']['disclaimer_image'][0]);
         $disclaimer['disclaimer_image'] = file_create_url($file->getFileUri());
       }
     }
     return $disclaimer;
   }
 
+  /**
+   * Get actual configuration based on conditions.
+   */
   protected function checkConfiguration() {
     $data = [];
     $data = $this->getVssDomainWithLanguageConfiguration();
@@ -137,4 +147,5 @@ class VssCommonService implements VssCommonInterface {
     }
     return $data;
   }
+
 }

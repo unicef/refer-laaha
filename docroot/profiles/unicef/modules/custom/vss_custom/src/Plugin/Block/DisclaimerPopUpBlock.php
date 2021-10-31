@@ -7,7 +7,6 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Cache\Cache;
 
-
 /**
  * Provides a 'DisclaimerPopUpBlock' block.
  *
@@ -40,7 +39,6 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
   protected $vssCommonService;
 
   /**
-
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -75,11 +73,18 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
     return $build;
   }
 
+  /**
+   * Get cache tags.
+   */
   public function getCacheTags() {
     return Cache::mergeTags(parent::getCacheTags(), ['config:vss_common_config.vsscommonconfig']);
   }
 
+  /**
+   * Get cache Contexts.
+   */
   public function getCacheContexts() {
     return Cache::mergeTags(parent::getCacheContexts(), ['url.path']);
   }
+
 }
