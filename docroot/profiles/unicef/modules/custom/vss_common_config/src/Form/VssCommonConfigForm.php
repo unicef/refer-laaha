@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Drupal\file\Entity\File;
 
 /**
  * Class VssCommonConfigForm.
@@ -65,43 +66,70 @@ class VssCommonConfigForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('vss_common_config.vsscommonconfig');
-    $domains = $this->entityTypeManager->getStorage('domain')->loadMultiple();
-    foreach ($domains as $domain) {
-      $domainId = $domain->id();
-      $hostname = $domain->get('name');
-      $form[$domainId] = [
-        '#type' => 'fieldset',
-        '#title' => $this->t('Enter details for "@domain"', ['@domain' => $hostname]),
-      ];
-      $form[$domainId][$domainId . '_phone'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Phone'),
-        '#description' => $this->t('Enter Phone Number'),
-        '#maxlength' => 255,
-        '#size' => 64,
-        '#default_value' => (NULL !== $config->get($domainId . '_phone')) ? $config->get($domainId . '_phone') : '',
-      ];
-      $form[$domainId][$domainId . '_email'] = [
-        '#type' => 'email',
-        '#title' => $this->t('Email'),
-        '#description' => $this->t('Enter Email'),
-        '#default_value' => (NULL !== $config->get($domainId . '_email')) ? $config->get($domainId . '_email') : '',
-      ];
-      $form[$domainId][$domainId . '_address'] = [
-        '#type' => 'textarea',
-        '#title' => $this->t('Address'),
-        '#description' => $this->t('Address for Domain'),
-        '#default_value' => (NULL !== $config->get($domainId . '_address')) ? $config->get($domainId . '_address') : '',
-      ];
-    }
-    if (count($domains) === 0) {
-      $form['domain_theme_switch_message'] = [
-        '#markup' => $this->t('Zero domain records found. Please @link to create the domain.', [
-          '@link' => Link::fromTextAndUrl($this->t('click here'), Url::fromRoute('domain.admin'))->toString(),
-        ]),
-      ];
-      return $form;
-    }
+    $commonConfig = $config->get('vss_common_config');
+    // $domains = $this->entityTypeManager->getStorage('domain')->loadMultiple();
+    $form['contactform'] = [
+      '#type' => 'vertical_tabs',
+    ];
+
+    $form['footer_details'] = [
+      '#type' => 'details',
+      '#title' => 'Footer Contact Information',
+      '#group' => 'contactform',
+    ];
+
+    $form['footer_details']['phone'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Phone'),
+      '#description' => $this->t('Enter Phone Number'),
+      '#maxlength' => 255,
+      '#size' => 64,
+      '#default_value' => !empty($commonConfig['phone']) ? $commonConfig['phone'] : '',
+    ];
+    $form['footer_details']['email'] = [
+      '#type' => 'email',
+      '#title' => $this->t('Email'),
+      '#description' => $this->t('Enter Email'),
+      '#default_value' => !empty($commonConfig['email']) ? $commonConfig['email'] : '',
+    ];
+    $form['footer_details']['address'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Address'),
+      '#description' => $this->t('Address for Domain'),
+      '#default_value' => !empty($commonConfig['address']) ? $commonConfig['address'] : '',
+    ];
+
+    $form['disclaimer'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Disclaimer'),
+      '#group' => 'contactform',
+    ];
+
+    $form['disclaimer']['disclaimer_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Ttile'),
+      '#default_value' => !empty($commonConfig['disclaimer_title']) ? $commonConfig['disclaimer_title'] : '',
+    ];
+
+    $form['disclaimer']['disclaimer_description'] = [
+      '#type' => 'text_format',
+      '#format' => 'full_html',
+      '#title' => $this->t('Message'),
+      '#default_value' => !empty($commonConfig['disclaimer_description']) ? $commonConfig['disclaimer_description']['value'] : '',
+    ];
+    $form['disclaimer']['disclaimer_image'] = [
+      '#type'                 => 'managed_file',
+      '#upload_location'      => 'public://disclaimer/',
+      '#multiple'             => FALSE,
+      '#description'          => t('Allowed extensions: gif png jpg jpeg'),
+      '#upload_validators'    => [
+        'file_validate_is_image'      => [],
+        'file_validate_extensions'    => ['gif png jpg jpeg'],
+        'file_validate_size'          => [25600000]
+      ],
+      '#title'                => t('Upload an image file.'),
+      '#default_value' => !empty($commonConfig['disclaimer_image']) ? [$commonConfig['disclaimer_image'][0]] : '',
+    ];
     return parent::buildForm($form, $form_state);
   }
 
@@ -110,15 +138,15 @@ class VssCommonConfigForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
-    $domains = $this->entityTypeManager->getStorage('domain')->loadMultiple();
     $config = $this->config('vss_common_config.vsscommonconfig');
-    foreach ($domains as $domain) {
-      $domainId = $domain->id();
-      $config->set($domainId . '_phone', $form_state->getValue($domainId . '_phone'));
-      $config->set($domainId . '_email', $form_state->getValue($domainId . '_email'));
-      $config->set($domainId . '_address', $form_state->getValue($domainId . '_address'));
-    }
+    $config->set('vss_common_config', $form_state->getValues());
     $config->save();
+    if($image = $form_state->getValue('disclaimer_image')) {
+      $file = File::load($image[0]);
+      $file->setPermanent();
+      $file->save();
+    }
+
 
   }
 

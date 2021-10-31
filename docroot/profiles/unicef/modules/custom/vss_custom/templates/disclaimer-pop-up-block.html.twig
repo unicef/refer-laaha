@@ -16,9 +16,22 @@
 
 <div{{ attributes.addClass(classes) }}>
     {% if content is not empty %}
-        {{content}}
+        {% if content.disclaimer_title is not empty %}
+        <div>
+            {{content.disclaimer_title}}
+        </div>
+        {% endif %}
+        {% if content.disclaimer_description is not empty %}
+        <div>
+            {{ content.disclaimer_description|raw }}
+        </div>
+        {% endif %}
+        {% if content.disclaimer_image is not empty %}
+            <div>
+                <img src="{{content.disclaimer_image}}"/>
+            </div>
+        {% endif %}
     {% endif %}
-
 </div>
 <button type="button" class="pop-up">{{'OK!'|t}}</button>
 

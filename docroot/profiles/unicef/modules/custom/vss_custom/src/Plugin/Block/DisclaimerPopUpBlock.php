@@ -5,6 +5,7 @@ namespace Drupal\vss_custom\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Cache\Cache;
 
 /**
  * Provides a 'DisclaimerPopUpBlock' block.
@@ -31,12 +32,20 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
   protected $languageManager;
 
   /**
+   * Drupal\vss_common_config\VssCommonInterface.
+   *
+   * @var \Drupal\vss_common_config\VssCommonInterface
+   */
+  protected $vssCommonService;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $instance = new static($configuration, $plugin_id, $plugin_definition);
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->languageManager = $container->get('language_manager');
+    $instance->vssCommonService = $container->get('vss_common_config.default');
     return $instance;
   }
 
@@ -45,22 +54,30 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
    */
   public function build() {
     $build = [];
-    $view_builder = $this->entityTypeManager->getViewBuilder('taxonomy_term');
-    $storage = $this->entityTypeManager->getStorage('taxonomy_term');
-    $taxonomy_term = $storage->load(1);
     $id = $this->languageManager->getCurrentLanguage()->getId();
-    $render = $view_builder->view($taxonomy_term, 'full', $id);
+    $data = $this->vssCommonService->getDisclaimer();
     $html = '';
-    $html .= $render['#taxonomy_term']->getName();
-    if ($render['#taxonomy_term']->hasField('description') && !empty($render['#taxonomy_term']->get('description')->first())) {
-      $html .= '\r\n';
-      $html .= strip_tags($render['#taxonomy_term']->description->value);
+    if (isset($data['disclaimer_title']) && !empty($data['disclaimer_title'])) {
+      $html .= $data['disclaimer_title'];
+    }
+    if (isset($data['disclaimer_description']) && !empty($data['disclaimer_description'])) {
+      $html .= ' ';
+      $html .= strip_tags($data['disclaimer_description']);
     }
     $build['#theme'] = 'disclaimer_pop_up_block';
-    $build['#content'] = $render;
+    $build['#content'] = $data;
     $build['#attached']['drupalSettings']['landId'] = $id;
     $build['#attached']['drupalSettings']['narrate'] = $html;
+    $build['#cache']['tags'] = $this->getCacheTags();
+    $build['#cache']['contexts'] = $this->getCacheContexts();
     return $build;
   }
 
+  public function getCacheTags() {
+    return Cache::mergeTags(parent::getCacheTags(), ['config:vss_common_config.vsscommonconfig']);
+  }
+
+  public function getCacheContexts() {
+    return Cache::mergeTags(parent::getCacheContexts(), ['url.path']);
+  }
 }

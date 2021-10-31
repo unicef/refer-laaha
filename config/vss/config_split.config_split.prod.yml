@@ -17,7 +17,8 @@ theme: {  }
 blacklist:
   - core.extension
   - vss_common_config.vsscommonconfig
-graylist: {  }
+graylist:
+  - vss_common_config.vsscommonconfig
 graylist_dependents: true
-graylist_skip_equal: true
+graylist_skip_equal: false
 weight: 0
