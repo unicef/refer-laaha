@@ -29,19 +29,19 @@ class ExitWebsiteBlock extends BlockBase implements ContainerFactoryPluginInterf
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
-  {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $instance = new static($configuration, $plugin_id, $plugin_definition);
     $instance->vssCommonService = $container->get('vss_common_config.default');
     return $instance;
   }
+
   /**
    * {@inheritdoc}
    */
   public function build() {
     return [
       '#theme' => 'exit_website',
-      '#data' => $this->vssCommonService->getHeaderPhone()
+      '#data' => $this->vssCommonService->getHeaderPhone(),
     ];
   }
 
