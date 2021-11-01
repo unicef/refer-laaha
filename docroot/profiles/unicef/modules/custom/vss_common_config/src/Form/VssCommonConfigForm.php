@@ -64,14 +64,14 @@ class VssCommonConfigForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('vss_common_config.vsscommonconfig');
     $commonConfig = $config->get('vss_common_config');
-    $form['contactform'] = [
+    $form['vsscommonconfig'] = [
       '#type' => 'vertical_tabs',
     ];
 
     $form['footer_details'] = [
       '#type' => 'details',
       '#title' => 'Footer Contact Information',
-      '#group' => 'contactform',
+      '#group' => 'vsscommonconfig',
     ];
 
     $form['footer_details']['phone'] = [
@@ -98,7 +98,7 @@ class VssCommonConfigForm extends ConfigFormBase {
     $form['disclaimer'] = [
       '#type' => 'details',
       '#title' => $this->t('Disclaimer'),
-      '#group' => 'contactform',
+      '#group' => 'vsscommonconfig',
     ];
 
     $form['disclaimer']['disclaimer_title'] = [
@@ -130,10 +130,58 @@ class VssCommonConfigForm extends ConfigFormBase {
   }
 
   /**
+   * Validate phone number.
+   */
+  public function validatePhoneNumber($phone) {
+    if (preg_match("/[a-z]/i", $phone)) {
+      return FALSE;
+    }
+    if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_¬]/', $phone)) {
+      return FALSE;
+    }
+    if (!filter_var($phone, FILTER_SANITIZE_NUMBER_INT)) {
+      return FALSE;
+    }
+    // Allow +, - and . in phone number.
+    $filtered_phone_number = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
+    // Remove "-" from number.
+    $phone_to_check = str_replace("-", "", $filtered_phone_number);
+    // Check the lenght of number
+    // This can be customized if you want phone number from a specific country.
+    if (strlen($phone_to_check) < 10 || strlen($phone_to_check) > 14) {
+      return FALSE;
+    }
+    else {
+      return TRUE;
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    parent::submitForm($form, $form_state);
+
+    $phone = $form_state->getValue('phone');
+    if (!empty($phone) && !$this->validatePhoneNumber($phone)) {
+      $form_state->setErrorByName("phone",
+       $this->t('Please enter valid phone number.'));
+    }
+    $email = $form_state->getValue('email');
+    if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $form_state->setErrorByName(
+        "email",
+        $this->t('Please enter valid email id.')
+      );
+    }
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
+
     $config = $this->config('vss_common_config.vsscommonconfig');
     $config->set('vss_common_config', $form_state->getValues());
     $config->save();
@@ -142,7 +190,6 @@ class VssCommonConfigForm extends ConfigFormBase {
       $file->setPermanent();
       $file->save();
     }
-
   }
 
 }
