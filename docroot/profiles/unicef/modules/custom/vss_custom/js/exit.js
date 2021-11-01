@@ -25,7 +25,7 @@
                 interval=setTimeout(function(){
                 window.localStorage.clear();  
                 window.location.replace("/exit-website");
-              },300000)
+              },600000)
             }
       });      
     }
