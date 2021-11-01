@@ -6,6 +6,8 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 
 /**
  * Provides a block with a simple text.
@@ -15,14 +17,31 @@ use Drupal\Core\Session\AccountInterface;
  *   admin_label = @Translation("Exit Website Block"),
  * )
  */
-class ExitWebsiteBlock extends BlockBase {
+class ExitWebsiteBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
+  /**
+   * Drupal\vss_common_config\VssCommonInterface.
+   *
+   * @var \Drupal\vss_common_config\VssCommonInterface
+   */
+  protected $vssCommonService;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
+  {
+    $instance = new static($configuration, $plugin_id, $plugin_definition);
+    $instance->vssCommonService = $container->get('vss_common_config.default');
+    return $instance;
+  }
   /**
    * {@inheritdoc}
    */
   public function build() {
     return [
       '#theme' => 'exit_website',
+      '#data' => $this->vssCommonService->getHeaderPhone()
     ];
   }
 

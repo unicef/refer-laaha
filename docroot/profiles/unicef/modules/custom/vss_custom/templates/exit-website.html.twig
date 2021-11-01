@@ -1,2 +1,8 @@
 {{ attach_library('vss_custom/exit_website') }}
 <button class="exit-website-btn button-defult"><i class="fa-solid fa-xmark"></i>{{ 'Exit Website'|t }}</button>
+{% if data.header_country_code %}
+  {{data.header_country_code}}
+{% endif %}
+{% if data.header_phone %}
+  {{data.header_phone}}
+{% endif %}

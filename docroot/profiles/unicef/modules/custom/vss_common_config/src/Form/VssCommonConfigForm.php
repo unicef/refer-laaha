@@ -126,6 +126,28 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#title'                => $this->t('Upload an image file.'),
       '#default_value' => !empty($commonConfig['disclaimer_image']) ? [$commonConfig['disclaimer_image'][0]] : '',
     ];
+
+    $form['header_phone'] = [
+      '#type' => 'details',
+      '#title' => 'Header Phone Information',
+      '#group' => 'vsscommonconfig',
+    ];
+    $form['header_phone']['header_country_code'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Country Code'),
+      '#description' => $this->t('Enter Country Code'),
+      '#maxlength' => 255,
+      '#size' => 64,
+      '#default_value' => !empty($commonConfig['header_country_code']) ? $commonConfig['header_country_code'] : '',
+    ];
+    $form['header_phone']['header_phone'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Header Phone'),
+      '#description' => $this->t('Enter Header Phone Number'),
+      '#maxlength' => 255,
+      '#size' => 64,
+      '#default_value' => !empty($commonConfig['header_phone']) ? $commonConfig['header_phone'] : '',
+    ];
     return parent::buildForm($form, $form_state);
   }
 
@@ -163,6 +185,13 @@ class VssCommonConfigForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
 
     $phone = $form_state->getValue('phone');
+    $phoneHeader = $form_state->getValue('header_phone');
+    if (!empty($phoneHeader) && !$this->validatePhoneNumber($phoneHeader)) {
+      $form_state->setErrorByName(
+        "header_phone",
+        $this->t('Please enter valid phone number in Header Phone field.')
+      );
+    }
     if (!empty($phone) && !$this->validatePhoneNumber($phone)) {
       $form_state->setErrorByName("phone",
        $this->t('Please enter valid phone number.'));

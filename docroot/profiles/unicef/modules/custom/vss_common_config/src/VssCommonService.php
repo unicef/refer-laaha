@@ -70,7 +70,7 @@ class VssCommonService implements VssCommonInterface {
     $langId = $this->languageManager->getCurrentLanguage()->getId();
     $host = $this->request->getCurrentRequest()->getHost();
     $rawData = [];
-    if ($activeDomain->getHostName() === $host) {
+    if ($activeDomain && $activeDomain->getHostName() === $host) {
       $rawData = $this->configFactory->get('domain.config.' . $activeDomain->id() . '.' . $langId . '.vss_common_config.vsscommonconfig')->getRawData();
     }
     return $rawData;
@@ -83,7 +83,7 @@ class VssCommonService implements VssCommonInterface {
     $activeDomain = $this->domainNegotiator->getActiveDomain();
     $host = $this->request->getCurrentRequest()->getHost();
     $rawData = [];
-    if ($activeDomain->getHostName() === $host) {
+    if ($activeDomain && $activeDomain->getHostName() === $host) {
       $rawData = $this->configFactory->get('domain.config.' . $activeDomain->id() . '.vss_common_config.vsscommonconfig')->getRawData();
     }
     return $rawData;
@@ -123,10 +123,25 @@ class VssCommonService implements VssCommonInterface {
       $disclaimer['disclaimer_description'] = $data['vss_common_config']['disclaimer_description']['value'];
       if (isset($data['vss_common_config']['disclaimer_image'])) {
         $file = $this->entityTypeManager->getStorage('file')->load($data['vss_common_config']['disclaimer_image'][0]);
-        $disclaimer['disclaimer_image'] = file_create_url($file->getFileUri());
+        if ($file) {
+          $disclaimer['disclaimer_image'] = file_create_url($file->getFileUri());
+        }
       }
     }
     return $disclaimer;
+  }
+
+  /**
+   * Function to get disclaimer data.
+   */
+  public function getHeaderPhone(): array {
+    $data = $this->checkConfiguration();
+    $headerPhone = [];
+    if (isset($data['vss_common_config'])) {
+      $headerPhone['header_country_code'] = $data['vss_common_config']['header_country_code'];
+      $headerPhone['header_phone'] = $data['vss_common_config']['header_phone'];
+    }
+    return $headerPhone;
   }
 
   /**
