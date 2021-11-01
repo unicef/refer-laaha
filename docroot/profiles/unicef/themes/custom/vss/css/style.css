@@ -1,8 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css");
 body {
-  margin-top: 0;
-  font-family: Roboto; }
+  margin-top: 0; }
 
 .navbar {
   min-height: auto;
@@ -18,127 +17,6 @@ body {
   .exit-website-btn i {
     padding-right: 12px; }
 
-.footer-wrapper {
-  background: #CB9CA1; }
-
-.region-footer {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  margin-bottom: 25px;
-  margin-top: 65px; }
-
-.block-menu-item-fieldsquick-links {
-  margin-top: 20px; }
-  .block-menu-item-fieldsquick-links h2 {
-    font-size: 12px;
-    font-family: Roboto;
-    font-weight: 400; }
-  .block-menu-item-fieldsquick-links ul {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    width: 100%;
-    padding-left: 0;
-    list-style: none; }
-    .block-menu-item-fieldsquick-links ul li {
-      margin-right: 25px; }
-      .block-menu-item-fieldsquick-links ul li > div {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex; }
-        .block-menu-item-fieldsquick-links ul li > div > div {
-          padding-right: 12px; }
-      .block-menu-item-fieldsquick-links ul li a {
-        font-size: 16px;
-        font-family: Roboto;
-        font-weight: 500;
-        color: #000;
-        line-height: 24px; }
-
-ul.menu--footer-last-menu {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  width: 100%;
-  padding-left: 0; }
-
-#block-copyright p {
-  color: #000;
-  font-size: 14px;
-  font-family: Roboto;
-  font-weight: 400; }
-
-.menu--footer-last-menu > li {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-  -ms-flex-preferred-size: auto;
-      flex-basis: auto;
-  text-align: center;
-  border-left: 2px solid #000; }
-  .menu--footer-last-menu > li:first-child {
-    border-left: 0; }
-  .menu--footer-last-menu > li > a {
-    color: #000;
-    font-size: 14px;
-    font-family: Roboto;
-    font-weight: 400;
-    padding: 0 8px; }
-    .menu--footer-last-menu > li > a:hover {
-      background-color: inherit; }
-
-.address-info {
-  margin-top: 16px;
-  display: block; }
-  .address-info ul {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    width: 100%;
-    padding-left: 0; }
-    .address-info ul li {
-      list-style: none;
-      margin-right: 16px; }
-      .address-info ul li img {
-        margin-right: 10px; }
-
-#block-virtualsafespace h2 {
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 30px; }
-
-#block-virtualsafespace .logo-title-wrapper {
-  margin-top: 60px;
-  margin-bottom: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex; }
-  #block-virtualsafespace .logo-title-wrapper .field--name-field-logo {
-    margin-top: 20px;
-    margin-right: 12px; }
-
 .button-defult {
   font-family: Roboto;
   font-weight: 700;
@@ -148,30 +26,5 @@ ul.menu--footer-last-menu {
   border: 0;
   border-radius: 4px;
   letter-spacing: 1.25px; }
-
-@media screen and (max-width: 767px) {
-  .region-footer {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-        -ms-flex-direction: column-reverse;
-            flex-direction: column-reverse; }
-  .address-info ul li {
-    width: 100%;
-    margin-bottom: 10px; }
-  .block-menu-item-fieldsquick-links h2 {
-    font-size: 24px;
-    font-weight: 500;
-    line-height: 30px; }
-  .block-menu-item-fieldsquick-links ul li {
-    margin-right: 25px;
-    width: 100%;
-    margin-bottom: 10px; }
-  #block-copyright .field--name-body {
-    margin-top: 20px;
-    text-align: center; } }
-
-@media screen and (min-width: 768px) {
-  #block-virtualsafespace .field--name-body p {
-    max-width: 500px; } }
 
 /*# sourceMappingURL=style.css.map */
