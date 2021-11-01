@@ -21,6 +21,12 @@ function vss_custom_theme() {
         'data' => [],
       ],
     ],
+    'disclaimer_pop_up_block' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'render element' => 'children',
+    ],
   ];
 }
 

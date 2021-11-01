@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class ExitController.
+ *
+ * This class handles all exist button functionality.
  */
 class ExitController extends ControllerBase implements ContainerInjectionInterface {
 
@@ -20,7 +22,6 @@ class ExitController extends ControllerBase implements ContainerInjectionInterfa
    * {@inheritdoc}
    */
   protected $state;
-
 
   /**
    * {@inheritdoc}

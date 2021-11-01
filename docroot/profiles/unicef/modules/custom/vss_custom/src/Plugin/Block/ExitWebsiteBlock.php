@@ -37,7 +37,7 @@ class ExitWebsiteBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
-    $config = $this->getConfiguration();
+    $form = parent::blockForm($form, $form_state);
 
     return $form;
   }

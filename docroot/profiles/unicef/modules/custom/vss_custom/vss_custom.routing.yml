@@ -4,7 +4,7 @@ vss_custom.exit_website:
     _controller: '\Drupal\vss_custom\Controller\ExitController::clearAllData'
     _title: 'Exit Website'
   requirements:
-    _access: 'TRUE'
+    _permission: 'access content'
 
 vss_custom.exit_config_form:
   path: "exit-config-form"
@@ -14,4 +14,4 @@ vss_custom.exit_config_form:
   requirements:
     _role: "administrator"
   options:
-    _admin_route: TRUE    
+    _admin_route: TRUE

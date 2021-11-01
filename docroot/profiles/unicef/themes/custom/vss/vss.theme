@@ -15,19 +15,17 @@ function vss_preprocess_block(&$variables) {
   if ($variables['plugin_id'] == 'system_branding_block') {
     $variables['attributes']['class'][] = 'clearfix';
   }
-  if (!empty($block = $variables['elements']['content']['#block_content'])) {
+  if (isset($variables['elements']['content']['#block_content']) && !empty($block = $variables['elements']['content']['#block_content'])) {
     $bundle = $block->bundle();
     if ($bundle == 'footer_contact_information') {
-      $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain();
-      $domainId = $activeDomain->id();
-      $config = \Drupal::config('vss_common_config.vsscommonconfig');
-      if (!empty($phone = $config->get($domainId . '_phone'))) {
+      $config = \Drupal::service('vss_common_config.default')->getFooterDetails();
+      if (isset($config['phone']) && !empty($phone = $config['phone'])) {
         $variables['phone'] = $phone;
       }
-      if (!empty($email = $config->get($domainId . '_email'))) {
+      if (isset($config['email']) && !empty($email = $config['email'])) {
         $variables['email'] = $email;
       }
-      if (!empty($address = $config->get($domainId . '_address'))) {
+      if (isset($config['address']) && !empty($address = $config['address'])) {
         $variables['address'] = $address;
       }
     }
@@ -38,7 +36,7 @@ function vss_preprocess_block(&$variables) {
  * Implements hook_theme_suggestions_HOOK_alter().
  */
 function vss_theme_suggestions_block_alter(array &$suggestions, array $variables) {
-  if (!empty($block = $variables['elements']['content']['#block_content'])) {
+  if (isset($variables['elements']['content']['#block_content']) && !empty($block = $variables['elements']['content']['#block_content'])) {
     $bundle = $block->bundle();
     if ($bundle == 'footer_contact_information') {
       $suggestions[] = 'block__' . '_footer_contact_information';
