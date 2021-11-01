@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   module:
-    - domain
     - language
   theme:
     - vss
@@ -18,12 +17,4 @@ settings:
   label: 'Language switcher'
   provider: language
   label_display: '0'
-visibility:
-  domain:
-    id: domain
-    domains:
-      vss_iq_lndo_site: vss_iq_lndo_site
-      vss_ec_lndo_site: vss_ec_lndo_site
-    negate: false
-    context_mapping:
-      domain: '@domain.current_domain_context:domain'
+visibility: {  }

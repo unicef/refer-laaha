@@ -12,10 +12,11 @@ module:
 theme: {  }
 blacklist: {  }
 graylist:
+  - vss_common_config.vsscommonconfig
   - domain.language.dev_ec_virtualsafespace_net.language.negotiation
   - domain.language.dev_iq_virtualsafespace_net.language.negotiation
   - domain.record.dev_ec_virtualsafespace_net
   - domain.record.dev_iq_virtualsafespace_net
 graylist_dependents: true
-graylist_skip_equal: true
+graylist_skip_equal: false
 weight: 0

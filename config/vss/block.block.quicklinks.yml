@@ -1,0 +1,27 @@
+uuid: 1a006dd3-66c8-467b-8066-3ccbf33b6b4d
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.quick-links
+  module:
+    - menu_item_fields
+  theme:
+    - vss
+id: quicklinks
+theme: vss
+region: footer_top
+weight: -2
+provider: null
+plugin: 'menu_item_fields:quick-links'
+settings:
+  id: 'menu_item_fields:quick-links'
+  label: 'Quick Links'
+  provider: menu_item_fields
+  label_display: visible
+  level: '1'
+  depth: '0'
+  expand_all_items: 0
+  view_mode: default
+  view_mode_override_field: _none
+visibility: {  }
