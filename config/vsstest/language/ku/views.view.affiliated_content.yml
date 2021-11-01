@@ -1,0 +1,91 @@
+description: 'دۆزینەوە و ڕێکخستنی ناوەڕۆک.'
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          submit_button: پاڵێو
+          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
+      fields:
+        title:
+          label: ناونیشان
+        name:
+          label: نووسەر
+        status:
+          label: ڕەوش
+          settings:
+            format_custom_true: بڵاوکراوەتەوە
+        changed:
+          label: نوێکراوەتەوە
+        operations:
+          label: کاره‌کان
+      filters:
+        status:
+          expose:
+            label: ڕەوش
+          group_info:
+            group_items:
+              1:
+                title: بڵاوکراوەتەوە
+        type:
+          expose:
+            label: جۆر
+        title:
+          expose:
+            label: ناونیشان
+        langcode:
+          expose:
+            label: زمان
+      empty:
+        area_text_custom:
+          content: 'هیچ ناوەڕۆکێک نییە.'
+      arguments:
+        field_domain_access_target_id:
+          exception:
+            title: هەموو
+  page_1:
+    display_options:
+      menu:
+        title: ناوەڕۆک
+      tab_options:
+        title: ناوەڕۆک
+      filters:
+        status:
+          expose:
+            label: ڕەوش
+          group_info:
+            group_items:
+              1:
+                title: بڵاوکراوەتەوە
+        type:
+          expose:
+            label: جۆر
+        title:
+          expose:
+            label: ناونیشان
+        langcode:
+          expose:
+            label: زمان
+      title: ناوەڕۆک
+  page_2:
+    display_options:
+      filters:
+        status:
+          expose:
+            label: ڕەوش
+          group_info:
+            group_items:
+              1:
+                title: بڵاوکراوەتەوە
+        type:
+          expose:
+            label: جۆر
+        title:
+          expose:
+            label: ناونیشان
+        langcode:
+          expose:
+            label: زمان
+        field_domain_access_target_id:
+          expose:
+            label: دۆمەین

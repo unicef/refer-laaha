@@ -1,0 +1,14 @@
+uuid: 0c42ea07-b817-4716-9970-8ac7eb63b780
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.stage_iq_virtualsafespace_net
+  module:
+    - domain_access
+id: domain_access_remove_editor_action.stage_iq_virtualsafespace_net
+label: 'Remove editors from the Stage Iraq Virtualsafespace domain'
+type: user
+plugin: domain_access_remove_editor_action
+configuration:
+  domain_id: stage_iq_virtualsafespace_net

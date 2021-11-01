@@ -1,111 +1,19 @@
 body {
      margin-top: 0;
-     font-family: $base-font-family ;
 }
 .navbar{
     min-height: auto;
     background:$base-primary-bgcolor;   
 
 }
-.container-fluid {
-    > .navbar-header{
+.container-fluid > .navbar-header{
     margin-left: -15px;
     margin-right: -15px;
-}
 }
 .exit-website-btn{
     background: $base-secondary-bgcolor;
     color: $base-secondary-color;
     i{
         padding-right:12px;
-    }
-}
-.footer-wrapper {
-    background: $footer-bg-color; 
-}
-.region-footer{
-    display: flex;
-    justify-content:space-between;
-    margin-bottom: 25px;
-    margin-top: 65px;
-}
-.block-menu-item-fieldsquick-links {
-    margin-top: 20px;
-    h2{
-        @include quick-link-font ;
-    }
-    ul{
-        @include flex-ul ;
-        list-style: none;
-        li{
-            margin-right: 25px;
-            > div {
-                display: flex;
-                > div{
-                    padding-right: 12px;
-                }
-            }
-            a{
-            @include  quick-link-anchor;
-            line-height: 24px;
-            }
-
-        }
-    }
-}
-ul.menu--footer-last-menu {
-    @include flex-ul ;
-}
-#block-copyright{
-    p{
-        @include footer-default-styles ;
-    }
-}
-.menu--footer-last-menu {
-	>li {
-        flex-grow: 1;
-        flex-basis: auto;
-        text-align: center;
-        border-left: 2px solid $base-black-color;
-        &:first-child{
-            border-left:0;
-        }
-		>a {
-            @include footer-default-styles ;
-            padding: 0 8px;
-            &:hover{
-                background-color:inherit;
-            }
-            
-		}
-	}
-}
-.address-info{
-    ul{
-         @include flex-ul;
-          li{
-                list-style: none;
-                margin-right: 16px;
-               img{
-                   margin-right: 10px;
-               }
-
-            }
-    }
-    margin-top: 16px;
-    display: block;
-}
-#block-virtualsafespace {
-    h2{
-      @include footer-header2 ;
-    }
-   .logo-title-wrapper{
-        margin-top: 60px;
-        margin-bottom: 20px;   
-        display: flex;
-        .field--name-field-logo{
-            margin-top: 20px;
-            margin-right: 12px;
-        }
     }
 }
