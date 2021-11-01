@@ -44,7 +44,7 @@
                 window.localStorage.clear();
                 window.sessionStorage.clear();
                 window.location.replace("/exit-website");
-              },300000)
+              },600000)
             }
       });
     }
