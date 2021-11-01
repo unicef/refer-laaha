@@ -1,0 +1,42 @@
+$mobile-last:767px;
+@media screen and (max-width: $mobile-last) {
+    .region-footer{
+       flex-direction: column-reverse;
+    }
+    .address-info {
+        ul{ 
+            li{
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    }
+    .block-menu-item-fieldsquick-links {
+        h2{
+            @include footer-header2 ;
+        }
+        ul{
+            li{
+                margin-right: 25px;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    }
+    #block-copyright{
+        .field--name-body{
+            margin-top: 20px;
+            text-align: center;
+        }
+    }
+}
+@media screen and (min-width:768px){
+    #block-virtualsafespace{
+        .field--name-body{
+            p{
+                max-width: 500px;
+            }
+        }
+    }
+    
+}
