@@ -18,7 +18,7 @@
         speechSynthesis.cancel();
         $('.btn-narrate').click(function () {
           msg.lang = drupalSettings.langId;
-          msg.text = drupalSettings.narrate;//"مرحبا صباح الخير"; //jQuery(".pop-up-speech").text();
+          msg.text = drupalSettings.narrate;
           window.speechSynthesis.speak(msg);
           // event after text has been spoken.
           msg.onend = function () {
