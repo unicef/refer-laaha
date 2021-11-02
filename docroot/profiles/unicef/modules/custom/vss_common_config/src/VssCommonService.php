@@ -119,7 +119,7 @@ class VssCommonService implements VssCommonInterface {
     $keys = [
       'disclaimer_title',
       'disclaimer_description',
-      'disclaimer_image'
+      'disclaimer_image',
     ];
     $data = $this->checkConfiguration($keys);
     $disclaimer = [];
@@ -177,15 +177,20 @@ class VssCommonService implements VssCommonInterface {
     return $data;
   }
 
+  /**
+   * Check values in config by keys.
+   */
   protected function checkValueByKey($keys, $data = []) {
     if ($keys) {
       foreach ($keys as $key) {
         // Return True if any 1 values exists for key.
-        if (isset($data['vss_common_config'][$key]) && !empty($data['vss_common_config'][$key])) {
+        if (isset($data['vss_common_config'][$key])
+        && !empty($data['vss_common_config'][$key])) {
           return TRUE;
         }
       }
     }
     return FALSE;
   }
+
 }
