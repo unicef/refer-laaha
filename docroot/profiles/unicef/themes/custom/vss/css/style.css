@@ -155,6 +155,19 @@ ul.block-menu-item-fieldsfooter-last-menu {
     margin-top: 20px;
     margin-right: 12px; }
 
+.buttonwrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  .buttonwrapper .telephone-header {
+    margin: 15px 35px; }
+    .buttonwrapper .telephone-header img {
+      margin-right: 5px; }
+    .buttonwrapper .telephone-header a {
+      text-decoration: none;
+      color: #000;
+      font-size: 16px; }
+
 .button-defult {
   font-family: Roboto;
   font-weight: 700;
@@ -204,7 +217,9 @@ ul.block-menu-item-fieldsfooter-last-menu {
     border: none;
     line-height: 44px;
     margin-right: 10px;
-    border-bottom: 2px solid #CB9CA1; } }
+    border-bottom: 2px solid #CB9CA1; }
+  .telephone-header {
+    display: none; } }
 
 @media screen and (min-width: 768px) {
   #block-virtualsafespace .field--name-body p {
@@ -254,7 +269,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
           .region-navigation #block-languageswitcher ul li a:before {
             content: " ";
             position: absolute;
-            top: 30px;
+            top: 36git spx;
             left: -15px;
             width: 0;
             border-bottom: 2px solid #CB9CA1; }
