@@ -1,0 +1,4 @@
+services:
+  pfe_monoferric_content.importer:
+    class: Drupal\pfe_monoferric_content\Importer
+    arguments: ['@serializer', '@entity_type.manager', '@hal.link_manager', '@event_dispatcher', '@account_switcher']
