@@ -1,7 +1,8 @@
 {{ attach_library('vss_custom/exit_website') }}
-<button class="exit-website-btn button-defult"><i class="fa-solid fa-xmark"></i>{{ 'Exit Website'|t }}</button>
+<div class="buttonwrapper">
+<button class="exit-website-btn button-defult"><i class="fa-solid fa-xmark"></i>{{ 'EXIT WEBSITE'|t }}</button>
 {% if data.header_country_code and data.header_phone %}
-
+<div class="telephone-header"><img src ="{{ base_path ~ directory }}/images/phone-haeder.png" alt="phone" />
 {% set phone %}
 tel:{{ data.header_country_code|trim }}{{ data.header_phone|trim }}
 {% endset %}
@@ -11,3 +12,5 @@ tel:{{ data.header_country_code|trim }}{{ data.header_phone|trim }}
 {{ link(title|trim, phone|trim) }}
 
 {% endif %}
+</div>
+</div>
