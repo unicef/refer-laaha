@@ -116,7 +116,12 @@ class VssCommonService implements VssCommonInterface {
    * Function to get disclaimer data.
    */
   public function getDisclaimer(): array {
-    $data = $this->checkConfiguration();
+    $keys = [
+      'disclaimer_title',
+      'disclaimer_description',
+      'disclaimer_image'
+    ];
+    $data = $this->checkConfiguration($keys);
     $disclaimer = [];
     if (isset($data['vss_common_config'])) {
       $disclaimer['disclaimer_title'] = $data['vss_common_config']['disclaimer_title'];
@@ -135,7 +140,11 @@ class VssCommonService implements VssCommonInterface {
    * Function to get disclaimer data.
    */
   public function getHeaderPhone(): array {
-    $data = $this->checkConfiguration();
+    $keys = [
+      'header_country_code',
+      'header_phone',
+    ];
+    $data = $this->checkConfiguration($keys);
     $headerPhone = [];
     if (isset($data['vss_common_config'])) {
       $headerPhone['header_country_code'] = trim($data['vss_common_config']['header_country_code']) ?? '';
@@ -147,15 +156,20 @@ class VssCommonService implements VssCommonInterface {
   /**
    * Get actual configuration based on conditions.
    */
-  protected function checkConfiguration() {
+  protected function checkConfiguration($keys = [], $default = TRUE) {
     $data = [];
+
     $data = $this->getVssDomainWithLanguageConfiguration();
-    if (!empty($data)) {
-      return $data;
+    if (!empty($data) && $default) {
+      if ($this->checkValueByKey($keys, $data)) {
+        return $data;
+      }
     }
     $data = $this->getVssDomainWithoutLanguageConfiguration();
-    if (!empty($data)) {
-      return $data;
+    if (!empty($data) && $default) {
+      if ($this->checkValueByKey($keys, $data)) {
+        return $data;
+      }
     }
     else {
       $data = $this->getVssCommonConfiguration();
@@ -163,4 +177,15 @@ class VssCommonService implements VssCommonInterface {
     return $data;
   }
 
+  protected function checkValueByKey($keys, $data = []) {
+    if ($keys) {
+      foreach ($keys as $key) {
+        // Return True if any 1 values exists for key.
+        if (isset($data['vss_common_config'][$key]) && !empty($data['vss_common_config'][$key])) {
+          return TRUE;
+        }
+      }
+    }
+    return FALSE;
+  }
 }
