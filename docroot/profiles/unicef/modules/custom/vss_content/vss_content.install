@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Module to import default content from JSON.
+ */
+
+/**
+ * Updating Content.
+ */
+function vss_content_update_9001() {
+  $files = [
+    'menu_link_content' => [
+      '09cb517f-4374-4e7b-b109-5cb536a65b9a.yml',
+      '47aad3fa-d824-413e-8989-65ffefe2bf19.yml',
+      '719c74e3-0f92-47c6-bd09-c68f0a61acb8.yml',
+      '5300d87b-e79d-453e-92df-8d898ed887b3.yml',
+      'c7fea324-8452-444e-8eb0-9e73aeff3750.yml',
+      'c000298c-3d0f-4ae0-9dd9-c7b8ba325f0a.yml',
+    ],
+    'taxonomy_term' => [
+      'a000ddf2-694f-4203-8412-a60f4d9db1d7.yml',
+      'a74d97dd-4954-450c-8c11-9d814ca367fd.yml',
+    ],
+  ];
+  $importer = \Drupal::service('vss_content.importer');
+  $importer->importContent($files, TRUE);
+}
