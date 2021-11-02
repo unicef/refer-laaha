@@ -8,9 +8,6 @@ tel:{{ data.header_country_code|trim }}{{ data.header_phone|trim }}
 {% set title %}
 {{ data.header_country_code|trim }}-{{ data.header_phone|trim }}
 {% endset %}
-{{phone|trim}}
-
-<a href="{{phone}}">{{ data.header_country_code }}-{{ data.header_phone }}</a>
-{{ link(title, phone) }}
+{{ link(title|trim, phone|trim) }}
 
 {% endif %}
