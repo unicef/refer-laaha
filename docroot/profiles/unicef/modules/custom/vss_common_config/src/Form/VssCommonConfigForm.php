@@ -89,10 +89,12 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#default_value' => !empty($commonConfig['email']) ? $commonConfig['email'] : '',
     ];
     $form['footer_details']['address'] = [
-      '#type' => 'textarea',
+      '#type' => 'textfield',
       '#title' => $this->t('Address'),
       '#description' => $this->t('Address for Domain'),
       '#default_value' => !empty($commonConfig['address']) ? $commonConfig['address'] : '',
+      '#maxlength' => 255,
+      '#size' => 64,
     ];
 
     $form['disclaimer'] = [
