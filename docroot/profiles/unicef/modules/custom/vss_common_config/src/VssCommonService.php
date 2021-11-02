@@ -102,7 +102,12 @@ class VssCommonService implements VssCommonInterface {
    * Function to get footer details.
    */
   public function getFooterDetails(): array {
-    $data = $this->checkConfiguration();
+    $keys = [
+      'phone',
+      'email',
+      'address',
+    ];
+    $data = $this->checkConfiguration($keys);
     $footerDetails = [];
     if (isset($data['vss_common_config'])) {
       $footerDetails['phone'] = $data['vss_common_config']['phone'] ?? '';
