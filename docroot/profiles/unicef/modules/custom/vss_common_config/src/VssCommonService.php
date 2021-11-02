@@ -105,9 +105,9 @@ class VssCommonService implements VssCommonInterface {
     $data = $this->checkConfiguration();
     $footerDetails = [];
     if (isset($data['vss_common_config'])) {
-      $footerDetails['phone'] = $data['vss_common_config']['phone'];
-      $footerDetails['email'] = $data['vss_common_config']['email'];
-      $footerDetails['address'] = $data['vss_common_config']['address'];
+      $footerDetails['phone'] = $data['vss_common_config']['phone'] ?? '';
+      $footerDetails['email'] = $data['vss_common_config']['email'] ?? '';
+      $footerDetails['address'] = $data['vss_common_config']['address'] ?? '';
     }
     return $footerDetails;
   }
@@ -138,8 +138,8 @@ class VssCommonService implements VssCommonInterface {
     $data = $this->checkConfiguration();
     $headerPhone = [];
     if (isset($data['vss_common_config'])) {
-      $headerPhone['header_country_code'] = $data['vss_common_config']['header_country_code'];
-      $headerPhone['header_phone'] = $data['vss_common_config']['header_phone'];
+      $headerPhone['header_country_code'] = trim($data['vss_common_config']['header_country_code']) ?? '';
+      $headerPhone['header_phone'] = trim($data['vss_common_config']['header_phone']) ?? '';
     }
     return $headerPhone;
   }
