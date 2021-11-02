@@ -29,6 +29,33 @@ $mobile-last:767px;
             text-align: center;
         }
     }
+    .region-navigation{
+        display: flex;
+        justify-content:space-between;  
+        #block-languageswitcher{
+    
+            ul{
+                top: 96%;
+                left: calc(100% - 160px);
+                border-radius:10px ;
+                li{
+                    a{
+                        padding: 12px 20px;
+                        font-size: 16px;
+                    }
+                }
+            
+            }
+        }
+    }
+    .btn-trans{
+        background: none;
+        border:none;
+        line-height: 44px;
+    margin-right: 10px;
+    border-bottom: 2px solid #CB9CA1 ;
+
+    }
 }
 @media screen and (min-width:768px){
     #block-virtualsafespace{
@@ -37,6 +64,65 @@ $mobile-last:767px;
                 max-width: 500px;
             }
         }
+    }
+   
+    #langdd{
+        display: none;
+    }
+    .navbar-header{
+        float: none;
+    }
+    .region-navigation{
+        display: flex;
+        justify-content:space-between;  
+        #block-languageswitcher{
+    
+            ul{
+                position: unset;
+                background: initial;
+                box-shadow:none;
+                border: none;
+                border-radius: 0;
+                padding:0;
+                @include flex-ul;
+                margin: 0;
+                li{
+                    padding: 14px 20px;  
+                    &.is-active{
+                        a::before{
+                            width: 200%;
+                        }
+                      }
+                    &:hover{
+                       
+                      a::before{
+                          width: 200%;
+                      }
+                    
+                        
+                    }
+                    a{  position: relative;
+                           padding: 0;
+                        &:before{
+                            content: " ";
+                            position: absolute;
+                            top: 30px;
+                            left:-15px;
+                            width:0;
+                            border-bottom: 2px solid #CB9CA1;   
+                        }
+                        color:$base-black-color;
+                        &:hover{
+                            text-decoration: none;
+                            background-color:unset;
+                            
+                        }
+                }
+    
+                }
+            }
+        }
+       
     }
     
 }
