@@ -12,7 +12,6 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList;
-use Drupal\default_content\ScannerInterface;
 
 /**
  * A service for handling import of default content.
@@ -149,11 +148,11 @@ class Importer implements ImporterInterface {
       if (!empty($file_map[$link])) {
         $file = $file_map[$link];
         $entity_type_id = $file['entity_type_id'];
-        /* @var $entity_type \Drupal\Core\Entity\EntityTypeInterface */
+        /** @var \Drupal\Core\Entity\EntityTypeInterface $entity_type */
         $entity_type = $definitions[$entity_type_id];
         $contents = $this->parseFile($file);
 
-        /* @var $entity \Drupal\Core\Entity\EntityInterface */
+        /** @var \Drupal\Core\Entity\EntityInterface $entity */
         $entity = $this->serializer->deserialize($contents, $entity_type->getClass(), 'hal_json', ['request_method' => 'POST']);
 
         // Ensure we use the proper target_revision_id for edges.

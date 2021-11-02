@@ -18,6 +18,6 @@ interface ImporterInterface {
    * @return \Drupal\Core\Entity\EntityInterface[]
    *   An array of created entities keyed by their UUIDs.
    */
-  public function importContent($files, $update_existing = FALSE);
+  public function importContent(array $files, $update_existing = FALSE);
 
 }
