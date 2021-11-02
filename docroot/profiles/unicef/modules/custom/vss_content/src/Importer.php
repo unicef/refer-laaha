@@ -100,7 +100,7 @@ class Importer implements ImporterInterface {
     $updated = [];
     $revision_links = [];
 
-    $folder = "profiles/pfmonoferricca_profile/content";
+    $folder = "profiles/unicef/modules/custom/vss_content/content";
 
     $root_user = $this->entityTypeManager->getStorage('user')->load(1);
     $this->accountSwitcher->switchTo($root_user);
