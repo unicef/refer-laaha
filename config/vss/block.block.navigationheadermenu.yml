@@ -1,0 +1,27 @@
+uuid: 4aae98c6-8987-4db5-be81-95a89e58096e
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.navigation-header-menu
+  module:
+    - menu_item_fields
+  theme:
+    - vss
+id: navigationheadermenu
+theme: vss
+region: header
+weight: -4
+provider: null
+plugin: 'menu_item_fields:navigation-header-menu'
+settings:
+  id: 'menu_item_fields:navigation-header-menu'
+  label: 'Navigation Header Menu'
+  provider: menu_item_fields
+  label_display: '0'
+  level: '1'
+  depth: '0'
+  expand_all_items: 0
+  view_mode: default
+  view_mode_override_field: _none
+visibility: {  }
