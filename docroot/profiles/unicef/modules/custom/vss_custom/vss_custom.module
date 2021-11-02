@@ -62,7 +62,7 @@ function vss_custom_taxonomy_term_presave($term) {
         'langcode' => $term->get('langcode')->value,
         'weight' => $term->get('weight')->value,
         'expanded' => FALSE,
-        'parent' => 'menu_link_content:09cb517f-4374-4e7b-b109-5cb536a65b9a',
+        'parent' => 'menu_link_content:040b9aaee-1403-4628-96a2-40191f85d36b',
       ]);
       $menu_link->save();
     }
