@@ -184,10 +184,82 @@ ul.block-menu-item-fieldsfooter-last-menu {
     margin-bottom: 10px; }
   #block-copyright .field--name-body {
     margin-top: 20px;
-    text-align: center; } }
+    text-align: center; }
+  .region-navigation {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+    .region-navigation #block-languageswitcher ul {
+      top: 96%;
+      left: calc(100% - 160px);
+      border-radius: 10px; }
+      .region-navigation #block-languageswitcher ul li a {
+        padding: 12px 20px;
+        font-size: 16px; }
+  .btn-trans {
+    background: none;
+    border: none;
+    line-height: 44px;
+    margin-right: 10px;
+    border-bottom: 2px solid #CB9CA1; } }
 
 @media screen and (min-width: 768px) {
   #block-virtualsafespace .field--name-body p {
-    max-width: 500px; } }
+    max-width: 500px; }
+  #langdd {
+    display: none; }
+  .navbar-header {
+    float: none; }
+  .region-navigation {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+    .region-navigation #block-languageswitcher ul {
+      position: unset;
+      background: initial;
+      -webkit-box-shadow: none;
+              box-shadow: none;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+      width: 100%;
+      padding-left: 0;
+      list-style: none;
+      margin: 0; }
+      .region-navigation #block-languageswitcher ul li {
+        padding: 14px 20px; }
+        .region-navigation #block-languageswitcher ul li.is-active a::before {
+          width: 200%; }
+        .region-navigation #block-languageswitcher ul li:hover a::before {
+          width: 200%; }
+        .region-navigation #block-languageswitcher ul li a {
+          position: relative;
+          padding: 0;
+          color: #000; }
+          .region-navigation #block-languageswitcher ul li a:before {
+            content: " ";
+            position: absolute;
+            top: 30px;
+            left: -15px;
+            width: 0;
+            border-bottom: 2px solid #CB9CA1; }
+          .region-navigation #block-languageswitcher ul li a:hover {
+            text-decoration: none;
+            background-color: unset; } }
 
 /*# sourceMappingURL=style.css.map */
