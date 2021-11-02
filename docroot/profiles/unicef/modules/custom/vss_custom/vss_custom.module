@@ -5,6 +5,8 @@
  * Contains vss_custom.module.
  */
 
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+
 /**
  * Implements hook_preprocess_HOOK().
  */
@@ -43,6 +45,47 @@ function vss_custom_preprocess_links__language_block(&$variables) {
     // Go through each link present in the output and change it's title.
     foreach ($variables['links'] as $link_langcode => $link) {
       $variables['links'][$link_langcode]['link']['#title'] = $language_list[$link_langcode][1];
+    }
+  }
+}
+
+/**
+ * Use taxonomy presave to create new menu.
+ */
+function vss_custom_taxonomy_term_presave($term) {
+  if ($term->get('vid')->target_id == 'categories') {
+    if ($term->isNew()) {
+      $menu_link = MenuLinkContent::create([
+        'title' => $term->get('name')->value,
+        'link' => ['uri' => 'internal:#'],
+        'menu_name' => 'navigation-header-menu',
+        'langcode' => $term->get('langcode')->value,
+        'weight' => $term->get('weight')->value,
+        'expanded' => FALSE,
+        'parent' => 'menu_link_content:09cb517f-4374-4e7b-b109-5cb536a65b9a',
+      ]);
+      $menu_link->save();
+    }
+    else {
+      $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $term->original->get('name')->value]);
+      if ($link = reset($links)) {
+        $link->title->value = $term->get('name')->value;
+        $link->langcode->value = $term->get('langcode')->value;
+        $link->weight->value = $term->get('weight')->value;
+        $link->save();
+      }
+    }
+  }
+}
+
+/**
+ * Use taxonomy presave to delete menu.
+ */
+function vss_custom_taxonomy_term_delete($term) {
+  if ($term->get('vid')->target_id == 'categories') {
+    $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $term->get('name')->value]);
+    if ($link = reset($links)) {
+      $link->delete();
     }
   }
 }
