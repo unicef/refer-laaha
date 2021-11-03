@@ -23,6 +23,12 @@
     font-weight: $base-footer-font-weight-medium;
     color: $base-black-color;
 }
+@mixin header-link-anchor{
+    font-size: $base-footer-font-size;
+    font-family: $base-font-family ;
+    font-weight: $base-footer-font-weight-medium;
+    color: $base-black-color;
+}
 @mixin footer-header2 {
     font-size: $base-h2-font-size;
     font-weight: $base-footer-font-weight-medium;

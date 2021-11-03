@@ -5,7 +5,8 @@ body {
 .navbar{
     min-height: auto;
     background:$base-primary-bgcolor;   
-
+    border:none;
+    margin-bottom: 0;
 }
 .container-fluid {
     > .navbar-header{
@@ -124,4 +125,103 @@ ul.block-menu-item-fieldsfooter-last-menu  {
             font-size: $base-font-size;
         }
     }
+}
+.header-wrap {
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.14), 0px 2px 2px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.2);
+    .navbar-brand{
+        font-size:$header-logo-font;
+        color:$header-logo-color;
+        &:hover{
+            color:$header-logo-color;
+        }
+    }
+  
+}
+.btn-settings{
+    cursor: pointer;
+}
+.region-header{
+    display: flex;
+    #block-navigationheadermenu{
+        ul{
+            @include flex-ul ;
+            li{
+                margin-right: 25px;
+                ul{
+                    display: none;
+                }
+                > div {
+                    display: flex;
+                    > div{
+                        padding-right: 12px;
+                    }
+                }
+                a{
+                @include  header-link-anchor;
+                line-height: 24px;
+                }
+                span{
+                    @include  header-link-anchor;
+                    line-height: 24px;
+                }
+    
+            }
+        }
+
+    }
+    #block-settingsmenu,
+    #block-navigationheadermenu{
+        margin-top: 15px;
+    }
+    #block-navigationheadermenu{
+        margin-left: 45%;
+    }
+    #block-settingsmenu{
+        .dropdown-menu{
+            top: 96%;
+            left: calc(100% - 200px);
+            border-radius:10px ;
+            width:200px;
+        }
+    }
+}
+.form-item-audio{
+.checkbox-toggle {
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    margin: 10px;
+    top: 0px;
+    right: 0;
+    &:before{
+        content: '';
+        width: 19px;
+        height: 19px;
+        display: block;
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    border-radius: 50%;
+    background: #fff;
+   
+    }
+    &:after{
+        
+            content: '';
+            width: 40px;
+            height: 14px;
+            display: inline-block;
+            background:rgba(33, 33, 33, 0.08);
+           
+            border-radius: 18px;
+            clear: both;
+        
+    }
+    &:checked:before{
+        left: 22px;
+    }
+}
 }
