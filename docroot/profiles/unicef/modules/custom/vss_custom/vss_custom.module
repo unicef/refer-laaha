@@ -62,17 +62,22 @@ function vss_custom_taxonomy_term_presave($term) {
         'langcode' => strpos($term->get('field_domain')->target_id, "iq") ? 'ar' : 'en',
         'weight' => $term->get('weight')->value,
         'expanded' => FALSE,
-        'parent' => strpos($term->get('field_domain')->target_id, "iq") ? 'menu_link_content:09cb517f-4374-4e7b-b109-5cb536a65b9a' : 'menu_link_content:40b9aaee-1403-4628-96a2-40191f85d36b',
+        'parent' => strpos($term->get('field_domain')->target_id, "iq") ? 'menu_link_content:cdf2cf8c-5710-46cb-a6b2-27cd86fb33d4' : 'menu_link_content:40b9aaee-1403-4628-96a2-40191f85d36b',
       ]);
       $menu_link->save();
     }
     else {
       $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $term->original->get('name')->value]);
       if ($link = reset($links)) {
-        $link->title->value = $term->get('name')->value;
-        $link->langcode->value = $term->get('langcode')->value;
-        $link->weight->value = $term->get('weight')->value;
-        $link->save();
+        if (!$link->hasTranslation($term->get('langcode')->value)) {
+          $link->addTranslation($term->get('langcode')->value, ['title' => $term->get('name')->value])->save();
+        }
+        else {
+          $link->title->value = $term->get('name')->value;
+          $link->langcode->value = $term->get('langcode')->value;
+          $link->weight->value = $term->get('weight')->value;
+          $link->save();
+        }
       }
     }
   }
