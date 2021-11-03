@@ -197,6 +197,10 @@ ul.block-menu-item-fieldsfooter-last-menu {
     width: 100%;
     padding-left: 0;
     list-style: none; }
+    .region-header #block-navigationheadermenu ul > li:last-child .field--name-link:last-child {
+      display: none; }
+    .region-header #block-navigationheadermenu ul > li:last-child .field--name-field-icon :last-child {
+      cursor: pointer; }
     .region-header #block-navigationheadermenu ul li {
       margin-right: 25px; }
       .region-header #block-navigationheadermenu ul li ul {
@@ -223,7 +227,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
   .region-header #block-navigationheadermenu {
     margin-top: 15px; }
   .region-header #block-navigationheadermenu {
-    margin-left: 45%; }
+    margin-left: 40%; }
   .region-header #block-settingsmenu .dropdown-menu {
     top: 96%;
     left: calc(100% - 200px);
@@ -238,18 +242,20 @@ ul.block-menu-item-fieldsfooter-last-menu {
   outline: 0;
   cursor: pointer;
   margin: 10px;
-  top: 0px;
-  right: 0; }
+  top: 7px;
+  right: 10px; }
   .form-item-audio .checkbox-toggle:before {
     content: '';
     width: 19px;
     height: 19px;
     display: block;
     position: absolute;
-    left: 7px;
-    top: 10px;
+    left: 0px;
+    top: 0px;
     border-radius: 50%;
-    background: #fff; }
+    background: #fff;
+    -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2); }
   .form-item-audio .checkbox-toggle:after {
     content: '';
     width: 40px;
@@ -260,6 +266,9 @@ ul.block-menu-item-fieldsfooter-last-menu {
     clear: both; }
   .form-item-audio .checkbox-toggle:checked:before {
     left: 22px; }
+
+.contextual {
+  top: 25px; }
 
 .button-defult {
   font-family: Roboto;
