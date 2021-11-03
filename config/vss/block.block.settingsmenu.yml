@@ -1,0 +1,25 @@
+uuid: 08244c1c-72e7-43d9-b048-a1a8ce4811d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.settings-menu
+  module:
+    - system
+  theme:
+    - vss
+id: settingsmenu
+theme: vss
+region: header
+weight: -1
+provider: null
+plugin: 'system_menu_block:settings-menu'
+settings:
+  id: 'system_menu_block:settings-menu'
+  label: 'Settings Menu'
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 2
+  expand_all_items: false
+visibility: {  }

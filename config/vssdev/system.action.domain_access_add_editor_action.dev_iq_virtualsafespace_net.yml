@@ -1,0 +1,14 @@
+uuid: 519aa666-a3c8-4b9e-9987-966ba4e89c37
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.dev_iq_virtualsafespace_net
+  module:
+    - domain_access
+id: domain_access_add_editor_action.dev_iq_virtualsafespace_net
+label: 'Add editors to the Dev Iraq Virtualsafespace domain'
+type: user
+plugin: domain_access_add_editor_action
+configuration:
+  domain_id: dev_iq_virtualsafespace_net

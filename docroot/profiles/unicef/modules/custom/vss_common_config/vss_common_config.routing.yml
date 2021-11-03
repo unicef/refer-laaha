@@ -1,0 +1,9 @@
+vss_common_config.vss_common_config_form:
+  path: '/admin/config/vss_common_config/vsscommonconfig'
+  defaults:
+    _form: '\Drupal\vss_common_config\Form\VssCommonConfigForm'
+    _title: 'VssCommonConfigForm'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE

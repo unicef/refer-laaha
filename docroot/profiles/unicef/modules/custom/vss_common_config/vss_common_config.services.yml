@@ -1,0 +1,7 @@
+services:
+  logger.channel.vss_common_config:
+    parent: logger.channel_base
+    arguments: ['vss_common_config']
+  vss_common_config.default:
+    class: Drupal\vss_common_config\VssCommonService
+    arguments: ['@entity_type.manager', '@language_manager', '@request_stack', '@config.factory', '@domain.negotiator']

@@ -1,0 +1,14 @@
+uuid: dd4b1896-8b5e-4b8b-a749-69920e7c12e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.stage_iq_virtualsafespace_net
+  module:
+    - domain_access
+id: domain_access_remove_action.stage_iq_virtualsafespace_net
+label: 'Remove selected content from the Stage Iraq Virtualsafespace domain'
+type: node
+plugin: domain_access_remove_action
+configuration:
+  domain_id: stage_iq_virtualsafespace_net

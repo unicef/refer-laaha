@@ -1,0 +1,15 @@
+all:
+  - language_interface
+  - language_content
+  - language_url
+configurable:
+  - language_interface
+negotiation:
+  language_content:
+    enabled: {  }
+  language_url:
+    enabled: {  }
+  language_interface:
+    enabled: {  }
+_core:
+  default_config_hash: dqouFqVseNJNvEjsoYKxbinFOITuCxYhi4y2OTNQP_8

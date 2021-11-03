@@ -774,7 +774,6 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
 
-$settings["config_sync_directory"] = "../config";
 
 // On Acquia Cloud, this include file configures Drupal to use the correct
 // database in each site environment (Dev, Stage, or Prod). To use this
@@ -782,4 +781,33 @@ $settings["config_sync_directory"] = "../config";
 // (Drupal 5 or 6) or $databases (Drupal 7 or 8) as described in comments above.
 if (file_exists('/var/www/site-php/vss2/vss2-settings.inc')) {
   require('/var/www/site-php/vss2/vss2-settings.inc');
+}
+// require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
+/**
+ * IMPORTANT.
+ *
+ * Do not include additional settings here. Instead, add them to settings
+ * included by `blt.settings.php`. See BLT's documentation for more detail.
+ *
+ * @link https://docs.acquia.com/blt/
+ */
+
+$settings["config_sync_directory"] = "../config/vss";
+
+if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+  include $app_root . '/' . $site_path . '/settings.local.php'; 
+}
+
+if (isset($_ENV['AH_SITE_ENVIRONMENT'])) {
+  switch ($_ENV['AH_SITE_ENVIRONMENT']) {
+    case 'dev':
+      include $app_root . '/' . $site_path . '/settings.dev.php'; 
+      break;
+    case 'test':
+      include $app_root . '/' . $site_path . '/settings.test.php'; 
+      break;
+    case 'prod':
+      include $app_root . '/' . $site_path . '/settings.prod.php'; 
+      break;
+  }
 }

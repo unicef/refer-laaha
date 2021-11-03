@@ -1,0 +1,96 @@
+<?php
+
+/**
+ * @file
+ * Contains vss_custom.module.
+ */
+
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function vss_custom_preprocess_page(&$variables) {
+}
+
+/**
+ * Implements hook_theme().
+ */
+function vss_custom_theme() {
+  return [
+    'exit_website' => [
+      'variables' => [
+        'data' => [],
+      ],
+    ],
+    'disclaimer_pop_up_block' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'render element' => 'children',
+    ],
+  ];
+}
+
+/**
+ * Use language label for the language switcher.
+ */
+function vss_custom_preprocess_links__language_block(&$variables) {
+
+  if (isset($variables['links'])) {
+    // Get the language list used and provided by Drupal core.
+    $language_manager = \Drupal::languageManager();
+    $language_list = $language_manager::getStandardLanguageList();
+
+    // Go through each link present in the output and change it's title.
+    foreach ($variables['links'] as $link_langcode => $link) {
+      $variables['links'][$link_langcode]['link']['#title'] = $language_list[$link_langcode][1];
+    }
+  }
+}
+
+/**
+ * Use taxonomy presave to create new menu.
+ */
+function vss_custom_taxonomy_term_presave($term) {
+  if ($term->get('vid')->target_id == 'categories') {
+    if ($term->isNew()) {
+      $menu_link = MenuLinkContent::create([
+        'title' => $term->get('name')->value,
+        'link' => ['uri' => 'internal:#'],
+        'menu_name' => strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu',
+        'langcode' => strpos($term->get('field_domain')->target_id, "iq") ? 'ar' : 'en',
+        'weight' => $term->get('weight')->value,
+        'expanded' => FALSE,
+        'parent' => strpos($term->get('field_domain')->target_id, "iq") ? 'menu_link_content:cdf2cf8c-5710-46cb-a6b2-27cd86fb33d4' : 'menu_link_content:40b9aaee-1403-4628-96a2-40191f85d36b',
+      ]);
+      $menu_link->save();
+    }
+    else {
+      $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $term->original->get('name')->value]);
+      if ($link = reset($links)) {
+        if (!$link->hasTranslation($term->get('langcode')->value)) {
+          $link->addTranslation($term->get('langcode')->value, ['title' => $term->get('name')->value])->save();
+        }
+        else {
+          $link->title->value = $term->get('name')->value;
+          $link->langcode->value = $term->get('langcode')->value;
+          $link->weight->value = $term->get('weight')->value;
+          $link->save();
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Use taxonomy presave to delete menu.
+ */
+function vss_custom_taxonomy_term_delete($term) {
+  if ($term->get('vid')->target_id == 'categories') {
+    $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $term->get('name')->value]);
+    if ($link = reset($links)) {
+      $link->delete();
+    }
+  }
+}

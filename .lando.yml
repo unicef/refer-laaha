@@ -7,26 +7,70 @@ config:
   php: '7.4'
   via: apache
   webroot: docroot/
+  database: mysql
   drush: ^10
   xdebug: false
-tooling:
-  "drush":
-    cmd: "/app/vendor/bin/drush --root=/app/docroot"
-    description: "Runs drush command. Ex: lando drush _yourcommand_"
-  "blt":
-    service: appserver
-    cmd: /app/vendor/bin/blt
-proxy:
-  appserver:
-    - vss.lndo.site
+
 services:
   vss:
     type: mysql
     portforward: true
     config:
       confd: lando/mysql/conf.d
+  erpw:
+    type: mysql
+    portforward: true
+    config:
+      confd: lando/mysql/conf.d
+  node:
+    type: node:14
+    build:
+      - "cd /app && npm install && npm install -g gulp-cli"
   appserver:
     build:
-      - "cd /app && composer install"
+      - "cd /app && composer install && phpcs --config-set installed_paths /app/vendor/drupal/coder/coder_sniffer"
     run:
+      - echo "▶️  Updating Composer via self-update ..."
       - composer self-update
+      - echo "▶️  Enable git core hookpath ..."
+      - git config core.hooksPath .githooks
+    run_as_root:
+      - echo "127.0.0.1 vss.ec.lndo.site" >> /etc/hosts
+      - echo "127.0.0.1 vss.iq.lndo.site" >> /etc/hosts
+proxy:
+  appserver:
+    - vss.lndo.site
+    - vss.ec.lndo.site
+    - vss.iq.lndo.site
+    - erpw.lndo.site
+tooling:
+  "drush":
+    cmd: "/app/vendor/bin/drush --root=/app/docroot"
+    description: "Runs drush command. Ex: lando drush _yourcommand_"
+  "gulp":
+    service: node
+    cmd: "gulp"
+  "npm":
+    service: node
+    cmd: "npm"
+    description: "Runs npm for installing or removing modules. Ex: lando npm _yourcommand_"
+  "compile:scss":
+    service: node
+    cmd: "gulp -f=gulpfile.js"
+    description: "Converts scss to css. Ex: lando compile:scss <themes/watchthemes/lintthemes>"
+  "phpcs":
+    service: appserver
+    cmd: "/app/vendor/bin/phpcs --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md,yml --ignore=node_modules,bower_components,vendor"
+    options:
+    description: Runs Drupal Coding Standards for given folder or file. Ex. lando phpcs docroot/modules/custom/module
+  "phpcbf":
+    service: appserver
+    cmd: "/app/vendor/bin/phpcbf --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md,yml --ignore=node_modules,bower_components,vendor"
+    options:
+    description: Runs Drupal Coding Standards for given folder or file. Ex. lando phpcbf docroot/modules/custom/module
+  "blt":
+    service: appserver
+    cmd: /app/vendor/bin/blt
+  "drupal":
+    service: appserver
+    cmd: /app/vendor/bin/drupal

@@ -1,0 +1,14 @@
+uuid: 34669074-16a7-4a0f-8b42-f41d507dfb03
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.dev_ec_virtualsafespace_net
+  module:
+    - domain_access
+id: domain_access_add_editor_action.dev_ec_virtualsafespace_net
+label: 'Add editors to the Ecuador Dev Virtualsafespace domain'
+type: user
+plugin: domain_access_add_editor_action
+configuration:
+  domain_id: dev_ec_virtualsafespace_net
