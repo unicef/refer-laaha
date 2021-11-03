@@ -54,8 +54,8 @@
 
 <div class="address-info">
 <ul>
-<li><img src ="{{ base_path ~ directory }}/images/phone-icon.png" alt="phone" />{{phone}}  </li>
-<li><img src ="{{ base_path ~ directory }}/images/envlope-icon.png"  alt="email"  /></i>{{email}} </li>
-<li><img src ="{{ base_path ~ directory }}/images/map-pointer-icon.png"  alt="address"  /></i>{{address}}</li>
+<li><a href="tel:{{ phone }}"><img src ="/{{ base_path ~ directory }}/images/phone-icon.png" alt="phone" />{{phone}}</a></li>
+<li><a href="mailto:{{ email }}"><img src ="/{{ base_path ~ directory }}/images/envlope-icon.png"  alt="email"  /></i>{{email}}</a></li>
+<li><img src ="/{{ base_path ~ directory }}/images/map-pointer-icon.png"  alt="address"  /></i>{{address}}</li>
 <ul>
 </div>

@@ -1,0 +1,21 @@
+uuid: 6f7eb3fa-c9e4-4ec3-887a-b53f1fafefdd
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - vss
+id: searchform
+theme: vss
+region: header
+weight: -2
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form'
+  provider: search
+  label_display: visible
+  page_id: ''
+visibility: {  }

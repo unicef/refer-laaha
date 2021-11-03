@@ -91,13 +91,9 @@
     </header>
   {% endblock %}
 {% endif %}
-
-{# Main #}
-{% block main %}
-  <div role="main" class="main-container {{ container }} js-quickedit-main-content">
+<div role="header" class="header-wrap {{ container }} ">
     <div class="row">
-
-      {# Header #}
+  {# Header #}
       {% if page.header %}
         {% block header %}
           <div class="col-sm-12" role="heading">
@@ -105,6 +101,14 @@
           </div>
         {% endblock %}
       {% endif %}
+    </div>
+</div>
+{# Main #}
+{% block main %}
+  <div role="main" class="main-container {{ container }} js-quickedit-main-content">
+    <div class="row">
+
+    
 
       {# Sidebar First #}
       {% if page.sidebar_first %}

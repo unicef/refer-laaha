@@ -70,7 +70,7 @@ class VssCommonService implements VssCommonInterface {
     $langId = $this->languageManager->getCurrentLanguage()->getId();
     $host = $this->request->getCurrentRequest()->getHost();
     $rawData = [];
-    if ($activeDomain->getHostName() === $host) {
+    if ($activeDomain && $activeDomain->getHostName() === $host) {
       $rawData = $this->configFactory->get('domain.config.' . $activeDomain->id() . '.' . $langId . '.vss_common_config.vsscommonconfig')->getRawData();
     }
     return $rawData;
@@ -83,7 +83,7 @@ class VssCommonService implements VssCommonInterface {
     $activeDomain = $this->domainNegotiator->getActiveDomain();
     $host = $this->request->getCurrentRequest()->getHost();
     $rawData = [];
-    if ($activeDomain->getHostName() === $host) {
+    if ($activeDomain && $activeDomain->getHostName() === $host) {
       $rawData = $this->configFactory->get('domain.config.' . $activeDomain->id() . '.vss_common_config.vsscommonconfig')->getRawData();
     }
     return $rawData;
@@ -102,12 +102,17 @@ class VssCommonService implements VssCommonInterface {
    * Function to get footer details.
    */
   public function getFooterDetails(): array {
-    $data = $this->checkConfiguration();
+    $keys = [
+      'phone',
+      'email',
+      'address',
+    ];
+    $data = $this->checkConfiguration($keys);
     $footerDetails = [];
     if (isset($data['vss_common_config'])) {
-      $footerDetails['phone'] = $data['vss_common_config']['phone'];
-      $footerDetails['email'] = $data['vss_common_config']['email'];
-      $footerDetails['address'] = $data['vss_common_config']['address'];
+      $footerDetails['phone'] = $data['vss_common_config']['phone'] ?? '';
+      $footerDetails['email'] = $data['vss_common_config']['email'] ?? '';
+      $footerDetails['address'] = $data['vss_common_config']['address'] ?? '';
     }
     return $footerDetails;
   }
@@ -116,36 +121,81 @@ class VssCommonService implements VssCommonInterface {
    * Function to get disclaimer data.
    */
   public function getDisclaimer(): array {
-    $data = $this->checkConfiguration();
+    $keys = [
+      'disclaimer_title',
+      'disclaimer_description',
+      'disclaimer_image',
+    ];
+    $data = $this->checkConfiguration($keys);
     $disclaimer = [];
     if (isset($data['vss_common_config'])) {
       $disclaimer['disclaimer_title'] = $data['vss_common_config']['disclaimer_title'];
       $disclaimer['disclaimer_description'] = $data['vss_common_config']['disclaimer_description']['value'];
       if (isset($data['vss_common_config']['disclaimer_image'])) {
         $file = $this->entityTypeManager->getStorage('file')->load($data['vss_common_config']['disclaimer_image'][0]);
-        $disclaimer['disclaimer_image'] = file_create_url($file->getFileUri());
+        if ($file) {
+          $disclaimer['disclaimer_image'] = file_create_url($file->getFileUri());
+        }
       }
     }
     return $disclaimer;
   }
 
   /**
+   * Function to get disclaimer data.
+   */
+  public function getHeaderPhone(): array {
+    $keys = [
+      'header_country_code',
+      'header_phone',
+    ];
+    $data = $this->checkConfiguration($keys);
+    $headerPhone = [];
+    if (isset($data['vss_common_config'])) {
+      $headerPhone['header_country_code'] = trim($data['vss_common_config']['header_country_code']) ?? '';
+      $headerPhone['header_phone'] = trim($data['vss_common_config']['header_phone']) ?? '';
+    }
+    return $headerPhone;
+  }
+
+  /**
    * Get actual configuration based on conditions.
    */
-  protected function checkConfiguration() {
+  protected function checkConfiguration($keys = [], $default = TRUE) {
     $data = [];
+
     $data = $this->getVssDomainWithLanguageConfiguration();
-    if (!empty($data)) {
-      return $data;
+    if (!empty($data) && $default) {
+      if ($this->checkValueByKey($keys, $data)) {
+        return $data;
+      }
     }
     $data = $this->getVssDomainWithoutLanguageConfiguration();
-    if (!empty($data)) {
-      return $data;
+    if (!empty($data) && $default) {
+      if ($this->checkValueByKey($keys, $data)) {
+        return $data;
+      }
     }
     else {
       $data = $this->getVssCommonConfiguration();
     }
     return $data;
+  }
+
+  /**
+   * Check values in config by keys.
+   */
+  protected function checkValueByKey($keys, $data = []) {
+    if ($keys) {
+      foreach ($keys as $key) {
+        // Return True if any 1 values exists for key.
+        if (isset($data['vss_common_config'][$key])
+        && !empty($data['vss_common_config'][$key])) {
+          return TRUE;
+        }
+      }
+    }
+    return FALSE;
   }
 
 }
