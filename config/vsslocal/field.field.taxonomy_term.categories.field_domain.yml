@@ -1,0 +1,26 @@
+uuid: d37a7901-6544-4089-af07-9af382fe695a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_domain
+    - taxonomy.vocabulary.categories
+id: taxonomy_term.categories.field_domain
+field_name: field_domain
+entity_type: taxonomy_term
+bundle: categories
+label: Domain
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:domain'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+    sort:
+      field: weight
+      direction: ASC
+field_type: entity_reference
