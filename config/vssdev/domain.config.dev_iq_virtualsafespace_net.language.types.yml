@@ -4,9 +4,11 @@ all:
   - language_url
 configurable:
   - language_interface
+  - language_content
 negotiation:
   language_content:
-    enabled: {  }
+    enabled:
+      language-url: '-8'
     method_weights:
       language-content-entity: '-9'
       language-url: '-8'
