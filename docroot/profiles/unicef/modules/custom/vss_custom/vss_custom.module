@@ -58,11 +58,11 @@ function vss_custom_taxonomy_term_presave($term) {
       $menu_link = MenuLinkContent::create([
         'title' => $term->get('name')->value,
         'link' => ['uri' => 'internal:#'],
-        'menu_name' => 'navigation-header-menu',
-        'langcode' => $term->get('langcode')->value,
+        'menu_name' => strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu',
+        'langcode' => strpos($term->get('field_domain')->target_id, "iq") ? 'ar' : 'en',
         'weight' => $term->get('weight')->value,
         'expanded' => FALSE,
-        'parent' => 'menu_link_content:40b9aaee-1403-4628-96a2-40191f85d36b',
+        // 'parent' => strpos($term->get('field_domain')->target_id, "iq") ? 'menu_link_content:09cb517f-4374-4e7b-b109-5cb536a65b9a' : 'menu_link_content:40b9aaee-1403-4628-96a2-40191f85d36b',
       ]);
       $menu_link->save();
     }
