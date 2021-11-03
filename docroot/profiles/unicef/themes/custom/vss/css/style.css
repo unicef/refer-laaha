@@ -105,8 +105,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
             flex-grow: 1;
     -ms-flex-preferred-size: auto;
         flex-basis: auto;
-    text-align: center;
-    border-left: 2px solid #000; }
+    text-align: center; }
     #block-footerlastmenu ul li:first-child {
       border-left: 0; }
     #block-footerlastmenu ul li a {
@@ -122,6 +121,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
   margin-top: 16px;
   display: block; }
   .address-info ul {
+    padding-right: 0;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -137,6 +137,8 @@ ul.block-menu-item-fieldsfooter-last-menu {
     .address-info ul li {
       list-style: none;
       margin-right: 16px; }
+      .address-info ul li a {
+        color: #000; }
       .address-info ul li img {
         margin-right: 10px; }
 
@@ -292,6 +294,25 @@ ul.block-menu-item-fieldsfooter-last-menu {
       margin-right: 16px; }
       .wrapper-main-icons .icons-warp a:hover {
         color: #000; }
+
+.zoom-wrap {
+  clear: both; }
+
+.main-container {
+  min-height: 200px; }
+
+html[dir="rtl"] .telephone-header tel {
+  direction: ltr; }
+
+html[dir="rtl"] #block-virtualsafespace .logo-title-wrapper .field--name-field-logo {
+  margin-left: 12px; }
+
+html[dir="rtl"] .address-info ul li img {
+  margin-left: 10px; }
+
+html[dir="rtl"] .wrapper-main-icons .icons-warp a {
+  padding-left: 0;
+  padding-right: 4px; }
 
 .button-defult {
   font-family: Roboto;

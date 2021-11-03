@@ -68,7 +68,7 @@ ul.block-menu-item-fieldsfooter-last-menu  {
         flex-grow: 1;
         flex-basis: auto;
         text-align: center;
-        border-left: 2px solid $base-black-color;
+        
         &:first-child{
             border-left:0;
         }
@@ -85,10 +85,14 @@ ul.block-menu-item-fieldsfooter-last-menu  {
 }
 .address-info{
     ul{
+        padding-right: 0;
          @include flex-ul;
           li{
                 list-style: none;
                 margin-right: 16px;
+                a{
+                    color: $base-black-color;
+                }
                img{
                    margin-right: 10px;
                }
@@ -260,4 +264,46 @@ ul.block-menu-item-fieldsfooter-last-menu  {
         }
 
     }
+}
+.zoom-wrap{
+    clear: both;
+}
+.main-container{
+    min-height: 200px;
+}
+html[dir="rtl"]{
+.telephone-header{
+    tel{
+direction: ltr;
+    }
+}
+}
+html[dir="rtl"]{
+
+    #block-virtualsafespace {
+        .logo-title-wrapper{
+            .field--name-field-logo {
+                margin-left: 12px;
+            }
+        }
+
+    }
+    .address-info {
+        ul{ 
+            li{
+                img{
+                    margin-left: 10px;
+                }
+
+        }
+     }
+    }
+    .wrapper-main-icons {
+        .icons-warp{
+            a{
+padding-left: 0;
+padding-right: 4px;
+            }
+        }
+    } 
 }
