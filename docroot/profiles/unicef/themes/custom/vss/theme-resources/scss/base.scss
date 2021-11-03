@@ -238,3 +238,26 @@ ul.block-menu-item-fieldsfooter-last-menu  {
 .contextual{
     top:25px;
 }
+.wrapper-main-icons{
+    display: flex;
+    justify-content: space-between;
+    .icons-warp{
+        margin-top: -55px;
+        a{
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            border-radius: 50%;
+            line-height: 24px;
+            text-align: center;
+            padding-left: 4px;
+            color: #000;
+            background:rgba(0, 0, 0, .1);
+            margin-right: 16px;
+            &:hover{
+                color: #000;  
+            }
+        }
+
+    }
+}

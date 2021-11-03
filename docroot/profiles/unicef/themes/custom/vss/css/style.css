@@ -270,6 +270,29 @@ ul.block-menu-item-fieldsfooter-last-menu {
 .contextual {
   top: 25px; }
 
+.wrapper-main-icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
+  .wrapper-main-icons .icons-warp {
+    margin-top: -55px; }
+    .wrapper-main-icons .icons-warp a {
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      border-radius: 50%;
+      line-height: 24px;
+      text-align: center;
+      padding-left: 4px;
+      color: #000;
+      background: rgba(0, 0, 0, 0.1);
+      margin-right: 16px; }
+      .wrapper-main-icons .icons-warp a:hover {
+        color: #000; }
+
 .button-defult {
   font-family: Roboto;
   font-weight: 700;
