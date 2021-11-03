@@ -1,4 +1,0 @@
-services:
-  vss_content.importer:
-    class: Drupal\vss_content\Importer
-    arguments: ['@serializer', '@entity_type.manager', '@hal.link_manager', '@event_dispatcher', '@account_switcher']
