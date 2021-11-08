@@ -150,6 +150,57 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#size' => 64,
       '#default_value' => !empty($commonConfig['header_phone']) ? $commonConfig['header_phone'] : '',
     ];
+
+    $form['social_links'] = [
+      '#type' => 'details',
+      '#title' => 'Footer Social Link information',
+      '#group' => 'vsscommonconfig',
+    ];
+    $form['social_links']['social_twitter'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Add twitter'),
+      '#maxlength' => 255,
+      '#size' => 64,
+      '#default_value' => !empty($commonConfig['social_twitter']) ? $commonConfig['social_twitter'] : '',
+    ];
+
+    $form['social_links']['social_link_twitter'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Add twitter link'),
+      '#maxlength' => 255,
+      '#size' => 64,
+      '#default_value' => !empty($commonConfig['social_link_twitter']) ? $commonConfig['social_link_twitter'] : '',
+    ];
+    $form['social_links']['social_youtube'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Add youtube'),
+      '#maxlength' => 255,
+      '#size' => 64,
+      '#default_value' => !empty($commonConfig['social_youtube']) ? $commonConfig['social_youtube'] : '',
+    ];
+
+    $form['social_links']['social_link_youtube'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Add youtube link'),
+      '#maxlength' => 255,
+      '#size' => 64,
+      '#default_value' => !empty($commonConfig['social_link_youtube']) ? $commonConfig['social_link_youtube'] : '',
+    ];
+    $form['social_links']['social_insta'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Add insta'),
+      '#maxlength' => 255,
+      '#size' => 64,
+      '#default_value' => !empty($commonConfig['social_insta']) ? $commonConfig['social_insta'] : '',
+    ];
+
+    $form['social_links']['social_link_insta'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Add insta link'),
+      '#maxlength' => 255,
+      '#size' => 64,
+      '#default_value' => !empty($commonConfig['social_link_insta']) ? $commonConfig['social_link_insta'] : '',
+    ];
     return parent::buildForm($form, $form_state);
   }
 

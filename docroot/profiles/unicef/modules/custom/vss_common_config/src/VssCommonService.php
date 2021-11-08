@@ -159,6 +159,31 @@ class VssCommonService implements VssCommonInterface {
   }
 
   /**
+   * Function to get Social Footer Icons.
+   */
+  public function getFooterSocialIcons(): array {
+    $keys = [
+      'social_twitter',
+      'social_link_twitter',
+      'social_youtube',
+      'social_link_youtube',
+      'social_insta',
+      'social_link_insta',
+    ];
+    $data = $this->checkConfiguration($keys);
+    $headerPhone = [];
+    if (isset($data['vss_common_config'])) {
+      $headerPhone['social_twitter'] = trim($data['vss_common_config']['social_twitter']) ?? '';
+      $headerPhone['social_link_twitter'] = trim($data['vss_common_config']['social_link_twitter']) ?? '';
+      $headerPhone['social_youtube'] = trim($data['vss_common_config']['social_youtube']) ?? '';
+      $headerPhone['social_link_youtube'] = trim($data['vss_common_config']['social_link_youtube']) ?? '';
+      $headerPhone['social_insta'] = trim($data['vss_common_config']['social_insta']) ?? '';
+      $headerPhone['social_link_insta'] = trim($data['vss_common_config']['social_link_insta']) ?? '';
+    }
+    return $headerPhone;
+  }
+
+  /**
    * Get actual configuration based on conditions.
    */
   protected function checkConfiguration($keys = [], $default = TRUE) {
