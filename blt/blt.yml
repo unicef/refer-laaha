@@ -29,7 +29,7 @@ git:
     cloud: 'vss2@svn-5468.devcloud.hosting.acquia.com:vss2.git'
 deploy:
   # When manually deploying a tag, also tag the source repository.
-  tag_source: true
+  tag_source: false
 drush:
   # You can set custom project aliases in drush/sites/*.site.yml.
   aliases:
