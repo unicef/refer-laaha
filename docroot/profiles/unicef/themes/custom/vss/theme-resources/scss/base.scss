@@ -188,7 +188,7 @@ ul.block-menu-item-fieldsfooter-last-menu  {
         margin-top: 15px;
     }
     #block-navigationheadermenu{
-        margin-left: 40%;
+        margin-left: auto;
     }
     #block-settingsmenu{
         .dropdown-menu{
@@ -239,9 +239,7 @@ ul.block-menu-item-fieldsfooter-last-menu  {
     }
 }
 }
-.contextual{
-    top:25px;
-}
+
 .wrapper-main-icons{
     display: flex;
     justify-content: space-between;
@@ -273,17 +271,42 @@ ul.block-menu-item-fieldsfooter-last-menu  {
 }
 html[dir="rtl"]{
 .telephone-header{
-    tel{
-direction: ltr;
+    a{
+        direction: ltr;
+        unicode-bidi: embed;
     }
 }
 }
 html[dir="rtl"]{
+    .exit-website-btn {
+        i{
+            padding-left: 12px;
+            padding-right: 0;
+        }
+    }
 
+    .block-menu-item-fieldsquick-links {
+        ul{
+            padding-right: 0;
+            li{
+                margin-right: 0;
+                margin-left: 25px;
+                >div{
+                    >div{
+                        padding-left: 12px;
+                        padding-right: 0;
+                    
+                    }
+                }
+            }
+        }
+
+    }
     #block-virtualsafespace {
         .logo-title-wrapper{
             .field--name-field-logo {
                 margin-left: 12px;
+                margin-right: 0;
             }
         }
 
@@ -291,8 +314,12 @@ html[dir="rtl"]{
     .address-info {
         ul{ 
             li{
+                margin-right: 0;
+                margin-left: 10px;
+
                 img{
                     margin-left: 10px;
+                    margin-right: 0;
                 }
 
         }
@@ -306,4 +333,11 @@ padding-right: 4px;
             }
         }
     } 
+}
+body {
+    .block {
+    [hidden].contextual-links {     
+        display: none!important;
+    }
+}
 }
