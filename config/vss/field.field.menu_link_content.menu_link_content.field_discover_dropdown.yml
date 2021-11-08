@@ -1,0 +1,25 @@
+uuid: ac91f918-fe8b-49d9-bbf7-7e6cae9a26f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.menu_link_content.field_discover_dropdown
+  module:
+    - menu_link_content
+    - menu_item_fields
+id: menu_link_content.menu_link_content.field_discover_dropdown
+field_name: field_discover_dropdown
+entity_type: menu_link_content
+bundle: menu_link_content
+label: 'Discover Dropdown'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
