@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.menu_link_content.menu_link_content.field_discover_dropdown
     - field.field.menu_link_content.menu_link_content.field_icon
   module:
     - image
@@ -14,6 +15,16 @@ targetEntityType: menu_link_content
 bundle: menu_link_content
 mode: default
 content:
+  field_discover_dropdown:
+    weight: 2
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
   field_icon:
     weight: 0
     label: hidden
