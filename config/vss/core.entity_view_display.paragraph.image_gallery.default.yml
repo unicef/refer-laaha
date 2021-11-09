@@ -5,20 +5,18 @@ dependencies:
   config:
     - field.field.paragraph.image_gallery.field_image
     - paragraphs.paragraphs_type.image_gallery
-  module:
-    - image
 id: paragraph.image_gallery.default
 targetEntityType: paragraph
 bundle: image_gallery
 mode: default
 content:
   field_image:
+    type: entity_reference_entity_view
     weight: 0
     label: above
     settings:
-      image_style: ''
-      image_link: ''
+      view_mode: default
+      link: false
     third_party_settings: {  }
-    type: image
     region: content
 hidden: {  }
