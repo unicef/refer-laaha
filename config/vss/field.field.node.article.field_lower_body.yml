@@ -1,25 +1,23 @@
-uuid: 44e130a6-2652-49e6-b6bb-510dcdf20e06
+uuid: 2028301f-7bed-4956-8b6d-ed9bf0529b95
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.body
+    - field.storage.node.field_lower_body
     - node.type.article
   module:
     - text
-_core:
-  default_config_hash: IjZnOLWk1Pjq3WRg2pLSA1ERh7Po7izCq_p6UztZr2c
-id: node.article.body
-field_name: body
+id: node.article.field_lower_body
+field_name: field_lower_body
 entity_type: node
 bundle: article
-label: Body
+label: Description
 description: ''
 required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
-  display_summary: true
+  display_summary: false
   required_summary: false
 field_type: text_with_summary

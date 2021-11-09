@@ -1,0 +1,31 @@
+uuid: 97f30029-96a5-42c9-8440-34c2438ca372
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.vtt_entries.field_language
+    - field.field.paragraph.vtt_entries.field_vtt_file
+    - paragraphs.paragraphs_type.vtt_entries
+  module:
+    - file
+id: paragraph.vtt_entries.default
+targetEntityType: paragraph
+bundle: vtt_entries
+mode: default
+content:
+  field_language:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_vtt_file:
+    weight: 0
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+hidden:
+  created: true
+  status: true

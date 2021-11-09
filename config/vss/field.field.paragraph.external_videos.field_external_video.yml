@@ -1,0 +1,25 @@
+uuid: d3faa9c7-0d2c-4582-b3f8-11f336da7317
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_external_video
+    - paragraphs.paragraphs_type.external_videos
+  module:
+    - video_embed_field
+id: paragraph.external_videos.field_external_video
+field_name: field_external_video
+entity_type: paragraph
+bundle: external_videos
+label: 'External video'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_providers:
+    vimeo: vimeo
+    youtube: youtube
+    youtube_playlist: '0'
+field_type: video_embed_field
