@@ -34,6 +34,8 @@ class VssCommonConfigForm extends ConfigFormBase {
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\Core\Cache\CacheTagsInvalidator $cacheTagsInvalidator
+   *   The cache tags invalidator.
    */
   public function __construct(
     EntityTypeManager $entity_type_manager,

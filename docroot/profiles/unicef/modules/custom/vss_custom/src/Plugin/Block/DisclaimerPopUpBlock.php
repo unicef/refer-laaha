@@ -77,7 +77,8 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
    * Get cache tags.
    */
   public function getCacheTags() {
-    return Cache::mergeTags(parent::getCacheTags(), ['config:vss_common_config.vsscommonconfig', 'vss_common_config']);
+    return Cache::mergeTags(parent::getCacheTags(),
+     ['config:vss_common_config.vsscommonconfig', 'vss_common_config']);
   }
 
   /**
