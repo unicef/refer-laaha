@@ -4,12 +4,18 @@ all:
   - language_url
 configurable:
   - language_interface
+  - language_content
 negotiation:
   language_content:
-    enabled: {  }
+    enabled:
+      language-url: -8
   language_url:
-    enabled: {  }
+    enabled:
+      language-url: 0
+      language-url-fallback: 1
   language_interface:
-    enabled: {  }
+    enabled:
+      language-url: -8
+      language-selected: 12
 _core:
   default_config_hash: dqouFqVseNJNvEjsoYKxbinFOITuCxYhi4y2OTNQP_8
