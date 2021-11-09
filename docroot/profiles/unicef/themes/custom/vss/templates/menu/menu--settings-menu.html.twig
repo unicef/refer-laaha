@@ -26,6 +26,7 @@
   {% macro menu_links(items, attributes, menu_level, classes, dropdown_classes) %}
   {% if items %}
     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    {% set menu_id = 1 %}
     {% for item in items %}
       {%
         set item_classes = item.url.getOption('container_attributes').class | split(" ")
@@ -51,9 +52,11 @@
           {{ _self.menu_links(item.below, attributes.removeClass(classes), menu_level + 1, classes, dropdown_classes) }}
         {% endif %}
         <div class="form-item js-form-item form-type-checkbox js-form-type-checkbox form-item-audio  form-no-label checkbox">
-<input class="checkbox-toggle form-checkbox" data-drupal-selector="edit-victim-enable" type="checkbox" id="edit-audio-enable" name="victim_enable" />
+<input class="checkbox-toggle form-checkbox" data-drupal-selector="edit-victim-enable" type="checkbox" id="edit-audio-enable-{{ menu_id }}" name="victim_enable" />
 </div>
       </li>
+   {% set menu_id = menu_id + 1 %}
+
     {% endfor %}
     </ul>
   {% endif %}

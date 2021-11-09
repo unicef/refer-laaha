@@ -229,7 +229,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
   .region-header #block-navigationheadermenu {
     margin-top: 15px; }
   .region-header #block-navigationheadermenu {
-    margin-left: 40%; }
+    margin-left: auto; }
   .region-header #block-settingsmenu .dropdown-menu {
     top: 96%;
     left: calc(100% - 200px);
@@ -269,9 +269,6 @@ ul.block-menu-item-fieldsfooter-last-menu {
   .form-item-audio .checkbox-toggle:checked:before {
     left: 22px; }
 
-.contextual {
-  top: 25px; }
-
 .wrapper-main-icons {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -301,18 +298,40 @@ ul.block-menu-item-fieldsfooter-last-menu {
 .main-container {
   min-height: 200px; }
 
-html[dir="rtl"] .telephone-header tel {
-  direction: ltr; }
+html[dir="rtl"] .telephone-header a {
+  direction: ltr;
+  unicode-bidi: embed; }
+
+html[dir="rtl"] .exit-website-btn i {
+  padding-left: 12px;
+  padding-right: 0; }
+
+html[dir="rtl"] .block-menu-item-fieldsquick-links ul {
+  padding-right: 0; }
+  html[dir="rtl"] .block-menu-item-fieldsquick-links ul li {
+    margin-right: 0;
+    margin-left: 25px; }
+    html[dir="rtl"] .block-menu-item-fieldsquick-links ul li > div > div {
+      padding-left: 12px;
+      padding-right: 0; }
 
 html[dir="rtl"] #block-virtualsafespace .logo-title-wrapper .field--name-field-logo {
-  margin-left: 12px; }
+  margin-left: 12px;
+  margin-right: 0; }
 
-html[dir="rtl"] .address-info ul li img {
+html[dir="rtl"] .address-info ul li {
+  margin-right: 0;
   margin-left: 10px; }
+  html[dir="rtl"] .address-info ul li img {
+    margin-left: 10px;
+    margin-right: 0; }
 
 html[dir="rtl"] .wrapper-main-icons .icons-warp a {
   padding-left: 0;
   padding-right: 4px; }
+
+body .block [hidden].contextual-links {
+  display: none !important; }
 
 .button-defult {
   font-family: Roboto;
