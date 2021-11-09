@@ -48,7 +48,7 @@ body {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
     width: 100%;
-    padding-left: 0;
+    padding: 0;
     list-style: none;
     list-style: none; }
     .block-menu-item-fieldsquick-links ul li {
@@ -77,7 +77,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   width: 100%;
-  padding-left: 0;
+  padding: 0;
   list-style: none; }
 
 #block-copyright p {
@@ -97,7 +97,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   width: 100%;
-  padding-left: 0;
+  padding: 0;
   list-style: none; }
   #block-footerlastmenu ul li {
     -webkit-box-flex: 1;
@@ -132,7 +132,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
     width: 100%;
-    padding-left: 0;
+    padding: 0;
     list-style: none; }
     .address-info ul li {
       list-style: none;
@@ -197,7 +197,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
     width: 100%;
-    padding-left: 0;
+    padding: 0;
     list-style: none; }
     .region-header #block-navigationheadermenu ul > li:last-child .field--name-link:last-child {
       display: none; }
@@ -269,28 +269,19 @@ ul.block-menu-item-fieldsfooter-last-menu {
   .form-item-audio .checkbox-toggle:checked:before {
     left: 22px; }
 
-.wrapper-main-icons {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between; }
-  .wrapper-main-icons .icons-warp {
-    margin-top: -55px; }
-    .wrapper-main-icons .icons-warp a {
-      width: 24px;
-      height: 24px;
-      display: inline-block;
-      border-radius: 50%;
-      line-height: 24px;
-      text-align: center;
-      padding-left: 4px;
-      color: #000;
-      background: rgba(0, 0, 0, 0.1);
-      margin-right: 16px; }
-      .wrapper-main-icons .icons-warp a:hover {
-        color: #000; }
+#block-socialiconsfooterblock .icons-warp a {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  border-radius: 50%;
+  line-height: 24px;
+  text-align: center;
+  text-indent: 2px;
+  color: #000;
+  background: rgba(0, 0, 0, 0.1);
+  margin-right: 16px; }
+  #block-socialiconsfooterblock .icons-warp a:hover {
+    color: #000; }
 
 .zoom-wrap {
   clear: both; }
@@ -332,6 +323,19 @@ html[dir="rtl"] .wrapper-main-icons .icons-warp a {
 
 body .block [hidden].contextual-links {
   display: none !important; }
+
+.region-footer-top {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap; }
+  .region-footer-top > * {
+    -webkit-box-flex: 1;
+        -ms-flex: 1 100%;
+            flex: 1 100%; }
 
 .button-defult {
   font-family: Roboto;
@@ -384,9 +388,23 @@ body .block [hidden].contextual-links {
     margin-right: 10px;
     border-bottom: 2px solid #CB9CA1; }
   .telephone-header {
-    display: none; } }
+    display: none; }
+  html[dir="rtl"] #block-socialiconsfooterblock .icons-warp a {
+    margin-right: 0;
+    margin-left: 16px; } }
 
 @media screen and (min-width: 768px) {
+  #block-socialiconsfooterblock {
+    margin-top: 80px;
+    -webkit-box-flex: 1;
+        -ms-flex: 1 auto;
+            flex: 1 auto; }
+    #block-socialiconsfooterblock .icons-warp {
+      float: right; }
+  .footer-top-wrapper {
+    -webkit-box-flex: 1;
+        -ms-flex: 1 auto;
+            flex: 1 auto; }
   #block-virtualsafespace .field--name-body p {
     max-width: 500px; }
   #langdd {
@@ -418,7 +436,7 @@ body .block [hidden].contextual-links {
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
       width: 100%;
-      padding-left: 0;
+      padding: 0;
       list-style: none;
       margin: 0; }
       .region-navigation #block-languageswitcher ul li {
@@ -440,6 +458,8 @@ body .block [hidden].contextual-links {
             border-bottom: 2px solid #CB9CA1; }
           .region-navigation #block-languageswitcher ul li a:hover {
             text-decoration: none;
-            background-color: unset; } }
+            background-color: unset; }
+  html[dir="rtl"] #block-socialiconsfooterblock .icons-warp {
+    float: left; } }
 
 /*# sourceMappingURL=style.css.map */
