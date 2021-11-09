@@ -14,7 +14,7 @@ bundle: from_library
 label: 'Reusable paragraph'
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -23,5 +23,6 @@ settings:
     target_bundles: null
     sort:
       field: _none
+      direction: ASC
     auto_create: false
 field_type: entity_reference
