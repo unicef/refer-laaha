@@ -28,6 +28,7 @@ function vss_preprocess_block(&$variables) {
       if (isset($config['address']) && !empty($address = $config['address'])) {
         $variables['address'] = $address;
       }
+      $variables['#cache']['tags'][] = 'vss_common_config';
     }
   }
 }

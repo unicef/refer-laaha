@@ -6,6 +6,7 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Cache\CacheTagsInvalidator;
 
 /**
  * Class VssCommonConfigForm.
@@ -22,15 +23,24 @@ class VssCommonConfigForm extends ConfigFormBase {
   protected $entityTypeManager;
 
   /**
+   * The cache tags invalidator.
+   *
+   * @var \Drupal\Core\Cache\CacheTagsInvalidator
+   */
+  protected $cacheTagsInvalidator;
+
+  /**
    * Construct function.
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entity_type_manager
    *   The entity type manager.
    */
   public function __construct(
-    EntityTypeManager $entity_type_manager
+    EntityTypeManager $entity_type_manager,
+    CacheTagsInvalidator $cacheTagsInvalidator
   ) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->cacheTagsInvalidator = $cacheTagsInvalidator;
   }
 
   /**
@@ -38,7 +48,8 @@ class VssCommonConfigForm extends ConfigFormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('cache_tags.invalidator')
     );
   }
 
@@ -272,6 +283,8 @@ class VssCommonConfigForm extends ConfigFormBase {
       $file->setPermanent();
       $file->save();
     }
+    // Invalidate vss_common_config.
+    $this->cacheTagsInvalidator->invalidateTags(['vss_common_config']);
   }
 
 }
