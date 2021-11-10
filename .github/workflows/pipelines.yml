@@ -69,9 +69,6 @@ jobs:
       # This will be run when Tag is created and deployed into the PROD infra
       - name: Run when tag is created and Deployed code into the Acquia ENV.
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        with:
-          api_key: ${{ secrets.API_KEY }}
-          api_secret: ${{ secrets.API_SECRET }}
         run: |
           ./vendor/bin/blt artifact:deploy --commit-msg "Creating Automated commit by BLT for Build" --tag $(echo ${GITHUB_REF#refs/tags/})  --ignore-dirty --no-interaction --verbose
           curl -OL https://github.com/acquia/cli/releases/latest/download/acli.phar
