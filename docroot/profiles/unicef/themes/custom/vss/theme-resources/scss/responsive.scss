@@ -59,8 +59,29 @@ $mobile-last:767px;
     .telephone-header{
         display: none;
     }
+    html[dir="rtl"]{
+    #block-socialiconsfooterblock {
+        .icons-warp {
+            a{
+                margin-right :0;
+                margin-left: 16px;
+
+            }
+        }
+    }
+}
 }
 @media screen and (min-width:768px){
+    #block-socialiconsfooterblock{
+        margin-top: 80px;
+        flex: 1 auto; 
+        .icons-warp{
+        float: right;
+        }
+    }
+    .footer-top-wrapper { 
+        flex: 1 auto; 
+    }    
     #block-virtualsafespace{
         .field--name-body{
             p{
@@ -127,5 +148,11 @@ $mobile-last:767px;
         }
        
     }
-    
+    html[dir="rtl"]{
+        #block-socialiconsfooterblock{
+        .icons-warp{
+            float: left;
+        }
+    }
+}
 }

@@ -1,0 +1,46 @@
+uuid: 216a9814-fc40-47de-8349-3ddcd3234adc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.video.field_transcript
+    - field.field.paragraph.video.field_video_file
+    - field.field.paragraph.video.field_vtt_entries
+    - paragraphs.paragraphs_type.video
+  module:
+    - file
+    - paragraphs
+id: paragraph.video.default
+targetEntityType: paragraph
+bundle: video
+mode: default
+content:
+  field_transcript:
+    weight: 1
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_video_file:
+    weight: 0
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_vtt_entries:
+    type: entity_reference_paragraphs
+    weight: 2
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  status: true

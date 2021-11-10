@@ -1,0 +1,43 @@
+uuid: 3ccea3c9-bffd-4d49-91da-708392798f6b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.video.field_transcript
+    - field.field.paragraph.video.field_video_file
+    - field.field.paragraph.video.field_vtt_entries
+    - paragraphs.paragraphs_type.video
+  module:
+    - entity_reference_revisions
+    - file
+id: paragraph.video.default
+targetEntityType: paragraph
+bundle: video
+mode: default
+content:
+  field_transcript:
+    weight: 1
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_video_file:
+    weight: 0
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_vtt_entries:
+    type: entity_reference_revisions_entity_view
+    weight: 2
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+hidden: {  }

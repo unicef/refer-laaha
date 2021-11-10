@@ -1,0 +1,27 @@
+uuid: 6a40eaf1-d856-4178-af6e-f946321b40c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_vtt_file
+    - paragraphs.paragraphs_type.vtt_entries
+  module:
+    - file
+id: paragraph.vtt_entries.field_vtt_file
+field_name: field_vtt_file
+entity_type: paragraph
+bundle: vtt_entries
+label: 'VTT File'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: vtt
+  max_filesize: ''
+  description_field: true
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

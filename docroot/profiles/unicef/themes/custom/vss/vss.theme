@@ -8,6 +8,16 @@
  */
 
 /**
+ * Implements hook_preprocess_links().
+ */
+function vss_preprocess_links(&$variables) {
+  $language_manager = \Drupal::languageManager();
+  $language_list = $language_manager::getStandardLanguageList();
+  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $variables['lang_name'] = $language_list[$langcode][1];
+}
+
+/**
  * Implements hook_preprocess_HOOK() for block.html.twig.
  */
 function vss_preprocess_block(&$variables) {
@@ -28,6 +38,7 @@ function vss_preprocess_block(&$variables) {
       if (isset($config['address']) && !empty($address = $config['address'])) {
         $variables['address'] = $address;
       }
+      $variables['#cache']['tags'][] = 'vss_common_config';
     }
   }
 }

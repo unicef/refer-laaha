@@ -1,0 +1,25 @@
+uuid: 6537ae8e-d97a-4957-8d44-714c54d69efd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.vtt_entries.field_language
+    - field.field.paragraph.vtt_entries.field_vtt_file
+    - paragraphs.paragraphs_type.vtt_entries
+  module:
+    - file
+id: paragraph.vtt_entries.default
+targetEntityType: paragraph
+bundle: vtt_entries
+mode: default
+content:
+  field_vtt_file:
+    weight: 0
+    label: hidden
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+hidden:
+  field_language: true

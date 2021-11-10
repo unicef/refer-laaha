@@ -4,7 +4,9 @@ status: true
 dependencies:
   config:
     - core.entity_form_mode.media.media_library
+    - field.field.media.image.field_caption
     - field.field.media.image.field_media_image
+    - field.field.media.image.field_source
     - image.style.thumbnail
     - media.type.image
   module:
@@ -14,14 +16,30 @@ targetEntityType: media
 bundle: image
 mode: media_library
 content:
+  field_caption:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_media_image:
-    weight: -50
+    weight: 0
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
     region: content
+  field_source:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
 hidden:
   created: true
   langcode: true
