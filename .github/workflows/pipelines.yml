@@ -74,7 +74,7 @@ jobs:
           curl -OL https://github.com/acquia/cli/releases/latest/download/acli.phar
           chmod +x acli.phar
           mv acli.phar /usr/local/bin/acli
-          acli login -k ${{ secretss.API_KEY }} -s ${{ secrets.API_SECRET }}
+          acli login -k ${{ secrets.API_KEY }} -s ${{ secrets.API_SECRET }}
           acli api:environments:code-switch  vss2.prod  "$(echo ${GITHUB_REF#refs/tags/})"
           sleep 30s
       # Run Drush command After deployment
