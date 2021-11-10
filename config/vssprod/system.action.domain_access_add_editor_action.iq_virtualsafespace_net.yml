@@ -1,0 +1,14 @@
+uuid: 129a3b97-4d2c-4120-b53f-308cacb3f9a4
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.iq_virtualsafespace_net
+  module:
+    - domain_access
+id: domain_access_add_editor_action.iq_virtualsafespace_net
+label: 'Add editors to the Iraq Virtualsafespace domain'
+type: user
+plugin: domain_access_add_editor_action
+configuration:
+  domain_id: iq_virtualsafespace_net

@@ -1,0 +1,14 @@
+uuid: 5f501524-e8fc-4b45-9724-575ae588ad9b
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.iq_virtualsafespace_net
+  module:
+    - domain_access
+id: domain_access_remove_editor_action.iq_virtualsafespace_net
+label: 'Remove editors from the Iraq Virtualsafespace domain'
+type: user
+plugin: domain_access_remove_editor_action
+configuration:
+  domain_id: iq_virtualsafespace_net

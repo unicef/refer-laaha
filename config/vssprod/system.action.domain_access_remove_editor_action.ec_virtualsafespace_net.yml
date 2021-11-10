@@ -1,0 +1,14 @@
+uuid: d5f05a23-271d-40d4-8bb4-ac98f2c5c98f
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.ec_virtualsafespace_net
+  module:
+    - domain_access
+id: domain_access_remove_editor_action.ec_virtualsafespace_net
+label: 'Remove editors from the Ecuador Virtualsafespace domain'
+type: user
+plugin: domain_access_remove_editor_action
+configuration:
+  domain_id: ec_virtualsafespace_net
