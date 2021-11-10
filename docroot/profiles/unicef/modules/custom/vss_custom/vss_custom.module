@@ -29,6 +29,12 @@ function vss_custom_theme() {
       ],
       'render element' => 'children',
     ],
+    'social_icons' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'render element' => 'children',
+    ],
   ];
 }
 
@@ -55,6 +61,12 @@ function vss_custom_preprocess_links__language_block(&$variables) {
 function vss_custom_taxonomy_term_presave($term) {
   if ($term->get('vid')->target_id == 'categories') {
     if ($term->isNew()) {
+      $menu_name = strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu';
+      $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(
+      ['field_discover_dropdown' => 1, 'menu_name' => $menu_name]);
+      if ($link = reset($links)) {
+        $uuid = $link->get('uuid')->value;
+      }
       $menu_link = MenuLinkContent::create([
         'title' => $term->get('name')->value,
         'link' => ['uri' => 'internal:#'],
@@ -62,9 +74,13 @@ function vss_custom_taxonomy_term_presave($term) {
         'langcode' => strpos($term->get('field_domain')->target_id, "iq") ? 'ar' : 'en',
         'weight' => $term->get('weight')->value,
         'expanded' => FALSE,
-        'parent' => strpos($term->get('field_domain')->target_id, "iq") ? 'menu_link_content:cdf2cf8c-5710-46cb-a6b2-27cd86fb33d4' : 'menu_link_content:40b9aaee-1403-4628-96a2-40191f85d36b',
+        'parent' => 'menu_link_content:' . $uuid,
       ]);
       $menu_link->save();
+
+      if (strpos($term->get('field_domain')->target_id, "iq")) {
+        $term->langcode->value = 'ar';
+      }
     }
     else {
       $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $term->original->get('name')->value]);

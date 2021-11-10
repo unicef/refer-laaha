@@ -1,0 +1,20 @@
+uuid: 14609500-97ac-42f6-a439-4dd0275b9732
+langcode: en
+status: true
+dependencies:
+  module:
+    - vss_custom
+  theme:
+    - vss
+id: socialiconsfooterblock
+theme: vss
+region: footer
+weight: 0
+provider: null
+plugin: social_icons_footer_block
+settings:
+  id: social_icons_footer_block
+  label: 'Social icons footer block'
+  provider: vss_custom
+  label_display: '0'
+visibility: {  }
