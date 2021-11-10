@@ -1,0 +1,14 @@
+uuid: e0a8e44f-dbe9-41d1-b629-5d1a7b2c117a
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.iq_virtualsafespace_net
+  module:
+    - domain_access
+id: domain_access_add_action.iq_virtualsafespace_net
+label: 'Add selected content to the Iraq Virtualsafespace domain'
+type: node
+plugin: domain_access_add_action
+configuration:
+  domain_id: iq_virtualsafespace_net
