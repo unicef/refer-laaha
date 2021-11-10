@@ -1,0 +1,52 @@
+uuid: 4bf8d7e8-803f-4a44-9a28-f6cbe8e2892b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_assets
+    - node.type.article
+    - paragraphs.paragraphs_type.external_videos
+    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.image_gallery
+    - paragraphs.paragraphs_type.video
+  module:
+    - entity_reference_revisions
+id: node.article.field_assets
+field_name: field_assets
+entity_type: node
+bundle: article
+label: Assets
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      image: image
+      image_gallery: image_gallery
+      video: video
+      external_videos: external_videos
+    target_bundles_drag_drop:
+      external_videos:
+        enabled: true
+        weight: 7
+      from_library:
+        weight: 8
+        enabled: false
+      image:
+        enabled: true
+        weight: 4
+      image_gallery:
+        enabled: true
+        weight: 5
+      video:
+        enabled: true
+        weight: 6
+      vtt_entries:
+        weight: 12
+        enabled: false
+field_type: entity_reference_revisions

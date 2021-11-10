@@ -1,0 +1,23 @@
+uuid: ea2f04df-90d4-4813-bece-5188178718a3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.external_videos.field_external_video
+    - paragraphs.paragraphs_type.external_videos
+  module:
+    - video_embed_field
+id: paragraph.external_videos.default
+targetEntityType: paragraph
+bundle: external_videos
+mode: default
+content:
+  field_external_video:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: video_embed_field_textfield
+    region: content
+hidden:
+  created: true
+  status: true
