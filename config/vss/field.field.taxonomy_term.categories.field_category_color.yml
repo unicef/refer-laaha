@@ -1,0 +1,21 @@
+uuid: 7439ed29-257e-4f36-a975-f5b9ae63278c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_category_color
+    - taxonomy.vocabulary.categories
+  module:
+    - options
+id: taxonomy_term.categories.field_category_color
+field_name: field_category_color
+entity_type: taxonomy_term
+bundle: categories
+label: 'Category Color'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string
