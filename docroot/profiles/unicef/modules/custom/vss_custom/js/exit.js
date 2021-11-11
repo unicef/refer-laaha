@@ -14,17 +14,84 @@
           }
         });
         // Audio naration.
-        var msg = new SpeechSynthesisUtterance();
-        speechSynthesis.cancel();
-        $('.btn-narrate').click(function () {
-          msg.lang = drupalSettings.langId;
-          msg.text = drupalSettings.narrate;
-          window.speechSynthesis.speak(msg);
-          // event after text has been spoken.
-          msg.onend = function () {
-            speechSynthesis.cancel();
+        // var msg = new SpeechSynthesisUtterance();
+        // speechSynthesis.cancel();
+        // $('.btn-narrate').click(function () {
+        //   msg.lang = drupalSettings.langId;
+        //   msg.text = drupalSettings.narrate;
+        //   window.speechSynthesis.speak(msg);
+        //   window.speechSynthesis.resume();
+        //   // event after text has been spoken.
+        //   msg.onend = function () {
+        //     speechSynthesis.cancel();
+        //   }
+        // });
+
+        // grab the UI elements to work with
+        const textEl = document.getElementById('text');
+        const playEl = document.getElementById('play');
+        const pauseEl = document.getElementById('pause');
+        const stopEl = document.getElementById('stop');
+
+
+        // add UI event handlers
+        playEl.addEventListener('click', play);
+        pauseEl.addEventListener('click', pause);
+
+        // set text
+        text = drupalSettings.narrate;
+
+        function play() {
+          if (window.speechSynthesis.speaking) {
+            // there's an unfinished utterance
+            window.speechSynthesis.resume();
+          } else {
+            // start new utterance
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.addEventListener('start', handleStart);
+            utterance.addEventListener('pause', handlePause);
+            utterance.addEventListener('resume', handleResume);
+              utterance.addEventListener('end', handleEnd);
+            window.speechSynthesis.speak(utterance);
           }
-        });
+        }
+
+        function pause() {
+          window.speechSynthesis.pause();
+        }
+
+        function stop() {
+          window.speechSynthesis.cancel();
+
+          // Safari doesn't fire the 'end' event when cancelling, so call handler manually
+          handleEnd();
+        }
+
+        function handleStart() {
+          playEl.disabled = true;
+          pauseEl.disabled = false;
+        }
+
+        function handlePause() {
+          playEl.disabled = false;
+          pauseEl.disabled = true;
+        }
+
+        function handleResume() {
+          playEl.disabled = true;
+          pauseEl.disabled = false;
+        }
+
+        function handleEnd() {
+          playEl.disabled = false;
+          pauseEl.disabled = true;
+
+          // reset text to remove mark
+          text = drupalSettings.narrate;
+        }
+
+
+
         $('.exit-website-btn').click(function(){
             // Clear local storage.
             window.localStorage.clear();
