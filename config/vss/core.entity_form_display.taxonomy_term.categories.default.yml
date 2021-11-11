@@ -3,7 +3,10 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.categories.field_category_color
     - field.field.taxonomy_term.categories.field_domain
+    - field.field.taxonomy_term.categories.field_icon
+    - field.field.taxonomy_term.categories.field_related_content
     - taxonomy.vocabulary.categories
   module:
     - path
@@ -26,6 +29,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: options_select
+    region: content
+  field_related_content:
+    weight: 11
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   name:
     type: string_textfield
@@ -54,4 +67,6 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
+  field_category_color: true
+  field_icon: true
   langcode: true

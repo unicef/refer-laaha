@@ -7,6 +7,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Cache\CacheTagsInvalidator;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\Core\Database\Connection;
 
 /**
  * Class VssCommonConfigForm.
@@ -30,19 +32,41 @@ class VssCommonConfigForm extends ConfigFormBase {
   protected $cacheTagsInvalidator;
 
   /**
+   * Symfony\Component\HttpFoundation\RequestStack definition.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $request;
+
+  /**
+   * Drupal\Core\Database\Driver\mysql\Connection definition.
+   *
+   * @var \Drupal\Core\Database\Driver\mysql\Connection
+   */
+  protected $database;
+
+  /**
    * Construct function.
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\Core\Cache\CacheTagsInvalidator $cacheTagsInvalidator
    *   The cache tags invalidator.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request
+   *   The request stack.
+   * @param \Drupal\Core\Database\Driver\mysql\Connection $database
+   *   The database connection.
    */
   public function __construct(
     EntityTypeManager $entity_type_manager,
-    CacheTagsInvalidator $cacheTagsInvalidator
+    CacheTagsInvalidator $cacheTagsInvalidator,
+    RequestStack $request,
+    Connection $database
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->cacheTagsInvalidator = $cacheTagsInvalidator;
+    $this->request = $request;
+    $this->database = $database;
   }
 
   /**
@@ -51,7 +75,9 @@ class VssCommonConfigForm extends ConfigFormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('entity_type.manager'),
-      $container->get('cache_tags.invalidator')
+      $container->get('cache_tags.invalidator'),
+      $container->get('request_stack'),
+      $container->get('database')
     );
   }
 
@@ -214,6 +240,29 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#size' => 64,
       '#default_value' => !empty($commonConfig['social_link_insta']) ? $commonConfig['social_link_insta'] : '',
     ];
+
+    $form['categories'] = [
+      '#type' => 'details',
+      '#title' => 'Categories',
+      '#group' => 'vsscommonconfig',
+    ];
+
+    $domain = $this->request->getCurrentRequest()->query->get('domain_config_ui_domain');
+    $tax_opt = $this->getCategoriesforTaxonomy($domain);
+
+    $form['categories']['get_help'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Get help category'),
+      '#options' => ['' => 'Select'] + $tax_opt,
+      '#default_value' => !empty($commonConfig['get_help']) ? $commonConfig['get_help'] : '',
+    ];
+
+    $form['categories']['homepage_hero'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Hompage hero Categories'),
+      '#options' => $tax_opt,
+      '#default_value' => !empty($commonConfig['homepage_hero']) ? $commonConfig['homepage_hero'] : [],
+    ];
     return parent::buildForm($form, $form_state);
   }
 
@@ -242,6 +291,21 @@ class VssCommonConfigForm extends ConfigFormBase {
     else {
       return TRUE;
     }
+  }
+
+  /**
+   * Get categories taxonomy.
+   */
+  public function getCategoriesforTaxonomy($domain) {
+    $query = $this->database->select('taxonomy_term_field_data', 't');
+    $query->join('taxonomy_term__field_domain', 'fd', 'fd.entity_id = t.tid');
+    $query->condition('fd.bundle', 'categories');
+    if ($domain) {
+      $query->condition('field_domain_target_id', $domain);
+    }
+    $query->fields('t', ['name']);
+    $terms = $query->execute()->fetchAllKeyed(0, 0);
+    return $terms;
   }
 
   /**
