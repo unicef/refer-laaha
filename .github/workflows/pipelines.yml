@@ -92,10 +92,10 @@ jobs:
       - name: Excecute Drush Commands at Stage
         if: github.ref == 'refs/heads/stage'
         run : ./vendor/bin/drush @vss2.test cr -y;  ./vendor/bin/drush @vss2.test updb -y; ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cr -y;
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js for Night watch test cases ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          ref: workaround
+          #ref: workaround
           node-version: ${{ matrix.node-version }}
       - name: Install dependency and Run tests
         run: |
