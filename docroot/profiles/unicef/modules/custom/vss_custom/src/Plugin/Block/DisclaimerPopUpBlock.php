@@ -69,7 +69,7 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
     $build['#content'] = $data;
     $build['#attached']['drupalSettings']['disclaimer_landId'] = $id;
     $build['#attached']['drupalSettings']['disclaimer_narrate'] = $string;
-    $build['#attached']['drupalSettings']['disclaimer'] = true;
+    $build['#attached']['drupalSettings']['disclaimer'] = TRUE;
     $build['#cache']['tags'] = $this->getCacheTags();
     $build['#cache']['contexts'] = $this->getCacheContexts();
     return $build;
