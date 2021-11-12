@@ -80,7 +80,9 @@ function vss_preprocess_node(array &$variables) {
       }
     }
     if ($html) {
-      $variables['#attached']['drupalSettings']['narrate'] = render($html);
+      $string = str_replace('&nbsp;', '', $html);
+      $variables['#attached']['drupalSettings']['narrate'] = render($string);
+      $variables['#attached']['drupalSettings']['langId'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
     }
   }
 }

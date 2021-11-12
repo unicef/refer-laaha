@@ -4,6 +4,12 @@ exit_website:
   dependencies:
     - core/jquery
     - core/drupalSettings
+narrate:
+  js:
+    js/narrate.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
 youtube_transcript:
   js:
     js/youtube_transcript.js: {}
