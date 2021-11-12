@@ -1,16 +1,16 @@
-uuid: 2028301f-7bed-4956-8b6d-ed9bf0529b95
+uuid: b72e28b7-f08b-438a-99ba-0a4318d4716f
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_lower_body
-    - node.type.article
+    - field.storage.paragraph.field_description
+    - paragraphs.paragraphs_type.wysiwyg_editor
   module:
     - text
-id: node.article.field_lower_body
-field_name: field_lower_body
-entity_type: node
-bundle: article
+id: paragraph.wysiwyg_editor.field_description
+field_name: field_description
+entity_type: paragraph
+bundle: wysiwyg_editor
 label: Description
 description: ''
 required: true

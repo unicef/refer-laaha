@@ -9,6 +9,7 @@ dependencies:
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.video
+    - paragraphs.paragraphs_type.wysiwyg_editor
   module:
     - entity_reference_revisions
 id: node.article.field_assets
@@ -30,6 +31,7 @@ settings:
       image_gallery: image_gallery
       video: video
       external_videos: external_videos
+      wysiwyg_editor: wysiwyg_editor
     target_bundles_drag_drop:
       external_videos:
         enabled: true
@@ -49,4 +51,7 @@ settings:
       vtt_entries:
         weight: 12
         enabled: false
+      wysiwyg_editor:
+        enabled: true
+        weight: 14
 field_type: entity_reference_revisions

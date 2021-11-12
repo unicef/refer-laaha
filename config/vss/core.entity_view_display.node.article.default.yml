@@ -5,11 +5,11 @@ dependencies:
   config:
     - field.field.node.article.body
     - field.field.node.article.comment
+    - field.field.node.article.field_add_narration
     - field.field.node.article.field_assets
     - field.field.node.article.field_domain_access
     - field.field.node.article.field_domain_all_affiliates
     - field.field.node.article.field_image
-    - field.field.node.article.field_lower_body
     - field.field.node.article.field_tags
     - image.style.large
     - node.type.article
@@ -32,6 +32,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     label: hidden
+  field_add_narration:
+    type: boolean
+    weight: 6
+    region: content
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
   field_assets:
     type: entity_reference_revisions_entity_view
     weight: 4
@@ -50,13 +60,6 @@ content:
       image_link: ''
     third_party_settings: {  }
     label: hidden
-  field_lower_body:
-    weight: 5
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    type: text_default
-    region: content
   field_tags:
     type: entity_reference_label
     weight: 2
