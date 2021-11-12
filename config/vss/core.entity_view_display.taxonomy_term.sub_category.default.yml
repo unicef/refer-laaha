@@ -1,0 +1,51 @@
+uuid: 69514815-f36a-462b-afcd-7f5cbba2a0a3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.sub_category.field_category_reference
+    - field.field.taxonomy_term.sub_category.field_domain
+    - field.field.taxonomy_term.sub_category.field_sub_category_thumbnail
+    - taxonomy.vocabulary.sub_category
+  module:
+    - image
+    - text
+id: taxonomy_term.sub_category.default
+targetEntityType: taxonomy_term
+bundle: sub_category
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_category_reference:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_domain:
+    weight: 3
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_sub_category_thumbnail:
+    weight: 2
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+hidden:
+  langcode: true
