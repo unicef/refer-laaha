@@ -1,0 +1,27 @@
+uuid: c1c967b2-fa34-47ae-8129-e9425bff357a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.wysiwyg_editor.field_description
+    - paragraphs.paragraphs_type.wysiwyg_editor
+  module:
+    - text
+id: paragraph.wysiwyg_editor.default
+targetEntityType: paragraph
+bundle: wysiwyg_editor
+mode: default
+content:
+  field_description:
+    weight: 0
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+    type: text_textarea_with_summary
+    region: content
+hidden:
+  created: true
+  status: true

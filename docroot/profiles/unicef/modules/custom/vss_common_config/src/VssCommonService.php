@@ -184,6 +184,23 @@ class VssCommonService implements VssCommonInterface {
   }
 
   /**
+   * Function to get catgeories.
+   */
+  public function getCategories(): array {
+    $keys = [
+      'get_help',
+      'homepage_hero',
+    ];
+    $data = $this->checkConfiguration($keys);
+    $categories = [];
+    if (isset($data['vss_common_config'])) {
+      $categories['get_help'] = trim($data['vss_common_config']['get_help']) ?? '';
+      $categories['homepage_hero'] = trim($data['vss_common_config']['homepage_hero']) ?? '';
+    }
+    return $categories;
+  }
+
+  /**
    * Get actual configuration based on conditions.
    */
   protected function checkConfiguration($keys = [], $default = TRUE) {

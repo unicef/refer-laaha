@@ -17,7 +17,10 @@ module.exports = {
     test_settings: {
       default: {    
         desiredCapabilities: {
-          browserName: 'chrome'
+          browserName: 'chrome',
+          chromeOptions: {
+            args: ['--headless', '--no-sandbox']
+          }
         }
       }
     }
