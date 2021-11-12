@@ -1,16 +1,15 @@
-uuid: fbf25eca-a1fb-4900-a6ba-a3e351c0cca7
+uuid: 311f0b3c-fc16-483f-bcb5-56379f22d637
 langcode: en
 status: true
 dependencies:
   module:
     - node
-    - text
-id: node.field_lower_body
-field_name: field_lower_body
+id: node.field_add_narration
+field_name: field_add_narration
 entity_type: node
-type: text_with_summary
+type: boolean
 settings: {  }
-module: text
+module: core
 locked: false
 cardinality: 1
 translatable: true
