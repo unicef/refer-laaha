@@ -64,10 +64,12 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
       $html .= ' ';
       $html .= strip_tags($data['disclaimer_description']);
     }
+    $string = str_replace('&nbsp;', '', $html);
     $build['#theme'] = 'disclaimer_pop_up_block';
     $build['#content'] = $data;
-    $build['#attached']['drupalSettings']['landId'] = $id;
-    $build['#attached']['drupalSettings']['narrate'] = $html;
+    $build['#attached']['drupalSettings']['disclaimer_landId'] = $id;
+    $build['#attached']['drupalSettings']['disclaimer_narrate'] = $string;
+    $build['#attached']['drupalSettings']['disclaimer'] = true;
     $build['#cache']['tags'] = $this->getCacheTags();
     $build['#cache']['contexts'] = $this->getCacheContexts();
     return $build;
