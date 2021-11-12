@@ -21,6 +21,8 @@ jobs:
     strategy:
       matrix:
         php_version: ['7.4']
+        node-version: [15.x]
+
 
     steps:
       - name: Check out code
@@ -90,6 +92,15 @@ jobs:
       - name: Excecute Drush Commands at Stage
         if: github.ref == 'refs/heads/stage'
         run : ./vendor/bin/drush @vss2.test cr -y;  ./vendor/bin/drush @vss2.test updb -y; ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cr -y;
+      - name: Use Node.js for Night watch test cases ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          #ref: workaround
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependency and Run tests
+        run: |
+          npm install
+          ./node_modules/nightwatch/bin/nightwatch tests
            
       - name: Deployment Status - Acquia BLT
         uses: ravsamhq/notify-slack-action@master
