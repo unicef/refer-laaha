@@ -17,7 +17,7 @@ mode: default
 content:
   field_transcript:
     weight: 1
-    label: above
+    label: hidden
     settings:
       use_description_as_link_text: true
     third_party_settings: {  }
@@ -25,16 +25,15 @@ content:
     region: content
   field_video_file:
     weight: 0
-    label: above
-    settings:
-      use_description_as_link_text: true
+    label: hidden
+    settings: {  }
     third_party_settings: {  }
-    type: file_default
+    type: file_url_plain
     region: content
   field_vtt_entries:
     type: entity_reference_revisions_entity_view
     weight: 2
-    label: above
+    label: hidden
     settings:
       view_mode: default
       link: ''
