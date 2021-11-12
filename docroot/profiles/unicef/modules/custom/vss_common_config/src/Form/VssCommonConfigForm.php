@@ -248,7 +248,8 @@ class VssCommonConfigForm extends ConfigFormBase {
     ];
 
     $domain = $this->request->getCurrentRequest()->query->get('domain_config_ui_domain');
-    $tax_opt = $this->getCategoriesforTaxonomy($domain);
+    $langcode = $this->request->getCurrentRequest()->query->get('domain_config_ui_language');
+    $tax_opt = $this->getCategoriesforTaxonomy($domain, $langcode);
 
     $form['categories']['get_help'] = [
       '#type' => 'select',
@@ -296,9 +297,12 @@ class VssCommonConfigForm extends ConfigFormBase {
   /**
    * Get categories taxonomy.
    */
-  public function getCategoriesforTaxonomy($domain) {
+  public function getCategoriesforTaxonomy($domain, $langcode) {
     $query = $this->database->select('taxonomy_term_field_data', 't');
     $query->join('taxonomy_term__field_domain', 'fd', 'fd.entity_id = t.tid');
+    if ($langcode) {
+      $query->condition('t.langcode', $langcode);
+    }
     $query->condition('fd.bundle', 'categories');
     if ($domain) {
       $query->condition('field_domain_target_id', $domain);
