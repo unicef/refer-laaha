@@ -14,7 +14,7 @@ entity_type: paragraph
 bundle: video
 label: 'VTT Entries'
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -43,4 +43,7 @@ settings:
       vtt_entries:
         enabled: true
         weight: 12
+      wysiwyg_editor:
+        weight: 14
+        enabled: false
 field_type: entity_reference_revisions

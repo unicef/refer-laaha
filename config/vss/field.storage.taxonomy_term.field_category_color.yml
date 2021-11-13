@@ -1,0 +1,45 @@
+uuid: 0daafc57-bdd3-4146-ba23-b4fdd84f1c96
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - taxonomy
+id: taxonomy_term.field_category_color
+field_name: field_category_color
+entity_type: taxonomy_term
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: F8EAEF
+      label: F8EAEF
+    -
+      value: DFF2F9
+      label: DFF2F9
+    -
+      value: E4F1E2
+      label: E4F1E2
+    -
+      value: E9EAFD
+      label: E9EAFD
+    -
+      value: FDF1EB
+      label: FDF1EB
+    -
+      value: FEF8DF
+      label: FEF8DF
+    -
+      value: E8FEFF
+      label: E8FEFF
+    -
+      value: F9E2FF
+      label: F9E2FF
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

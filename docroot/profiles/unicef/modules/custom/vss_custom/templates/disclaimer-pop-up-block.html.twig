@@ -12,7 +12,15 @@
     'clear-both',
     'pop-up-speech'
 ] %}
-<button class="btn-narrate">Narrate</button>
+{{ attach_library('vss_custom/narrate') }}
+
+<div class="wrapper">
+  <div id="text"></div>
+    <div class="buttons">
+      <button id="play" class="play">Play</button>
+      <button id="pause" class="pause">Pause</button>
+    </div>
+</div>
 
 <div{{ attributes.addClass(classes) }}>
     {% if content is not empty %}

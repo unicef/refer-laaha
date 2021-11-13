@@ -51,13 +51,15 @@
         {% if item.below %}
           {{ _self.menu_links(item.below, attributes.removeClass(classes), menu_level + 1, classes, dropdown_classes) }}
         {% endif %}
-        <div class="form-item js-form-item form-type-checkbox js-form-type-checkbox form-item-audio  form-no-label checkbox">
-<input class="checkbox-toggle form-checkbox" data-drupal-selector="edit-victim-enable" type="checkbox" id="edit-audio-enable-{{ menu_id }}" name="victim_enable" />
+        <div class="form-item js-form-item form-type-checkbox form-type-checkbox-{{ menu_id }}  js-form-type-checkbox form-item-audio  form-no-label checkbox">
+<input class="checkbox-toggle form-checkbox form-checkbox-{{ menu_id }}" data-drupal-selector="edit-victim-enable"  type="checkbox" id="edit-audio-enable-{{ menu_id }}" name="victim_enable" />
 </div>
       </li>
    {% set menu_id = menu_id + 1 %}
+   
 
     {% endfor %}
+    <li> <span class="navbar-text">{{ 'Zoom '|t }}<span class="percent" id="zoom-percent">100 </span>%</span><div class="text-resize-block">{{ drupal_block('text_resize_block', wrapper=false) }}</div></li>
     </ul>
   {% endif %}
 {% endmacro %}
