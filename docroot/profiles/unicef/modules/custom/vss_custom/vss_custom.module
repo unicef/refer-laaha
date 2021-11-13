@@ -107,6 +107,11 @@ function vss_custom_taxonomy_term_presave($term) {
       }
     }
   }
+  if ($term->get('vid')->target_id == 'sub_category') {
+    if (strpos($term->get('field_domain')->target_id, "iq")) {
+      $term->langcode->value = 'ar';
+    }
+  }
 }
 
 /**

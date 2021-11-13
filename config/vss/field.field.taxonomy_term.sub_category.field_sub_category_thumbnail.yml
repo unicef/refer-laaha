@@ -1,24 +1,17 @@
-uuid: ae1eda39-b9c4-4d09-8312-7a47478ba53c
+uuid: 916b02d3-14e3-4872-9577-e12f048252fb
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.media.field_media_image
-    - media.type.image
+    - field.storage.taxonomy_term.field_sub_category_thumbnail
+    - taxonomy.vocabulary.sub_category
   module:
-    - content_translation
     - image
-third_party_settings:
-  content_translation:
-    translation_sync:
-      alt: alt
-      title: title
-      file: '0'
-id: media.image.field_media_image
-field_name: field_media_image
-entity_type: media
-bundle: image
-label: Image
+id: taxonomy_term.sub_category.field_sub_category_thumbnail
+field_name: field_sub_category_thumbnail
+entity_type: taxonomy_term
+bundle: sub_category
+label: 'Sub Category Thumbnail'
 description: ''
 required: true
 translatable: true
@@ -27,7 +20,7 @@ default_value_callback: ''
 settings:
   file_directory: '[date:custom:Y]-[date:custom:m]'
   file_extensions: 'png gif jpg jpeg'
-  max_filesize: '8 MB'
+  max_filesize: '100 KB'
   max_resolution: ''
   min_resolution: ''
   alt_field: true
