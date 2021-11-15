@@ -7,7 +7,8 @@ on:
   # Triggers the workflow on push or pull request events but only for the dev branch
   push:
     branches: [ develop,stage,master ]
-    tags: v*
+    tags: 
+      - 'tags*'
   pull_request:
     branches: [ develop,stage,master ]
 
@@ -70,7 +71,7 @@ jobs:
         run:  ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/})  --ignore-dirty --no-interaction --verbose
       # This will be run when Tag is created and deployed into the PROD infra
       - name: Run when tag is created and Deployed code into the Acquia ENV.
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        if: ${{ startsWith(github.ref, 'refs/tags/tags') }}
         run: |
           ./vendor/bin/blt artifact:deploy --commit-msg "Creating Automated commit by BLT for Build" --tag $(echo ${GITHUB_REF#refs/tags/})  --ignore-dirty --no-interaction --verbose
           curl -OL https://github.com/acquia/cli/releases/latest/download/acli.phar
@@ -81,7 +82,7 @@ jobs:
           sleep 30s
       # Run Drush command After deployment
       - name: Run when tag is created after Deployment run Drush Commands
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        if: ${{ startsWith(github.ref, 'refs/tags/tags') }}
         run: |
           ./vendor/bin/drush @vss2.prod cr -y;  ./vendor/bin/drush @vss2.prod updb -y; ./vendor/bin/drush @vss2.prod cim -y; ./vendor/bin/drush @vss2.prod cr -y;
       
@@ -93,6 +94,7 @@ jobs:
         if: github.ref == 'refs/heads/stage'
         run : ./vendor/bin/drush @vss2.test cr -y;  ./vendor/bin/drush @vss2.test updb -y; ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cr -y;
       - name: Use Node.js for Night watch test cases ${{ matrix.node-version }}
+        if: ${{ startsWith(github.ref, 'refs/heads/develop'  ) }} || ${{ startsWith(github.ref, 'refs/heads/stage'  ) }} || ${{ startsWith(github.ref, 'refs/tags/tags'  ) }} || ${{ startsWith(github.ref, 'refs/heads/master'  ) }}
         uses: actions/setup-node@v1
         with:
           #ref: workaround
