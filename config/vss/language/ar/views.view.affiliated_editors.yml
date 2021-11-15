@@ -1,0 +1,48 @@
+display:
+  default:
+    display_title: الرئيسي
+    display_options:
+      exposed_form:
+        options:
+          reset_button_label: 'إعادة الضبط'
+          exposed_sorts_label: 'الترتيب حسب'
+          sort_asc_label: تصاعدي
+          sort_desc_label: تنازلي
+      pager:
+        options:
+          expose:
+            items_per_page_options_all_label: '- الكل -'
+            offset_label: الإزاحة
+      fields:
+        name:
+          label: 'اسم المستخدم'
+        status:
+          label: الحالة
+          settings:
+            format_custom_true: نشط
+        roles_target_id:
+          label: الأدوار
+        field_domain_access:
+          separator: ', '
+        field_domain_all_affiliates:
+          separator: ', '
+        operations:
+          label: عمليات
+        mail:
+          separator: ', '
+      filters:
+        status:
+          group_info:
+            label: الحالة
+            group_items:
+              1:
+                title: نشط
+  page_2:
+    display_options:
+      filters:
+        status:
+          group_info:
+            label: الحالة
+            group_items:
+              1:
+                title: نشط

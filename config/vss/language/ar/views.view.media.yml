@@ -1,0 +1,52 @@
+label: ميديا
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          reset_button_label: 'إعادة الضبط'
+          exposed_sorts_label: 'الترتيب حسب'
+          sort_asc_label: تصاعدي
+          sort_desc_label: تنازلي
+      pager:
+        options:
+          expose:
+            items_per_page_options_all_label: '- الكل -'
+            offset_label: الإزاحة
+      fields:
+        media_bulk_form:
+          action_title: إجراء
+        thumbnail__target_id:
+          label: 'النسخة المصغرة'
+          separator: ', '
+        name:
+          separator: ', '
+        bundle:
+          label: النوع
+          separator: ', '
+        uid:
+          label: المؤلف
+          separator: ', '
+        status:
+          label: الحالة
+          separator: ', '
+        changed:
+          separator: ', '
+        operations:
+          label: عمليات
+      filters:
+        bundle:
+          expose:
+            label: النوع
+        status:
+          expose:
+            label: صحيح
+        langcode:
+          expose:
+            label: اللغة
+      title: ميديا
+  media_page_list:
+    display_title: ميديا
+    display_options:
+      menu:
+        title: ميديا

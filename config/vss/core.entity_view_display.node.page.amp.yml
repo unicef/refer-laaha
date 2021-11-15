@@ -1,8 +1,9 @@
-uuid: 637e9676-1dfe-44da-8c4b-c201f486b6ef
+uuid: 3a0eaa18-c887-4b50-9883-631edfa475f6
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.amp
     - field.field.node.page.body
     - field.field.node.page.field_domain_access
     - field.field.node.page.field_domain_all_affiliates
@@ -12,10 +13,10 @@ dependencies:
     - user
 _core:
   default_config_hash: g1S3_GLaxq4l3I9RIca5Mlz02MxI2KmOquZpHw59akM
-id: node.page.default
+id: node.page.amp
 targetEntityType: node
 bundle: page
-mode: default
+mode: amp
 content:
   body:
     label: hidden
@@ -27,8 +28,6 @@ content:
   links:
     weight: 101
     region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
   field_domain_access: true
   field_domain_all_affiliates: true
