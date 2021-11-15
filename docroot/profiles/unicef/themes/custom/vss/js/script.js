@@ -25,6 +25,8 @@
                  $.cookie("video_enabled", true );
                 }
             })  
+            
+           
             /**Zoom percentage */
            var count= parseInt($("#zoom-percent").text())
            var click_count=0;
@@ -42,6 +44,12 @@
                 count=count-count*10/100;
                 $("#zoom-percent").text(Math.round(count)) ;
             })
+/** clone logo change */
+if($(window).width() < 768){
+    $(".logo-wrapper").clone().insertBefore("#block-navigationheadermenu");
+    $(".logo-wrapper").clone().insertBefore("#block-iraqnavigationheadermenu");
+    $("#block-exitwebsiteblock .telephone-header").insertBefore(".telephone_in_mobile .holder");
+}
 
         
     }
