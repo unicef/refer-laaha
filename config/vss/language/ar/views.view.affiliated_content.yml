@@ -1,0 +1,73 @@
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          reset_button_label: 'إعادة الضبط'
+          exposed_sorts_label: 'الترتيب حسب'
+          sort_asc_label: تصاعدي
+          sort_desc_label: تنازلي
+      fields:
+        title:
+          label: العنوان
+        type:
+          separator: ', '
+        field_domain_access:
+          separator: ', '
+        field_domain_all_affiliates:
+          separator: ', '
+        name:
+          label: المؤلف
+        status:
+          label: الحالة
+        operations:
+          label: عمليات
+      filters:
+        status:
+          expose:
+            label: الحالة
+        type:
+          expose:
+            label: النوع
+        title:
+          expose:
+            label: العنوان
+        langcode:
+          expose:
+            label: اللغة
+    display_title: الرئيسي
+  page_1:
+    display_options:
+      menu:
+        title: المحتوى
+      tab_options:
+        title: المحتوى
+      filters:
+        status:
+          expose:
+            label: الحالة
+        type:
+          expose:
+            label: النوع
+        title:
+          expose:
+            label: العنوان
+        langcode:
+          expose:
+            label: اللغة
+      title: المحتوى
+  page_2:
+    display_options:
+      filters:
+        status:
+          expose:
+            label: الحالة
+        type:
+          expose:
+            label: النوع
+        title:
+          expose:
+            label: العنوان
+        langcode:
+          expose:
+            label: اللغة

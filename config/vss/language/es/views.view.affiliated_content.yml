@@ -1,0 +1,73 @@
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      fields:
+        title:
+          label: Título
+        type:
+          separator: ', '
+        field_domain_access:
+          separator: ', '
+        field_domain_all_affiliates:
+          separator: ', '
+        name:
+          label: Autor
+        status:
+          label: Estado
+        operations:
+          label: Operaciones
+      filters:
+        status:
+          expose:
+            label: Estado
+        type:
+          expose:
+            label: Tipo
+        title:
+          expose:
+            label: Título
+        langcode:
+          expose:
+            label: Idioma
+    display_title: Máster
+  page_1:
+    display_options:
+      menu:
+        title: Contenido
+      tab_options:
+        title: Contenido
+      filters:
+        status:
+          expose:
+            label: Estado
+        type:
+          expose:
+            label: Tipo
+        title:
+          expose:
+            label: Título
+        langcode:
+          expose:
+            label: Idioma
+      title: Contenido
+  page_2:
+    display_options:
+      filters:
+        status:
+          expose:
+            label: Estado
+        type:
+          expose:
+            label: Tipo
+        title:
+          expose:
+            label: Título
+        langcode:
+          expose:
+            label: Idioma

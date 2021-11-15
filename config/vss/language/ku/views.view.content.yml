@@ -1,0 +1,39 @@
+label: ناوەڕۆک
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
+      fields:
+        title:
+          label: ناونیشان
+        type:
+          label: 'جۆری ناوەڕۆک'
+        name:
+          label: نووسەر
+        status:
+          label: ڕەوش
+        operations:
+          label: کاره‌کان
+      filters:
+        title:
+          expose:
+            label: ناونیشان
+        type:
+          expose:
+            label: 'جۆری ناوەڕۆک'
+        status:
+          expose:
+            label: ڕەوش
+        langcode:
+          expose:
+            label: زمان
+      title: ناوەڕۆک
+  page_1:
+    display_options:
+      menu:
+        title: ناوەڕۆک
+      tab_options:
+        title: ناوەڕۆک
+    display_title: پەڕە
