@@ -337,6 +337,13 @@ class VssCommonConfigForm extends ConfigFormBase {
         $this->t('Please enter valid email id.')
       );
     }
+    $homepage_hero = $form_state->getValue('homepage_hero');
+    if (!empty($homepage_hero) && count(array_filter($homepage_hero)) > 6) {
+      $form_state->setErrorByName(
+        "homepage_hero",
+        $this->t('Please select only 6 categories in Hompage hero Categories')
+      );
+    }
   }
 
   /**

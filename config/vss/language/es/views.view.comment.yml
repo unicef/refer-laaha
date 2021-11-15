@@ -1,0 +1,69 @@
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
+      fields:
+        comment_bulk_form:
+          action_title: Acción
+        subject:
+          label: Asunto
+          separator: ', '
+        uid:
+          separator: ', '
+        name:
+          label: Autor
+          separator: ', '
+        entity_id:
+          separator: ', '
+        changed:
+          separator: ', '
+        operations:
+          label: Operaciones
+        name_1:
+          separator: ', '
+      filters:
+        subject:
+          expose:
+            label: Asunto
+        langcode:
+          expose:
+            label: Idioma
+  page_unapproved:
+    display_options:
+      filters:
+        subject:
+          expose:
+            label: Asunto
+        langcode:
+          expose:
+            label: Idioma
+      fields:
+        comment_bulk_form:
+          action_title: Acción
+        subject:
+          label: Asunto
+          separator: ', '
+        uid:
+          separator: ', '
+        name:
+          label: Autor
+          separator: ', '
+        entity_id:
+          separator: ', '
+        changed:
+          separator: ', '
+        operations:
+          label: Operaciones
+        name_1:
+          separator: ', '
