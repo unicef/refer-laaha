@@ -127,6 +127,15 @@ function vss_custom_taxonomy_term_delete($term) {
 }
 
 /**
+ * Use form alter.
+ */
+function vss_custom_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'taxonomy_term_categories_form') {
+    $form['description']['widget'][0]['#required'] = 'true';
+  }
+}
+
+/**
  * Alter the video_embed_field plugin definitions.
  *
  * This hook allows you alter the plugin definitions managed by ProviderManager.
