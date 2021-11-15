@@ -10,6 +10,14 @@ narrate:
   dependencies:
     - core/jquery
     - core/drupalSettings
+
+disclaimer:
+  js:
+    js/disclaimer.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+
 youtube_transcript:
   js:
     js/youtube_transcript.js: {}
