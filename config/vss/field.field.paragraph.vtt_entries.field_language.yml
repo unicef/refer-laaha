@@ -11,11 +11,13 @@ entity_type: paragraph
 bundle: vtt_entries
 label: Language
 description: ''
-required: false
+required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
   handler: 'default:configurable_language'
-  handler_settings: {  }
+  handler_settings:
+    target_bundles: null
+    auto_create: false
 field_type: entity_reference
