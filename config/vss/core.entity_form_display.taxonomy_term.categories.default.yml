@@ -7,6 +7,7 @@ dependencies:
     - field.field.taxonomy_term.categories.field_domain
     - field.field.taxonomy_term.categories.field_icon
     - field.field.taxonomy_term.categories.field_related_content
+    - field.field.taxonomy_term.categories.field_tags
     - image.style.thumbnail
     - taxonomy.vocabulary.categories
   module:
@@ -23,8 +24,8 @@ content:
     weight: 2
     region: content
     settings:
-      placeholder: ''
       rows: 5
+      placeholder: ''
     third_party_settings: {  }
   field_category_color:
     type: options_select
@@ -48,6 +49,16 @@ content:
     third_party_settings: {  }
   field_related_content:
     weight: 9
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_tags:
+    weight: 10
     settings:
       match_operator: CONTAINS
       match_limit: 10
