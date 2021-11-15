@@ -10,8 +10,8 @@ dependencies:
     - field.field.taxonomy_term.categories.field_tags
     - taxonomy.vocabulary.categories
   module:
+    - color_field
     - image
-    - options
     - text
 id: taxonomy_term.categories.default
 targetEntityType: taxonomy_term
@@ -26,12 +26,17 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_category_color:
-    type: list_default
-    weight: 3
-    region: content
+    weight: 6
     label: above
-    settings: {  }
+    settings:
+      opacity: true
+      shape: square
+      width: '50'
+      height: '50'
+      data_attribute: false
     third_party_settings: {  }
+    type: color_field_formatter_swatch
+    region: content
   field_domain:
     weight: 1
     label: above
