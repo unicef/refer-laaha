@@ -1,0 +1,258 @@
+html[dir="rtl"] {
+  .btn-trans {
+    .caret {
+      margin-right: 2px;
+    }
+  }
+.logo-wrapper{
+ 
+  a{
+    float: right!important  ;
+  }
+}
+
+  .header-wrap {
+    padding-right: 5px;
+    padding-left: 15px;
+  }
+
+  .telephone-header {
+    a {
+      direction: ltr;
+      unicode-bidi: embed;
+    }
+  }
+
+  .exit-website-btn {
+    i {
+      padding-left: 12px;
+      padding-right: 0;
+    }
+  }
+
+  .block-menu-item-fieldsquick-links {
+    ul {
+      padding-right: 0;
+
+      li {
+
+        margin-right: 0;
+        margin-left: 25px;
+
+        >div {
+          >div {
+            padding-left: 12px;
+            padding-right: 0;
+
+          }
+        }
+      }
+    }
+
+  }
+
+  #block-virtualsafespace {
+    .logo-title-wrapper {
+      .field--name-field-logo {
+        margin-left: 12px;
+        margin-right: 0;
+      }
+    }
+
+  }
+
+  .address-info {
+    ul {
+      li {
+        margin-right: 0;
+        margin-left: 10px;
+
+        img {
+          margin-left: 10px;
+          margin-right: 0;
+        }
+
+      }
+    }
+  }
+
+  .wrapper-main-icons {
+    .icons-warp {
+      a {
+        padding-left: 0;
+        padding-right: 4px;
+      }
+    }
+  }
+
+  #nav_wrap {
+    margin-right: auto;
+    margin-left: 0;
+    .logo-wrapper{
+      margin-right: 25px;
+    }
+  }
+
+  .region-header {
+    #discover1> {
+      div> {
+        div {
+          padding-right: 0;
+          padding-left: 20px;
+        }
+      }
+    }
+
+    #block-iraqnavigationheadermenu {
+      >ul {
+        li {
+          >div {
+            >div {
+              padding-left: 12px;
+            }
+          }
+        }
+      }
+
+      .discoverdd {
+        right: 24px;
+      }
+
+
+
+      #discover1 {
+        .caret {
+          /* margin-right: 10px;*/
+        }
+      }
+    }
+
+    #block-settingsmenu {
+      .search-box {
+        margin-left: 30px;
+      }
+
+      .dropdown-menu {
+        right: calc(100% - 240px);
+
+      }
+    }
+  }
+
+  .region-header {
+    #block-settingsmenu {
+      .form-item-audio {
+        .checkbox-toggle {
+          right: -10px;
+
+        }
+      }
+
+      .text-resize-block {
+        float: left;
+        margin-left: 16px;
+      }
+
+      .dropdown-menu {
+        li {
+          .form-type-checkbox-2 {
+            right: 2px;
+          }
+        }
+      }
+
+      .navbar-text {
+        float: right;
+
+        .percent {
+          float: left;
+          margin-left: 0;
+          margin-right: 20px;
+        }
+      }
+    }
+  }
+
+}
+
+@media screen and (max-width:767px) {
+
+  html[dir="rtl"] {
+    .telephone_in_mobile {
+      img{
+        margin-left: 16px;
+      }
+    }
+    .region-navigation {
+        #block-languageswitcher {
+          ul{
+               right: calc(100% - 160px)  ; 
+          }
+          li{
+              a{
+                  text-align: right;
+              }
+          }
+        }
+      }
+    #block-socialiconsfooterblock {
+      .icons-warp {
+        a {
+          margin-right: 0;
+          margin-left: 16px;
+
+        }
+      }
+    }
+
+    #nav_wrap {
+      left: auto;
+      right: 0;
+      .logo-wrapper{
+        a{
+          float: right!important;
+        }
+      }
+      .close-hamburger {
+        float: right;
+        margin-right: 20px;
+      }
+    }
+  }
+  
+}
+
+@media screen and (min-width:768px) {
+  html[dir="rtl"] {
+    #block-socialiconsfooterblock {
+      .icons-warp {
+        float: left;
+      }
+    }
+  }
+}
+
+/*rtl ipad portarait*/
+
+@media screen and (min-width:768px) and (max-width:991px){
+    html[dir="rtl"] {
+    .region-header {
+      #block-iraqnavigationheadermenu,
+    #block-navigationheadermenu {
+      >ul {
+        li{
+          margin-right: 0px;
+          margin-left: 7px;
+          >div{
+            >div{
+              padding-right: 0px;
+              padding-left: 8px;
+            }
+          }
+        }
+      }
+    }
+    }
+  }
+}
+  
