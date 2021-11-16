@@ -1,6 +1,7 @@
 body {
   margin-top: 0;
   font-family: $base-font-family;
+  color: $base-black-color;
 }
 
 .navbar {
@@ -187,7 +188,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
   #nav_wrap {
     margin-left: auto;
   }
- 
+
   #block-iraqnavigationheadermenu,
   #block-navigationheadermenu {
     .discoverdd {
@@ -431,4 +432,108 @@ body {
   >* {
     flex: 1 100%;
   }
+}
+
+.article-hero-img {
+/*  background: url(../images/hero-banner.png) no-repeat center center;
+  height: 473px;
+  background-size: contain;*/
+  position: relative;
+  margin-top: 60px;
+  .hero-img{
+    width:100%; 
+  }
+
+  h1 {
+    border: 2px solid #000;
+    text-align: center;
+    /*margin: 25% 10% auto;*/
+    top: 60%;
+    left:10%;
+    padding: 2% 5%;
+    width: 80%;
+    background: rgba(255, 255, 255, 0.85);
+    position: absolute;
+
+    border-radius: 20px;
+    font-size: 40px;
+    font-weight: 500;
+  }
+}
+
+article {
+  p {
+    margin: 20px 0;
+    font-size: 20px;
+    line-height: 32px;
+    font-weight: 400;
+
+    &:last-child {
+      margin-bottom: 20px;
+    }
+
+
+  }
+
+  .paragraph--type--image-gallery,
+  .paragraph--type--external-videos,
+  .paragraph--type--video,
+  .field--name-field-single-image {
+    margin-bottom: 20px;
+  }
+
+  #video {
+    width: 100%;
+    border-radius: 20px;
+  }
+
+  .video-embed-field-provider-youtube {
+    iframe {
+      border-radius: 20px;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 35px;
+    margin-bottom: 35px;
+
+    .button-defult {
+      background: $base-primary-bgcolor url("../images/sound-icon.png") no-repeat 20px 11px;
+      padding-left: 45px;
+    }
+  }
+
+  .field--name-field-tags {
+    
+    font-size: 16px;
+    .field--label{
+      font-weight: 400;
+    }
+    .field--items {
+      display: flex;
+
+      .field--item {
+        
+font-weight: 500;
+text-decoration: underline  ;
+        &:not(:first-child):before {
+          content: " ,";
+          margin-right: 5px;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+ .more-text{
+   display: none;
+ }
+ article{
+ .read-more{
+   padding: 5px 15px;
+   display: block;
+   margin: 0 auto;
+ }
 }

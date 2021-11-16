@@ -1,4 +1,4 @@
-.button-defult {
+.button-defult-exit {
   font-family: $base-font-family;
   font-weight: $base-font-weight;
   font-size: $base-font-size;
@@ -7,4 +7,13 @@
   border: $no-border;
   border-radius: $border-radius-button;
   letter-spacing: $letter-spacing-button;
+}
+.button-defult{
+  border: $no-border;
+  border-radius: $border-radius-button;
+  letter-spacing: $letter-spacing-button;
+  background: $base-primary-bgcolor;
+  font-weight: $font-weight-normal;
+  font-size: $base-font-size;
+  padding: 10px 15px;
 }
