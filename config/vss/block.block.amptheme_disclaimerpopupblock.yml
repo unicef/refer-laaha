@@ -1,0 +1,20 @@
+uuid: 0602f590-cf8c-4019-b1ec-12d754c87a78
+langcode: en
+status: false
+dependencies:
+  module:
+    - vss_custom
+  theme:
+    - amptheme
+id: amptheme_disclaimerpopupblock
+theme: amptheme
+region: header
+weight: 0
+provider: null
+plugin: disclaimer_pop_up_block
+settings:
+  id: disclaimer_pop_up_block
+  label: 'Disclaimer pop up block'
+  provider: vss_custom
+  label_display: '0'
+visibility: {  }

@@ -13,56 +13,48 @@
             sessionStorage.setItem('pop-up', '1');
           }
         });
+        if (!drupalSettings.narrate) {
+          return;
+        }
         window.speechSynthesis.cancel();
-        sessionStorage.setItem('id', '');
 
         // grab the UI elements to work with
-        const playElArticle = document.getElementById('play-article');
-        const pauseElArticle = document.getElementById('pause-article');
-
+        const play = document.getElementById('play-article');
+        const pause = document.getElementById('pause-article');
+        const resume = document.getElementById('resume-article');
+        resume.hidden = true;
+        pause.hidden = true;
         // add UI event handlers
-        playElArticle.addEventListener('click', playArticle);
-        pauseElArticle.addEventListener('click', pauseArticle);
-        // set text
-        textArticle = drupalSettings.narrate;
+        play.addEventListener("click", () => {
+          var utterance = new SpeechSynthesisUtterance(drupalSettings.narrate);
+          utterance.lang = "en-US";
+          play.hidden = true;
+          resume.hidden = true;
+          pause.hidden = false;
+          speechSynthesis.speak(utterance);
+          utterance.addEventListener('end', function (event) {
+            speechSynthesis.cancel();
+            play.hidden = false;
+            resume.hidden = true;
+            pause.hidden = true;
+          });
+        });
 
-        function playArticle(event) {
-          if (sessionStorage.getItem('id') != 'play-article') {
-            sessionStorage.setItem('id', 'play-article');
-            window.speechSynthesis.cancel();
-          }
-          if (window.speechSynthesis.speaking) {
-            // there's an unfinished utterance
-            window.speechSynthesis.resume();
-          }
-          else {
-            // start new utterance
-            const utteranceArticle = new SpeechSynthesisUtterance(textArticle);
-            utteranceArticle.addEventListener('start', handleStartArticle);
-            utteranceArticle.addEventListener('pause', handlePauseArticle);
-            utteranceArticle.addEventListener('resume', handleResumeArticle);
-            utteranceArticle.lang = drupalSettings.langId;
-            window.speechSynthesis.speak(utteranceArticle);
-          }
-        }
+        pause.addEventListener("click", () => {
+          speechSynthesis.pause();
+          play.hidden = true;
+          pause.hidden = true;
+          resume.hidden = false;
+        });
 
-        function pauseArticle() {
-          window.speechSynthesis.pause();
-        }
-        function handleStartArticle() {
-          pauseElArticle.disabled = true;
-          pauseElArticle.disabled = false;
-        }
+        resume.addEventListener("click", () => {
+          // data.innerText = "resume";
+          speechSynthesis.resume();
+          play.hidden = true;
+          resume.hidden = true;
+          pause.hidden = false;
+        });
 
-        function handlePauseArticle() {
-          pauseElArticle.disabled = false;
-          pauseElArticle.disabled = true;
-        }
-
-        function handleResumeArticle() {
-          pauseElArticle.disabled = true;
-          pauseElArticle.disabled = false;
-        }
       });
     }
   };

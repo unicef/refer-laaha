@@ -1,0 +1,25 @@
+uuid: 632dec84-f57d-4744-a43a-ace49a98c4bf
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:footer_contact_information:190696af-e4d3-43aa-a303-d207fdcd7f76'
+  module:
+    - block_content
+  theme:
+    - vss_amp
+id: vss_amp_virtualsafespace
+theme: vss_amp
+region: footer
+weight: -5
+provider: null
+plugin: 'block_content:190696af-e4d3-43aa-a303-d207fdcd7f76'
+settings:
+  id: 'block_content:190696af-e4d3-43aa-a303-d207fdcd7f76'
+  label: 'Virtual Safe Space'
+  provider: block_content
+  label_display: visible
+  status: true
+  info: ''
+  view_mode: default
+visibility: {  }

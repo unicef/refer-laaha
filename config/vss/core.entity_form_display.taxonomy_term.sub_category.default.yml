@@ -26,7 +26,7 @@ content:
       rows: 5
     third_party_settings: {  }
   field_category_reference:
-    weight: 6
+    weight: 5
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -42,7 +42,7 @@ content:
     type: options_select
     region: content
   field_sub_category_thumbnail:
-    weight: 7
+    weight: 6
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
@@ -67,7 +67,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 5
+    weight: 7
     region: content
     third_party_settings: {  }
   translation:

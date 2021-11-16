@@ -1,0 +1,36 @@
+uuid: 99623584-9f86-47ae-8427-5df9e11c4aac
+langcode: en
+status: false
+dependencies:
+  config:
+    - system.menu.navigation-header-menu
+  module:
+    - language
+    - menu_item_fields
+  theme:
+    - vss_amp
+id: vss_amp_navigationheadermenu
+theme: vss_amp
+region: header
+weight: -6
+provider: null
+plugin: 'menu_item_fields:navigation-header-menu'
+settings:
+  id: 'menu_item_fields:navigation-header-menu'
+  label: 'Navigation Header Menu'
+  provider: menu_item_fields
+  label_display: '0'
+  level: '1'
+  depth: '0'
+  expand_all_items: 0
+  view_mode: default
+  view_mode_override_field: _none
+visibility:
+  language:
+    id: language
+    langcodes:
+      en: en
+      es: es
+    negate: false
+    context_mapping:
+      language: '@language.current_language_context:language_interface'

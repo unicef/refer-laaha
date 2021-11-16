@@ -1,0 +1,27 @@
+uuid: deb9a14a-c1cd-41cb-8234-d7d8a5859767
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.quick-links
+  module:
+    - menu_item_fields
+  theme:
+    - vss_amp
+id: vss_amp_quicklinks
+theme: vss_amp
+region: footer
+weight: -4
+provider: null
+plugin: 'menu_item_fields:quick-links'
+settings:
+  id: 'menu_item_fields:quick-links'
+  label: 'Quick Links'
+  provider: menu_item_fields
+  label_display: visible
+  level: '1'
+  depth: '0'
+  expand_all_items: 0
+  view_mode: default
+  view_mode_override_field: _none
+visibility: {  }
