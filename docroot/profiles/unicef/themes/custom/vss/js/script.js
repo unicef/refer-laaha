@@ -28,20 +28,20 @@
             
            
             /**Zoom percentage */
-           var count= parseInt($("#zoom-percent").text())
-           var click_count=0;
+           var count= parseInt($("#zoom-percent").text());
+           var  zoom_cont = $.cookie('zoom');
+           var click_count=100;
             $('#text_resize_increase').once().click(function (e) {
-                //console.log();
-                click_count++;
-            //    console.log(click_count);
-            //console.log("+ clicked");
-            count=count+count*10/100;
-           //  console.log(count);
+               
+
+            count=count+10;
+            $.cookie('zoom',count, {path: '/'});
+          
                $("#zoom-percent").text(Math.round(count));
             })
             $('#text_resize_decrease').once().click(function () {
-              //  console.log("- clicked")
-                count=count-count*10/100;
+              
+                count=count-count-10;
                 $("#zoom-percent").text(Math.round(count)) ;
             })
 /** clone logo change */
@@ -50,20 +50,7 @@ if($(window).width() < 768){
     $(".logo-wrapper").clone().insertBefore("#block-iraqnavigationheadermenu");
     $("#block-exitwebsiteblock .telephone-header").insertBefore(".telephone_in_mobile .holder");
 }
-/**play pause button */
-$("#pause-article").hide();
-$('#play-article').on('click', function(event) {
-   
 
-    $('#pause-article').show();
-    $('#play-article').hide();
-  });
-
-  $('#pause-article').on('click', function(event) {
-   
-    $('#pause-article').hide();
-    $('#play-article').show();
-  });
   /** readmore */
  
   var maxLength = 300;
