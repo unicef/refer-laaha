@@ -1,0 +1,453 @@
+/* ---------- Typography ----------- */
+
+body {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 100%;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+.link,
+header,
+.amp-system-branding-block .site-slogan,
+footer[role=contentinfo],
+.amp-skip-link,
+.messages__wrapper {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* --- Links --- */
+
+a,
+a.link {
+  text-decoration: none;
+  border-bottom: 1px dotted;
+}
+
+a:hover,
+a:active,
+a:focus,
+.link:hover,
+.link:active,
+.link:focus {
+  text-decoration: none;
+  border-bottom-style: solid;
+}
+
+h1,
+.region-sidebar-first h2:first-child,
+.region-sidebar-second h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1 a,
+h2 a {
+  border-bottom: none;
+}
+
+/* --- Text --- */
+
+p {
+  margin: 0 0 1rem;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+blockquote {
+  background: #f7f7f7;
+  border-left: 1px solid #bbb; /* LTR */
+  font-style: italic;
+  margin: 1.3125rem 10px;
+  padding: 0.4375rem 10px;
+}
+
+[dir="rtl"] blockquote {
+  border-left: none;
+  border-right: 1px solid #bbb;
+}
+
+blockquote:before {
+  color: #bbb;
+  content: "\201C";
+  font-size: 2.625rem;
+  line-height: 0.1;
+  margin-right: 0.153125rem; /* LTR */
+  vertical-align: -0.30625rem;
+}
+
+[dir="rtl"] blockquote:before {
+  content: "\201D";
+  margin-left: 0.153125rem;
+  margin-right: 0;
+}
+
+blockquote:after {
+  color: #bbb;
+  content: "\201D";
+  font-size: 2.625rem;
+  line-height: 0.1;
+  vertical-align: -0.39375rem;
+}
+
+[dir="rtl"] blockquote:after {
+  content: "\201C";
+}
+
+blockquote > p:first-child {
+  display: inline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0 0 0.21875rem 0.875rem; /* LTR */
+}
+
+[dir="rtl"] ul,
+[dir="rtl"] ol {
+  padding: 0 0.875rem 0.21875rem 0;
+}
+
+ol ol,
+ul ul {
+  margin: 0;
+  padding: 0 0 0.21875rem 0.875rem; /* LTR */
+}
+
+[dir="rtl"] ol ol,
+[dir="rtl"] ul ul {
+  padding: 0 0.875rem 0.21875rem 0;
+}
+
+/* ---------- Colors ----------- */
+
+body {
+  background: #ffffff;
+  color: #3b3b3b;
+}
+
+header {
+  background-color: #1d84c3;
+  background-image: -webkit-linear-gradient(top, #055a8e 0%, #1d84c3 100%);
+  background-image: linear-gradient(to bottom, #055a8e 0%, #1d84c3 100%);
+}
+
+main {
+  background-color: #ffffff;
+}
+
+footer[role=contentinfo] {
+  background: #292929;
+}
+
+a,
+.link {
+  color: #0071b3;
+}
+
+a:hover,
+a:focus,
+.link:hover,
+.link:focus {
+  color: #018fe2;
+}
+
+a:active,
+.link:active {
+  color: #23aeff;
+}
+
+
+/* ---------- Utility classes ----------- */
+
+.hidden {
+  display: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+  word-wrap: normal;
+}
+
+.visually-hidden.focusable:active,
+.visually-hidden.focusable:focus {
+  position: static;
+  clip: auto;
+  overflow: visible;
+  height: auto;
+  width: auto;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* ---------- Header ----------- */
+
+header div:first-child {
+  padding: 0.75rem .9375rem 0.75rem;
+}
+
+
+header a {
+  border-bottom: none;
+}
+header,
+header a,
+header li a.is-active,
+header .link,
+.amp-system-branding-block,
+.amp-system-branding-block a,
+  color: #fffeff;
+}
+
+.brand {
+  margin: 0.375rem auto 0.375rem;
+}
+
+.amp-system-branding-block .site-logo {
+  display: inline-block;
+  margin-right: 0.875rem; /* LTR */
+  margin-bottom: 0.25rem;
+}
+
+[dir="rtl"] .amp-system-branding-block .site-logo {
+  margin-right: 0;
+  margin-left: 1em;
+}
+
+.amp-system-branding-block .site-name,
+.amp-system-branding-block .site-slogan {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.amp-system-branding-block .site-name,
+.amp-system-branding-block .site-name a {
+  font-size: 1.375rem;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.amp-system-branding-block .site-slogan {
+  font-size: 0.8125rem;
+  margin-top: 7px;
+  word-spacing: 0.1em;
+  font-style: italic;
+}
+
+/* ---------- Footer ----------- */
+
+footer[role=contentinfo] div {
+  color: #c0c0c0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.75rem;
+  padding: 10px;
+}
+
+footer[role=contentinfo] a,
+footer[role=contentinfo] a.is-active {
+  color: #fcfcfc;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+footer[role=contentinfo] a:hover,
+footer[role=contentinfo] a:focus {
+  color: #fefefe;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* ----------  Tabs and Main menu ----------  */
+
+.block-system-breadcrumb-block ul,
+.tabs ul,
+#menu ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+}
+
+.block-system-breadcrumb-block ol,
+div.tabs,
+#menu ul {
+  margin: 1em 0;
+}
+.block-system-breadcrumb-block ol,
+main .contextual-region ul,
+#menu ul {
+  list-style: none;
+  margin: 0 0 0.5em;
+  padding: 0;
+}
+.block-system-breadcrumb-block > li,
+.tabs > li,
+#menu ul > li {
+  display: inline-block;
+  margin-right: 0.3em; /* LTR */
+}
+[dir="rtl"] .block-system-breadcrumb-block > li, .tabs > li, #menu ul > li {
+  margin-left: 0.3em;
+  margin-right: 0;
+}
+.block-system-breadcrumb-block,
+.tabs a,
+#menu ul a {
+  display: block;
+  padding: 0.2em 1em;
+  text-decoration: none;
+}
+.block-system-breadcrumb-block,
+.tabs a.is-active,
+#menu ul a.is-active {
+  background-color: #eee;
+}
+.block-system-breadcrumb-block,
+.tabs a:focus,
+.tabs a:hover,
+#menu ul a:focus,
+#menu ul a:hover {
+  background-color: #f5f5f5;
+}
+
+.region-primary-menu {
+  background-color: #292929;
+}
+.region-primary-menu a {
+  color: #ffffff;
+}
+.region-primary-menu a:focus,
+.region-primary-menu a:hover {
+  color: #000;
+}
+
+.block-system-breadcrumb-block li:after {
+  content: ">"
+}
+/* ---------- Skip Link ----------- */
+
+.amp-skip-link {
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  z-index: 50;
+  background: #444;
+  background: rgba(0, 0, 0, 0.6);
+  font-size: 0.94em;
+  line-height: 1.7em;
+  padding: 1px 10px 2px;
+  border-radius: 0 0 10px 10px;
+  border-bottom-width: 0;
+  outline: 0;
+}
+
+.amp-skip-link.visually-hidden.focusable:focus {
+  position: absolute;
+  color: #fff;
+}
+
+/* ---------- Messages ----------- */
+
+.messages__wrapper {
+  padding: 20px 0 5px 8px;
+  margin: 8px 0;
+}
+
+[dir="rtl"] .messages__wrapper {
+  padding: 20px 8px 5px 0;
+}
+
+.messages {
+  background: no-repeat 10px 17px;  /* LTR */
+  border: 1px solid;
+  border-width: 1px 1px 1px 0;  /* LTR */
+  border-radius: 2px;
+  padding: 15px 20px 15px 35px; /* LTR */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+[dir="rtl"] .messages {
+  border-width: 1px 0 1px 1px;
+  background-position: right 10px top 17px;
+  padding-left: 20px;
+  padding-right: 35px;
+  text-align: right;
+}
+.messages + .messages {
+  margin-top: 1.538em;
+}
+
+.messages__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.messages__item + .messages__item {
+  margin-top: 0.769em;
+}
+
+/* See .color-success in Seven's colors.css */
+.messages--status {
+  color: #325e1c;
+  background-color: #f3faef;
+  border-color: #c9e1bd #c9e1bd #c9e1bd transparent;  /* LTR */
+  background-image: url(../../../../../../core/misc/icons/73b355/check.svg);
+  box-shadow: -8px 0 0 #77b259; /* LTR */
+}
+
+[dir="rtl"] .messages--status {
+  border-color: #c9e1bd transparent #c9e1bd #c9e1bd;
+  box-shadow: 8px 0 0 #77b259;
+  margin-left: 0;
+}
+
+/* See .color-warning in Seven's colors.css */
+.messages--warning {
+  background-color: #fdf8ed;
+  background-image: url(../../../../../../core/misc/icons/e29700/warning.svg);
+  border-color: #f4daa6 #f4daa6 #f4daa6 transparent;  /* LTR */
+  color: #734c00;
+  box-shadow: -8px 0 0 #e09600; /* LTR */
+}
+
+[dir="rtl"] .messages--warning {
+  border-color: #f4daa6 transparent #f4daa6 #f4daa6;
+  box-shadow: 8px 0 0 #e09600;
+}
+
+/* See .color-error in Seven's colors.css */
+.messages--error {
+  background-color: #fcf4f2;
+  color: #a51b00;
+  background-image: url(../../../../../../core/misc/icons/e32700/error.svg);
+  border-color: #f9c9bf #f9c9bf #f9c9bf transparent;  /* LTR */
+  box-shadow: -8px 0 0 #e62600; /* LTR */
+}
+
+[dir="rtl"] .messages--error {
+  border-color: #f9c9bf transparent #f9c9bf #f9c9bf;
+  box-shadow: 8px 0 0 #e62600;
+}
+
+.messages--error p.error {
+  color: #a51b00;
+}
+

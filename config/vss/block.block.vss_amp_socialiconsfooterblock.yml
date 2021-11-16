@@ -1,0 +1,20 @@
+uuid: 2fa23012-faf3-48ea-af42-75e50b454959
+langcode: en
+status: true
+dependencies:
+  module:
+    - vss_custom
+  theme:
+    - vss_amp
+id: vss_amp_socialiconsfooterblock
+theme: vss_amp
+region: header
+weight: -4
+provider: null
+plugin: social_icons_footer_block
+settings:
+  id: social_icons_footer_block
+  label: 'Social icons footer block'
+  provider: vss_custom
+  label_display: '0'
+visibility: {  }

@@ -1,0 +1,20 @@
+name: VSS AMP Theme
+type: theme
+base theme: amptheme
+# This is a subtheme of the AMP theme, so most of the work is already done.
+
+description: The VSS AMP Theme is a subtheme of the AMP theme.
+package: Custom
+core_version_requirement: ^8.8 || ^9
+
+libraries:
+  - vss_amp/base
+
+regions:
+  header: Header
+  primary_menu: 'Primary menu'
+  breadcrumb: Breadcrumb
+  content: Content
+  sidebar_first: 'Sidebar first'
+  sidebar_second: 'Sidebar second'
+  footer: 'Footer'
