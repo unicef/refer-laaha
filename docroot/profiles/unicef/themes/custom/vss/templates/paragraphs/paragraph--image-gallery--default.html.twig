@@ -52,13 +52,9 @@
 		{% block content %}
       {% if content.field_image['#items'] is not empty %}
         {% for item in content.field_image['#items'] %}
-          Cap: {{item.entity.field_caption.0.value}}
-          source: {{item.entity.field_source.0.value}}
-          image: <img src="{{ file_url(item.entity.field_media_image.entity.uri.value) }}" />
-          alt:{{ item.entity.field_media_image.alt}}
+          <img src="{{ file_url(item.entity.field_media_image.entity.uri.value) }}" class="img-responsive" />
         {% endfor %}
       {% endif %}
     {% endblock %}
   </div>
 {% endblock paragraph %}
-

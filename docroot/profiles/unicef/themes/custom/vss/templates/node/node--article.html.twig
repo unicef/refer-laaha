@@ -75,17 +75,25 @@
     'clearfix',
   ]
 %}
-{# {{kint(node)}} #}
+
+
 
 {{ attach_library('vss_custom/narrate') }}
 <article{{attributes.addClass(classes)}}>
+<div class="article-hero-img">
+<img class="hero-img img-responsive" src="/{{ base_path ~ directory }}/images/hero-banner.png" />
+<h1>{{ label }}</h1> 
+</div>
+
 {% if content.field_add_narration.0['#markup']|lower == 'yes'%}
   <div class="wrapper">
     <div id="text"></div>
     <div class="buttons">
-      <button id="play-article" class="play-article">Play</button>
-      <button id="pause-article" class="pause-article">Pause</button>
-      <button id="resume-article" class="resume-article">Resume</button>
+
+      <button id="play-article" class="button-defult play-article">NARRATE</button>
+      <button id="pause-article" class="button-defult  pause-article">NARRATE</button>
+      <button id="resume-article" class="button-defult  resume-article">Resume</button>
+
     </div>
   </div>
 {% endif %}

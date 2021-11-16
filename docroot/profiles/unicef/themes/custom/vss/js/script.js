@@ -50,8 +50,39 @@ if($(window).width() < 768){
     $(".logo-wrapper").clone().insertBefore("#block-iraqnavigationheadermenu");
     $("#block-exitwebsiteblock .telephone-header").insertBefore(".telephone_in_mobile .holder");
 }
+/**play pause button */
+$("#pause-article").hide();
+$('#play-article').on('click', function(event) {
+   
 
-        
+    $('#pause-article').show();
+    $('#play-article').hide();
+  });
+
+  $('#pause-article').on('click', function(event) {
+   
+    $('#pause-article').hide();
+    $('#play-article').show();
+  });
+  /** readmore */
+ 
+  var maxLength = 300;
+	$("article p").each(function(){
+		var myStr = $(this).text();
+		if($.trim(myStr).length > maxLength){
+			var newStr = myStr.substring(0, maxLength);
+			var removedStr = myStr.substring(maxLength, $.trim(myStr).length);
+			$(this).empty().html(newStr);
+			$(this).append('<button id="readmore" class="button-defult read-more">READ MORE <i class="fa fa-angle-down" aria-hidden="true"></i></button>');
+			$(this).append('<span class="more-text">' + removedStr + '</span>');
+		}
+	});
+	$(".read-more").click(function(){
+		$(this).siblings(".more-text").contents().unwrap();
+		$(this).remove();
+	});
+  
+
     }
     };
   
