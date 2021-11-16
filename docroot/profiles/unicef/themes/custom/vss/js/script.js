@@ -53,19 +53,19 @@ if($(window).width() < 768){
 /**play pause button */
 $("#pause-article").hide();
 $('#play-article').on('click', function(event) {
-    //currentPlayingTrack.play();
+   
 
     $('#pause-article').show();
     $('#play-article').hide();
   });
 
   $('#pause-article').on('click', function(event) {
-    //currentPlayingTrack.pause();
+   
     $('#pause-article').hide();
     $('#play-article').show();
   });
   /** readmore */
-  //$(".more-text").hide();
+ 
   var maxLength = 300;
 	$("article p").each(function(){
 		var myStr = $(this).text();
