@@ -13,6 +13,9 @@
             sessionStorage.setItem('pop-up', '1');
           }
         });
+        if (!drupalSettings.narrate) {
+          return;
+        }
         window.speechSynthesis.cancel();
         sessionStorage.setItem('id', '');
 

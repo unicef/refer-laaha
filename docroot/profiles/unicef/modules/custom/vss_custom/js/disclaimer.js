@@ -13,6 +13,9 @@
             sessionStorage.setItem('pop-up', '1');
           }
         });
+        if (!drupalSettings.disclaimer_narrate) {
+        return;
+        }
         window.speechSynthesis.cancel();
         // grab the UI elements to work with
         const playEl = document.getElementById('play');
