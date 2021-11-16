@@ -1,6 +1,6 @@
 uuid: 99623584-9f86-47ae-8427-5df9e11c4aac
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - system.menu.navigation-header-menu
@@ -12,7 +12,7 @@ dependencies:
 id: vss_amp_navigationheadermenu
 theme: vss_amp
 region: header
-weight: -5
+weight: -6
 provider: null
 plugin: 'menu_item_fields:navigation-header-menu'
 settings:

@@ -1,26 +1,29 @@
-uuid: 9b982473-c755-44db-9b66-93a417152ce5
+uuid: ebdef6b4-33f7-4fbc-807f-ee6a47f7673f
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.paragraph.amp
     - field.field.paragraph.external_videos.field_external_video
     - paragraphs.paragraphs_type.external_videos
   module:
     - video_embed_field
-id: paragraph.external_videos.default
+id: paragraph.external_videos.amp
 targetEntityType: paragraph
 bundle: external_videos
-mode: default
+mode: amp
 content:
   field_external_video:
     weight: 0
     label: hidden
     settings:
+      image_style: ''
+      link_image_to: ''
       responsive: true
       width: 854
       height: 480
       autoplay: false
     third_party_settings: {  }
-    type: video_embed_field_video
+    type: video_embed_field_lazyload
     region: content
 hidden: {  }

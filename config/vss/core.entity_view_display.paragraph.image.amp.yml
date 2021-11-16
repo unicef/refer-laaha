@@ -1,0 +1,28 @@
+uuid: 262d9e41-b299-43bf-aa9e-38c1b2b6a3ef
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.amp
+    - field.field.paragraph.image.field_single_image
+    - paragraphs.paragraphs_type.image
+  module:
+    - amp
+id: paragraph.image.amp
+targetEntityType: paragraph
+bundle: image
+mode: amp
+content:
+  field_single_image:
+    type: amp_media
+    weight: 0
+    label: hidden
+    settings:
+      image_style: ''
+      image_link: ''
+      layout: responsive
+      width: 900
+      height: 675
+    third_party_settings: {  }
+    region: content
+hidden: {  }
