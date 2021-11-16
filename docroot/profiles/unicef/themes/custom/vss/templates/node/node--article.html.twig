@@ -75,6 +75,8 @@
     'clearfix',
   ]
 %}
+{# {{kint(node)}} #}
+
 {{ attach_library('vss_custom/narrate') }}
 <article{{attributes.addClass(classes)}}>
 {% if content.field_add_narration.0['#markup']|lower == 'yes'%}
@@ -83,7 +85,7 @@
     <div class="buttons">
       <button id="play-article" class="play-article">Play</button>
       <button id="pause-article" class="pause-article">Pause</button>
-
+      <button id="resume-article" class="resume-article">Resume</button>
     </div>
   </div>
 {% endif %}

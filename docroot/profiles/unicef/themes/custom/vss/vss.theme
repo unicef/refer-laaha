@@ -72,17 +72,31 @@ function vss_preprocess_node(array &$variables) {
   $node = $variables['elements']['#node'];
   $type = $node->getType();
   if ($type == 'article') {
+    $lang_id = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    if ($node->hasTranslation($lang_id)) {
+      $node = $node->getTranslation($lang_id);
+    }
     $html = '';
     foreach ($node->get('field_assets')->referencedEntities() as $entity) {
       if ($entity->bundle() == 'wysiwyg_editor') {
+        if ($entity->hasTranslation($lang_id)) {
+          $entity = $entity->getTranslation($lang_id);
+        }
         $html .= strip_tags($entity->get('field_description')->value);
         $html .= ', ';
       }
     }
     if ($html) {
+      $html .= '.';
       $string = str_replace('&nbsp;', '', $html);
       $variables['#attached']['drupalSettings']['narrate'] = render($string);
-      $variables['#attached']['drupalSettings']['langId'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
+      if ($lang_id == 'ar') {
+        $lang_id = 'ar-IQ';
+      }
+      if ($lang_id == 'en') {
+        $lang_id = 'en-GB';
+      }
+      $variables['#attached']['drupalSettings']['langId'] = $lang_id;
     }
   }
 }
