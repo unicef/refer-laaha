@@ -29,7 +29,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_category_color:
-    weight: 8
+    weight: 7
     settings:
       default_colors: '#f8eaef,#dff2f9,#e4f1e2,#e9eafd,#fdf1eb,#fef8df,#e8feff,#f9e2ff'
     third_party_settings: {  }
@@ -43,14 +43,14 @@ content:
     region: content
   field_icon:
     type: image_image
-    weight: 7
+    weight: 6
     region: content
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
   field_related_content:
-    weight: 9
+    weight: 8
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -60,7 +60,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_tags:
-    weight: 10
+    weight: 9
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -71,7 +71,7 @@ content:
     region: content
   langcode:
     type: language_select
-    weight: 6
+    weight: 5
     region: content
     settings:
       include_locked: true
@@ -94,11 +94,11 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 4
+    weight: 10
     region: content
     third_party_settings: {  }
   translation:
-    weight: 5
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
