@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains vss_amp theme.
+ */
+
 use Drupal\Core\Template\Attribute;
 
 /**
@@ -35,7 +40,9 @@ function vss_amp_preprocess_html(&$variables) {
     }
     else {
       $variables['attributes'] = new Attribute($variables['attributes']);
-      $variables['attributes']->addClass(['toolbar-tray-open', 'toolbar-vertical', 'toolbar-fixed', 'toolbar-loading']);
+      $variables['attributes']->addClass([
+        'toolbar-tray-open', 'toolbar-vertical', 'toolbar-fixed', 'toolbar-loading',
+      ]);
     }
   }
 
