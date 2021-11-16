@@ -30,7 +30,6 @@
             /**Zoom percentage */
            var count= parseInt($("#zoom-percent").text());
            var  zoom_cont = $.cookie('zoom');
-           console.log(zoom_cont);
            var click_count=100;
             $('#text_resize_increase').once().click(function (e) {
                
