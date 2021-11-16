@@ -26,7 +26,6 @@
         pause.hidden = true;
         // add UI event handlers
         play.addEventListener("click", () => {
-          // data.innerText = "play";
           var utterance = new SpeechSynthesisUtterance(drupalSettings.disclaimer_narrate);
           utterance.lang = "en-US";
           play.hidden = true;
