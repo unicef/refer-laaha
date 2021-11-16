@@ -1,6 +1,6 @@
 uuid: 39e0600d-b6f9-497a-8ad1-30071cf6bd00
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - language
@@ -9,7 +9,7 @@ dependencies:
 id: vss_amp_languageswitcher
 theme: vss_amp
 region: header
-weight: -3
+weight: -2
 provider: null
 plugin: 'language_block:language_interface'
 settings:

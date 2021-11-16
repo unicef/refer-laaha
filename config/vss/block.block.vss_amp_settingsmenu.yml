@@ -1,6 +1,6 @@
 uuid: fc1eef73-0aae-4e6f-a807-07eb886a261c
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - system.menu.settings-menu
@@ -11,7 +11,7 @@ dependencies:
 id: vss_amp_settingsmenu
 theme: vss_amp
 region: header
-weight: -3
+weight: -1
 provider: null
 plugin: 'system_menu_block:settings-menu'
 settings:
