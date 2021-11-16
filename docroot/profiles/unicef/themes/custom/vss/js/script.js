@@ -33,18 +33,15 @@
            console.log(zoom_cont);
            var click_count=100;
             $('#text_resize_increase').once().click(function (e) {
-                //console.log();
-                //click_count++;
-            //    console.log(click_count);
-            //console.log("+ clicked");
+               
 
             count=count+10;
             $.cookie('zoom',count, {path: '/'});
-           //  console.log(count);
+          
                $("#zoom-percent").text(Math.round(count));
             })
             $('#text_resize_decrease').once().click(function () {
-              //  console.log("- clicked")
+              
                 count=count-count-10;
                 $("#zoom-percent").text(Math.round(count)) ;
             })
