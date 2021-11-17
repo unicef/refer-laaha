@@ -180,6 +180,9 @@ ul.block-menu-item-fieldsfooter-last-menu {
     .header-wrap .navbar-brand:hover {
       color: #BB6A79; }
 
+.settings-wrapper ul {
+  font-size: 16px !important; }
+
 .btn-settings {
   cursor: pointer; }
 
@@ -274,14 +277,16 @@ ul.block-menu-item-fieldsfooter-last-menu {
       .region-header #block-settingsmenu .navbar-text .percent {
         margin-left: 20px; }
     .region-header #block-settingsmenu a#text_resize_decrease {
-      background: url(../images/minus.png) no-repeat 0 0;
+      background: url(../images/minus.png) no-repeat center center;
       float: left;
       margin-right: 10px;
-      font-size: 0; }
+      margin-top: 3px;
+      font-size: 0 !important; }
     .region-header #block-settingsmenu a#text_resize_increase {
       float: left;
-      background: url(../images/plus.png) no-repeat 0 0;
-      font-size: 0; }
+      background: url(../images/plus.png) no-repeat center center;
+      margin-top: 0;
+      font-size: 0 !important; }
     .region-header #block-settingsmenu .text-resize-block {
       float: right;
       margin-top: 12px;
@@ -428,7 +433,7 @@ article .buttons {
   margin-top: 35px;
   margin-bottom: 35px; }
   article .buttons .button-defult {
-    background: #FFCDD2 url("../images/sound-icon.png") no-repeat 20px 11px;
+    background: #FFCDD2 url("../images/sound-icon.png") no-repeat 20px center;
     padding-left: 45px; }
 
 article .field--name-field-tags {
@@ -755,7 +760,7 @@ html[dir="rtl"] .region-header #block-settingsmenu .navbar-text {
       float: right;
       margin-right: 20px; }
   article .buttons button {
-    background: #FFCDD2 url("../images/sound-icon.png") no-repeat 102px 11px;
+    background: #FFCDD2 url("../images/sound-icon.png") no-repeat 102px center;
     padding-left: 15px;
     padding-right: 45px; } }
 

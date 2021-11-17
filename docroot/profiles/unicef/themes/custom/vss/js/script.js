@@ -27,23 +27,7 @@
             })  
             
            
-            /**Zoom percentage */
-           var count= parseInt($("#zoom-percent").text());
-           var  zoom_cont = $.cookie('zoom');
-           var click_count=100;
-            $('#text_resize_increase').once().click(function (e) {
-               
-
-            count=count+10;
-            $.cookie('zoom',count, {path: '/'});
-          
-               $("#zoom-percent").text(Math.round(count));
-            })
-            $('#text_resize_decrease').once().click(function () {
-              
-                count=count-count-10;
-                $("#zoom-percent").text(Math.round(count)) ;
-            })
+           
 /** clone logo change */
 if($(window).width() < 768){
     $(".logo-wrapper").clone().insertBefore("#block-navigationheadermenu");
