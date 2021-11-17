@@ -9,6 +9,8 @@ folder: ../config/vsstest
 module: {  }
 theme: {  }
 blacklist:
+  - domain.config.stage_ec_virtualsafespace_net.system.site
+  - domain.config.stage_iq_virtualsafespace_net.system.site
   - domain.language.stage_ec_virtualsafespace_net.language.negotiation
   - domain.language.stage_iq_virtualsafespace_net.language.negotiation
   - domain.record.stage_ec_virtualsafespace_net
