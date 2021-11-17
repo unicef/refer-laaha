@@ -81,11 +81,8 @@
   <div>
     <h1>{{ label }}</h1> 
   </div>
-
   {{ content.field_assets }}
-
-  {{ content.field_tags }}
-
+  {{ 'Tags'|t }}: {{ content.field_tags }}
 	<div{{content_attributes.addClass('content')}}>
     {{ content|without('field_tags', 'field_assets', 'field_add_narration', 'body') }}
 	</div>
