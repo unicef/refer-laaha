@@ -5,11 +5,11 @@ dependencies:
   module:
     - node
 id: vss_path_auto
-label: 'VSS Path Auto'
+label: 'Content Pattern'
 type: 'canonical_entities:node'
 pattern: '[node:title]'
 selection_criteria:
-  dc4aab77-1217-4a01-86d8-afbf5bf44599:
+  e7e76de7-41e7-40ee-9be2-4bce914015f5:
     id: node_type
     bundles:
       article: article
@@ -17,7 +17,7 @@ selection_criteria:
     negate: false
     context_mapping:
       node: node
-    uuid: dc4aab77-1217-4a01-86d8-afbf5bf44599
+    uuid: e7e76de7-41e7-40ee-9be2-4bce914015f5
 selection_logic: and
 weight: -5
 relationships: {  }
