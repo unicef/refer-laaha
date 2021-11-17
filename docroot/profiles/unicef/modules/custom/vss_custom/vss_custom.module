@@ -134,6 +134,12 @@ function vss_custom_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'taxonomy_term_categories_form') {
     $form['description']['widget'][0]['#required'] = 'true';
   }
+  // Adding warning message.
+  if (\Drupal::request()->attributes->has('_route')) {
+    if (\Drupal::request()->attributes->get('_route') == 'entity.node.content_translation_add') {
+      \Drupal::messenger()->addWarning(t('You are modifying content for @language language', ['@language' => \Drupal::languageManager()->getCurrentLanguage()->getName()]));
+    }
+  }
 }
 
 /**
@@ -146,15 +152,4 @@ function vss_custom_form_alter(&$form, &$form_state, $form_id) {
 function vss_custom_video_embed_field_provider_info_alter(&$definitions) {
   // Replace the YouTube provider class with another implementation.
   $definitions['youtube']['class'] = 'Drupal\vss_custom\Plugin\video_embed_field\Provider\CustomYouTubeProvider';
-}
-
-/**
- * Implements hook_form_alter().
- */
-function vss_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  if (\Drupal::request()->attributes->has('_route')) {
-    if (\Drupal::request()->attributes->get('_route') == 'entity.node.content_translation_add') {
-      \Drupal::messenger()->addWarning(t('You are modifying content for @language language', ['@language' => \Drupal::languageManager()->getCurrentLanguage()->getName()]));
-    }
-  }
 }
