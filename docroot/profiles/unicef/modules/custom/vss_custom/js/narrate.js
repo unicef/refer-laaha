@@ -17,7 +17,6 @@
           return;
         }
         window.speechSynthesis.cancel();
-
         // grab the UI elements to work with
         const play = document.getElementById('play-article');
         const pause = document.getElementById('pause-article');
@@ -27,7 +26,14 @@
         // add UI event handlers
         play.addEventListener("click", () => {
           var utterance = new SpeechSynthesisUtterance(drupalSettings.narrate);
-          utterance.lang = drupalSettings.langId;
+          if (drupalSettings.voiceId) {
+            var voices = speechSynthesis.getVoices();
+            utterance.voice = voices[drupalSettings.voiceId];
+          }
+          else {
+            utterance.lang = drupalSettings.langId;
+          }
+
           play.hidden = true;
           resume.hidden = true;
           pause.hidden = false;
