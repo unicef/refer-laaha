@@ -88,8 +88,6 @@ function vss_custom_taxonomy_term_presave($term) {
         'field_icon' => [
           'target_id' => $term->get('field_icon')->target_id,
           'alt' => $term->get('field_icon')->alt,
-          'width' => 24,
-          'height' => 24,
         ],
         'parent' => 'menu_link_content:' . $uuid,
       ]);
@@ -111,8 +109,6 @@ function vss_custom_taxonomy_term_presave($term) {
           $link->weight->value = $term->get('weight')->value;
           $link->field_icon->target_id = $term->get('field_icon')->target_id;
           $link->field_icon->alt = $term->get('field_icon')->alt;
-          $link->field_icon->width = 24;
-          $link->field_icon->height = 24;
           $link->save();
         }
       }
