@@ -91,10 +91,17 @@ function vss_preprocess_node(array &$variables) {
       $string = str_replace('&nbsp;', '', $html);
       $variables['#attached']['drupalSettings']['narrate'] = render($string);
       if ($lang_id == 'ar') {
-        $lang_id = 'ar-IQ';
+        $lang_id = 'ar-SA';
+      }
+      if ($lang_id == 'es') {
+        $lang_id = 'es-ES';
+        $voiceId = 30;
+        $variables['#attached']['drupalSettings']['voiceId'] = $voiceId;
       }
       if ($lang_id == 'en') {
-        $lang_id = 'en-GB';
+        $lang_id = 'en-US';
+        $voiceId = 41;
+        $variables['#attached']['drupalSettings']['voiceId'] = $voiceId;
       }
       $variables['#attached']['drupalSettings']['langId'] = $lang_id;
     }

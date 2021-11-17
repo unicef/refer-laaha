@@ -54,7 +54,7 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
    */
   public function build() {
     $build = [];
-    $id = $this->languageManager->getCurrentLanguage()->getId();
+    $lang_id = $this->languageManager->getCurrentLanguage()->getId();
     $data = $this->vssCommonService->getDisclaimer();
     $html = '';
     if (isset($data['disclaimer_title']) && !empty($data['disclaimer_title'])) {
@@ -67,7 +67,20 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
     $string = str_replace('&nbsp;', '', $html);
     $build['#theme'] = 'disclaimer_pop_up_block';
     $build['#content'] = $data;
-    $build['#attached']['drupalSettings']['disclaimer_landId'] = $id;
+    if ($lang_id == 'ar') {
+      $lang_id = 'ar-SA';
+    }
+    if ($lang_id == 'es') {
+      $lang_id = 'es-ES';
+      $voiceId = 30;
+      $build['#attached']['drupalSettings']['voiceId'] = $voiceId;
+    }
+    if ($lang_id == 'en') {
+      $lang_id = 'en-US';
+      $voiceId = 41;
+      $build['#attached']['drupalSettings']['voiceId'] = $voiceId;
+    }
+    $build['#attached']['drupalSettings']['disclaimer_landId'] = $lang_id;
     $build['#attached']['drupalSettings']['disclaimer_narrate'] = $string;
     $build['#attached']['drupalSettings']['disclaimer'] = TRUE;
     $build['#cache']['tags'] = $this->getCacheTags();
