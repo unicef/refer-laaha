@@ -14,8 +14,8 @@ dependencies:
     - image.style.large
     - node.type.article
   module:
-    - entity_reference_revisions
     - image
+    - layout_paragraphs
     - text
     - user
 _core:
@@ -43,7 +43,7 @@ content:
       format_custom_true: ''
     third_party_settings: {  }
   field_assets:
-    type: entity_reference_revisions_entity_view
+    type: layout_paragraphs
     weight: 3
     label: hidden
     settings:
@@ -64,7 +64,7 @@ content:
     type: entity_reference_label
     weight: 2
     region: content
-    label: inline
+    label: hidden
     settings:
       link: false
     third_party_settings: {  }
