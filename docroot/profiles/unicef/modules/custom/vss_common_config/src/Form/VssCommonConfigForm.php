@@ -319,13 +319,6 @@ class VssCommonConfigForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
 
     $phone = $form_state->getValue('phone');
-    // $phoneHeader = $form_state->getValue('header_phone');
-    // if (!empty($phoneHeader) && !$this->validatePhoneNumber($phoneHeader)) {
-    // $form_state->setErrorByName(
-    // "header_phone",
-    // $this->t('Please enter valid phone number in Header Phone field.')
-    // );
-    // }
     if (!empty($phone) && !$this->validatePhoneNumber($phone)) {
       $form_state->setErrorByName("phone",
        $this->t('Please enter valid phone number.'));
