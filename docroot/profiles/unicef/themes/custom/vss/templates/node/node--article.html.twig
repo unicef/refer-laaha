@@ -79,11 +79,14 @@
 
 
 {{ attach_library('vss_custom/narrate') }}
+{{ attach_library('vss/readmore') }}
+
 <article{{attributes.addClass(classes)}}>
 <div class="article-hero-img">
 <img class="hero-img img-responsive" src="/{{ base_path ~ directory }}/images/hero-banner.png" />
 <h1>{{ label }}</h1> 
 </div>
+<div class="readmore" id="readmore_article">
 
 {% if content.field_add_narration.0['#markup']|lower == 'yes'%}
   <div class="wrapper">
@@ -100,7 +103,9 @@
 
 {{ content.field_assets }}
 
+</div>
 {{ content.field_tags }}
+
 
 	{{ title_prefix }}
 	{% if label and not page %}

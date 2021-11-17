@@ -6,6 +6,12 @@ framework:
       '//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css': { external: true }
   js:
     js/script.js: {}
+
+readmore:
+  js:
+    js/readmore.js: {}
+    https://code.jquery.com/jquery-migrate-1.4.1.js: { external: true }
+
       # Uncomment for LESS source JavaScript files.
 #  js:
 #    bootstrap/js/affix.js: {}

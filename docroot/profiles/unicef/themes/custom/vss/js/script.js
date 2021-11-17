@@ -36,22 +36,18 @@ if($(window).width() < 768){
 }
 
   /** readmore */
+  $('#readmore_article').readmore({
+    moreLink: '<button id="readmore" class="button-defult read-more">READ MORE <i class="fa fa-angle-down" aria-hidden="true"></i></button>',
+    collapsedHeight: 1500,
+    afterToggle: function(trigger, element, expanded) {
+      if(! expanded) { // The "Close" link was clicked
+        $('html, body').animate({scrollTop: element.offset().top}, {duration: 100});
+      }
+    }
+  });
+  
  
-  var maxLength = 300;
-	$("article p").each(function(){
-		var myStr = $(this).text();
-		if($.trim(myStr).length > maxLength){
-			var newStr = myStr.substring(0, maxLength);
-			var removedStr = myStr.substring(maxLength, $.trim(myStr).length);
-			$(this).empty().html(newStr);
-			$(this).append('<button id="readmore" class="button-defult read-more">READ MORE <i class="fa fa-angle-down" aria-hidden="true"></i></button>');
-			$(this).append('<span class="more-text">' + removedStr + '</span>');
-		}
-	});
-	$(".read-more").click(function(){
-		$(this).siblings(".more-text").contents().unwrap();
-		$(this).remove();
-	});
+  
   
 
     }
