@@ -36,8 +36,9 @@ if($(window).width() < 768){
 }
 
   /** readmore */
+  var readmore = Drupal.t('READ MORE');
   $('#readmore_article').readmore({
-    moreLink: '<button id="readmore" class="button-defult read-more">READ MORE <i class="fa fa-angle-down" aria-hidden="true"></i></button>',
+    moreLink: '<button id="readmore" class="button-defult read-more">readmore<i class="fa fa-angle-down" aria-hidden="true"></i></button>',
     collapsedHeight: 1500,
     afterToggle: function(trigger, element, expanded) {
       if(! expanded) { // The "Close" link was clicked
