@@ -68,10 +68,17 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
     $build['#theme'] = 'disclaimer_pop_up_block';
     $build['#content'] = $data;
     if ($lang_id == 'ar') {
-      $lang_id = 'ar-IQ';
+      $lang_id = 'ar-SA';
+    }
+    if ($lang_id == 'es') {
+      $lang_id = 'es-ES';
+      $voiceId = 30;
+      $build['#attached']['drupalSettings']['voiceId'] = $voiceId;
     }
     if ($lang_id == 'en') {
       $lang_id = 'en-US';
+      $voiceId = 41;
+      $build['#attached']['drupalSettings']['voiceId'] = $voiceId;
     }
     $build['#attached']['drupalSettings']['disclaimer_landId'] = $lang_id;
     $build['#attached']['drupalSettings']['disclaimer_narrate'] = $string;
