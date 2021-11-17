@@ -1,0 +1,58 @@
+diff --git a/js/text_resize.js b/js/text_resize.js
+index 5ad9659..16d12ba 100755
+--- a/js/text_resize.js
++++ b/js/text_resize.js
+@@ -13,6 +13,9 @@
+       var textResizeLineHeightAllow = drupalSettings.text_resize.text_resize_line_height_allow;
+       var textResizeLineHeightMin = drupalSettings.text_resize.text_resize_line_height_min;
+       var textResizeLineHeightMax = drupalSettings.text_resize.text_resize_line_height_max;
++      var percentage = ($.cookie('text_resize_percentage')) ? parseInt($.cookie('text_resize_percentage')) : 100;
++      $('#zoom-percent').text(percentage);
++
+       if (textResizeScope) {
+         var elementToResize = {};
+         if ($('#' + textResizeScope).length > 0) {
+@@ -64,10 +67,17 @@
+             if (textResizeLineHeightAllow) {
+               $.cookie('text_resize_line_height', new_line_height, {path: '/'});
+             }
++            percentage = percentage += 15;
++            $.cookie('text_resize_percentage', percentage, { path: '/' });
+             var allow_change = true;
+           }
+           else {
+             $.cookie('text_resize', textResizeMaximum, {path: '/'});
++            // Set value for last level
++            if (textResizeLineHeightMax != parseInt($.cookie('text_resize_line_height'))) {
++              percentage = percentage += 15;
++              $.cookie('text_resize_percentage', percentage, { path: '/' });
++            }
+             if (textResizeLineHeightAllow) {
+               $.cookie('text_resize_line_height', textResizeLineHeightMax, {path: '/'});
+             }
+@@ -85,11 +95,17 @@
+             if (textResizeLineHeightAllow) {
+               $.cookie('text_resize_line_height', new_line_height, {path: '/'});
+             }
++            percentage = percentage -= 15;
++            $.cookie('text_resize_percentage', percentage, { path: '/' });
+             var allow_change = true;
+           }
+           else {
+             // If it goes below textResizeMinimum, just leave it at textResizeMinimum.
+             $.cookie('text_resize', textResizeMinimum, {path: '/'});
++            if (textResizeLineHeightMin != parseInt($.cookie('text_resize_line_height'))) {
++              percentage = percentage -= 15;
++              $.cookie('text_resize_percentage', percentage, { path: '/' });
++            }
+             if (textResizeLineHeightAllow) {
+               $.cookie('text_resize_line_height', textResizeLineHeightMin, {path: '/'});
+             }
+@@ -104,6 +120,7 @@
+           var reset_size_original = true;
+         }
+         // jQuery lets us set the font size value of the main text div.
++        $('#zoom-percent').text(percentage);
+         if (allow_change == true) {
+           elementToResize.css('font-size', new_font_size + 'px'); // Add 'px' onto the end, otherwise ems are used as units by default.
+           if (textResizeLineHeightAllow) {
