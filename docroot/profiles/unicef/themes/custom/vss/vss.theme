@@ -91,10 +91,10 @@ function vss_preprocess_node(array &$variables) {
       $string = str_replace('&nbsp;', '', $html);
       $variables['#attached']['drupalSettings']['narrate'] = render($string);
       if ($lang_id == 'ar') {
-        $lang_id = 'ar-IQ';
+        $lang_id = 'ar';
       }
       if ($lang_id == 'en') {
-        $lang_id = 'en-GB';
+        $lang_id = 'en-US';
       }
       $variables['#attached']['drupalSettings']['langId'] = $lang_id;
     }

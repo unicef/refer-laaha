@@ -27,7 +27,7 @@
         // add UI event handlers
         play.addEventListener("click", () => {
           var utterance = new SpeechSynthesisUtterance(drupalSettings.narrate);
-          utterance.lang = "en-US";
+          utterance.lang = drupalSettings.langId;
           play.hidden = true;
           resume.hidden = true;
           pause.hidden = false;
