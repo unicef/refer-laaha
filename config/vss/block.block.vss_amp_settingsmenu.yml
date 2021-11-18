@@ -1,0 +1,25 @@
+uuid: fc1eef73-0aae-4e6f-a807-07eb886a261c
+langcode: en
+status: false
+dependencies:
+  config:
+    - system.menu.settings-menu
+  module:
+    - system
+  theme:
+    - vss_amp
+id: vss_amp_settingsmenu
+theme: vss_amp
+region: header
+weight: -1
+provider: null
+plugin: 'system_menu_block:settings-menu'
+settings:
+  id: 'system_menu_block:settings-menu'
+  label: 'Settings Menu'
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 2
+  expand_all_items: false
+visibility: {  }

@@ -1,0 +1,34 @@
+uuid: 5d6c95d4-a822-47c3-96df-1ffb0cd58d36
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.amp
+    - field.field.paragraph.video.field_transcript
+    - field.field.paragraph.video.field_video_file
+    - field.field.paragraph.video.field_vtt_entries
+    - paragraphs.paragraphs_type.video
+  module:
+    - amp
+id: paragraph.video.amp
+targetEntityType: paragraph
+bundle: video
+mode: amp
+content:
+  field_video_file:
+    weight: 0
+    label: hidden
+    settings:
+      layout: responsive
+      width: 350
+      height: 175
+      use_description_as_link_text: false
+      autoplay: '0'
+      controls: '0'
+      loop: '0'
+    third_party_settings: {  }
+    type: amp_video
+    region: content
+hidden:
+  field_transcript: true
+  field_vtt_entries: true

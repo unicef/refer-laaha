@@ -75,23 +75,30 @@
     'clearfix',
   ]
 %}
+
 {{ attach_library('vss_custom/narrate') }}
+{{ attach_library('vss/readmore') }}
 <article{{attributes.addClass(classes)}}>
+<div class="article-hero-img">
+<img class="hero-img img-responsive" src="/{{ base_path ~ directory }}/images/hero-banner.png" />
+<h1>{{ label }}</h1> 
+</div>
+<div class="readmore" id="readmore_article">
 {% if content.field_add_narration.0['#markup']|lower == 'yes'%}
   <div class="wrapper">
     <div id="text"></div>
     <div class="buttons">
-      <button id="play-article" class="play-article">Play</button>
-      <button id="pause-article" class="pause-article">Pause</button>
-
+      <button id="play-article" class="button-defult play-article">{{ 'NARRATE'|t }}</button>
+      <button id="pause-article" class="button-defult  pause-article">{{ 'NARRATE'|t }}</button>
+      <button id="resume-article" class="button-defult  resume-article">{{ 'NARRATE'|t }}</button>
     </div>
   </div>
 {% endif %}
-
 {{ content.field_assets }}
-
-{{ content.field_tags }}
-
+</div>
+<div class="field--name-field-tags">
+  <div class="field-label">{{ 'Tags'|t }} {{ content.field_tags }}</div>
+</div>
 	{{ title_prefix }}
 	{% if label and not page %}
 		<h2{{title_attributes}}>
@@ -99,12 +106,7 @@
 		</h2>
 	{% endif %}
 	{{ title_suffix }}
-
 	<div{{content_attributes.addClass('content')}}>
-{{ content|without('field_tags', 'field_assets', 'field_add_narration', 'body') }}
-
-
+    {{ content|without('field_tags', 'field_assets', 'field_add_narration', 'body') }}
 	</div>
-
 </article>
-

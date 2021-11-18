@@ -1,0 +1,45 @@
+display:
+  default:
+    display_title: Master
+    display_options:
+      exposed_form:
+        options:
+          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
+      fields:
+        media_bulk_form:
+          action_title: کردار
+      filters:
+        name:
+          expose:
+            label: ناو
+        langcode:
+          expose:
+            label: زمان
+      title: ڕەنگاڵە
+  page:
+    display_title: پەڕە
+    display_options:
+      fields:
+        media_bulk_form:
+          action_title: کردار
+        edit_media:
+          text: دەسکاریکردن
+        delete_media:
+          text: سڕینه‌وه‌
+  widget:
+    display_options:
+      filters:
+        name:
+          expose:
+            label: ناو
+  widget_table:
+    display_options:
+      fields:
+        name:
+          label: ناو
+        uid:
+          label: نووسەر
+      filters:
+        name:
+          expose:
+            label: ناو

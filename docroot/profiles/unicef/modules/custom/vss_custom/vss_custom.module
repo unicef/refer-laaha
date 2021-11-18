@@ -6,6 +6,7 @@
  */
 
 use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_preprocess_HOOK().
@@ -84,6 +85,10 @@ function vss_custom_taxonomy_term_presave($term) {
         'langcode' => strpos($term->get('field_domain')->target_id, "iq") ? 'ar' : 'en',
         'weight' => $term->get('weight')->value,
         'expanded' => FALSE,
+        'field_icon' => [
+          'target_id' => $term->get('field_icon')->target_id,
+          'alt' => $term->get('field_icon')->alt,
+        ],
         'parent' => 'menu_link_content:' . $uuid,
       ]);
       $menu_link->save();
@@ -102,6 +107,8 @@ function vss_custom_taxonomy_term_presave($term) {
           $link->title->value = $term->get('name')->value;
           $link->langcode->value = $term->get('langcode')->value;
           $link->weight->value = $term->get('weight')->value;
+          $link->field_icon->target_id = $term->get('field_icon')->target_id;
+          $link->field_icon->alt = $term->get('field_icon')->alt;
           $link->save();
         }
       }
@@ -123,6 +130,27 @@ function vss_custom_taxonomy_term_delete($term) {
     if ($link = reset($links)) {
       $link->delete();
     }
+  }
+}
+
+/**
+ * Use form alter.
+ */
+function vss_custom_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'taxonomy_term_categories_form') {
+    $form['description']['widget'][0]['#required'] = 'true';
+  }
+  // Adding warning message.
+  if (\Drupal::request()->attributes->has('_route')) {
+    if (\Drupal::request()->attributes->get('_route') == 'entity.node.content_translation_add') {
+      \Drupal::messenger()->addWarning(t('You are modifying content for @language language', ['@language' => \Drupal::languageManager()->getCurrentLanguage()->getName()]));
+    }
+  }
+  if ($form_id == 'menu_link_content_menu_link_content_form') {
+    unset($form['weight']);
+  }
+  if ($form_id == 'taxonomy_term_sub_category_form') {
+    $form['relations']['#weight'] = 7;
   }
 }
 

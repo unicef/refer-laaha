@@ -1,0 +1,33 @@
+label: ڕەنگاڵە
+display:
+  default:
+    display_title: Master
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Filter
+          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
+      fields:
+        media_bulk_form:
+          action_title: کردار
+        bundle:
+          label: جۆر
+        uid:
+          label: نووسەر
+        status:
+          label: ڕەوش
+        operations:
+          label: کاره‌کان
+      filters:
+        bundle:
+          expose:
+            label: جۆر
+        langcode:
+          expose:
+            label: زمان
+      title: ڕەنگاڵە
+  media_page_list:
+    display_title: ڕەنگاڵە
+    display_options:
+      menu:
+        title: ڕەنگاڵە

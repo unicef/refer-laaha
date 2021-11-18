@@ -220,6 +220,15 @@ html[dir="rtl"] {
     }
   }
   
+  article{
+     .buttons{
+       button{
+         background: $base-primary-bgcolor url("../images/sound-icon.png") no-repeat 102px center;
+       padding-left: 15px;
+       padding-right: 45px;
+     }
+       }
+     }
 }
 
 @media screen and (min-width:768px) {

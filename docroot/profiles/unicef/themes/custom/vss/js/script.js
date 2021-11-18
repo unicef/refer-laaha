@@ -27,23 +27,7 @@
             })  
             
            
-            /**Zoom percentage */
-           var count= parseInt($("#zoom-percent").text())
-           var click_count=0;
-            $('#text_resize_increase').once().click(function (e) {
-                //console.log();
-                click_count++;
-            //    console.log(click_count);
-            //console.log("+ clicked");
-            count=count+count*10/100;
-           //  console.log(count);
-               $("#zoom-percent").text(Math.round(count));
-            })
-            $('#text_resize_decrease').once().click(function () {
-              //  console.log("- clicked")
-                count=count-count*10/100;
-                $("#zoom-percent").text(Math.round(count)) ;
-            })
+           
 /** clone logo change */
 if($(window).width() < 768){
     $(".logo-wrapper").clone().insertBefore("#block-navigationheadermenu");
@@ -51,7 +35,22 @@ if($(window).width() < 768){
     $("#block-exitwebsiteblock .telephone-header").insertBefore(".telephone_in_mobile .holder");
 }
 
-        
+  /** readmore */
+  var readmore = Drupal.t('READ MORE');
+  $('#readmore_article').readmore({
+    moreLink: '<button id="readmore" class="button-defult read-more">readmore<i class="fa fa-angle-down" aria-hidden="true"></i></button>',
+    collapsedHeight: 1500,
+    afterToggle: function(trigger, element, expanded) {
+      if(! expanded) { // The "Close" link was clicked
+        $('html, body').animate({scrollTop: element.offset().top}, {duration: 100});
+      }
+    }
+  });
+  
+ 
+  
+  
+
     }
     };
   

@@ -6,7 +6,14 @@ dependencies:
     - field.storage.taxonomy_term.field_sub_category_thumbnail
     - taxonomy.vocabulary.sub_category
   module:
+    - content_translation
     - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      alt: alt
+      title: title
+      file: '0'
 id: taxonomy_term.sub_category.field_sub_category_thumbnail
 field_name: field_sub_category_thumbnail
 entity_type: taxonomy_term
@@ -21,7 +28,7 @@ settings:
   file_directory: '[date:custom:Y]-[date:custom:m]'
   file_extensions: 'png gif jpg jpeg'
   max_filesize: '100 KB'
-  max_resolution: ''
+  max_resolution: 100x100
   min_resolution: ''
   alt_field: true
   alt_field_required: true

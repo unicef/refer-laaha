@@ -1,0 +1,23 @@
+uuid: 71e8e30c-336b-466c-a0ba-a2742988e56a
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: vss_path_auto
+label: 'Content Pattern'
+type: 'canonical_entities:node'
+pattern: '[node:title]'
+selection_criteria:
+  e7e76de7-41e7-40ee-9be2-4bce914015f5:
+    id: node_type
+    bundles:
+      article: article
+      page: page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: e7e76de7-41e7-40ee-9be2-4bce914015f5
+selection_logic: and
+weight: -5
+relationships: {  }

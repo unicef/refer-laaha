@@ -1,0 +1,20 @@
+uuid: c4812aa8-e58d-4c7f-9e06-195fbaf60f64
+langcode: en
+status: true
+dependencies:
+  module:
+    - language
+  theme:
+    - amptheme
+id: amptheme_languageswitcher
+theme: amptheme
+region: sidebar_first
+weight: -3
+provider: null
+plugin: 'language_block:language_interface'
+settings:
+  id: 'language_block:language_interface'
+  label: 'Language switcher'
+  provider: language
+  label_display: '0'
+visibility: {  }

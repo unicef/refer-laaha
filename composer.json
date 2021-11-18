@@ -26,6 +26,7 @@
         "drupal/blazy": "^2.5",
         "drupal/bootstrap": "^3.23",
         "drupal/coder": "^8.3.9",
+        "drupal/color_field": "^2.5",
         "drupal/config_ignore": "^2.3",
         "drupal/config_split": "^1.7",
         "drupal/console": "^1.9",
@@ -149,6 +150,9 @@
             },
             "drupal/domain_language_negotiation": {
                 "lang issue": "patches/active_lang.patch"
+            },
+            "drupal/text_resize": {
+                "zoom percentage fix": "patches/zoom_percentage.patch"
             }
         }
     }

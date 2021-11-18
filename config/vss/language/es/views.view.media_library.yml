@@ -1,0 +1,61 @@
+display:
+  default:
+    display_title: Master
+    display_options:
+      exposed_form:
+        options:
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
+          tags:
+            previous: ‹‹
+            next: ››
+      fields:
+        media_bulk_form:
+          action_title: Acción
+      filters:
+        name:
+          expose:
+            label: Nombre
+        langcode:
+          expose:
+            label: Idioma
+      title: Multimedia
+  page:
+    display_title: Página
+    display_options:
+      fields:
+        media_bulk_form:
+          action_title: Acción
+        name:
+          separator: ', '
+        edit_media:
+          text: Editar
+        delete_media:
+          text: Eliminar
+  widget:
+    display_options:
+      filters:
+        name:
+          expose:
+            label: Nombre
+  widget_table:
+    display_options:
+      fields:
+        thumbnail__target_id:
+          label: Miniatura
+        name:
+          label: Nombre
+        uid:
+          label: Autor
+      filters:
+        name:
+          expose:
+            label: Nombre

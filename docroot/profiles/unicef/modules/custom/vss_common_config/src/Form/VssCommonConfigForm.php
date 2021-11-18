@@ -319,13 +319,6 @@ class VssCommonConfigForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
 
     $phone = $form_state->getValue('phone');
-    $phoneHeader = $form_state->getValue('header_phone');
-    if (!empty($phoneHeader) && !$this->validatePhoneNumber($phoneHeader)) {
-      $form_state->setErrorByName(
-        "header_phone",
-        $this->t('Please enter valid phone number in Header Phone field.')
-      );
-    }
     if (!empty($phone) && !$this->validatePhoneNumber($phone)) {
       $form_state->setErrorByName("phone",
        $this->t('Please enter valid phone number.'));
@@ -335,6 +328,13 @@ class VssCommonConfigForm extends ConfigFormBase {
       $form_state->setErrorByName(
         "email",
         $this->t('Please enter valid email id.')
+      );
+    }
+    $homepage_hero = $form_state->getValue('homepage_hero');
+    if (!empty($homepage_hero) && count(array_filter($homepage_hero)) > 6) {
+      $form_state->setErrorByName(
+        "homepage_hero",
+        $this->t('Please select only 6 categories in Hompage hero Categories')
       );
     }
   }
