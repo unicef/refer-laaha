@@ -3,4 +3,3 @@ services:
     class: Drupal\vss_custom\Theme\ExampleNegotiator
     tags:
       - { name: theme_negotiator, priority: 0 }
-      
