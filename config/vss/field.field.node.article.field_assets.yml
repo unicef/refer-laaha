@@ -8,6 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.external_videos
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.image_gallery
+    - paragraphs.paragraphs_type.layout
     - paragraphs.paragraphs_type.video
     - paragraphs.paragraphs_type.wysiwyg_editor
   module:
@@ -16,7 +17,7 @@ id: node.article.field_assets
 field_name: field_assets
 entity_type: node
 bundle: article
-label: Assets
+label: Content
 description: ''
 required: true
 translatable: false
@@ -31,6 +32,7 @@ settings:
       image_gallery: image_gallery
       video: video
       external_videos: external_videos
+      layout: layout
       wysiwyg_editor: wysiwyg_editor
     target_bundles_drag_drop:
       external_videos:
@@ -45,6 +47,9 @@ settings:
       image_gallery:
         enabled: true
         weight: 5
+      layout:
+        enabled: true
+        weight: 13
       video:
         enabled: true
         weight: 6
