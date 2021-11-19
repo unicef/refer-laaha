@@ -17,10 +17,9 @@ content:
   field_audio:
     weight: 0
     label: hidden
-    settings:
-      use_description_as_link_text: true
+    settings: {  }
     third_party_settings: {  }
-    type: file_default
+    type: file_url_plain
     region: content
   field_vtt_entries:
     weight: 1

@@ -2,10 +2,10 @@ uuid: ab8de926-d0cc-46cb-a5da-4fb79f008ef0
 langcode: en
 status: true
 dependencies:
-  module:
-    - layout_paragraphs
   content:
     - 'file:file:9373df09-d9ba-49dd-bf93-080a6a0abbac'
+  module:
+    - layout_paragraphs
 id: video
 label: Video
 icon_uuid: 9373df09-d9ba-49dd-bf93-080a6a0abbac
@@ -13,10 +13,5 @@ icon_default: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6
 description: 'This paragraph supports video upload.'
 behavior_plugins:
   layout_paragraphs:
-    enabled: true
-    available_layouts:
-      layout_onecol: 'One column'
-      layout_twocol: 'Two column'
-      layout_twocol_bricks: 'Two column bricks'
-      layout_threecol_25_50_25: 'Three column 25/50/25'
-      layout_threecol_33_34_33: 'Three column 33/34/33'
+    enabled: false
+    available_layouts: {  }

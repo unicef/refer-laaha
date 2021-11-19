@@ -4,11 +4,13 @@ status: true
 dependencies:
   config:
     - field.field.node.posdcast.body
+    - field.field.node.posdcast.field_content
     - field.field.node.posdcast.field_domain_access
     - field.field.node.posdcast.field_domain_all_affiliates
     - field.field.node.posdcast.field_tags
     - node.type.posdcast
   module:
+    - layout_paragraphs
     - path
 id: node.posdcast.default
 targetEntityType: node
@@ -21,6 +23,15 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_content:
+    weight: 26
+    settings:
+      preview_view_mode: default
+      nesting_depth: 0
+      require_layouts: 1
+    third_party_settings: {  }
+    type: layout_paragraphs
+    region: content
   field_domain_access:
     type: options_buttons
     weight: 8
