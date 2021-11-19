@@ -23,6 +23,7 @@ class ExampleNegotiator implements ThemeNegotiatorInterface {
    */
   public function determineActiveTheme(RouteMatchInterface $route_match) {
     if ($_SERVER['QUERY_STRING'] == 'amp') {
+      $route_match->getRouteObject()->setOption('_no_big_pipe', TRUE);
       return 'vss_amp';
     }
   }
