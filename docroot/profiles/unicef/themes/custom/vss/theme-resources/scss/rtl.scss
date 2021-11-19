@@ -278,3 +278,33 @@ html[dir="rtl"] {
     }
   }
 }
+
+html[lang="ku"]{
+  .region-header {
+    #block-settingsmenu{
+      .dropdown-menu{
+         li{
+          .form-type-checkbox-2{
+            right: 25px;
+          }
+        }
+     }
+    }
+  }
+}
+html[lang="es"]{
+  .region-header {
+    #block-settingsmenu{
+      .dropdown-menu{
+         li{
+           .form-type-checkbox-1{
+             right: 16px;
+            }
+          .form-type-checkbox-2{
+            right: 28px;
+          }
+        }
+     }
+    }
+  }
+}
