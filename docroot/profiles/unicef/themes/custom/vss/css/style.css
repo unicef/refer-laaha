@@ -20,7 +20,8 @@ body {
     padding-right: 12px; }
 
 .footer-wrapper {
-  background: #CB9CA1; }
+  background: #CB9CA1;
+  margin-top: 20px; }
 
 .region-footer {
   display: -webkit-box;
@@ -795,5 +796,14 @@ html[dir="rtl"] .region-header #block-settingsmenu .navbar-text {
     html[dir="rtl"] .region-header #block-navigationheadermenu > ul li > div > div {
       padding-right: 0px;
       padding-left: 8px; } }
+
+html[lang="ku"] .region-header #block-settingsmenu .dropdown-menu li .form-type-checkbox-2 {
+  right: 25px; }
+
+html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-checkbox-1 {
+  right: 16px; }
+
+html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-checkbox-2 {
+  right: 28px; }
 
 /*# sourceMappingURL=style.css.map */
