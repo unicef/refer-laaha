@@ -70,7 +70,7 @@ function vss_custom_preprocess_links__language_block(&$variables) {
  * Use taxonomy presave to create new menu.
  */
 function vss_custom_taxonomy_term_presave($term) {
-  if ($term->get('vid')->target_id == 'categories') {
+  if ($term->get('vid')->target_id == 'categories' && empty($term->get('field_sub_category')->value)) {
     if ($term->isNew()) {
       $menu_name = strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu';
       $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(
@@ -112,12 +112,14 @@ function vss_custom_taxonomy_term_presave($term) {
           $link->save();
         }
       }
+      $term->get('parent')->target_id = 0;
     }
   }
-  if ($term->get('vid')->target_id == 'sub_category') {
+  if ($term->get('vid')->target_id == 'categories' && $term->get('field_sub_category')->value == 1) {
     if (strpos($term->get('field_domain')->target_id, "iq")) {
       $term->langcode->value = 'ar';
     }
+    $term->get('parent')->target_id = $term->get('field_category_reference')->target_id;
   }
 }
 
@@ -139,6 +141,7 @@ function vss_custom_taxonomy_term_delete($term) {
 function vss_custom_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'taxonomy_term_categories_form') {
     $form['description']['widget'][0]['#required'] = 'true';
+    $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories();
   }
   // Adding warning message.
   if (\Drupal::request()->attributes->has('_route')) {
@@ -164,4 +167,19 @@ function vss_custom_form_alter(&$form, &$form_state, $form_id) {
 function vss_custom_video_embed_field_provider_info_alter(&$definitions) {
   // Replace the YouTube provider class with another implementation.
   $definitions['youtube']['class'] = 'Drupal\vss_custom\Plugin\video_embed_field\Provider\CustomYouTubeProvider';
+}
+
+/**
+ * Get all categories.
+ */
+function get_all_parent_categories() {
+  $query = \Drupal::database()->select('taxonomy_term_field_data', 't');
+  $query->join('taxonomy_term__field_domain', 'fd', 'fd.entity_id = t.tid');
+  $query->leftjoin('taxonomy_term__field_sub_category', 'sc', 'sc.entity_id = t.tid');
+  $query->condition('fd.bundle', 'categories');
+  $query->condition('sc.field_sub_category_value', 1, '!=');
+  $query->fields('t', ['tid']);
+  $query->fields('t', ['name']);
+  $terms = $query->execute()->fetchAllKeyed(0, 1);
+  return $terms;
 }
