@@ -1,0 +1,37 @@
+uuid: 7d6a5c27-fd3c-4880-98cb-dda015ebc5a4
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.posdcast.body
+    - field.field.node.posdcast.field_domain_access
+    - field.field.node.posdcast.field_domain_all_affiliates
+    - field.field.node.posdcast.field_tags
+    - node.type.posdcast
+  module:
+    - text
+    - user
+id: node.posdcast.teaser
+targetEntityType: node
+bundle: posdcast
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_tags: true
+  langcode: true

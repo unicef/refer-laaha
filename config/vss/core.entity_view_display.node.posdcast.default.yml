@@ -1,0 +1,35 @@
+uuid: 48082577-c1da-469c-9cbe-10bc4b5437b2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.posdcast.body
+    - field.field.node.posdcast.field_domain_access
+    - field.field.node.posdcast.field_domain_all_affiliates
+    - field.field.node.posdcast.field_tags
+    - node.type.posdcast
+  module:
+    - user
+id: node.posdcast.default
+targetEntityType: node
+bundle: posdcast
+mode: default
+content:
+  field_tags:
+    weight: 1
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  body: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  langcode: true

@@ -1,0 +1,16 @@
+uuid: 26f81df8-e03c-407f-aa5d-852546abaa1d
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.posdcast
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.posdcast
+target_entity_type_id: node
+target_bundle: posdcast
+default_langcode: current_interface
+language_alterable: true

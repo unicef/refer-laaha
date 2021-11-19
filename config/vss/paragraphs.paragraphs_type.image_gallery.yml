@@ -1,10 +1,20 @@
 uuid: 765075c5-96cf-468e-84ba-b3d481d654c3
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - layout_paragraphs
 id: image_gallery
 label: 'Image Gallery'
 icon_uuid: null
 icon_default: null
 description: 'Adds Support for Image Gallery'
-behavior_plugins: {  }
+behavior_plugins:
+  layout_paragraphs:
+    enabled: true
+    available_layouts:
+      layout_onecol: 'One column'
+      layout_twocol: 'Two column'
+      layout_twocol_bricks: 'Two column bricks'
+      layout_threecol_25_50_25: 'Three column 25/50/25'
+      layout_threecol_33_34_33: 'Three column 33/34/33'
