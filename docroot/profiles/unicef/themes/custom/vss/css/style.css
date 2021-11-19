@@ -455,11 +455,22 @@ article .field--name-field-tags {
 .more-text {
   display: none; }
 
+article .paragraph--type--image {
+  margin-bottom: 20px; }
+
 article .read-more {
-  padding: 5px 15px;
   display: block;
   margin: 20px auto;
   width: auto !important; }
+  article .read-more i {
+    margin-left: 14px; }
+
+article .field--name-field-tags .field-label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  article .field--name-field-tags .field-label .tag-label {
+    margin-right: 5px; }
 
 .button-defult-exit {
   font-family: Roboto;
@@ -629,7 +640,7 @@ article .read-more {
       list-style: none;
       margin: 0; }
       .region-navigation #block-languageswitcher ul li {
-        padding: 14px 20px; }
+        padding: 9px 20px; }
         .region-navigation #block-languageswitcher ul li.is-active a::before {
           width: 200%; }
         .region-navigation #block-languageswitcher ul li:hover a::before {
@@ -637,6 +648,7 @@ article .read-more {
         .region-navigation #block-languageswitcher ul li a {
           position: relative;
           padding: 0;
+          line-height: 30px;
           color: #000; }
           .region-navigation #block-languageswitcher ul li a:before {
             content: " ";
@@ -735,12 +747,16 @@ html[dir="rtl"] .region-header #block-settingsmenu .text-resize-block {
 html[dir="rtl"] .region-header #block-settingsmenu .dropdown-menu li .form-type-checkbox-2 {
   right: 2px; }
 
+html[dir="rtl"] .region-header #block-settingsmenu .percentsymbol {
+  margin-right: 10px; }
+
 html[dir="rtl"] .region-header #block-settingsmenu .navbar-text {
-  float: right; }
+  float: right;
+  clear: both; }
   html[dir="rtl"] .region-header #block-settingsmenu .navbar-text .percent {
     float: left;
     margin-left: 0;
-    margin-right: 20px; }
+    margin-right: 0px; }
 
 @media screen and (max-width: 767px) {
   html[dir="rtl"] .telephone_in_mobile img {
