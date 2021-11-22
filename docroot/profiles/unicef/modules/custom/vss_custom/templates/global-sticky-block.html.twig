@@ -11,17 +11,17 @@
 {{ attach_library('vss_custom/global_sticky_block') }}
 
 <div class="global_sticky">
-    <div class="chatbot"><img src ="/{{ base_path ~ directory }}/images/chatbot.png" alt="chatbot" />
-    <a href="#">{{ 'Chatbot'|t }}</a>
+    <div class="chatbot">
+    <a href="#"><img src ="/{{ base_path ~ directory }}/images/chatbot.png" alt="chatbot" /><span>{{ 'Chatbot'|t }}</span></a>
     </div>
     {% if content.get_help %}
-    <div class="gethelp"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" />
-    <a href="{{content.get_help}}">{{ 'Get Help'|t }}</a></div>
+    <div class="gethelp">
+    <a href="{{content.get_help}}"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Get Help'|t }}</span></a></div>
     {% else %}
-    <div class="gethelp"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" />
-    <a href="#">{{ 'Get Help'|t }}</a></div>  
+    <div class="gethelp">
+    <a href="#"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Get Help'|t }}</span></a></div>  
     {% endif %}
-    <div class="exit"><img src ="/{{ base_path ~ directory }}/images/exit.png" alt="exit" />
-    <a href="/exit-website">{{ 'Quick Exit'|t }}</a>
+    <div class="exit">
+    <a href="/exit-website"><img src ="/{{ base_path ~ directory }}/images/exit.png" alt="exit" /><span>{{ 'Quick Exit'|t }}</span></a>
     </div>
 </div>
