@@ -213,14 +213,14 @@ margin-bottom: 0  ;
 
           &.is-active {
             a::before {
-              width: 200%;
+              width: 150%;
             }
           }
 
           &:hover {
 
             a::before {
-              width: 200%;
+              width: 150%;
             }
 
 
@@ -235,7 +235,7 @@ margin-bottom: 0  ;
               content: " ";
               position: absolute;
               top: 36px;
-              left: -15px;
+              left: -10px;
               width: 0;
               border-bottom: 2px solid $footer-bg-color;
             }

@@ -25,7 +25,6 @@ class ResizeBlock extends BlockBase {
 
     $markup = '<div class="box">';
     $markup .= '<a class="font_resize-button" id="font_resize-minus" aria-label="" href="#">A-</a> ';
-    $markup .= '<a class="font_resize-button" id="font_resize-default" aria-label="" href="#">A</a> ';
     $markup .= '<a class="font_resize-button" id="font_resize-plus" aria-label="" href="#">A+</a> ';
     $markup .= '</div>';
 

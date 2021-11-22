@@ -17,7 +17,8 @@
 
         var limite = new Array();
         var fontsize_pattern = new Array();
-
+        var percentage =100;
+       
         $(this).each(function (i) {
             limite[i] = 0;
             fontsize_pattern[i];
@@ -31,6 +32,8 @@
             $(options.btnPlusId).removeClass('font_resize-disabled');
             $this.each(function (i) {
                 if (limite[i] > (-(options.btnMinusMaxHits))) {
+                    percentage = percentage -= 15;
+                    $('#zoom-percent').text(percentage);
                     fontsize_pattern[i] = $(this).css('font-size');
                     fontsize_pattern[i] = fontsize_pattern[i].replace('px', '');
                     fontsize = $(this).css('font-size');
@@ -61,6 +64,8 @@
             $(options.btnMinusId).removeClass('font_resize-disabled');
             $this.each(function (i) {
                 if (limite[i] < options.btnPlusMaxHits) {
+                    percentage = percentage += 15;
+                    $('#zoom-percent').text(percentage);
                     fontsize_pattern[i] = $(this).css('font-size');
                     fontsize_pattern[i] = fontsize_pattern[i].replace('px', '');
                     fontsize = $(this).css('font-size');

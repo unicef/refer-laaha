@@ -1,7 +1,18 @@
+/* 16px */
+/* 20px */
+/* 14px */
+/* 12px */
+/* 24px */
+/* 20px */
+/* 40px */
 body {
   margin-top: 0;
   font-family: Roboto;
-  color: #000; }
+  color: #000;
+  font-size: 1.42em; }
+
+.dropdown-menu {
+  font-size: inherit; }
 
 .navbar {
   min-height: auto;
@@ -36,7 +47,7 @@ body {
 .block-menu-item-fieldsquick-links {
   margin-top: 20px; }
   .block-menu-item-fieldsquick-links h2 {
-    font-size: 12px;
+    font-size: 0.85em;
     font-family: Roboto;
     font-weight: 400; }
   .block-menu-item-fieldsquick-links ul {
@@ -62,7 +73,7 @@ body {
         .block-menu-item-fieldsquick-links ul li > div > div {
           padding-right: 12px; }
       .block-menu-item-fieldsquick-links ul li a {
-        font-size: 16px;
+        font-size: 1.14em;
         font-family: Roboto;
         font-weight: 500;
         color: #000;
@@ -84,7 +95,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
 
 #block-copyright p {
   color: #000;
-  font-size: 14px;
+  font-size: 1em;
   font-family: Roboto;
   font-weight: 400; }
 
@@ -112,7 +123,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
       border-left: 0; }
     #block-footerlastmenu ul li a {
       color: #000;
-      font-size: 14px;
+      font-size: 1em;
       font-family: Roboto;
       font-weight: 400;
       padding: 0 8px; }
@@ -145,7 +156,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
         margin-right: 10px; }
 
 #block-virtualsafespace h2 {
-  font-size: 24px;
+  font-size: 1.714em;
   font-weight: 500;
   line-height: 30px; }
 
@@ -170,19 +181,16 @@ ul.block-menu-item-fieldsfooter-last-menu {
     .buttonwrapper .telephone-header a {
       text-decoration: none;
       color: #000;
-      font-size: 16px; }
+      font-size: 1.14em; }
 
 .header-wrap {
   -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.14), 0px 2px 2px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.2);
           box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.14), 0px 2px 2px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.2); }
   .header-wrap .navbar-brand {
-    font-size: 20px;
+    font-size: 1.42em;
     color: #BB6A79; }
     .header-wrap .navbar-brand:hover {
       color: #BB6A79; }
-
-.settings-wrapper ul {
-  font-size: 16px !important; }
 
 .btn-settings {
   cursor: pointer; }
@@ -235,14 +243,14 @@ ul.block-menu-item-fieldsfooter-last-menu {
             padding-right: 12px; }
         .region-header #block-iraqnavigationheadermenu > ul li a,
         .region-header #block-navigationheadermenu > ul li a {
-          font-size: 14px;
+          font-size: 1em;
           font-family: Roboto;
           font-weight: 500;
           color: #000;
           line-height: 24px; }
         .region-header #block-iraqnavigationheadermenu > ul li span,
         .region-header #block-navigationheadermenu > ul li span {
-          font-size: 14px;
+          font-size: 1em;
           font-family: Roboto;
           font-weight: 500;
           color: #000;
@@ -270,24 +278,34 @@ ul.block-menu-item-fieldsfooter-last-menu {
       margin-right: 30px;
       cursor: pointer; }
     .region-header #block-settingsmenu .navbar-text {
-      font-size: 16px;
+      font-size: 1.14em;
       font-weight: 400;
       line-height: 24px;
       margin: 12px 16px;
       float: left; }
       .region-header #block-settingsmenu .navbar-text .percent {
         margin-left: 20px; }
-    .region-header #block-settingsmenu a#text_resize_decrease {
+    .region-header #block-settingsmenu a#font_resize-minus {
       background: url(../images/minus.png) no-repeat center center;
       float: left;
-      margin-right: 10px;
-      margin-top: 3px;
-      font-size: 0 !important; }
-    .region-header #block-settingsmenu a#text_resize_increase {
+      margin-right: 20px;
+      margin-top: 4px;
+      display: block;
+      width: 14px;
+      height: 14px;
+      text-indent: -999em;
+      font-size: 0; }
+    .region-header #block-settingsmenu a#font_resize-plus {
+      text-indent: -999em;
+      font-size: 0;
       float: left;
       background: url(../images/plus.png) no-repeat center center;
       margin-top: 0;
-      font-size: 0 !important; }
+      display: block;
+      width: 14px;
+      height: 14px;
+      margin-right: 12px;
+      margin-top: 4px; }
     .region-header #block-settingsmenu .text-resize-block {
       float: right;
       margin-top: 12px;
@@ -298,7 +316,8 @@ ul.block-menu-item-fieldsfooter-last-menu {
       top: 96%;
       left: calc(100% - 240px);
       border-radius: 10px;
-      width: 240px; }
+      width: 240px;
+      font-size: 14px; }
       .region-header #block-settingsmenu .dropdown-menu li {
         padding: 0;
         margin: 0;
@@ -382,9 +401,6 @@ body .block [hidden].contextual-links {
             flex: 1 100%; }
 
 .article-hero-img {
-  /*  background: url(../images/hero-banner.png) no-repeat center center;
-  height: 473px;
-  background-size: contain;*/
   position: relative;
   margin-top: 60px; }
   .article-hero-img .hero-img {
@@ -400,12 +416,12 @@ body .block [hidden].contextual-links {
     background: rgba(255, 255, 255, 0.85);
     position: absolute;
     border-radius: 20px;
-    font-size: 40px;
+    font-size: 2.85em;
     font-weight: 500; }
 
 article p {
   margin: 20px 0;
-  font-size: 20px;
+  font-size: 1.42em;
   line-height: 32px;
   font-weight: 400; }
   article p:last-child {
@@ -473,10 +489,13 @@ article .field--name-field-tags .field-label {
   article .field--name-field-tags .field-label .tag-label {
     margin-right: 5px; }
 
+#block-languageswitcher ul li a {
+  font-size: 1em; }
+
 .button-defult-exit {
   font-family: Roboto;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 1.14em;
   padding: 12px 16px;
   line-height: 24px;
   border: 0;
@@ -489,7 +508,7 @@ article .field--name-field-tags .field-label {
   letter-spacing: 1.25px;
   background: #FFCDD2;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 1.14em;
   padding: 10px 15px; }
 
 @media screen and (max-width: 767px) {
@@ -544,7 +563,7 @@ article .field--name-field-tags .field-label {
     width: 100%;
     margin-bottom: 10px; }
   .block-menu-item-fieldsquick-links h2 {
-    font-size: 24px;
+    font-size: 1.714em;
     font-weight: 500;
     line-height: 30px; }
   .block-menu-item-fieldsquick-links ul li {
@@ -643,9 +662,9 @@ article .field--name-field-tags .field-label {
       .region-navigation #block-languageswitcher ul li {
         padding: 9px 20px; }
         .region-navigation #block-languageswitcher ul li.is-active a::before {
-          width: 200%; }
+          width: 150%; }
         .region-navigation #block-languageswitcher ul li:hover a::before {
-          width: 200%; }
+          width: 150%; }
         .region-navigation #block-languageswitcher ul li a {
           position: relative;
           padding: 0;
@@ -655,7 +674,7 @@ article .field--name-field-tags .field-label {
             content: " ";
             position: absolute;
             top: 36px;
-            left: -15px;
+            left: -10px;
             width: 0;
             border-bottom: 2px solid #CB9CA1; }
           .region-navigation #block-languageswitcher ul li a:hover {
