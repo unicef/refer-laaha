@@ -183,3 +183,14 @@ function get_all_parent_categories() {
   $terms = $query->execute()->fetchAllKeyed(0, 1);
   return $terms;
 }
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function vss_custom_preprocess_block(&$variables) {
+  if ($variables['elements']['#base_plugin_id'] == 'block_content') {
+    if ($variables['label'] !== '') {
+      $variables['label'] = $variables['content']['#block_content']->label();
+    }
+  }
+}
