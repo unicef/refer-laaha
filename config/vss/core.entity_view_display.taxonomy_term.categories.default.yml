@@ -4,9 +4,12 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.categories.field_category_color
+    - field.field.taxonomy_term.categories.field_category_reference
     - field.field.taxonomy_term.categories.field_domain
     - field.field.taxonomy_term.categories.field_icon
     - field.field.taxonomy_term.categories.field_related_content
+    - field.field.taxonomy_term.categories.field_sub_category
+    - field.field.taxonomy_term.categories.field_sub_category_thumbnail
     - field.field.taxonomy_term.categories.field_tags
     - taxonomy.vocabulary.categories
   module:
@@ -37,6 +40,14 @@ content:
     third_party_settings: {  }
     type: color_field_formatter_swatch
     region: content
+  field_category_reference:
+    weight: 9
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   field_domain:
     weight: 1
     label: above
@@ -61,6 +72,25 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
+  field_sub_category:
+    weight: 7
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_sub_category_thumbnail:
+    weight: 8
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
     region: content
   field_tags:
     weight: 5

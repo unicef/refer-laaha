@@ -52,7 +52,7 @@
 		{% block content %}
       {% if content.field_image['#items'] is not empty %}
         {% for item in content.field_image['#items'] %}
-          <img src="{{ file_url(item.entity.field_media_image.entity.uri.value) }}" class="img-responsive" />
+          <img src="{{ file_url(item.entity.field_media_image.entity.uri.value) }}" class="img-responsive" title="{{item.entity.field_caption.value}}"/>
         {% endfor %}
       {% endif %}
     {% endblock %}

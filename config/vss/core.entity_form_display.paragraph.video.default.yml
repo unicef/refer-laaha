@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.video.field_transcript
     - field.field.paragraph.video.field_video_file
     - field.field.paragraph.video.field_vtt_entries
     - paragraphs.paragraphs_type.video
@@ -15,13 +14,6 @@ targetEntityType: paragraph
 bundle: video
 mode: default
 content:
-  field_transcript:
-    weight: 1
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-    type: file_generic
-    region: content
   field_video_file:
     weight: 0
     settings:
