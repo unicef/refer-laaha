@@ -4,11 +4,12 @@ status: true
 dependencies:
   config:
     - field.field.node.page.body
+    - field.field.node.page.field_content
     - field.field.node.page.field_domain_access
     - field.field.node.page.field_domain_all_affiliates
     - node.type.page
   module:
-    - text
+    - layout_paragraphs
     - user
 _core:
   default_config_hash: g1S3_GLaxq4l3I9RIca5Mlz02MxI2KmOquZpHw59akM
@@ -17,19 +18,18 @@ targetEntityType: node
 bundle: page
 mode: default
 content:
-  body:
+  field_content:
+    type: layout_paragraphs
+    weight: 0
     label: hidden
-    type: text_default
-    weight: 100
-    region: content
-    settings: {  }
+    settings:
+      view_mode: default
+      link: ''
     third_party_settings: {  }
-  links:
-    weight: 101
     region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
+  body: true
   field_domain_access: true
   field_domain_all_affiliates: true
   langcode: true
+  links: true
