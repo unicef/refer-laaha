@@ -6,7 +6,6 @@
  */
 
 use Drupal\menu_link_content\Entity\MenuLinkContent;
-use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_theme().
@@ -39,6 +38,12 @@ function vss_custom_theme() {
         'language' => '',
         'video_id' => '',
       ],
+    ],
+    'global_sticky_block' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'render element' => 'children',
     ],
   ];
 }
