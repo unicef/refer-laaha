@@ -77,16 +77,15 @@
 %}
 
 <article{{attributes.addClass(classes)}}>
-  {{ label }}
-  {{ content.field_content }}
-  <div class="field--name-field-tags">
-    <div class="field-label">{{ 'Tags'|t }}
-      {{ content.field_tags }}
-    </div>
-  </div>
+	{{ label }}
+	{{ content.field_content }}
+	<div class="field--name-field-tags">
+		<div class="field-label">{{ 'Tags'|t }}
+			{{ content.field_tags }}</div>
+	</div>
 
-  <div{{content_attributes.addClass('content')}}>
-    {{ content|without('field_tags', 'field_content', 'body') }}
-  </div>
+	<div{{content_attributes.addClass('content')}}>
+		{{ content|without('field_tags', 'field_content', 'body') }}
+	</div>
 </article>
 
