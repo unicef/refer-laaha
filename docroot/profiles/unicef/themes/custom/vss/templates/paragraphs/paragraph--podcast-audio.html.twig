@@ -49,16 +49,18 @@
 {% block paragraph %}
 	<div{{attributes.addClass(classes)}}>
 		{% block content %}
-{% if content.field_audio['#items'] is not empty %}
-			<audio id="audio" class="audio" controls preload="auto">
-        <source src="{{ file_url(content.field_audio['#items'].entity.uri.value) }}">
-				{% for item in content.field_vtt_entries %}
-					{% if item['#paragraph'] %}
-						<track label="{{item['#paragraph'].field_language.target_id}}" style="color: white" id="trk" kind="subtitles" srclang="{{item['#paragraph'].field_language.target_id}}" src="{{ file_url(item['#paragraph'].field_vtt_file.entity.uri.value) }}" default/>
-					{% endif %}
-				{% endfor %}
-			</source>
-		</audio>
-	{% endif %}
-{% endblock %}</div>{% endblock paragraph %}
+			{% if content.field_audio['#items'] is not empty %}
+				<audio id="audio" class="audio" controls preload="auto">
+					<source src="{{ file_url(content.field_audio['#items'].entity.uri.value) }}">
+						{% for item in content.field_vtt_entries %}
+							{% if item['#paragraph'] %}
+								<track label="{{item['#paragraph'].field_language.target_id}}" style="color: white" id="trk" kind="subtitles" srclang="{{item['#paragraph'].field_language.target_id}}" src="{{ file_url(item['#paragraph'].field_vtt_file.entity.uri.value) }}" default/>
+							{% endif %}
+						{% endfor %}
+					</source>
+				</audio>
+			{% endif %}
+		{% endblock %}
+	</div>
+{% endblock paragraph %}
 
