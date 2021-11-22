@@ -32,7 +32,7 @@ class ResizeBlock extends BlockBase {
     return array(
       '#type' => 'markup',
       '#attached' => array(
-        'library' => array('font_resize/font_resize', 'font_resize/font_resize_example'),
+        'library' => array('font_resize/font_resize', 'font_resize/font_resize_vss'),
       ),
       '#markup' => $markup,
     );

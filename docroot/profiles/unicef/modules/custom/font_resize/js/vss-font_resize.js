@@ -4,8 +4,8 @@
             btnMinusId: '#font_resize-minus',
             btnDefaultId: '#font_resize-default',
             btnPlusId: '#font_resize-plus',
-            btnMinusMaxHits: 10,
-            btnPlusMaxHits: 10,
+            btnMinusMaxHits: 3,
+            btnPlusMaxHits: 3,
             sizeChange: 1
         }
     );
