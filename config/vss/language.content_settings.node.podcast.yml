@@ -1,9 +1,9 @@
-uuid: 1f71dd90-a1bc-4ae1-a2f7-939ae1ea0cf0
-langcode: es
+uuid: 26f81df8-e03c-407f-aa5d-852546abaa1d
+langcode: en
 status: true
 dependencies:
   config:
-    - paragraphs.paragraphs_type.wysiwyg_editor
+    - node.type.podcast
   module:
     - content_translation
 third_party_settings:
@@ -11,8 +11,8 @@ third_party_settings:
     enabled: true
     bundle_settings:
       untranslatable_fields_hide: '0'
-id: paragraph.wysiwyg_editor
-target_entity_type_id: paragraph
-target_bundle: wysiwyg_editor
+id: node.podcast
+target_entity_type_id: node
+target_bundle: podcast
 default_langcode: current_interface
 language_alterable: true
