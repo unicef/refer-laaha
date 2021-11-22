@@ -3,18 +3,18 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.posdcast.body
-    - field.field.node.posdcast.field_content
-    - field.field.node.posdcast.field_domain_access
-    - field.field.node.posdcast.field_domain_all_affiliates
-    - field.field.node.posdcast.field_tags
-    - node.type.posdcast
+    - field.field.node.podcast.body
+    - field.field.node.podcast.field_content
+    - field.field.node.podcast.field_domain_access
+    - field.field.node.podcast.field_domain_all_affiliates
+    - field.field.node.podcast.field_tags
+    - node.type.podcast
   module:
     - layout_paragraphs
     - path
-id: node.posdcast.default
+id: node.podcast.default
 targetEntityType: node
-bundle: posdcast
+bundle: podcast
 mode: default
 content:
   created:

@@ -4,12 +4,12 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_tags
-    - node.type.posdcast
+    - node.type.podcast
     - taxonomy.vocabulary.tags
-id: node.posdcast.field_tags
+id: node.podcast.field_tags
 field_name: field_tags
 entity_type: node
-bundle: posdcast
+bundle: podcast
 label: Tags
 description: ''
 required: false

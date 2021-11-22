@@ -4,18 +4,18 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.posdcast.body
-    - field.field.node.posdcast.field_content
-    - field.field.node.posdcast.field_domain_access
-    - field.field.node.posdcast.field_domain_all_affiliates
-    - field.field.node.posdcast.field_tags
-    - node.type.posdcast
+    - field.field.node.podcast.body
+    - field.field.node.podcast.field_content
+    - field.field.node.podcast.field_domain_access
+    - field.field.node.podcast.field_domain_all_affiliates
+    - field.field.node.podcast.field_tags
+    - node.type.podcast
   module:
     - text
     - user
-id: node.posdcast.teaser
+id: node.podcast.teaser
 targetEntityType: node
-bundle: posdcast
+bundle: podcast
 mode: teaser
 content:
   body:

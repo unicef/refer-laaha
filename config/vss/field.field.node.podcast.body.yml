@@ -4,13 +4,13 @@ status: true
 dependencies:
   config:
     - field.storage.node.body
-    - node.type.posdcast
+    - node.type.podcast
   module:
     - text
-id: node.posdcast.body
+id: node.podcast.body
 field_name: body
 entity_type: node
-bundle: posdcast
+bundle: podcast
 label: Body
 description: ''
 required: false

@@ -3,11 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
-    - node.type.posdcast
-id: node.posdcast.promote
+    - node.type.podcast
+id: node.podcast.promote
 field_name: promote
 entity_type: node
-bundle: posdcast
+bundle: podcast
 label: 'Promoted to front page'
 description: ''
 required: false

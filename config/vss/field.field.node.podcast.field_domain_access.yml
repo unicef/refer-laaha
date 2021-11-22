@@ -4,11 +4,11 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_domain_access
-    - node.type.posdcast
-id: node.posdcast.field_domain_access
+    - node.type.podcast
+id: node.podcast.field_domain_access
 field_name: field_domain_access
 entity_type: node
-bundle: posdcast
+bundle: podcast
 label: 'Domain Access'
 description: 'Select the affiliate domain(s) for this content'
 required: true

@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - node.type.posdcast
+    - node.type.podcast
   module:
     - content_translation
 third_party_settings:
@@ -11,8 +11,8 @@ third_party_settings:
     enabled: true
     bundle_settings:
       untranslatable_fields_hide: '0'
-id: node.posdcast
+id: node.podcast
 target_entity_type_id: node
-target_bundle: posdcast
+target_bundle: podcast
 default_langcode: current_interface
 language_alterable: true
