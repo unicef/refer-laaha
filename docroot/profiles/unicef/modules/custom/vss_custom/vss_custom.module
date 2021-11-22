@@ -75,7 +75,6 @@ function vss_custom_preprocess_links__language_block(&$variables) {
  * Use taxonomy presave to create new menu.
  */
 function vss_custom_taxonomy_term_presave($term) {
-  // dump($term);die;
   if ($term->get('vid')->target_id == 'categories' && empty($term->get('field_sub_category')->value)) {
     if ($term->isNew()) {
       $menu_name = strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu';
