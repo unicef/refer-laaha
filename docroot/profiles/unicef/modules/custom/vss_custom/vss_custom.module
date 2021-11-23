@@ -39,6 +39,13 @@ function vss_custom_theme() {
         'language' => '',
         'video_id' => '',
       ],
+      'global_sticky_block' => [
+        'variables' => [
+          'content' => NULL,
+          'lang_code' => '',
+        ],
+        'render element' => 'children',
+      ],
     ],
   ];
 }
