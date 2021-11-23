@@ -95,9 +95,9 @@
             "locations": {
                 "web-root": "./docroot/"
             },
-            "excludes": [
-                ".htaccess"
-            ]
+            "file-mapping": {
+                "[web-root]/.htaccess": false
+            }
         },
         "installer-paths": {
             "docroot/core": [
