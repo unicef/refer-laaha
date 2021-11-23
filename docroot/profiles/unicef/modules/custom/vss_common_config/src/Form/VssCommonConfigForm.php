@@ -300,6 +300,7 @@ class VssCommonConfigForm extends ConfigFormBase {
   public function getCategoriesforTaxonomy($domain, $langcode) {
     $query = $this->database->select('taxonomy_term_field_data', 't');
     $query->join('taxonomy_term__field_domain', 'fd', 'fd.entity_id = t.tid');
+    $query->leftjoin('taxonomy_term__field_sub_category', 'sc', 'sc.entity_id = t.tid');
     if ($langcode) {
       $query->condition('t.langcode', $langcode);
     }
@@ -307,6 +308,7 @@ class VssCommonConfigForm extends ConfigFormBase {
     if ($domain) {
       $query->condition('field_domain_target_id', $domain);
     }
+    $query->condition('sc.field_sub_category_value', 1, '!=');
     $query->fields('t', ['name']);
     $terms = $query->execute()->fetchAllKeyed(0, 0);
     return $terms;
