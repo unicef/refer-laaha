@@ -8,16 +8,16 @@ dependencies:
 id: category_pattern
 label: 'Category Pattern'
 type: 'canonical_entities:taxonomy_term'
-pattern: 'category/[term:name]'
+pattern: '[term:parent]/[term:name]'
 selection_criteria:
-  511c10cc-8450-4b80-867b-e2767da871fd:
+  c7438d18-85a9-4bab-b071-99390a255d31:
     id: 'entity_bundle:taxonomy_term'
     bundles:
       categories: categories
     negate: false
     context_mapping:
       taxonomy_term: taxonomy_term
-    uuid: 511c10cc-8450-4b80-867b-e2767da871fd
+    uuid: c7438d18-85a9-4bab-b071-99390a255d31
 selection_logic: and
 weight: -5
 relationships: {  }
