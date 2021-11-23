@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains font_resize.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function font_resize_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the font_resize module.
+    case 'help.page.font_resize':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module used for resizing fonts. Required - the theme uses relative font sizing.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
