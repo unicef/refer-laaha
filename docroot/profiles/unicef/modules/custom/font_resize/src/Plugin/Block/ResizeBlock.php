@@ -28,13 +28,13 @@ class ResizeBlock extends BlockBase {
     $markup .= '<a class="font_resize-button" id="font_resize-plus" aria-label="" href="#">A+</a> ';
     $markup .= '</div>';
 
-    return array(
+    return [
       '#type' => 'markup',
-      '#attached' => array(
-        'library' => array('font_resize/font_resize', 'font_resize/font_resize_vss'),
-      ),
+      '#attached' => [
+        'library' => ['font_resize/font_resize', 'font_resize/font_resize_vss'],
+      ],
       '#markup' => $markup,
-    );
+    ];
   }
 
 }
