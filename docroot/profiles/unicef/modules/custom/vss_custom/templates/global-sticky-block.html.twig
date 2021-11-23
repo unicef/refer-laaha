@@ -16,7 +16,11 @@
     </div>
     {% if content.get_help %}
     <div class="gethelp">
-    <a href="{{content.get_help}}"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Get Help'|t }}</span></a></div>
+    {% if lang_code != 'en' %}
+    <a href="/{{ lang_code }}/{{content.get_help}}"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Get Help'|t }}</span></a></div>
+    {% else %}
+    <a href="/{{content.get_help}}"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Get Help'|t }}</span></a></div>
+    {% endif %}
     {% else %}
     <div class="gethelp">
     <a href="#"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Get Help'|t }}</span></a></div>  
