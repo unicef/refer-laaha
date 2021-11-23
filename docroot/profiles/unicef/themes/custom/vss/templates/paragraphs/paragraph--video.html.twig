@@ -46,7 +46,7 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-
+{{ attach_library('vss/transcript') }}
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
