@@ -40,13 +40,6 @@ function vss_custom_theme() {
         'video_id' => '',
       ],
     ],
-    'global_sticky_block' => [
-      'variables' => [
-        'content' => NULL,
-        'lang_code' => '',
-      ],
-      'render element' => 'children',
-    ],
   ];
 }
 
@@ -143,6 +136,7 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
   if ($form_id == 'taxonomy_term_categories_form') {
     $form['description']['widget'][0]['#required'] = 'true';
     $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories();
+    $form['#validate'][] = 'validate_category';
   }
   $language_manager = \Drupal::languageManager()->getCurrentLanguage();
   // Adding warning message.
@@ -164,6 +158,34 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
   }
   if ($form_id == 'taxonomy_term_sub_category_form') {
     $form['relations']['#weight'] = 7;
+  }
+}
+
+/**
+ * Validate category.
+ */
+function validate_category(&$form, &$form_state) {
+  $subcat = $form_state->getValue('field_sub_category')['value'];
+  $subcat_thumbail = $form_state->getValue('field_sub_category_thumbnail')[0]['alt'];
+  $cat_ref = $form_state->getValue('field_category_reference');
+  $cat_color = $form_state->getValue('field_category_color')[0]['color'];
+  $icon = $form_state->getValue('field_icon')[0]['alt'];
+
+  if ($subcat) {
+    if (empty($subcat_thumbail)) {
+      $form_state->setErrorByName('field_sub_category_thumbnail', t('Sub Category Thumbnail is required'));
+    }
+    if (empty($cat_ref)) {
+      $form_state->setErrorByName('field_category_reference [0][target_id', t('Category reference field is required'));
+    }
+  }
+  else {
+    if (empty($cat_color)) {
+      $form_state->setErrorByName('field_category_color', t('Category color field is required'));
+    }
+    if (empty($icon)) {
+      $form_state->setErrorByName('field_icon', t('Icon field is required'));
+    }
   }
 }
 

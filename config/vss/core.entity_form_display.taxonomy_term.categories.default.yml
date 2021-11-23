@@ -110,6 +110,22 @@ content:
             selector: ''
           entity_type: taxonomy_term
           bundle: categories
+        f36a42b9-da0e-4884-bab1-a8f37a6bb761:
+          dependee: field_sub_category
+          settings:
+            state: required
+            condition: '!checked'
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              value: false
+            effect: show
+            effect_options: {  }
+            selector: ''
+          entity_type: taxonomy_term
+          bundle: categories
   field_related_content:
     weight: 9
     settings:
@@ -162,6 +178,22 @@ content:
             value: ''
             values: {  }
             value_form: {  }
+            effect: show
+            effect_options: {  }
+            selector: ''
+          entity_type: taxonomy_term
+          bundle: categories
+        26ba1c66-efa4-4d3f-b47c-54d09c1f1a7a:
+          dependee: field_sub_category
+          settings:
+            state: required
+            condition: checked
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              value: false
             effect: show
             effect_options: {  }
             selector: ''
