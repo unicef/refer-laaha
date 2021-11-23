@@ -1,0 +1,59 @@
+uuid: 35a50ad5-f82f-4f78-b153-fb32e2049649
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content
+    - node.type.video
+    - paragraphs.paragraphs_type.layout
+    - paragraphs.paragraphs_type.video
+    - paragraphs.paragraphs_type.wysiwyg_editor
+  module:
+    - entity_reference_revisions
+id: node.video.field_content
+field_name: field_content
+entity_type: node
+bundle: video
+label: Content
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      layout: layout
+      video: video
+      wysiwyg_editor: wysiwyg_editor
+    target_bundles_drag_drop:
+      external_videos:
+        weight: 10
+        enabled: false
+      from_library:
+        weight: 11
+        enabled: false
+      image:
+        weight: 12
+        enabled: false
+      image_gallery:
+        weight: 13
+        enabled: false
+      layout:
+        enabled: true
+        weight: 14
+      podcast_audio:
+        weight: 15
+        enabled: false
+      video:
+        enabled: true
+        weight: 16
+      vtt_entries:
+        weight: 17
+        enabled: false
+      wysiwyg_editor:
+        enabled: true
+        weight: 18
+field_type: entity_reference_revisions

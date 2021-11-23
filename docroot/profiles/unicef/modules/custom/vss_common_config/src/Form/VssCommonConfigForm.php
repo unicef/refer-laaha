@@ -309,8 +309,9 @@ class VssCommonConfigForm extends ConfigFormBase {
       $query->condition('field_domain_target_id', $domain);
     }
     $query->condition('sc.field_sub_category_value', 1, '!=');
-    $query->fields('t', ['name']);
-    $terms = $query->execute()->fetchAllKeyed(0, 0);
+    $query->addExpression("LOWER(REPLACE(t.name,' ','-'))", "t_url");
+    $query->addExpression('t.name', 'name');
+    $terms = $query->execute()->fetchAllKeyed(0, 1);
     return $terms;
   }
 
