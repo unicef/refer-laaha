@@ -94,7 +94,10 @@
         "drupal-scaffold": {
             "locations": {
                 "web-root": "./docroot/"
-            }
+            },
+            "excludes": [
+                ".htaccess"
+            ]
         },
         "installer-paths": {
             "docroot/core": [
