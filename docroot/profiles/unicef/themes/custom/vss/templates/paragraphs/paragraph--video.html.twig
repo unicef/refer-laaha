@@ -46,6 +46,7 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
@@ -62,5 +63,16 @@
       {% endif %}
     {% endblock %}
   </div>
-
+  <div class="transcript-btn">
+     <button class="show-transcript">{{ 'SHOW TRANSCRIPTION'|t }}</button>
+     <button class="hide-transcript">{{ 'HIDE TRANSCRIPTION'|t }}</button>
+  </div>
+  <div id="transcript">
+  {% for transcript_data in transcript %}
+      <div id='l{{ loop.index }}' class='btnSeek line' data-seek='{{ transcript_data.seek_time }}' data-start='{{ transcript_data.start_time }}' data-end='{{ transcript_data.end_time }}'>
+        <span>{{ transcript_data.time }}</span>{{ transcript_data.text }}
+      </div>
+      <br/>
+  {% endfor %}
+  </div>
 {% endblock paragraph %}

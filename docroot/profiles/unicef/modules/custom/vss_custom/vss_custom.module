@@ -7,6 +7,7 @@
 
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\paragraphs\Entity\Paragraph;
 
 /**
  * Implements hook_preprocess_HOOK().
@@ -164,4 +165,66 @@ function vss_custom_form_alter(&$form, &$form_state, $form_id) {
 function vss_custom_video_embed_field_provider_info_alter(&$definitions) {
   // Replace the YouTube provider class with another implementation.
   $definitions['youtube']['class'] = 'Drupal\vss_custom\Plugin\video_embed_field\Provider\CustomYouTubeProvider';
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function vss_custom_preprocess_paragraph(&$variables) {
+  $paragraph = $variables['paragraph'];
+  if ($paragraph->bundle() == 'video' || $paragraph->bundle() == 'podcast') {
+    $vtt_paragraphs = $paragraph->get('field_vtt_entries')->getValue();
+    foreach ($vtt_paragraphs as $vtt_p) {
+      $vtt_entry = Paragraph::load($vtt_p['target_id']);
+      $vtt_file = $vtt_entry->get('field_vtt_file')->entity->getFileUri();
+      $langcode = $vtt_entry->get('field_language')->getValue()[0]['target_id'];
+      $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+      if ($current_language == $langcode) {
+        $transcript = vss_custom_parse_vtt($vtt_file);
+        $variables['transcript'] = $transcript;
+      }
+    }
+
+  }
+}
+
+/**
+ * Function for parsing the VTT file.
+ */
+function vss_custom_parse_vtt($vtt_file) {
+  $file = $vtt_file;
+  $file_as_array = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+  $i = 0;
+  $transcript = [];
+  foreach ($file_as_array as $f) {
+    if (str_contains($f, 'WEBVTT')) {
+      continue;
+    }
+    $start_time = FALSE;
+    if (preg_match("/^(\d{2}:\d{2}:\d{2}[\d\.]+) --> \d{2}:\d{2}:\d{2}[\d\.]+$/", $f, $match)) {
+      $start_time = explode('-->', $f);
+
+      $start_time_split = explode(':', $start_time[0]);
+      $total_start_seconds = (float) $start_time_split[0] * 60 * 60 + (float) $start_time_split[1] * 60 * 60 + (float) $start_time_split[2];
+      $end_time_split = explode(':', $start_time[1]);
+      $total_end_seconds = $end_time_split[0] * 60 * 60 + $end_time_split[1] * 60 * 60 + $end_time_split[2];
+      $duration = $total_end_seconds - $total_start_seconds;
+
+      $start = sprintf('%02d:%02d:%02d', ($total_start_seconds / 3600), ($total_start_seconds / 60 % 60), $total_start_seconds % 60);
+      $end = sprintf('%02d:%02d:%02d', ($total_end_seconds / 3600), ($total_end_seconds / 60 % 60), $total_end_seconds % 60);
+
+      $transcript_time = $start . " - " . $end;
+      $transcript[$i]['seek_time'] = $total_start_seconds;
+      $transcript[$i]['start_time'] = $total_start_seconds;
+      $transcript[$i]['end_time'] = $total_end_seconds;
+      $transcript[$i]['time'] = $transcript_time;
+      $transcript[$i]['duration'] = $duration;
+    }
+    if (!$start_time && (!strpos($f, 'WEBVTT')) && !is_numeric($f)) {
+      $transcript[$i]['text'] = ' ' . $f . ' ';
+      $i++;
+    }
+
+  }
+  return $transcript;
 }
