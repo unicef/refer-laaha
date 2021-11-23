@@ -1,0 +1,28 @@
+uuid: 5b0edfe6-1125-4f49-b543-19338a909dd3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_category_reference
+    - taxonomy.vocabulary.categories
+id: taxonomy_term.categories.field_category_reference
+field_name: field_category_reference
+entity_type: taxonomy_term
+bundle: categories
+label: 'Category reference'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      categories: categories
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
