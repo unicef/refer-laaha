@@ -24,11 +24,19 @@ class GlobalStickyBlock extends BlockBase implements ContainerFactoryPluginInter
   protected $vssCommonConfigDefault;
 
   /**
+   * Drupal\Core\Language\LanguageManagerInterface.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $instance = new static($configuration, $plugin_id, $plugin_definition);
     $instance->vssCommonConfigDefault = $container->get('vss_common_config.default');
+    $instance->languageManager = $container->get('language_manager');
     return $instance;
   }
 
@@ -37,9 +45,11 @@ class GlobalStickyBlock extends BlockBase implements ContainerFactoryPluginInter
    */
   public function build() {
     $build = [];
+    $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $content = $this->vssCommonConfigDefault->getCategories();
     $build['#theme'] = 'global_sticky_block';
     $build['#content'] = $content;
+    $build['#lang_code'] = $langcode;
 
     return $build;
   }
