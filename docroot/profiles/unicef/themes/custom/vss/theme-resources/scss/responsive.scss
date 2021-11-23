@@ -209,7 +209,7 @@ margin-bottom: 0  ;
         margin: 0;
 
         li {
-          padding: 14px 20px;
+          padding: 9px 20px;   
 
           &.is-active {
             a::before {
@@ -229,6 +229,7 @@ margin-bottom: 0  ;
           a {
             position: relative;
             padding: 0;
+            line-height: 30px;
 
             &:before {
               content: " ";

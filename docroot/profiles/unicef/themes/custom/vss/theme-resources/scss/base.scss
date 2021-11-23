@@ -29,6 +29,7 @@ body {
 
 .footer-wrapper {
   background: $footer-bg-color;
+  margin-top: 20px;
 }
 
 .region-footer {
@@ -177,11 +178,13 @@ ul.block-menu-item-fieldsfooter-last-menu {
   }
 
 }
-.settings-wrapper{
-  ul{
-    font-size: 16px!important;
+
+.settings-wrapper {
+  ul {
+    font-size: 16px !important;
   }
 }
+
 .btn-settings {
   cursor: pointer;
 }
@@ -294,14 +297,14 @@ ul.block-menu-item-fieldsfooter-last-menu {
       float: left;
       margin-right: 10px;
       margin-top: 3px;
-      font-size: 0!important;
+      font-size: 0 !important;
     }
 
     a#text_resize_increase {
       float: left;
       background: url(../images/plus.png) no-repeat center center;
       margin-top: 0;
-      font-size: 0!important;
+      font-size: 0 !important;
     }
 
     .text-resize-block {
@@ -441,13 +444,14 @@ body {
 }
 
 .article-hero-img {
-/*  background: url(../images/hero-banner.png) no-repeat center center;
+  /*  background: url(../images/hero-banner.png) no-repeat center center;
   height: 473px;
   background-size: contain;*/
   position: relative;
   margin-top: 60px;
-  .hero-img{
-    width:100%; 
+
+  .hero-img {
+    width: 100%;
   }
 
   h1 {
@@ -455,7 +459,7 @@ body {
     text-align: center;
     /*margin: 25% 10% auto;*/
     top: 60%;
-    left:10%;
+    left: 10%;
     padding: 2% 5%;
     width: 80%;
     background: rgba(255, 255, 255, 0.85);
@@ -512,18 +516,21 @@ article {
   }
 
   .field--name-field-tags {
-    
+
     font-size: 16px;
-    .field--label{
+
+    .field--label {
       font-weight: 400;
     }
+
     .field--items {
       display: flex;
 
       .field--item {
-        
-font-weight: 500;
-text-decoration: underline  ;
+
+        font-weight: 500;
+        text-decoration: underline;
+
         &:not(:first-child):before {
           content: " ,";
           margin-right: 5px;
@@ -533,15 +540,31 @@ text-decoration: underline  ;
     }
   }
 }
- .more-text{
-   display: none;
- }
- article{
- .read-more{
-   padding: 5px 15px;
-   display: block;
-   margin: 20px auto;
-   width:auto !important;
-   
- }
+
+.more-text {
+  display: none;
+}
+
+article {
+  .paragraph--type--image{
+    margin-bottom: 20px;
+  }
+  .read-more {
+    display: block;
+    margin: 20px auto;
+    width: auto !important;
+
+    i {
+      margin-left: 14px;
+    }
+
+  }
+  .field--name-field-tags{
+    .field-label{
+      display: flex;
+      .tag-label{
+        margin-right: 5px;
+      }
+    }
+  }
 }
