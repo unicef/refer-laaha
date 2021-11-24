@@ -209,18 +209,18 @@ margin-bottom: 0  ;
         margin: 0;
 
         li {
-          padding: 14px 20px;
+          padding: 9px 20px;   
 
           &.is-active {
             a::before {
-              width: 200%;
+              width: 150%;
             }
           }
 
           &:hover {
 
             a::before {
-              width: 200%;
+              width: 150%;
             }
 
 
@@ -229,12 +229,13 @@ margin-bottom: 0  ;
           a {
             position: relative;
             padding: 0;
+            line-height: 30px;
 
             &:before {
               content: " ";
               position: absolute;
               top: 36px;
-              left: -15px;
+              left: -10px;
               width: 0;
               border-bottom: 2px solid $footer-bg-color;
             }

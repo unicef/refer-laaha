@@ -2,6 +2,10 @@ body {
   margin-top: 0;
   font-family: $base-font-family;
   color: $base-black-color;
+  font-size: $header-logo-font;
+}
+.dropdown-menu{
+  font-size: inherit;
 }
 
 .navbar {
@@ -29,6 +33,7 @@ body {
 
 .footer-wrapper {
   background: $footer-bg-color;
+  margin-top: 20px;
 }
 
 .region-footer {
@@ -177,11 +182,9 @@ ul.block-menu-item-fieldsfooter-last-menu {
   }
 
 }
-.settings-wrapper{
-  ul{
-    font-size: 16px!important;
-  }
-}
+
+
+
 .btn-settings {
   cursor: pointer;
 }
@@ -289,19 +292,29 @@ ul.block-menu-item-fieldsfooter-last-menu {
       }
     }
 
-    a#text_resize_decrease {
+    a#font_resize-minus {
       background: url(../images/minus.png) no-repeat center center;
       float: left;
-      margin-right: 10px;
-      margin-top: 3px;
-      font-size: 0!important;
+      margin-right: 20px;
+      margin-top: 4px;
+      display: block;
+      width:14px;
+      height: 14px;
+      text-indent: -999em;
+      font-size: 0;
     }
 
-    a#text_resize_increase {
+    a#font_resize-plus { 
+      text-indent: -999em;
+      font-size: 0;
       float: left;
       background: url(../images/plus.png) no-repeat center center;
       margin-top: 0;
-      font-size: 0!important;
+      display: block;
+      width:14px;
+      height: 14px;
+      margin-right: 12px;
+      margin-top: 4px;
     }
 
     .text-resize-block {
@@ -317,6 +330,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
       left: calc(100% - 240px);
       border-radius: 10px;
       width: 240px;
+      font-size: 14px;
 
       li {
         padding: 0;
@@ -406,6 +420,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
       color: #000;
       background: rgba(0, 0, 0, .1);
       margin-right: 16px;
+      font-size: 14px;
 
       &:hover {
         color: #000;
@@ -441,13 +456,11 @@ body {
 }
 
 .article-hero-img {
-/*  background: url(../images/hero-banner.png) no-repeat center center;
-  height: 473px;
-  background-size: contain;*/
   position: relative;
   margin-top: 60px;
-  .hero-img{
-    width:100%; 
+
+  .hero-img {
+    width: 100%;
   }
 
   h1 {
@@ -455,14 +468,14 @@ body {
     text-align: center;
     /*margin: 25% 10% auto;*/
     top: 60%;
-    left:10%;
+    left: 10%;
     padding: 2% 5%;
     width: 80%;
     background: rgba(255, 255, 255, 0.85);
     position: absolute;
 
     border-radius: 20px;
-    font-size: 40px;
+    font-size: $base-h1-tag;
     font-weight: 500;
   }
 }
@@ -470,7 +483,7 @@ body {
 article {
   p {
     margin: 20px 0;
-    font-size: 20px;
+    font-size: $base-para-tag;
     line-height: 32px;
     font-weight: 400;
 
@@ -512,18 +525,21 @@ article {
   }
 
   .field--name-field-tags {
-    
+
     font-size: 16px;
-    .field--label{
+
+    .field--label {
       font-weight: 400;
     }
+
     .field--items {
       display: flex;
 
       .field--item {
-        
-font-weight: 500;
-text-decoration: underline  ;
+
+        font-weight: 500;
+        text-decoration: underline;
+
         &:not(:first-child):before {
           content: " ,";
           margin-right: 5px;
@@ -533,15 +549,41 @@ text-decoration: underline  ;
     }
   }
 }
- .more-text{
-   display: none;
- }
- article{
- .read-more{
-   padding: 5px 15px;
-   display: block;
-   margin: 20px auto;
-   width:auto !important;
-   
- }
+
+.more-text {
+  display: none;
+}
+
+article {
+  .paragraph--type--image{
+    margin-bottom: 20px;
+  }
+  .read-more {
+    display: block;
+    margin: 20px auto;
+    width: auto !important;
+
+    i {
+      margin-left: 14px;
+    }
+
+  }
+  .field--name-field-tags{
+    .field-label{
+      display: flex;
+      .tag-label{
+        margin-right: 5px;
+      }
+    }
+  }
+}
+#block-languageswitcher{
+  ul {
+    li {
+      a{
+        font-size: $base-footer-font-size;
+        
+      }
+    }
+  }
 }

@@ -1,0 +1,31 @@
+{#
+/**
+* @file
+* Default theme implementation to display a block.
+*
+* @see template_preprocess_block()
+*
+* @ingroup themeable
+*/
+#}
+{{ attach_library('vss_custom/global_sticky_block') }}
+
+<div class="global_sticky">
+    <div class="chatbot">
+    <a href="#"><img src ="/{{ base_path ~ directory }}/images/chatbot.png" alt="chatbot" /><span>{{ 'Chatbot'|t }}</span></a>
+    </div>
+    {% if content.get_help %}
+    <div class="gethelp">
+    {% if lang_code != 'en' %}
+    <a href="/{{ lang_code }}/{{content.get_help}}"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Get Help'|t }}</span></a></div>
+    {% else %}
+    <a href="/{{content.get_help}}"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Get Help'|t }}</span></a></div>
+    {% endif %}
+    {% else %}
+    <div class="gethelp">
+    <a href="#"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Get Help'|t }}</span></a></div>  
+    {% endif %}
+    <div class="exit">
+    <a href="/exit-website"><img src ="/{{ base_path ~ directory }}/images/exit.png" alt="exit" /><span>{{ 'Quick Exit'|t }}</span></a>
+    </div>
+</div>
