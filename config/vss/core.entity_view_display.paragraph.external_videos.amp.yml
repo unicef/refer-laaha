@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.paragraph.amp
     - field.field.paragraph.external_videos.field_external_video
+    - field.field.paragraph.external_videos.field_vtt_entries
     - paragraphs.paragraphs_type.external_videos
   module:
     - video_embed_field
@@ -26,4 +27,5 @@ content:
     third_party_settings: {  }
     type: video_embed_field_lazyload
     region: content
-hidden: {  }
+hidden:
+  field_vtt_entries: true

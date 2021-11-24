@@ -75,8 +75,9 @@
     'clearfix',
   ]
 %}
-
-{{ attach_library('vss_custom/narrate') }}
+{% if content.field_add_narration.0['#markup']|lower == 'yes'%}
+	{{ attach_library('vss_custom/narrate') }}
+{% endif %}
 {{ attach_library('vss/readmore') }}
 <article{{attributes.addClass(classes)}}>
 	<div class="article-hero-img">
