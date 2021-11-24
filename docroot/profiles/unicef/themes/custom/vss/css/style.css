@@ -493,6 +493,38 @@ article .field--name-field-tags .field-label {
 #block-languageswitcher ul li a {
   font-size: 1em; }
 
+#block-globalstickyblock {
+  z-index: 999;
+  position: fixed;
+  top: 450px;
+  right: 2%;
+  padding: 30px 10px;
+  background: #CB9CA1;
+  border-radius: 8px; }
+  #block-globalstickyblock .global_sticky {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column; }
+    #block-globalstickyblock .global_sticky .gethelp {
+      margin: 28px 0; }
+    #block-globalstickyblock .global_sticky a {
+      text-align: center;
+      color: #000;
+      font-size: 0.85em; }
+      #block-globalstickyblock .global_sticky a:hover {
+        text-decoration: none; }
+      #block-globalstickyblock .global_sticky a img {
+        display: block;
+        margin: 0 auto 6px; }
+      #block-globalstickyblock .global_sticky a span {
+        display: block;
+        text-align: center;
+        line-height: 16px; }
+
 .button-defult-exit {
   font-family: Roboto;
   font-weight: 700;
@@ -610,7 +642,32 @@ article .field--name-field-tags .field-label {
   .article-hero-img {
     margin-top: 24px; }
     .article-hero-img h1 {
-      font-size: 20px; } }
+      font-size: 20px; }
+  #block-globalstickyblock {
+    top: inherit;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px; }
+    #block-globalstickyblock .global_sticky {
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -ms-flex-pack: distribute;
+          justify-content: space-around; }
+      #block-globalstickyblock .global_sticky .gethelp {
+        margin: 0;
+        -webkit-box-ordinal-group: 0;
+            -ms-flex-order: -1;
+                order: -1; }
+      #block-globalstickyblock .global_sticky .chatbot img {
+        margin-top: 2px; }
+      #block-globalstickyblock .global_sticky .chatbot span {
+        margin-top: 8px; } }
 
 @media screen and (min-width: 768px) {
   .nav .telephone_in_mobile {
@@ -803,6 +860,9 @@ html[dir="rtl"] .region-header #block-settingsmenu .navbar-text {
     padding-right: 45px; } }
 
 @media screen and (min-width: 768px) {
+  html[dir="rtl"] #block-globalstickyblock {
+    left: 2%;
+    right: inherit; }
   html[dir="rtl"] #block-socialiconsfooterblock .icons-warp {
     float: left; } }
 
