@@ -46,6 +46,7 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+{{ attach_library('vss/transcript') }}
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
@@ -62,5 +63,19 @@
       {% endif %}
     {% endblock %}
   </div>
-
+  {% if transcript %}
+  <div class="transcript-btn">
+     <button class="show-transcript">{{ 'SHOW TRANSCRIPTION'|t }}</button>
+     <button class="hide-transcript">{{ 'HIDE TRANSCRIPTION'|t }}</button>
+  </div>
+  <div id="transcript">
+  {% for transcript_data in transcript %}
+      <div id='l{{ loop.index }}' class='btnSeek line' data-seek='{{ transcript_data.seek_time }}' data-start='{{ transcript_data.start_time }}' data-end='{{ transcript_data.end_time }}'>
+        <span>{{ transcript_data.time }}</span>
+        <span class="transcript-text">{{ transcript_data.text }}</span>
+      </div>
+      <br/>
+  {% endfor %}
+  </div>
+  {% endif %}
 {% endblock paragraph %}
