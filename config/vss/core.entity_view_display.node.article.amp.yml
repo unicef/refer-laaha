@@ -8,10 +8,12 @@ dependencies:
     - field.field.node.article.comment
     - field.field.node.article.field_add_narration
     - field.field.node.article.field_assets
+    - field.field.node.article.field_category
     - field.field.node.article.field_domain_access
     - field.field.node.article.field_domain_all_affiliates
     - field.field.node.article.field_image
     - field.field.node.article.field_tags
+    - field.field.node.article.field_thumbnail_image
     - image.style.large
     - node.type.article
   module:
@@ -79,6 +81,8 @@ content:
     third_party_settings: {  }
 hidden:
   comment: true
+  field_category: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_thumbnail_image: true
   langcode: true

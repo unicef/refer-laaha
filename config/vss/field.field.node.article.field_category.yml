@@ -1,15 +1,15 @@
-uuid: b37dc0f9-0efe-43a7-83c6-41127745fd1b
+uuid: 6da5ee05-1fa2-4780-ba51-94e4fca2c9da
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_category
-    - node.type.video
+    - node.type.article
     - taxonomy.vocabulary.categories
-id: node.video.field_category
+id: node.article.field_category
 field_name: field_category
 entity_type: node
-bundle: video
+bundle: article
 label: Category
 description: ''
 required: true

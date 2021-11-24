@@ -9,8 +9,11 @@ dependencies:
     - field.field.node.video.field_domain_access
     - field.field.node.video.field_domain_all_affiliates
     - field.field.node.video.field_tags
+    - field.field.node.video.field_thumbnail_image
+    - image.style.thumbnail
     - node.type.video
   module:
+    - image
     - layout_paragraphs
     - path
 id: node.video.default
@@ -65,6 +68,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete
+    region: content
+  field_thumbnail_image:
+    weight: 27
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
     region: content
   langcode:
     type: language_select
