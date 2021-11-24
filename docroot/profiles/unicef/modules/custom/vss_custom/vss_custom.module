@@ -213,7 +213,7 @@ function vss_custom_parse_vtt($vtt_file) {
       $start = sprintf('%02d:%02d:%02d', ($total_start_seconds / 3600), ($total_start_seconds / 60 % 60), $total_start_seconds % 60);
       $end = sprintf('%02d:%02d:%02d', ($total_end_seconds / 3600), ($total_end_seconds / 60 % 60), $total_end_seconds % 60);
 
-      $transcript_time = $start . " - " . $end;
+      $transcript_time = $start;
       $transcript[$i]['seek_time'] = $total_start_seconds;
       $transcript[$i]['start_time'] = $total_start_seconds;
       $transcript[$i]['end_time'] = $total_end_seconds;
