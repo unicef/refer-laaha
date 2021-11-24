@@ -1,0 +1,10 @@
+
+{% for item in content %}
+
+  {% if item.uri %}
+    File: uri: {{ file_url(item.uri) }}
+  {% endif %}
+  {% if item.title %}
+    Title: {{ item.title }}
+  {% endif %}
+{% endfor %}
