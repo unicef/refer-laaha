@@ -6,14 +6,7 @@ dependencies:
     - field.storage.taxonomy_term.field_sub_category_thumbnail
     - taxonomy.vocabulary.categories
   module:
-    - content_translation
     - image
-third_party_settings:
-  content_translation:
-    translation_sync:
-      alt: alt
-      title: title
-      file: '0'
 id: taxonomy_term.categories.field_sub_category_thumbnail
 field_name: field_sub_category_thumbnail
 entity_type: taxonomy_term
