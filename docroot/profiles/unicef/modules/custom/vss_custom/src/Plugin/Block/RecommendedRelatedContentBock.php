@@ -5,9 +5,6 @@ namespace Drupal\vss_custom\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Drupal\domain\DomainNegotiatorInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
 
 /**
  * Provides a 'RecommendedRelatedContentBock' block.
@@ -33,7 +30,8 @@ class RecommendedRelatedContentBock extends BlockBase implements ContainerFactor
    */
   protected $requestStack;
 
-  /** Drupal\domain\DomainNegotiatorInterface definition.
+  /**
+   * Drupal\domain\DomainNegotiatorInterface definition.
    *
    * @var \Drupal\domain\DomainNegotiatorInterface
    */
@@ -92,7 +90,7 @@ class RecommendedRelatedContentBock extends BlockBase implements ContainerFactor
     if ($result) {
       $nodes = $this->entityTypeManager->getStorage('node')->loadMultiple($result);
       $data = [];
-      foreach($nodes as $viewNode) {
+      foreach ($nodes as $viewNode) {
         $data[$viewNode->id()]['title'] = $viewNode->getTitle();
         if ($viewNode->hasField('field_thumbnail_image') && !empty($viewNode->get('field_thumbnail_image')->first())) {
           $fid = $viewNode->get('field_thumbnail_image')->target_id;

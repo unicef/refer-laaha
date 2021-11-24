@@ -246,4 +246,3 @@ function vss_custom_preprocess_block(&$variables) {
 function vss_custom_query_sort_by_random_alter($query) {
   $query->orderRandom();
 }
-
