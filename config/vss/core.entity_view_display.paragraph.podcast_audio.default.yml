@@ -1,0 +1,33 @@
+uuid: a781e932-0cc8-487e-b4e2-886ee24a198b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.podcast_audio.field_audio
+    - field.field.paragraph.podcast_audio.field_vtt_entries
+    - paragraphs.paragraphs_type.podcast_audio
+  module:
+    - entity_reference_revisions
+    - file
+id: paragraph.podcast_audio.default
+targetEntityType: paragraph
+bundle: podcast_audio
+mode: default
+content:
+  field_audio:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: file_url_plain
+    region: content
+  field_vtt_entries:
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+hidden: {  }
