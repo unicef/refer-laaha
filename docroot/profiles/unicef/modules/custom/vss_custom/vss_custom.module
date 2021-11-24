@@ -304,4 +304,16 @@ function vss_custom_preprocess_block(&$variables) {
       $variables['label'] = $variables['content']['#block_content']->label();
     }
   }
+  if ($variables['elements']['#id'] == 'wordsfromexperts') {
+    $variables['#cache']['max-age'] = 0;
+    if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') {
+      $term_id = \Drupal::routeMatch()->getRawParameter('taxonomy_term');
+    }
+    $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($term_id);
+    $sub_category = $term->get('field_sub_category')->value;
+    if ($sub_category == 1) {
+      unset($variables['label']);
+      unset($variables['content']);
+    }
+  }
 }
