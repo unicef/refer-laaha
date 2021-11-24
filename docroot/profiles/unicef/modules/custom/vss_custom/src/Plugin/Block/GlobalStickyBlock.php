@@ -5,6 +5,7 @@ namespace Drupal\vss_custom\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Cache\Cache;
 
 /**
  * Provides a 'SocialIconsFooterBlock' block.
@@ -50,8 +51,25 @@ class GlobalStickyBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#theme'] = 'global_sticky_block';
     $build['#content'] = $content;
     $build['#lang_code'] = $langcode;
+    $build['#cache']['tags'] = $this->getCacheTags();
+    $build['#cache']['contexts'] = $this->getCacheContexts();
 
     return $build;
+  }
+
+  /**
+   * Get cache tags.
+   */
+  public function getCacheTags() {
+    return Cache::mergeTags(parent::getCacheTags(),
+     ['config:vss_common_config.vsscommonconfig', 'vss_common_config']);
+  }
+
+  /**
+   * Get cache Contexts.
+   */
+  public function getCacheContexts() {
+    return Cache::mergeTags(parent::getCacheContexts(), ['url.path']);
   }
 
 }
