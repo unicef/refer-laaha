@@ -245,6 +245,10 @@ html[dir="rtl"] {
 
 @media screen and (min-width:768px) {
   html[dir="rtl"] {
+    #block-globalstickyblock {
+      left: 2%;
+      right: inherit;
+    }
     #block-socialiconsfooterblock {
       .icons-warp {
         float: left;
