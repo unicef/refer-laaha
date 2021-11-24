@@ -1,18 +1,18 @@
-uuid: 101d3456-bc8d-400d-8b42-ba32846462a4
+uuid: a7263c0a-0765-4132-bfeb-6a3259b7bbcd
 langcode: en
 status: true
 dependencies:
   config:
-    - taxonomy.vocabulary.sub_category
+    - paragraphs.paragraphs_type.layout
   module:
     - content_translation
 third_party_settings:
   content_translation:
-    enabled: true
+    enabled: false
     bundle_settings:
       untranslatable_fields_hide: '0'
-id: taxonomy_term.sub_category
-target_entity_type_id: taxonomy_term
-target_bundle: sub_category
+id: paragraph.layout
+target_entity_type_id: paragraph
+target_bundle: layout
 default_langcode: site_default
-language_alterable: true
+language_alterable: false
