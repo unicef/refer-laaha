@@ -217,16 +217,17 @@ function vss_custom_preprocess_paragraph(&$variables) {
   if ($paragraph->bundle() == 'video' || $paragraph->bundle() == 'podcast') {
     $vtt_paragraphs = $paragraph->get('field_vtt_entries')->getValue();
     foreach ($vtt_paragraphs as $vtt_p) {
-      $vtt_entry = Paragraph::load($vtt_p['target_id']);
-      $vtt_file = $vtt_entry->get('field_vtt_file')->entity->getFileUri();
-      $langcode = $vtt_entry->get('field_language')->getValue()[0]['target_id'];
-      $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
-      if ($current_language == $langcode) {
-        $transcript = vss_custom_parse_vtt($vtt_file);
-        $variables['transcript'] = $transcript;
+      if ($vtt_p['target_id']) {
+        $vtt_entry = Paragraph::load($vtt_p['target_id']);
+        $vtt_file = $vtt_entry->get('field_vtt_file')->entity->getFileUri();
+        $langcode = $vtt_entry->get('field_language')->getValue()[0]['target_id'];
+        $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        if ($current_language == $langcode) {
+          $transcript = vss_custom_parse_vtt($vtt_file);
+          $variables['transcript'] = $transcript;
+        }
       }
     }
-
   }
 }
 
