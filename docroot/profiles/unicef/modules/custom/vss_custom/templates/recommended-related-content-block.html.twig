@@ -5,6 +5,6 @@
     File: uri: {{ file_url(item.uri) }}
   {% endif %}
   {% if item.title %}
-    Title: {{ item.title }}
+    {{ 'Title'|t }}: {{ item.title }}
   {% endif %}
 {% endfor %}
