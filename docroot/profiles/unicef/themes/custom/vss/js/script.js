@@ -4,11 +4,7 @@
 
   Drupal.behaviors.mybehavior = {
     attach: function (context, settings) {
-      $('.settings-wrapper .dropdown-menu').on({
-        "click":function(e){
-            e.stopPropagation();
-          }
-      });
+     
       /** clone logo change */
       if ($(window).width() < 768) {
         $(".logo-wrapper").clone().insertBefore("#block-navigationheadermenu");
@@ -20,3 +16,9 @@
   };
 
 })(jQuery, Drupal, drupalSettings);
+/*to stay menu open after click */
+jQuery('.settings-wrapper .dropdown-menu').on({
+  "click":function(e){
+      e.stopPropagation();
+    }
+});
