@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.video.field_domain_access
     - field.field.node.video.field_domain_all_affiliates
     - field.field.node.video.field_tags
+    - field.field.node.video.field_thumbnail_image
     - node.type.video
   module:
     - layout_paragraphs
@@ -18,14 +19,6 @@ targetEntityType: node
 bundle: video
 mode: default
 content:
-  field_category:
-    weight: 3
-    label: hidden
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
   field_content:
     weight: 1
     label: hidden
@@ -50,6 +43,8 @@ content:
     third_party_settings: {  }
 hidden:
   body: true
+  field_category: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_thumbnail_image: true
   langcode: true
