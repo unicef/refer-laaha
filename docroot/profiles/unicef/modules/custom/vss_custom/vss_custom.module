@@ -7,6 +7,7 @@
 
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\paragraphs\Entity\Paragraph;
 
 /**
  * Implements hook_theme().
@@ -30,6 +31,12 @@ function vss_custom_theme() {
       ],
       'render element' => 'children',
     ],
+    'recommended_related_content_block' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'render element' => 'children',
+    ],
     'video_embed_iframe' => [
       'variables' => [
         'url' => '',
@@ -44,6 +51,14 @@ function vss_custom_theme() {
       'variables' => [
         'content' => NULL,
         'lang_code' => '',
+      ],
+      'render element' => 'children',
+    ],
+    'hero_banner_block' => [
+      'variables' => [
+        'content' => [],
+        'lang_code' => '',
+        'category' => [],
       ],
       'render element' => 'children',
     ],
@@ -143,6 +158,7 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
   if ($form_id == 'taxonomy_term_categories_form') {
     $form['description']['widget'][0]['#required'] = 'true';
     $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories();
+    $form['#validate'][] = 'validate_category';
   }
   $language_manager = \Drupal::languageManager()->getCurrentLanguage();
   // Adding warning message.
@@ -168,6 +184,34 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
 }
 
 /**
+ * Validate category.
+ */
+function validate_category(&$form, &$form_state) {
+  $subcat = $form_state->getValue('field_sub_category')['value'];
+  $subcat_thumbail = $form_state->getValue('field_sub_category_thumbnail')[0]['alt'];
+  $cat_ref = $form_state->getValue('field_category_reference');
+  $cat_color = $form_state->getValue('field_category_color')[0]['color'];
+  $icon = $form_state->getValue('field_icon')[0]['alt'];
+
+  if ($subcat) {
+    if (empty($subcat_thumbail)) {
+      $form_state->setErrorByName('field_sub_category_thumbnail', t('Sub Category Thumbnail is required'));
+    }
+    if (empty($cat_ref)) {
+      $form_state->setErrorByName('field_category_reference [0][target_id', t('Category reference field is required'));
+    }
+  }
+  else {
+    if (empty($cat_color)) {
+      $form_state->setErrorByName('field_category_color', t('Category color field is required'));
+    }
+    if (empty($icon)) {
+      $form_state->setErrorByName('field_icon', t('Icon field is required'));
+    }
+  }
+}
+
+/**
  * Alter the video_embed_field plugin definitions.
  *
  * This hook allows you alter the plugin definitions managed by ProviderManager.
@@ -177,6 +221,69 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
 function vss_custom_video_embed_field_provider_info_alter(&$definitions) {
   // Replace the YouTube provider class with another implementation.
   $definitions['youtube']['class'] = 'Drupal\vss_custom\Plugin\video_embed_field\Provider\CustomYouTubeProvider';
+}
+
+/**
+ * Implements hook_preprocess_paragraph().
+ */
+function vss_custom_preprocess_paragraph(&$variables) {
+  $paragraph = $variables['paragraph'];
+  if ($paragraph->bundle() == 'video' || $paragraph->bundle() == 'podcast') {
+    $vtt_paragraphs = $paragraph->get('field_vtt_entries')->getValue();
+    foreach ($vtt_paragraphs as $vtt_p) {
+      if ($vtt_p['target_id']) {
+        $vtt_entry = Paragraph::load($vtt_p['target_id']);
+        $vtt_file = $vtt_entry->get('field_vtt_file')->entity->getFileUri();
+        $langcode = $vtt_entry->get('field_language')->getValue()[0]['target_id'];
+        $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        if ($current_language == $langcode) {
+          $transcript = vss_custom_parse_vtt($vtt_file);
+          $variables['transcript'] = $transcript;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Function for parsing the VTT file.
+ */
+function vss_custom_parse_vtt($vtt_file) {
+  $file = $vtt_file;
+  $file_as_array = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+  $i = 0;
+  $transcript = [];
+  foreach ($file_as_array as $f) {
+    if (str_contains($f, 'WEBVTT')) {
+      continue;
+    }
+    $start_time = FALSE;
+    if (preg_match("/^(\d{2}:\d{2}:\d{2}[\d\.]+) --> \d{2}:\d{2}:\d{2}[\d\.]+$/", $f, $match)) {
+      $start_time = explode('-->', $f);
+
+      $start_time_split = explode(':', $start_time[0]);
+      $total_start_seconds = (float) $start_time_split[0] * 60 * 60 + (float) $start_time_split[1] * 60 * 60 + (float) $start_time_split[2];
+      $end_time_split = explode(':', $start_time[1]);
+      $total_end_seconds = $end_time_split[0] * 60 * 60 + $end_time_split[1] * 60 * 60 + $end_time_split[2];
+      $duration = $total_end_seconds - $total_start_seconds;
+
+      $start = sprintf('%02d:%02d:%02d', ($total_start_seconds / 3600), ($total_start_seconds / 60 % 60), $total_start_seconds % 60);
+      $end = sprintf('%02d:%02d:%02d', ($total_end_seconds / 3600), ($total_end_seconds / 60 % 60), $total_end_seconds % 60);
+
+      $transcript_time = $start;
+      $transcript[$i]['seek_time'] = $total_start_seconds;
+      $transcript[$i]['start_time'] = $total_start_seconds;
+      $transcript[$i]['end_time'] = $total_end_seconds;
+      $transcript[$i]['time'] = $transcript_time;
+      $transcript[$i]['duration'] = $duration;
+    }
+    if (!$start_time && (!strpos($f, 'WEBVTT')) && !is_numeric($f)) {
+      $transcript[$i]['text'] = ' ' . $f . ' ';
+      $i++;
+    }
+
+  }
+  return $transcript;
 }
 
 /**
@@ -203,4 +310,24 @@ function vss_custom_preprocess_block(&$variables) {
       $variables['label'] = $variables['content']['#block_content']->label();
     }
   }
+  if ($variables['elements']['#id'] == 'wordsfromexperts') {
+    $variables['elements']['#cache']['max-age'] = 0;
+    $variables['#cache']['max-age'] = 0;
+    if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') {
+      $term_id = \Drupal::routeMatch()->getRawParameter('taxonomy_term');
+    }
+    $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($term_id);
+    $sub_category = $term->get('field_sub_category')->value;
+    if ($sub_category == 1) {
+      unset($variables['label']);
+      unset($variables['content']);
+    }
+  }
+}
+
+/**
+ * Implements hook_pquery_sort_by_random_alter().
+ */
+function vss_custom_query_sort_by_random_alter($query) {
+  $query->orderRandom();
 }

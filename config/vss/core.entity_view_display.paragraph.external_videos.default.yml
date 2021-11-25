@@ -4,8 +4,10 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.external_videos.field_external_video
+    - field.field.paragraph.external_videos.field_vtt_entries
     - paragraphs.paragraphs_type.external_videos
   module:
+    - entity_reference_revisions
     - video_embed_field
 id: paragraph.external_videos.default
 targetEntityType: paragraph
@@ -22,5 +24,14 @@ content:
       autoplay: false
     third_party_settings: {  }
     type: video_embed_field_video
+    region: content
+  field_vtt_entries:
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
     region: content
 hidden: {  }

@@ -14,7 +14,7 @@ entity_type: paragraph
 bundle: video
 label: 'VTT Entries'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -36,6 +36,12 @@ settings:
         enabled: false
       image_gallery:
         weight: 7
+        enabled: false
+      layout:
+        weight: 14
+        enabled: false
+      podcast_audio:
+        weight: 15
         enabled: false
       video:
         weight: 8

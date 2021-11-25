@@ -2,6 +2,11 @@ body {
   margin-top: 0;
   font-family: $base-font-family;
   color: $base-black-color;
+  font-size: $header-logo-font;
+}
+
+.dropdown-menu {
+  font-size: inherit;
 }
 
 .navbar {
@@ -179,11 +184,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
 
 }
 
-.settings-wrapper {
-  ul {
-    font-size: 16px !important;
-  }
-}
+
 
 .btn-settings {
   cursor: pointer;
@@ -292,19 +293,29 @@ ul.block-menu-item-fieldsfooter-last-menu {
       }
     }
 
-    a#text_resize_decrease {
+    a#font_resize-minus {
       background: url(../images/minus.png) no-repeat center center;
       float: left;
-      margin-right: 10px;
-      margin-top: 3px;
-      font-size: 0 !important;
+      margin-right: 20px;
+      margin-top: 4px;
+      display: block;
+      width: 14px;
+      height: 14px;
+      text-indent: -999em;
+      font-size: 0;
     }
 
-    a#text_resize_increase {
+    a#font_resize-plus {
+      text-indent: -999em;
+      font-size: 0;
       float: left;
       background: url(../images/plus.png) no-repeat center center;
       margin-top: 0;
-      font-size: 0 !important;
+      display: block;
+      width: 14px;
+      height: 14px;
+      margin-right: 12px;
+      margin-top: 4px;
     }
 
     .text-resize-block {
@@ -320,6 +331,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
       left: calc(100% - 240px);
       border-radius: 10px;
       width: 240px;
+      font-size: 14px;
 
       li {
         padding: 0;
@@ -409,6 +421,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
       color: #000;
       background: rgba(0, 0, 0, .1);
       margin-right: 16px;
+      font-size: 14px;
 
       &:hover {
         color: #000;
@@ -444,9 +457,6 @@ body {
 }
 
 .article-hero-img {
-  /*  background: url(../images/hero-banner.png) no-repeat center center;
-  height: 473px;
-  background-size: contain;*/
   position: relative;
   margin-top: 60px;
 
@@ -466,7 +476,7 @@ body {
     position: absolute;
 
     border-radius: 20px;
-    font-size: 40px;
+    font-size: $base-h1-tag;
     font-weight: 500;
   }
 }
@@ -474,7 +484,7 @@ body {
 article {
   p {
     margin: 20px 0;
-    font-size: 20px;
+    font-size: $base-para-tag;
     line-height: 32px;
     font-weight: 400;
 
@@ -546,9 +556,10 @@ article {
 }
 
 article {
-  .paragraph--type--image{
+  .paragraph--type--image {
     margin-bottom: 20px;
   }
+
   .read-more {
     display: block;
     margin: 20px auto;
@@ -559,11 +570,64 @@ article {
     }
 
   }
-  .field--name-field-tags{
-    .field-label{
+
+  .field--name-field-tags {
+    .field-label {
       display: flex;
-      .tag-label{
+
+      .tag-label {
         margin-right: 5px;
+      }
+    }
+  }
+}
+
+#block-languageswitcher {
+  ul {
+    li {
+      a {
+        font-size: $base-footer-font-size;
+
+      }
+    }
+  }
+}
+
+#block-globalstickyblock {
+  z-index: 999;
+  position: fixed;
+  top: 450px;
+  right: 2%;
+  padding: 30px 10px;
+  background: $footer-bg-color;
+  border-radius: 8px;
+
+  .global_sticky {
+    display: flex;
+    flex-direction: column;
+
+    .gethelp {
+      margin: 28px 0;
+    }
+
+    a {
+      text-align: center;
+      color: $base-black-color;
+      font-size: $base-footer-font-size-small;
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      img {
+        display: block;
+        margin: 0 auto 6px;
+      }
+
+      span {
+        display: block;
+        text-align: center;
+        line-height: 16px;
       }
     }
   }

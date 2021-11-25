@@ -1,0 +1,28 @@
+uuid: 76f4bb64-322c-468f-928c-25b17b47b845
+langcode: en
+status: true
+dependencies:
+  module:
+    - ctools
+    - vss_custom
+  theme:
+    - vss
+id: herobannerblock
+theme: vss
+region: content
+weight: 0
+provider: null
+plugin: hero_banner_block
+settings:
+  id: hero_banner_block
+  label: 'Hero Banner block'
+  provider: vss_custom
+  label_display: '0'
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    bundles:
+      categories: categories
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'

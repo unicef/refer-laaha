@@ -152,7 +152,16 @@ html[dir="rtl"] {
 
       .text-resize-block {
         float: left;
-        margin-left: 16px;
+        margin-left: 21px;
+        a#font_resize-plus,
+        a#font_resize-minus{
+        
+          float: right;
+          
+        }
+        a#font_resize-plus{
+          margin-right: 20px;
+        }
       }
 
       .dropdown-menu {
@@ -245,6 +254,10 @@ html[dir="rtl"] {
 
 @media screen and (min-width:768px) {
   html[dir="rtl"] {
+    #block-globalstickyblock {
+      left: 2%;
+      right: inherit;
+    }
     #block-socialiconsfooterblock {
       .icons-warp {
         float: left;

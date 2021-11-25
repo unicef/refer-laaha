@@ -154,6 +154,32 @@ margin-bottom: 0  ;
       font-size: 20px;
     }
   }
+  #block-globalstickyblock{
+    top:inherit;
+    right: 0  ;
+    bottom: 0 ;
+    width: 100%;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    .global_sticky{
+      flex-direction: row;
+      justify-content: space-around;
+      .gethelp{
+        margin: 0;
+        order: -1;
+      }
+      .chatbot{
+        img{
+          margin-top: 2px;
+        }
+        span{
+          margin-top: 8px;
+        }
+      }
+    }
+  }
 }
 
 @media screen and (min-width:768px) {
@@ -213,14 +239,14 @@ margin-bottom: 0  ;
 
           &.is-active {
             a::before {
-              width: 200%;
+              width: 150%;
             }
           }
 
           &:hover {
 
             a::before {
-              width: 200%;
+              width: 150%;
             }
 
 
@@ -235,7 +261,7 @@ margin-bottom: 0  ;
               content: " ";
               position: absolute;
               top: 36px;
-              left: -15px;
+              left: -10px;
               width: 0;
               border-bottom: 2px solid $footer-bg-color;
             }
