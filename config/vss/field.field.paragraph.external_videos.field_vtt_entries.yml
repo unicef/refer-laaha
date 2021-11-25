@@ -1,21 +1,21 @@
-uuid: c80e57f7-a69c-401e-99b8-4afaf308f889
+uuid: b0e2a513-2cdb-4564-b35d-a136b2ec165b
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_vtt_entries
-    - paragraphs.paragraphs_type.video
+    - paragraphs.paragraphs_type.external_videos
     - paragraphs.paragraphs_type.vtt_entries
   module:
     - entity_reference_revisions
-id: paragraph.video.field_vtt_entries
+id: paragraph.external_videos.field_vtt_entries
 field_name: field_vtt_entries
 entity_type: paragraph
-bundle: video
+bundle: external_videos
 label: 'VTT Entries'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -26,16 +26,16 @@ settings:
       vtt_entries: vtt_entries
     target_bundles_drag_drop:
       external_videos:
-        weight: 7
+        weight: 10
         enabled: false
       from_library:
-        weight: 5
+        weight: 11
         enabled: false
       image:
-        weight: 6
+        weight: 12
         enabled: false
       image_gallery:
-        weight: 7
+        weight: 13
         enabled: false
       layout:
         weight: 14
@@ -44,12 +44,12 @@ settings:
         weight: 15
         enabled: false
       video:
-        weight: 8
+        weight: 16
         enabled: false
       vtt_entries:
         enabled: true
-        weight: 12
+        weight: 17
       wysiwyg_editor:
-        weight: 14
+        weight: 18
         enabled: false
 field_type: entity_reference_revisions

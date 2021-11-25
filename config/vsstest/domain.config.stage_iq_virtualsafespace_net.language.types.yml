@@ -8,16 +8,17 @@ configurable:
 negotiation:
   language_content:
     enabled:
-      domain-language: '-18'
+      language-content-entity: '-20'
       language-url: '-19'
+      domain-language: '-18'
       language-selected: '-13'
     method_weights:
       language-content-entity: '-20'
       language-url: '-19'
+      domain-language: '-18'
       language-session: '-17'
       language-user: '-16'
       language-browser: '-15'
-      domain-language: '-18'
       language-interface: '-14'
       language-selected: '-13'
   language_url:

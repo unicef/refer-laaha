@@ -4,8 +4,10 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.external_videos.field_external_video
+    - field.field.paragraph.external_videos.field_vtt_entries
     - paragraphs.paragraphs_type.external_videos
   module:
+    - paragraphs
     - video_embed_field
 id: paragraph.external_videos.default
 targetEntityType: paragraph
@@ -18,11 +20,23 @@ content:
     third_party_settings: {  }
     type: video_embed_field_textfield
     region: content
+  field_vtt_entries:
+    weight: 11
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: vtt_entries
+    third_party_settings: {  }
+    type: entity_reference_paragraphs
+    region: content
   translation:
     weight: 10
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   created: true
   status: true
