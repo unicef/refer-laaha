@@ -15,7 +15,10 @@ label: 'Category Color'
 description: ''
 required: true
 translatable: true
-default_value: {  }
+default_value:
+  -
+    color: '#f8eaef'
+    opacity: null
 default_value_callback: ''
 settings:
   opacity: 0
