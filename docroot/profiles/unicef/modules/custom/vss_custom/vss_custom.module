@@ -305,7 +305,7 @@ function vss_custom_preprocess_block(&$variables) {
     }
   }
   if ($variables['elements']['#id'] == 'wordsfromexperts') {
-    $variables['#cache']['max-age'] = 0;
+    $variables['elements']['#cache']['max-age'] = 0;
     if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') {
       $term_id = \Drupal::routeMatch()->getRawParameter('taxonomy_term');
     }
