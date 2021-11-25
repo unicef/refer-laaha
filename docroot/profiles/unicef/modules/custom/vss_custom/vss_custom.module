@@ -31,6 +31,12 @@ function vss_custom_theme() {
       ],
       'render element' => 'children',
     ],
+    'recommended_related_content_block' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'render element' => 'children',
+    ],
     'video_embed_iframe' => [
       'variables' => [
         'url' => '',
@@ -316,4 +322,11 @@ function vss_custom_preprocess_block(&$variables) {
       unset($variables['content']);
     }
   }
+}
+
+/**
+ * Implements hook_pquery_sort_by_random_alter().
+ */
+function vss_custom_query_sort_by_random_alter($query) {
+  $query->orderRandom();
 }
