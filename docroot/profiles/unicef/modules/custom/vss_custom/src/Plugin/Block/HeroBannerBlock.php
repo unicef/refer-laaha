@@ -70,8 +70,10 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $cat_color = $term->get('field_category_color')->color;
       $cat_icon = $term->get('field_icon')->target_id;
       $file = $this->entityTypeManager->getStorage('file')->load($cat_icon);
-      $cat_ic = $file->getFileUri();
-      $cat_ic = str_replace('public://', 'sites/default/files/', $cat_ic);
+      if ($file) {
+        $cat_ic = $file->getFileUri();
+        $cat_ic = str_replace('public://', 'sites/default/files/', $cat_ic);
+      }
       foreach ($child_terms as $k => $child) {
         if ($child->hasTranslation($langcode)) {
           $child = $child->getTranslation($langcode);
@@ -82,8 +84,10 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
         $subcat_details[$k]['subcat_name'] = $child->get('name')->value;
         $file = $this->entityTypeManager->getStorage('file')->load($child->get('field_sub_category_thumbnail')->target_id);
-        $file_url = $file->getFileUri();
-        $subcat_details[$k]['sub_category_thumbnail'] = str_replace('public://', 'sites/default/files/', $file_url);
+        if ($file) {
+          $file_url = $file->getFileUri();
+          $subcat_details[$k]['sub_category_thumbnail'] = str_replace('public://', 'sites/default/files/', $file_url);
+        }
         $url = $term->label() . '/' . $child->get('name')->value;
         $url = str_replace(' ', '-', $url);
         $url = strtolower($url);
