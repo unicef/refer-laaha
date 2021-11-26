@@ -1,16 +1,16 @@
-uuid: 4cd152ed-0ae6-451b-984f-c24c4f434a5d
+uuid: c5efbee3-b53d-47cb-99c6-8227a7766702
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_category
-    - node.type.podcast
+    - field.storage.node.field_sub_category
+    - node.type.video
     - taxonomy.vocabulary.categories
-id: node.podcast.field_category
-field_name: field_category
+id: node.video.field_sub_category
+field_name: field_sub_category
 entity_type: node
-bundle: podcast
-label: Category
+bundle: video
+label: 'Sub Category'
 description: ''
 required: true
 translatable: true
