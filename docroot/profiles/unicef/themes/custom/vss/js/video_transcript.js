@@ -17,16 +17,20 @@
                 var lines = document.getElementById("transcript").getElementsByTagName("div");
                 var player = $('#video').get(0);
 
-                // Update the progress bar as the video plays
+                // Update the progress bar as the video plays.
                 player.addEventListener('timeupdate', function () {
                     var now = player.currentTime;
 
-                    // highlight text as video plays
+                    // Highlight text as video plays.
                     for (var i = 0, l = lines.length; i < l; i++) {
                         if (now >= lines[i].getAttribute("data-start") &&
                             now <= lines[i].getAttribute("data-end")) {
                             lineId = lines[i].getAttribute('id');
-                            $("#" + lineId + " > .transcript-text").addClass("current");
+                            if(!$("#" + lineId + " > .transcript-text").hasClass( "current" )) {
+                                $("#" + lineId + " > .transcript-text").addClass("current");
+                                var scrollOffset = $(".current").offset().top - $("#transcript").offset().top;
+                                $("#transcript").animate({scrollTop: scrollOffset}, 200);
+                            }
                         }
                         else {
                             lineId = lines[i].getAttribute('id');
@@ -45,7 +49,7 @@
                     $(".hide-transcript").hide();
                     $("#transcript").hide();  
                 });
-
+               
             });
         }
     };

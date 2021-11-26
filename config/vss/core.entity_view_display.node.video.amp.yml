@@ -1,23 +1,24 @@
-uuid: 48082577-c1da-469c-9cbe-10bc4b5437b2
+uuid: 836096e8-791b-4ebb-96c8-1596eefb1fd6
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.podcast.body
-    - field.field.node.podcast.field_category
-    - field.field.node.podcast.field_content
-    - field.field.node.podcast.field_domain_access
-    - field.field.node.podcast.field_domain_all_affiliates
-    - field.field.node.podcast.field_tags
-    - field.field.node.podcast.field_thumbnail_image
-    - node.type.podcast
+    - core.entity_view_mode.node.amp
+    - field.field.node.video.body
+    - field.field.node.video.field_category
+    - field.field.node.video.field_content
+    - field.field.node.video.field_domain_access
+    - field.field.node.video.field_domain_all_affiliates
+    - field.field.node.video.field_tags
+    - field.field.node.video.field_thumbnail_image
+    - node.type.video
   module:
     - layout_paragraphs
     - user
-id: node.podcast.default
+id: node.video.amp
 targetEntityType: node
-bundle: podcast
-mode: default
+bundle: video
+mode: amp
 content:
   field_content:
     weight: 0
