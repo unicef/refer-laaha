@@ -3,18 +3,29 @@
     padding-left: 5px;
 
   }
-
+  .region-header {
+    #block-settingsmenu {
+     .search-box{
+      margin-right: 15px;
+  }
+  
+}
+.navbar-brand{
+  padding: 15px 10px;
+}
+  }
   #nav_wrap {
     .close-hamburger {
       float: left;
       font-size: 18px;
       margin-left: 8px;
       margin-top: 15px;
-margin-bottom: 0  ;
+      margin-bottom: 0  ;
     }
 .logo-wrapper{
   clear: both;
   margin-left: 10px;
+  
 }
     position: absolute;
     padding-right: 0;
@@ -163,6 +174,8 @@ margin-bottom: 0  ;
     border-top-left-radius: 20px;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
+    height: 72px;
+    padding-top: 15px;
     .global_sticky{
       flex-direction: row;
       justify-content: space-around;
@@ -179,6 +192,10 @@ margin-bottom: 0  ;
         }
       }
     }
+  }
+  .footer-wrapper{
+    margin-bottom: 70px;
+   
   }
 }
 
