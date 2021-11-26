@@ -46,7 +46,9 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-{{ attach_library('vss/video_transcript') }}
+{% if transcript %}
+  {{ attach_library('vss/video_transcript') }}
+{% endif %}
 {% block paragraph %}
   <div class="video-wrapper">
     <div{{ attributes.addClass(classes) }}>
@@ -66,8 +68,8 @@
     </div>
     {% if transcript %}
     <div class="transcript-btn">
-        <button class="show-transcript button-defult">{{ 'SHOW TRANSCRIPTION'|t }}</button>
-        <button class="hide-transcript button-defult">{{ 'HIDE TRANSCRIPTION'|t }}</button>
+        <button class="show-transcript button-defult">{{ 'SHOW TRANSCRIPTION'|t }} <i class="fa fa-angle-down" aria-hidden="true"></i></button>
+        <button class="hide-transcript button-defult">{{ 'HIDE TRANSCRIPTION'|t }} <i class="fa fa-angle-up" aria-hidden="true"></i></button>
     </div>
     <div class="transcript-container">  
       <div id="transcript">

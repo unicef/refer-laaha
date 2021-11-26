@@ -31,7 +31,6 @@
                                 var scrollOffset = $(".current").offset().top - $("#transcript").offset().top;
                                 $("#transcript").animate({scrollTop: scrollOffset}, 200);
                             }
-                            
                         }
                         else {
                             lineId = lines[i].getAttribute('id');

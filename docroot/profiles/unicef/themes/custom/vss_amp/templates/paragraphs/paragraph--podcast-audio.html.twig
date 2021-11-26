@@ -46,9 +46,6 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-{% if transcript %}
-  {{ attach_library('vss/podcast_transcript') }}
-{% endif %}
 {% block paragraph %}
   <div class="podcast-wrapper">
     <div{{attributes.addClass(classes)}}>
@@ -66,23 +63,6 @@
         {% endif %}
       {% endblock %}
     </div>
-     {% if transcript %}
-    <div class="podcast-transcript-btn">
-        <button class="show-podcast-transcript button-defult">{{ 'SHOW TRANSCRIPTION'|t }} <i class="fa fa-angle-down" aria-hidden="true"></i></button>
-        <button class="hide-podcast-transcript button-defult">{{ 'HIDE TRANSCRIPTION'|t }} <i class="fa fa-angle-up" aria-hidden="true"></i></button>
-    </div>
-    <div class="podcast-transcript-container">  
-      <div id="podcast-transcript">
-      {% for transcript_data in transcript %}
-        <div id='l{{ loop.index }}' class='btnSeek line' data-seek='{{ transcript_data.seek_time }}' data-start='{{ transcript_data.start_time }}' data-end='{{ transcript_data.end_time }}'>
-          <span>{{ transcript_data.time }}</span>
-          <span class="podcast-transcript-text">{{ transcript_data.text }}</span>
-        </div>
-        <br/>
-      {% endfor %}
-      </div>
-    </div>
-    {% endif %}
   </div>
 {% endblock paragraph %}
 
