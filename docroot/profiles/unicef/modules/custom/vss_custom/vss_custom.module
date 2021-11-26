@@ -236,7 +236,7 @@ function vss_custom_video_embed_field_provider_info_alter(&$definitions) {
  */
 function vss_custom_preprocess_paragraph(&$variables) {
   $paragraph = $variables['paragraph'];
-  if ($paragraph->bundle() == 'video' || $paragraph->bundle() == 'podcast') {
+  if ($paragraph->bundle() == 'video' || $paragraph->bundle() == 'podcast_audio') {
     $vtt_paragraphs = $paragraph->get('field_vtt_entries')->getValue();
     foreach ($vtt_paragraphs as $vtt_p) {
       if ($vtt_p['target_id']) {
@@ -247,6 +247,7 @@ function vss_custom_preprocess_paragraph(&$variables) {
         if ($current_language == $langcode) {
           $transcript = vss_custom_parse_vtt($vtt_file);
           $variables['transcript'] = $transcript;
+          $variables['transcript_id'] = $vtt_p['target_id'];
         }
       }
     }
@@ -286,10 +287,14 @@ function vss_custom_parse_vtt($vtt_file) {
       $transcript[$i]['duration'] = $duration;
     }
     if (!$start_time && (!strpos($f, 'WEBVTT')) && !is_numeric($f)) {
-      $transcript[$i]['text'] = ' ' . $f . ' ';
-      $i++;
+      if (!isset($transcript[$i]['seek_time'])) {
+        $transcript[$i - 1]['text'] .= ' ' . $f . ' ';
+      }
+      else {
+        $transcript[$i]['text'] = ' ' . $f . ' ';
+        $i++;
+      }
     }
-
   }
   return $transcript;
 }

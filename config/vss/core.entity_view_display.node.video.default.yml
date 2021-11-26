@@ -20,7 +20,7 @@ bundle: video
 mode: default
 content:
   field_content:
-    weight: 1
+    weight: 0
     label: hidden
     settings:
       view_mode: default
@@ -29,18 +29,13 @@ content:
     type: layout_paragraphs
     region: content
   field_tags:
-    weight: 2
+    weight: 1
     label: hidden
     settings:
       link: false
     third_party_settings: {  }
     type: entity_reference_label
     region: content
-  links:
-    weight: 0
-    region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
   body: true
   field_category: true
@@ -48,3 +43,4 @@ hidden:
   field_domain_all_affiliates: true
   field_thumbnail_image: true
   langcode: true
+  links: true

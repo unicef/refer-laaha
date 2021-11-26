@@ -1,8 +1,9 @@
-uuid: 48082577-c1da-469c-9cbe-10bc4b5437b2
+uuid: 90875961-c82b-4c2d-9628-8086c3ed16c7
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.amp
     - field.field.node.podcast.body
     - field.field.node.podcast.field_category
     - field.field.node.podcast.field_content
@@ -14,10 +15,10 @@ dependencies:
   module:
     - layout_paragraphs
     - user
-id: node.podcast.default
+id: node.podcast.amp
 targetEntityType: node
 bundle: podcast
-mode: default
+mode: amp
 content:
   field_content:
     weight: 0
