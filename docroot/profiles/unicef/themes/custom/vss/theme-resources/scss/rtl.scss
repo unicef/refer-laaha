@@ -152,7 +152,16 @@ html[dir="rtl"] {
 
       .text-resize-block {
         float: left;
-        margin-left: 16px;
+        margin-left: 21px;
+        a#font_resize-plus,
+        a#font_resize-minus{
+        
+          float: right;
+          
+        }
+        a#font_resize-plus{
+          margin-right: 20px;
+        }
       }
 
       .dropdown-menu {
@@ -185,12 +194,27 @@ html[dir="rtl"] {
 @media screen and (max-width:767px) {
 
   html[dir="rtl"] {
+    .region-header{
+    #block-settingsmenu {
+      .search-box {
+        margin-left: 15px;
+      }
+    }
+    
+      .navbar-brand {
+      font-size: 1.32em;
+    }
+   
+  }
     .telephone_in_mobile {
       img {
         margin-left: 16px;
       }
     }
-
+    #block-settingsmenu{
+      margin-left: 0;
+      margin-right: auto;
+    }
     .region-navigation {
       #block-languageswitcher {
         ul {
