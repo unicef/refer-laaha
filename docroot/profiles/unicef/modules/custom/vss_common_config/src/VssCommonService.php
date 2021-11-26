@@ -195,7 +195,7 @@ class VssCommonService implements VssCommonInterface {
     $categories = [];
     if (isset($data['vss_common_config'])) {
       $categories['get_help'] = trim($data['vss_common_config']['get_help']) ?? '';
-      $categories['homepage_hero'] = trim($data['vss_common_config']['homepage_hero']) ?? '';
+      $categories['homepage_hero'] = $data['vss_common_config']['homepage_hero'] ?? '';
     }
     return $categories;
   }
