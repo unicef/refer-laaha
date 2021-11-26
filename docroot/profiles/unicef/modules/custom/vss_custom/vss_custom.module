@@ -189,6 +189,17 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
   if ($form_id == 'taxonomy_term_sub_category_form') {
     $form['relations']['#weight'] = 7;
   }
+  if ($form_id == 'block_content_words_from_experts_block_edit_form') {
+    $form['body']['widget'][0]['#maxlength'] = 500;
+  }
+}
+
+/**
+ * Use node form alter.
+ */
+function vss_custom_form_node_form_alter(&$form, &$form_state) {
+  $node = $form_state->getFormObject()->getEntity();
+  $form['field_sub_category']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_sub_categories();
 }
 
 /**
@@ -343,4 +354,19 @@ function vss_custom_preprocess_block(&$variables) {
  */
 function vss_custom_query_sort_by_random_alter($query) {
   $query->orderRandom();
+}
+
+/**
+ * Get all categories.
+ */
+function get_all_sub_categories() {
+  $query = \Drupal::database()->select('taxonomy_term_field_data', 't');
+  $query->join('taxonomy_term__field_domain', 'fd', 'fd.entity_id = t.tid');
+  $query->leftjoin('taxonomy_term__field_sub_category', 'sc', 'sc.entity_id = t.tid');
+  $query->condition('fd.bundle', 'categories');
+  $query->condition('sc.field_sub_category_value', 1, '=');
+  $query->fields('t', ['tid']);
+  $query->fields('t', ['name']);
+  $terms = $query->execute()->fetchAllKeyed(0, 1);
+  return $terms;
 }

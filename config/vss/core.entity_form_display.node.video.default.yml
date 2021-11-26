@@ -4,10 +4,10 @@ status: true
 dependencies:
   config:
     - field.field.node.video.body
-    - field.field.node.video.field_category
     - field.field.node.video.field_content
     - field.field.node.video.field_domain_access
     - field.field.node.video.field_domain_all_affiliates
+    - field.field.node.video.field_sub_category
     - field.field.node.video.field_tags
     - field.field.node.video.field_thumbnail_image
     - image.style.thumbnail
@@ -27,16 +27,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_category:
-    weight: 14
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   field_content:
     weight: 12
     settings:
@@ -58,6 +48,12 @@ content:
       display_label: true
     weight: 9
     third_party_settings: {  }
+    region: content
+  field_sub_category:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
     region: content
   field_tags:
     weight: 11
