@@ -28,7 +28,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_category:
-    weight: 13
+    weight: 14
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -38,7 +38,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_content:
-    weight: 26
+    weight: 12
     settings:
       preview_view_mode: default
       nesting_depth: 0
@@ -60,7 +60,7 @@ content:
     third_party_settings: {  }
     region: content
   field_tags:
-    weight: 12
+    weight: 11
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -70,7 +70,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_thumbnail_image:
-    weight: 27
+    weight: 13
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
