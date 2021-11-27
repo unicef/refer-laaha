@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * The PHP page that serves all page requests on a Drupal installation.
+ *
+ * Impments hook update.
+ */
+
+/**
+ * Hook update.
+ */
+function vss_content_update_9009() {
+  $importer = \Drupal::service('vss_content.importer');
+  $importer->importContent('block_content/3edf6481-9a3e-4880-81a2-c5a9c6915c7b.yml');
+}

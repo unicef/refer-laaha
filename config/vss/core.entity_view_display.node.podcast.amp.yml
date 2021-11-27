@@ -1,23 +1,24 @@
-uuid: 7ccb757a-497b-4223-b97a-e48f403cd14e
+uuid: 90875961-c82b-4c2d-9628-8086c3ed16c7
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.video.body
-    - field.field.node.video.field_content
-    - field.field.node.video.field_domain_access
-    - field.field.node.video.field_domain_all_affiliates
-    - field.field.node.video.field_sub_category
-    - field.field.node.video.field_tags
-    - field.field.node.video.field_thumbnail_image
-    - node.type.video
+    - core.entity_view_mode.node.amp
+    - field.field.node.podcast.body
+    - field.field.node.podcast.field_content
+    - field.field.node.podcast.field_domain_access
+    - field.field.node.podcast.field_domain_all_affiliates
+    - field.field.node.podcast.field_sub_category
+    - field.field.node.podcast.field_tags
+    - field.field.node.podcast.field_thumbnail_image
+    - node.type.podcast
   module:
     - layout_paragraphs
     - user
-id: node.video.default
+id: node.podcast.amp
 targetEntityType: node
-bundle: video
-mode: default
+bundle: podcast
+mode: amp
 content:
   field_content:
     weight: 0
@@ -27,14 +28,6 @@ content:
       link: ''
     third_party_settings: {  }
     type: layout_paragraphs
-    region: content
-  field_sub_category:
-    weight: 2
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
     region: content
   field_tags:
     weight: 1
@@ -48,6 +41,7 @@ hidden:
   body: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_sub_category: true
   field_thumbnail_image: true
   langcode: true
   links: true

@@ -79,6 +79,7 @@ function vss_preprocess_node(array &$variables) {
     $html = '';
     foreach ($node->get('field_assets')->referencedEntities() as $entity) {
       if ($entity->bundle() == 'wysiwyg_editor') {
+        $variables['wysiwyg'] = TRUE;
         if ($entity->hasTranslation($lang_id)) {
           $entity = $entity->getTranslation($lang_id);
         }

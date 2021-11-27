@@ -13,9 +13,16 @@ readmore:
     js/article.js: {}
     https://code.jquery.com/jquery-migrate-1.4.1.js: { external: true }
 
-transcript:
+video_transcript:
   js:
-    js/transcript.js: {}
+    js/video_transcript.js: {}
+  css:
+    theme:
+      css/transcript.css: {}
+
+podcast_transcript:
+  js:
+    js/podcast_transcript.js: {}
   css:
     theme:
       css/transcript.css: {}

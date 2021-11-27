@@ -46,22 +46,22 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-
 {% block paragraph %}
-  <div{{ attributes.addClass(classes) }}>
-    {% block content %}
-      {% if content.field_video_file['#items'] is not empty %}
-        <video id="video" preload="auto" controls>
-          <source src="{{ file_url(content.field_video_file['#items'].entity.uri.value) }}">
-              {% for item in content.field_vtt_entries %}
-                {% if item['#paragraph'] %}
-                  <track id="trk" kind="subtitles" srclang="{{item['#paragraph'].field_language.target_id}}" src="{{ file_url(item['#paragraph'].field_vtt_file.entity.uri.value) }}" default/>
-                {% endif %}
-              {% endfor %}
+  <div class="video-wrapper">
+    <div{{ attributes.addClass(classes) }}>
+      {% block content %}
+        {% if content.field_video_file['#items'] is not empty %}
+          <video id="video" class="video" controls preload="auto">
+            <source src="{{ file_url(content.field_video_file['#items'].entity.uri.value) }}">
+                {% for item in content.field_vtt_entries %}
+                  {% if item['#paragraph'] %}
+                    <track label="{{item['#paragraph'].field_language.target_id}}" style="color: white" id="trk" kind="subtitles" srclang="{{item['#paragraph'].field_language.target_id}}" src="{{ file_url(item['#paragraph'].field_vtt_file.entity.uri.value) }}" default/>
+                  {% endif %}
+                {% endfor %}
               </source>
-        </video>
-      {% endif %}
-    {% endblock %}
+          </video>
+        {% endif %}
+      {% endblock %}
+    </div>
   </div>
-
 {% endblock paragraph %}

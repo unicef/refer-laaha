@@ -436,7 +436,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
 }
 
 .main-container {
-  min-height: 200px;
+  min-height: 250px;
 }
 
 body {
@@ -631,4 +631,11 @@ article {
       }
     }
   }
+}
+body{
+.absoluteclass{
+  position: absolute!important;
+  top: inherit !important;
+  bottom: 470px;
+}
 }

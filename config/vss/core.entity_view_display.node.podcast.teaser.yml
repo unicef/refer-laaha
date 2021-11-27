@@ -5,10 +5,10 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.podcast.body
-    - field.field.node.podcast.field_category
     - field.field.node.podcast.field_content
     - field.field.node.podcast.field_domain_access
     - field.field.node.podcast.field_domain_all_affiliates
+    - field.field.node.podcast.field_sub_category
     - field.field.node.podcast.field_tags
     - field.field.node.podcast.field_thumbnail_image
     - node.type.podcast
@@ -34,10 +34,10 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
-  field_category: true
   field_content: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_sub_category: true
   field_tags: true
   field_thumbnail_image: true
   langcode: true

@@ -383,7 +383,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
   clear: both; }
 
 .main-container {
-  min-height: 200px; }
+  min-height: 250px; }
 
 body .block [hidden].contextual-links {
   display: none !important; }
@@ -525,6 +525,11 @@ article .field--name-field-tags .field-label {
         text-align: center;
         line-height: 16px; }
 
+body .absoluteclass {
+  position: absolute !important;
+  top: inherit !important;
+  bottom: 470px; }
+
 .button-defult-exit {
   font-family: Roboto;
   font-weight: 700;
@@ -547,6 +552,10 @@ article .field--name-field-tags .field-label {
 @media screen and (max-width: 767px) {
   .header-wrap {
     padding-left: 5px; }
+  .region-header #block-settingsmenu .search-box {
+    margin-right: 15px; }
+  .region-header .navbar-brand {
+    padding: 15px 10px; }
   #nav_wrap {
     position: absolute;
     padding-right: 0;
@@ -651,7 +660,9 @@ article .field--name-field-tags .field-label {
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 0px; }
+    border-bottom-left-radius: 0px;
+    height: 72px;
+    padding-top: 15px; }
     #block-globalstickyblock .global_sticky {
       -webkit-box-orient: horizontal;
       -webkit-box-direction: normal;
@@ -667,7 +678,9 @@ article .field--name-field-tags .field-label {
       #block-globalstickyblock .global_sticky .chatbot img {
         margin-top: 2px; }
       #block-globalstickyblock .global_sticky .chatbot span {
-        margin-top: 8px; } }
+        margin-top: 8px; }
+  .footer-wrapper {
+    margin-bottom: 60px; } }
 
 @media screen and (min-width: 768px) {
   .nav .telephone_in_mobile {
@@ -842,8 +855,15 @@ html[dir="rtl"] .region-header #block-settingsmenu .navbar-text {
     margin-right: 0px; }
 
 @media screen and (max-width: 767px) {
+  html[dir="rtl"] .region-header #block-settingsmenu .search-box {
+    margin-left: 15px; }
+  html[dir="rtl"] .region-header .navbar-brand {
+    font-size: 1.32em; }
   html[dir="rtl"] .telephone_in_mobile img {
     margin-left: 16px; }
+  html[dir="rtl"] #block-settingsmenu {
+    margin-left: 0;
+    margin-right: auto; }
   html[dir="rtl"] .region-navigation #block-languageswitcher ul {
     right: calc(100% - 160px); }
   html[dir="rtl"] .region-navigation #block-languageswitcher li a {

@@ -163,7 +163,14 @@
     </div>
   </div>
 {% endblock %}
-<footer class= "footer-wrapper {{ container }}" role="contentinfo">
+{% if page.global_sticky %}
+  {% block global_sticky %}
+    <div class="global-sticky-region" >
+      {{ page.global_sticky }}
+    </div>
+  {% endblock %}
+{% endif %}
+<footer id="footer" class= "footer-wrapper {{ container }}" role="contentinfo">
 {% if page.footer_top %}
   {% block footer_top %}
     <div class="footer_top container" >
