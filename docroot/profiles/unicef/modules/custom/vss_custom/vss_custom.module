@@ -198,7 +198,6 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
  * Use node form alter.
  */
 function vss_custom_form_node_form_alter(&$form, &$form_state) {
-  $node = $form_state->getFormObject()->getEntity();
   $form['field_sub_category']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_sub_categories();
 }
 
@@ -288,7 +287,6 @@ function vss_custom_parse_vtt($vtt_file) {
       $duration = $total_end_seconds - $total_start_seconds;
 
       $start = sprintf('%02d:%02d:%02d', ($total_start_seconds / 3600), ($total_start_seconds / 60 % 60), $total_start_seconds % 60);
-      $end = sprintf('%02d:%02d:%02d', ($total_end_seconds / 3600), ($total_end_seconds / 60 % 60), $total_end_seconds % 60);
 
       $transcript_time = $start;
       $transcript[$i]['seek_time'] = $total_start_seconds;

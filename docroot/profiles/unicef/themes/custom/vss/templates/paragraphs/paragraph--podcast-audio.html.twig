@@ -66,7 +66,7 @@
         {% endif %}
       {% endblock %}
     </div>
-     {% if transcript %}
+    {% if transcript %}
     <div class="podcast-transcript-btn">
         <button class="show-podcast-transcript button-defult">{{ 'SHOW TRANSCRIPTION'|t }} <i class="fa fa-angle-down" aria-hidden="true"></i></button>
         <button class="hide-podcast-transcript button-defult">{{ 'HIDE TRANSCRIPTION'|t }} <i class="fa fa-angle-up" aria-hidden="true"></i></button>
@@ -78,7 +78,6 @@
           <span>{{ transcript_data.time }}</span>
           <span class="podcast-transcript-text">{{ transcript_data.text }}</span>
         </div>
-        <br/>
       {% endfor %}
       </div>
     </div>
