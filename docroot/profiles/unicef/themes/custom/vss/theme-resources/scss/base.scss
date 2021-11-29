@@ -25,7 +25,7 @@ body {
 
 .exit-website-btn {
   background: $base-secondary-bgcolor;
-  color: $base-secondary-color;
+  color: $base-white-color;
 
   i {
     padding-right: 12px;
@@ -78,7 +78,7 @@ body {
 ul.block-menu-item-fieldsfooter-last-menu {
   @include flex-ul;
 }
-
+#block-virtualsafespace,
 #block-copyright {
   p {
     @include footer-default-styles;
@@ -436,7 +436,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
 }
 
 .main-container {
-  min-height: 250px;
+  min-height: 270px;
 }
 
 body {
@@ -464,7 +464,7 @@ body {
     width: 100%;
   }
 
-  h1 {
+  .article {
     border: 2px solid #000;
     text-align: center;
     /*margin: 25% 10% auto;*/
@@ -474,19 +474,18 @@ body {
     width: 80%;
     background: rgba(255, 255, 255, 0.85);
     position: absolute;
-
     border-radius: 20px;
-    font-size: $base-h1-tag;
-    font-weight: 500;
+   
+
   }
 }
 
 article {
+  img{
+    border-radius: 20px;
+  }
   p {
-    margin: 20px 0;
-    font-size: $base-para-tag;
-    line-height: 32px;
-    font-weight: 400;
+    
 
     &:last-child {
       margin-bottom: 20px;
@@ -494,7 +493,7 @@ article {
 
 
   }
-
+  .paragraph--type--podcast-audio,
   .paragraph--type--image-gallery,
   .paragraph--type--external-videos,
   .paragraph--type--video,
@@ -574,7 +573,7 @@ article {
   .field--name-field-tags {
     .field-label {
       display: flex;
-
+      margin-top: 15px;
       .tag-label {
         margin-right: 5px;
       }
@@ -614,6 +613,7 @@ article {
       text-align: center;
       color: $base-black-color;
       font-size: $base-footer-font-size-small;
+      cursor: pointer;
 
       &:hover {
         text-decoration: none;
@@ -636,6 +636,62 @@ body{
 .absoluteclass{
   position: absolute!important;
   top: inherit !important;
-  bottom: 470px;
+  bottom: 500px;
 }
+}
+.pod-video{
+  margin-top: 60px;
+  margin-bottom: 40px;
+}
+.podcast {
+  .audio{
+    width:100%;
+  }
+}
+.podcast-transcript-btn,
+.transcript-btn{
+  display: flex;
+  button{
+    margin-left: auto;
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+}
+
+#podcast-transcript,  
+#transcript{
+  max-height: 240px;
+  overflow-y: auto;
+  width: 100%;
+  background:$base-primary-light-bgcolor ;
+  border: 1px solid $base-primary-bgcolor;
+  border-radius: 20px;
+  @include p-tag;
+  .line{
+    padding: 20px 20px 0px 20px;
+    display:flex;
+  }
+}
+.current {
+  background-color: #F4EAEC;
+  border: 1px solid #000;
+  padding: 0px 5px;
+  border-radius: 4px;
+}
+#transcript, #podcast-transcript ,
+.hide-transcript, .hide-podcast-transcript {
+  display: none;
+}
+.transcript-text, .podcast-transcript-text {
+  margin-left: 30px;
+}
+.img-caption-wrap{
+  display: inline-block;
+  .caption{
+    margin: 12px 7%;
+    text-align: center;
+    font-size: $base-footer-font-size-small;
+    line-height: 16px;
+    display: block;
+  }
 }

@@ -17,3 +17,14 @@
   font-size: $base-font-size;
   padding: 10px 15px;
 }
+h1{
+  @include h1-tag ;
+}
+h2{
+  @include h2-tag ;
+} 
+article{
+  p{
+  @include p-tag;
+}
+}
