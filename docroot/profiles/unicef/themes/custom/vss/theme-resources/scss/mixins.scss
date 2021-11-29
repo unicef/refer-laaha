@@ -12,6 +12,8 @@
   font-size: $base-footer-font-size;
   font-family: $base-font-family;
   font-weight: $base-footer-font-weight;
+  line-height: 24px;
+  margin: 0;
 }
 
 @mixin quick-link-font {
@@ -38,4 +40,20 @@
   font-size: $base-h2-font-size;
   font-weight: $base-footer-font-weight-medium;
   line-height: $base-h2-line-height;
+}
+@mixin h1-tag {
+  font-size: $base-h1-tag;
+  font-weight: 500;
+  line-height: 64px;
+}
+@mixin h2-tag {
+  font-size: $base-h2-tag;
+  font-weight: 500;
+  line-height: 48px;
+}
+@mixin p-tag {
+  margin: 20px 0;
+  font-size: $base-para-tag;
+  font-weight: 400;
+  line-height: 32px;
 }

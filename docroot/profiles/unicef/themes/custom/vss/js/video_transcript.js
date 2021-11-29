@@ -29,7 +29,7 @@
                             if(!$("#" + lineId + " > .transcript-text").hasClass( "current" )) {
                                 $("#" + lineId + " > .transcript-text").addClass("current");
                                 var scrollOffset = $(".current").offset().top - $("#transcript").offset().top;
-                                $("#transcript").animate({scrollTop: scrollOffset}, 200);
+                                $("#transcript").animate({scrollTop: scrollOffset}, 100 );
                             }
                         }
                         else {

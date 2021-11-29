@@ -5,6 +5,8 @@
 /* 24px */
 /* 20px */
 /* 40px */
+/*56px*/
+/*21px*/
 body {
   margin-top: 0;
   font-family: Roboto;
@@ -26,7 +28,7 @@ body {
 
 .exit-website-btn {
   background: #CD0000;
-  color: #fff; }
+  color: #ffffff; }
   .exit-website-btn i {
     padding-right: 12px; }
 
@@ -93,11 +95,14 @@ ul.block-menu-item-fieldsfooter-last-menu {
   padding: 0;
   list-style: none; }
 
+#block-virtualsafespace p,
 #block-copyright p {
   color: #000;
   font-size: 1em;
   font-family: Roboto;
-  font-weight: 400; }
+  font-weight: 400;
+  line-height: 24px;
+  margin: 0; }
 
 #block-footerlastmenu ul {
   display: -webkit-box;
@@ -126,6 +131,8 @@ ul.block-menu-item-fieldsfooter-last-menu {
       font-size: 1em;
       font-family: Roboto;
       font-weight: 400;
+      line-height: 24px;
+      margin: 0;
       padding: 0 8px; }
       #block-footerlastmenu ul li a:hover {
         background-color: inherit; }
@@ -383,7 +390,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
   clear: both; }
 
 .main-container {
-  min-height: 250px; }
+  min-height: 270px; }
 
 body .block [hidden].contextual-links {
   display: none !important; }
@@ -406,7 +413,7 @@ body .block [hidden].contextual-links {
   margin-top: 60px; }
   .article-hero-img .hero-img {
     width: 100%; }
-  .article-hero-img h1 {
+  .article-hero-img .article {
     border: 2px solid #000;
     text-align: center;
     /*margin: 25% 10% auto;*/
@@ -416,18 +423,15 @@ body .block [hidden].contextual-links {
     width: 80%;
     background: rgba(255, 255, 255, 0.85);
     position: absolute;
-    border-radius: 20px;
-    font-size: 2.85em;
-    font-weight: 500; }
+    border-radius: 20px; }
 
-article p {
-  margin: 20px 0;
-  font-size: 1.42em;
-  line-height: 32px;
-  font-weight: 400; }
-  article p:last-child {
-    margin-bottom: 20px; }
+article img {
+  border-radius: 20px; }
 
+article p:last-child {
+  margin-bottom: 20px; }
+
+article .paragraph--type--podcast-audio,
 article .paragraph--type--image-gallery,
 article .paragraph--type--external-videos,
 article .paragraph--type--video,
@@ -486,7 +490,8 @@ article .read-more {
 article .field--name-field-tags .field-label {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex; }
+  display: flex;
+  margin-top: 15px; }
   article .field--name-field-tags .field-label .tag-label {
     margin-right: 5px; }
 
@@ -514,7 +519,8 @@ article .field--name-field-tags .field-label {
     #block-globalstickyblock .global_sticky a {
       text-align: center;
       color: #000;
-      font-size: 0.85em; }
+      font-size: 0.85em;
+      cursor: pointer; }
       #block-globalstickyblock .global_sticky a:hover {
         text-decoration: none; }
       #block-globalstickyblock .global_sticky a img {
@@ -528,7 +534,66 @@ article .field--name-field-tags .field-label {
 body .absoluteclass {
   position: absolute !important;
   top: inherit !important;
-  bottom: 470px; }
+  bottom: 500px; }
+
+.pod-video {
+  margin-top: 60px;
+  margin-bottom: 40px; }
+
+.podcast .audio {
+  width: 100%; }
+
+.podcast-transcript-btn,
+.transcript-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  .podcast-transcript-btn button,
+  .transcript-btn button {
+    margin-left: auto;
+    margin-top: 20px;
+    margin-bottom: 40px; }
+
+#podcast-transcript,
+#transcript {
+  max-height: 240px;
+  overflow-y: auto;
+  width: 100%;
+  background: #FFCDD233;
+  border: 1px solid #FFCDD2;
+  border-radius: 20px;
+  margin: 20px 0;
+  font-size: 1.42em;
+  font-weight: 400;
+  line-height: 32px; }
+  #podcast-transcript .line,
+  #transcript .line {
+    padding: 20px 20px 0px 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; }
+
+.current {
+  background-color: #F4EAEC;
+  border: 1px solid #000;
+  padding: 0px 5px;
+  border-radius: 4px; }
+
+#transcript, #podcast-transcript,
+.hide-transcript, .hide-podcast-transcript {
+  display: none; }
+
+.transcript-text, .podcast-transcript-text {
+  margin-left: 30px; }
+
+.img-caption-wrap {
+  display: inline-block; }
+  .img-caption-wrap .caption {
+    margin: 12px 7%;
+    text-align: center;
+    font-size: 0.85em;
+    line-height: 16px;
+    display: block; }
 
 .button-defult-exit {
   font-family: Roboto;
@@ -549,7 +614,29 @@ body .absoluteclass {
   font-size: 1.14em;
   padding: 10px 15px; }
 
+h1 {
+  font-size: 4em;
+  font-weight: 500;
+  line-height: 64px; }
+
+h2 {
+  font-size: 2.85em;
+  font-weight: 500;
+  line-height: 48px; }
+
+article p {
+  margin: 20px 0;
+  font-size: 1.42em;
+  font-weight: 400;
+  line-height: 32px; }
+
 @media screen and (max-width: 767px) {
+  h2 {
+    font-size: 1.42em;
+    line-height: 24px; }
+  p {
+    line-height: 20px;
+    font-size: 1em; }
   .header-wrap {
     padding-left: 5px; }
   .region-header #block-settingsmenu .search-box {
@@ -650,8 +737,6 @@ body .absoluteclass {
     margin-left: auto; }
   .article-hero-img {
     margin-top: 24px; }
-    .article-hero-img h1 {
-      font-size: 20px; }
   #block-globalstickyblock {
     top: inherit;
     right: 0;
@@ -683,8 +768,12 @@ body .absoluteclass {
     margin-bottom: 60px; } }
 
 @media screen and (min-width: 768px) {
+  #block-globalstickyblock .global_sticky a span {
+    width: 54px; }
   .nav .telephone_in_mobile {
     display: none; }
+  .pod-video {
+    max-width: 835px; }
   #block-socialiconsfooterblock {
     margin-top: 80px;
     -webkit-box-flex: 1;
@@ -760,6 +849,11 @@ body .absoluteclass {
     .region-header #block-iraqnavigationheadermenu > ul li > div > div,
     .region-header #block-navigationheadermenu > ul li > div > div {
       padding-right: 8px; } }
+
+html[dir="rtl"] .transcript-text,
+html[dir="rtl"] .podcast-transcript-text {
+  margin-left: 0px;
+  margin-right: 30px; }
 
 html[dir="rtl"] .btn-trans .caret {
   margin-right: 2px; }
