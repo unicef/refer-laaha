@@ -4,10 +4,8 @@ namespace Drupal\vss\Plugin\Preprocess;
 
 use Drupal\bootstrap\Utility\Variables;
 use Drupal\Core\Template\Attribute;
-use Drupal\Core\Url;
-use Drupal\bootstrap\Plugin\Preprocess\PreprocessBase;
-use Drupal\bootstrap\Plugin\Preprocess\PreprocessInterface;
 use Drupal\vss_custom\Breadcrumb\BreadcrumbHelperTrait;
+use Drupal\bootstrap\Plugin\Preprocess\Breadcrumb as BootBreadcrumb;
 
 /**
  * Pre-processes variables for the "breadcrumb" theme hook.
@@ -16,7 +14,7 @@ use Drupal\vss_custom\Breadcrumb\BreadcrumbHelperTrait;
  *
  * @BootstrapPreprocess("breadcrumb")
  */
-class Breadcrumb extends PreprocessBase implements PreprocessInterface {
+class Breadcrumb extends BootBreadcrumb {
 
   use BreadcrumbHelperTrait;
 
@@ -26,25 +24,8 @@ class Breadcrumb extends PreprocessBase implements PreprocessInterface {
   public function preprocessVariables(Variables $variables) {
     $breadcrumb = &$variables['breadcrumb'];
 
-    // Determine if breadcrumbs should be displayed.
-    $breadcrumb_visibility = $this->theme->getSetting('breadcrumb');
-    if (($breadcrumb_visibility == 0 || ($breadcrumb_visibility == 2 && \Drupal::service('router.admin_context')->isAdminRoute())) || empty($breadcrumb)) {
-      $breadcrumb = [];
-      return;
-    }
-
-    // Remove first occurrence of the "Home" <front> link, provided by core.
-    if (!$this->theme->getSetting('breadcrumb_home')) {
-      $front = Url::fromRoute('<front>')->toString();
-      foreach ($breadcrumb as $key => $link) {
-        if (isset($link['url']) && $link['url'] === $front) {
-          unset($breadcrumb[$key]);
-          break;
-        }
-      }
-    }
     $image = '';
-    if ($this->theme->getSetting('breadcrumb_title') && !empty($breadcrumb)) {
+    if (isset($this->theme) && $this->theme->getSetting('breadcrumb_title') && !empty($breadcrumb)) {
       $request = \Drupal::request();
       $route_match = \Drupal::routeMatch();
       $page_title = \Drupal::service('title_resolver')->getTitle($request, $route_match->getRouteObject());
@@ -62,8 +43,12 @@ class Breadcrumb extends PreprocessBase implements PreprocessInterface {
             break;
         }
       }
+      $parent = FALSE;
+      if (isset($tax_term->parent) && !$tax_term->parent->target_id) {
+        $parent = TRUE;
+      }
       if ($tax_term) {
-        $image = $this->loadThumbnailImage($tax_term, 'taxonomy_term');
+        $image = $this->loadThumbnailImage($tax_term, 'taxonomy_term', $parent);
       }
       $link_text = [
         '#type' => 'html_tag',
