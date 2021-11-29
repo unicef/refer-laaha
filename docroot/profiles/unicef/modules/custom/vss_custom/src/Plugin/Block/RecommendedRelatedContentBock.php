@@ -63,12 +63,15 @@ class RecommendedRelatedContentBock extends BlockBase implements ContainerFactor
     $build = [];
     if ($this->requestStack->attributes->has('node')) {
       $node = $this->requestStack->attributes->get('node');
-      if ($node->hasField('field_category') && !empty($node->get('field_category')->first())) {
-        $target_id = $node->get('field_category')->target_id;
+      if ($node->hasField('field_sub_category') && !empty($node->get('field_sub_category')->first())) {
+        $target_id = $node->get('field_sub_category')->target_id;
         $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($target_id);
-        if ($term->hasField('field_tags') && !empty($term->get('field_tags')->first())) {
-          foreach ($term->get('field_tags')->getValue() as $value) {
-            $ids[] = $value['target_id'];
+        if ($term->parent->target_id) {
+        $parent = $this->entityTypeManager->getStorage('taxonomy_term')->load($term->parent->target_id);
+          if ($parent->hasField('field_tags') && !empty($parent->get('field_tags')->first())) {
+            foreach ($parent->get('field_tags')->getValue() as $value) {
+              $ids[] = $value['target_id'];
+            }
           }
         }
       }
