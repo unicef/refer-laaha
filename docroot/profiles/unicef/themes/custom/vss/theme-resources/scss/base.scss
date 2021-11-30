@@ -78,6 +78,7 @@ body {
 ul.block-menu-item-fieldsfooter-last-menu {
   @include flex-ul;
 }
+
 #block-virtualsafespace,
 #block-copyright {
   p {
@@ -475,17 +476,18 @@ body {
     background: rgba(255, 255, 255, 0.85);
     position: absolute;
     border-radius: 20px;
-   
+
 
   }
 }
 
 article {
-  img{
+  img {
     border-radius: 20px;
   }
+
   p {
-    
+
 
     &:last-child {
       margin-bottom: 20px;
@@ -493,6 +495,7 @@ article {
 
 
   }
+
   .paragraph--type--podcast-audio,
   .paragraph--type--image-gallery,
   .paragraph--type--external-videos,
@@ -526,7 +529,7 @@ article {
 
   .field--name-field-tags {
 
-    font-size: $base-font-size;
+
 
     .field--label {
       font-weight: 400;
@@ -536,7 +539,7 @@ article {
       display: flex;
 
       .field--item {
-
+        font-size: $base-font-size;
         font-weight: 500;
         text-decoration: underline;
 
@@ -575,8 +578,10 @@ article {
       display: flex;
       margin-top: 35px;
       margin-bottom: 20px;
+
       .tag-label {
         margin-right: 5px;
+        font-size: $base-font-size;
       }
     }
   }
@@ -633,66 +638,82 @@ article {
     }
   }
 }
-body{
-.absoluteclass{
-  position: absolute!important;
-  top: inherit !important;
-  bottom: 500px;
+
+body {
+  .absoluteclass {
+    position: absolute !important;
+    top: inherit !important;
+    bottom: 500px;
+  }
 }
-}
-.pod-video{
+
+.pod-video {
   margin-top: 60px;
   margin-bottom: 40px;
 }
+
 .podcast {
-  .audio{
-    width:100%;
+  .audio {
+    width: 100%;
   }
 }
+
 .podcast-transcript-btn,
-.transcript-btn{
+.transcript-btn {
   display: flex;
-  button{
+
+  button {
     margin-left: auto;
     margin-top: 20px;
     margin-bottom: 40px;
   }
 }
+
 .transcript-container,
-.podcast-transcript-container{
-  background:$base-primary-light-bgcolor ;
+.podcast-transcript-container {
+  background: $base-primary-light-bgcolor;
   border: 1px solid $base-primary-bgcolor;
   border-radius: 20px;
 }
-#podcast-transcript,  
-#transcript{
+
+#podcast-transcript,
+#transcript {
   max-height: 240px;
   overflow-y: auto;
   width: 100%;
-  
+
   border-radius: 20px;
   @include p-tag;
-  .line{
+
+  .line {
     padding: 0px 20px 20px 20px;
-    display:flex;
+    display: flex;
   }
 }
+
 .current {
   background-color: #F4EAEC;
   border: 1px solid #000;
   padding: 0px 5px;
   border-radius: 4px;
 }
-#transcript, #podcast-transcript ,
-.hide-transcript, .hide-podcast-transcript {
+
+#transcript,
+#podcast-transcript,
+.hide-transcript,
+.hide-podcast-transcript {
   display: none;
 }
-.transcript-text, .podcast-transcript-text {
+
+.transcript-text,
+.podcast-transcript-text {
   margin-left: 30px;
 }
-.img-caption-wrap{
+
+.img-caption-wrap {
   display: inline-block;
-  .caption{
+
+  .caption {
     margin: 12px 7%;
     text-align: center;
     font-size: $base-footer-font-size-small;
@@ -700,60 +721,73 @@ body{
     display: block;
   }
 }
-#readmore_article[aria-expanded="true"]{
-  height: auto!important;
+
+#readmore_article[aria-expanded="true"] {
+  height: auto !important;
 }
+
 .breadcrumb img,
-.discoverdd .field--type-image img{
+.discoverdd .field--type-image img {
   width: 24px;
   height: 24px;
-  border-radius:50%;
-  
+  border-radius: 50%;
+
 }
-.breadcrumb{
-  li:first-child{
-    a::before{
-    content: '';
-    background: url(../images/home.png) no-repeat;
-    width: 22px;
-    height: 19px;
-    float: left;
+
+.breadcrumb {
+  li:first-child {
+    a::before {
+      content: '';
+      background: url(../images/home.png) no-repeat;
+      width: 22px;
+      height: 19px;
+      float: left;
+      margin-right: 8px;
+    }
+  }
+
+  >.active {
+    color: $base-black-light-color;
+  }
+
+  img {
     margin-right: 8px;
   }
-}
-  >.active{
-    color:$base-black-light-color;
-  }
-  img{
-    margin-right: 8px;
-  }
-  >li{
+
+  >li {
     + {
-			li {
-				&:before {
-					color: $base-black-thick-color;
-          padding:0 8px;    
-				}
-			}
-		}
+      li {
+        &:before {
+          color: $base-black-thick-color;
+          padding: 0 8px;
+        }
+      }
+    }
+
     display: flex;
-    >div{
+
+    >div {
       display: flex;
     }
-    a{
-      color:$base-black-light-color; 
-      &:hover{
+
+    a {
+      color: $base-black-light-color;
+
+      &:hover {
         text-decoration: none;
       }
-      >div{
+
+      >div {
         display: flex;
       }
     }
   }
+
   display: flex;
-  color:$base-black-light-color; 
+  color:$base-black-light-color;
   background: none;
   font-size: $base-font-size;
   line-height: 24px;
   margin-top: 40px;
+  padding: 0;
 }
