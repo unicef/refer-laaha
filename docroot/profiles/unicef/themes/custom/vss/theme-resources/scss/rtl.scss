@@ -1,4 +1,17 @@
 html[dir="rtl"] {
+  .breadcrumb {
+    li:first-child{
+      a::before{
+      float: right;
+      margin-right: 0px;
+      margin-left: 8px;
+    }
+  }
+    img{
+      margin-right: 0;
+      margin-left: 8px;
+    }
+  }
   .transcript-text,
   .podcast-transcript-text {
     margin-left: 0px;

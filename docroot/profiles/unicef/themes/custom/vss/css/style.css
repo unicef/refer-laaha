@@ -603,6 +603,52 @@ body .absoluteclass {
 #readmore_article[aria-expanded="true"] {
   height: auto !important; }
 
+.breadcrumb img,
+.discoverdd .field--type-image img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%; }
+
+.breadcrumb {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  color: #000000CC;
+  background: none;
+  font-size: 1.14em;
+  line-height: 24px;
+  margin-top: 40px; }
+  .breadcrumb li:first-child a::before {
+    content: '';
+    background: url(../images/home.png) no-repeat;
+    width: 22px;
+    height: 19px;
+    float: left;
+    margin-right: 8px; }
+  .breadcrumb > .active {
+    color: #000000CC; }
+  .breadcrumb img {
+    margin-right: 8px; }
+  .breadcrumb > li {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; }
+    .breadcrumb > li + li:before {
+      color: #00000099;
+      padding: 0 8px; }
+    .breadcrumb > li > div {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex; }
+    .breadcrumb > li a {
+      color: #000000CC; }
+      .breadcrumb > li a:hover {
+        text-decoration: none; }
+      .breadcrumb > li a > div {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex; }
+
 .button-defult-exit {
   font-family: Roboto;
   font-weight: 700;
@@ -644,6 +690,10 @@ article p {
   article .field--name-field-tags .field--items {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap; }
+  .breadcrumb {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    margin-top: 20px; }
   .pod-video {
     margin: 24px 0; }
   h2 {
@@ -864,6 +914,15 @@ article p {
     .region-header #block-iraqnavigationheadermenu > ul li > div > div,
     .region-header #block-navigationheadermenu > ul li > div > div {
       padding-right: 8px; } }
+
+html[dir="rtl"] .breadcrumb li:first-child a::before {
+  float: right;
+  margin-right: 0px;
+  margin-left: 8px; }
+
+html[dir="rtl"] .breadcrumb img {
+  margin-right: 0;
+  margin-left: 8px; }
 
 html[dir="rtl"] .transcript-text,
 html[dir="rtl"] .podcast-transcript-text {
