@@ -703,3 +703,57 @@ body{
 #readmore_article[aria-expanded="true"]{
   height: auto!important;
 }
+.breadcrumb img,
+.discoverdd .field--type-image img{
+  width: 24px;
+  height: 24px;
+  border-radius:50%;
+  
+}
+.breadcrumb{
+  li:first-child{
+    a::before{
+    content: '';
+    background: url(../images/home.png) no-repeat;
+    width: 22px;
+    height: 19px;
+    float: left;
+    margin-right: 8px;
+  }
+}
+  >.active{
+    color:$base-black-light-color;
+  }
+  img{
+    margin-right: 8px;
+  }
+  >li{
+    + {
+			li {
+				&:before {
+					color: $base-black-thick-color;
+          padding:0 8px;    
+				}
+			}
+		}
+    display: flex;
+    >div{
+      display: flex;
+    }
+    a{
+      color:$base-black-light-color; 
+      &:hover{
+        text-decoration: none;
+      }
+      >div{
+        display: flex;
+      }
+    }
+  }
+  display: flex;
+  color:$base-black-light-color; 
+  background: none;
+  font-size: $base-font-size;
+  line-height: 24px;
+  margin-top: 40px;
+}

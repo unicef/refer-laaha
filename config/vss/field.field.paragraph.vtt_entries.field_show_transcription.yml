@@ -1,0 +1,23 @@
+uuid: b79ec744-f951-4ef7-a2cd-1e693cdce328
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_show_transcription
+    - paragraphs.paragraphs_type.vtt_entries
+id: paragraph.vtt_entries.field_show_transcription
+field_name: field_show_transcription
+entity_type: paragraph
+bundle: vtt_entries
+label: 'Show Transcription'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

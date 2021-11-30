@@ -254,8 +254,9 @@ function vss_custom_preprocess_paragraph(&$variables) {
         $vtt_entry = Paragraph::load($vtt_p['target_id']);
         $vtt_file = $vtt_entry->get('field_vtt_file')->entity->getFileUri();
         $langcode = $vtt_entry->get('field_language')->getValue()[0]['target_id'];
+        $show_transcript = $vtt_entry->get('field_show_transcription')->getValue()[0]['value'];
         $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
-        if ($current_language == $langcode) {
+        if ($current_language == $langcode && $show_transcript) {
           $transcript = vss_custom_parse_vtt($vtt_file);
           $variables['transcript'] = $transcript;
           $variables['transcript_id'] = $vtt_p['target_id'];
@@ -282,9 +283,9 @@ function vss_custom_parse_vtt($vtt_file) {
       $start_time = explode('-->', $f);
 
       $start_time_split = explode(':', $start_time[0]);
-      $total_start_seconds = (float) $start_time_split[0] * 60 * 60 + (float) $start_time_split[1] * 60 * 60 + (float) $start_time_split[2];
+      $total_start_seconds = (float) $start_time_split[0] * 60 * 60 + (float) $start_time_split[1] * 60 + (float) $start_time_split[2];
       $end_time_split = explode(':', $start_time[1]);
-      $total_end_seconds = $end_time_split[0] * 60 * 60 + $end_time_split[1] * 60 * 60 + $end_time_split[2];
+      $total_end_seconds = $end_time_split[0] * 60 * 60 + $end_time_split[1] * 60 + $end_time_split[2];
       $duration = $total_end_seconds - $total_start_seconds;
 
       $start = sprintf('%02d:%02d:%02d', ($total_start_seconds / 3600), ($total_start_seconds / 60 % 60), $total_start_seconds % 60);
