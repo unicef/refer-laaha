@@ -29,7 +29,7 @@
                             if(!$("#" + lineId + " > .podcast-transcript-text").hasClass( "current" )) {
                                 $("#" + lineId + " > .podcast-transcript-text").addClass("current");
                                 var scrollOffset = $(".current").offset().top - $("#podcast-transcript").offset().top;
-                                $("#podcast-transcript").animate({scrollTop: scrollOffset}, 200);
+                                $("#podcast-transcript").animate({scrollTop: '+='+scrollOffset});
                             }
                         }
                         else {
@@ -39,15 +39,21 @@
                     }
                 });
                 // Toggle Transcript.
+                $(".transcript-container").hide();
+                $(".podcast-transcript-container").hide();
                 $(".show-podcast-transcript").click(function(){
                     $(".hide-podcast-transcript").show();
                     $(".show-podcast-transcript").hide();
-                    $("#podcast-transcript").show();      
+                    $("#podcast-transcript").show();   
+                    $(".podcast-transcript-container").show();   
+                    $(".transcript-container").show();
                 });
                 $(".hide-podcast-transcript").click(function(){
                     $(".show-podcast-transcript").show();
                     $(".hide-podcast-transcript").hide();
                     $("#podcast-transcript").hide();  
+                    $(".podcast-transcript-container").hide();
+                    $(".transcript-container").hide(); 
                 });
 
             });
