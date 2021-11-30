@@ -61,22 +61,25 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
 
     $featured_stories = $this->getContentfromTags($term_id, $langcode);
+    $featured_stories = array_intersect_key($featured_stories, array_flip(array_slice(array_keys($featured_stories), 0, 6)));
+    $count = count($featured_stories);
     foreach ($featured_stories as $k => $v) {
-      $content[$k]['title'] = $v->title;
-      $thumbnail = $v->field_thumbnail_image_target_id;
-      $file = $this->entityTypeManager->getStorage('file')->load($thumbnail);
-      if ($file) {
-        $thumbnail_final = $file->getFileUri();
-        $content[$k]['thumbnail'] = str_replace('public://', 'sites/default/files/', $thumbnail_final);
+      if ($count > 1) {
+        $content[$k]['title'] = $v->title;
+        $thumbnail = $v->field_thumbnail_image_target_id;
+        $file = $this->entityTypeManager->getStorage('file')->load($thumbnail);
+        if ($file) {
+          $thumbnail_final = $file->getFileUri();
+          $content[$k]['thumbnail'] = str_replace('public://', 'sites/default/files/', $thumbnail_final);
+        }
+        $content[$k]['url'] = str_replace(' ', '-', $v->title);
+        $content[$k]['type'] = $v->type;
       }
-      $content[$k]['url'] = str_replace(' ', '-', $v->title);
-      $content[$k]['type'] = $v->type;
     }
 
     $build['#theme'] = 'featured_stories_block';
     $build['#content'] = $content;
     $build['#lang_code'] = $langcode;
-    $build['#feature_count'] = count($content);
 
     return $build;
   }

@@ -1,5 +1,5 @@
 {{ attach_library('vss_custom/featured_stores_block') }}
-{% if content is not empty and feature_count >= 2 and feature_count <= 6 %}
+{% if content is not empty %}
 <h1>{{'Featured Stories'|t}}</h1>
 <div class="featured_stories_block">
 {% for key,value in content %}
