@@ -526,7 +526,7 @@ article {
 
   .field--name-field-tags {
 
-    font-size: 16px;
+    font-size: $base-font-size;
 
     .field--label {
       font-weight: 400;
@@ -573,7 +573,8 @@ article {
   .field--name-field-tags {
     .field-label {
       display: flex;
-      margin-top: 15px;
+      margin-top: 35px;
+      margin-bottom: 20px;
       .tag-label {
         margin-right: 5px;
       }
@@ -595,7 +596,7 @@ article {
 #block-globalstickyblock {
   z-index: 999;
   position: fixed;
-  top: 450px;
+  top: 430px;
   right: 2%;
   padding: 30px 10px;
   background: $footer-bg-color;
@@ -657,18 +658,22 @@ body{
     margin-bottom: 40px;
   }
 }
-
+.transcript-container,
+.podcast-transcript-container{
+  background:$base-primary-light-bgcolor ;
+  border: 1px solid $base-primary-bgcolor;
+  border-radius: 20px;
+}
 #podcast-transcript,  
 #transcript{
   max-height: 240px;
   overflow-y: auto;
   width: 100%;
-  background:$base-primary-light-bgcolor ;
-  border: 1px solid $base-primary-bgcolor;
+  
   border-radius: 20px;
   @include p-tag;
   .line{
-    padding: 20px 20px 0px 20px;
+    padding: 0px 20px 20px 20px;
     display:flex;
   }
 }
@@ -694,4 +699,7 @@ body{
     line-height: 16px;
     display: block;
   }
+}
+#readmore_article[aria-expanded="true"]{
+  height: auto!important;
 }

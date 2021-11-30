@@ -1,4 +1,20 @@
 @media screen and (max-width: 767px) {
+  .podcast-transcript-btn, .transcript-btn {
+    button{
+      margin: 4px  0  24px auto;
+    }
+  }
+  article {
+    .field--name-field-tags {
+      .field--items {
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  .pod-video{
+    margin: 24px 0;
+  }
   h2{
     font-size: $header-logo-font;
     line-height: 24px;
