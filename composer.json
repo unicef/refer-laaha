@@ -68,6 +68,7 @@
         "drupal/shield": "^1.4",
         "drupal/simple_sitemap": "^3.11",
         "drupal/site_audit": "^3.0@RC",
+        "drupal/tour_ui": "^1.0@beta",
         "drupal/twig_tweak": "^3.1",
         "drupal/update_helper": "^2.0",
         "drupal/video_embed_field": "^2.4",
@@ -156,6 +157,9 @@
             },
             "drupal/paragraphs": {
                 "Fix for translation handler": "https://www.drupal.org/files/issues/2021-01-22/paragraph-entity-type-did-not-specify-translation-halder-3031598-45.patch"
+            },
+            "drupal/tour_ui": {
+                "tour class selector issue": "https://www.drupal.org/files/issues/2021-05-28/tour_ui-3214357-7.patch"
             }
         }
     }
