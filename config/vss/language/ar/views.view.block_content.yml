@@ -16,10 +16,17 @@ display:
             offset_label: الإزاحة
       fields:
         info:
-          separator: ', '
+          label: 'Block description'
         type:
-          separator: ', '
+          label: 'Block type'
         operations:
           label: عمليات
+      filters:
+        info:
+          expose:
+            label: 'Block description'
+        type:
+          expose:
+            label: 'Block type'
   page_1:
     display_title: الصفحة

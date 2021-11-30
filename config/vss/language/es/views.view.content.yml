@@ -4,17 +4,13 @@ display:
     display_options:
       exposed_form:
         options:
-          submit_button: Filter
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       fields:
         title:
           label: Título
         type:
           label: 'Tipo de contenido'
-          separator: ', '
         name:
           label: Autor
         status:

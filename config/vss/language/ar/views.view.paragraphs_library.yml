@@ -4,7 +4,6 @@ display:
     display_options:
       exposed_form:
         options:
-          submit_button: Filter
           reset_button_label: 'إعادة الضبط'
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
@@ -16,23 +15,21 @@ display:
             offset_label: الإزاحة
       fields:
         label:
-          separator: ', '
+          label: Label
         type:
           label: النوع
-          separator: ', '
-        paragraphs__target_id:
-          separator: ', '
         langcode:
           label: اللغة
-          separator: ', '
         id:
           label: 'المعرف ID'
-          separator: ', '
-        changed:
-          separator: ', '
         operations:
           label: عمليات
       filters:
+        label:
+          expose:
+            label: Label
+          group_info:
+            label: Label
         type:
           expose:
             label: النوع
