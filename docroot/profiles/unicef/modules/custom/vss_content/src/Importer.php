@@ -96,6 +96,13 @@ class Importer implements ImporterInterface {
   protected $contentEntityNormalizer;
 
   /**
+   * The file system.
+   *
+   * @var \Drupal\Core\File\FileSystemInterface
+   */
+  protected $fileSystem;
+
+  /**
    * Constructs the default content manager.
    *
    * @param \Symfony\Component\Serializer\Serializer $serializer
@@ -114,8 +121,10 @@ class Importer implements ImporterInterface {
    *   The account switcher.
    * @param \Drupal\default_content\Normalizer\ContentEntityNormalizerInterface $content_entity_normaler
    *   The YAML normalizer.
+   * @param \Drupal\Core\File\FileSystemInterface $fileSystem
+   *   The filesystem.
    */
-  public function __construct(Serializer $serializer, EntityTypeManagerInterface $entity_type_manager, LinkManagerInterface $link_manager, EventDispatcherInterface $event_dispatcher, ContentFileStorageInterface $content_file_storage, $link_domain, AccountSwitcherInterface $account_switcher, ContentEntityNormalizerInterface $content_entity_normaler) {
+  public function __construct(Serializer $serializer, EntityTypeManagerInterface $entity_type_manager, LinkManagerInterface $link_manager, EventDispatcherInterface $event_dispatcher, ContentFileStorageInterface $content_file_storage, $link_domain, AccountSwitcherInterface $account_switcher, ContentEntityNormalizerInterface $content_entity_normaler, FileSystemInterface $fileSystem) {
     $this->serializer = $serializer;
     $this->entityTypeManager = $entity_type_manager;
     $this->linkManager = $link_manager;
@@ -124,6 +133,7 @@ class Importer implements ImporterInterface {
     $this->linkDomain = $link_domain;
     $this->accountSwitcher = $account_switcher;
     $this->contentEntityNormalizer = $content_entity_normaler;
+    $this->fileSystem = $fileSystem;
   }
 
   /**
@@ -147,7 +157,6 @@ class Importer implements ImporterInterface {
         if (!file_exists($folder . '/' . $entity_type_id)) {
           continue;
         }
-        // $files = $this->contentFileStorage->scan($folder . '/' . $entity_type_id);
         // Default content uses drupal.org as domain.
         // @todo Make this use a uri like default-content:.
         $this->linkManager->setLinkDomain($this->linkDomain);
@@ -238,8 +247,8 @@ class Importer implements ImporterInterface {
             $file_source = \dirname($file) . '/' . $entity->getFilename();
             if (\file_exists($file_source)) {
               $target_directory = dirname($entity->getFileUri());
-              \Drupal::service('file_system')->prepareDirectory($target_directory, FileSystemInterface::CREATE_DIRECTORY);
-              $new_uri = \Drupal::service('file_system')->copy($file_source, $entity->getFileUri());
+              $this->fileSystem->prepareDirectory($target_directory, FileSystemInterface::CREATE_DIRECTORY);
+              $new_uri = $this->fileSystem->copy($file_source, $entity->getFileUri());
               $entity->setFileUri($new_uri);
             }
           }

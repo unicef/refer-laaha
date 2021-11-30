@@ -1,8 +1,10 @@
 favicon:
   mimetype: image/vnd.microsoft.icon
   path: ''
-  url: ''
+  url: 'https://vss.ec.lndo.site/profiles/unicef/themes/contrib/bootstrap/favicon.ico'
   use_default: true
+schemas:
+  bootstrap: 8000
 features:
   comment_user_picture: true
   comment_user_verification: true
@@ -12,5 +14,12 @@ logo:
   path: ''
   url: ''
   use_default: true
-schemas:
-  bootstrap: 8000
+table_responsive: '-1'
+breadcrumb_home: 1
+cdn_theme: bootstrap
+cdn_cache_ttl_versions: '604800'
+cdn_cache_ttl_themes: '604800'
+cdn_cache_ttl_assets: '0'
+cdn_cache_ttl_library: '0'
+reset_http_request_cache: ''
+table: ''

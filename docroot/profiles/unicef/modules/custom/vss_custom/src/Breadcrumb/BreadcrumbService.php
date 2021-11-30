@@ -59,7 +59,7 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
         return TRUE;
       }
     }
-    return FALSE;
+    return TRUE;
   }
 
   /**
