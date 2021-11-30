@@ -19,10 +19,6 @@ class ResizeBlock extends BlockBase {
    */
   public function build() {
 
-    $label_plus = $this->t('Increase Font Size');
-    $label_minus = $this->t('Reduce Font Size');
-    $label_original = $this->t('Reset Font Size');
-
     $markup = '<div class="box">';
     $markup .= '<a class="font_resize-button" id="font_resize-minus" aria-label="" href="#">A-</a> ';
     $markup .= '<a class="font_resize-button" id="font_resize-plus" aria-label="" href="#">A+</a> ';
