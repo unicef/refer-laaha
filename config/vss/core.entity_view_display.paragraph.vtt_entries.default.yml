@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.vtt_entries.field_language
-    - field.field.paragraph.vtt_entries.field_show_transcription
     - field.field.paragraph.vtt_entries.field_vtt_file
     - paragraphs.paragraphs_type.vtt_entries
   module:
@@ -14,16 +13,6 @@ targetEntityType: paragraph
 bundle: vtt_entries
 mode: default
 content:
-  field_show_transcription:
-    weight: 1
-    label: hidden
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    type: boolean
-    region: content
   field_vtt_file:
     weight: 0
     label: hidden
