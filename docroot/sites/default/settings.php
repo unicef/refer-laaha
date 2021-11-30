@@ -794,8 +794,6 @@ if (file_exists('/var/www/site-php/vss2/vss2-settings.inc')) {
 
 $settings["config_sync_directory"] = "../config/vss";
 
-$settings['file_temp_path'] = "/mnt/gfs/{$_ENV['AH_SITE_GROUP']}.{$_ENV['AH_SITE_ENVIRONMENT']}/tmp";
-
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
   include $app_root . '/' . $site_path . '/settings.local.php'; 
 }
