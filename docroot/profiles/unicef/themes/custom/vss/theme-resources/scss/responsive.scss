@@ -1,5 +1,8 @@
 @media screen and (max-width: 767px) {
-
+  #podcast-transcript, #transcript{
+    line-height: 24px;
+    font-size: $base-font-size;
+  }
   .podcast-transcript-btn,
   .transcript-btn {
     button {

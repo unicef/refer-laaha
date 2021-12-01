@@ -410,7 +410,8 @@ body .block [hidden].contextual-links {
 
 .article-hero-img {
   position: relative;
-  margin-top: 60px; }
+  margin-top: 40px;
+  margin-bottom: 20px; }
   .article-hero-img .hero-img {
     width: 100%; }
   .article-hero-img .article {
@@ -452,7 +453,7 @@ article .buttons {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
-  margin-top: 35px;
+  margin-top: 15px;
   margin-bottom: 35px; }
   article .buttons .button-defult {
     background: #FFCDD2 url("../images/sound-icon.png") no-repeat 20px center;
@@ -654,6 +655,9 @@ body .absoluteclass {
         display: -ms-flexbox;
         display: flex; }
 
+.img-gallery .img-caption-wrap {
+  margin-right: 10px; }
+
 .button-defult-exit {
   font-family: Roboto;
   font-weight: 700;
@@ -690,6 +694,9 @@ article p {
   line-height: 32px; }
 
 @media screen and (max-width: 767px) {
+  #podcast-transcript, #transcript {
+    line-height: 24px;
+    font-size: 1.14em; }
   .podcast-transcript-btn button,
   .transcript-btn button {
     margin: 4px 0 24px auto; }
