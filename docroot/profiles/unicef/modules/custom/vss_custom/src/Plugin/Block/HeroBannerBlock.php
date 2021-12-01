@@ -39,6 +39,7 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $instance->languageManager = $container->get('language_manager');
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->routeMatch = $container->get('current_route_match');
+    $instance->aliaspath = $container->get('path_alias.manager');
     return $instance;
   }
 
@@ -86,10 +87,7 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
           $file_url = $file->getFileUri();
           $subcat_details[$k]['sub_category_thumbnail'] = str_replace('public://', 'sites/default/files/', $file_url);
         }
-        $url = $term->label() . '/' . $child->get('name')->value;
-        $url = str_replace(' ', '-', $url);
-        $url = strtolower($url);
-        $subcat_details[$k]['url'] = $url;
+        $subcat_details[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $child->get('tid')->value), '/');
       }
     }
 
