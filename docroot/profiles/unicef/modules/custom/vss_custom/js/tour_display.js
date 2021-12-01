@@ -23,8 +23,13 @@
         $("body").on("click", ".play", function(){
           var text = $(this).prev().text();
           var utterance = new SpeechSynthesisUtterance(text);
-          var voices = speechSynthesis.getVoices();
-          utterance.voice = voices[41];
+          if (drupalSettings.voiceId) {
+            var voices = speechSynthesis.getVoices();
+            utterance.voice = voices[drupalSettings.voiceId];
+          }
+          else {
+            utterance.lang = drupalSettings.langId;
+          }
           speechSynthesis.speak(utterance);
         });
 
