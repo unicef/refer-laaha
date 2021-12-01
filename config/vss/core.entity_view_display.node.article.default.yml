@@ -62,14 +62,6 @@ content:
       image_link: ''
     third_party_settings: {  }
     label: hidden
-  field_sub_category:
-    weight: 5
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
   field_tags:
     type: entity_reference_label
     weight: 2
@@ -82,6 +74,7 @@ hidden:
   comment: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_sub_category: true
   field_thumbnail_image: true
   langcode: true
   links: true
