@@ -50,12 +50,12 @@
 {% block paragraph %}
 	<div{{attributes.addClass(classes)}}>
 		{% block content %}
-      {% if content.field_image['#items'] is not empty %}
-        {% for item in content.field_image['#items'] %}
-        <div class="img-caption-wrap">
-          <img src="{{ file_url(item.entity.field_media_image.entity.uri.value) }}" class="img-responsive" alt="{{ item.entity.field_media_image.alt }}"/>
-          <span class="caption">{{ item.entity.field_caption.0.value }}</span>
-        </div>
+      {% if gallery is not empty %}
+        {% for item in gallery %}
+          <div class="img-caption-wrap">
+            <img src="{{ file_url(item.uri) }}" class="img-responsive" alt="{{ item.alt }}"/>
+            <span class="caption">{{ item.caption }}</span>
+          </div>
         {% endfor %}
       {% endif %}
     {% endblock %}
