@@ -5,7 +5,6 @@ display:
     display_options:
       exposed_form:
         options:
-          submit_button: Filter
           reset_button_label: 'إعادة الضبط'
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
@@ -20,20 +19,12 @@ display:
           action_title: إجراء
         thumbnail__target_id:
           label: 'النسخة المصغرة'
-          separator: ', '
-        name:
-          separator: ', '
         bundle:
           label: النوع
-          separator: ', '
         uid:
           label: المؤلف
-          separator: ', '
         status:
           label: الحالة
-          separator: ', '
-        changed:
-          separator: ', '
         operations:
           label: عمليات
       filters:

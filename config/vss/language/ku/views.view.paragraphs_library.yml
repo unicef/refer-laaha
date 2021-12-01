@@ -3,9 +3,10 @@ display:
     display_options:
       exposed_form:
         options:
-          submit_button: Filter
           reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
       fields:
+        label:
+          label: Label
         type:
           label: جۆر
         langcode:
@@ -13,6 +14,11 @@ display:
         operations:
           label: کاره‌کان
       filters:
+        label:
+          expose:
+            label: Label
+          group_info:
+            label: Label
         type:
           expose:
             label: جۆر
