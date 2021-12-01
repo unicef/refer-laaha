@@ -119,7 +119,9 @@ function vss_custom_taxonomy_term_presave($term) {
       $menu_link->save();
 
       if (strpos($term->get('field_domain')->target_id, "iq")) {
-        $term->langcode->value = 'ar';
+        if (!$term->hasTranslation('ar')) {
+          $term->langcode->value = 'ar';
+        }
       }
     }
     else {
@@ -142,7 +144,9 @@ function vss_custom_taxonomy_term_presave($term) {
   }
   if ($term->get('vid')->target_id == 'categories' && $term->get('field_sub_category')->value == 1) {
     if (strpos($term->get('field_domain')->target_id, "iq")) {
-      $term->langcode->value = 'ar';
+      if (!$term->hasTranslation('ar')) {
+        $term->langcode->value = 'ar';
+      }
     }
     $term->get('parent')->target_id = $term->get('field_category_reference')->target_id;
   }
@@ -253,9 +257,10 @@ function vss_custom_preprocess_paragraph(&$variables) {
     foreach ($vtt_paragraphs as $vtt_p) {
       if ($vtt_p['target_id']) {
         $vtt_entry = Paragraph::load($vtt_p['target_id']);
-        $vtt_file = $vtt_entry->get('field_vtt_file')->entity->getFileUri();
-        $langcode = $vtt_entry->get('field_language')->getValue()[0]['target_id'];
         $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        $translation = $vtt_entry->getTranslation($current_language);
+        $vtt_file = $translation->get('field_vtt_file')->entity->getFileUri();
+        $langcode = $translation->get('field_language')->getValue()[0]['target_id'];
         if ($current_language == $langcode && $show_transcript) {
           $transcript = vss_custom_parse_vtt($vtt_file);
           $variables['transcript'] = $transcript;
