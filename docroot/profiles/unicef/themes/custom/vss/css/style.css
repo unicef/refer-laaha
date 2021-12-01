@@ -410,7 +410,8 @@ body .block [hidden].contextual-links {
 
 .article-hero-img {
   position: relative;
-  margin-top: 60px; }
+  margin-top: 40px;
+  margin-bottom: 20px; }
   .article-hero-img .hero-img {
     width: 100%; }
   .article-hero-img .article {
@@ -452,27 +453,27 @@ article .buttons {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
-  margin-top: 35px;
+  margin-top: 15px;
   margin-bottom: 35px; }
   article .buttons .button-defult {
     background: #FFCDD2 url("../images/sound-icon.png") no-repeat 20px center;
     padding-left: 45px; }
 
-article .field--name-field-tags {
-  font-size: 1.14em; }
-  article .field--name-field-tags .field--label {
-    font-weight: 400; }
-  article .field--name-field-tags .field--items {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex; }
-    article .field--name-field-tags .field--items .field--item {
-      font-weight: 500;
-      text-decoration: underline; }
-      article .field--name-field-tags .field--items .field--item:not(:first-child):before {
-        content: " ,";
-        margin-right: 5px;
-        text-decoration: none; }
+article .field--name-field-tags .field--label {
+  font-weight: 400; }
+
+article .field--name-field-tags .field--items {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  article .field--name-field-tags .field--items .field--item {
+    font-size: 1.14em;
+    font-weight: 500;
+    text-decoration: underline; }
+    article .field--name-field-tags .field--items .field--item:not(:first-child):before {
+      content: " ,";
+      margin-right: 5px;
+      text-decoration: none; }
 
 .more-text {
   display: none; }
@@ -494,7 +495,8 @@ article .field--name-field-tags .field-label {
   margin-top: 35px;
   margin-bottom: 20px; }
   article .field--name-field-tags .field-label .tag-label {
-    margin-right: 5px; }
+    margin-right: 5px;
+    font-size: 1.14em; }
 
 #block-languageswitcher ul li a {
   font-size: 1em; }
@@ -584,11 +586,14 @@ body .absoluteclass {
   padding: 0px 5px;
   border-radius: 4px; }
 
-#transcript, #podcast-transcript,
-.hide-transcript, .hide-podcast-transcript {
+#transcript,
+#podcast-transcript,
+.hide-transcript,
+.hide-podcast-transcript {
   display: none; }
 
-.transcript-text, .podcast-transcript-text {
+.transcript-text,
+.podcast-transcript-text {
   margin-left: 30px; }
 
 .img-caption-wrap {
@@ -617,7 +622,8 @@ body .absoluteclass {
   background: none;
   font-size: 1.14em;
   line-height: 24px;
-  margin-top: 40px; }
+  margin-top: 40px;
+  padding: 0; }
   .breadcrumb li:first-child a::before {
     content: '';
     background: url(../images/home.png) no-repeat;
@@ -648,6 +654,9 @@ body .absoluteclass {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex; }
+
+.img-gallery .img-caption-wrap {
+  margin-right: 10px; }
 
 .button-defult-exit {
   font-family: Roboto;
@@ -685,8 +694,12 @@ article p {
   line-height: 32px; }
 
 @media screen and (max-width: 767px) {
-  .podcast-transcript-btn button, .transcript-btn button {
-    margin: 4px  0  24px auto; }
+  #podcast-transcript, #transcript {
+    line-height: 24px;
+    font-size: 1.14em; }
+  .podcast-transcript-btn button,
+  .transcript-btn button {
+    margin: 4px 0 24px auto; }
   article .field--name-field-tags .field--items {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap; }
