@@ -47,6 +47,8 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->routeMatch = $container->get('current_route_match');
     $instance->connection = $container->get('database');
+    $instance->pageCacheKillSwitch = $container->get('page_cache_kill_switch');
+    $instance->aliaspath = $container->get('path_alias.manager');
     return $instance;
   }
 
@@ -73,11 +75,11 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
           $thumbnail_final = $file->getFileUri();
           $content[$k]['thumbnail'] = str_replace('public://', 'sites/default/files/', $thumbnail_final);
         }
-        $content[$k]['url'] = str_replace(' ', '-', $v->title);
+        $content[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/node/' . $v->nft_entity_id), '/');
         $content[$k]['type'] = $v->type;
       }
     }
-
+    $this->pageCacheKillSwitch->trigger();
     $build['#theme'] = 'featured_stories_block';
     $build['#content'] = $content;
     $build['#lang_code'] = $langcode;
@@ -108,6 +110,7 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
     $query->condition('n.langcode', $langcode);
     $query->condition('t.tid', $term_id);
     $query->condition('sc.field_sub_category_value', 1, '!=');
+    $query->fields('nft', ['entity_id']);
     $query->fields('nft', ['entity_id']);
     $query->fields('tmb', ['field_thumbnail_image_target_id']);
     $query->fields('n', ['title']);
