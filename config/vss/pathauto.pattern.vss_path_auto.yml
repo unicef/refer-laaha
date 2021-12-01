@@ -9,15 +9,17 @@ label: 'Content Pattern'
 type: 'canonical_entities:node'
 pattern: '[node:title]'
 selection_criteria:
-  e7e76de7-41e7-40ee-9be2-4bce914015f5:
+  19471d44-ce27-4b7d-a02d-990d37ac21f8:
     id: node_type
     bundles:
       article: article
       page: page
+      podcast: podcast
+      video: video
     negate: false
     context_mapping:
       node: node
-    uuid: e7e76de7-41e7-40ee-9be2-4bce914015f5
+    uuid: 19471d44-ce27-4b7d-a02d-990d37ac21f8
 selection_logic: and
 weight: -5
 relationships: {  }
