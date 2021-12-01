@@ -119,7 +119,9 @@ function vss_custom_taxonomy_term_presave($term) {
       $menu_link->save();
 
       if (strpos($term->get('field_domain')->target_id, "iq")) {
-        $term->langcode->value = 'ar';
+        if (!$term->hasTranslation('ar')) {
+          $term->langcode->value = 'ar';
+        }
       }
     }
     else {
@@ -142,7 +144,9 @@ function vss_custom_taxonomy_term_presave($term) {
   }
   if ($term->get('vid')->target_id == 'categories' && $term->get('field_sub_category')->value == 1) {
     if (strpos($term->get('field_domain')->target_id, "iq")) {
-      $term->langcode->value = 'ar';
+      if (!$term->hasTranslation('ar')) {
+        $term->langcode->value = 'ar';
+      }
     }
     $term->get('parent')->target_id = $term->get('field_category_reference')->target_id;
   }
