@@ -173,11 +173,11 @@ class VssCommonService implements VssCommonInterface {
     $data = $this->checkConfiguration($keys);
     $headerPhone = [];
     if (isset($data['vss_common_config'])) {
-      $headerPhone['social_twitter'] = (int)$data['vss_common_config']['social_twitter'] ?? '';
+      $headerPhone['social_twitter'] = (int) $data['vss_common_config']['social_twitter'] ?? '';
       $headerPhone['social_link_twitter'] = trim($data['vss_common_config']['social_link_twitter']) ?? '';
-      $headerPhone['social_youtube'] = (int)$data['vss_common_config']['social_youtube'] ?? '';
+      $headerPhone['social_youtube'] = (int) $data['vss_common_config']['social_youtube'] ?? '';
       $headerPhone['social_link_youtube'] = trim($data['vss_common_config']['social_link_youtube']) ?? '';
-      $headerPhone['social_insta'] = (int)$data['vss_common_config']['social_insta'] ?? '';
+      $headerPhone['social_insta'] = (int) $data['vss_common_config']['social_insta'] ?? '';
       $headerPhone['social_link_insta'] = trim($data['vss_common_config']['social_link_insta']) ?? '';
     }
     return $headerPhone;
