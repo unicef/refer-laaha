@@ -259,7 +259,7 @@ function vss_custom_preprocess_paragraph(&$variables) {
           $langcode = $translation->get('field_language')->getValue()[0]['target_id'];
           if ($current_language == $langcode && $show_transcript) {
             $transcript = vss_custom_parse_vtt($vtt_file);
-            $variables['transcript'] = $transcript;
+            $variables['transcript'][$vtt_p['target_id']] = $transcript;
             $variables['transcript_id'] = $vtt_p['target_id'];
           }
         }
