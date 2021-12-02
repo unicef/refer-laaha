@@ -257,15 +257,13 @@ function vss_custom_preprocess_paragraph(&$variables) {
       if ($vtt_p['target_id']) {
         $vtt_entry = Paragraph::load($vtt_p['target_id']);
         $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
-        if ($vtt_entry->hasTranslation($current_language)) {
-          $translation = $vtt_entry->getTranslation($current_language);
-          $vtt_file = $translation->get('field_vtt_file')->entity->getFileUri();
-          $langcode = $translation->get('field_language')->getValue()[0]['target_id'];
-          if ($current_language == $langcode && $show_transcript) {
-            $transcript = vss_custom_parse_vtt($vtt_file);
-            $variables['transcript'][$vtt_p['target_id']] = $transcript;
-            $variables['transcript_id'] = $vtt_p['target_id'];
-          }
+        $vtt = $vtt_entry->hasTranslation($current_languages) ? $vtt_entry->getTranslation($current_language) : $vtt_entry;
+        $vtt_file = $vtt->get('field_vtt_file')->entity->getFileUri();
+        $langcode = $vtt->get('field_language')->getValue()[0]['target_id'];
+        if ($current_language == $langcode && $show_transcript) {
+          $transcript = vss_custom_parse_vtt($vtt_file);
+          $variables['transcript'][$vtt_p['target_id']] = $transcript;
+          $variables['transcript_id'] = $vtt_p['target_id'];
         }
       }
     }
