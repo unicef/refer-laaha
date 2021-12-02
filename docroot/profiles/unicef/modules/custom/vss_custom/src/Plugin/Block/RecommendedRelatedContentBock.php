@@ -93,7 +93,11 @@ class RecommendedRelatedContentBock extends BlockBase implements ContainerFactor
     if ($result) {
       $nodes = $this->entityTypeManager->getStorage('node')->loadMultiple($result);
       $data = [];
+      $langcode = $this->languageManager->getCurrentLanguage()->getId();
       foreach ($nodes as $viewNode) {
+        if ($viewNode->hasTranslation($langcode)) {
+          $viewNode = $viewNode->getTranslation($langcode);
+        }
         $data[$viewNode->id()]['title'] = $viewNode->getTitle();
         if ($viewNode->hasField('field_thumbnail_image') && !empty($viewNode->get('field_thumbnail_image')->first())) {
           $fid = $viewNode->get('field_thumbnail_image')->target_id;
