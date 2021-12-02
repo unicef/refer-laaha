@@ -5,6 +5,6 @@ services:
       - { name: theme_negotiator, priority: 0 }
   vss_custom.breadcrumb:
     class: Drupal\vss_custom\Breadcrumb\BreadcrumbService
-    arguments: ['@entity_type.manager', '@request_stack']
+    arguments: ['@entity_type.manager', '@request_stack', '@router.admin_context']
     tags:
       - { name: breadcrumb_builder, priority: 1004 }

@@ -8,6 +8,7 @@ use Drupal\Core\Breadcrumb\BreadcrumbBuilderInterface;
 use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Link;
+use Drupal\Core\Routing\AdminContext;
 
 /**
  * Class BreadcrumbService to modify breadcrumbs.
@@ -31,11 +32,19 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
   protected $requestStack;
 
   /**
+   * Drupal\Core\Routing\AdminContext definition.
+   *
+   * @var \Drupal\Core\Routing\AdminContext
+   */
+  protected $routeAdminContext;
+
+  /**
    * Constructs a new BreadcrumbService object.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack, AdminContext $routeAdminContext) {
     $this->entityTypeManager = $entity_type_manager;
     $this->requestStack = $request_stack;
+    $this->routeAdminContext = $routeAdminContext;
   }
 
   /**
@@ -47,6 +56,10 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
       'video',
       'podcast',
     ];
+    $route = $route_match->getRouteObject();
+    if ($this->routeAdminContext->isAdminRoute($route)) {
+      return FALSE;
+    }
     // Determine if the current page is a node page.
     $node = $route_match->getParameter('node');
     $tax_term = $route_match->getParameter('taxonomy_term');
