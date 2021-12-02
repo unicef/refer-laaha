@@ -505,7 +505,7 @@ article {
     margin-bottom: 20px;
   }
 
-  #video {
+  .video {
     width: 100%;
     border-radius: 20px;
   }
@@ -649,7 +649,7 @@ body {
 }
 
 .pod-video {
-  margin-top: 60px;
+  margin-top: 20px;
   margin-bottom: 40px;
 }
 
@@ -675,10 +675,11 @@ body {
   background: $base-primary-light-bgcolor;
   border: 1px solid $base-primary-bgcolor;
   border-radius: 20px;
+  margin-bottom: 20px;
 }
 
-#podcast-transcript,
-#transcript {
+.podcast-transcript,
+.transcript{
   max-height: 240px;
   overflow-y: auto;
   width: 100%;
