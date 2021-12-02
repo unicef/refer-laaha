@@ -72,7 +72,7 @@
         <button class="hide-podcast-transcript button-defult">{{ 'HIDE TRANSCRIPTION'|t }} <i class="fa fa-angle-up" aria-hidden="true"></i></button>
     </div>
     <div class="podcast-transcript-container">  
-      <div id="podcast-transcript">
+      <div class="podcast-transcript" id="podcast-transcript">
       {% for transcript_data in transcript %}
         <div id='l{{ loop.index }}' class='btnSeek line' data-seek='{{ transcript_data.seek_time }}' data-start='{{ transcript_data.start_time }}' data-end='{{ transcript_data.end_time }}'>
           <span>{{ transcript_data.time }}</span>

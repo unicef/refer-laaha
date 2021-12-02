@@ -540,7 +540,7 @@ body .absoluteclass {
   bottom: 500px; }
 
 .pod-video {
-  margin-top: 60px;
+  margin-top: 20px;
   margin-bottom: 40px; }
 
 .podcast .audio {
@@ -561,10 +561,11 @@ body .absoluteclass {
 .podcast-transcript-container {
   background: #FFCDD233;
   border: 1px solid #FFCDD2;
-  border-radius: 20px; }
+  border-radius: 20px;
+  margin-bottom: 20px; }
 
-#podcast-transcript,
-#transcript {
+.podcast-transcript,
+.transcript {
   max-height: 240px;
   overflow-y: auto;
   width: 100%;
@@ -573,8 +574,8 @@ body .absoluteclass {
   font-size: 1.42em;
   font-weight: 400;
   line-height: 32px; }
-  #podcast-transcript .line,
-  #transcript .line {
+  .podcast-transcript .line,
+  .transcript .line {
     padding: 0px 20px 20px 20px;
     display: -webkit-box;
     display: -ms-flexbox;
