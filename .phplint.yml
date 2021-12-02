@@ -5,4 +5,10 @@ extensions:
   - php
 exclude:
   - vendor
+  - tests
+  - node_modules
+  - patches
+  - docroot/core
+  - docroot/modules/contrib
+  - docroot/themes/contrib
 warning: false
