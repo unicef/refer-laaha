@@ -102,7 +102,7 @@ jobs:
       - name: Install dependency and Run tests
         run: |
           npm install
-          npm install cucumber
+          npm install -S cucumber
           npm install nightwatch-api
           ./node_modules/nightwatch/bin/nightwatch tests
            

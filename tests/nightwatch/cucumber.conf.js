@@ -33,6 +33,7 @@ setDefaultTimeout(90000);
 
 BeforeAll(async () => {
   await startWebDriver();
+  await createSession();
 });
 
 Before(
