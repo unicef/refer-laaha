@@ -1,23 +1,28 @@
-  {
+{
     "name": "nightwatch",
     "version": "1.0.0",
     "description": "nightwatch",
     "main": "index.js",
     "scripts": {
-      "test": "nightwatch",
-      "test:cucumber:e2e": "mkdirp report && cucumber-js --require cucumber.conf.js --require step-definitions --format @cucumber/pretty-formatter --format json:reports/cucumber_report.json --publish-quiet"
+        "test": "nightwatch",
+        "test:browserstack": "nightwatch nightwatch.browserstack.conf.js",
+        "test:cucumber:e2e": "mkdirp report && cucumber-js --require cucumber.conf.js --require step-definitions --format @cucumber/pretty-formatter --format json:reports/cucumber_report.json --publish-quiet"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
-      "@cucumber/pretty-formatter": "^1.0.0-alpha.0",
-      "chromedriver": "^95.0",
-      "cucumber-junit-convert": "^1.1.1",
-      "dotenv": "^10.0.0",
-      "nightwatch": "^1.7.7",
-      "nightwatch-api": "^3.0.2"
+        "@cucumber/pretty-formatter": "^1.0.0-alpha.0",
+        "chromedriver": "^95.0",
+        "cucumber-junit-convert": "^1.1.1",
+        "dotenv": "^10.0.0",
+        "nightwatch": "^1.7.7",
+        "nightwatch-api": "^3.0.2"
     },
     "devDependencies": {
-      "@cucumber/cucumber": "^7.3.1"
+        "@cucumber/cucumber": "^7.3.1",
+        "browserstack-local": "^1.4.8",
+        "selenium-server-standalone-jar": "^3.141.59",
+        "selenium-standalone": "^6.20.1",
+        "selenium-server": "^3.141.59"
     }
-  }
+}
