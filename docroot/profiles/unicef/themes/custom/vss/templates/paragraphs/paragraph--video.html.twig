@@ -54,7 +54,8 @@
 		<div{{attributes.addClass(classes)}}>
 			{% block content %}
 			{% if content.field_video_file['#items'] is not empty %}
-				<video id="video_{{ transcript_id }}" class="video" controls preload="auto">
+        {% set poster = file_url(content.field_video_poster_image['#items'].entity.uri.value) != '/' ? file_url(content.field_video_poster_image['#items'].entity.uri.value) : ' ' %}
+          <video id="video_{{ transcript_id }}" class="video" controls preload="none" poster="{{ poster }}">
 					<source src="{{ file_url(content.field_video_file['#items'].entity.uri.value) }}">
 					{% for item in content.field_vtt_entries %}
 						{% if item['#paragraph'] %}
