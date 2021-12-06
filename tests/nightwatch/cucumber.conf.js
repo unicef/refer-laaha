@@ -32,7 +32,7 @@ const deleteContent = async title => {
 setDefaultTimeout(90000);
 
 BeforeAll(async () => {
-  await startWebDriver({ env: process.env.NIGHTWATCH_ENV || 'chromeHeadless' });
+  await startWebDriver();
 });
 
 Before(
