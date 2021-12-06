@@ -55,7 +55,7 @@
 		<div{{attributes.addClass(classes)}}>
 			{% block content %}
 			{% if content.field_audio['#items'] is not empty %}
-				<audio id="audio_{{ transcript_id }}" class="audio" controls preload="auto">
+				<audio id="audio_{{ transcript_id }}" class="audio" controls preload="none">
 					<source src="{{ file_url(content.field_audio['#items'].entity.uri.value) }}">
 					{% for item in content.field_vtt_entries %}
 						{% if item['#paragraph'] %}
