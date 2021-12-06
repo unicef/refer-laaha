@@ -8,6 +8,8 @@
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_theme().
@@ -197,9 +199,10 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
     $form['body']['widget'][0]['#maxlength'] = 500;
   }
   if ($form_id == 'user_login_form') {
+    $url = Url::fromRoute('user.pass');
     $form['forgot_link'] = [
       '#type' => 'markup',
-      '#markup' => '<a href=/user/password>Forgot password?</a><br>',
+      '#markup' => Link::fromTextAndUrl(t('Forgot Password?'), $url)->toString(),
     ];
   }
 }
