@@ -196,6 +196,12 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
   if ($form_id == 'block_content_words_from_experts_block_edit_form') {
     $form['body']['widget'][0]['#maxlength'] = 500;
   }
+  if ($form_id == 'user_login_form') {
+    $form['forgot_link'] = [
+      '#type' => 'markup',
+      '#markup' => '<a href=/user/password>Forgot password?</a><br>',
+    ];
+  }
 }
 
 /**
