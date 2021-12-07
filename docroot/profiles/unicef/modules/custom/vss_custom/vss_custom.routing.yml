@@ -17,7 +17,7 @@ vss_custom.exit_config_form:
     _admin_route: TRUE
 
 vss_custom.related_content_ajax_controller_getData:
-  path: '/related-content/{node}'
+  path: '/related-content/node/{node}'
   defaults:
     _controller: '\Drupal\vss_custom\Controller\RelatedContentAjaxController::getData'
     _title: 'getData'
