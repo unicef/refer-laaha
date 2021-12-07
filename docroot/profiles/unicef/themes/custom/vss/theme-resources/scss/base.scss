@@ -712,6 +712,7 @@ body {
   margin-left: 30px;
 }
 
+.carousel-caption1,
 .img-caption-wrap {
   display: inline-block;
 
@@ -723,6 +724,9 @@ body {
     line-height: 16px;
     display: block;
   }
+}
+.carousel-caption1{
+  display: block;
 }
 
 #readmore_article[aria-expanded="true"] {
@@ -795,11 +799,7 @@ body {
   padding: 0;
 }
 
-.img-gallery {
-  .img-caption-wrap {
-    margin-right: 10px;
-  }
-}
+
 
 .shepherd-element[data-popper-reference-hidden] {
   &:not(.shepherd-centered) {
@@ -867,4 +867,8 @@ body {
       }
     }
   }
+}
+.carousel-control.right,
+.carousel-control.left{
+  background: none;
 }
