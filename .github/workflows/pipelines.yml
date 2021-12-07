@@ -105,7 +105,6 @@ jobs:
       - name: Install dependency and Run tests
         run: |
           cd tests/nightwatch && npm install && npm run test:cucumber:e2e
-          # ./node_modules/nightwatch/bin/nightwatch tests
            
       # - name: Deployment Status - Acquia BLT
       #   uses: ravsamhq/notify-slack-action@master
