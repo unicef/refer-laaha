@@ -29,6 +29,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - name: Install chrome browser
+        run: sudo apt-get update && sudo apt-get install google-chrome-stable
+
       - name: Set up PHP ${{ matrix.php_version }}
         uses: shivammathur/setup-php@v2
         with:
