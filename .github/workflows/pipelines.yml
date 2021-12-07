@@ -28,6 +28,11 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+          with:
+            node-version: 14
+      - name: Install chrome browser
+        run: sudo apt-get update && sudo apt-get install google-chrome-stable
 
       - name: Set up PHP ${{ matrix.php_version }}
         uses: shivammathur/setup-php@v2
@@ -102,9 +107,9 @@ jobs:
       - name: Install dependency and Run tests
         run: |
           npm install
-      #    npm install cucumber
-      #    npm install nightwatch-api
-      #    ./node_modules/nightwatch/bin/nightwatch tests
+         npm install cucumber
+         npm install nightwatch-api
+         ./node_modules/nightwatch/bin/nightwatch tests
            
       # - name: Deployment Status - Acquia BLT
       #   uses: ravsamhq/notify-slack-action@master
