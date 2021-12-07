@@ -107,7 +107,8 @@ jobs:
           npm install
           npm install cucumber
           npm install nightwatch-api
-          ./node_modules/nightwatch/bin/nightwatch tests
+          npm run test:cucumber:e2e
+          # ./node_modules/nightwatch/bin/nightwatch tests
            
       # - name: Deployment Status - Acquia BLT
       #   uses: ravsamhq/notify-slack-action@master
