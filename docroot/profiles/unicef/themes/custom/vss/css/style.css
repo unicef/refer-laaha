@@ -597,14 +597,19 @@ body .absoluteclass {
 .podcast-transcript-text {
   margin-left: 30px; }
 
+.carousel-caption1,
 .img-caption-wrap {
   display: inline-block; }
+  .carousel-caption1 .caption,
   .img-caption-wrap .caption {
     margin: 12px 7%;
     text-align: center;
     font-size: 0.85em;
     line-height: 16px;
     display: block; }
+
+.carousel-caption1 {
+  display: block; }
 
 #readmore_article[aria-expanded="true"] {
   height: auto !important; }
@@ -656,9 +661,6 @@ body .absoluteclass {
         display: -ms-flexbox;
         display: flex; }
 
-.img-gallery .img-caption-wrap {
-  margin-right: 10px; }
-
 .shepherd-element[data-popper-reference-hidden]:not(.shepherd-centered) {
   opacity: 1; }
 
@@ -709,6 +711,10 @@ body .absoluteclass {
       text-transform: uppercase; }
       .shepherd-element .shepherd-footer button i {
         margin: 0 10px; }
+
+.carousel-control.right,
+.carousel-control.left {
+  background: none; }
 
 .button-defult-exit {
   font-family: Roboto;
