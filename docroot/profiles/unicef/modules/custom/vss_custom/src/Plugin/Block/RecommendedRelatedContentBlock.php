@@ -5,14 +5,15 @@ namespace Drupal\vss_custom\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 
 /**
- * Provides a 'RecommendedRelatedContentBock' block.
+ * Provides a 'RecommendedRelatedContentBlock' block.
  *
  * @Block(
  *  id = "recommended_related_content_bock",
- *  admin_label = @Translation("Recommended related content bock"),
+ *  admin_label = @Translation("Recommended related content block"),
  * )
  */
-class RecommendedRelatedContentBock extends BlockBase {
+class RecommendedRelatedContentBlock extends BlockBase {
+
   /**
    * {@inheritdoc}
    */

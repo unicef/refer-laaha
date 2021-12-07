@@ -10,6 +10,8 @@ use Drupal\Core\Ajax\HtmlCommand;
 
 /**
  * Class RelatedContentAjaxController.
+ *
+ * Ajax calls to get related content.
  */
 class RelatedContentAjaxController extends ControllerBase {
 
