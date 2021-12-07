@@ -1,4 +1,13 @@
 html[dir="rtl"] {
+  .shepherd-element {
+  .shepherd-footer {
+    button {
+      i{
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
   .breadcrumb {
     li:first-child {
       a::before {
@@ -11,6 +20,17 @@ html[dir="rtl"] {
     img {
       margin-right: 0;
       margin-left: 8px;
+    }
+  }
+
+  body {
+    .shepherd-element {
+
+      .shepherd-cancel-icon {
+
+        right: inherit;
+        left: 29px;
+      }
     }
   }
 
@@ -143,11 +163,7 @@ html[dir="rtl"] {
 
 
 
-      #discover1 {
-        .caret {
-          /* margin-right: 10px;*/
-        }
-      }
+
     }
 
     #block-settingsmenu {
