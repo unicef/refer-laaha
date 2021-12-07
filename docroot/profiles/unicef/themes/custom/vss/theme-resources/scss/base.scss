@@ -600,7 +600,7 @@ article {
 }
 
 #block-globalstickyblock {
-  z-index: 999;
+  z-index: 99;
   position: fixed;
   top: 430px;
   right: 2%;
@@ -679,7 +679,7 @@ body {
 }
 
 .podcast-transcript,
-.transcript{
+.transcript {
   max-height: 240px;
   overflow-y: auto;
   width: 100%;
@@ -714,7 +714,7 @@ body {
 
 .img-caption-wrap {
   display: inline-block;
- 
+
 
   .caption {
     margin: 12px 7%;
@@ -794,8 +794,77 @@ body {
   margin-top: 40px;
   padding: 0;
 }
-.img-gallery{
-.img-caption-wrap {
+
+.img-gallery {
+  .img-caption-wrap {
     margin-right: 10px;
+  }
+}
+
+.shepherd-element[data-popper-reference-hidden] {
+  &:not(.shepherd-centered) {
+    opacity: 1;
+  }
+}
+
+.shepherd-element {
+  width: 400px;
+  border-radius: 20px;
+
+  .shepherd-text {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 37px;
+    padding: 0 24px;
+
+    .tour-tip-body {
+      font-size: $base-font-size;
+      line-height: 24px;
+      font-weight: 500;
+      margin-top: 8px;
+      padding: 0 12px;
+      min-height: 50px;
+    }
+  }
+
+  .play {
+    cursor: pointer;
+    margin-right: 6px;
+    margin-top: 11px;
+  }
+
+  .shepherd-cancel-icon {
+    top: 29px;
+    right: 29px;
+
+    span {
+      font-family: "Font Awesome 6 Free";
+      font-weight: 500;
+      font-size: 24px;
+    }
+  }
+
+
+  .shepherd-footer {
+    border-top: 1px solid #00000033;
+    justify-content: space-between;
+    padding: 16px 0;
+    margin: 0 24px;
+
+    .skip {
+      cursor: pointer;
+      margin-top: 12px;
+      font-size: $base-font-size;
+      line-height: 24px;
+      font-weight: 400;
+    }
+
+    button {
+      text-transform: uppercase;
+
+      i {
+        margin: 0 10px;
+      }
+    }
   }
 }

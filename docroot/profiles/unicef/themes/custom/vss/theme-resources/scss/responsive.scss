@@ -1,8 +1,21 @@
 @media screen and (max-width: 767px) {
-  #podcast-transcript, #transcript{
+  body {
+    .shepherd-element {
+      width:100%;
+      .shepherd-text {
+        .tour-tip-body {
+          padding: 0 12px;
+        }
+      }
+    }
+  }
+
+  .podcast-transcript,
+  .transcript {
     line-height: 24px;
     font-size: $base-font-size;
   }
+
   .podcast-transcript-btn,
   .transcript-btn {
     button {
