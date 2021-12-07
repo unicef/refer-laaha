@@ -24,10 +24,7 @@
            $('.shepherd-footer button').append('<i class="fa fa-angle-right"></i>');
            $('.shepherd-title').hide();
            $('.tour-progress').hide();
-           if($(".shepherd-footer button").text() == "NextNextNextEnd tour"){
-            $(".shepherd-footer button").text(finish);
-           }
-        });
+          });
         
        
         // add UI event handlers
