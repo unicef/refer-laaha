@@ -1,0 +1,30 @@
+uuid: b65ccacf-ccaa-4f33-b74b-9232392f0168
+langcode: en
+status: true
+dependencies:
+  module:
+    - ctools
+    - vss_custom
+  theme:
+    - vss
+id: recommendedrelatedcontentbock
+theme: vss
+region: content
+weight: 0
+provider: null
+plugin: recommended_related_content_bock
+settings:
+  id: recommended_related_content_bock
+  label: 'Recommended related content bock'
+  provider: vss_custom
+  label_display: '0'
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      article: article
+      podcast: podcast
+      video: video
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

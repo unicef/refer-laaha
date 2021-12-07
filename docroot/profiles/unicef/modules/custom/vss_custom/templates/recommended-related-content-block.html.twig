@@ -7,4 +7,9 @@
   {% if item.title %}
     {{ 'Title'|t }}: {{ item.title }}
   {% endif %}
+  {% if item.link %}
+    {{ 'Link'|t }}:
+    {{ item.link }}
+  {% endif %}
+
 {% endfor %}

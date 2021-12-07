@@ -19,6 +19,15 @@ disclaimer:
     - core/jquery
     - core/drupalSettings
 
+
+related_content:
+  js:
+    js/related_content.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+    - core/drupal.ajax
+
 youtube_transcript:
   js:
     https://www.youtube.com/iframe_api: {type: external}

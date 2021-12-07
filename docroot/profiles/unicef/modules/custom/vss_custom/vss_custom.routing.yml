@@ -15,3 +15,17 @@ vss_custom.exit_config_form:
     _role: "administrator"
   options:
     _admin_route: TRUE
+
+vss_custom.related_content_ajax_controller_getData:
+  path: '/related-content/{node}'
+  defaults:
+    _controller: '\Drupal\vss_custom\Controller\RelatedContentAjaxController::getData'
+    _title: 'getData'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      nid:
+        type: entity:node
+    no_cache: 'TRUE'
+  methods: [POST]
