@@ -104,9 +104,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependency and Run tests
         run: |
-          npm install
-          npm install cucumber cucumber-pretty nightwatch-api
-          cd tests/nightwatch && npm run test:cucumber:e2e
+          cd tests/nightwatch && npm install && npm run test:cucumber:e2e
           # ./node_modules/nightwatch/bin/nightwatch tests
            
       # - name: Deployment Status - Acquia BLT
