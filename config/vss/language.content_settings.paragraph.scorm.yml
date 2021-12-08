@@ -1,9 +1,9 @@
-uuid: 774366e2-b466-49a8-9cec-1e02744ceacd
+uuid: 0319c634-508a-480b-a778-c4104704f9b2
 langcode: en
 status: true
 dependencies:
   config:
-    - block_content.type.words_from_experts_block
+    - paragraphs.paragraphs_type.scorm
   module:
     - content_translation
 third_party_settings:
@@ -11,8 +11,8 @@ third_party_settings:
     enabled: true
     bundle_settings:
       untranslatable_fields_hide: '0'
-id: block_content.words_from_experts_block
-target_entity_type_id: block_content
-target_bundle: words_from_experts_block
+id: paragraph.scorm
+target_entity_type_id: paragraph
+target_bundle: scorm
 default_langcode: site_default
-language_alterable: false
+language_alterable: true

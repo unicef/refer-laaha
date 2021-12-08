@@ -1,18 +1,18 @@
-uuid: 26f81df8-e03c-407f-aa5d-852546abaa1d
+uuid: a73a03b8-d1ec-4881-970e-c43fccc756cd
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.podcast
+    - node.type.scorm
   module:
     - content_translation
 third_party_settings:
   content_translation:
     enabled: true
     bundle_settings:
-      untranslatable_fields_hide: '1'
-id: node.podcast
+      untranslatable_fields_hide: '0'
+id: node.scorm
 target_entity_type_id: node
-target_bundle: podcast
-default_langcode: current_interface
+target_bundle: scorm
+default_langcode: site_default
 language_alterable: true

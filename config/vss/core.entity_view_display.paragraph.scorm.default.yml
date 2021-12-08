@@ -1,0 +1,22 @@
+uuid: 53a15fbe-8c86-4417-bb08-5913bdf542a1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.scorm.field_scorm_file
+    - paragraphs.paragraphs_type.scorm
+  module:
+    - opigno_scorm
+id: paragraph.scorm.default
+targetEntityType: paragraph
+bundle: scorm
+mode: default
+content:
+  field_scorm_file:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: opigno_scorm_field_formatter
+    region: content
+hidden: {  }
