@@ -194,7 +194,7 @@ class VssCommonService implements VssCommonInterface {
     $data = $this->checkConfiguration($keys);
     $categories = [];
     if (isset($data['vss_common_config'])) {
-      $categories['get_help'] = trim($data['vss_common_config']['get_help']) ?? '';
+      $categories['get_help'] = !empty($data['vss_common_config']['get_help']) ? trim($data['vss_common_config']['get_help']) : '';
       $categories['homepage_hero'] = $data['vss_common_config']['homepage_hero'] ?? '';
     }
     return $categories;

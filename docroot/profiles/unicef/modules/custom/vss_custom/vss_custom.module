@@ -39,6 +39,12 @@ function vss_custom_theme() {
       ],
       'render element' => 'children',
     ],
+    'recommended_related_content_block_wrapper' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'render element' => 'children',
+    ],
     'video_embed_iframe' => [
       'variables' => [
         'url' => '',
@@ -260,7 +266,9 @@ function vss_custom_video_embed_field_provider_info_alter(&$definitions) {
 function vss_custom_preprocess_paragraph(&$variables) {
   $paragraph = $variables['paragraph'];
   if ($paragraph->bundle() == 'video' || $paragraph->bundle() == 'podcast_audio') {
-    $show_transcript = $paragraph->get('field_show_transcription')->getValue()[0]['value'];
+    if ($paragraph->hasField('field_show_transcription')) {
+      $show_transcript = $paragraph->get('field_show_transcription')->getValue()[0]['value'];
+    }
     $vtt_paragraphs = $paragraph->get('field_vtt_entries')->getValue();
     foreach ($vtt_paragraphs as $vtt_p) {
       if ($vtt_p['target_id']) {
