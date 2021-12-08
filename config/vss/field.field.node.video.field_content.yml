@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.field_content
     - node.type.video
     - paragraphs.paragraphs_type.layout
+    - paragraphs.paragraphs_type.scorm
     - paragraphs.paragraphs_type.video
     - paragraphs.paragraphs_type.wysiwyg_editor
   module:
@@ -27,6 +28,7 @@ settings:
     target_bundles:
       layout: layout
       video: video
+      scorm: scorm
       wysiwyg_editor: wysiwyg_editor
     target_bundles_drag_drop:
       external_videos:
@@ -47,6 +49,9 @@ settings:
       podcast_audio:
         weight: 15
         enabled: false
+      scorm:
+        enabled: true
+        weight: 17
       video:
         enabled: true
         weight: 16

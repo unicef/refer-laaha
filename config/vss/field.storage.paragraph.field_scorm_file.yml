@@ -1,0 +1,24 @@
+uuid: 07e829d5-a39c-4aa8-9313-35dbffc08fc7
+langcode: en
+status: true
+dependencies:
+  module:
+    - file
+    - opigno_scorm
+    - paragraphs
+id: paragraph.field_scorm_file
+field_name: field_scorm_file
+entity_type: paragraph
+type: opigno_scorm_package
+settings:
+  target_type: file
+  display_field: false
+  display_default: false
+  uri_scheme: public
+module: opigno_scorm
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

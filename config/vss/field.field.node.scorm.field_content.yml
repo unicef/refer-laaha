@@ -1,24 +1,22 @@
-uuid: 1c41ab8e-db0c-42a3-9ee2-ad1f0345e841
+uuid: fe73f25d-1543-4acb-9885-872a8432c3d4
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_content
-    - node.type.podcast
+    - node.type.scorm
     - paragraphs.paragraphs_type.layout
-    - paragraphs.paragraphs_type.podcast_audio
     - paragraphs.paragraphs_type.scorm
-    - paragraphs.paragraphs_type.wysiwyg_editor
   module:
     - entity_reference_revisions
-id: node.podcast.field_content
+id: node.scorm.field_content
 field_name: field_content
 entity_type: node
-bundle: podcast
+bundle: scorm
 label: Content
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -27,38 +25,36 @@ settings:
     negate: 0
     target_bundles:
       layout: layout
-      podcast_audio: podcast_audio
       scorm: scorm
-      wysiwyg_editor: wysiwyg_editor
     target_bundles_drag_drop:
       external_videos:
-        weight: 10
-        enabled: false
-      from_library:
         weight: 11
         enabled: false
-      image:
+      from_library:
         weight: 12
         enabled: false
-      image_gallery:
+      image:
         weight: 13
+        enabled: false
+      image_gallery:
+        weight: 14
         enabled: false
       layout:
         enabled: true
-        weight: 14
-      podcast_audio:
-        enabled: true
         weight: 15
+      podcast_audio:
+        weight: 16
+        enabled: false
       scorm:
         enabled: true
         weight: 17
       video:
-        weight: 16
+        weight: 18
         enabled: false
       vtt_entries:
-        weight: 17
+        weight: 19
         enabled: false
       wysiwyg_editor:
-        enabled: true
-        weight: 18
+        weight: 20
+        enabled: false
 field_type: entity_reference_revisions
