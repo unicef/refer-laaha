@@ -1,0 +1,22 @@
+uuid: 7ad1aca8-facf-4da5-b5ff-c6fba6e107c9
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - erpw
+_core:
+  default_config_hash: KHQIJ7Vfl25lTjzIc7qIvnuistt-Mw2O0kG4jCofmkI
+id: erpw_messages
+theme: erpw
+region: highlighted
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  provider: system
+  label_display: '0'
+visibility: {  }
