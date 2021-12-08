@@ -1,4 +1,4 @@
-uuid: b65ccacf-ccaa-4f33-b74b-9232392f0168
+uuid: e4d5c674-e83a-4af8-b4fe-5875cccd1ca2
 langcode: en
 status: true
 dependencies:
@@ -12,9 +12,9 @@ theme: vss
 region: content
 weight: 0
 provider: null
-plugin: recommended_related_content_block
+plugin: recommended_related_content_bock
 settings:
-  id: recommended_related_content_block
+  id: recommended_related_content_bock
   label: 'Recommended related content block'
   provider: vss_custom
   label_display: '0'
@@ -23,7 +23,6 @@ visibility:
     id: 'entity_bundle:node'
     bundles:
       article: article
-      podcast: podcast
       video: video
     negate: false
     context_mapping:
