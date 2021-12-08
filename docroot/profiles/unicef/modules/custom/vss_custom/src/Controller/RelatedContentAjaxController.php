@@ -105,6 +105,7 @@ class RelatedContentAjaxController extends ControllerBase {
           $data[$viewNode->id()]['alt'] = $viewNode->get('field_thumbnail_image')->alt;
         }
         $data[$viewNode->id()]['link'] = $viewNode->toUrl()->toString();
+        $data[$viewNode->id()]['type'] = $viewNode->bundle();
         $output = $data;
       }
     }
