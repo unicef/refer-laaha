@@ -1,0 +1,22 @@
+uuid: 29a883a1-71bb-4b3b-a5fe-130a14e015b9
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - erpw
+_core:
+  default_config_hash: 9EoWV2Lot6FVSr50t4hoKgiz1LIXYWNG-IIPYsWxBqo
+id: erpw_content
+theme: erpw
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility: {  }
