@@ -37,6 +37,7 @@ class Breadcrumb extends BootBreadcrumb {
 
           case 'article':
           case 'video':
+          case 'scorm':
           case 'podcast':
             $image = $this->loadThumbnailImage($node, 'node', FALSE);
 

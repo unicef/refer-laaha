@@ -54,6 +54,7 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
     $types = [
       'article',
       'video',
+      'scorm',
       'podcast',
     ];
     $route = $route_match->getRouteObject();
@@ -103,6 +104,7 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
 
         case 'article':
         case 'video':
+        case 'scorm':
         case 'podcast':
           if ($node->hasField('field_sub_category') && !empty($node->get('field_sub_category')->first())) {
             $term_id = $node->field_sub_category->target_id;
