@@ -223,7 +223,7 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
 function validate_password(&$form, &$form_state) {
   $password = $form_state->getValue('pass');
   if (!empty($password) && (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $password) || strlen($password) < 8)) {
-    $form_state->setErrorByName('pass', t('Password must be of 8 character and should be alpha numeric'));
+    $form_state->setErrorByName('pass', t('Password must be of minimum 8 character and should be alpha numeric'));
   }
 }
 
