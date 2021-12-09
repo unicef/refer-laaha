@@ -7,4 +7,14 @@
   {% if item.title %}
     {{ 'Title'|t }}: {{ item.title }}
   {% endif %}
+  {% if item.link %}
+    {{ 'Link'|t }}:
+    {{ item.link }}
+  {% endif %}
+
+{% if item.type %}
+	{{ 'Type'|t }}:
+	{{ item.type }}
+{% endif %}
+
 {% endfor %}

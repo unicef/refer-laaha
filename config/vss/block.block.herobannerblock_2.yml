@@ -1,0 +1,28 @@
+uuid: b2f4d181-f07b-43ca-82c0-94f51f5123bb
+langcode: en
+status: true
+dependencies:
+  module:
+    - ctools
+    - vss_custom
+  theme:
+    - vss
+id: herobannerblock_2
+theme: vss
+region: global_sticky
+weight: -8
+provider: null
+plugin: hero_banner_block
+settings:
+  id: hero_banner_block
+  label: 'Other Related Sub Categories'
+  provider: vss_custom
+  label_display: visible
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      scorm: scorm
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

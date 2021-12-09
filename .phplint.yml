@@ -5,4 +5,11 @@ extensions:
   - php
 exclude:
   - vendor
+  - tests
+  - node_modules
+  - docroot/core
+  - docroot/modules/contrib
+  - docroot/themes/contrib
+  - docroot/profiles/unicef/themes/contrib
+  - docroot/profiles/unicef/modules/contrib
 warning: false

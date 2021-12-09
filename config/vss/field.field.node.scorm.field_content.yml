@@ -1,0 +1,60 @@
+uuid: fe73f25d-1543-4acb-9885-872a8432c3d4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content
+    - node.type.scorm
+    - paragraphs.paragraphs_type.layout
+    - paragraphs.paragraphs_type.scorm
+  module:
+    - entity_reference_revisions
+id: node.scorm.field_content
+field_name: field_content
+entity_type: node
+bundle: scorm
+label: Content
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      layout: layout
+      scorm: scorm
+    target_bundles_drag_drop:
+      external_videos:
+        weight: 11
+        enabled: false
+      from_library:
+        weight: 12
+        enabled: false
+      image:
+        weight: 13
+        enabled: false
+      image_gallery:
+        weight: 14
+        enabled: false
+      layout:
+        enabled: true
+        weight: 15
+      podcast_audio:
+        weight: 16
+        enabled: false
+      scorm:
+        enabled: true
+        weight: 17
+      video:
+        weight: 18
+        enabled: false
+      vtt_entries:
+        weight: 19
+        enabled: false
+      wysiwyg_editor:
+        weight: 20
+        enabled: false
+field_type: entity_reference_revisions

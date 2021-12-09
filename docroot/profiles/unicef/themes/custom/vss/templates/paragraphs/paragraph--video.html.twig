@@ -54,7 +54,8 @@
 		<div{{attributes.addClass(classes)}}>
 			{% block content %}
 			{% if content.field_video_file['#items'] is not empty %}
-				<video id="video_{{ transcript_id }}" class="video" controls preload="auto">
+        {% set poster = file_url(content.field_video_poster_image['#items'].entity.uri.value) != '/' ? file_url(content.field_video_poster_image['#items'].entity.uri.value) : ' ' %}
+          <video id="video_{{ transcript_id }}" class="video" controls preload="none" poster="{{ poster }}">
 					<source src="{{ file_url(content.field_video_file['#items'].entity.uri.value) }}">
 					{% for item in content.field_vtt_entries %}
 						{% if item['#paragraph'] %}
@@ -76,7 +77,7 @@
 		</button>
 	</div>
 	<div class="transcript-container" id="transcript-container_{{ transcript_id }}">
-		<div id="transcript_{{ transcript_id }}">
+		<div class="transcript" id="transcript_{{ transcript_id }}">
 			{% for transcript_data in transcript[transcript_id] %}
 				<div id='l_{{ transcript_id }}_{{ loop.index }}' class='btnSeek line' data-seek='{{ transcript_data.seek_time }}' data-start='{{ transcript_data.start_time }}' data-end='{{ transcript_data.end_time }}'>
 					<span>{{ transcript_data.time }}</span>

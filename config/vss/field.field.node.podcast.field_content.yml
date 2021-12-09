@@ -7,6 +7,7 @@ dependencies:
     - node.type.podcast
     - paragraphs.paragraphs_type.layout
     - paragraphs.paragraphs_type.podcast_audio
+    - paragraphs.paragraphs_type.scorm
     - paragraphs.paragraphs_type.wysiwyg_editor
   module:
     - entity_reference_revisions
@@ -27,6 +28,7 @@ settings:
     target_bundles:
       layout: layout
       podcast_audio: podcast_audio
+      scorm: scorm
       wysiwyg_editor: wysiwyg_editor
     target_bundles_drag_drop:
       external_videos:
@@ -47,6 +49,9 @@ settings:
       podcast_audio:
         enabled: true
         weight: 15
+      scorm:
+        enabled: true
+        weight: 17
       video:
         weight: 16
         enabled: false

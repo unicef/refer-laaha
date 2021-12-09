@@ -46,42 +46,44 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-{% if transcript %}
-  {{ attach_library('vss/podcast_transcript') }}
+<span> Trqanscript : {{ transcript_id}} </span>
+{% if transcript_id %}
+	{{ attach_library('vss/podcast_transcript') }}
 {% endif %}
 {% block paragraph %}
-  <div class="podcast-wrapper">
-    <div{{attributes.addClass(classes)}}>
-      {% block content %}
-        {% if content.field_audio['#items'] is not empty %}
-          <audio id="audio" class="audio" controls preload="auto">
-            <source src="{{ file_url(content.field_audio['#items'].entity.uri.value) }}">
-              {% for item in content.field_vtt_entries %}
-                {% if item['#paragraph'] %}
-                  <track label="{{item['#paragraph'].field_language.target_id}}" style="color: white" id="trk" kind="subtitles" srclang="{{item['#paragraph'].field_language.target_id}}" src="{{ file_url(item['#paragraph'].field_vtt_file.entity.uri.value) }}" default/>
-                {% endif %}
-              {% endfor %}
-            </source>
-          </audio>
-        {% endif %}
-      {% endblock %}
-    </div>
-    {% if transcript %}
-    <div class="podcast-transcript-btn">
-        <button class="show-podcast-transcript button-defult">{{ 'SHOW TRANSCRIPTION'|t }} <i class="fa fa-angle-down" aria-hidden="true"></i></button>
-        <button class="hide-podcast-transcript button-defult">{{ 'HIDE TRANSCRIPTION'|t }} <i class="fa fa-angle-up" aria-hidden="true"></i></button>
-    </div>
-    <div class="podcast-transcript-container">  
-      <div id="podcast-transcript">
-      {% for transcript_data in transcript %}
-        <div id='l{{ loop.index }}' class='btnSeek line' data-seek='{{ transcript_data.seek_time }}' data-start='{{ transcript_data.start_time }}' data-end='{{ transcript_data.end_time }}'>
-          <span>{{ transcript_data.time }}</span>
-          <span class="podcast-transcript-text">{{ transcript_data.text }}</span>
-        </div>
-      {% endfor %}
-      </div>
-    </div>
-    {% endif %}
-  </div>
-{% endblock paragraph %}
-
+	<div class="podcast-wrapper">
+		<div{{attributes.addClass(classes)}}>
+			{% block content %}
+			{% if content.field_audio['#items'] is not empty %}
+				<audio id="audio_{{ transcript_id }}" class="audio" controls preload="none">
+					<source src="{{ file_url(content.field_audio['#items'].entity.uri.value) }}">
+					{% for item in content.field_vtt_entries %}
+						{% if item['#paragraph'] %}
+							<track label="{{item['#paragraph'].field_language.target_id}}" style="color: white" id="trk" kind="subtitles" srclang="{{item['#paragraph'].field_language.target_id}}" src="{{ file_url(item['#paragraph'].field_vtt_file.entity.uri.value) }}" default/>
+						{% endif %}
+					{% endfor %}
+				</source>
+			</audio>
+		{% endif %}
+	{% endblock %}
+</div>
+{% if transcript_id %}
+	<div class="podcast-transcript-btn">
+		<button class="show-podcast-transcript button-defult" id="{{ 'show_podcast_' ~ transcript_id }}" data-id="{{ 'transcript_' ~ transcript_id }}">{{ 'SHOW TRANSCRIPTION'|t }}
+			<i class="fa fa-angle-down" aria-hidden="true"></i>
+		</button>
+		<button class="hide-podcast-transcript button-defult" id="{{ 'hide_podcast_' ~ transcript_id }}" data-id="{{ 'transcript_' ~ transcript_id }}">{{ 'HIDE TRANSCRIPTION'|t }}
+			<i class="fa fa-angle-up" aria-hidden="true"></i>
+		</button>
+	</div>
+	<div class="podcast-transcript-container" id="transcript-container_{{ transcript_id }}">
+		<div class="podcast-transcript" id="podcast-transcript_{{ transcript_id }}">
+			{% for transcript_data in transcript[transcript_id] %}
+				<div id='l_{{ transcript_id }}_{{ loop.index }}' class='btnSeek line' data-seek='{{ transcript_data.seek_time }}' data-start='{{ transcript_data.start_time }}' data-end='{{ transcript_data.end_time }}'>
+					<span>{{ transcript_data.time }}</span>
+					<span class="podcast-transcript-text">{{ transcript_data.text }}</span>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endif %}</div>{% endblock paragraph %}

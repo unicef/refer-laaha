@@ -260,9 +260,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
 
     .caret {
       margin-left: -10px;
-
       margin-top: 10px;
-
     }
 
     >div {
@@ -505,7 +503,7 @@ article {
     margin-bottom: 20px;
   }
 
-  #video {
+  .video {
     width: 100%;
     border-radius: 20px;
   }
@@ -600,7 +598,7 @@ article {
 }
 
 #block-globalstickyblock {
-  z-index: 999;
+  z-index: 99;
   position: fixed;
   top: 430px;
   right: 2%;
@@ -649,7 +647,7 @@ body {
 }
 
 .pod-video {
-  margin-top: 60px;
+  margin-top: 20px;
   margin-bottom: 40px;
 }
 
@@ -675,10 +673,11 @@ body {
   background: $base-primary-light-bgcolor;
   border: 1px solid $base-primary-bgcolor;
   border-radius: 20px;
+  margin-bottom: 20px;
 }
 
-#podcast-transcript,
-#transcript {
+.podcast-transcript,
+.transcript {
   max-height: 240px;
   overflow-y: auto;
   width: 100%;
@@ -711,9 +710,10 @@ body {
   margin-left: 30px;
 }
 
+.carousel-caption1,
 .img-caption-wrap {
   display: inline-block;
- 
+
 
   .caption {
     margin: 12px 7%;
@@ -722,6 +722,9 @@ body {
     line-height: 16px;
     display: block;
   }
+}
+.carousel-caption1{
+  display: block;
 }
 
 #readmore_article[aria-expanded="true"] {
@@ -793,8 +796,85 @@ body {
   margin-top: 40px;
   padding: 0;
 }
-.img-gallery{
-.img-caption-wrap {
-    margin-right: 10px;
+
+
+
+.shepherd-element[data-popper-reference-hidden] {
+  &:not(.shepherd-centered) {
+    opacity: 1;
   }
+}
+
+.shepherd-element {
+  width: 400px;
+  border-radius: 20px;
+
+  .shepherd-text {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 37px;
+    padding: 0 24px;
+
+    .tour-tip-body {
+      font-size: $base-font-size;
+      line-height: 24px;
+      font-weight: 500;
+      margin-top: 8px;
+      padding: 0 12px;
+      min-height: 50px;
+    }
+  }
+
+  .play {
+    cursor: pointer;
+    margin-right: 6px;
+    margin-top: 11px;
+  }
+
+  .shepherd-cancel-icon {
+    top: 29px;
+    right: 29px;
+
+    span {
+      font-family: "Font Awesome 6 Free";
+      font-weight: 500;
+      font-size: 24px;
+    }
+  }
+
+
+  .shepherd-footer {
+    border-top: 1px solid #00000033;
+    justify-content: space-between;
+    padding: 16px 0;
+    margin: 0 24px;
+
+    .skip {
+      cursor: pointer;
+      margin-top: 12px;
+      font-size: $base-font-size;
+      line-height: 24px;
+      font-weight: 400;
+    }
+
+    button {
+      text-transform: uppercase;
+
+      i {
+        margin: 0 10px;
+      }
+    }
+  }
+}
+.img-gallery{
+  .left{
+    display: none;
+  }
+.carousel-control.right,
+.carousel-control.left{
+  background: none;
+}
+img{
+  width:100%;
+}
 }

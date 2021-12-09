@@ -10,8 +10,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@cucumber/cucumber": "^8.0.0-rc.1",
     "chromedriver": "^95.0.0",
     "geckodriver": "^2.0.4",
     "nightwatch": "^1.7.11"
+  },
+  "dependencies": {
+    "cucumber-junit-convert": "^2.0.0",
+    "nightwatch-api": "^3.0.2"
   }
 }

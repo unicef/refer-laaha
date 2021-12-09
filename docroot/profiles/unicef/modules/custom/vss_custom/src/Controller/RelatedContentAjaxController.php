@@ -1,20 +1,19 @@
 <?php
 
-namespace Drupal\vss_custom\Plugin\Block;
+namespace Drupal\vss_custom\Controller;
 
-use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\node\NodeInterface;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\HtmlCommand;
 
 /**
- * Provides a 'RecommendedRelatedContentBock' block.
+ * Class RelatedContentAjaxController.
  *
- * @Block(
- *  id = "recommended_related_content_bock",
- *  admin_label = @Translation("Recommended related content bock"),
- * )
+ * Ajax calls to get related content.
  */
-class RecommendedRelatedContentBock extends BlockBase implements ContainerFactoryPluginInterface {
+class RelatedContentAjaxController extends ControllerBase {
 
   /**
    * Drupal\Core\Entity\EntityTypeManagerInterface definition.
@@ -38,46 +37,44 @@ class RecommendedRelatedContentBock extends BlockBase implements ContainerFactor
   protected $domainNegotiator;
 
   /**
-   * Drupal\Core\Language\LanguageManagerInterface.
+   * Drupal\language\ConfigurableLanguageManagerInterface definition.
    *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
+   * @var \Drupal\language\ConfigurableLanguageManagerInterface
    */
   protected $languageManager;
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    $instance = new static($configuration, $plugin_id, $plugin_definition);
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
     $instance->entityTypeManager = $container->get('entity_type.manager');
-    $instance->requestStack = $container->get('request_stack')->getCurrentRequest();
+    $instance->requestStack = $container->get('request_stack');
     $instance->domainNegotiator = $container->get('domain.negotiator');
     $instance->languageManager = $container->get('language_manager');
     return $instance;
   }
 
   /**
-   * {@inheritdoc}
+   * Getdata.
+   *
+   * @return string
+   *   Return Hello string.
    */
-  public function build() {
-    $build = [];
-    if ($this->requestStack->attributes->has('node')) {
-      $node = $this->requestStack->attributes->get('node');
-      if ($node->hasField('field_sub_category') && !empty($node->get('field_sub_category')->first())) {
-        $target_id = $node->get('field_sub_category')->target_id;
-        $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($target_id);
-        if ($term->parent->target_id) {
-          $parent = $this->entityTypeManager->getStorage('taxonomy_term')->load($term->parent->target_id);
-          if ($parent->hasField('field_tags') && !empty($parent->get('field_tags')->first())) {
-            foreach ($parent->get('field_tags')->getValue() as $value) {
-              $ids[] = $value['target_id'];
-            }
+  public function getData(NodeInterface $node) {
+    if ($node->hasField('field_sub_category') && !empty($node->get('field_sub_category')->first())) {
+      $target_id = $node->get('field_sub_category')->target_id;
+      $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($target_id);
+      if ($term->parent->target_id) {
+        $parent = $this->entityTypeManager->getStorage('taxonomy_term')->load($term->parent->target_id);
+        if ($parent->hasField('field_tags') && !empty($parent->get('field_tags')->first())) {
+          foreach ($parent->get('field_tags')->getValue() as $value) {
+            $ids[] = $value['target_id'];
           }
         }
       }
     }
     $build = [];
-    $build['#theme'] = 'recommended_related_content_block';
     if (empty($ids)) {
       return $build;
     }
@@ -93,7 +90,11 @@ class RecommendedRelatedContentBock extends BlockBase implements ContainerFactor
     if ($result) {
       $nodes = $this->entityTypeManager->getStorage('node')->loadMultiple($result);
       $data = [];
+      $langcode = $this->languageManager->getCurrentLanguage()->getId();
       foreach ($nodes as $viewNode) {
+        if ($viewNode->hasTranslation($langcode)) {
+          $viewNode = $viewNode->getTranslation($langcode);
+        }
         $data[$viewNode->id()]['title'] = $viewNode->getTitle();
         if ($viewNode->hasField('field_thumbnail_image') && !empty($viewNode->get('field_thumbnail_image')->first())) {
           $fid = $viewNode->get('field_thumbnail_image')->target_id;
@@ -103,11 +104,16 @@ class RecommendedRelatedContentBock extends BlockBase implements ContainerFactor
           }
           $data[$viewNode->id()]['alt'] = $viewNode->get('field_thumbnail_image')->alt;
         }
+        $data[$viewNode->id()]['link'] = $viewNode->toUrl()->toString();
+        $data[$viewNode->id()]['type'] = $viewNode->bundle();
         $output = $data;
       }
     }
+    $build['#theme'] = 'recommended_related_content_block';
     $build['#content'] = $output;
-    return $build;
+    $response = new AjaxResponse();
+    $response->addCommand(new HtmlCommand('#recommended-related', render($build)));
+    return $response;
   }
 
 }

@@ -502,7 +502,7 @@ article .field--name-field-tags .field-label {
   font-size: 1em; }
 
 #block-globalstickyblock {
-  z-index: 999;
+  z-index: 99;
   position: fixed;
   top: 430px;
   right: 2%;
@@ -540,7 +540,7 @@ body .absoluteclass {
   bottom: 500px; }
 
 .pod-video {
-  margin-top: 60px;
+  margin-top: 20px;
   margin-bottom: 40px; }
 
 .podcast .audio {
@@ -561,10 +561,11 @@ body .absoluteclass {
 .podcast-transcript-container {
   background: #FFCDD233;
   border: 1px solid #FFCDD2;
-  border-radius: 20px; }
+  border-radius: 20px;
+  margin-bottom: 20px; }
 
-#podcast-transcript,
-#transcript {
+.podcast-transcript,
+.transcript {
   max-height: 240px;
   overflow-y: auto;
   width: 100%;
@@ -573,8 +574,8 @@ body .absoluteclass {
   font-size: 1.42em;
   font-weight: 400;
   line-height: 32px; }
-  #podcast-transcript .line,
-  #transcript .line {
+  .podcast-transcript .line,
+  .transcript .line {
     padding: 0px 20px 20px 20px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -596,14 +597,19 @@ body .absoluteclass {
 .podcast-transcript-text {
   margin-left: 30px; }
 
+.carousel-caption1,
 .img-caption-wrap {
   display: inline-block; }
+  .carousel-caption1 .caption,
   .img-caption-wrap .caption {
     margin: 12px 7%;
     text-align: center;
     font-size: 0.85em;
     line-height: 16px;
     display: block; }
+
+.carousel-caption1 {
+  display: block; }
 
 #readmore_article[aria-expanded="true"] {
   height: auto !important; }
@@ -655,8 +661,60 @@ body .absoluteclass {
         display: -ms-flexbox;
         display: flex; }
 
-.img-gallery .img-caption-wrap {
-  margin-right: 10px; }
+.shepherd-element[data-popper-reference-hidden]:not(.shepherd-centered) {
+  opacity: 1; }
+
+.shepherd-element {
+  width: 400px;
+  border-radius: 20px; }
+  .shepherd-element .shepherd-text {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin-top: 37px;
+    padding: 0 24px; }
+    .shepherd-element .shepherd-text .tour-tip-body {
+      font-size: 1.14em;
+      line-height: 24px;
+      font-weight: 500;
+      margin-top: 8px;
+      padding: 0 12px;
+      min-height: 50px; }
+  .shepherd-element .play {
+    cursor: pointer;
+    margin-right: 6px;
+    margin-top: 11px; }
+  .shepherd-element .shepherd-cancel-icon {
+    top: 29px;
+    right: 29px; }
+    .shepherd-element .shepherd-cancel-icon span {
+      font-family: "Font Awesome 6 Free";
+      font-weight: 500;
+      font-size: 24px; }
+  .shepherd-element .shepherd-footer {
+    border-top: 1px solid #00000033;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    padding: 16px 0;
+    margin: 0 24px; }
+    .shepherd-element .shepherd-footer .skip {
+      cursor: pointer;
+      margin-top: 12px;
+      font-size: 1.14em;
+      line-height: 24px;
+      font-weight: 400; }
+    .shepherd-element .shepherd-footer button {
+      text-transform: uppercase; }
+      .shepherd-element .shepherd-footer button i {
+        margin: 0 10px; }
+
+.carousel-control.right,
+.carousel-control.left {
+  background: none; }
 
 .button-defult-exit {
   font-family: Roboto;
@@ -694,7 +752,12 @@ article p {
   line-height: 32px; }
 
 @media screen and (max-width: 767px) {
-  #podcast-transcript, #transcript {
+  body .shepherd-element {
+    width: 100%; }
+    body .shepherd-element .shepherd-text .tour-tip-body {
+      padding: 0 12px; }
+  .podcast-transcript,
+  .transcript {
     line-height: 24px;
     font-size: 1.14em; }
   .podcast-transcript-btn button,
@@ -928,6 +991,10 @@ article p {
     .region-header #block-navigationheadermenu > ul li > div > div {
       padding-right: 8px; } }
 
+html[dir="rtl"] .shepherd-element .shepherd-footer button i {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg); }
+
 html[dir="rtl"] .breadcrumb li:first-child a::before {
   float: right;
   margin-right: 0px;
@@ -936,6 +1003,10 @@ html[dir="rtl"] .breadcrumb li:first-child a::before {
 html[dir="rtl"] .breadcrumb img {
   margin-right: 0;
   margin-left: 8px; }
+
+html[dir="rtl"] body .shepherd-element .shepherd-cancel-icon {
+  right: inherit;
+  left: 29px; }
 
 html[dir="rtl"] .transcript-text,
 html[dir="rtl"] .podcast-transcript-text {
@@ -999,9 +1070,6 @@ html[dir="rtl"] .region-header #block-iraqnavigationheadermenu > ul li > div > d
 
 html[dir="rtl"] .region-header #block-iraqnavigationheadermenu .discoverdd {
   right: 24px; }
-
-html[dir="rtl"] .region-header #block-iraqnavigationheadermenu #discover1 .caret {
-  /* margin-right: 10px;*/ }
 
 html[dir="rtl"] .region-header #block-settingsmenu .search-box {
   margin-left: 30px; }
