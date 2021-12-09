@@ -10,6 +10,7 @@ dependencies:
     - node.type.article
     - node.type.page
     - node.type.podcast
+    - node.type.scorm
     - node.type.video
   module:
     - content_moderation
@@ -94,5 +95,6 @@ type_settings:
       - article
       - page
       - podcast
+      - scorm
       - video
   default_moderation_state: draft

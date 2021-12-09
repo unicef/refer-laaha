@@ -211,6 +211,20 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
       '#markup' => Link::fromTextAndUrl(t('Forgot Password?'), $url)->toString(),
     ];
   }
+  if ($form_id == 'user_register_form' || $form_id == 'user_form') {
+    $form['account']['mail']['#required'] = TRUE;
+    $form['#validate'][] = 'validate_password';
+  }
+}
+
+/**
+ * Validate Password.
+ */
+function validate_password(&$form, &$form_state) {
+  $password = $form_state->getValue('pass');
+  if (!empty($password) && (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $password) || strlen($password) < 8)) {
+    $form_state->setErrorByName('pass', t('Password must be of minimum 8 characters and should be alpha numeric'));
+  }
 }
 
 /**
