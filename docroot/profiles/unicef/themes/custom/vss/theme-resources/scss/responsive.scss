@@ -9,7 +9,34 @@
       }
     }
   }
+#block-recommendedrelatedcontentblock{
+  padding: 5px 0;
+  border-top: 2px solid #00000066;
+  .recomended-header{
+    font-size: $header-logo-font;
+    line-height: 28px;
+    img{
+      width: 24px;
+    }
+    span{
+      padding-left: 8px;
+    }
+  }
+  .recomended-wrapper{
+  .recomended-item{
+    padding-bottom: 15px;
+    span{
+      margin-top: 12px;
+      a{
+        font-size: $base-font-size;
+        line-height:20px ;
+        font-weight: 400;
+      }
+    }
 
+  }
+}
+}
   .podcast-transcript,
   .transcript {
     line-height: 24px;

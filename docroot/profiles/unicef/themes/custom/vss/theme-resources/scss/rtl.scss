@@ -1,4 +1,14 @@
 html[dir="rtl"] {
+  #block-recommendedrelatedcontentblock{
+    .recomended-wrapper{
+      .recomended-item{
+        &:after{
+          left:inherit;
+          right: 27px;
+        }
+      }
+    }
+  }
   .shepherd-element {
   .shepherd-footer {
     button {
@@ -233,6 +243,14 @@ html[dir="rtl"] {
 @media screen and (max-width:767px) {
 
   html[dir="rtl"] {
+    #block-recommendedrelatedcontentblock {
+      .recomended-header {
+        span{
+            padding-right: 8px;
+            padding-left: 0;
+        }
+      }
+    }
     .region-header {
       #block-settingsmenu {
         .search-box {
@@ -311,6 +329,13 @@ html[dir="rtl"] {
 
 @media screen and (min-width:768px) {
   html[dir="rtl"] {
+    #block-recommendedrelatedcontentblock {
+      .recomended-header {
+        span{
+            padding-right: 28px;
+        }
+      }
+    }
     #block-globalstickyblock {
       left: 2%;
       right: inherit;
