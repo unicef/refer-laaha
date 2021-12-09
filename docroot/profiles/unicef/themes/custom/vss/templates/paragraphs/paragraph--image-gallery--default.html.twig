@@ -52,13 +52,13 @@
 				{% block content %}
 					{% if gallery is not empty %}
 						<div class="img-gallery">
-							<div id="carousel{{paragraph.id()}}" class="carousel slide" data-ride="carousel">
+							<div id="carousel{{paragraph.id()}}" class="carousel slide" data-ride="carousel" data-wrap="false" data-interval="false">
 								<div class="carousel-inner" role="listbox">
 									{% set itemcount = 0 %}
 									{% for item in gallery %}
 										{% set itemcount = itemcount + 1 %}
 										<div class="item  {% if itemcount == 1 %}active{% endif %}" id="slide{{ itemcount }}">
-											<img style="width:100%" src="{{ file_url(item.uri) }}" class="img-responsive" alt="{{ item.alt }}"/>
+											<img  src="{{ file_url(item.uri) }}" class="img-responsive" alt="{{ item.alt }}"/>
 											<div class="carousel-caption1">
 												<span class="caption">{{ item.caption }}</span>
 											</div>

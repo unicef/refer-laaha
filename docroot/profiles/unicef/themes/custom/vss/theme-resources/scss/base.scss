@@ -260,9 +260,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
 
     .caret {
       margin-left: -10px;
-
       margin-top: 10px;
-
     }
 
     >div {
@@ -868,7 +866,15 @@ body {
     }
   }
 }
+.img-gallery{
+  .left{
+    display: none;
+  }
 .carousel-control.right,
 .carousel-control.left{
   background: none;
+}
+img{
+  width:100%;
+}
 }
