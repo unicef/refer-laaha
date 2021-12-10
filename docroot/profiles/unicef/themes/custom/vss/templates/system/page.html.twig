@@ -106,7 +106,8 @@
 </div>
 {# Main #}
 {% block main %}
-  <div role="main" class="main-container  container  js-quickedit-main-content">
+<div class="wrapper">
+  <div role="main" class="main-container  container js-quickedit-main-content">
     <div class="row">
 
     
@@ -150,6 +151,11 @@
           <a id="main-content"></a>
           {{ page.content }}
         {% endblock %}
+        {% if page.content_bottom %}
+          {% block content_bottom %}
+            {{ page.content_bottom }}
+          {% endblock %}
+        {% endif %}
       </section>
 
       {# Sidebar Second #}
@@ -162,6 +168,7 @@
       {% endif %}
     </div>
   </div>
+</div>  
 {% endblock %}
 {% if page.global_sticky %}
   {% block global_sticky %}

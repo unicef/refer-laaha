@@ -12,8 +12,9 @@
 {% if content is not empty %}
 <div class="hero_banner">
   {% if category.cat_name is not empty %}
-   <div><img src ="/{{category.cat_icon}}" alt="" /></div>
-   <div>{{ category.cat_name }}</div>
+   <h2 class="banner"><span><img src ="/{{category.cat_icon}}" alt="" /></span>
+   <span>{{ category.cat_name }}</span>
+   </h2>
   {% endif %}
 {% for key,value in content %}
     {% if lang_code != 'en' %}
