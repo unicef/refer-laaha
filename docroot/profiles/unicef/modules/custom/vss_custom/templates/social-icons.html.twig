@@ -1,19 +1,19 @@
 <div class="icons-warp">
-{% if content.social_insta is not empty and content.social_link_insta is not empty%}
+{% if content.social_insta != 0 and content.social_link_insta is not empty%}
 <a class="insta" href="{{ content.social_link_insta }}">
 		<i class="fab fa-instagram">&nbsp;</i>
-	</a>
+</a>
 {% endif %}
 
-{% if content.social_twitter is not empty and content.social_link_twitter is not empty%}
+{% if content.social_twitter != 0 and content.social_link_twitter is not empty%}
 <a class="twitter" href="{{ content.social_link_twitter }}">
 		<i class="fab fa-twitter">&nbsp;</i>
-	</a>
+</a>
 {% endif %}
 
-{% if content.social_youtube is not empty and content.social_link_youtube is not empty%}
+{% if content.social_youtube != 0 and content.social_link_youtube is not empty%}
 <a class="YouTube" href="{{ content.social_link_youtube }}">
 		<i class="fab fa-youtube">&nbsp;</i>
-	</a>
+</a>
 {% endif %}
 </div>

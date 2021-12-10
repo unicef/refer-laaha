@@ -180,7 +180,7 @@ this.vss.youtube = function() {
 
 				captionText = captions[i].textContent.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 				var timestampId = getTimeIdFromTimestampIndex(i);
-				srt_output += "<div class='btnSeek' data-seek='" + start + "' id='" + timestampId + "'><span>" + timeInMMSS + "</span> " + captionText + "</div><br/> ";
+				srt_output += "<div class='btnSeek' data-seek='" + start + "' id='" + timestampId + "'><span>" + timeInMMSS + "</span> " + captionText + "</div>";
 			};
 
 			jQuery("#videoTranscript" + videoId).append(srt_output);

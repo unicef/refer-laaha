@@ -1,0 +1,20 @@
+
+<h3 class="recomended-header text-center"> <img src ="/{{ base_path ~ directory }}/images/aanya.png" alt="aanya"  /> <span>{{ 'Anya recommends these next...'|t }}</span></h3>
+<div class="recomended-wrapper  row">
+{% for item in content %}
+
+<div class="recomended-item col-sm-4 {{ item.type }}">
+ {% if item.uri %}
+   <a href="{{ item.link }}"> <img class="recomended-images" src="{{ file_url(item.uri) }}" alt="" />
+   {% if item.type == 'video' %}
+     <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
+  {% endif %} 
+  </a>
+  {% endif %}
+  {% if item.title %}
+    <span class="r-title"><a href="{{ item.link }}"> {{ item.title }}</a></span>
+  {% endif %}
+
+</div>
+{% endfor %}
+</div>

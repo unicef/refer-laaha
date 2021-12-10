@@ -7,9 +7,13 @@ dependencies:
     - field.field.node.podcast.field_content
     - field.field.node.podcast.field_domain_access
     - field.field.node.podcast.field_domain_all_affiliates
+    - field.field.node.podcast.field_sub_category
     - field.field.node.podcast.field_tags
+    - field.field.node.podcast.field_thumbnail_image
+    - image.style.thumbnail
     - node.type.podcast
   module:
+    - image
     - layout_paragraphs
     - path
 id: node.podcast.default
@@ -45,6 +49,12 @@ content:
     weight: 9
     third_party_settings: {  }
     region: content
+  field_sub_category:
+    weight: 28
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_tags:
     weight: 11
     settings:
@@ -54,6 +64,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete
+    region: content
+  field_thumbnail_image:
+    weight: 27
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
     region: content
   langcode:
     type: language_select

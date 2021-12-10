@@ -1,4 +1,55 @@
 html[dir="rtl"] {
+  #block-recommendedrelatedcontentblock{
+    .recomended-wrapper{
+      .recomended-item{
+        &:after{
+          left:inherit;
+          right: 27px;
+        }
+      }
+    }
+  }
+  .shepherd-element {
+  .shepherd-footer {
+    button {
+      i{
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+  .breadcrumb {
+    li:first-child {
+      a::before {
+        float: right;
+        margin-right: 0px;
+        margin-left: 8px;
+      }
+    }
+
+    img {
+      margin-right: 0;
+      margin-left: 8px;
+    }
+  }
+
+  body {
+    .shepherd-element {
+
+      .shepherd-cancel-icon {
+
+        right: inherit;
+        left: 29px;
+      }
+    }
+  }
+
+  .transcript-text,
+  .podcast-transcript-text {
+    margin-left: 0px;
+    margin-right: 30px;
+  }
+
   .btn-trans {
     .caret {
       margin-right: 2px;
@@ -122,11 +173,7 @@ html[dir="rtl"] {
 
 
 
-      #discover1 {
-        .caret {
-          /* margin-right: 10px;*/
-        }
-      }
+
     }
 
     #block-settingsmenu {
@@ -152,7 +199,18 @@ html[dir="rtl"] {
 
       .text-resize-block {
         float: left;
-        margin-left: 16px;
+        margin-left: 21px;
+
+        a#font_resize-plus,
+        a#font_resize-minus {
+
+          float: right;
+
+        }
+
+        a#font_resize-plus {
+          margin-right: 20px;
+        }
       }
 
       .dropdown-menu {
@@ -185,10 +243,36 @@ html[dir="rtl"] {
 @media screen and (max-width:767px) {
 
   html[dir="rtl"] {
+    #block-recommendedrelatedcontentblock {
+      .recomended-header {
+        span{
+            padding-right: 8px;
+            padding-left: 0;
+        }
+      }
+    }
+    .region-header {
+      #block-settingsmenu {
+        .search-box {
+          margin-left: 15px;
+        }
+      }
+
+      .navbar-brand {
+        font-size: 1.32em;
+      }
+
+    }
+
     .telephone_in_mobile {
       img {
         margin-left: 16px;
       }
+    }
+
+    #block-settingsmenu {
+      margin-left: 0;
+      margin-right: auto;
     }
 
     .region-navigation {
@@ -245,6 +329,18 @@ html[dir="rtl"] {
 
 @media screen and (min-width:768px) {
   html[dir="rtl"] {
+    #block-recommendedrelatedcontentblock {
+      .recomended-header {
+        span{
+            padding-right: 28px;
+        }
+      }
+    }
+    #block-globalstickyblock {
+      left: 2%;
+      right: inherit;
+    }
+
     #block-socialiconsfooterblock {
       .icons-warp {
         float: left;
@@ -279,32 +375,34 @@ html[dir="rtl"] {
   }
 }
 
-html[lang="ku"]{
+html[lang="ku"] {
   .region-header {
-    #block-settingsmenu{
-      .dropdown-menu{
-         li{
-          .form-type-checkbox-2{
+    #block-settingsmenu {
+      .dropdown-menu {
+        li {
+          .form-type-checkbox-2 {
             right: 25px;
           }
         }
-     }
+      }
     }
   }
 }
-html[lang="es"]{
+
+html[lang="es"] {
   .region-header {
-    #block-settingsmenu{
-      .dropdown-menu{
-         li{
-           .form-type-checkbox-1{
-             right: 16px;
-            }
-          .form-type-checkbox-2{
+    #block-settingsmenu {
+      .dropdown-menu {
+        li {
+          .form-type-checkbox-1 {
+            right: 16px;
+          }
+
+          .form-type-checkbox-2 {
             right: 28px;
           }
         }
-     }
+      }
     }
   }
 }

@@ -2,10 +2,9 @@ uuid: 3eebf5a2-70a1-4d0c-a380-707081317cb8
 langcode: en
 status: true
 dependencies:
-  config:
-    - core.entity_view_mode.node.teaser
   module:
     - node
+    - search
     - taxonomy
     - user
 _core:
@@ -224,9 +223,9 @@ display:
           default_row_class: true
           uses_fields: false
       row:
-        type: 'entity:node'
+        type: search_view
         options:
-          view_mode: teaser
+          score: false
       header:
         entity_taxonomy_term:
           id: entity_taxonomy_term
@@ -287,6 +286,7 @@ display:
           relationship: none
           view_mode: default
       display_extenders: {  }
+      enabled: false
     cache_metadata:
       contexts:
         - 'languages:language_interface'

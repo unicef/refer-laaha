@@ -55,9 +55,11 @@
         "drupal/lang_dropdown": "^2.0@beta",
         "drupal/layout_paragraphs": "^1.0",
         "drupal/menu_item_fields": "^1.5",
+        "drupal/menu_item_role_access": "^2.0",
         "drupal/menus_attribute": "^1.2",
         "drupal/metatag": "^1.16",
         "drupal/mysql56": "^1.0@beta",
+        "drupal/opigno_scorm": "^3.0",
         "drupal/paragraphs": "^1.12",
         "drupal/paragraphs_ee": "^1.8",
         "drupal/paragraphs_features": "^1.12",
@@ -68,7 +70,7 @@
         "drupal/shield": "^1.4",
         "drupal/simple_sitemap": "^3.11",
         "drupal/site_audit": "^3.0@RC",
-        "drupal/text_resize": "^1.2",
+        "drupal/tour_ui": "^1.0@beta",
         "drupal/twig_tweak": "^3.1",
         "drupal/update_helper": "^2.0",
         "drupal/video_embed_field": "^2.4",
@@ -155,8 +157,11 @@
             "drupal/domain_language_negotiation": {
                 "lang issue": "patches/active_lang.patch"
             },
-            "drupal/text_resize": {
-                "zoom percentage fix": "patches/zoom_percentage.patch"
+            "drupal/paragraphs": {
+                "Fix for translation handler": "https://www.drupal.org/files/issues/2021-01-22/paragraph-entity-type-did-not-specify-translation-halder-3031598-45.patch"
+            },
+            "drupal/tour_ui": {
+                "tour class selector issue": "https://www.drupal.org/files/issues/2021-05-28/tour_ui-3214357-7.patch"
             }
         }
     }

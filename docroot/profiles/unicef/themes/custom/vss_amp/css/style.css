@@ -213,7 +213,7 @@ header a,
 header li a.is-active,
 header .link,
 .amp-system-branding-block,
-.amp-system-branding-block a,
+.amp-system-branding-block a{
   color: #fffeff;
 }
 
@@ -451,3 +451,11 @@ main .contextual-region ul,
   color: #a51b00;
 }
 
+/*custom css*/
+.sr-only,
+.carousel .item  {
+  display:none;
+}
+.carousel .item.active{
+  display: block;
+}

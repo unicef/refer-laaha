@@ -79,6 +79,7 @@ function vss_preprocess_node(array &$variables) {
     $html = '';
     foreach ($node->get('field_assets')->referencedEntities() as $entity) {
       if ($entity->bundle() == 'wysiwyg_editor') {
+        $variables['wysiwyg'] = TRUE;
         if ($entity->hasTranslation($lang_id)) {
           $entity = $entity->getTranslation($lang_id);
         }
@@ -105,5 +106,51 @@ function vss_preprocess_node(array &$variables) {
       }
       $variables['#attached']['drupalSettings']['langId'] = $lang_id;
     }
+  }
+}
+
+/**
+ * Implements hook_preprocess_paragraph().
+ */
+function vss_preprocess_paragraph(&$variables) {
+  $paragraph = $variables['paragraph'];
+  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  if ($paragraph->hasTranslation($langcode)) {
+    $paragraph = $paragraph->getTranslation($langcode);
+  }
+  switch ($paragraph->getType()) {
+    case 'image':
+      if (!$paragraph->field_single_image->isEmpty()) {
+        $target_id = $paragraph->field_single_image->target_id;
+        $media = \Drupal::entityTypeManager()->getStorage('media')->load($target_id);
+        if ($media->hasTranslation($langcode)) {
+          $media = $media->getTranslation($langcode);
+        }
+        if (!$media->field_caption->isEmpty()) {
+          $variables['caption'] = $media->field_caption->value;
+        }
+      }
+      break;
+
+    case 'image_gallery':
+      if (!$paragraph->field_image->isEmpty()) {
+        foreach ($paragraph->field_image as $targetId) {
+          $media = \Drupal::entityTypeManager()->getStorage('media')->load($targetId->target_id);
+          if ($media->hasTranslation($langcode)) {
+            $media = $media->getTranslation($langcode);
+          }
+          $target_id = $media->field_media_image->target_id;
+          $file = \Drupal::entityTypeManager()->getStorage('file')->load($target_id);
+          if ($file->hasTranslation($langcode)) {
+            $file = $file->getTranslation($langcode);
+          }
+          $variables['gallery'][$target_id]['alt'] = $media->field_media_image->alt;
+          $variables['gallery'][$target_id]['uri'] = $file->uri->value;
+          if (!$media->field_caption->isEmpty()) {
+            $variables['gallery'][$target_id]['caption'] = $media->field_caption->value;
+          }
+        }
+      }
+      break;
   }
 }

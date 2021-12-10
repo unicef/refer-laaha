@@ -7,8 +7,6 @@ display:
           submit_button: Aplicar
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       pager:
         options:
           expose:
@@ -17,10 +15,17 @@ display:
             offset_label: Desplazamiento
       fields:
         info:
-          separator: ', '
+          label: 'Block description'
         type:
-          separator: ', '
+          label: 'Block type'
         operations:
           label: Operaciones
+      filters:
+        info:
+          expose:
+            label: 'Block description'
+        type:
+          expose:
+            label: 'Block type'
   page_1:
     display_title: Página

@@ -7,7 +7,9 @@ dependencies:
     - field.field.node.podcast.field_content
     - field.field.node.podcast.field_domain_access
     - field.field.node.podcast.field_domain_all_affiliates
+    - field.field.node.podcast.field_sub_category
     - field.field.node.podcast.field_tags
+    - field.field.node.podcast.field_thumbnail_image
     - node.type.podcast
   module:
     - layout_paragraphs
@@ -18,7 +20,7 @@ bundle: podcast
 mode: default
 content:
   field_content:
-    weight: 1
+    weight: 0
     label: hidden
     settings:
       view_mode: default
@@ -27,20 +29,18 @@ content:
     type: layout_paragraphs
     region: content
   field_tags:
-    weight: 2
+    weight: 1
     label: hidden
     settings:
       link: false
     third_party_settings: {  }
     type: entity_reference_label
     region: content
-  links:
-    weight: 0
-    region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
   body: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_sub_category: true
+  field_thumbnail_image: true
   langcode: true
+  links: true

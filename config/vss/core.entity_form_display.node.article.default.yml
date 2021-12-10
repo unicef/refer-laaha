@@ -10,10 +10,14 @@ dependencies:
     - field.field.node.article.field_domain_access
     - field.field.node.article.field_domain_all_affiliates
     - field.field.node.article.field_image
+    - field.field.node.article.field_sub_category
     - field.field.node.article.field_tags
+    - field.field.node.article.field_thumbnail_image
+    - image.style.thumbnail
     - node.type.article
   module:
     - comment
+    - image
     - layout_paragraphs
     - path
 _core:
@@ -64,6 +68,12 @@ content:
     weight: 11
     third_party_settings: {  }
     region: content
+  field_sub_category:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_tags:
     type: entity_reference_autocomplete
     weight: 2
@@ -74,6 +84,14 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_thumbnail_image:
+    weight: 15
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
   langcode:
     type: language_select
     weight: 1

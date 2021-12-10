@@ -7,6 +7,9 @@
 
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_theme().
@@ -30,6 +33,18 @@ function vss_custom_theme() {
       ],
       'render element' => 'children',
     ],
+    'recommended_related_content_block' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'render element' => 'children',
+    ],
+    'recommended_related_content_block_wrapper' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'render element' => 'children',
+    ],
     'video_embed_iframe' => [
       'variables' => [
         'url' => '',
@@ -44,6 +59,22 @@ function vss_custom_theme() {
       'variables' => [
         'content' => NULL,
         'lang_code' => '',
+      ],
+      'render element' => 'children',
+    ],
+    'hero_banner_block' => [
+      'variables' => [
+        'content' => [],
+        'lang_code' => '',
+        'category' => [],
+      ],
+      'render element' => 'children',
+    ],
+    'featured_stories_block' => [
+      'variables' => [
+        'content' => [],
+        'lang_code' => '',
+        'feature_count' => '',
       ],
       'render element' => 'children',
     ],
@@ -95,7 +126,9 @@ function vss_custom_taxonomy_term_presave($term) {
       $menu_link->save();
 
       if (strpos($term->get('field_domain')->target_id, "iq")) {
-        $term->langcode->value = 'ar';
+        if (!$term->hasTranslation('ar')) {
+          $term->langcode->value = 'ar';
+        }
       }
     }
     else {
@@ -118,7 +151,9 @@ function vss_custom_taxonomy_term_presave($term) {
   }
   if ($term->get('vid')->target_id == 'categories' && $term->get('field_sub_category')->value == 1) {
     if (strpos($term->get('field_domain')->target_id, "iq")) {
-      $term->langcode->value = 'ar';
+      if (!$term->hasTranslation('ar')) {
+        $term->langcode->value = 'ar';
+      }
     }
     $term->get('parent')->target_id = $term->get('field_category_reference')->target_id;
   }
@@ -143,6 +178,7 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
   if ($form_id == 'taxonomy_term_categories_form') {
     $form['description']['widget'][0]['#required'] = 'true';
     $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories();
+    $form['#validate'][] = 'validate_category';
   }
   $language_manager = \Drupal::languageManager()->getCurrentLanguage();
   // Adding warning message.
@@ -165,6 +201,65 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
   if ($form_id == 'taxonomy_term_sub_category_form') {
     $form['relations']['#weight'] = 7;
   }
+  if ($form_id == 'block_content_words_from_experts_block_edit_form') {
+    $form['body']['widget'][0]['#maxlength'] = 500;
+  }
+  if ($form_id == 'user_login_form') {
+    $url = Url::fromRoute('user.pass');
+    $form['forgot_link'] = [
+      '#type' => 'markup',
+      '#markup' => Link::fromTextAndUrl(t('Forgot Password?'), $url)->toString(),
+    ];
+  }
+  if ($form_id == 'user_register_form' || $form_id == 'user_form') {
+    $form['account']['mail']['#required'] = TRUE;
+    $form['#validate'][] = 'validate_password';
+  }
+}
+
+/**
+ * Validate Password.
+ */
+function validate_password(&$form, &$form_state) {
+  $password = $form_state->getValue('pass');
+  if (!empty($password) && (strlen($password) < 8)) {
+    $form_state->setErrorByName('pass', t('Password must be of minimum 8 characters'));
+  }
+}
+
+/**
+ * Use node form alter.
+ */
+function vss_custom_form_node_form_alter(&$form, &$form_state) {
+  $form['field_sub_category']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_sub_categories();
+}
+
+/**
+ * Validate category.
+ */
+function validate_category(&$form, &$form_state) {
+  $subcat = $form_state->getValue('field_sub_category')['value'];
+  $subcat_thumbail = $form_state->getValue('field_sub_category_thumbnail')[0]['alt'];
+  $cat_ref = $form_state->getValue('field_category_reference');
+  $cat_color = $form_state->getValue('field_category_color')[0]['color'];
+  $icon = $form_state->getValue('field_icon')[0]['alt'];
+
+  if ($subcat) {
+    if (empty($subcat_thumbail)) {
+      $form_state->setErrorByName('field_sub_category_thumbnail', t('Sub Category Thumbnail is required'));
+    }
+    if (empty($cat_ref)) {
+      $form_state->setErrorByName('field_category_reference [0][target_id', t('Category reference field is required'));
+    }
+  }
+  else {
+    if (empty($cat_color)) {
+      $form_state->setErrorByName('field_category_color', t('Category color field is required'));
+    }
+    if (empty($icon)) {
+      $form_state->setErrorByName('field_icon', t('Icon field is required'));
+    }
+  }
 }
 
 /**
@@ -177,6 +272,77 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
 function vss_custom_video_embed_field_provider_info_alter(&$definitions) {
   // Replace the YouTube provider class with another implementation.
   $definitions['youtube']['class'] = 'Drupal\vss_custom\Plugin\video_embed_field\Provider\CustomYouTubeProvider';
+}
+
+/**
+ * Implements hook_preprocess_paragraph().
+ */
+function vss_custom_preprocess_paragraph(&$variables) {
+  $paragraph = $variables['paragraph'];
+  if ($paragraph->bundle() == 'video' || $paragraph->bundle() == 'podcast_audio') {
+    if ($paragraph->hasField('field_show_transcription')) {
+      $show_transcript = $paragraph->get('field_show_transcription')->getValue()[0]['value'];
+    }
+    $vtt_paragraphs = $paragraph->get('field_vtt_entries')->getValue();
+    foreach ($vtt_paragraphs as $vtt_p) {
+      if ($vtt_p['target_id']) {
+        $vtt_entry = Paragraph::load($vtt_p['target_id']);
+        $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        $vtt = $vtt_entry->hasTranslation($current_language) ? $vtt_entry->getTranslation($current_language) : $vtt_entry;
+        $vtt_file = $vtt->get('field_vtt_file')->entity->getFileUri();
+        $langcode = $vtt->get('field_language')->getValue()[0]['target_id'];
+        if ($current_language == $langcode && $show_transcript) {
+          $transcript = vss_custom_parse_vtt($vtt_file);
+          $variables['transcript'][$vtt_p['target_id']] = $transcript;
+          $variables['transcript_id'] = $vtt_p['target_id'];
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Function for parsing the VTT file.
+ */
+function vss_custom_parse_vtt($vtt_file) {
+  $file = $vtt_file;
+  $file_as_array = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+  $i = 0;
+  $transcript = [];
+  foreach ($file_as_array as $f) {
+    if (str_contains($f, 'WEBVTT')) {
+      continue;
+    }
+    $start_time = FALSE;
+    if (preg_match("/^(\d{2}:\d{2}:\d{2}[\d\.]+) --> \d{2}:\d{2}:\d{2}[\d\.]+$/", $f, $match)) {
+      $start_time = explode('-->', $f);
+
+      $start_time_split = explode(':', $start_time[0]);
+      $total_start_seconds = (float) $start_time_split[0] * 60 * 60 + (float) $start_time_split[1] * 60 + (float) $start_time_split[2];
+      $end_time_split = explode(':', $start_time[1]);
+      $total_end_seconds = $end_time_split[0] * 60 * 60 + $end_time_split[1] * 60 + $end_time_split[2];
+      $duration = $total_end_seconds - $total_start_seconds;
+
+      $start = sprintf('%02d:%02d:%02d', ($total_start_seconds / 3600), ($total_start_seconds / 60 % 60), $total_start_seconds % 60);
+
+      $transcript_time = $start;
+      $transcript[$i]['seek_time'] = $total_start_seconds;
+      $transcript[$i]['start_time'] = $total_start_seconds;
+      $transcript[$i]['end_time'] = $total_end_seconds;
+      $transcript[$i]['time'] = $transcript_time;
+      $transcript[$i]['duration'] = $duration;
+    }
+    if (!$start_time && (!strpos($f, 'WEBVTT')) && !is_numeric($f)) {
+      if (!isset($transcript[$i]['seek_time'])) {
+        $transcript[$i - 1]['text'] .= ' ' . $f . ' ';
+      }
+      else {
+        $transcript[$i]['text'] = ' ' . $f . ' ';
+        $i++;
+      }
+    }
+  }
+  return $transcript;
 }
 
 /**
@@ -203,4 +369,60 @@ function vss_custom_preprocess_block(&$variables) {
       $variables['label'] = $variables['content']['#block_content']->label();
     }
   }
+  if ($variables['elements']['#id'] == 'wordsfromexperts') {
+    $variables['elements']['#cache']['max-age'] = 0;
+    $variables['#cache']['max-age'] = 0;
+    if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') {
+      $term_id = \Drupal::routeMatch()->getRawParameter('taxonomy_term');
+    }
+    $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($term_id);
+    $sub_category = $term->get('field_sub_category')->value;
+    if ($sub_category == 1) {
+      unset($variables['label']);
+      unset($variables['content']);
+    }
+  }
+}
+
+/**
+ * Implements hook_pquery_sort_by_random_alter().
+ */
+function vss_custom_query_sort_by_random_alter($query) {
+  $query->orderRandom();
+}
+
+/**
+ * Get all categories.
+ */
+function get_all_sub_categories() {
+  $query = \Drupal::database()->select('taxonomy_term_field_data', 't');
+  $query->join('taxonomy_term__field_domain', 'fd', 'fd.entity_id = t.tid');
+  $query->leftjoin('taxonomy_term__field_sub_category', 'sc', 'sc.entity_id = t.tid');
+  $query->condition('fd.bundle', 'categories');
+  $query->condition('sc.field_sub_category_value', 1, '=');
+  $query->fields('t', ['tid']);
+  $query->fields('t', ['name']);
+  $terms = $query->execute()->fetchAllKeyed(0, 1);
+  return $terms;
+}
+
+/**
+ * Get exit website preprocess.
+ */
+function vss_custom_preprocess_exit_website(&$variables) {
+  $lang_id = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  if ($lang_id == 'ar') {
+    $lang_id = 'ar-SA';
+  }
+  if ($lang_id == 'es') {
+    $lang_id = 'es-ES';
+    $voiceId = 30;
+    $variables['#attached']['drupalSettings']['voiceId'] = $voiceId;
+  }
+  if ($lang_id == 'en') {
+    $lang_id = 'en-US';
+    $voiceId = 41;
+    $variables['#attached']['drupalSettings']['voiceId'] = $voiceId;
+  }
+  $variables['#attached']['drupalSettings']['langId'] = $lang_id;
 }

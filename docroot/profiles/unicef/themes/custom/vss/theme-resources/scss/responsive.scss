@@ -1,7 +1,98 @@
 @media screen and (max-width: 767px) {
+  body {
+    .shepherd-element {
+      width:100%;
+      .shepherd-text {
+        .tour-tip-body {
+          padding: 0 12px;
+        }
+      }
+    }
+  }
+#block-recommendedrelatedcontentblock{
+  padding: 5px 0;
+  border-top: 2px solid #00000066;
+  .recomended-header{
+    font-size: $header-logo-font;
+    line-height: 28px;
+    img{
+      width: 24px;
+    }
+    span{
+      padding-left: 8px;
+    }
+  }
+  .recomended-wrapper{
+  .recomended-item{
+    padding-bottom: 15px;
+    span{
+      margin-top: 12px;
+      a{
+        font-size: $base-font-size;
+        line-height:20px ;
+        font-weight: 400;
+      }
+    }
+
+  }
+}
+}
+  .podcast-transcript,
+  .transcript {
+    line-height: 24px;
+    font-size: $base-font-size;
+  }
+
+  .podcast-transcript-btn,
+  .transcript-btn {
+    button {
+      margin: 4px 0 24px auto;
+    }
+  }
+
+  article {
+    .field--name-field-tags {
+      .field--items {
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  .breadcrumb {
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .pod-video {
+    margin: 24px 0;
+  }
+
+  h2 {
+    font-size: $header-logo-font;
+    line-height: 24px;
+  }
+
+  p {
+    line-height: 20px;
+    font-size: $base-footer-font-size;
+  }
+
   .header-wrap {
     padding-left: 5px;
 
+  }
+
+  .region-header {
+    #block-settingsmenu {
+      .search-box {
+        margin-right: 15px;
+      }
+
+    }
+
+    .navbar-brand {
+      padding: 15px 10px;
+    }
   }
 
   #nav_wrap {
@@ -10,12 +101,15 @@
       font-size: 18px;
       margin-left: 8px;
       margin-top: 15px;
-margin-bottom: 0  ;
+      margin-bottom: 0;
     }
-.logo-wrapper{
-  clear: both;
-  margin-left: 10px;
-}
+
+    .logo-wrapper {
+      clear: both;
+      margin-left: 10px;
+
+    }
+
     position: absolute;
     padding-right: 0;
     padding-bottom: 70px;
@@ -124,15 +218,16 @@ margin-bottom: 0  ;
   }
 
   .telephone-header {
-   /* display: none;*/
+    /* display: none;*/
   }
-.telephone_in_mobile{
-  img{
-  margin-right: 13px;
-  width: 20px;
-  height: 20px;
-  } 
-}
+
+  .telephone_in_mobile {
+    img {
+      margin-right: 13px;
+      width: 20px;
+      height: 20px;
+    }
+  }
 
 
   .hamburger {
@@ -147,20 +242,70 @@ margin-bottom: 0  ;
   #block-settingsmenu {
     margin-left: auto;
   }
-  
+
   .article-hero-img {
     margin-top: 24px;
-    h1{
-      font-size: 20px;
+
+  }
+
+  #block-globalstickyblock {
+    top: inherit;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    height: 72px;
+    padding-top: 15px;
+
+    .global_sticky {
+      flex-direction: row;
+      justify-content: space-around;
+
+      .gethelp {
+        margin: 0;
+        order: -1;
+      }
+
+      .chatbot {
+        img {
+          margin-top: 2px;
+        }
+
+        span {
+          margin-top: 8px;
+        }
+      }
     }
+  }
+
+  .footer-wrapper {
+    margin-bottom: 60px;
+
   }
 }
 
 @media screen and (min-width:768px) {
+  #block-globalstickyblock {
+    .global_sticky {
+      a {
+        span {
+          width: 54px;
+        }
+      }
+    }
+  }
+
   .nav {
     .telephone_in_mobile {
       display: none;
     }
+  }
+
+  .pod-video {
+    max-width: 835px;
   }
 
   #block-socialiconsfooterblock {
@@ -209,18 +354,18 @@ margin-bottom: 0  ;
         margin: 0;
 
         li {
-          padding: 9px 20px;   
+          padding: 9px 20px;
 
           &.is-active {
             a::before {
-              width: 200%;
+              width: 150%;
             }
           }
 
           &:hover {
 
             a::before {
-              width: 200%;
+              width: 150%;
             }
 
 
@@ -235,7 +380,7 @@ margin-bottom: 0  ;
               content: " ";
               position: absolute;
               top: 36px;
-              left: -15px;
+              left: -10px;
               width: 0;
               border-bottom: 2px solid $footer-bg-color;
             }
@@ -255,22 +400,25 @@ margin-bottom: 0  ;
 
   }
 }
+
 /*ipad portarait*/
 
-@media screen and (min-width:768px) and (max-width:991px){
+@media screen and (min-width:768px) and (max-width:991px) {
   .region-header {
+
     #block-iraqnavigationheadermenu,
-  #block-navigationheadermenu {
-    >ul {
-      li{
-        margin-right: 7px;
-        >div{
-          >div{
-            padding-right: 8px;
+    #block-navigationheadermenu {
+      >ul {
+        li {
+          margin-right: 7px;
+
+          >div {
+            >div {
+              padding-right: 8px;
+            }
           }
         }
       }
     }
-  }
   }
 }

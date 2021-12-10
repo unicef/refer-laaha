@@ -1,0 +1,28 @@
+uuid: f0a4917a-845d-4108-aaee-7c3bb466b2da
+langcode: en
+status: true
+dependencies:
+  module:
+    - ctools
+    - vss_custom
+  theme:
+    - vss
+id: featuredstoriesblock
+theme: vss
+region: content
+weight: -5
+provider: null
+plugin: featured_stories_block
+settings:
+  id: featured_stories_block
+  label: 'Featured Stories block'
+  provider: vss_custom
+  label_display: '0'
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    bundles:
+      categories: categories
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'

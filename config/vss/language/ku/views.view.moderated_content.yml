@@ -1,0 +1,26 @@
+display:
+  default:
+    display_title: Master
+    display_options:
+      exposed_form:
+        options:
+          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
+      fields:
+        title:
+          label: ناونیشان
+        type:
+          label: 'جۆری ناوەڕۆک'
+        name:
+          label: نووسەر
+        operations:
+          label: کاره‌کان
+      filters:
+        title:
+          expose:
+            label: ناونیشان
+        type:
+          expose:
+            label: 'جۆری ناوەڕۆک'
+        langcode:
+          expose:
+            label: زمان

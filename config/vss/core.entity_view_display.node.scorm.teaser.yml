@@ -1,0 +1,31 @@
+uuid: 5e98e338-3a81-4364-aa46-6dfd3d27e0f1
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.scorm.field_content
+    - field.field.node.scorm.field_domain_access
+    - field.field.node.scorm.field_domain_all_affiliates
+    - field.field.node.scorm.field_sub_category
+    - field.field.node.scorm.field_thumbnail_image
+    - node.type.scorm
+  module:
+    - user
+id: node.scorm.teaser
+targetEntityType: node
+bundle: scorm
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_content: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_sub_category: true
+  field_thumbnail_image: true
+  langcode: true

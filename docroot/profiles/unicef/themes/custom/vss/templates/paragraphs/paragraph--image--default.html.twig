@@ -51,9 +51,14 @@
     {% block content %}
       {% if content.field_single_image['#items'] is not empty %}
         {% for item in content.field_single_image['#items'] %}
-          <img src="{{ file_url(item.entity.field_media_image.entity.uri.value) }}" title="{{item.entity.field_caption.0.value}}" class="img-responsive" />
+        <div class="img-caption-wrap">
+          <img src="{{ file_url(item.entity.field_media_image.entity.uri.value) }}" alt="{{ item.entity.field_media_image.alt }}" class="img-responsive" />
+          <span class="caption">{{ caption }}</span>
+        </div>
         {% endfor %}
       {% endif %}
     {% endblock %}
   </div>
 {% endblock paragraph %}
+
+

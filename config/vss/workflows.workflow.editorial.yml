@@ -1,0 +1,100 @@
+uuid: 3fee4df3-2f68-4056-956c-c1a56d723810
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.basic
+    - block_content.type.footer_contact_information
+    - block_content.type.words_from_experts_block
+    - media.type.image
+    - node.type.article
+    - node.type.page
+    - node.type.podcast
+    - node.type.scorm
+    - node.type.video
+  module:
+    - content_moderation
+id: editorial
+label: Editorial
+type: content_moderation
+type_settings:
+  states:
+    archived:
+      label: Archived
+      weight: 5
+      published: false
+      default_revision: true
+    draft:
+      label: Draft
+      published: false
+      default_revision: false
+      weight: -5
+    published:
+      label: Published
+      published: true
+      default_revision: true
+      weight: 0
+    un_publish:
+      published: false
+      default_revision: false
+      label: Un-Publish
+      weight: 6
+  transitions:
+    archive:
+      label: Archive
+      from:
+        - published
+      to: archived
+      weight: -2
+    archived_draft:
+      label: 'Restore to Draft'
+      from:
+        - archived
+      to: draft
+      weight: 1
+    archived_published:
+      label: Restore
+      from:
+        - archived
+      to: published
+      weight: 2
+    create_new_draft:
+      label: 'Create New Draft'
+      to: draft
+      weight: -4
+      from:
+        - draft
+        - published
+    publish:
+      label: Publish
+      to: published
+      weight: -3
+      from:
+        - draft
+        - published
+    publish_to_un_publish:
+      label: 'Publish to Un-Publish'
+      from:
+        - published
+      to: un_publish
+      weight: -1
+    un_publish_to_draft:
+      label: 'Un-Publish to Draft'
+      from:
+        - un_publish
+      to: draft
+      weight: 0
+  entity_types:
+    block_content:
+      - basic
+      - footer_contact_information
+      - words_from_experts_block
+    media:
+      - image
+    node:
+      - article
+      - page
+      - podcast
+      - scorm
+      - video
+  default_moderation_state: draft

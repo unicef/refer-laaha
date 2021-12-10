@@ -6,14 +6,7 @@ dependencies:
     - field.storage.taxonomy_term.field_sub_category_thumbnail
     - taxonomy.vocabulary.categories
   module:
-    - content_translation
     - image
-third_party_settings:
-  content_translation:
-    translation_sync:
-      alt: alt
-      title: title
-      file: '0'
 id: taxonomy_term.categories.field_sub_category_thumbnail
 field_name: field_sub_category_thumbnail
 entity_type: taxonomy_term
@@ -21,17 +14,17 @@ bundle: categories
 label: 'Sub Category Thumbnail'
 description: ''
 required: true
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
   file_directory: '[date:custom:Y]-[date:custom:m]'
   file_extensions: 'png gif jpg jpeg'
-  max_filesize: ''
-  max_resolution: ''
+  max_filesize: '100 KB'
+  max_resolution: 200x200
   min_resolution: ''
   alt_field: true
-  alt_field_required: true
+  alt_field_required: false
   title_field: false
   title_field_required: false
   default_image:

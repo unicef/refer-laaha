@@ -9,6 +9,7 @@ dependencies:
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.layout
+    - paragraphs.paragraphs_type.scorm
     - paragraphs.paragraphs_type.video
     - paragraphs.paragraphs_type.wysiwyg_editor
   module:
@@ -34,6 +35,7 @@ settings:
       external_videos: external_videos
       layout: layout
       wysiwyg_editor: wysiwyg_editor
+      scorm: scorm
     target_bundles_drag_drop:
       external_videos:
         enabled: true
@@ -50,6 +52,12 @@ settings:
       layout:
         enabled: true
         weight: 13
+      podcast_audio:
+        weight: 16
+        enabled: false
+      scorm:
+        enabled: true
+        weight: 17
       video:
         enabled: true
         weight: 6

@@ -1,0 +1,6 @@
+parameters:
+  erpw_content.link_domain: 'http://drupal.org'
+services:
+  erpw_content.importer:
+    class: Drupal\erpw_content\Importer
+    arguments: ['@serializer', '@entity_type.manager', '@hal.link_manager', '@event_dispatcher', '@default_content.content_file_storage', '%default_content.link_domain%', '@account_switcher', '@default_content.content_entity_normalizer']

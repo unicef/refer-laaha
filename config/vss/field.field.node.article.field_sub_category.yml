@@ -1,0 +1,29 @@
+uuid: 26854c74-46cc-4a97-a0ee-2db36d4fe703
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sub_category
+    - node.type.article
+    - taxonomy.vocabulary.categories
+id: node.article.field_sub_category
+field_name: field_sub_category
+entity_type: node
+bundle: article
+label: 'Sub Category'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      categories: categories
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

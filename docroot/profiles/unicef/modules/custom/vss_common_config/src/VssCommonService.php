@@ -173,11 +173,11 @@ class VssCommonService implements VssCommonInterface {
     $data = $this->checkConfiguration($keys);
     $headerPhone = [];
     if (isset($data['vss_common_config'])) {
-      $headerPhone['social_twitter'] = trim($data['vss_common_config']['social_twitter']) ?? '';
+      $headerPhone['social_twitter'] = (int) $data['vss_common_config']['social_twitter'] ?? '';
       $headerPhone['social_link_twitter'] = trim($data['vss_common_config']['social_link_twitter']) ?? '';
-      $headerPhone['social_youtube'] = trim($data['vss_common_config']['social_youtube']) ?? '';
+      $headerPhone['social_youtube'] = (int) $data['vss_common_config']['social_youtube'] ?? '';
       $headerPhone['social_link_youtube'] = trim($data['vss_common_config']['social_link_youtube']) ?? '';
-      $headerPhone['social_insta'] = trim($data['vss_common_config']['social_insta']) ?? '';
+      $headerPhone['social_insta'] = (int) $data['vss_common_config']['social_insta'] ?? '';
       $headerPhone['social_link_insta'] = trim($data['vss_common_config']['social_link_insta']) ?? '';
     }
     return $headerPhone;
@@ -194,8 +194,8 @@ class VssCommonService implements VssCommonInterface {
     $data = $this->checkConfiguration($keys);
     $categories = [];
     if (isset($data['vss_common_config'])) {
-      $categories['get_help'] = trim($data['vss_common_config']['get_help']) ?? '';
-      $categories['homepage_hero'] = trim($data['vss_common_config']['homepage_hero']) ?? '';
+      $categories['get_help'] = !empty($data['vss_common_config']['get_help']) ? trim($data['vss_common_config']['get_help']) : '';
+      $categories['homepage_hero'] = $data['vss_common_config']['homepage_hero'] ?? '';
     }
     return $categories;
   }

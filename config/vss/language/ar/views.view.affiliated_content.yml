@@ -3,7 +3,6 @@ display:
     display_options:
       exposed_form:
         options:
-          submit_button: Filter
           reset_button_label: 'إعادة الضبط'
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
@@ -11,12 +10,6 @@ display:
       fields:
         title:
           label: العنوان
-        type:
-          separator: ', '
-        field_domain_access:
-          separator: ', '
-        field_domain_all_affiliates:
-          separator: ', '
         name:
           label: المؤلف
         status:
