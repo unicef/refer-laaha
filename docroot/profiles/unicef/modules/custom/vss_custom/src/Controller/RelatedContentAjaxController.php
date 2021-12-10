@@ -80,7 +80,7 @@ class RelatedContentAjaxController extends ControllerBase {
     }
     $query = $this->entityTypeManager->getStorage('node')->getQuery();
     $query->condition('field_tags', $ids, 'IN');
-    $query->condition('type', ['article', 'video'], 'IN');
+    $query->condition('type', ['article', 'video', 'podcast', 'scorm'], 'IN');
     $query->condition('status', 1);
     $query->range(0, 3);
     $query->condition('langcode', $this->languageManager->getCurrentLanguage()->getId());

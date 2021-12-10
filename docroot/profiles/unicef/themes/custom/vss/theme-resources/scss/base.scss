@@ -801,11 +801,7 @@ body {
 
 
 
-.shepherd-element[data-popper-reference-hidden] {
-  &:not(.shepherd-centered) {
-    opacity: 1;
-  }
-}
+
 
 .shepherd-element {
   width: 400px;
@@ -903,6 +899,12 @@ body {
       
     }
   }
+  .scrom{
+    &:after{
+      background: url('../images/scrom-icon.png') no-repeat  top left;
+      
+    }
+  }
   .recomended-item{
     position: relative;
     &:after{
@@ -916,10 +918,15 @@ body {
       margin-top: 12px;
       
     }
-    
+    .play-circle-podcast{
+      position:absolute;
+      top: 109px;
+      left: 22px;
+      width: 50px;
+    }
     .play-circle {
       position:absolute;
-      top: 22%;
+      top: 26%;
       left: calc(50% - 28px);
     }
     .recomended-images{
