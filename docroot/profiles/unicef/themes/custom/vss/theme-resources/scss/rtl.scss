@@ -2,6 +2,10 @@ html[dir="rtl"] {
   #block-recommendedrelatedcontentblock{
     .recomended-wrapper{
       .recomended-item{
+        .play-circle-podcast{
+          left: inherit;
+          right:22px;
+        } 
         &:after{
           left:inherit;
           right: 27px;

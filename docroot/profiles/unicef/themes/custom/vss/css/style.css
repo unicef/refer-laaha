@@ -662,9 +662,6 @@ body .absoluteclass {
         display: -ms-flexbox;
         display: flex; }
 
-.shepherd-element[data-popper-reference-hidden]:not(.shepherd-centered) {
-  opacity: 1; }
-
 .shepherd-element {
   width: 400px;
   border-radius: 20px; }
@@ -731,6 +728,8 @@ body .absoluteclass {
     background: url("../images/video-icon.png") no-repeat top left; }
   #block-recommendedrelatedcontentblock .recomended-wrapper .podcast:after {
     background: url("../images/podcast-icon.png") no-repeat top left; }
+  #block-recommendedrelatedcontentblock .recomended-wrapper .scrom:after {
+    background: url("../images/scrom-icon.png") no-repeat top left; }
   #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item {
     position: relative; }
     #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item:after {
@@ -742,9 +741,14 @@ body .absoluteclass {
       height: 33px;
       margin-left: 27px;
       margin-top: 12px; }
+    #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item .play-circle-podcast {
+      position: absolute;
+      top: 109px;
+      left: 22px;
+      width: 50px; }
     #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item .play-circle {
       position: absolute;
-      top: 22%;
+      top: 26%;
       left: calc(50% - 28px); }
     #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item .recomended-images {
       border-radius: 20px;
@@ -1059,6 +1063,10 @@ article p {
     .region-header #block-iraqnavigationheadermenu > ul li > div > div,
     .region-header #block-navigationheadermenu > ul li > div > div {
       padding-right: 8px; } }
+
+html[dir="rtl"] #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item .play-circle-podcast {
+  left: inherit;
+  right: 22px; }
 
 html[dir="rtl"] #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item:after {
   left: inherit;
