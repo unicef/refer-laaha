@@ -1,0 +1,101 @@
+body {
+  margin-top: 0;
+  font-family: Roboto;
+  color: #000;
+  font-size: 1.14em;
+}
+
+footer {
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.menu--bottom-nav {
+  background: #A85766;
+  border-radius: 20px 20px 0px 0px;
+}
+.menu--bottom-nav .menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 0;
+  padding: 0 50px;
+}
+.menu--bottom-nav li.menu-item a {
+  color: #ffffff;
+  display: block;
+  font-size: 8px;
+  text-align: center;
+  text-decoration: none;
+}
+.menu--bottom-nav li.menu-item a.is-active {
+  color: #ffffff;
+}
+.menu--bottom-nav li.menu-item a.is-active::after {
+  background: #ffffff;
+  content: "";
+  border-radius: 5px 5px 0 0;
+  height: 5px;
+  margin-top: 5px;
+  display: block;
+}
+.menu--bottom-nav li.menu-item a::before {
+  content: "";
+  display: block;
+  height: 23px;
+  padding-bottom: 15px;
+  width: 40px;
+}
+.menu--bottom-nav li.menu-item a.home::before {
+  background: url(../images/home.svg) no-repeat center center;
+}
+.menu--bottom-nav li.menu-item a.menu-icon::before {
+  background: url(../images/menu.svg) no-repeat center center;
+}
+.menu--bottom-nav li.menu-item a.search-icon::before {
+  background: url(../images/searchicon.svg) no-repeat center center;
+}
+
+header {
+  background: #FFE1DF;
+}
+
+.region-header {
+  background: url(../images/top_nav_image.svg) no-repeat center center;
+  height: 100%;
+  margin: 0 20px;
+  padding: 20px;
+}
+
+.menu--header-menu .menu {
+  margin: 0;
+  text-align: right;
+}
+.menu--header-menu .notification {
+  background: url(../images/notify.svg) no-repeat center center;
+  display: inline-block;
+  font-size: 0;
+  height: 19px;
+  position: relative;
+  vertical-align: top;
+  width: 15px;
+}
+.menu--header-menu .notification::after {
+  content: "26";
+  background: #4FB5EE;
+  color: #ffffff;
+  position: absolute;
+  border-radius: 50%;
+  height: 11px;
+  width: 14px;
+  right: -7px;
+  top: -2px;
+  font-size: 7px;
+  text-align: center;
+  padding-top: 3px;
+}
+/*# sourceMappingURL=style.css.map */
