@@ -81,7 +81,7 @@
 			{% for transcript_data in transcript[transcript_id] %}
 				<div id='l_{{ transcript_id }}_{{ loop.index }}' class='btnSeek line' data-seek='{{ transcript_data.seek_time }}' data-start='{{ transcript_data.start_time }}' data-end='{{ transcript_data.end_time }}'>
 					<span>{{ transcript_data.time }}</span>
-					<span class="transcript-text">{{ transcript_data.text }}</span>
+					<span class="transcript-text_{{ transcript_id }}">{{ transcript_data.text }}</span>
 				</div>
 			{% endfor %}
 		</div>
