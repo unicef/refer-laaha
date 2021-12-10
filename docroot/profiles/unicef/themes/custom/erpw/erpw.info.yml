@@ -3,6 +3,11 @@ type: theme
 description: 'Theme for eRPW'
 core_version_requirement: ^8 || ^9
 base theme: classy
+
+# Libraries (These are loaded on every page. Use https://www.drupal.org/developing/api/8/assets#twig whenever possible.)
+libraries:
+  - 'erpw/global'
+
 regions:
   header: 'Header'
   navigation: 'Navigation'

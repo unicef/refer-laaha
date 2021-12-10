@@ -1,0 +1,25 @@
+uuid: ad664df7-b284-4790-9eca-80dc2976b5ef
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.bottom-nav
+  module:
+    - system
+  theme:
+    - erpw
+id: bottomnav
+theme: erpw
+region: footer
+weight: 0
+provider: null
+plugin: 'system_menu_block:bottom-nav'
+settings:
+  id: 'system_menu_block:bottom-nav'
+  label: Bottom-nav
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }
