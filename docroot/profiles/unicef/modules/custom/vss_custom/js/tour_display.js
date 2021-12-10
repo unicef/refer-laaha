@@ -17,6 +17,10 @@
           $('.shepherd-footer button').append('<i class="fa fa-angle-right"></i>');
           $('.shepherd-title').hide();
           $('.tour-progress').hide();
+          $('.button-defult:contains("End tour")').prepend('<span class=finish>'+finish+'</span>');  
+          if($('.button-defult:contains("End tour")').length > 0){        
+            $('.finish').get(0).nextSibling.remove();
+          }
           $("body",context).on("click", ".shepherd-button", function(){
              $('.tour-tip-body').before('<img class="supportimg" src="/profiles/unicef/themes/custom/vss/images/support-icon.png" width="64" height="64" alt="support-icon">');
              $('.tour-tip-body').after('<img class="play" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18"  alt="sound-icon">');
@@ -25,6 +29,10 @@
              $('.shepherd-footer button').append('<i class="fa fa-angle-right"></i>');
              $('.shepherd-title').hide();
              $('.tour-progress').hide();
+            if($('.button-defult:contains("End tour")').length > 0){   
+             $('.button-defult:contains("End tour")').prepend('<span class=finish>'+finish+'</span>');
+             $('.finish').get(0).nextSibling.remove();
+            }
           });
           
          
