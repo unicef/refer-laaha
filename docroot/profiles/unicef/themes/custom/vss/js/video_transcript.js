@@ -35,7 +35,7 @@
                                     lineId = lines[i].getAttribute('id');
                                     if (!$("#" + lineId + " > .transcript-text").hasClass("current")) {
                                         $("#" + lineId + " > .transcript-text").addClass("current");
-                                        var scrollOffset = $(".transcript-text_" + transcriptId + ".current").offset().top - $("#transcript_" + transcriptId).offset().top;
+                                        var scrollOffset = $(".transcript-text_" + transcriptId + ",.current").offset().top - $("#transcript_" + transcriptId).offset().top;
                                         $("#transcript_" + transcriptId).animate({ scrollTop: '+=' + scrollOffset });
                                     }
                                 }
