@@ -23,11 +23,18 @@ class SignUpForm extends FormBase {
     return 'sign_up';
   }
 
-  public function __construct(Connection $database,EntityTypeManagerInterface $entityTypeManager,AccountProxyInterface $current_user) {
+  /**
+   *
+   */
+  public function __construct(Connection $database, EntityTypeManagerInterface $entityTypeManager, AccountProxyInterface $current_user) {
     $this->database = $database;
     $this->entityTypeManager = $entityTypeManager;
     $this->currentUser = $current_user;
   }
+
+  /**
+   *
+   */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('database'),
@@ -41,74 +48,74 @@ class SignUpForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $user_entity = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
-    $roles = $user_entity->getRoles(); 
-    
-      $form['message-step'] = [
-        '#markup' => '<div class="step">' . $this->t('Step 1: Personal details') . '</div>',
-      ];
+    $roles = $user_entity->getRoles();
 
-      $form['first_name'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('First name'),
-        '#required' => TRUE,
-        '#attributes' => ['placeholder' => t('Enter first name'),]
-      ];
+    $form['message-step'] = [
+      '#markup' => '<div class="step">' . $this->t('Step 1: Personal details') . '</div>',
+    ];
 
-      $form['last_name'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Last name'),
-        '#required' => TRUE,
-        '#attributes' => ['placeholder' => t('Enter last name'),]
-      ];
+    $form['first_name'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('First name'),
+      '#required' => TRUE,
+      '#attributes' => ['placeholder' => t('Enter first name')],
+    ];
 
-      $form['email'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Email'),
-        '#required' => TRUE,
-        '#attributes' => ['placeholder' => t('Example@gmail.com'),]
-      ];
-      
-      $form['phone'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Phone'),
-        '#required' => TRUE,
-        '#attributes' => ['placeholder' => t('**********'),]
-      ];
+    $form['last_name'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Last name'),
+      '#required' => TRUE,
+      '#attributes' => ['placeholder' => t('Enter last name')],
+    ];
 
-      $form['organisation'] = [
-        '#type' => 'textfield',
-        '#options' => $roles,
-        '#title' => $this->t('Organisation'),
-        '#required' => TRUE,
-        '#attributes' => ['placeholder' => t('Select organisation'),]
-      ];
+    $form['email'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Email'),
+      '#required' => TRUE,
+      '#attributes' => ['placeholder' => t('Example@gmail.com')],
+    ];
 
-      $form['positon'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Positon'),
-        '#required' => TRUE,
-        '#attributes' => ['placeholder' => t('Select position'),]
-      ];
+    $form['phone'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Phone'),
+      '#required' => TRUE,
+      '#attributes' => ['placeholder' => t('**********')],
+    ];
 
-      $form['system_role'] = [
-        '#type' => 'select',
-        '#options' => $roles,
-        '#empty_option' => t('Select system roles'),
-        '#title' => $this->t('System role'),
-        '#required' => TRUE,
-        '#attributes' => ['placeholder' => t('Select system role'),],
-      ];
-      $form['actions'] = [
-        '#type' => 'actions',
-      ];
-    
-      $form['actions']['next'] = [
-        '#type' => 'submit',
-        '#button_type' => 'primary',
-        '#value' => $this->t('Next'),
-        '#submit' => ['::submitPageOne'],
-      ];
-    
+    $form['organisation'] = [
+      '#type' => 'textfield',
+      '#options' => $roles,
+      '#title' => $this->t('Organisation'),
+      '#required' => TRUE,
+      '#attributes' => ['placeholder' => t('Select organisation')],
+    ];
+
+    $form['positon'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Positon'),
+      '#required' => TRUE,
+      '#attributes' => ['placeholder' => t('Select position')],
+    ];
+
+    $form['system_role'] = [
+      '#type' => 'select',
+      '#options' => $roles,
+      '#empty_option' => t('Select system roles'),
+      '#title' => $this->t('System role'),
+      '#required' => TRUE,
+      '#attributes' => ['placeholder' => t('Select system role')],
+    ];
+    $form['actions'] = [
+      '#type' => 'actions',
+    ];
+
+    $form['actions']['next'] = [
+      '#type' => 'submit',
+      '#button_type' => 'primary',
+      '#value' => $this->t('Next'),
+      '#submit' => ['::submitPageOne'],
+    ];
+
     return $form;
   }
 
