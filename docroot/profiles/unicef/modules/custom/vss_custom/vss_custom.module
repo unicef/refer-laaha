@@ -456,6 +456,22 @@ function vss_custom_preprocess_exit_website(&$variables) {
 }
 
 /**
+ * Implements hook_mail().
+ */
+function vss_custom_mail($key, &$message, $params) {
+  $options = [
+    'langcode' => $message['langcode'],
+  ];
+  switch ($key) {
+    case 'general_mail':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t($params['subject'], $options);
+      $message['body'][] = $params['message'];
+      break;
+  }
+}
+
+/**
  * Entity insert.
  */
 function vss_custom_entity_insert(EntityInterface $entity) {
@@ -478,14 +494,20 @@ function vss_custom_entity_insert(EntityInterface $entity) {
       $module = 'vss_custom';
       $key = 'general_mail';
       $to = $user_email;
-      $params['message'] = "Hi $user_name,\n
-      $editor_name has requested to $state an $type. Below is a link \n
-      <a href = $url>$url</a> \n
+      $params['message'] = "Hi $user_name,
+      $editor_name has requested to $state an $type. Below is a link 
+      <a href = $url>$url</a> 
       Click on the link to view the content or go to your dashboard in the CMS";
       $params['subject'] = "Request for $state content by $editor_name";
       $langcode = \Drupal::currentUser()->getPreferredLangcode();
       $send = TRUE;
-      $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+      if ($result['result'] !== TRUE) {
+        \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
+      }
+      else {
+        \Drupal::messenger()->addMessage(t('Mail has been sent.'));
+      }
     }
   }
 }
@@ -513,14 +535,20 @@ function vss_custom_entity_update(EntityInterface $entity) {
       $module = 'vss_custom';
       $key = 'general_mail';
       $to = $user_email;
-      $params['message'] = "Hi $user_name, \n
-      $editor_name has requested to $state an $type. Below is a link \n
-      <a href = $url>$url</a> \n
+      $params['message'] = "Hi $user_name,
+      $editor_name has requested to $state an $type. Below is a link 
+      <a href = $url>$url</a>
       Click on the link to view the content or go to your dashboard in the CMS";
       $params['subject'] = "Request for $state content by $editor_name";
       $langcode = \Drupal::currentUser()->getPreferredLangcode();
       $send = TRUE;
-      $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+      if ($result['result'] !== TRUE) {
+        \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
+      }
+      else {
+        \Drupal::messenger()->addMessage(t('Mail has been sent.'));
+      }
     }
   }
 }
