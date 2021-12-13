@@ -1,15 +1,21 @@
+description: 'Recent log messages'
 display:
   default:
     display_title: Master
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
       fields:
+        severity:
+          label: Severity
         type:
           label: جۆر
         timestamp:
           label: ڕێکەوت
+        message:
+          label: Message
         name:
           label: بەکارهێنەر
         link:
@@ -18,5 +24,13 @@ display:
         type:
           expose:
             label: جۆر
+        severity:
+          expose:
+            label: Severity
+      title: 'Recent log messages'
+      empty:
+        area:
+          admin_label: 'No log messages available.'
+          content: 'No log messages available.'
   page:
     display_title: پەڕە

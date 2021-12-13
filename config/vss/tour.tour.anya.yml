@@ -1,0 +1,47 @@
+uuid: ad50af49-5960-4011-9736-d2f48d382cbb
+langcode: en
+status: true
+dependencies:
+  module:
+    - tour_ui
+id: anya
+label: anya
+module: tour_ui
+routes:
+  -
+    route_name: entity.node.canonical
+    route_params:
+      node: '466'
+tips:
+  exit-website:
+    id: exit-website
+    plugin: text
+    label: 'Exit Website'
+    weight: -100
+    selector: .exit-website-btn
+    body: 'Hey! I''m here to help you learn how to quickly "Exit Website"'
+    position: top-start
+  language-switcher:
+    id: language-switcher
+    plugin: text
+    label: 'Language Switcher'
+    weight: -100
+    selector: .language-switcher-language-url
+    body: 'Hey! I''m here to help you learn how to change your language'
+    position: auto
+  chat:
+    id: chat
+    plugin: text
+    label: Chat
+    weight: -100
+    selector: .chatbot
+    body: 'Hey! Get in touch with me or ask any question anytime now'
+    position: top
+  anya-:
+    id: anya-
+    plugin: text
+    label: 'Anya '
+    weight: -100
+    selector: .recommended-related
+    body: 'anya recommended section'
+    position: top

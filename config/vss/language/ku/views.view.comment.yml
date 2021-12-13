@@ -1,10 +1,19 @@
+label: Comments
 display:
   default:
     display_title: Master
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
+      pager:
+        options:
+          tags:
+            previous: '‹ previous'
+            next: 'next ›'
+            first: '« first'
+            last: 'last »'
       fields:
         comment_bulk_form:
           action_title: کردار
@@ -12,6 +21,10 @@ display:
           label: سه‌ردیڕ
         name:
           label: نووسەر
+        entity_id:
+          label: 'Posted in'
+        changed:
+          label: Updated
         operations:
           label: کاره‌کان
       filters:
@@ -21,8 +34,21 @@ display:
         langcode:
           expose:
             label: زمان
-  page_unapproved:
+      title: Comments
+      empty:
+        area_text_custom:
+          content: 'No comments available.'
+      use_more_text: more
+  page_published:
+    display_title: 'Published comments'
     display_options:
+      menu:
+        title: Comments
+  page_unapproved:
+    display_title: 'Unapproved comments'
+    display_options:
+      menu:
+        title: 'Unapproved comments'
       filters:
         subject:
           expose:
@@ -37,5 +63,9 @@ display:
           label: سه‌ردیڕ
         name:
           label: نووسەر
+        entity_id:
+          label: 'Posted in'
+        changed:
+          label: Updated
         operations:
           label: کاره‌کان

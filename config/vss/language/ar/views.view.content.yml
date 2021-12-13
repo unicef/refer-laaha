@@ -1,22 +1,35 @@
 label: المحتوى
+description: 'Find and manage content.'
 display:
   default:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: 'إعادة الضبط'
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
           sort_desc_label: تنازلي
+      pager:
+        options:
+          tags:
+            previous: '‹ Previous'
+            next: 'Next ›'
       fields:
         title:
           label: العنوان
         type:
           label: 'نوع المحتوى'
+          separator: ', '
         name:
           label: المؤلف
         status:
           label: الحالة
+          settings:
+            format_custom_true: Published
+            format_custom_false: Unpublished
+        changed:
+          label: Updated
         operations:
           label: عمليات
       filters:
@@ -29,10 +42,19 @@ display:
         status:
           expose:
             label: الحالة
+          group_info:
+            group_items:
+              1:
+                title: Published
+              2:
+                title: Unpublished
         langcode:
           expose:
             label: اللغة
       title: المحتوى
+      empty:
+        area_text_custom:
+          content: 'No content available.'
     display_title: Master
   page_1:
     display_options:

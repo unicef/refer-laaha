@@ -1,0 +1,41 @@
+uuid: 446ea06d-6147-4bd1-a232-e51dad4797dc
+langcode: en
+status: true
+dependencies:
+  module:
+    - tour_ui
+id: vss-tour
+label: 'VSS Tour'
+module: tour_ui
+routes:
+  -
+    route_name: view.frontpage.page_1
+  -
+    route_name: entity.node.canonical
+    route_params:
+      node: '301'
+tips:
+  exit-website:
+    id: exit-website
+    plugin: text
+    label: 'Exit Website'
+    weight: -100
+    selector: .exit-website-btn
+    body: 'Hey! I''m here to help you learn how to quickly "Exit Website"'
+    position: top-start
+  language-switcher:
+    id: language-switcher
+    plugin: text
+    label: 'Language Switcher'
+    weight: -100
+    selector: .language-switcher-language-url
+    body: 'Hey! I''m here to help you learn how to change your language'
+    position: top-end
+  chat:
+    id: chat
+    plugin: text
+    label: Chat
+    weight: -100
+    selector: .chatbot
+    body: 'Hey! Get in touch with me or ask any question anytime now'
+    position: top

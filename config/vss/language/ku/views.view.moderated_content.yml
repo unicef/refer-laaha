@@ -1,9 +1,11 @@
+label: 'Moderated content'
 display:
   default:
     display_title: Master
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
       fields:
         title:
@@ -12,6 +14,8 @@ display:
           label: 'جۆری ناوەڕۆک'
         name:
           label: نووسەر
+        changed:
+          label: Updated
         operations:
           label: کاره‌کان
       filters:
@@ -24,3 +28,6 @@ display:
         langcode:
           expose:
             label: زمان
+      title: 'Moderated content'
+  moderated_content:
+    display_title: 'Moderated content'
