@@ -14,6 +14,9 @@ use Drupal\Core\Session\AccountProxyInterface;
  */
 class SignUpForm extends FormBase {
 
+  /**
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
   protected $currentUser;
 
   /**
@@ -24,7 +27,7 @@ class SignUpForm extends FormBase {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function __construct(Connection $database, EntityTypeManagerInterface $entityTypeManager, AccountProxyInterface $current_user) {
     $this->database = $database;
@@ -33,7 +36,7 @@ class SignUpForm extends FormBase {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
@@ -113,7 +116,6 @@ class SignUpForm extends FormBase {
       '#type' => 'submit',
       '#button_type' => 'primary',
       '#value' => $this->t('Next'),
-      '#submit' => ['::submitPageOne'],
     ];
 
     return $form;
@@ -124,13 +126,13 @@ class SignUpForm extends FormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     return parent::validateForm($form, $form_state);
+
   }
 
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-
   }
 
 }
