@@ -1,0 +1,19 @@
+uuid: 26f6a066-86a4-46a5-8e3b-1812b90d0ef7
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_system_roles
+field_name: field_system_roles
+entity_type: user
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
