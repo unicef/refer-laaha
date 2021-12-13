@@ -87,15 +87,15 @@ jobs:
       - name: Run when tag is created after Deployment run Drush Commands
         if: ${{ startsWith(github.ref, 'refs/tags/tags') }}
         run: |
-          ./vendor/bin/drush @vss2.prod cr -y;  ./vendor/bin/drush @vss2.prod updb -y; ./vendor/bin/drush @vss2.prod cim -y; ./vendor/bin/drush @vss2.prod cr -y;
+          ./vendor/bin/drush @vss2.prod cr -y; ./vendor/bin/drush @vss2.prod cr -l https://erefer.org; ./vendor/bin/drush @vss2.prod updb -y; ./vendor/bin/drush @vss2.prod updb -y -l https://erefer.org; ./vendor/bin/drush @vss2.prod cim -y; ./vendor/bin/drush @vss2.prod cim -y -l https://erefer.org; ./vendor/bin/drush @vss2.prod cr -y; ./vendor/bin/drush @vss2.prod cr -l https://erefer.org;
       
       - name: Excecute Drush Commands at Dev
         if: github.ref == 'refs/heads/develop'
-        run : ./vendor/bin/drush @vss2.dev cr -y;  ./vendor/bin/drush @vss2.dev updb -y; ./vendor/bin/drush @vss2.dev cim -y; ./vendor/bin/drush @vss2.dev cr -y;
+        run : ./vendor/bin/drush @vss2.dev cr -y; ./vendor/bin/drush @vss2.dev cr -l https://dev.erefer.org; ./vendor/bin/drush @vss2.dev updb -y; ./vendor/bin/drush @vss2.dev updb -y -l https://dev.erefer.org; ./vendor/bin/drush @vss2.dev cim -y; ./vendor/bin/drush @vss2.dev cim -y -l https://dev.erefer.org; ./vendor/bin/drush @vss2.dev cr -y; ./vendor/bin/drush @vss2.dev cr -l https://dev.erefer.org;
        
       - name: Excecute Drush Commands at Stage
         if: github.ref == 'refs/heads/stage'
-        run : ./vendor/bin/drush @vss2.test cr -y;  ./vendor/bin/drush @vss2.test updb -y; ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cr -y;
+        run : ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cr -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test updb -y; ./vendor/bin/drush @vss2.test updb -y -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cim -y -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cr -l https://stage.erefer.org;
       - name: Use Node.js for Night watch test cases ${{ matrix.node-version }}
         if: ${{ startsWith(github.ref, 'refs/heads/develop'  ) }} || ${{ startsWith(github.ref, 'refs/heads/stage'  ) }} || ${{ startsWith(github.ref, 'refs/tags/tags'  ) }} || ${{ startsWith(github.ref, 'refs/heads/master'  ) }}
         uses: actions/setup-node@v1

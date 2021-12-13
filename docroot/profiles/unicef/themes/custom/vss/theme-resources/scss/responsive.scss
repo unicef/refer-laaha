@@ -1,8 +1,48 @@
 @media screen and (max-width: 767px) {
-  #podcast-transcript, #transcript{
+  body {
+    .shepherd-element {
+      width:100%;
+      .shepherd-text {
+        .tour-tip-body {
+          padding: 0 12px;
+        }
+      }
+    }
+  }
+#block-recommendedrelatedcontentblock{
+  padding: 5px 0;
+  border-top: 2px solid #00000066;
+  .recomended-header{
+    font-size: $header-logo-font;
+    line-height: 28px;
+    img{
+      width: 24px;
+    }
+    span{
+      padding-left: 8px;
+    }
+  }
+  .recomended-wrapper{
+  .recomended-item{
+    padding-bottom: 15px;
+    span{
+      margin-top: 12px;
+      a{
+        font-size: $base-font-size;
+        line-height:20px ;
+        font-weight: 400;
+      }
+    }
+
+  }
+}
+}
+  .podcast-transcript,
+  .transcript {
     line-height: 24px;
     font-size: $base-font-size;
   }
+
   .podcast-transcript-btn,
   .transcript-btn {
     button {
@@ -177,9 +217,7 @@
 
   }
 
-  .telephone-header {
-    /* display: none;*/
-  }
+  
 
   .telephone_in_mobile {
     img {
@@ -245,6 +283,39 @@
     margin-bottom: 60px;
 
   }
+  .featured-stories{
+    h3{
+      margin: 24px 0;
+      line-height: 28px;
+      font-size: $header-logo-font;
+      img{
+        display: none;
+      }
+     
+    }
+  .featured_stories_block{
+    a{
+      span{
+        min-height: inherit;
+      }
+    }
+    .four-slice,
+    .two-slice{
+      .play-circle{
+        top:30%;
+      }
+      .play-circle-podcast{
+        top: 125px;
+      }
+      .four-slice-img,
+      .two-slice-img{
+      height: 184px;
+      }
+
+    }
+
+  }
+}
 }
 
 @media screen and (min-width:768px) {

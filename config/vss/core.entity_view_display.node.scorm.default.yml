@@ -1,0 +1,42 @@
+uuid: 62a86cb4-97a5-45e4-944b-714877287646
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.scorm.field_content
+    - field.field.node.scorm.field_domain_access
+    - field.field.node.scorm.field_domain_all_affiliates
+    - field.field.node.scorm.field_sub_category
+    - field.field.node.scorm.field_tags
+    - field.field.node.scorm.field_thumbnail_image
+    - node.type.scorm
+  module:
+    - layout_paragraphs
+    - user
+id: node.scorm.default
+targetEntityType: node
+bundle: scorm
+mode: default
+content:
+  content_moderation_control:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_content:
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: layout_paragraphs
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_sub_category: true
+  field_tags: true
+  field_thumbnail_image: true
+  langcode: true
+  links: true

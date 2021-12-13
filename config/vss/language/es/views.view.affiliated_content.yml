@@ -1,23 +1,52 @@
+description: 'Find and manage content.'
 display:
   default:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          tags:
+            previous: '‹ Previous'
+            next: 'Next ›'
+            first: '« First'
+            last: 'Last »'
       fields:
         title:
           label: Título
+        type:
+          separator: ', '
+        field_domain_access:
+          separator: ', '
+        field_domain_all_affiliates:
+          separator: ', '
         name:
           label: Autor
         status:
           label: Estado
+          settings:
+            format_custom_true: Published
+            format_custom_false: Unpublished
+        changed:
+          label: Updated
         operations:
           label: Operaciones
       filters:
         status:
           expose:
             label: Estado
+          group_info:
+            label: 'Published status'
+            group_items:
+              1:
+                title: Published
+              2:
+                title: Unpublished
         type:
           expose:
             label: Tipo
@@ -27,6 +56,13 @@ display:
         langcode:
           expose:
             label: Idioma
+      empty:
+        area_text_custom:
+          content: 'No content available.'
+      arguments:
+        field_domain_access_target_id:
+          exception:
+            title: All
     display_title: Máster
   page_1:
     display_options:
@@ -34,10 +70,18 @@ display:
         title: Contenido
       tab_options:
         title: Contenido
+        description: 'Find and manage content'
       filters:
         status:
           expose:
             label: Estado
+          group_info:
+            label: 'Published status'
+            group_items:
+              1:
+                title: Published
+              2:
+                title: Unpublished
         type:
           expose:
             label: Tipo
@@ -54,6 +98,13 @@ display:
         status:
           expose:
             label: Estado
+          group_info:
+            label: 'Published status'
+            group_items:
+              1:
+                title: Published
+              2:
+                title: Unpublished
         type:
           expose:
             label: Tipo
@@ -63,3 +114,6 @@ display:
         langcode:
           expose:
             label: Idioma
+        field_domain_access_target_id:
+          expose:
+            label: Domain

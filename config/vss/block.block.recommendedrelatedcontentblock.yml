@@ -1,0 +1,31 @@
+uuid: e4d5c674-e83a-4af8-b4fe-5875cccd1ca2
+langcode: en
+status: true
+dependencies:
+  module:
+    - ctools
+    - vss_custom
+  theme:
+    - vss
+id: recommendedrelatedcontentblock
+theme: vss
+region: content_bottom
+weight: -10
+provider: null
+plugin: recommended_related_content_bock
+settings:
+  id: recommended_related_content_bock
+  label: 'Recommended related content block'
+  provider: vss_custom
+  label_display: '0'
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      article: article
+      podcast: podcast
+      scorm: scorm
+      video: video
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

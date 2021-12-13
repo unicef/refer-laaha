@@ -54,6 +54,7 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
     $types = [
       'article',
       'video',
+      'scorm',
       'podcast',
     ];
     $route = $route_match->getRouteObject();
@@ -85,7 +86,7 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
     $node = $route_match->getParameter('node');
     $tax_term = $route_match->getParameter('taxonomy_term');
     // // Add a link to the homepage as our first crumb.
-    $breadcrumb->addLink(Link::createFromRoute('Home', '<front>'));
+    $breadcrumb->addLink(Link::createFromRoute(t('Home'), '<front>'));
     if ($tax_term) {
       $path = $tax_term->toUrl()->getRouteName();
       $tax_parent = $this->entityTypeManager->getStorage('taxonomy_term')->load($tax_term->parent->target_id);
@@ -103,6 +104,7 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
 
         case 'article':
         case 'video':
+        case 'scorm':
         case 'podcast':
           if ($node->hasField('field_sub_category') && !empty($node->get('field_sub_category')->first())) {
             $term_id = $node->field_sub_category->target_id;

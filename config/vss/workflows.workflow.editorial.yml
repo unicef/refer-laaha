@@ -3,10 +3,14 @@ langcode: en
 status: true
 dependencies:
   config:
+    - block_content.type.basic
+    - block_content.type.footer_contact_information
+    - block_content.type.words_from_experts_block
     - media.type.image
     - node.type.article
     - node.type.page
     - node.type.podcast
+    - node.type.scorm
     - node.type.video
   module:
     - content_moderation
@@ -17,26 +21,41 @@ type_settings:
   states:
     archived:
       label: Archived
-      weight: 5
+      weight: 0
       published: false
       default_revision: true
     draft:
       label: Draft
       published: false
       default_revision: false
-      weight: -5
+      weight: -3
     published:
       label: Published
       published: true
       default_revision: true
-      weight: 0
+      weight: -1
+    request_for_publish:
+      published: false
+      default_revision: false
+      label: 'Request for publish'
+      weight: -2
+    request_for_un_publish:
+      published: true
+      default_revision: false
+      label: 'Request for Un-publish'
+      weight: 1
+    un_publish:
+      published: false
+      default_revision: true
+      label: Un-Publish
+      weight: 2
   transitions:
     archive:
       label: Archive
       from:
         - published
       to: archived
-      weight: 2
+      weight: -1
     archived_draft:
       label: 'Restore to Draft'
       from:
@@ -52,23 +71,61 @@ type_settings:
     create_new_draft:
       label: 'Create New Draft'
       to: draft
-      weight: 0
+      weight: -5
       from:
         - draft
         - published
+        - request_for_publish
     publish:
       label: Publish
       to: published
-      weight: 1
+      weight: -2
       from:
         - draft
         - published
+        - request_for_publish
+    publish_to_un_publish:
+      label: 'Publish to Un-Publish'
+      from:
+        - published
+        - request_for_un_publish
+      to: un_publish
+      weight: 1
+    published_to_request_for_un_publish:
+      label: 'Published to Request for Un-publish'
+      from:
+        - published
+      to: request_for_un_publish
+      weight: 0
+    request_for_publish:
+      label: 'Request for publish'
+      from:
+        - draft
+      to: request_for_publish
+      weight: -4
+    un_publish_to_draft:
+      label: 'Un-Publish to Draft'
+      from:
+        - un_publish
+      to: draft
+      weight: 2
+    un_publish_to_request_for_publish:
+      label: 'Un-Publish to Request for publish'
+      from:
+        - un_publish
+      to: request_for_publish
+      weight: 5
   entity_types:
+    block_content:
+      - basic
+      - footer_contact_information
+      - words_from_experts_block
     media:
       - image
     node:
       - article
       - page
       - podcast
+      - scorm
       - video
   default_moderation_state: draft

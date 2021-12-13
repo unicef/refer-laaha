@@ -1,0 +1,29 @@
+uuid: aa3ce92e-3d61-42dc-bf25-16c19fb0070c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.scorm.field_scorm_file
+    - paragraphs.paragraphs_type.scorm
+  module:
+    - file
+id: paragraph.scorm.default
+targetEntityType: paragraph
+bundle: scorm
+mode: default
+content:
+  field_scorm_file:
+    weight: 0
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  translation:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  status: true

@@ -106,12 +106,11 @@
 </div>
 {# Main #}
 {% block main %}
-  <div role="main" class="main-container  container  js-quickedit-main-content">
+<div class="wrapper">
+  <div role="main" class="main-container  container js-quickedit-main-content">
     <div class="row">
-
     
-
-      {# Sidebar First #}
+    {# Sidebar First #}
       {% if page.sidebar_first %}
         {% block sidebar_first %}
           <aside class="col-sm-3" role="complementary">
@@ -150,6 +149,11 @@
           <a id="main-content"></a>
           {{ page.content }}
         {% endblock %}
+        {% if page.content_bottom %}
+          {% block content_bottom %}
+            {{ page.content_bottom }}
+          {% endblock %}
+        {% endif %}
       </section>
 
       {# Sidebar Second #}
@@ -162,10 +166,19 @@
       {% endif %}
     </div>
   </div>
+</div>  
 {% endblock %}
+{% if page.content_bottom_fluid %}
+  {% block content_bottom_fluid %}
+    <div class="content-bottom-fluid">
+      {{ page.content_bottom_fluid }}
+    </div>
+  {% endblock %}
+{% endif %}
+
 {% if page.global_sticky %}
   {% block global_sticky %}
-    <div class="global-sticky-region" >
+    <div class="global-sticky-region">
       {{ page.global_sticky }}
     </div>
   {% endblock %}
@@ -173,7 +186,7 @@
 <footer id="footer" class= "footer-wrapper {{ container }}" role="contentinfo">
 {% if page.footer_top %}
   {% block footer_top %}
-    <div class="footer_top container" >
+    <div class="footer_top container">
       {{ page.footer_top }}
     </div>
   {% endblock %}

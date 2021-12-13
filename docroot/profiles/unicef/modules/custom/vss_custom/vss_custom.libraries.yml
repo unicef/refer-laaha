@@ -5,6 +5,7 @@ exit_website:
   dependencies:
     - core/jquery
     - core/drupalSettings
+    - core/jquery.once
 narrate:
   js:
     js/narrate.js: {}
@@ -18,6 +19,15 @@ disclaimer:
   dependencies:
     - core/jquery
     - core/drupalSettings
+
+
+related_content:
+  js:
+    js/related_content.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+    - core/drupal.ajax
 
 youtube_transcript:
   js:

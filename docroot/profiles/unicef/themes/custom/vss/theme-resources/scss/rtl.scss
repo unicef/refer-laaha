@@ -1,4 +1,56 @@
 html[dir="rtl"] {
+  .featured-stories {
+    .featured-head{
+      text-align: right;
+      img{
+        padding-left: 9px;
+        padding-right: 0;
+      }
+    }
+    .featured_stories_block{ 
+     
+      .four-slice:after,
+      .two-slice:after{
+        left:calc( 100% -  86px);
+  }
+  .four-slice,
+  .two-slice{
+    .play-circle-podcast{
+        left:calc( 100% -   78px);
+    }
+  }
+  
+
+}
+  }
+  #block-recommendedrelatedcontentblock{
+    
+      .recomended-header{
+        text-align: right;
+      }
+    
+    .recomended-wrapper{
+      .recomended-item{
+        .play-circle-podcast{
+          left: inherit;
+          right:22px;
+        } 
+        &:after{
+          left:inherit;
+          right: 27px;
+        }
+      }
+    }
+  }
+  .shepherd-element {
+  .shepherd-footer {
+    button {
+      i{
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
   .breadcrumb {
     li:first-child {
       a::before {
@@ -11,6 +63,17 @@ html[dir="rtl"] {
     img {
       margin-right: 0;
       margin-left: 8px;
+    }
+  }
+
+  body {
+    .shepherd-element {
+
+      .shepherd-cancel-icon {
+
+        right: inherit;
+        left: 29px;
+      }
     }
   }
 
@@ -143,11 +206,7 @@ html[dir="rtl"] {
 
 
 
-      #discover1 {
-        .caret {
-          /* margin-right: 10px;*/
-        }
-      }
+
     }
 
     #block-settingsmenu {
@@ -217,6 +276,14 @@ html[dir="rtl"] {
 @media screen and (max-width:767px) {
 
   html[dir="rtl"] {
+    #block-recommendedrelatedcontentblock {
+      .recomended-header {
+        span{
+            padding-right: 8px;
+            padding-left: 0;
+        }
+      }
+    }
     .region-header {
       #block-settingsmenu {
         .search-box {
@@ -295,6 +362,13 @@ html[dir="rtl"] {
 
 @media screen and (min-width:768px) {
   html[dir="rtl"] {
+    #block-recommendedrelatedcontentblock {
+      .recomended-header {
+        span{
+            padding-right: 28px;
+        }
+      }
+    }
     #block-globalstickyblock {
       left: 2%;
       right: inherit;

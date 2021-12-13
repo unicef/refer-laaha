@@ -51,6 +51,15 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
     if ($this->routeMatch->getRouteName() == 'entity.taxonomy_term.canonical') {
       $term_id = $this->routeMatch->getRawParameter('taxonomy_term');
     }
+    if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
+      $nid = $this->routeMatch->getRawParameter('node');
+      $node = $this->entityTypeManager->getStorage('node')->load($nid);
+      $child_tid = $node->get('field_sub_category')->target_id;
+      $parent = $this->entityTypeManager->getStorage('taxonomy_term')->loadParents($child_tid);
+      $parent = reset($parent);
+      $term_id = $parent->id();
+    }
+
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $vid = 'categories';
     $parent_tid = $term_id;
@@ -74,20 +83,28 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
         $cat_ic = str_replace('public://', 'sites/default/files/', $cat_ic);
       }
       foreach ($child_terms as $k => $child) {
-        if ($child->hasTranslation($langcode)) {
-          $child = $child->getTranslation($langcode);
+        if ($this->routeMatch->getRouteName() == 'entity.node.canonical' && ($child_tid == $child->get('tid')->value)) {
+          unset($child_terms[$k]);
+          $cat_details['cat_name'] = '';
+          $cat_details['cat_icon'] = '';
         }
-        $cat_details['cat_name'] = $name;
-        $cat_details['cat_icon'] = $cat_ic;
-        $cat_details['cat_color'] = $cat_color;
-
-        $subcat_details[$k]['subcat_name'] = $child->get('name')->value;
-        $file = $this->entityTypeManager->getStorage('file')->load($child->get('field_sub_category_thumbnail')->target_id);
-        if ($file) {
-          $file_url = $file->getFileUri();
-          $subcat_details[$k]['sub_category_thumbnail'] = str_replace('public://', 'sites/default/files/', $file_url);
+        else {
+          if ($child->hasTranslation($langcode)) {
+            $child = $child->getTranslation($langcode);
+          }
+          if ($this->routeMatch->getRouteName() != 'entity.node.canonical') {
+            $cat_details['cat_name'] = $name;
+            $cat_details['cat_icon'] = $cat_ic;
+          }
+          $cat_details['cat_color'] = $cat_color;
+          $subcat_details[$k]['subcat_name'] = $child->get('name')->value;
+          $file = $this->entityTypeManager->getStorage('file')->load($child->get('field_sub_category_thumbnail')->target_id);
+          if ($file) {
+            $file_url = $file->getFileUri();
+            $subcat_details[$k]['sub_category_thumbnail'] = str_replace('public://', 'sites/default/files/', $file_url);
+          }
+          $subcat_details[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $child->get('tid')->value), '/');
         }
-        $subcat_details[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $child->get('tid')->value), '/');
       }
     }
 
