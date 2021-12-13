@@ -496,7 +496,7 @@ function vss_custom_entity_insert(EntityInterface $entity) {
       $to = $user_email;
       $params['message'] = "Hi $user_name,
       $editor_name has requested to $state an $type. Below is a link 
-      <a href = https://$url>http://$url</a> 
+      <a href = https://$url>https://$url</a> 
       Click on the link to view the content or go to your dashboard in the CMS";
       $params['subject'] = "Request for $state content by $editor_name";
       $langcode = \Drupal::currentUser()->getPreferredLangcode();
@@ -537,7 +537,7 @@ function vss_custom_entity_update(EntityInterface $entity) {
       $to = $user_email;
       $params['message'] = "Hi $user_name,
       $editor_name has requested to $state an $type. Below is a link 
-      <a href = https://$url>http://$url</a>
+      <a href = https://$url>https://$url</a>
       Click on the link to view the content or go to your dashboard in the CMS";
       $params['subject'] = "Request for $state content by $editor_name";
       $langcode = \Drupal::currentUser()->getPreferredLangcode();
