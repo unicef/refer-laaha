@@ -8,7 +8,9 @@
    <a href="{{ item.link }}"> <img class="recomended-images" src="{{ file_url(item.uri) }}" alt="" />
    {% if item.type == 'video' %}
      <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
-  {% endif %} 
+   {% elseif item.type == 'podcast' %}
+     <img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
+   {% endif %} 
   </a>
   {% endif %}
   {% if item.title %}
