@@ -10,6 +10,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Implements hook_theme().
@@ -425,4 +426,74 @@ function vss_custom_preprocess_exit_website(&$variables) {
     $variables['#attached']['drupalSettings']['voiceId'] = $voiceId;
   }
   $variables['#attached']['drupalSettings']['langId'] = $lang_id;
+}
+
+/**
+ * Entity insert.
+ */
+function vss_custom_entity_insert(EntityInterface $entity) {
+  if ($entity->getEntityType()->id() == 'node') {
+    if ($entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' || $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_un_publish') {
+      $domain = $entity->get('field_domain_access')->target_id;
+      $state = $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ? 'publish' : 'unpublish';
+      $user = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
+      ['field_domain_access' => $domain, 'roles' => 'country_admin']);
+      $user = reset($user);
+      if ($user) {
+        $user_email = $user->getEmail();
+        $user_name = $user->name->value;
+        $type = $entity->bundle();
+        $editor_name = $entity->getOwner()->name->value;
+        $nid = $entity->id();
+        $url = \Drupal::request()->getHost() . \Drupal::service('path_alias.manager')->getAliasByPath("/node/$nid");
+      }
+      $mailManager = \Drupal::service('plugin.manager.mail');
+      $module = 'vss_custom';
+      $key = 'general_mail';
+      $to = $user_email;
+      $params['message'] = "Hi $user_name,\n
+      $editor_name has requested to $state an $type. Below is a link \n
+      <a href = $url>$url</a> \n
+      Click on the link to view the content or go to your dashboard in the CMS";
+      $params['subject'] = "Request for $state content by $editor_name";
+      $langcode = \Drupal::currentUser()->getPreferredLangcode();
+      $send = TRUE;
+      $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+    }
+  }
+}
+
+/**
+ * Entity update.
+ */
+function vss_custom_entity_update(EntityInterface $entity) {
+  if ($entity->getEntityType()->id() == 'node') {
+    if ($entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' || $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_un_publish') {
+      $domain = $entity->get('field_domain_access')->target_id;
+      $state = $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ? 'publish' : 'unpublish';
+      $user = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
+      ['field_domain_access' => $domain, 'roles' => 'country_admin']);
+      $user = reset($user);
+      if ($user) {
+        $user_email = $user->getEmail();
+        $user_name = $user->name->value;
+        $type = $entity->bundle();
+        $editor_name = $entity->getOwner()->name->value;
+        $nid = $entity->id();
+        $url = \Drupal::request()->getHost() . \Drupal::service('path_alias.manager')->getAliasByPath("/node/$nid");
+      }
+      $mailManager = \Drupal::service('plugin.manager.mail');
+      $module = 'vss_custom';
+      $key = 'general_mail';
+      $to = $user_email;
+      $params['message'] = "Hi $user_name, \n
+      $editor_name has requested to $state an $type. Below is a link \n
+      <a href = $url>$url</a> \n
+      Click on the link to view the content or go to your dashboard in the CMS";
+      $params['subject'] = "Request for $state content by $editor_name";
+      $langcode = \Drupal::currentUser()->getPreferredLangcode();
+      $send = TRUE;
+      $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+    }
+  }
 }
