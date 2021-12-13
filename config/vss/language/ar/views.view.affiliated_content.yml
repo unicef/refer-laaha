@@ -1,25 +1,49 @@
+description: 'Find and manage content.'
 display:
   default:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: 'إعادة الضبط'
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
           sort_desc_label: تنازلي
+      pager:
+        options:
+          tags:
+            previous: '‹ Previous'
+            next: 'Next ›'
       fields:
         title:
           label: العنوان
+        type:
+          separator: ', '
+        field_domain_access:
+          separator: ', '
+        field_domain_all_affiliates:
+          separator: ', '
         name:
           label: المؤلف
         status:
           label: الحالة
+          settings:
+            format_custom_true: Published
+            format_custom_false: Unpublished
+        changed:
+          label: Updated
         operations:
           label: عمليات
       filters:
         status:
           expose:
             label: الحالة
+          group_info:
+            group_items:
+              1:
+                title: Published
+              2:
+                title: Unpublished
         type:
           expose:
             label: النوع
@@ -29,6 +53,13 @@ display:
         langcode:
           expose:
             label: اللغة
+      empty:
+        area_text_custom:
+          content: 'No content available.'
+      arguments:
+        field_domain_access_target_id:
+          exception:
+            title: All
     display_title: الرئيسي
   page_1:
     display_options:
@@ -40,6 +71,12 @@ display:
         status:
           expose:
             label: الحالة
+          group_info:
+            group_items:
+              1:
+                title: Published
+              2:
+                title: Unpublished
         type:
           expose:
             label: النوع
@@ -56,6 +93,12 @@ display:
         status:
           expose:
             label: الحالة
+          group_info:
+            group_items:
+              1:
+                title: Published
+              2:
+                title: Unpublished
         type:
           expose:
             label: النوع
@@ -65,3 +108,6 @@ display:
         langcode:
           expose:
             label: اللغة
+        field_domain_access_target_id:
+          expose:
+            label: Domain

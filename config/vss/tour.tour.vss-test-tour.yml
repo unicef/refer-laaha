@@ -1,0 +1,23 @@
+uuid: b577fb9a-7636-4f59-81f7-4d11df5ce9d5
+langcode: en
+status: true
+dependencies:
+  module:
+    - tour_ui
+id: vss-test-tour
+label: 'Vss test tour'
+module: tour_ui
+routes:
+  -
+    route_name: entity.node.canonical
+    route_params:
+      node: '6'
+tips:
+  exit-website:
+    id: exit-website
+    plugin: text
+    label: 'Exit Website'
+    weight: -100
+    selector: .exit-website-btn
+    body: Adil
+    position: top-start
