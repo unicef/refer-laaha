@@ -488,7 +488,7 @@ function vss_custom_entity_insert(EntityInterface $entity) {
         $type = $entity->bundle();
         $editor_name = $entity->getOwner()->name->value;
         $nid = $entity->id();
-        $url = \Drupal::request()->getHost() . \Drupal::service('path_alias.manager')->getAliasByPath("/node/$nid");
+        $url = \Drupal::request()->getHost() . "/node/$nid/edit";
       }
       $mailManager = \Drupal::service('plugin.manager.mail');
       $module = 'vss_custom';
@@ -496,7 +496,7 @@ function vss_custom_entity_insert(EntityInterface $entity) {
       $to = $user_email;
       $params['message'] = "Hi $user_name,
       $editor_name has requested to $state an $type. Below is a link 
-      <a href = $url>$url</a> 
+      <a href = http://$url>http://$url</a> 
       Click on the link to view the content or go to your dashboard in the CMS";
       $params['subject'] = "Request for $state content by $editor_name";
       $langcode = \Drupal::currentUser()->getPreferredLangcode();
@@ -529,7 +529,7 @@ function vss_custom_entity_update(EntityInterface $entity) {
         $type = $entity->bundle();
         $editor_name = $entity->getOwner()->name->value;
         $nid = $entity->id();
-        $url = \Drupal::request()->getHost() . \Drupal::service('path_alias.manager')->getAliasByPath("/node/$nid");
+        $url = \Drupal::request()->getHost() . "/node/$nid/edit";
       }
       $mailManager = \Drupal::service('plugin.manager.mail');
       $module = 'vss_custom';
@@ -537,7 +537,7 @@ function vss_custom_entity_update(EntityInterface $entity) {
       $to = $user_email;
       $params['message'] = "Hi $user_name,
       $editor_name has requested to $state an $type. Below is a link 
-      <a href = $url>$url</a>
+      <a href = http://$url>http://$url</a>
       Click on the link to view the content or go to your dashboard in the CMS";
       $params['subject'] = "Request for $state content by $editor_name";
       $langcode = \Drupal::currentUser()->getPreferredLangcode();
