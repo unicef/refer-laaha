@@ -217,9 +217,7 @@
 
   }
 
-  .telephone-header {
-    /* display: none;*/
-  }
+  
 
   .telephone_in_mobile {
     img {
@@ -285,6 +283,39 @@
     margin-bottom: 60px;
 
   }
+  .featured-stories{
+    h3{
+      margin: 24px 0;
+      line-height: 28px;
+      font-size: $header-logo-font;
+      img{
+        display: none;
+      }
+     
+    }
+  .featured_stories_block{
+    a{
+      span{
+        min-height: inherit;
+      }
+    }
+    .four-slice,
+    .two-slice{
+      .play-circle{
+        top:30%;
+      }
+      .play-circle-podcast{
+        top: 125px;
+      }
+      .four-slice-img,
+      .two-slice-img{
+      height: 184px;
+      }
+
+    }
+
+  }
+}
 }
 
 @media screen and (min-width:768px) {
