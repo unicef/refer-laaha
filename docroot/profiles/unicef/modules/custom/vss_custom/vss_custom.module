@@ -11,6 +11,9 @@ use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\AlertCommand;
+use Drupal\user\Entity\User;
 
 /**
  * Implements hook_theme().
@@ -173,6 +176,19 @@ function vss_custom_taxonomy_term_delete($term) {
 }
 
 /**
+ * Ajax callback for sending invite to user.
+ */
+function vss_custom_send_invite(&$form, FormStateInterface $form_state) {
+  $uid = \Drupal::routeMatch()->getRawParameter('user');
+  $user = User::load($uid);
+  $langcode = $user->getPreferredLangcode();
+  _user_mail_notify('password_reset', $user, $langcode = NULL);
+  $response = new AjaxResponse();
+  $response->addCommand(new AlertCommand(t('E-mail invite sent.')));
+  return $response;
+}
+
+/**
  * Use form alter.
  */
 function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id) {
@@ -180,6 +196,17 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
     $form['description']['widget'][0]['#required'] = 'true';
     $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories();
     $form['#validate'][] = 'validate_category';
+  }
+  if ($form_id == 'user_form') {
+    $form['reinvite_user'] = [
+      '#type' => 'button',
+      '#value' => t('Re-invite User'),
+      '#weight' => -25,
+      '#ajax' => [
+        'callback' => 'vss_custom_send_invite',
+        'event' => 'click',
+      ],
+    ];
   }
   $language_manager = \Drupal::languageManager()->getCurrentLanguage();
   // Adding warning message.
