@@ -12,7 +12,7 @@
 {% if content is not empty %}
 <div class="hero_banner">
   {% if category.cat_name is not empty %}
-   <h2 class="banner"><span><img src ="/{{category.cat_icon}}" alt="" /></span>
+   <h2 class="banner text-center"><span><img src ="/{{category.cat_icon}}" alt="" /></span>
    <span>{{ category.cat_name }}</span>
    </h2>
   {% endif %}
@@ -25,3 +25,8 @@
 {% endfor %}
 </div>
 {% endif %}
+<style>
+.wrapper{
+  background:#{{category.cat_color}}	
+}
+</style>
