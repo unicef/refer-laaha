@@ -81,7 +81,7 @@ jobs:
           chmod +x acli.phar
           mv acli.phar /usr/local/bin/acli
           acli login -k ${{ secrets.API_KEY }} -s ${{ secrets.API_SECRET }}
-          acli api:environments:code-switch  vss2.prod  "$(echo ${GITHUB_REF#refs/tags/})"
+          acli api:environments:code-switch  vss2.prod  "tags/$(echo ${GITHUB_REF#refs/tags/})"
           sleep 30s
       # Run Drush command After deployment
       - name: Run when tag is created after Deployment run Drush Commands
