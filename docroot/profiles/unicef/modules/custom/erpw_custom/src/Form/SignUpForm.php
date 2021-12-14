@@ -15,6 +15,8 @@ use Drupal\Core\Session\AccountProxyInterface;
 class SignUpForm extends FormBase {
 
   /**
+   * Current user object.
+   *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
