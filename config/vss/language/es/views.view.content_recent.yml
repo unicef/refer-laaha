@@ -1,3 +1,5 @@
+label: 'Recent content'
+description: 'Recent content.'
 display:
   default:
     display_title: Master
@@ -7,3 +9,15 @@ display:
           submit_button: Aplicar
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      fields:
+        changed:
+          separator: ', '
+      title: 'Recent content'
+      empty:
+        area_text_custom:
+          content: 'No content available.'
+      use_more_text: More
+  block_1:
+    display_title: Block

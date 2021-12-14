@@ -728,7 +728,13 @@ body {
 .carousel-caption1{
   display: block;
 }
-
+.carousel{
+  .item{
+    img{
+      width: 100%;
+    }
+  }
+}
 #readmore_article[aria-expanded="true"] {
   height: auto !important;
 }
@@ -952,4 +958,118 @@ body {
     }
   }
 }
+}
+.featured-stories{
+  h3{
+    margin: 105px 0 60px 0;
+    img{
+      padding-right: 9px;
+    }
+  }
+  background: url(../images/featured-cat-stories.png) no-repeat ;
+  background-size: cover  ;
+  .featured_stories_block{
+    margin-bottom: 80px;
+    a{
+      color:#030303;
+      &:hover{
+        text-decoration: none ;
+      }
+      span{
+        font-size: $base-font-size;
+        line-height: 20px;
+        margin-top: 16px;
+        margin-bottom: 24px;
+        display: block;
+        font-weight: 400;
+        min-height: 40px;
+      }
+    }
+    .article{
+      &:after{
+        background: url('../images/article-icon.png') no-repeat  top left;
+        
+      }
+    }
+    .video{
+      &:after{
+        background: url('../images/video-icon.png') no-repeat  top left;
+        
+      }
+    }
+    .podcast{
+      &:after{
+        background: url('../images/podcast-icon.png') no-repeat  top left;
+        
+      }
+    }
+    .scrom{
+      &:after{
+        background: url('../images/scrom-icon.png') no-repeat  top left;
+        
+      }
+    }
+    .two-slice{
+      position: relative;
+     
+      
+      &:after{
+        position: absolute;
+        top:0;
+        left:0;
+        content: " ";
+        width: 32px;
+        height: 37px;
+        margin-left: 27px;
+        margin-top: 12px;
+        
+      }
+      .two-slice-img{
+      width: 100%;
+      height: 286px;
+      border-radius: 20px;
+      }
+      .play-circle{
+        position:absolute;
+        left:calc(50% - 28px);
+        top:37%;  
+      }
+      .play-circle-podcast{
+        position: absolute;
+        left:22px;
+        top:222px;
+      }
+    }
+
+    .four-slice{
+      position: relative;
+      &:after{
+        position: absolute;
+        top:0;
+        left:0;
+        content: " ";
+        width: 32px;
+        height: 33px;
+        margin-left: 27px;
+        margin-top: 12px;
+        
+      }
+      .four-slice-img{
+      height: 136px;
+      width: 100%;
+      border-radius: 20px;
+      }
+      .play-circle{
+        position:absolute;
+        left:calc(50% - 28px);
+        top:20%; 
+      }
+      .play-circle-podcast{
+        position: absolute;
+        width:50px;
+        left:22px;
+        top: 78px;
+      }
+    }
+  }
 }

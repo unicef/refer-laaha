@@ -1,5 +1,34 @@
 html[dir="rtl"] {
+  .featured-stories {
+    .featured-head{
+      text-align: right;
+      img{
+        padding-left: 9px;
+        padding-right: 0;
+      }
+    }
+    .featured_stories_block{ 
+     
+      .four-slice:after,
+      .two-slice:after{
+        left:calc( 100% -  86px);
+  }
+  .four-slice,
+  .two-slice{
+    .play-circle-podcast{
+        left:calc( 100% -   78px);
+    }
+  }
+  
+
+}
+  }
   #block-recommendedrelatedcontentblock{
+    
+      .recomended-header{
+        text-align: right;
+      }
+    
     .recomended-wrapper{
       .recomended-item{
         .play-circle-podcast{

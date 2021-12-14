@@ -11,7 +11,7 @@
         $(".logo-wrapper", context).clone().insertBefore("#block-iraqnavigationheadermenu");
         $("#block-exitwebsiteblock .telephone-header", context).insertBefore(".telephone_in_mobile .holder");
       }
-
+       $('.paragraph--type--wysiwyg-editor table').addClass('table-bordered') ;
 
     }
   };

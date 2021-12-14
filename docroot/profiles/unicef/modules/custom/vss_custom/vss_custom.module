@@ -10,6 +10,10 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\AlertCommand;
+use Drupal\user\Entity\User;
 
 /**
  * Implements hook_theme().
@@ -172,6 +176,19 @@ function vss_custom_taxonomy_term_delete($term) {
 }
 
 /**
+ * Ajax callback for sending invite to user.
+ */
+function vss_custom_send_invite(&$form, FormStateInterface $form_state) {
+  $uid = \Drupal::routeMatch()->getRawParameter('user');
+  $user = User::load($uid);
+  $langcode = $user->getPreferredLangcode();
+  _user_mail_notify('password_reset', $user, $langcode = NULL);
+  $response = new AjaxResponse();
+  $response->addCommand(new AlertCommand(t('E-mail invite sent.')));
+  return $response;
+}
+
+/**
  * Use form alter.
  */
 function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id) {
@@ -179,6 +196,17 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
     $form['description']['widget'][0]['#required'] = 'true';
     $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories();
     $form['#validate'][] = 'validate_category';
+  }
+  if ($form_id == 'user_form') {
+    $form['reinvite_user'] = [
+      '#type' => 'button',
+      '#value' => t('Re-invite User'),
+      '#weight' => -25,
+      '#ajax' => [
+        'callback' => 'vss_custom_send_invite',
+        'event' => 'click',
+      ],
+    ];
   }
   $language_manager = \Drupal::languageManager()->getCurrentLanguage();
   // Adding warning message.
@@ -425,4 +453,102 @@ function vss_custom_preprocess_exit_website(&$variables) {
     $variables['#attached']['drupalSettings']['voiceId'] = $voiceId;
   }
   $variables['#attached']['drupalSettings']['langId'] = $lang_id;
+}
+
+/**
+ * Implements hook_mail().
+ */
+function vss_custom_mail($key, &$message, $params) {
+  $options = [
+    'langcode' => $message['langcode'],
+  ];
+  switch ($key) {
+    case 'general_mail':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t($params['subject'], $options);
+      $message['body'][] = $params['message'];
+      break;
+  }
+}
+
+/**
+ * Entity insert.
+ */
+function vss_custom_entity_insert(EntityInterface $entity) {
+  if ($entity->getEntityType()->id() == 'node') {
+    if ($entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' || $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_un_publish') {
+      $domain = $entity->get('field_domain_access')->target_id;
+      $state = $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ? 'publish' : 'unpublish';
+      $user = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
+      ['field_domain_access' => $domain, 'roles' => 'country_admin']);
+      $user = reset($user);
+      if ($user) {
+        $user_email = $user->getEmail();
+        $user_name = $user->name->value;
+        $type = $entity->bundle();
+        $editor_name = $entity->getOwner()->name->value;
+        $nid = $entity->id();
+        $url = \Drupal::request()->getHost() . "/node/$nid/edit";
+      }
+      $mailManager = \Drupal::service('plugin.manager.mail');
+      $module = 'vss_custom';
+      $key = 'general_mail';
+      $to = $user_email;
+      $params['message'] = "Hi $user_name,
+      $editor_name has requested to $state an $type. Below is a link 
+      <a href = https://$url>https://$url</a> 
+      Click on the link to view the content or go to your dashboard in the CMS";
+      $params['subject'] = "Request for $state content by $editor_name";
+      $langcode = \Drupal::currentUser()->getPreferredLangcode();
+      $send = TRUE;
+      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+      if ($result['result'] !== TRUE) {
+        \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
+      }
+      else {
+        \Drupal::messenger()->addMessage(t('Mail has been sent.'));
+      }
+    }
+  }
+}
+
+/**
+ * Entity update.
+ */
+function vss_custom_entity_update(EntityInterface $entity) {
+  if ($entity->getEntityType()->id() == 'node') {
+    if ($entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' || $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_un_publish') {
+      $domain = $entity->get('field_domain_access')->target_id;
+      $state = $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ? 'publish' : 'unpublish';
+      $user = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
+      ['field_domain_access' => $domain, 'roles' => 'country_admin']);
+      $user = reset($user);
+      if ($user) {
+        $user_email = $user->getEmail();
+        $user_name = $user->name->value;
+        $type = $entity->bundle();
+        $editor_name = $entity->getOwner()->name->value;
+        $nid = $entity->id();
+        $url = \Drupal::request()->getHost() . "/node/$nid/edit";
+      }
+      $mailManager = \Drupal::service('plugin.manager.mail');
+      $module = 'vss_custom';
+      $key = 'general_mail';
+      $to = $user_email;
+      $params['message'] = "Hi $user_name,
+      $editor_name has requested to $state an $type. Below is a link 
+      <a href = https://$url>https://$url</a>
+      Click on the link to view the content or go to your dashboard in the CMS";
+      $params['subject'] = "Request for $state content by $editor_name";
+      $langcode = \Drupal::currentUser()->getPreferredLangcode();
+      $send = TRUE;
+      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+      if ($result['result'] !== TRUE) {
+        \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
+      }
+      else {
+        \Drupal::messenger()->addMessage(t('Mail has been sent.'));
+      }
+    }
+  }
 }

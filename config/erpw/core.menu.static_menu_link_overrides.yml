@@ -6,16 +6,16 @@ definitions:
     weight: 0
     expanded: false
   user__page:
+    enabled: true
+    menu_name: account
+    parent: ''
+    expanded: false
     weight: -49
-    menu_name: account
-    parent: ''
-    enabled: false
-    expanded: false
   user__logout:
-    weight: -44
+    enabled: true
     menu_name: account
     parent: ''
+    weight: -44
     expanded: false
-    enabled: false
 _core:
   default_config_hash: o4bYR9ZupWb3AsOIizTUG4g-nu1mdJqA59UB7QT-ifQ

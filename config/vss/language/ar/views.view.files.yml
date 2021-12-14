@@ -1,39 +1,68 @@
+label: Files
 display:
   default:
     display_title: Master
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: 'إعادة الضبط'
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
           sort_desc_label: تنازلي
       pager:
         options:
+          tags:
+            previous: '‹ Previous'
+            next: 'Next ›'
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
       fields:
         filename:
           label: الاسم
+          separator: ', '
         filemime:
           label: 'نوع MIME'
+        filesize:
+          label: Size
         status:
           label: الحالة
+        count:
+          label: 'Used in'
       filters:
+        filename:
+          expose:
+            label: Filename
         filemime:
           expose:
             label: 'نوع MIME'
         status:
           expose:
             label: الحالة
+      title: Files
+  page_1:
+    display_options:
+      menu:
+        title: Files
   page_2:
     display_options:
       pager:
         options:
+          tags:
+            previous: '‹ Previous'
+            next: 'Next ›'
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
       fields:
+        entity_label:
+          label: Entity
         type:
           label: 'نوع الكيان'
+        count:
+          label: 'Use count'
+      arguments:
+        fid:
+          exception:
+            title: All

@@ -5,6 +5,7 @@ display:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: 'إعادة الضبط'
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
@@ -14,17 +15,32 @@ display:
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
+          tags:
+            previous: '‹ Previous'
+            next: 'Next ›'
       fields:
         media_bulk_form:
           action_title: إجراء
         thumbnail__target_id:
           label: 'النسخة المصغرة'
+          separator: ', '
+        name:
+          separator: ', '
         bundle:
           label: النوع
+          separator: ', '
         uid:
           label: المؤلف
+          separator: ', '
         status:
           label: الحالة
+          settings:
+            format_custom_true: Published
+            format_custom_false: Unpublished
+          separator: ', '
+        changed:
+          label: Updated
+          separator: ', '
         operations:
           label: عمليات
       filters:
@@ -34,6 +50,12 @@ display:
         status:
           expose:
             label: صحيح
+          group_info:
+            group_items:
+              1:
+                title: Published
+              2:
+                title: Unpublished
         langcode:
           expose:
             label: اللغة
