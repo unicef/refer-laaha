@@ -1,4 +1,5 @@
 /* 16px */
+/* 18px */
 /* 20px */
 /* 14px */
 /* 12px */
@@ -796,7 +797,7 @@ body .absoluteclass {
       background: url("../images/video-icon.png") no-repeat top left; }
     .featured-stories .featured_stories_block .podcast:after {
       background: url("../images/podcast-icon.png") no-repeat top left; }
-    .featured-stories .featured_stories_block .scrom:after {
+    .featured-stories .featured_stories_block .scorm:after {
       background: url("../images/scrom-icon.png") no-repeat top left; }
     .featured-stories .featured_stories_block .two-slice {
       position: relative; }
@@ -845,6 +846,32 @@ body .absoluteclass {
         width: 50px;
         left: 22px;
         top: 78px; }
+
+/*categoery hero*/
+#block-herobannerblock .hero_banner h2 {
+  margin: 60px 0; }
+  #block-herobannerblock .hero_banner h2 img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%; }
+
+#block-herobannerblock .hero-wrapper .hero-col {
+  margin-bottom: 70px; }
+
+#block-herobannerblock .hero-wrapper a {
+  text-decoration: none;
+  color: #000; }
+  #block-herobannerblock .hero-wrapper a img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%; }
+  #block-herobannerblock .hero-wrapper a span {
+    display: block;
+    text-align: center;
+    line-height: 32px;
+    font-weight: 400;
+    font-size: 1.42em;
+    margin-top: 24px; }
 
 .button-defult-exit {
   font-family: Roboto;
@@ -1080,7 +1107,31 @@ article p {
       .featured-stories .featured_stories_block .four-slice .two-slice-img,
       .featured-stories .featured_stories_block .two-slice .four-slice-img,
       .featured-stories .featured_stories_block .two-slice .two-slice-img {
-        height: 184px; } }
+        height: 184px; }
+  /*catagery hero*/
+  #block-herobannerblock .hero_banner h2 {
+    font-size: 1.28em;
+    margin: 40px 0 24px 0; }
+    #block-herobannerblock .hero_banner h2 img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%; }
+  #block-herobannerblock .hero-wrapper .hero-col {
+    margin-bottom: 24px; }
+  #block-herobannerblock .hero-wrapper a {
+    text-decoration: none;
+    color: #000; }
+    #block-herobannerblock .hero-wrapper a img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%; }
+    #block-herobannerblock .hero-wrapper a span {
+      display: block;
+      text-align: center;
+      line-height: 24px;
+      font-weight: 400;
+      font-size: 1.14em;
+      margin-top: 24px; } }
 
 @media screen and (min-width: 768px) {
   #block-globalstickyblock .global_sticky a span {
