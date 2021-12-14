@@ -1003,7 +1003,7 @@ body {
         
       }
     }
-    .scrom{
+    .scorm{
       &:after{
         background: url('../images/scrom-icon.png') no-repeat  top left;
         
@@ -1069,6 +1069,41 @@ body {
         width:50px;
         left:22px;
         top: 78px;
+      }
+    }
+  }
+}
+/*categoery hero*/
+#block-herobannerblock{
+  .hero_banner{
+    h2{
+      margin: 60px 0;
+      img{
+        width:48px;
+        height: 48px;
+        border-radius: 50%;
+      }
+    }
+  }
+  .hero-wrapper{
+    .hero-col{
+      margin-bottom: 70px;
+    }
+    a{
+       text-decoration: none;
+       color:$base-black-color;
+       img{
+         width:200px;
+         height: 200px;
+         border-radius: 50%;
+       }
+      span{
+        display: block;
+        text-align: center;
+        line-height: 32px;
+        font-weight: 400;
+        font-size: $header-logo-font  ;
+        margin-top: 24px;
       }
     }
   }
