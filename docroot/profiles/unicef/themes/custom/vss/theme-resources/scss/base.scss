@@ -728,7 +728,13 @@ body {
 .carousel-caption1{
   display: block;
 }
-
+.carousel{
+  .item{
+    img{
+      width: 100%;
+    }
+  }
+}
 #readmore_article[aria-expanded="true"] {
   height: auto !important;
 }
@@ -955,7 +961,7 @@ body {
 }
 .featured-stories{
   h3{
-    margin: 60px 0;
+    margin: 105px 0 60px 0;
     img{
       padding-right: 9px;
     }
@@ -963,6 +969,7 @@ body {
   background: url(../images/featured-cat-stories.png) no-repeat ;
   background-size: cover  ;
   .featured_stories_block{
+    margin-bottom: 80px;
     a{
       color:#030303;
       &:hover{
