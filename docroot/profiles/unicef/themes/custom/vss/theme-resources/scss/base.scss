@@ -1108,3 +1108,29 @@ body {
     }
   }
 }
+/* Words from experts*/
+
+.bg-banner {
+  display: flex;
+  background: url("../images/bg-words_from_experts.png") no-repeat center;
+  background-size: cover;
+}
+
+h2.block-title {
+  text-align: center;
+}
+.content-wrapper{
+  display: flex;
+}
+
+.field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p{ 
+  padding: 8%;
+  margin-top: 10%;
+}
+.banner-parent{padding: 9%;}
+
+@media screen and (max-width: 767px) {
+  .experts-img {
+    display: none;
+  }
+}
