@@ -5,3 +5,10 @@ erpw_custom.sign_up_form1:
     _title: 'SignUp'
   requirements:
     _permission: 'access content'
+
+erpw_custom.message:
+  path: '/sign-up/message'
+  defaults:
+    _form: '\Drupal\erpw_custom\Form\SignUpForm1'
+  requirements:
+    _permission: 'access content'

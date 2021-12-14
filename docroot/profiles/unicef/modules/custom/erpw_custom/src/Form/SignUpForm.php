@@ -8,6 +8,7 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 
 /**
  * Class SignUpForm.
@@ -15,11 +16,16 @@ use Drupal\Core\Session\AccountProxyInterface;
 class SignUpForm extends FormBase {
 
   /**
-   * Current user object.
-   *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
+
+  /**
+   * The Messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
 
   /**
    * {@inheritdoc}
@@ -31,10 +37,11 @@ class SignUpForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(Connection $database, EntityTypeManagerInterface $entityTypeManager, AccountProxyInterface $current_user) {
+  public function __construct(Connection $database, EntityTypeManagerInterface $entityTypeManager, AccountProxyInterface $current_user, MessengerInterface $messenger) {
     $this->database = $database;
     $this->entityTypeManager = $entityTypeManager;
     $this->currentUser = $current_user;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -44,7 +51,8 @@ class SignUpForm extends FormBase {
     return new static(
       $container->get('database'),
       $container->get('entity_type.manager'),
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('messenger')
     );
   }
 
@@ -55,6 +63,17 @@ class SignUpForm extends FormBase {
     $user_entity = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
     $roles = $user_entity->getRoles();
 
+    if ($form_state->has('page') && $form_state->get('page') == 2) {
+      return self::formPageTwo($form, $form_state);
+    }
+
+    $form_state->set('page', 1);
+
+    $form['description'] = [
+      '#type' => 'item',
+      '#title' => $this->t('Page @page', ['@page' => $form_state->get('page')]),
+    ];
+
     $form['message-step'] = [
       '#markup' => '<div class="step">' . $this->t('Step 1: Personal details') . '</div>',
     ];
@@ -63,43 +82,43 @@ class SignUpForm extends FormBase {
       '#type' => 'textfield',
       '#title' => $this->t('First name'),
       '#required' => TRUE,
-      '#attributes' => ['placeholder' => t('Enter first name')],
+      '#placeholder' => t('Enter first name'),
     ];
 
     $form['last_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Last name'),
       '#required' => TRUE,
-      '#attributes' => ['placeholder' => t('Enter last name')],
+      '#placeholder' => t('Enter last name'),
     ];
 
     $form['email'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Email'),
       '#required' => TRUE,
-      '#attributes' => ['placeholder' => t('Example@gmail.com')],
+      '#placeholder' => t('Enter email name'),
     ];
 
     $form['phone'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Phone'),
       '#required' => TRUE,
-      '#attributes' => ['placeholder' => t('**********')],
+      '#placeholder' => t('**********'),
     ];
 
     $form['organisation'] = [
       '#type' => 'textfield',
-      '#options' => $roles,
+      'options' => $roles,
       '#title' => $this->t('Organisation'),
       '#required' => TRUE,
-      '#attributes' => ['placeholder' => t('Select organisation')],
+      '#placeholder' => t('Select organisation'),
     ];
 
     $form['positon'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Positon'),
       '#required' => TRUE,
-      '#attributes' => ['placeholder' => t('Select position')],
+      '#placeholder' => t('Select position'),
     ];
 
     $form['system_role'] = [
@@ -108,8 +127,9 @@ class SignUpForm extends FormBase {
       '#empty_option' => t('Select system roles'),
       '#title' => $this->t('System role'),
       '#required' => TRUE,
-      '#attributes' => ['placeholder' => t('Select system role')],
+      '#placeholder' => t('Select system role'),
     ];
+
     $form['actions'] = [
       '#type' => 'actions',
     ];
@@ -118,23 +138,146 @@ class SignUpForm extends FormBase {
       '#type' => 'submit',
       '#button_type' => 'primary',
       '#value' => $this->t('Next'),
+      '#submit' => ['::submitPageOne'],
+      '#validate' => ['::validatePageOne'],
     ];
 
+    return $form;
+
+  }
+
+  /**
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  public function validatePageOne(array &$form, FormStateInterface $form_state) {
+    if (!is_numeric($form_state->getValue('phone'))) {
+      $form_state->setErrorByName('phone', t('Phone number must be numeric'));
+    }
+
+  }
+
+  /**
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  public function submitPageOne(array &$form, FormStateInterface $form_state) {
+    $form_state->set('page_values', [
+      'first_name' => $form_state->getValue('first_name'),
+      'last_name' => $form_state->getValue('last_name'),
+      'email' => $form_state->getValue('email'),
+      'phone' => $form_state->getValue('phone'),
+      'organisation' => $form_state->getValue('organisation'),
+      'positon' => $form_state->getValue('positon'),
+      'system_role' => $form_state->getValue('system_role'),
+    ])
+      ->set('page', 2)
+      ->setRebuild(TRUE);
+  }
+
+  /**
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   * @return array
+   *   The render array defining the elements of the form.
+   */
+  public function formPageTwo(array &$form, FormStateInterface $form_state) {
+
+    $form['description'] = [
+      '#type' => 'item',
+      '#title' => $this->t('Page @page', ['@page' => $form_state->get('page')]),
+    ];
+    $form['message-step'] = [
+      '#markup' => '<div class="step">' . $this->t('Step 3: Password') . '</div>',
+    ];
+
+    $form['email'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Email'),
+      '#required' => TRUE,
+      '#placeholder' => t('Enter email id'),
+      '#disabled' => TRUE,
+      '#default_value' => $form_state->getValue('email'),
+    ];
+    $form['password'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Password'),
+      '#required' => TRUE,
+      '#placeholder' => t('**********'),
+    ];
+    $form['confirm_password'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Confirm password'),
+      '#required' => TRUE,
+      '#placeholder' => t('**********'),
+    ];
+    $form['submit'] = [
+      '#type' => 'submit',
+      '#button_type' => 'primary',
+      '#value' => $this->t('Submit'),
+      '#attributes' => [
+        'class' => [
+          'use-ajax',
+        ],
+      ],
+    ];
     return $form;
   }
 
   /**
-   * {@inheritdoc}
+   * @param array $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    return parent::validateForm($form, $form_state);
-
+    $password = $form_state->getValue('password');
+    $confirm_password = $form_state->getValue('confirm_password');
+    if (isset($password) && isset($confirm_password) && (strlen($password) > 0 || strlen($confirm_password) > 0)) {
+      if (strcmp($password, $confirm_password)) {
+        $form_state->setErrorByName('password', t('The specified passwords do not match.'));
+      }
+    }
+    $pass = $form_state->getValue('password');
+    if (empty($pass)) {
+      $form_state->setErrorByName('password', t('Password and Confirm password is required'));
+    }
   }
 
   /**
-   * {@inheritdoc}
+   * @param array $form
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $values = $form_state->get('page_values');
+    $firstname = $values['first_name'];
+    $lastname = $values['last_name'];
+    $email = $values['email'];
+    $phone = $values['phone'];
+    $organisation = $values['organisation'];
+    $position = $values['positon'];
+    $systemrole = $values['system_role'];
+
+    $user_info = [
+      'status' => 0,
+      'name' => $values['first_name'],
+      'pass' => $form_state->getValue('password'),
+      'mail' => $values['email'],
+      'field_first_name' => $values['first_name'],
+      'field_last_name' => $values['last_name'],
+      'field_phone' => $values['phone'],
+      'field_organisation' => $values['organisation'],
+      'field_position' => $values['positon'],
+      'field_system_roles' => $values['system_role'],
+      'roles' => ['authenticated'],
+    ];
+    $user = $this->entityTypeManager->getStorage('user')->create($user_info);
+    $user->save();
+    $form_state->setRedirect('erpw_custom.message');
   }
 
 }
