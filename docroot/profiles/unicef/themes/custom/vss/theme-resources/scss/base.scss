@@ -1125,6 +1125,11 @@ h2.block-title {
 .content-wrapper{
   display: flex;
 }
+.inverted-comma-img{
+  float: right;
+  margin-top: 9%;
+  margin-left: -200px !important;
+}
 
 .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p{ 
   padding: 8%;
@@ -1147,6 +1152,7 @@ font-size: 48px
     display: none;
   }
   .bg-banner {
+    background: url("../images/bg-expert-mobile.png") no-repeat center;
     background-size: 100% 100%;
   }
   .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p{ 
@@ -1155,7 +1161,7 @@ font-size: 48px
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
-    word-wrap: break-word;
+    text-align: center;
   }
   h2.block-title {
     text-align: center;
