@@ -3,6 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_last_name
+    - field.field.user.user.field_organisation
+    - field.field.user.user.field_phone
+    - field.field.user.user.field_position
+    - field.field.user.user.field_system_roles
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -16,22 +22,72 @@ bundle: user
 mode: default
 content:
   account:
-    weight: -10
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
   contact:
-    weight: 5
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
-  language:
+  field_first_name:
     weight: 0
+    settings:
+      size: 60
+      placeholder: 'Enter first name'
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_last_name:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: 'Enter last name'
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_organisation:
+    weight: 4
+    settings:
+      size: 60
+      placeholder: 'Select organisation '
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_phone:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: '**********'
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_position:
+    weight: 5
+    settings:
+      size: 60
+      placeholder: 'Select position'
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_system_roles:
+    weight: 6
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: 'Select system role'
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  language:
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
   timezone:
-    weight: 6
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -41,7 +97,7 @@ content:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-    weight: -1
+    weight: 7
     region: content
 hidden:
   langcode: true

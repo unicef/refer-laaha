@@ -969,7 +969,7 @@ body {
   background: url(../images/featured-cat-stories.png) no-repeat ;
   background-size: cover  ;
   .featured_stories_block{
-    margin-bottom: 80px;
+    margin-bottom: 95px;
     a{
       color:#030303;
       &:hover{
@@ -1003,7 +1003,7 @@ body {
         
       }
     }
-    .scrom{
+    .scorm{
       &:after{
         background: url('../images/scrom-icon.png') no-repeat  top left;
         
@@ -1071,5 +1071,67 @@ body {
         top: 78px;
       }
     }
+  }
+}
+/*categoery hero*/
+#block-herobannerblock{
+  .hero_banner{
+    h2{
+      margin: 60px 0;
+      img{
+        width:48px;
+        height: 48px;
+        border-radius: 50%;
+      }
+    }
+  }
+  .hero-wrapper{
+    .hero-col{
+      margin-bottom: 20px;
+    }
+    a{
+       text-decoration: none;
+       color:$base-black-color;
+       img{
+         width:200px;
+         height: 200px;
+         border-radius: 50%;
+       }
+      span{
+        display: block;
+        text-align: center;
+        line-height: 32px;
+        font-weight: 400;
+        font-size: $header-logo-font  ;
+        margin-top: 24px;
+        min-height: 120px;
+      }
+    }
+  }
+}
+/* Words from experts*/
+
+.bg-banner {
+  display: flex;
+  background: url("../images/bg-words_from_experts.png") no-repeat center;
+  background-size: cover;
+}
+
+h2.block-title {
+  text-align: center;
+}
+.content-wrapper{
+  display: flex;
+}
+
+.field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p{ 
+  padding: 8%;
+  margin-top: 10%;
+}
+.banner-parent{padding: 9%;}
+
+@media screen and (max-width: 767px) {
+  .experts-img {
+    display: none;
   }
 }
