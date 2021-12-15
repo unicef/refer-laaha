@@ -71,8 +71,8 @@ class SignUpForm extends FormBase {
     foreach ($roles as $role) {
       if ($role->id() == 'administrator' || $role->id() == 'anonymous') {
         continue;
-        $system_roles[$role->id()] = $role->label();
       }
+      $system_roles[$role->id()] = $role->label();
     }
 
     if ($form_state->has('page') && $form_state->get('page') == 2) {
@@ -290,7 +290,7 @@ class SignUpForm extends FormBase {
       'field_organisation' => $values['organisation'],
       'field_position' => $values['positon'],
       'field_system_roles' => $values['system_role'],
-      'roles' => ['authenticated'],
+      'roles' => $values['system_role'],
     ];
     $user = $this->entityTypeManager->getStorage('user')->create($user_info);
     $user->save();
