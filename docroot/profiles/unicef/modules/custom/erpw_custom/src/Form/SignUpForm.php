@@ -12,6 +12,8 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Render\Markup;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 
 /**
  * Class SignUpForm.
@@ -65,8 +67,13 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $user_entity = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
-    $roles = $user_entity->getRoles();
+    $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple();
+    foreach ($roles as $role) {
+      if ($role->id() == 'administrator' || $role->id() == 'anonymous') {
+        continue;
+        $system_roles[$role->id()] = $role->label();
+      }
+    }
 
     if ($form_state->has('page') && $form_state->get('page') == 2) {
       return self::formPageTwo($form, $form_state);
@@ -110,10 +117,15 @@ class SignUpForm extends FormBase {
       '#required' => TRUE,
       '#placeholder' => t('**********'),
     ];
+    $organisation = [
+      'srijan' => t('Srijan'),
+      'infosys' => t('Infosys'),
+      'wipro' => t('Wipro'),
+    ];
 
     $form['organisation'] = [
-      '#type' => 'textfield',
-      'options' => $roles,
+      '#type' => 'select',
+      '#options' => $organisation,
       '#title' => $this->t('Organisation'),
       '#required' => TRUE,
       '#placeholder' => t('Select organisation'),
@@ -128,7 +140,7 @@ class SignUpForm extends FormBase {
 
     $form['system_role'] = [
       '#type' => 'select',
-      '#options' => $roles,
+      '#options' => $system_roles,
       '#empty_option' => t('Select system roles'),
       '#title' => $this->t('System role'),
       '#required' => TRUE,
@@ -279,12 +291,23 @@ class SignUpForm extends FormBase {
       'field_organisation' => $values['organisation'],
       'field_position' => $values['positon'],
       'field_system_roles' => $values['system_role'],
-      'roles' => ['authenticated'],
+      'roles' => $values['system_role'],
     ];
     $user = $this->entityTypeManager->getStorage('user')->create($user_info);
     $user->save();
-    $message = $this->t("<div>Your registration has been sent for review.<br/>You will be notified via email, once your registration approved.</div><a href='#'>OK</a><div class='form-actions'></div>");
-    $popup_msg = Markup::create($message);
+    $link_options = [
+      'attributes' => [
+        'class' => [
+          'button',
+          'bg-green',
+        ],
+      ],
+    ];
+    $url = Url::fromRoute('<front>');
+    $url->setOptions($link_options);
+    $link = Link::fromTextAndUrl('OK', $url)->toString();
+    $message = $this->t("Your registration has been sent for review. You will be notified via email, once your registration approved.");
+    $popup_msg = Markup::create($message . ' ' . $link);
     $response = $response->addCommand(new OpenModalDialogCommand("", $popup_msg, ['width' => 400]));
     return $response;
   }
