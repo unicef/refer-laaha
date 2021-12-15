@@ -9,6 +9,9 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Render\Markup;
 
 /**
  * Class SignUpForm.
@@ -154,6 +157,13 @@ class SignUpForm extends FormBase {
     if (!is_numeric($form_state->getValue('phone'))) {
       $form_state->setErrorByName('phone', t('Phone number must be numeric'));
     }
+    $email = $form_state->getValue('email');
+    if ($email === '' || !\Drupal::service('email.validator')->isValid($email)) {
+      // Removing any previous errors.
+      $form_state->clearErrors();
+      // Setting a custom error.
+      $form_state->setErrorByName('email', t('Please provide valid email address.'));
+    }
 
   }
 
@@ -209,14 +219,18 @@ class SignUpForm extends FormBase {
     ];
     $form['submit'] = [
       '#type' => 'submit',
-      '#button_type' => 'primary',
-      '#value' => $this->t('Submit'),
+      '#value' => $this->t('REQUEST REGISTRATION'),
       '#attributes' => [
         'class' => [
           'use-ajax',
         ],
       ],
+      '#ajax' => [
+        'callback' => [$this, 'requestRegistration'],
+        'event' => 'click',
+      ],
     ];
+    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     return $form;
   }
 
@@ -235,12 +249,16 @@ class SignUpForm extends FormBase {
     if (empty($pass)) {
       $form_state->setErrorByName('password', t('Password and Confirm password is required'));
     }
+    if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,12}$/', $password)) {
+      $form_state->setErrorByName('the password does not meet the requirements!');
+    }
   }
 
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function requestRegistration(array &$form, FormStateInterface $form_state) {
+    $response = new AjaxResponse();
     $values = $form_state->get('page_values');
     $firstname = $values['first_name'];
     $lastname = $values['last_name'];
@@ -265,7 +283,15 @@ class SignUpForm extends FormBase {
     ];
     $user = $this->entityTypeManager->getStorage('user')->create($user_info);
     $user->save();
-    $form_state->setRedirect('erpw_custom.message');
+    $popup_msg = Markup::create("<div class=>Your registration has been sent for review.<br/>You will be notified via email, once your registration approved.</div><a href='#'>OK</a><div class='form-actions'></div>");
+    $response = $response->addCommand(new OpenModalDialogCommand("", $popup_msg, ['width' => 400]));
+    return $response;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
   }
 
 }
