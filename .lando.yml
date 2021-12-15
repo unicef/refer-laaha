@@ -22,6 +22,12 @@ services:
     portforward: true
     config:
       confd: lando/mysql/conf.d
+  search:
+    type: solr:7
+    portforward: true
+    core: lando
+    config:
+      conf: config/solr
   node:
     type: node:14
     build:
@@ -43,6 +49,8 @@ proxy:
     - vss.ec.lndo.site
     - vss.iq.lndo.site
     - erpw.lndo.site
+  search:
+    - admin.solr.lndo.site:8983
 tooling:
   "drush":
     cmd: "/app/vendor/bin/drush --root=/app/docroot"
