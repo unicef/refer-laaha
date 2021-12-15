@@ -16,7 +16,9 @@ use Drupal\Core\Messenger\MessengerInterface;
 class SignUpForm extends FormBase {
 
   /**
-   * @var \Drupal\Core\Session\AccountProxyInterface
+   * The Current user service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
    */
   protected $currentUser;
 
@@ -143,14 +145,10 @@ class SignUpForm extends FormBase {
     ];
 
     return $form;
-
   }
 
   /**
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
+   * Sets an error if supplied fields has not been filled.
    */
   public function validatePageOne(array &$form, FormStateInterface $form_state) {
     if (!is_numeric($form_state->getValue('phone'))) {
@@ -160,10 +158,7 @@ class SignUpForm extends FormBase {
   }
 
   /**
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
+   * {@inheritdoc}
    */
   public function submitPageOne(array &$form, FormStateInterface $form_state) {
     $form_state->set('page_values', [
@@ -180,12 +175,7 @@ class SignUpForm extends FormBase {
   }
 
   /**
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
-   * @return array
-   *   The render array defining the elements of the form.
+   * {@inheritdoc}
    */
   public function formPageTwo(array &$form, FormStateInterface $form_state) {
 
@@ -231,8 +221,7 @@ class SignUpForm extends FormBase {
   }
 
   /**
-   * @param array $form
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $password = $form_state->getValue('password');
@@ -249,8 +238,7 @@ class SignUpForm extends FormBase {
   }
 
   /**
-   * @param array $form
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $values = $form_state->get('page_values');
