@@ -501,7 +501,7 @@ function vss_custom_entity_insert(EntityInterface $entity) {
       Click on the link to view the content or go to your dashboard in the CMS";
       $params['subject'] = "Request for $state content by $editor_name";
       $send = TRUE;
-      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+      $result = $mailManager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
       if ($result['result'] !== TRUE) {
         \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
       }
@@ -542,7 +542,7 @@ function vss_custom_entity_update(EntityInterface $entity) {
       Click on the link to view the content or go to your dashboard in the CMS";
       $params['subject'] = "Request for $state content by $editor_name";
       $send = TRUE;
-      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+      $result = $mailManager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
       if ($result['result'] !== TRUE) {
         \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
       }
