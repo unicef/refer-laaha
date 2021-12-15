@@ -2,17 +2,22 @@
 
 /**
  * @file
- * erpw.theme
+ * Functions to support theming in the erpw theme.
  */
-# Function to get user logged info
+
+ /**
+* Implements hook_preprocess_HOOK()
+*/
+
 function erpw_preprocess_block(&$variables){
   $userCurrent = \Drupal::currentUser();
     if ($userCurrent->isAuthenticated()) {
-        $variables['user_name'] = $userCurrent->getAccountName();
-    
+
+        $variables['user_name'] = $userCurrent->getAccountName();  
+  
     }
-    # gets username
+
   $user_logged_in_name = $variables['user']->getDisplayName();
-  # creates value to ouput in the DOM & capitalize first letter
+
   $variables['user_logged_in_name'] = ucfirst($user_logged_in_name);
   }
