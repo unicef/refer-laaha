@@ -283,7 +283,8 @@ class SignUpForm extends FormBase {
     ];
     $user = $this->entityTypeManager->getStorage('user')->create($user_info);
     $user->save();
-    $popup_msg = Markup::create("<div>'Your registration has been sent for review.<br/>You will be notified via email, once your registration approved.</div><a href='#'>OK</a><div class='form-actions'>'</div>");
+    $message = $this->t("<div>Your registration has been sent for review.<br/>You will be notified via email, once your registration approved.</div><a href='#'>OK</a><div class='form-actions'></div>");
+    $popup_msg = Markup::create($message);
     $response = $response->addCommand(new OpenModalDialogCommand("", $popup_msg, ['width' => 400]));
     return $response;
   }
