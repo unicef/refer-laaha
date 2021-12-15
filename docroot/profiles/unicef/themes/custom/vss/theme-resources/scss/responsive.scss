@@ -318,6 +318,43 @@
 
   }
 }
+/*catagery hero*/
+.block-hero-banner-block{
+  
+    h2{ 
+      font-size: $base-font-big-size  ;
+      margin: 40px 0 24px 0;
+      img{
+        width:28px;
+        height: 28px;
+        border-radius: 50%;
+      }
+    }
+  
+  .hero-wrapper{
+    .hero-col{
+      margin-bottom: 24px;
+    }
+    a{
+       text-decoration: none;
+       color:$base-black-color;
+       img{
+         width:120px;
+         height: 120px;
+         border-radius: 50%;
+       }
+      span{
+        display: block;
+        text-align: center;
+        line-height: 24px;
+        font-weight: 400;
+        font-size: $base-font-size ;
+        margin-top: 24px;
+      }
+    }
+  }
+}
+
 }
 
 @media screen and (min-width:768px) {

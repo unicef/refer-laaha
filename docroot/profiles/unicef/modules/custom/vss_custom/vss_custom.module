@@ -488,7 +488,8 @@ function vss_custom_entity_insert(EntityInterface $entity) {
         $type = $entity->bundle();
         $editor_name = $entity->getOwner()->name->value;
         $nid = $entity->id();
-        $url = \Drupal::request()->getHost() . "/node/$nid/edit";
+        $langcode = $entity->get('langcode')->getValue()[0]['value'];
+        $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
       }
       $mailManager = \Drupal::service('plugin.manager.mail');
       $module = 'vss_custom';
@@ -499,9 +500,8 @@ function vss_custom_entity_insert(EntityInterface $entity) {
       <a href = https://$url>https://$url</a> 
       Click on the link to view the content or go to your dashboard in the CMS";
       $params['subject'] = "Request for $state content by $editor_name";
-      $langcode = \Drupal::currentUser()->getPreferredLangcode();
       $send = TRUE;
-      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+      $result = $mailManager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
       if ($result['result'] !== TRUE) {
         \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
       }
@@ -529,7 +529,8 @@ function vss_custom_entity_update(EntityInterface $entity) {
         $type = $entity->bundle();
         $editor_name = $entity->getOwner()->name->value;
         $nid = $entity->id();
-        $url = \Drupal::request()->getHost() . "/node/$nid/edit";
+        $langcode = $entity->get('langcode')->getValue()[0]['value'];
+        $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
       }
       $mailManager = \Drupal::service('plugin.manager.mail');
       $module = 'vss_custom';
@@ -540,9 +541,8 @@ function vss_custom_entity_update(EntityInterface $entity) {
       <a href = https://$url>https://$url</a>
       Click on the link to view the content or go to your dashboard in the CMS";
       $params['subject'] = "Request for $state content by $editor_name";
-      $langcode = \Drupal::currentUser()->getPreferredLangcode();
       $send = TRUE;
-      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+      $result = $mailManager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
       if ($result['result'] !== TRUE) {
         \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
       }
