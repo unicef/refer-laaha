@@ -81,9 +81,8 @@ class SignUpForm extends FormBase {
 
     $form_state->set('page', 1);
 
-    $form['description'] = [
-      '#type' => 'item',
-      '#title' => $this->t('Page @page', ['@page' => $form_state->get('page')]),
+    $form['progress_step'] = [
+      '#markup' => '<div class="personal-detail-page">' . $this->t('1') . '</div>',
     ];
 
     $form['message-step'] = [
@@ -117,10 +116,11 @@ class SignUpForm extends FormBase {
       '#required' => TRUE,
       '#placeholder' => t('**********'),
     ];
+
     $organisation = [
-      'srijan' => t('Srijan'),
-      'infosys' => t('Infosys'),
-      'wipro' => t('Wipro'),
+      'srijan' => 'Srijan',
+      'Infosys' => 'Infosys',
+      'wipro' => 'Wipro',
     ];
 
     $form['organisation'] = [
@@ -201,9 +201,8 @@ class SignUpForm extends FormBase {
    */
   public function formPageTwo(array &$form, FormStateInterface $form_state) {
 
-    $form['description'] = [
-      '#type' => 'item',
-      '#title' => $this->t('Page @page', ['@page' => $form_state->get('page')]),
+    $form['progress_step1'] = [
+      '#markup' => '<div class="password-creation-page">' . $this->t('3') . '</div>',
     ];
     $form['message-step'] = [
       '#markup' => '<div class="step">' . $this->t('Step 3: Password') . '</div>',
@@ -291,7 +290,7 @@ class SignUpForm extends FormBase {
       'field_organisation' => $values['organisation'],
       'field_position' => $values['positon'],
       'field_system_roles' => $values['system_role'],
-      'roles' => $values['system_role'],
+      'roles' => ['authenticated'],
     ];
     $user = $this->entityTypeManager->getStorage('user')->create($user_info);
     $user->save();
