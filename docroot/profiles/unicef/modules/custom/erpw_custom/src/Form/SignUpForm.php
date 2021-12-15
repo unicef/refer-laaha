@@ -71,8 +71,8 @@ class SignUpForm extends FormBase {
     foreach ($roles as $role) {
       if ($role->id() == 'administrator' || $role->id() == 'anonymous') {
         continue;
-        $system_roles[$role->id()] = $role->label();
       }
+      $system_roles[$role->id()] = $role->label();
     }
 
     if ($form_state->has('page') && $form_state->get('page') == 2) {
@@ -81,9 +81,8 @@ class SignUpForm extends FormBase {
 
     $form_state->set('page', 1);
 
-    $form['description'] = [
-      '#type' => 'item',
-      '#title' => $this->t('Page @page', ['@page' => $form_state->get('page')]),
+    $form['progress_step'] = [
+      '#markup' => '<div class="personal-detail-page">' . $this->t('1') . '</div>',
     ];
 
     $form['message-step'] = [
@@ -117,10 +116,11 @@ class SignUpForm extends FormBase {
       '#required' => TRUE,
       '#placeholder' => t('**********'),
     ];
+
     $organisation = [
-      'srijan' => t('Srijan'),
-      'infosys' => t('Infosys'),
-      'wipro' => t('Wipro'),
+      'srijan' => 'Srijan',
+      'Infosys' => 'Infosys',
+      'wipro' => 'Wipro',
     ];
 
     $form['organisation'] = [
@@ -201,9 +201,8 @@ class SignUpForm extends FormBase {
    */
   public function formPageTwo(array &$form, FormStateInterface $form_state) {
 
-    $form['description'] = [
-      '#type' => 'item',
-      '#title' => $this->t('Page @page', ['@page' => $form_state->get('page')]),
+    $form['progress_step1'] = [
+      '#markup' => '<div class="password-creation-page">' . $this->t('3') . '</div>',
     ];
     $form['message-step'] = [
       '#markup' => '<div class="step">' . $this->t('Step 3: Password') . '</div>',
