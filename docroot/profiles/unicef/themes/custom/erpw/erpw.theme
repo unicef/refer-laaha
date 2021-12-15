@@ -4,3 +4,15 @@
  * @file
  * erpw.theme
  */
+# Function to get user logged info
+function erpw_preprocess_block(&$variables){
+  $userCurrent = \Drupal::currentUser();
+    if ($userCurrent->isAuthenticated()) {
+        $variables['user_name'] = $userCurrent->getAccountName();
+        //print_r($variables['user_name']);exit;
+    }
+    # gets username
+  $user_logged_in_name = $variables['user']->getDisplayName();
+  # creates value to ouput in the DOM & capitalize first letter
+  $variables['user_logged_in_name'] = ucfirst($user_logged_in_name);
+  }
