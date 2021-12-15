@@ -123,11 +123,13 @@ function vss_preprocess_paragraph(&$variables) {
       if (!$paragraph->field_single_image->isEmpty()) {
         $target_id = $paragraph->field_single_image->target_id;
         $media = \Drupal::entityTypeManager()->getStorage('media')->load($target_id);
-        if ($media->hasTranslation($langcode)) {
-          $media = $media->getTranslation($langcode);
-        }
-        if (!$media->field_caption->isEmpty()) {
-          $variables['caption'] = $media->field_caption->value;
+        if ($media) {
+          if ($media->hasTranslation($langcode)) {
+            $media = $media->getTranslation($langcode);
+          }
+          if (!$media->field_caption->isEmpty()) {
+            $variables['caption'] = $media->field_caption->value;
+          }
         }
       }
       break;
@@ -136,8 +138,10 @@ function vss_preprocess_paragraph(&$variables) {
       if (!$paragraph->field_image->isEmpty()) {
         foreach ($paragraph->field_image as $targetId) {
           $media = \Drupal::entityTypeManager()->getStorage('media')->load($targetId->target_id);
-          if ($media->hasTranslation($langcode)) {
-            $media = $media->getTranslation($langcode);
+          if ($media) {
+            if ($media->hasTranslation($langcode)) {
+              $media = $media->getTranslation($langcode);
+            }
           }
           $target_id = $media->field_media_image->target_id;
           $file = \Drupal::entityTypeManager()->getStorage('file')->load($target_id);
