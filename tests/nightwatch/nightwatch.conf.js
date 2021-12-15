@@ -40,12 +40,12 @@ module.exports = {
           // sslCertTrusted = true,
           chromeOptions: {
             args: [
-              //'--headless',
-              '--no-sandbox',
-              "--ignore-certificate-errors",
-              '--incognito',
+              '--headless',
+              // '--no-sandbox',
+              // "--ignore-certificate-errors",
+              // '--incognito',
               //'--disable-gpu',
-              '--window-size=1280,1696',
+              //'--window-size=1280,1696',
             ]
           }
         }
