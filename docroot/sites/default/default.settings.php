@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<< HEAD
 // phpcs:ignoreFile
+=======
+// @codingStandardsIgnoreFile
+>>>>>>> 21e9ff21506b732b566972055bdbfe44d3540228
 
 /**
  * @file
@@ -115,6 +119,17 @@ $databases = [];
  * namespace. This is optional for projects managed with Composer if the
  * driver's namespace is in Composer's autoloader.
  *
+<<<<<<< HEAD
+=======
+ * Transaction support is enabled by default for all drivers that support it,
+ * including MySQL. To explicitly disable it, set the 'transactions' key to
+ * FALSE.
+ * Note that some configurations of MySQL, such as the MyISAM engine, don't
+ * support it and will proceed silently even if enabled. If you experience
+ * transaction related crashes with such configuration, set the 'transactions'
+ * key to FALSE.
+ *
+>>>>>>> 21e9ff21506b732b566972055bdbfe44d3540228
  * For each database, you may optionally specify multiple "target" databases.
  * A target database allows Drupal to try to send certain queries to a
  * different database if it can but fall back to the default connection if not.
@@ -230,9 +245,15 @@ $databases = [];
  * Sample Database configuration format for a driver in a contributed module:
  * @code
  *   $databases['default']['default'] = [
+<<<<<<< HEAD
  *     'driver' => 'my_driver',
  *     'namespace' => 'Drupal\my_module\Driver\Database\my_driver',
  *     'autoload' => 'modules/my_module/src/Driver/Database/my_driver/',
+=======
+ *     'driver' => 'mydriver',
+ *     'namespace' => 'Drupal\mymodule\Driver\Database\mydriver',
+ *     'autoload' => 'modules/mymodule/src/Driver/Database/mydriver/',
+>>>>>>> 21e9ff21506b732b566972055bdbfe44d3540228
  *     'database' => 'databasename',
  *     'username' => 'sqlusername',
  *     'password' => 'sqlpassword',
@@ -308,6 +329,7 @@ $settings['hash_salt'] = '';
 $settings['update_free_access'] = FALSE;
 
 /**
+<<<<<<< HEAD
  * Fallback to HTTP for Update Manager and for fetching security advisories.
  *
  * If your site fails to connect to updates.drupal.org over HTTPS (either when
@@ -324,6 +346,8 @@ $settings['update_free_access'] = FALSE;
 # $settings['update_fetch_with_http_fallback'] = TRUE;
 
 /**
+=======
+>>>>>>> 21e9ff21506b732b566972055bdbfe44d3540228
  * External access proxy settings:
  *
  * If your site must access the Internet via a web proxy then you can enter the
@@ -387,20 +411,32 @@ $settings['update_free_access'] = FALSE;
  * Sets which headers to trust from your reverse proxy.
  *
  * Common values are:
+<<<<<<< HEAD
  * - \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR
  * - \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST
  * - \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT
  * - \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO
+=======
+ * - \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_ALL
+>>>>>>> 21e9ff21506b732b566972055bdbfe44d3540228
  * - \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED
  *
  * Note the default value of
  * @code
+<<<<<<< HEAD
  * \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED
+=======
+ * \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_ALL | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED
+>>>>>>> 21e9ff21506b732b566972055bdbfe44d3540228
  * @endcode
  * is not secure by default. The value should be set to only the specific
  * headers the reverse proxy uses. For example:
  * @code
+<<<<<<< HEAD
  * \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO
+=======
+ * \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_ALL
+>>>>>>> 21e9ff21506b732b566972055bdbfe44d3540228
  * @endcode
  * This would trust the following headers:
  * - X_FORWARDED_FOR
@@ -408,6 +444,7 @@ $settings['update_free_access'] = FALSE;
  * - X_FORWARDED_PROTO
  * - X_FORWARDED_PORT
  *
+<<<<<<< HEAD
  * @see \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR
  * @see \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST
  * @see \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT
@@ -416,6 +453,13 @@ $settings['update_free_access'] = FALSE;
  * @see \Symfony\Component\HttpFoundation\Request::setTrustedProxies
  */
 # $settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED;
+=======
+ * @see \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_ALL
+ * @see \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED
+ * @see \Symfony\Component\HttpFoundation\Request::setTrustedProxies
+ */
+# $settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_ALL | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED;
+>>>>>>> 21e9ff21506b732b566972055bdbfe44d3540228
 
 
 /**
@@ -612,6 +656,7 @@ $settings['update_free_access'] = FALSE;
 # ini_set('pcre.recursion_limit', 200000);
 
 /**
+<<<<<<< HEAD
  * Add Permissions-Policy header to disable Google FLoC.
  *
  * By default, Drupal sends the 'Permissions-Policy: interest-cohort=()' header
@@ -627,6 +672,8 @@ $settings['update_free_access'] = FALSE;
 # $settings['block_interest_cohort'] = TRUE;
 
 /**
+=======
+>>>>>>> 21e9ff21506b732b566972055bdbfe44d3540228
  * Configuration overrides.
  *
  * To globally override specific configuration values for this site,

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+## Run npx to run npx inside the container
+##
+## Usage: fin npx
+
+fin run npx "$@"

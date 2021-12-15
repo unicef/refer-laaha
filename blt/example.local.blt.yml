@@ -1,0 +1,16 @@
+project:
+  machine_name: erpw-ez
+  human_name: 'ERPW EzContent '
+  profile:
+    name: ezcontent
+  local:
+    hostname: '${env.VIRTUAL_HOST}'
+drupal:
+  account.name: admin@example.com
+  account.mail: admin@example.com
+  db:
+    database: default
+    username: '${env.MYSQL_USER}'
+    password: '${env.MYSQL_PASSWORD}'
+    host: db
+    port: 3306

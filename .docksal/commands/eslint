@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+## Run eslint to run eslint against custom js files.
+##
+## Usage: fin eslint
+
+fin run npx eslint docroot/modules/custom docroot/themes/custom docroot/profiles/custom

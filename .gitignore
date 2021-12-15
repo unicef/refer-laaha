@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ignore paths that contain user-generated content.
 docroot/files
 docroot/sites/*/files
@@ -132,6 +133,103 @@ db-backups/multi-master.info
 db-backups/crainium
 db-backups/mysql
 db-backups/performance_schema
+=======
+# Files and directories suggested to be ignored by Drupal
+# @see https://git.drupalcode.org/project/drupal/-/blob/9.2.x/example.gitignore
+/docroot/core
+/vendor/
+/docroot/sites/*/settings*.php
+/docroot/sites/*/services*.yml
+/docroot/sites/*/files
+/docroot/sites/*/private
+/docroot/sites/simpletest
+
+# Directories specific to this template
+/docroot/libraries
+/docroot/modules/contrib
+/docroot/profiles/contrib
+/docroot/themes/contrib
+
+# Files and directories for common development environments, loosely inherited from BLT Project
+# @see https://github.com/acquia/blt-project/blob/11.x/.gitignore
+
+# OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Eclipse
+*.pydevproject
+.project
+.metadata
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+*.launch
+.externalToolBuilders/
+
+# CDT / PDT
+.cproject
+.buildpathk
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# IntelliJ / PhpStorm
+.idea/
+atlassian-ide-plugin.xml
+
+# XHProf
+xhprof_*
+
+# Sass
+.sass-cache
+*.css.map
+
+# Netbeans IDE
+nbproject
+nbproject/*
+
+# DrupalVM
+.vagrant/
+
+# DevDesktop
+*.dd
+
+# NPM
+npm-debug.log
+
+# Drush 9 Checksums
+drush/sites/.checksums
+
+# Deprecation detector rules
+.rules
+/.editorconfig
+/.gitattributes
+>>>>>>> 21e9ff21506b732b566972055bdbfe44d3540228
 local.settings.php
 local.drush.yml
 local.site.yml
@@ -142,6 +240,12 @@ deployment_identifier
 /travis_wait*
 /files-private
 .phpcs-cache
+<<<<<<< HEAD
 /README.md
 /.htaccess
 docroot/sites/development.services.yml
+=======
+
+# Exclude node modules
+node_modules
+>>>>>>> 21e9ff21506b732b566972055bdbfe44d3540228
