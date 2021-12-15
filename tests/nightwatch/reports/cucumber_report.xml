@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Verify Header Elements" time="87.47200000000001" tests="4" failures="0" errors="0" skipped="0">
-    <testcase name="Verify all Header elememts" classname="verify-header-elements;verify-all-header-elememts" time="24.99"/>
-    <testcase name="Verify Virtual Safe Space Title and logo" classname="verify-header-elements;verify-virtual-safe-space-title-and-logo" time="18.345"/>
-    <testcase name="Add and Verify VSS Header Menu Items" classname="verify-header-elements;add-and-verify-vss-header-menu-items" time="27.296"/>
-    <testcase name="Exit Functionality" classname="verify-header-elements;exit-functionality" time="16.841"/>
+  <testsuite name="Verify Footer Elements" time="37.26" tests="1" failures="1" errors="0" skipped="0">
+    <testcase name="Add and Verify VSS Footer Quick Links" classname="verify-footer-elements;add-and-verify-vss-footer-quick-links" time="37.26">
+      <failure message="Error while running &quot;urlContains&quot; command: Testing if the URL contains [0;33m'/user/46'[0m in 5000ms - expected [0;32m&quot;contains '/user/46'&quot;[0m but got: [0;31m&quot;https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/&quot;[0m [0;90m(5113ms)[0m&#xA;    at Proxy.Enter_User_Credentials (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/page-objects/loginPage.js:27:17)&#xA;    at World.&lt;anonymous> (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/step-definitions/login.js:11:16)"/>
+    </testcase>
+  </testsuite>
+  <testsuite name="Verify Header Elements" time="143.91" tests="4" failures="4" errors="0" skipped="0">
+    <testcase name="Verify all Header elememts" classname="verify-header-elements;verify-all-header-elememts" time="36.033">
+      <failure message="Error while running &quot;urlContains&quot; command: Testing if the URL contains [0;33m'/user/46'[0m in 5000ms - expected [0;32m&quot;contains '/user/46'&quot;[0m but got: [0;31m&quot;https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/&quot;[0m [0;90m(5112ms)[0m&#xA;    at Proxy.Enter_User_Credentials (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/page-objects/loginPage.js:27:17)&#xA;    at World.&lt;anonymous> (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/step-definitions/login.js:11:16)"/>
+    </testcase>
+    <testcase name="Verify Virtual Safe Space Title and logo" classname="verify-header-elements;verify-virtual-safe-space-title-and-logo" time="36.008">
+      <failure message="Error while running &quot;urlContains&quot; command: Testing if the URL contains [0;33m'/user/46'[0m in 5000ms - expected [0;32m&quot;contains '/user/46'&quot;[0m but got: [0;31m&quot;https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/&quot;[0m [0;90m(5117ms)[0m&#xA;    at Proxy.Enter_User_Credentials (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/page-objects/loginPage.js:27:17)&#xA;    at World.&lt;anonymous> (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/step-definitions/login.js:11:16)"/>
+    </testcase>
+    <testcase name="Add and Verify VSS Header Menu Items" classname="verify-header-elements;add-and-verify-vss-header-menu-items" time="36.161">
+      <failure message="Error while running &quot;urlContains&quot; command: Testing if the URL contains [0;33m'/user/46'[0m in 5000ms - expected [0;32m&quot;contains '/user/46'&quot;[0m but got: [0;31m&quot;https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/&quot;[0m [0;90m(5122ms)[0m&#xA;    at Proxy.Enter_User_Credentials (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/page-objects/loginPage.js:27:17)&#xA;    at World.&lt;anonymous> (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/step-definitions/login.js:11:16)"/>
+    </testcase>
+    <testcase name="Exit Functionality" classname="verify-header-elements;exit-functionality" time="35.708">
+      <failure message="Error while running &quot;urlContains&quot; command: Testing if the URL contains [0;33m'/user/46'[0m in 5000ms - expected [0;32m&quot;contains '/user/46'&quot;[0m but got: [0;31m&quot;https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/&quot;[0m [0;90m(5103ms)[0m&#xA;    at Proxy.Enter_User_Credentials (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/page-objects/loginPage.js:27:17)&#xA;    at World.&lt;anonymous> (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/step-definitions/login.js:11:16)"/>
+    </testcase>
   </testsuite>
 </testsuites>
