@@ -1,18 +1,9 @@
 <?php
 
-/**
- * @file
- * Callback action on submit (custom method plus bas)
- *
- * @param $form
- * @param \Drupal\Core\Form\FormStateInterface $form_state
- * @param $form_id
- */
-
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- *
+ * Implements hook_theme().
  */
 function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
