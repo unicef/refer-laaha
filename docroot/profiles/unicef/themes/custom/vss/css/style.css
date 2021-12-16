@@ -847,6 +847,9 @@ body .absoluteclass {
         left: 22px;
         top: 78px; }
 
+.wrapper {
+  overflow: hidden; }
+
 /*categoery hero*/
 .block-hero-banner-block h2 {
   margin: 60px 0; }
@@ -856,7 +859,8 @@ body .absoluteclass {
     border-radius: 50%; }
 
 .block-hero-banner-block .hero-wrapper .hero-col {
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  min-height: 350px; }
 
 .block-hero-banner-block .hero-wrapper a {
   text-decoration: none;
@@ -871,62 +875,61 @@ body .absoluteclass {
     line-height: 32px;
     font-weight: 400;
     font-size: 1.42em;
-    margin-top: 24px;
-    min-height: 120px; }
+    margin-top: 24px; }
 
 /* Words from experts*/
-.bg-banner {
+#block-wordsfromexperts .bg-banner {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   background: url("../images/bg-words_from_experts.png") no-repeat center;
   background-size: 1240px 795.62px; }
 
-h2.block-title {
+#block-wordsfromexperts h2.block-title {
   text-align: center;
   font-size: 36px;
   font-weight: 500; }
 
-.content-wrapper {
+#block-wordsfromexperts .content-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex; }
 
-.inverted-comma-img {
+#block-wordsfromexperts .inverted-comma-img {
   float: right;
   margin-top: 9%;
   margin-left: -200px !important; }
 
-.field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
+#block-wordsfromexperts .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
   padding: 8%;
   margin-top: 10%;
   font-size: 20px;
   line-height: 28px; }
 
-.field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item h2 {
+#block-wordsfromexperts .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item h2 {
   float: right;
   margin-right: 10%;
   margin-top: 10%;
   color: #CB9CA1;
   font-size: 48px; }
 
-.banner-parent {
+#block-wordsfromexperts .banner-parent {
   padding: 20%; }
 
 @media screen and (max-width: 767px) {
-  .experts-img {
+  #block-wordsfromexperts .experts-img {
     display: none; }
-  .bg-banner {
+  #block-wordsfromexperts .bg-banner {
     background: url("../images/bg-expert-mobile.png") no-repeat center;
     background-size: 100% 100%; }
-  .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
+  #block-wordsfromexperts .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
     padding: 8%;
     margin-top: 10%;
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
     text-align: center; }
-  h2.block-title {
+  #block-wordsfromexperts h2.block-title {
     text-align: center;
     font-size: 20px;
     font-weight: 500;
@@ -1176,7 +1179,8 @@ article p {
       height: 28px;
       border-radius: 50%; }
   .block-hero-banner-block .hero-wrapper .hero-col {
-    margin-bottom: 24px; }
+    margin-bottom: 24px;
+    min-height: 250px; }
   .block-hero-banner-block .hero-wrapper a {
     text-decoration: none;
     color: #000; }
