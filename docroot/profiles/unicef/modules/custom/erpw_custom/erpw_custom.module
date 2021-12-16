@@ -3,8 +3,9 @@
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Implements hook_theme().
+ * Implements hook_form_FORM_ID_alter().
  */
+ 
 function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
   if ($form_id == 'user_login_form') {
