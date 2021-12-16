@@ -1,0 +1,40 @@
+<?php
+/**
+* callback action on submit (custom method plus bas)
+*
+* @param $form
+* @param \Drupal\Core\Form\FormStateInterface $form_state
+* @param $form_id
+*/
+use Drupal\Core\Form\FormStateInterface;
+
+function erpw_signin_form_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+
+
+if ($form_id == 'user_login_form') {
+
+    //code to modify your form input
+    $form['name']['#placeholder'][] = t('Email');
+    $form['pass']['#placeholder'][] = t('Password');
+    $form['name']['#title_display'] = 'invisible';
+    $form['pass']['#title_display'] = 'invisible';
+    unset($form['name']['#description']);	
+	unset($form['pass']['#description']);
+    $form['actions']['submit']['#value'] = t('SIGN IN');	
+    //$form['#validate'][1] = 'erpw_signin_form_form_user_login_replace_email_validate';
+   //do something similar to create a custom validation handler
+
+}
+
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function erpw_signin_form_preprocess_page_title(&$variables) {
+    $request = \Drupal::request();
+    $path = $request->getRequestUri(); // get current path
+    if(strpos($path, 'user')) { //check current path is user profile page
+     $variables['title'] = 'Sign In';
+    }
+}
