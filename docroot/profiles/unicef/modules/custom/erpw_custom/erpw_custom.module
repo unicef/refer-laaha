@@ -14,7 +14,7 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  *
  */
-function erpw_signin_form_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
   if ($form_id == 'user_login_form') {
 
@@ -35,7 +35,7 @@ function erpw_signin_form_form_alter(&$form, FormStateInterface $form_state, $fo
 /**
  * Implements hook_preprocess_HOOK().
  */
-function erpw_signin_form_preprocess_page_title(&$variables) {
+function erpw_custom_preprocess_page_title(&$variables) {
   $request = \Drupal::request();
   // Get current path.
   $path = $request->getRequestUri();
