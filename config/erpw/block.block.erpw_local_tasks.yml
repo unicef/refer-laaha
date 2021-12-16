@@ -2,6 +2,8 @@ uuid: b7587812-4c69-44a9-a5ac-243cb907effd
 langcode: en
 status: true
 dependencies:
+  module:
+    - system
   theme:
     - erpw
 _core:
@@ -19,4 +21,8 @@ settings:
   label_display: '0'
   primary: true
   secondary: true
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    pages: /user/login
+    negate: true
