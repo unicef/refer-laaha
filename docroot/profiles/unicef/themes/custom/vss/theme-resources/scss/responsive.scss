@@ -245,19 +245,27 @@
     margin-top: 24px;
 
   }
-
-  #block-globalstickyblock {
+.content-wrapper-main{
+ .global-sticky-region {
     top: inherit;
     right: 0;
     bottom: 0;
+    position: fixed;
+    z-index: 99;
     width: 100%;
-    border-top-right-radius: 20px;
+    
+    height: 72px;
+    
+   
+.region-global-sticky{
+  border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
-    height: 72px;
-    padding-top: 15px;
-
+  padding-top: 15px;
+  width: 100%;
+  position:inherit;
+  top:inherit;
     .global_sticky {
       flex-direction: row;
       justify-content: space-around;
@@ -278,9 +286,11 @@
       }
     }
   }
+}
+}
 
   .footer-wrapper {
-    margin-bottom: 60px;
+    margin-bottom: 55px;
 
   }
   .featured-stories{

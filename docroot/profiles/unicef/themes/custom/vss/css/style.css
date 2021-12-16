@@ -1126,35 +1126,41 @@ article p {
     margin-left: auto; }
   .article-hero-img {
     margin-top: 24px; }
-  #block-globalstickyblock {
+  .content-wrapper-main .global-sticky-region {
     top: inherit;
     right: 0;
     bottom: 0;
+    position: fixed;
+    z-index: 99;
     width: 100%;
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 0px;
-    height: 72px;
-    padding-top: 15px; }
-    #block-globalstickyblock .global_sticky {
-      -webkit-box-orient: horizontal;
-      -webkit-box-direction: normal;
-          -ms-flex-direction: row;
-              flex-direction: row;
-      -ms-flex-pack: distribute;
-          justify-content: space-around; }
-      #block-globalstickyblock .global_sticky .gethelp {
-        margin: 0;
-        -webkit-box-ordinal-group: 0;
-            -ms-flex-order: -1;
-                order: -1; }
-      #block-globalstickyblock .global_sticky .chatbot img {
-        margin-top: 2px; }
-      #block-globalstickyblock .global_sticky .chatbot span {
-        margin-top: 8px; }
+    height: 72px; }
+    .content-wrapper-main .global-sticky-region .region-global-sticky {
+      border-top-right-radius: 20px;
+      border-top-left-radius: 20px;
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+      padding-top: 15px;
+      width: 100%;
+      position: inherit;
+      top: inherit; }
+      .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+                flex-direction: row;
+        -ms-flex-pack: distribute;
+            justify-content: space-around; }
+        .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .gethelp {
+          margin: 0;
+          -webkit-box-ordinal-group: 0;
+              -ms-flex-order: -1;
+                  order: -1; }
+        .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .chatbot img {
+          margin-top: 2px; }
+        .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .chatbot span {
+          margin-top: 8px; }
   .footer-wrapper {
-    margin-bottom: 60px; }
+    margin-bottom: 55px; }
   .featured-stories {
     background: none; }
     .featured-stories h3 {
