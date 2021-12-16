@@ -38,8 +38,8 @@
         }
       });
     });
-
-    if (jQuery(window).width() >= 768) {
+console.log(jQuery(".content-wrapper-main").height());
+    /*if (jQuery(window).width() >= 768) {
       if (jQuery(".main-container").height() < 500) {
         jQuery('#block-globalstickyblock').addClass("absoluteclass");
       }
@@ -54,7 +54,7 @@
       jQuery(document).scroll(function () {
         checkOffset();
       });
-    }
+    }*/
   });
 
 })(jQuery, Drupal, drupalSettings);

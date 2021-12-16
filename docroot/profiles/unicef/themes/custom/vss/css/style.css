@@ -503,39 +503,6 @@ article .field--name-field-tags .field-label {
 #block-languageswitcher ul li a {
   font-size: 1em; }
 
-#block-globalstickyblock {
-  z-index: 99;
-  position: fixed;
-  top: 430px;
-  right: 2%;
-  padding: 30px 10px;
-  background: #CB9CA1;
-  border-radius: 8px; }
-  #block-globalstickyblock .global_sticky {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column; }
-    #block-globalstickyblock .global_sticky .gethelp {
-      margin: 28px 0; }
-    #block-globalstickyblock .global_sticky a {
-      text-align: center;
-      color: #000;
-      font-size: 0.85em;
-      cursor: pointer; }
-      #block-globalstickyblock .global_sticky a:hover {
-        text-decoration: none; }
-      #block-globalstickyblock .global_sticky a img {
-        display: block;
-        margin: 0 auto 6px; }
-      #block-globalstickyblock .global_sticky a span {
-        display: block;
-        text-align: center;
-        line-height: 16px; }
-
 body .absoluteclass {
   position: absolute !important;
   top: inherit !important;
@@ -934,6 +901,47 @@ body .absoluteclass {
     font-size: 20px;
     font-weight: 500;
     line-height: 28px; } }
+
+/* global sticky*/
+.content-wrapper-main {
+  position: relative; }
+  .content-wrapper-main .global-sticky-region {
+    position: absolute;
+    top: 0;
+    bottom: -10px;
+    display: block;
+    right: 2%; }
+    .content-wrapper-main .global-sticky-region .region-global-sticky {
+      z-index: 99;
+      position: sticky;
+      top: calc(100vh / 3);
+      padding: 30px 10px;
+      background: #CB9CA1;
+      border-radius: 8px; }
+      .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column; }
+        .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .gethelp {
+          margin: 28px 0; }
+        .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky a {
+          text-align: center;
+          color: #000;
+          font-size: 0.85em;
+          cursor: pointer; }
+          .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky a:hover {
+            text-decoration: none; }
+          .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky a img {
+            display: block;
+            margin: 0 auto 6px; }
+          .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky a span {
+            display: block;
+            text-align: center;
+            line-height: 16px; }
 
 .button-defult-exit {
   font-family: Roboto;
