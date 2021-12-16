@@ -38,23 +38,7 @@
         }
       });
     });
-console.log(jQuery(".content-wrapper-main").height());
-    /*if (jQuery(window).width() >= 768) {
-      if (jQuery(".main-container").height() < 500) {
-        jQuery('#block-globalstickyblock').addClass("absoluteclass");
-      }
 
-      function checkOffset() {
-        if (jQuery('#block-globalstickyblock').offset().top + jQuery('#block-globalstickyblock').height() >= jQuery('#footer').offset().top) {
-          jQuery('#block-globalstickyblock').addClass("absoluteclass");
-        }
-        if (jQuery(document).scrollTop() + window.innerHeight < jQuery('#footer').offset().top - 10)
-          jQuery('#block-globalstickyblock').removeClass("absoluteclass");
-      }
-      jQuery(document).scroll(function () {
-        checkOffset();
-      });
-    }*/
   });
 
 })(jQuery, Drupal, drupalSettings);
