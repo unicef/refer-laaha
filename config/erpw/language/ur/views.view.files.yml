@@ -1,0 +1,33 @@
+display:
+  default:
+    display_title: 'طے شدہ'
+    display_options:
+      fields:
+        filemime:
+          label: 'MIME کی قسم'
+        status:
+          label: حالت
+      pager:
+        options:
+          tags:
+            previous: '› گزشتہ'
+      exposed_form:
+        options:
+          submit_button: فلٹر
+          exposed_sorts_label: 'کی طرف سے  کی گئی مرتب سازی'
+      filters:
+        filemime:
+          expose:
+            label: 'MIME کی قسم'
+        status:
+          expose:
+            label: حالت
+  page_2:
+    display_options:
+      fields:
+        type:
+          label: 'Entity کی قسم'
+      pager:
+        options:
+          tags:
+            previous: '› گزشتہ'

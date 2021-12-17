@@ -1,0 +1,56 @@
+label: تبصرے
+display:
+  default:
+    display_title: 'طے شدہ'
+    display_options:
+      title: تبصرے
+      fields:
+        comment_bulk_form:
+          action_title: ایکشن
+        subject:
+          label: موضوع
+        name:
+          label: مصنف
+        operations:
+          label: معاملات
+      pager:
+        options:
+          tags:
+            next: اگلا>
+            previous: '› گزشتہ'
+            first: '» ابتدائی'
+            last: 'آخری »'
+      exposed_form:
+        options:
+          submit_button: فلٹر
+          exposed_sorts_label: 'کی طرف سے  کی گئی مرتب سازی'
+      filters:
+        subject:
+          expose:
+            label: موضوع
+        langcode:
+          expose:
+            label: زبان
+      use_more_text: مزید
+  page_published:
+    display_options:
+      menu:
+        title: تبصرے
+  page_unapproved:
+    display_options:
+      fields:
+        comment_bulk_form:
+          action_title: ایکشن
+        subject:
+          label: موضوع
+        name:
+          label: مصنف
+        operations:
+          label: معاملات
+      filters:
+        subject:
+          expose:
+            label: موضوع
+        langcode:
+          expose:
+            label: زبان
