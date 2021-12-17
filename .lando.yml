@@ -37,12 +37,16 @@ services:
     run_as_root:
       - echo "127.0.0.1 vss.ec.lndo.site" >> /etc/hosts
       - echo "127.0.0.1 vss.iq.lndo.site" >> /etc/hosts
+      - echo "127.0.0.1 zw.erpw.lndo.site" >> /etc/hosts
+      - echo "127.0.0.1 bn.erpw.lndo.site" >> /etc/hosts
 proxy:
   appserver:
     - vss.lndo.site
     - vss.ec.lndo.site
     - vss.iq.lndo.site
     - erpw.lndo.site
+    - zw.erpw.lndo.site
+    - bn.erpw.lndo.site
 tooling:
   "drush":
     cmd: "/app/vendor/bin/drush --root=/app/docroot"

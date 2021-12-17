@@ -5,11 +5,23 @@ dependencies: {  }
 id: local
 label: local
 description: 'Configuration for Local environment'
+weight: 0
 folder: ../config/erpwlocal
 module: {  }
 theme: {  }
-blacklist: {  }
+blacklist:
+  - domain.config.bn_erpw_lndo_site.language.types
+  - domain.config.bn_erpw_lndo_site.system.site
+  - domain.config.zm_pw_lndo_site.language.types
+  - domain.config.zm_pw_lndo_site.system.site
+  - domain.language.bn_erpw_lndo_site.language.negotiation
+  - domain.language.zm_pw_lndo_site.language.negotiation
+  - domain.record.bn_erpw_lndo_site
+  - domain.record.zm_pw_lndo_site
+  - system.action.domain_access_remove_action.bn_erpw_lndo_site
+  - system.action.domain_access_remove_action.zm_pw_lndo_site
+  - system.action.domain_access_remove_editor_action.bn_erpw_lndo_site
+  - system.action.domain_access_remove_editor_action.zm_pw_lndo_site
 graylist: {  }
 graylist_dependents: true
 graylist_skip_equal: true
-weight: 0
