@@ -9,6 +9,33 @@
       }
     }
   }
+  #block-wordsfromexperts {
+    .experts-img {
+      display: none;
+    }
+
+    .bg-banner {
+      background: url("../images/bg-expert-mobile.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+
+    .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
+      padding: 8%;
+      margin-top: 10%;
+      font-size: $base-footer-font-size;
+      font-weight: 400;
+      line-height: 20px;
+      text-align: center;
+    }
+
+    h2.block-title {
+      text-align: center;
+      font-size: $base-para-tag;
+      font-weight: 500;
+      line-height: 28px;
+
+    }
+  }
 #block-recommendedrelatedcontentblock{
   padding: 5px 0;
   border-top: 2px solid #00000066;
