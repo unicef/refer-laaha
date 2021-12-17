@@ -1127,7 +1127,7 @@ body {
 
   h2.block-title {
     text-align: center;
-    font-size: 36px;
+    font-size: $base-h3-tag;
     font-weight: 500;
   }
 
@@ -1144,7 +1144,7 @@ body {
   .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
     padding: 8%;
     margin-top: 10%;
-    font-size: 20px;
+    font-size: $base-para-tag;
     line-height: 28px;
   }
 
@@ -1159,36 +1159,6 @@ body {
 
   .banner-parent {
     padding: 20%;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  #block-wordsfromexperts {
-    .experts-img {
-      display: none;
-    }
-
-    .bg-banner {
-      background: url("../images/bg-expert-mobile.png") no-repeat center;
-      background-size: 100% 100%;
-    }
-
-    .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
-      padding: 8%;
-      margin-top: 10%;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 20px;
-      text-align: center;
-    }
-
-    h2.block-title {
-      text-align: center;
-      font-size: 20px;
-      font-weight: 500;
-      line-height: 28px;
-
-    }
   }
 }
 
