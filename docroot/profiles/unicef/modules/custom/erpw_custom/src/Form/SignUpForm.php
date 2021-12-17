@@ -11,6 +11,8 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
@@ -107,7 +109,7 @@ class SignUpForm extends FormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Email'),
       '#required' => TRUE,
-      '#placeholder' => t('Enter email name'),
+      '#placeholder' => t('Example@gmail.com '),
     ];
 
     $form['phone'] = [
@@ -126,14 +128,14 @@ class SignUpForm extends FormBase {
     $form['organisation'] = [
       '#type' => 'select',
       '#options' => $organisation,
+      '#empty_option' => t('Select organization '),
       '#title' => $this->t('Organisation'),
       '#required' => TRUE,
-      '#placeholder' => t('Select organisation'),
     ];
 
-    $form['positon'] = [
+    $form['position'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Positon'),
+      '#title' => $this->t('Position'),
       '#required' => TRUE,
       '#placeholder' => t('Select position'),
     ];
@@ -169,14 +171,13 @@ class SignUpForm extends FormBase {
     if (!is_numeric($form_state->getValue('phone'))) {
       $form_state->setErrorByName('phone', t('Phone number must be numeric'));
     }
-    $email = $form_state->getValue('email');
-    if ($email === '' || !\Drupal::service('email.validator')->isValid($email)) {
-      // Removing any previous errors.
-      $form_state->clearErrors();
-      // Setting a custom error.
-      $form_state->setErrorByName('email', t('Please provide valid email address.'));
+    if (!$form_state->getValue('email') || !filter_var($form_state->getValue('email'), FILTER_VALIDATE_EMAIL)) {
+      $form_state->setErrorByName('email', $this->t('Please provide valid email address.'));
     }
-
+    $email = $form_state->getValue('email');
+    if (isset($email) && user_load_by_mail($email)) {
+      $form_state->setErrorByName('email', $this->t('Email already in use.'));
+    }
   }
 
   /**
@@ -201,12 +202,13 @@ class SignUpForm extends FormBase {
    */
   public function formPageTwo(array &$form, FormStateInterface $form_state) {
 
-    $form['progress_step1'] = [
+    $form['progress_step3'] = [
       '#markup' => '<div class="password-creation-page">' . $this->t('3') . '</div>',
     ];
     $form['message-step'] = [
       '#markup' => '<div class="step">' . $this->t('Step 3: Password') . '</div>',
     ];
+    $form['#prefix'] = '<div id="status-message"></div>';
 
     $form['email'] = [
       '#type' => 'textfield',
@@ -238,6 +240,7 @@ class SignUpForm extends FormBase {
       ],
       '#ajax' => [
         'callback' => [$this, 'requestRegistration'],
+        "wrapper" => "requestregistration",
         'event' => 'click',
       ],
     ];
@@ -256,12 +259,11 @@ class SignUpForm extends FormBase {
         $form_state->setErrorByName('password', t('The specified passwords do not match.'));
       }
     }
-    $pass = $form_state->getValue('password');
-    if (empty($pass)) {
-      $form_state->setErrorByName('password', t('Password and Confirm password is required'));
+    if (strlen($password) < 6) {
+      $form_state->setErrorByName('password', t('Your password must contain at least 8 characters.'));
     }
-    if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,12}$/', $password)) {
-      $form_state->setErrorByName('the password does not meet the requirements!');
+    if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,64}$/", $password)) {
+      $form_state->setErrorByName('Password should contain at least one Number, one Symbol and one alphabet');
     }
   }
 
@@ -270,44 +272,52 @@ class SignUpForm extends FormBase {
    */
   public function requestRegistration(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
-    $values = $form_state->get('page_values');
-    $firstname = $values['first_name'];
-    $lastname = $values['last_name'];
-    $email = $values['email'];
-    $phone = $values['phone'];
-    $organisation = $values['organisation'];
-    $position = $values['positon'];
-    $systemrole = $values['system_role'];
-
-    $user_info = [
-      'status' => 0,
-      'name' => $values['first_name'],
-      'pass' => $form_state->getValue('password'),
-      'mail' => $values['email'],
-      'field_first_name' => $values['first_name'],
-      'field_last_name' => $values['last_name'],
-      'field_phone' => $values['phone'],
-      'field_organisation' => $values['organisation'],
-      'field_position' => $values['positon'],
-      'field_system_roles' => $values['system_role'],
-      'roles' => $values['system_role'],
-    ];
-    $user = $this->entityTypeManager->getStorage('user')->create($user_info);
-    $user->save();
-    $link_options = [
-      'attributes' => [
-        'class' => [
-          'button',
-          'bg-green',
+    if ($form_state->hasAnyErrors()) {
+      $errors = $form_state->getErrors();
+      $command_content = $errors['password'];
+      $response->addCommand(new InvokeCommand('#status-message', 'addClass', [['messages', 'messages--error', 'form-text', 'required error']]));
+      $response->addCommand(new HtmlCommand('#status-message', $command_content));
+    }
+    else {
+      $form_state->clearErrors();
+      $values = $form_state->get('page_values');
+      $firstname = $values['first_name'];
+      $lastname = $values['last_name'];
+      $email = $values['email'];
+      $phone = $values['phone'];
+      $organisation = $values['organisation'];
+      $position = $values['positon'];
+      $systemrole = $values['system_role'];
+      $user_info = [
+        'status' => 0,
+        'name' => $values['email'],
+        'pass' => $form_state->getValue('password'),
+        'mail' => $values['email'],
+        'field_first_name' => $values['first_name'],
+        'field_last_name' => $values['last_name'],
+        'field_phone' => $values['phone'],
+        'field_organisation' => $values['organisation'],
+        'field_position' => $values['positon'],
+        'field_system_roles' => $values['system_role'],
+        'roles' => $values['system_role'],
+      ];
+      $user = $this->entityTypeManager->getStorage('user')->create($user_info);
+      $user->save();
+      $link_options = [
+        'attributes' => [
+          'class' => [
+            'button',
+            'bg-green',
+          ],
         ],
-      ],
-    ];
-    $url = Url::fromRoute('<front>');
-    $url->setOptions($link_options);
-    $link = Link::fromTextAndUrl('OK', $url)->toString();
-    $message = $this->t("Your registration has been sent for review. You will be notified via email, once your registration approved.");
-    $popup_msg = Markup::create($message . ' ' . $link);
-    $response = $response->addCommand(new OpenModalDialogCommand("", $popup_msg, ['width' => 400]));
+      ];
+      $url = Url::fromRoute('<front>');
+      $url->setOptions($link_options);
+      $link = Link::fromTextAndUrl('OK', $url)->toString();
+      $message = $this->t("Your registration has been sent for review. You will be notified via email, once your registration approved.");
+      $popup_msg = Markup::create($message . ' ' . $link);
+      $response = $response->addCommand(new OpenModalDialogCommand("", $popup_msg, ['width' => 400]));
+    }
     return $response;
   }
 
@@ -315,6 +325,7 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+
   }
 
 }
