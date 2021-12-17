@@ -1,0 +1,14 @@
+uuid: d7192f2e-a446-42fe-a695-4305b8f405cb
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.bn_erpw_lndo_site
+  module:
+    - domain_access
+id: domain_access_add_editor_action.bn_erpw_lndo_site
+label: 'Add editors to the Bangladesh eRPW domain'
+type: user
+plugin: domain_access_add_editor_action
+configuration:
+  domain_id: bn_erpw_lndo_site
