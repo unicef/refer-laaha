@@ -26,29 +26,29 @@ type_settings:
       default_revision: true
     draft:
       label: Draft
+      weight: -3
       published: false
       default_revision: false
-      weight: -3
     published:
       label: Published
+      weight: -1
       published: true
       default_revision: true
-      weight: -1
     request_for_publish:
-      published: false
-      default_revision: false
       label: 'Request for publish'
       weight: -2
-    request_for_un_publish:
-      published: true
+      published: false
       default_revision: false
+    request_for_un_publish:
       label: 'Request for Un-publish'
       weight: 1
+      published: true
+      default_revision: false
     un_publish:
-      published: false
-      default_revision: true
       label: Un-Publish
       weight: 2
+      published: false
+      default_revision: true
   transitions:
     archive:
       label: Archive
@@ -70,19 +70,19 @@ type_settings:
       weight: 3
     create_new_draft:
       label: 'Create New Draft'
-      to: draft
-      weight: -6
       from:
         - draft
         - request_for_publish
+      to: draft
+      weight: -6
     publish:
       label: Publish
-      to: published
-      weight: -4
       from:
         - draft
         - published
         - request_for_publish
+      to: published
+      weight: -4
     publish_to_request_for_publish:
       label: 'Publish to Request for Publish'
       from:
@@ -134,3 +134,4 @@ type_settings:
       - scorm
       - video
   default_moderation_state: draft
+  translation_default_moderation_state_behavior: default

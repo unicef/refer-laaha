@@ -217,13 +217,13 @@ class SignUpForm extends FormBase {
       '#default_value' => $form_state->getValue('email'),
     ];
     $form['password'] = [
-      '#type' => 'textfield',
+      '#type' => 'password',
       '#title' => $this->t('Password'),
       '#required' => TRUE,
       '#placeholder' => t('**********'),
     ];
     $form['confirm_password'] = [
-      '#type' => 'textfield',
+      '#type' => 'password',
       '#title' => $this->t('Confirm password'),
       '#required' => TRUE,
       '#placeholder' => t('**********'),

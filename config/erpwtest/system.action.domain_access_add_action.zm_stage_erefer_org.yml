@@ -1,0 +1,14 @@
+uuid: 28a620ae-5f2f-43ea-aa9b-7e0df0482177
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.zm_stage_erefer_org
+  module:
+    - domain_access
+id: domain_access_add_action.zm_stage_erefer_org
+label: 'Add selected content to the Zimbabwe eRPW domain'
+type: node
+plugin: domain_access_add_action
+configuration:
+  domain_id: zm_stage_erefer_org
