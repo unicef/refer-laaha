@@ -850,12 +850,14 @@ body .absoluteclass {
   display: -ms-flexbox;
   display: flex;
   background: url("../images/bg-words_from_experts.png") no-repeat center;
-  background-size: 1240px 795.62px; }
+  background-size: 1240px 795.62px;
+  padding-bottom: 5%; }
 
 #block-wordsfromexperts h2.block-title {
   text-align: center;
   font-size: 2.57em;
-  font-weight: 500; }
+  font-weight: 500;
+  margin-top: 10%; }
 
 #block-wordsfromexperts .content-wrapper {
   display: -webkit-box;
@@ -864,12 +866,12 @@ body .absoluteclass {
 
 #block-wordsfromexperts .inverted-comma-img {
   float: right;
-  margin-top: 9%;
-  margin-left: -200px !important; }
+  margin-top: 16%;
+  margin-left: -250px !important; }
 
 #block-wordsfromexperts .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
   padding: 8%;
-  margin-top: 10%;
+  margin-top: 18%;
   font-size: 1.42em;
   line-height: 28px; }
 
@@ -1297,8 +1299,11 @@ html[dir="rtl"] #block-wordsfromexperts .experts-img, html[dir="rtl"] #block-wor
 
 html[dir="rtl"] #block-wordsfromexperts .inverted-comma-img {
   float: left;
-  margin-top: 9%;
-  margin-left: 0px !important; }
+  margin-top: 14%;
+  margin-left: -30px !important; }
+
+html[dir="rtl"] #block-wordsfromexperts .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
+  font-size: 1em; }
 
 html[dir="rtl"] .featured-stories .featured-head {
   text-align: right; }
