@@ -1,0 +1,22 @@
+uuid: 2d95e55d-6f73-4ad0-8d0d-2b6b391046ee
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_domain_all_affiliates
+  module:
+    - user
+id: user.user.field_domain_all_affiliates
+field_name: field_domain_all_affiliates
+entity_type: user
+bundle: user
+label: 'Editor for all affiliates'
+description: 'Make this user an editor on all domains.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

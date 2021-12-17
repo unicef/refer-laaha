@@ -2,22 +2,16 @@
 
 /**
  * @file
- * Callback action on submit (custom method plus bas)
- *
- * @param $form
- * @param \Drupal\Core\Form\FormStateInterface $form_state
- * @param $form_id
+ * Contains erpw_custom.module.
  */
 
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- *
+ * Implements hook_form_FORM_ID_alter().
  */
 function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-
   if ($form_id == 'user_login_form') {
-
     // Code to modify your form input.
     $form['name']['#placeholder'][] = t('Email');
     $form['pass']['#placeholder'][] = t('Password');
@@ -29,7 +23,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     // $form['#validate'][1] = 'erpw_signin_form_form_user_login_replace_email_validate';
     // do something similar to create a custom validation handler
   }
-
 }
 
 /**
