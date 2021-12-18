@@ -977,7 +977,7 @@ article p {
     background: url("../images/bg-expert-mobile.png") no-repeat center;
     background-size: 100% 100%; }
   #block-wordsfromexperts .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
-    padding: 8%;
+    padding: 0;
     margin-top: 10%;
     font-size: 1em;
     font-weight: 400;
@@ -988,6 +988,14 @@ article p {
     font-size: 1.42em;
     font-weight: 500;
     line-height: 28px; }
+  #block-wordsfromexperts .inverted-comma-img {
+    float: right;
+    margin-top: 4%;
+    margin-left: -70px !important;
+    width: 18.74px;
+    height: 16px; }
+  #block-wordsfromexperts .banner-parent {
+    padding: 10%; }
   #block-recommendedrelatedcontentblock {
     padding: 5px 0;
     border-top: 2px solid #00000066; }
