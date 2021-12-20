@@ -11,12 +11,11 @@
 function erpw_preprocess_block(&$variables) {
   $userCurrent = \Drupal::currentUser();
   if ($userCurrent->isAuthenticated()) {
-
     $variables['user_name'] = $userCurrent->getAccountName();
-
   }
 
-  $user_logged_in_name = $variables['user']->getDisplayName();
-
-  $variables['user_logged_in_name'] = ucfirst($user_logged_in_name);
+  $account = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+  $user_firstname=$account->field_first_name->value;
+  $variables['user_logged_in_name'] = ucfirst($user_firstname);
+  
 }
