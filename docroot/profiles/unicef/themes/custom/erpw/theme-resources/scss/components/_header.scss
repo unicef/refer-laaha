@@ -8,7 +8,7 @@ header {
 }
 .menu--header-menu {
   .menu {
-    margin: 0;
+    margin: 0 10px 0 0;
     text-align: right;
   }
   .notification {
@@ -33,5 +33,20 @@ header {
       text-align: center;
       padding-top: 3px;
     }
+  }
+}
+
+.path-sign-up {
+  header, 
+  .region-header {
+		background: none;
+    padding: 0;
+	}
+  .page-title {
+    border-bottom: 1px solid rgba(243, 193, 191, 0.53);
+    color: $base-secondary-bgcolor;
+    padding-bottom: 20px;
+    text-align: center;
+    font-size: 1.125em;
   }
 }
