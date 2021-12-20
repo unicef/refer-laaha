@@ -1,0 +1,18 @@
+uuid: 057fb304-6449-492d-84bd-8ca26015d189
+langcode: en
+status: true
+dependencies:
+  theme:
+    - vss_admin
+id: primaryadminactions
+theme: vss_admin
+region: content
+weight: -1
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

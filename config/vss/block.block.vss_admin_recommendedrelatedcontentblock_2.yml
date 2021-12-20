@@ -1,0 +1,28 @@
+uuid: 84a5ad29-0cdc-4857-a543-6b68bc0e688d
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - vss_custom
+  theme:
+    - vss_admin
+id: vss_admin_recommendedrelatedcontentblock_2
+theme: vss_admin
+region: sidebar_first
+weight: -9
+provider: null
+plugin: recommended_related_content_bock
+settings:
+  id: recommended_related_content_bock
+  label: 'Recommended related content block'
+  label_display: '0'
+  provider: vss_custom
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      scorm: scorm
