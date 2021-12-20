@@ -76,14 +76,29 @@
   ]
 %}
 
-{{ attach_library('vss_custom/narrate') }}
 <article{{attributes.addClass(classes)}}>
-  <div>
-    <h1>{{ label }}</h1> 
-  </div>
-  {{ content.field_assets }}
-  {{ 'Tags'|t }}: {{ content.field_tags }}
+	<div class="article-hero-img">
+		<amp-img class="hero-img img-responsive" src="/{{ base_path ~ directory }}/images/hero-banner.png" width="960" height="500" alt="" ></amp-img>
+		<h2 class="article">{{ label }}</h1>
+	</div>
+	<div class="readmore" id="readmore_article">
+		
+		{{ content.field_assets }}
+	</div>
+	<div class="field--name-field-tags">
+		<div class="field-label">
+      <span class="tag-label">{{ 'Tags'|t }}:</span>
+			{{ content.field_tags }}
+    </div>
+	</div>
+	{{ title_prefix }}
+	{% if label and not page %}
+		<h2{{title_attributes}}>
+			<a href="{{ url }}" rel="bookmark">{{ label }}</a>
+		</h2>
+	{% endif %}
+	{{ title_suffix }}
 	<div{{content_attributes.addClass('content')}}>
-    {{ content|without('field_tags', 'field_assets', 'field_add_narration', 'body') }}
+		{{ content|without('field_tags', 'field_assets', 'field_add_narration', 'body') }}
 	</div>
 </article>
