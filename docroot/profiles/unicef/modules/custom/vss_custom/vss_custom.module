@@ -481,7 +481,6 @@ function vss_custom_entity_insert(EntityInterface $entity) {
       $state = $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ? 'publish' : 'unpublish';
       $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
       ['field_domain_access' => $domain, 'roles' => 'country_admin']);
-      // $user = reset($user);
       foreach ($users as $user) {
         if ($user) {
           $user_email = $user->getEmail();
@@ -524,7 +523,6 @@ function vss_custom_entity_update(EntityInterface $entity) {
       $state = $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ? 'publish' : 'unpublish';
       $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
       ['field_domain_access' => $domain, 'roles' => 'country_admin']);
-      // $user = reset($user);
       foreach ($users as $user) {
         if ($user) {
           $user_email = $user->getEmail();
