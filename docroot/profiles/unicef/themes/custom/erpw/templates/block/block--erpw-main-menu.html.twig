@@ -35,9 +35,9 @@
   {% endif %}
   {{ title_suffix }}
   {% block content %}
-  {% if user_name %}
+  {% if user_logged_in_name %}
   You are logged in as 
-  <br><b>{{ user_name }}</b>
+  <br><b>{{ user_logged_in_name }}</b>
    {% endif %}
     {{ content }}
   {% endblock %}
