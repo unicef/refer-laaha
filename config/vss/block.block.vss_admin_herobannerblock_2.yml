@@ -1,0 +1,28 @@
+uuid: d5a46608-d78a-4f70-befa-53b853000757
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - vss_custom
+  theme:
+    - vss_admin
+id: vss_admin_herobannerblock_2
+theme: vss_admin
+region: sidebar_first
+weight: -9
+provider: null
+plugin: hero_banner_block
+settings:
+  id: hero_banner_block
+  label: 'Other Related Sub Categories'
+  label_display: visible
+  provider: vss_custom
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      scorm: scorm
