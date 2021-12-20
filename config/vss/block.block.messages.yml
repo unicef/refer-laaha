@@ -1,0 +1,20 @@
+uuid: 9b65a54c-e2d2-4bb1-acc5-e910b237fbcb
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - vss_admin
+id: messages
+theme: vss_admin
+region: highlighted
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }
