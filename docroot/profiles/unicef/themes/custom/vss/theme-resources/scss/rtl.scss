@@ -1,11 +1,18 @@
 html[dir="rtl"] {
+  @media screen and (max-width: 767px) {
+    .inverted-comma-img{
+      float: left;
+      margin-top: 0;
+      margin-left: -30px !important;
+    }
+  }
   #block-wordsfromexperts {
     .experts-img, .inverted-comma-img{
       transform: scaleX(-1);
     }
     .inverted-comma-img{
       float: left;
-      margin-top: 14%;
+      margin-top: 10%;
       margin-left: -30px !important;
     }
     .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {

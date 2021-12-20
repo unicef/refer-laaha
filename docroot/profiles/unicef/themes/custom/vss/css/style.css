@@ -866,12 +866,12 @@ body .absoluteclass {
 
 #block-wordsfromexperts .inverted-comma-img {
   float: right;
-  margin-top: 16%;
+  margin-top: 11%;
   margin-left: -250px !important; }
 
 #block-wordsfromexperts .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
-  padding: 8%;
-  margin-top: 18%;
+  padding: 3%;
+  margin-top: 21%;
   font-size: 1.42em;
   line-height: 28px; }
 
@@ -990,7 +990,7 @@ article p {
     line-height: 28px; }
   #block-wordsfromexperts .inverted-comma-img {
     float: right;
-    margin-top: 4%;
+    margin-top: 0;
     margin-left: -70px !important;
     width: 18.74px;
     height: 16px; }
@@ -1301,13 +1301,19 @@ article p {
     .region-header #block-navigationheadermenu > ul li > div > div {
       padding-right: 8px; } }
 
+@media screen and (max-width: 767px) {
+  html[dir="rtl"] .inverted-comma-img {
+    float: left;
+    margin-top: 0;
+    margin-left: -30px !important; } }
+
 html[dir="rtl"] #block-wordsfromexperts .experts-img, html[dir="rtl"] #block-wordsfromexperts .inverted-comma-img {
   -webkit-transform: scaleX(-1);
           transform: scaleX(-1); }
 
 html[dir="rtl"] #block-wordsfromexperts .inverted-comma-img {
   float: left;
-  margin-top: 14%;
+  margin-top: 10%;
   margin-left: -30px !important; }
 
 html[dir="rtl"] #block-wordsfromexperts .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
