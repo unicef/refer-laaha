@@ -290,7 +290,6 @@ class SignUpForm extends FormBase {
         'field_phone' => $values['phone'],
         'field_organisation' => $values['organisation'],
         'field_position' => $values['positon'],
-        'field_system_roles' => $values['system_role'],
         'roles' => $values['system_role'],
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
