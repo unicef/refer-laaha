@@ -259,11 +259,8 @@ class SignUpForm extends FormBase {
         $form_state->setErrorByName('password', t('The specified passwords do not match.'));
       }
     }
-    if (strlen($password) < 6) {
-      $form_state->setErrorByName('password', t('Your password must contain at least 8 characters.'));
-    }
     if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,64}$/", $password)) {
-      $form_state->setErrorByName('Password should contain at least one Number, one Symbol and one alphabet');
+      $form_state->setErrorByName('password', t('Password should contain at least one Number, one Symbol and one alphabet'));
     }
   }
 
@@ -275,19 +272,13 @@ class SignUpForm extends FormBase {
     if ($form_state->hasAnyErrors()) {
       $errors = $form_state->getErrors();
       $command_content = $errors['password'];
-      $response->addCommand(new InvokeCommand('#status-message', 'addClass', [['messages', 'messages--error', 'form-text', 'required error']]));
+      $response->addCommand(new InvokeCommand('#status-message', 'addClass', [['messages', 'messages--error']]));
       $response->addCommand(new HtmlCommand('#status-message', $command_content));
     }
     else {
       $form_state->clearErrors();
+      unset($form_errors['password']);
       $values = $form_state->get('page_values');
-      $firstname = $values['first_name'];
-      $lastname = $values['last_name'];
-      $email = $values['email'];
-      $phone = $values['phone'];
-      $organisation = $values['organisation'];
-      $position = $values['positon'];
-      $systemrole = $values['system_role'];
       $user_info = [
         'status' => 0,
         'name' => $values['email'],
