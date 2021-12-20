@@ -82,6 +82,12 @@ function vss_custom_theme() {
       ],
       'render element' => 'children',
     ],
+    'view_count_block' => [
+      'variables' => [
+        'content' => [],
+      ],
+      'render element' => 'children',
+    ],
   ];
 }
 

@@ -9,12 +9,6 @@ display:
         media_bulk_form:
           action_title: کردار
       filters:
-        status:
-          group_info:
-            label: Published
-            group_items:
-              1:
-                title: Published
         name:
           expose:
             label: ناو
@@ -41,7 +35,7 @@ display:
       arguments:
         bundle:
           exception:
-            title: All
+            title: هەموو
       header:
         display_link_table:
           label: خشتە
@@ -52,8 +46,6 @@ display:
           label: ناو
         uid:
           label: نووسەر
-        changed:
-          label: Updated
       filters:
         name:
           expose:
@@ -61,7 +53,7 @@ display:
       arguments:
         bundle:
           exception:
-            title: All
+            title: هەموو
       header:
         display_link_table:
           label: خشتە

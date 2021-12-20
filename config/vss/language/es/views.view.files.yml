@@ -1,5 +1,3 @@
-label: Files
-description: 'Find and manage files.'
 display:
   default:
     display_title: Master
@@ -14,60 +12,34 @@ display:
       pager:
         options:
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
           expose:
             items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- Todo -'
             offset_label: Desplazamiento
       fields:
-        fid:
-          label: Fid
         filename:
           label: Nombre
           separator: ', '
         filemime:
           label: 'Tipo MIME'
-        filesize:
-          label: Size
         status:
           label: Estado
-          settings:
-            format_custom_false: Temporary
-            format_custom_true: Permanent
-        created:
-          label: 'Upload date'
-        changed:
-          label: 'Changed date'
-        count:
-          label: 'Used in'
       filters:
-        filename:
-          expose:
-            label: Filename
         filemime:
           expose:
             label: 'Tipo MIME'
         status:
           expose:
             label: Estado
-      title: Files
-      empty:
-        area_text_custom:
-          content: 'No files available.'
-  page_1:
-    display_title: 'Files overview'
-    display_options:
-      menu:
-        title: Files
   page_2:
-    display_title: 'File usage'
     display_options:
       pager:
         options:
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
           expose:
             items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- Todo -'
@@ -77,13 +49,9 @@ display:
           label: Entity
         type:
           label: 'Tipo de entidad'
-        module:
-          label: 'Registering module'
         count:
-          label: 'Use count'
-      title: 'File usage'
+          format_plural_string: !!binary MQNAY291bnQ=
       arguments:
         fid:
           exception:
-            title: All
-          title: 'File usage information for {{ arguments.fid }}'
+            title: Todo(s)

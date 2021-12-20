@@ -13,10 +13,13 @@ dependencies:
     - field.field.node.article.field_sub_category
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
+    - field.field.node.article.field_view_count
     - image.style.thumbnail
     - node.type.article
+    - workflows.workflow.editorial
   module:
     - comment
+    - content_moderation
     - image
     - layout_paragraphs
     - path
@@ -92,12 +95,28 @@ content:
     third_party_settings: {  }
     type: image_image
     region: content
+  field_view_count:
+    weight: 101
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
   langcode:
     type: language_select
     weight: 1
     region: content
     settings:
       include_locked: true
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    settings: {  }
+    region: content
     third_party_settings: {  }
   path:
     type: path

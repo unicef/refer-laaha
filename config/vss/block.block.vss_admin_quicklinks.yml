@@ -17,11 +17,11 @@ plugin: 'menu_item_fields:quick-links'
 settings:
   id: 'menu_item_fields:quick-links'
   label: 'Quick Links'
-  label_display: visible
   provider: menu_item_fields
-  view_mode: default
+  label_display: visible
   level: '1'
   depth: '0'
   expand_all_items: 0
+  view_mode: default
   view_mode_override_field: _none
 visibility: {  }

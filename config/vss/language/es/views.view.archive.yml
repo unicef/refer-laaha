@@ -1,10 +1,7 @@
-label: Archive
-description: 'All content, by month.'
 display:
   default:
     display_title: Master
     display_options:
-      title: 'Monthly archive'
       exposed_form:
         options:
           submit_button: Aplicar
@@ -18,17 +15,7 @@ display:
             items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- Todo -'
             offset_label: Desplazamiento
-          tags:
-            previous: ‹‹
-            next: ››
-      arguments:
-        created_year_month:
-          title: '{{ arguments.created_year_month }}'
   block_1:
-    display_title: Block
-    display_options:
-      arguments:
-        created_year_month:
-          title: '{{ arguments.created_year_month }}'
+    display_title: Bloque
   page_1:
     display_title: Página
