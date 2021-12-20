@@ -20,7 +20,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     unset($form['name']['#description']);
     unset($form['pass']['#description']);
     $form['actions']['submit']['#value'] = t('SIGN IN');
-    //unset($form['#validate']);
     $form['#validate'][] = 'erpw_custom_form_form_user_login_replace_email_validate';
   }
 }
