@@ -17,6 +17,7 @@ function erpw_preprocess_block(&$variables) {
     $account = User::load(\Drupal::currentUser()->id());
     $user_firstname = $account->field_first_name->value;
     $variables['user_logged_in_name'] = ucfirst($user_firstname);
+    $variables['#cache']['max-age'] = 0;
   }
 
 }

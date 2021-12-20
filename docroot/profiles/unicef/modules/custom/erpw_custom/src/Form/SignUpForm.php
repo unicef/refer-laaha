@@ -83,15 +83,15 @@ class SignUpForm extends FormBase {
 
     $form_state->set('page', 1);
 
-      $form['progress_step1'] = [
-        '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
-      ];
-      $form['progress_step2'] = [
-        '#markup' => '<div class="location-detail-page step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
-      ];
-      $form['progress_step3'] = [
-        '#markup' => '<div class="password-creation-page step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
-      ];
+    $form['progress_step1'] = [
+      '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
+    ];
+    $form['progress_step2'] = [
+      '#markup' => '<div class="location-detail-page step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
+    ];
+    $form['progress_step3'] = [
+      '#markup' => '<div class="password-creation-page step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
+    ];
 
     $form['message-step'] = [
       '#markup' => '<div class="step">' . $this->t('Step 1: Personal details') . '</div>',
