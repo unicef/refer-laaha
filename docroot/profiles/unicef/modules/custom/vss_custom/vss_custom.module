@@ -479,34 +479,35 @@ function vss_custom_entity_insert(EntityInterface $entity) {
     if ($entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' || $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_un_publish') {
       $domain = $entity->get('field_domain_access')->target_id;
       $state = $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ? 'publish' : 'unpublish';
-      $user = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
+      $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
       ['field_domain_access' => $domain, 'roles' => 'country_admin']);
-      $user = reset($user);
-      if ($user) {
-        $user_email = $user->getEmail();
-        $user_name = $user->name->value;
-        $type = $entity->bundle();
-        $editor_name = $entity->getOwner()->name->value;
-        $nid = $entity->id();
-        $langcode = $entity->get('langcode')->getValue()[0]['value'];
-        $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
-      }
-      $mailManager = \Drupal::service('plugin.manager.mail');
-      $module = 'vss_custom';
-      $key = 'general_mail';
-      $to = $user_email;
-      $params['message'] = "Hi $user_name,
-      $editor_name has requested to $state an $type. Below is a link 
-      <a href = https://$url>https://$url</a> 
-      Click on the link to view the content or go to your dashboard in the CMS";
-      $params['subject'] = "Request for $state content by $editor_name";
-      $send = TRUE;
-      $result = $mailManager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
-      if ($result['result'] !== TRUE) {
-        \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
-      }
-      else {
-        \Drupal::messenger()->addMessage(t('Mail has been sent.'));
+      foreach ($users as $user) {
+        if ($user) {
+          $user_email = $user->getEmail();
+          $user_name = $user->name->value;
+          $type = $entity->bundle();
+          $editor_name = $entity->getOwner()->name->value;
+          $nid = $entity->id();
+          $langcode = $entity->get('langcode')->getValue()[0]['value'];
+          $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
+        }
+        $mailManager = \Drupal::service('plugin.manager.mail');
+        $module = 'vss_custom';
+        $key = 'general_mail';
+        $to = $user_email;
+        $params['message'] = "Hi $user_name,
+        $editor_name has requested to $state an $type. Below is a link 
+        <a href = https://$url>https://$url</a> 
+        Click on the link to view the content or go to your dashboard in the CMS";
+        $params['subject'] = "Request for $state content by $editor_name";
+        $send = TRUE;
+        $result = $mailManager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
+        if ($result['result'] !== TRUE) {
+          \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
+        }
+        else {
+          \Drupal::messenger()->addMessage(t('Mail has been sent.'));
+        }
       }
     }
   }
@@ -520,34 +521,35 @@ function vss_custom_entity_update(EntityInterface $entity) {
     if ($entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' || $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_un_publish') {
       $domain = $entity->get('field_domain_access')->target_id;
       $state = $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ? 'publish' : 'unpublish';
-      $user = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
+      $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
       ['field_domain_access' => $domain, 'roles' => 'country_admin']);
-      $user = reset($user);
-      if ($user) {
-        $user_email = $user->getEmail();
-        $user_name = $user->name->value;
-        $type = $entity->bundle();
-        $editor_name = $entity->getOwner()->name->value;
-        $nid = $entity->id();
-        $langcode = $entity->get('langcode')->getValue()[0]['value'];
-        $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
-      }
-      $mailManager = \Drupal::service('plugin.manager.mail');
-      $module = 'vss_custom';
-      $key = 'general_mail';
-      $to = $user_email;
-      $params['message'] = "Hi $user_name,
-      $editor_name has requested to $state an $type. Below is a link 
-      <a href = https://$url>https://$url</a>
-      Click on the link to view the content or go to your dashboard in the CMS";
-      $params['subject'] = "Request for $state content by $editor_name";
-      $send = TRUE;
-      $result = $mailManager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
-      if ($result['result'] !== TRUE) {
-        \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
-      }
-      else {
-        \Drupal::messenger()->addMessage(t('Mail has been sent.'));
+      foreach ($users as $user) {
+        if ($user) {
+          $user_email = $user->getEmail();
+          $user_name = $user->name->value;
+          $type = $entity->bundle();
+          $editor_name = $entity->getOwner()->name->value;
+          $nid = $entity->id();
+          $langcode = $entity->get('langcode')->getValue()[0]['value'];
+          $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
+        }
+        $mailManager = \Drupal::service('plugin.manager.mail');
+        $module = 'vss_custom';
+        $key = 'general_mail';
+        $to = $user_email;
+        $params['message'] = "Hi $user_name,
+        $editor_name has requested to $state an $type. Below is a link 
+        <a href = https://$url>https://$url</a>
+        Click on the link to view the content or go to your dashboard in the CMS";
+        $params['subject'] = "Request for $state content by $editor_name";
+        $send = TRUE;
+        $result = $mailManager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
+        if ($result['result'] !== TRUE) {
+          \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
+        }
+        else {
+          \Drupal::messenger()->addMessage(t('Mail has been sent.'));
+        }
       }
     }
   }
