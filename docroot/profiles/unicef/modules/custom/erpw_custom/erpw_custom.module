@@ -29,11 +29,11 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
  */
 function erpw_custom_form_form_user_login_replace_email_validate(array &$form, FormStateInterface $form_state) {
   $errors = $form_state->getErrors();
-   if  (!empty($errors)) { 
+  if (!empty($errors)) {
     $string_error = $errors['name'];
     if (strpos($string_error, 'Unrecognized username or password') !== FALSE) {
       $form_state->clearErrors();
-      $form_state->setErrorByName('name',  'Email id or password is incorrect');
+      $form_state->setErrorByName('name', 'Email id or password is incorrect');
     }
   }
 }
