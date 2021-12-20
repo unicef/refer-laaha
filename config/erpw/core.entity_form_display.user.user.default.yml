@@ -11,7 +11,6 @@ dependencies:
     - field.field.user.user.field_organisation
     - field.field.user.user.field_phone
     - field.field.user.user.field_position
-    - field.field.user.user.field_system_roles
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -92,16 +91,6 @@ content:
     settings:
       size: 60
       placeholder: 'Select position'
-    third_party_settings: {  }
-  field_system_roles:
-    type: entity_reference_autocomplete
-    weight: 6
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: 'Select system role'
     third_party_settings: {  }
   language:
     weight: 8

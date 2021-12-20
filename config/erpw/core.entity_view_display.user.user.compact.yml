@@ -12,7 +12,6 @@ dependencies:
     - field.field.user.user.field_organisation
     - field.field.user.user.field_phone
     - field.field.user.user.field_position
-    - field.field.user.user.field_system_roles
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -43,6 +42,5 @@ hidden:
   field_organisation: true
   field_phone: true
   field_position: true
-  field_system_roles: true
   langcode: true
   member_for: true

@@ -11,7 +11,6 @@ dependencies:
     - field.field.user.user.field_organisation
     - field.field.user.user.field_phone
     - field.field.user.user.field_position
-    - field.field.user.user.field_system_roles
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -63,14 +62,6 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 9
-    region: content
-  field_system_roles:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 11
     region: content
   member_for:
     weight: 5
