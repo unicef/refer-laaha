@@ -14,7 +14,6 @@ dependencies:
     - field.field.node.article.field_sub_category
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
-    - field.field.node.article.field_view_count
     - image.style.large
     - node.type.article
   module:
@@ -91,6 +90,5 @@ hidden:
   field_domain_all_affiliates: true
   field_sub_category: true
   field_thumbnail_image: true
-  field_view_count: true
   langcode: true
   search_api_excerpt: true

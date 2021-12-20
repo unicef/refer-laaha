@@ -13,7 +13,6 @@ dependencies:
     - field.field.node.article.field_sub_category
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
-    - field.field.node.article.field_view_count
     - image.style.thumbnail
     - node.type.article
     - workflows.workflow.editorial
@@ -94,16 +93,6 @@ content:
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
-    region: content
-  field_view_count:
-    weight: 101
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
     region: content
   langcode:
     type: language_select
