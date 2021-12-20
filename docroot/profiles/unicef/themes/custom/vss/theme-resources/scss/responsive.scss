@@ -20,7 +20,7 @@
     }
 
     .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
-      padding: 8%;
+      padding: 0;
       margin-top: 10%;
       font-size: $base-footer-font-size;
       font-weight: 400;
@@ -35,6 +35,17 @@
       line-height: 28px;
 
     }
+    .inverted-comma-img {
+      float: right;
+      margin-top: 0;
+      margin-left: -70px !important;
+      width: 18.74px;
+      height: 16px;
+    }
+    .banner-parent {
+      padding: 10%;
+    }
+  
   }
 #block-recommendedrelatedcontentblock{
   padding: 5px 0;

@@ -6,6 +6,7 @@ config:
   ah_site_group: vss2
   php: '7.4'
   via: apache
+  inbox: false
   webroot: docroot/
   database: mysql
   drush: ^10
@@ -22,6 +23,12 @@ services:
     portforward: true
     config:
       confd: lando/mysql/conf.d
+  search:
+    type: solr:7
+    portforward: true
+    core: lando
+    config:
+      conf: config/solr
   node:
     type: node:14
     build:
@@ -47,6 +54,8 @@ proxy:
     - erpw.lndo.site
     - zw.erpw.lndo.site
     - bn.erpw.lndo.site
+  search:
+    - admin.solr.lndo.site:8983
 tooling:
   "drush":
     cmd: "/app/vendor/bin/drush --root=/app/docroot"

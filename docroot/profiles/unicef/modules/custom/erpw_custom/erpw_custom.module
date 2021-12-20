@@ -13,15 +13,27 @@ use Drupal\Core\Form\FormStateInterface;
 function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if ($form_id == 'user_login_form') {
     // Code to modify your form input.
-    $form['name']['#placeholder'][] = t('Email');
-    $form['pass']['#placeholder'][] = t('Password');
-    $form['name']['#title_display'] = 'invisible';
-    $form['pass']['#title_display'] = 'invisible';
+    $form['name']['#placeholder'][] = t('jane@example.com');
+    $form['pass']['#placeholder'][] = t('**********');
+    $form['name']['#title'] = t('Email ID');
     unset($form['name']['#description']);
     unset($form['pass']['#description']);
     $form['actions']['submit']['#value'] = t('SIGN IN');
-    // $form['#validate'][1] = 'erpw_signin_form_form_user_login_replace_email_validate';
-    // do something similar to create a custom validation handler
+    $form['#validate'][] = 'erpw_custom_form_form_user_login_replace_email_validate';
+  }
+}
+
+/**
+ * A custom validation handler for the user login form.
+ */
+function erpw_custom_form_form_user_login_replace_email_validate(array &$form, FormStateInterface $form_state) {
+  $errors = $form_state->getErrors();
+  if (!empty($errors)) {
+    $string_error = $errors['name'];
+    if (strpos($string_error, 'Unrecognized username or password') !== FALSE) {
+      $form_state->clearErrors();
+      $form_state->setErrorByName('name', 'Email id or password is incorrect');
+    }
   }
 }
 
