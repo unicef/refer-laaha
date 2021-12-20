@@ -15,8 +15,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     // Code to modify your form input.
     $form['name']['#placeholder'][] = t('jane@example.com');
     $form['pass']['#placeholder'][] = t('**********');
-    $form['name']['#title_display'] = 'invisible';
-    $form['pass']['#title_display'] = 'invisible';
+    $form['name']['#title'] = t('Email ID');
     unset($form['name']['#description']);
     unset($form['pass']['#description']);
     $form['actions']['submit']['#value'] = t('SIGN IN');
