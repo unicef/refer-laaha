@@ -1,4 +1,3 @@
-description: 'Find and manage content.'
 display:
   default:
     display_options:
@@ -12,8 +11,8 @@ display:
       pager:
         options:
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+            previous: '‹ السابق'
+            next: 'التالي ›'
       fields:
         title:
           label: العنوان
@@ -27,23 +26,12 @@ display:
           label: المؤلف
         status:
           label: الحالة
-          settings:
-            format_custom_true: Published
-            format_custom_false: Unpublished
-        changed:
-          label: Updated
         operations:
           label: عمليات
       filters:
         status:
           expose:
             label: الحالة
-          group_info:
-            group_items:
-              1:
-                title: Published
-              2:
-                title: Unpublished
         type:
           expose:
             label: النوع
@@ -53,13 +41,10 @@ display:
         langcode:
           expose:
             label: اللغة
-      empty:
-        area_text_custom:
-          content: 'No content available.'
       arguments:
         field_domain_access_target_id:
           exception:
-            title: All
+            title: الكل
     display_title: الرئيسي
   page_1:
     display_options:
@@ -71,12 +56,6 @@ display:
         status:
           expose:
             label: الحالة
-          group_info:
-            group_items:
-              1:
-                title: Published
-              2:
-                title: Unpublished
         type:
           expose:
             label: النوع
@@ -93,12 +72,6 @@ display:
         status:
           expose:
             label: الحالة
-          group_info:
-            group_items:
-              1:
-                title: Published
-              2:
-                title: Unpublished
         type:
           expose:
             label: النوع
@@ -108,6 +81,3 @@ display:
         langcode:
           expose:
             label: اللغة
-        field_domain_access_target_id:
-          expose:
-            label: Domain

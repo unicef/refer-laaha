@@ -1,5 +1,3 @@
-label: Comments
-description: 'Find and manage comments.'
 display:
   default:
     display_title: Master
@@ -13,11 +11,6 @@ display:
           sort_desc_label: Desc
       pager:
         options:
-          tags:
-            previous: '‹ previous'
-            next: 'next ›'
-            first: '« first'
-            last: 'last »'
           expose:
             items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- Todo -'
@@ -34,10 +27,8 @@ display:
           label: Autor
           separator: ', '
         entity_id:
-          label: 'Posted in'
           separator: ', '
         changed:
-          label: Updated
           separator: ', '
         operations:
           label: Operaciones
@@ -47,38 +38,15 @@ display:
         subject:
           expose:
             label: Asunto
-        combine:
-          expose:
-            label: 'Author name'
         langcode:
           expose:
             label: Idioma
-      title: Comments
-      empty:
-        area_text_custom:
-          content: 'No comments available.'
-      use_more_text: more
-  page_published:
-    display_title: 'Published comments'
-    display_options:
-      menu:
-        title: Comments
-        description: 'Comments published'
-      display_description: 'The approved comments listing.'
   page_unapproved:
-    display_title: 'Unapproved comments'
     display_options:
-      menu:
-        title: 'Unapproved comments'
-        description: 'Comments unapproved'
-      display_description: 'The unapproved comments listing.'
       filters:
         subject:
           expose:
             label: Asunto
-        combine:
-          expose:
-            label: 'Author Name'
         langcode:
           expose:
             label: Idioma
@@ -94,10 +62,8 @@ display:
           label: Autor
           separator: ', '
         entity_id:
-          label: 'Posted in'
           separator: ', '
         changed:
-          label: Updated
           separator: ', '
         operations:
           label: Operaciones

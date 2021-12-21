@@ -16,8 +16,8 @@ plugin: featured_stories_block
 settings:
   id: featured_stories_block
   label: 'Featured Stories block'
-  label_display: '0'
   provider: vss_custom
+  label_display: '0'
 visibility:
   'entity_bundle:taxonomy_term':
     id: 'entity_bundle:taxonomy_term'

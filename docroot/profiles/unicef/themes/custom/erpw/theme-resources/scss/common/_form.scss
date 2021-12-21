@@ -1,0 +1,71 @@
+form {
+	label {
+		color: $base-secondary-bgcolor;
+		font-size: .75em;
+		font-weight: 500;	
+	}
+	.form-required {
+		&::after {
+			background-image: none;
+			content: '*';
+			vertical-align: inherit;
+		}
+	}
+	input[type=text],
+	input[type=password],
+	select {
+		background-position:right;
+		border: 1px solid $border;
+		border-radius: 5px;
+    box-sizing: border-box;
+		display: block;
+		padding: 8px 11px;
+		margin-top: 7px;
+		width: 100%;
+		&:focus {
+			outline: none;
+		}
+		&::-webkit-input-placeholder {
+      color: #E0D7D7;
+    }
+
+    &:-moz-placeholder {
+      color: #E0D7D7;
+    }
+
+    &::-moz-placeholder {
+      color: #E0D7D7;
+    }
+
+    &:-ms-input-placeholder {
+      color: #E0D7D7;
+    }
+	}
+	select {
+		-webkit-appearance: none;
+		-moz-appearance: window;
+		background: url('../images/arrow.svg') right 10px center no-repeat;
+		color: #E0D7D7;
+		option:first-child {
+			color: $grey-txt-color;
+		}
+	}
+	.form-actions {
+		text-align: right;
+		margin: 0;
+		input[type=submit] {
+			width: auto;
+		}
+	}
+	input[type=submit] {
+		background: $base-secondary-bgcolor;
+		border: 0;
+		border-radius: 4px;
+		color: $base-white-color;
+		font-size: 14px;
+		margin: 0 0 1em 0;
+		padding: 10px 24px;
+		text-transform: uppercase;
+		width: 100%;
+	}
+}

@@ -35,6 +35,11 @@ content:
       trim_length: 200
     third_party_settings: {  }
     label: hidden
+  content_moderation_control:
+    weight: -20
+    settings: {  }
+    third_party_settings: {  }
+    region: content
   field_add_narration:
     type: boolean
     weight: 6
@@ -86,3 +91,4 @@ hidden:
   field_sub_category: true
   field_thumbnail_image: true
   langcode: true
+  search_api_excerpt: true

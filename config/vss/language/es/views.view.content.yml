@@ -1,5 +1,4 @@
 label: Contenido
-description: 'Find and manage content.'
 display:
   default:
     display_options:
@@ -13,10 +12,10 @@ display:
       pager:
         options:
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
-            first: '« First'
-            last: 'Last »'
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
+            first: '« Primero'
+            last: 'Último »'
       fields:
         title:
           label: Título
@@ -27,11 +26,6 @@ display:
           label: Autor
         status:
           label: Estado
-          settings:
-            format_custom_true: Published
-            format_custom_false: Unpublished
-        changed:
-          label: Updated
         operations:
           label: Operaciones
       filters:
@@ -44,20 +38,10 @@ display:
         status:
           expose:
             label: Estado
-          group_info:
-            label: 'Published status'
-            group_items:
-              1:
-                title: Published
-              2:
-                title: Unpublished
         langcode:
           expose:
             label: Idioma
       title: Contenido
-      empty:
-        area_text_custom:
-          content: 'No content available.'
     display_title: Master
   page_1:
     display_options:
@@ -65,5 +49,4 @@ display:
         title: Contenido
       tab_options:
         title: Contenido
-        description: 'Find and manage content'
     display_title: Página
