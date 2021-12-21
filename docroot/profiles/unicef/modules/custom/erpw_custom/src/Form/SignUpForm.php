@@ -163,6 +163,11 @@ class SignUpForm extends FormBase {
       '#type' => 'submit',
       '#button_type' => 'primary',
       '#value' => $this->t('Next'),
+      '#attributes' => [
+        'class' => [
+          'signup-next',
+        ],
+      ],
       '#submit' => ['::submitPageOne'],
       '#validate' => ['::validatePageOne'],
     ];
@@ -212,10 +217,10 @@ class SignUpForm extends FormBase {
       '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
     ];
     $form['progress_step2'] = [
-      '#markup' => '<div class="location-detail-page step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
+      '#markup' => '<div class="location-detail-page active step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
     ];
     $form['progress_step3'] = [
-      '#markup' => '<div class="password-creation-page step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
+      '#markup' => '<div class="password-creation-page active step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
     ];
 
     $form['message-step'] = [
@@ -249,6 +254,7 @@ class SignUpForm extends FormBase {
       '#attributes' => [
         'class' => [
           'use-ajax',
+          'arrow-btn',
         ],
       ],
       '#ajax' => [
