@@ -324,7 +324,7 @@ class SignUpForm extends FormBase {
       $url = Url::fromRoute('<front>');
       $url->setOptions($link_options);
       $link = Link::fromTextAndUrl('OK', $url)->toString();
-      $message = $this->t("Your registration has been sent for review. You will be notified via email, once your registration approved.");
+      $message = $this->t("<div class='review-msg'>Your registration has been <br/> sent for review.</div><div> You will be notified via email and SMS, once your registration approved.</div>");
       $popup_msg = Markup::create($message . ' ' . $link);
       $response = $response->addCommand(new OpenModalDialogCommand("", $popup_msg, ['width' => 400]));
     }

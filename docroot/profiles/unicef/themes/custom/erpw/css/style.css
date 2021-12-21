@@ -58,12 +58,14 @@ form .form-required::after {
   vertical-align: inherit;
 }
 form select {
+  outline: none;
+  -moz-appearance: none;
   -webkit-appearance: none;
-  -moz-appearance: window;
+  appearance: none;
   background: url("../images/arrow.svg") right 10px center no-repeat;
   color: #E0D7D7;
 }
-form select option:first-child {
+form select option:checked {
   color: #444;
 }
 form .form-actions {
@@ -249,7 +251,7 @@ header {
   display: flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
-  margin: 0 50px 40px;
+  margin: 0 0 40px;
 }
 
 .step {
@@ -356,5 +358,41 @@ body.path-user main {
 
 .user-login-form .arrow-btn {
   margin: 0;
+}
+
+.ui-dialog {
+  border: 0 !important;
+  border-radius: 10px;
+  padding: 10px 8px;
+  font-size: 1em;
+  color: #666565;
+  text-align: center;
+}
+.ui-dialog .ui-dialog-titlebar {
+  background: none;
+  border: 0;
+}
+.ui-dialog .ui-dialog-content {
+  padding: 0 0.5em 1em !important;
+}
+.ui-dialog .ui-button .ui-icon {
+  background: url("../images/cross.svg") 0 0 no-repeat !important;
+}
+.ui-dialog .review-msg {
+  color: #A85766;
+  line-height: 22px;
+}
+.ui-dialog .button.bg-green {
+  background: #A85766;
+  border: 0;
+  border-radius: 4px;
+  color: #ffffff;
+  display: block;
+  font-size: 14px;
+  margin: 15px auto;
+  padding: 10px 24px;
+  text-transform: uppercase;
+  text-decoration: none;
+  width: 40%;
 }
 /*# sourceMappingURL=style.css.map */
