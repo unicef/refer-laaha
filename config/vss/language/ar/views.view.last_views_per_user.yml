@@ -1,0 +1,20 @@
+display:
+  default:
+    display_title: الرئيسي
+    display_options:
+      exposed_form:
+        options:
+          submit_button: تطبيق
+          reset_button_label: 'إعادة الضبط'
+          exposed_sorts_label: 'الترتيب حسب'
+          sort_asc_label: تصاعدي
+          sort_desc_label: تنازلي
+      fields:
+        title:
+          separator: ', '
+      arguments:
+        uid:
+          exception:
+            title: الكل
+  block:
+    display_title: الصندوق

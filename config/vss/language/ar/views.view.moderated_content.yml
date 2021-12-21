@@ -1,4 +1,3 @@
-label: 'Moderated content'
 display:
   default:
     display_title: Master
@@ -13,8 +12,8 @@ display:
       pager:
         options:
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+            previous: '‹ السابق'
+            next: 'التالي ›'
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
@@ -31,7 +30,6 @@ display:
         moderation_state:
           separator: ', '
         changed:
-          label: Updated
           separator: ', '
         operations:
           label: عمليات
@@ -45,6 +43,3 @@ display:
         langcode:
           expose:
             label: اللغة
-      title: 'Moderated content'
-  moderated_content:
-    display_title: 'Moderated content'

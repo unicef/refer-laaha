@@ -1,5 +1,4 @@
 label: Multimedia
-description: 'Find and manage media.'
 display:
   default:
     display_title: Master
@@ -18,10 +17,10 @@ display:
             items_per_page_options_all_label: '- Todo -'
             offset_label: Desplazamiento
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
-            first: '« First'
-            last: 'Last »'
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
+            first: '« Primero'
+            last: 'Último »'
       fields:
         media_bulk_form:
           action_title: Acción
@@ -29,7 +28,6 @@ display:
           label: Miniatura
           separator: ', '
         name:
-          label: 'Media name'
           separator: ', '
         bundle:
           label: Tipo
@@ -39,39 +37,22 @@ display:
           separator: ', '
         status:
           label: Estado
-          settings:
-            format_custom_true: Published
-            format_custom_false: Unpublished
           separator: ', '
         changed:
-          label: Updated
           separator: ', '
         operations:
           label: Operaciones
       filters:
-        name:
-          expose:
-            label: 'Media name'
         bundle:
           expose:
             label: Tipo
         status:
           expose:
             label: Verdad
-          group_info:
-            label: 'Published status'
-            group_items:
-              1:
-                title: Published
-              2:
-                title: Unpublished
         langcode:
           expose:
             label: Idioma
       title: Multimedia
-      empty:
-        area_text_custom:
-          content: 'No media available.'
   media_page_list:
     display_title: Multimedia
     display_options:

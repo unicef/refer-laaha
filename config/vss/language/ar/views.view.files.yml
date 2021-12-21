@@ -1,4 +1,3 @@
-label: Files
 display:
   default:
     display_title: Master
@@ -13,8 +12,8 @@ display:
       pager:
         options:
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+            previous: '‹ السابق'
+            next: 'التالي ›'
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
@@ -24,34 +23,22 @@ display:
           separator: ', '
         filemime:
           label: 'نوع MIME'
-        filesize:
-          label: Size
         status:
           label: الحالة
-        count:
-          label: 'Used in'
       filters:
-        filename:
-          expose:
-            label: Filename
         filemime:
           expose:
             label: 'نوع MIME'
         status:
           expose:
             label: الحالة
-      title: Files
-  page_1:
-    display_options:
-      menu:
-        title: Files
   page_2:
     display_options:
       pager:
         options:
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+            previous: '‹ السابق'
+            next: 'التالي ›'
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
@@ -60,9 +47,7 @@ display:
           label: Entity
         type:
           label: 'نوع الكيان'
-        count:
-          label: 'Use count'
       arguments:
         fid:
           exception:
-            title: All
+            title: الكل

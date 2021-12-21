@@ -12,8 +12,8 @@ display:
       pager:
         options:
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+            previous: '‹ السابق'
+            next: 'التالي ›'
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
@@ -22,14 +22,16 @@ display:
           label: 'Block description'
           separator: ', '
         type:
+          label: 'Block type'
           separator: ', '
-        changed:
-          label: Updated
         operations:
           label: عمليات
       filters:
         info:
           expose:
             label: 'Block description'
+        type:
+          expose:
+            label: 'Block type'
   page_1:
     display_title: الصفحة

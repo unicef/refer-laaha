@@ -1,4 +1,3 @@
-label: People
 display:
   default:
     display_title: Master
@@ -14,7 +13,6 @@ display:
           label: ڕەوش
           settings:
             format_custom_true: چالاکە
-            format_custom_false: Blocked
         roles_target_id:
           label: ڕۆڵەکان
         operations:
@@ -26,24 +24,8 @@ display:
             group_items:
               1:
                 title: چالاکە
-              2:
-                title: Blocked
-        roles_target_id:
-          expose:
-            label: Role
-        permission:
-          expose:
-            label: Permission
-      title: People
-      empty:
-        area_text_custom:
-          content: 'No people available.'
-      use_more_text: more
   page_1:
     display_title: پەڕە
     display_options:
       menu:
         title: List
-      tab_options:
-        title: People
-        description: 'Manage user accounts, roles, and permissions.'

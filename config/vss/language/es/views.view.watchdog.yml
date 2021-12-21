@@ -1,5 +1,3 @@
-label: Watchdog
-description: 'Recent log messages'
 display:
   default:
     display_title: Master
@@ -17,24 +15,13 @@ display:
             items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- Todo -'
             offset_label: Desplazamiento
-          tags:
-            previous: ‹‹
-            next: ››
       fields:
-        nothing:
-          admin_label: Icon
-        wid:
-          label: WID
-        severity:
-          label: Severity
         type:
           label: Tipo
         timestamp:
           label: Fecha
         message:
           label: Message
-          alter:
-            alt: '{{ message }}'
         name:
           label: Usuario
           separator: ', '
@@ -44,13 +31,5 @@ display:
         type:
           expose:
             label: Tipo
-        severity:
-          expose:
-            label: Severity
-      title: 'Recent log messages'
-      empty:
-        area:
-          admin_label: 'No log messages available.'
-          content: 'No log messages available.'
   page:
     display_title: Página

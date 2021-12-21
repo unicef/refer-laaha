@@ -1,4 +1,3 @@
-description: 'Find and manage people interacting with your site.'
 display:
   default:
     display_title: الرئيسي
@@ -13,8 +12,8 @@ display:
       pager:
         options:
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+            previous: '‹ السابق'
+            next: 'التالي ›'
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
@@ -25,70 +24,37 @@ display:
           label: الحالة
           settings:
             format_custom_true: نشط
-            format_custom_false: Blocked
         roles_target_id:
           label: الأدوار
         field_domain_access:
           separator: ', '
         field_domain_all_affiliates:
           separator: ', '
-        created:
-          label: 'Member for'
-        access:
-          label: 'Last access'
         operations:
           label: عمليات
         mail:
           separator: ', '
       filters:
-        roles_target_id:
-          expose:
-            label: Role
-        permission:
-          expose:
-            label: Permission
         status:
           group_info:
             label: الحالة
             group_items:
               1:
                 title: نشط
-              2:
-                title: Blocked
-      title: People
-      empty:
-        area_text_custom:
-          content: 'No people available.'
-      use_more_text: more
   page_1:
     display_options:
       menu:
         title: List
-        description: 'Find and manage people interacting with your site.'
-      tab_options:
-        title: People
-        description: 'Manage user accounts, roles, and permissions.'
       arguments:
         field_domain_access_target_id:
           exception:
-            title: All
+            title: الكل
   page_2:
     display_options:
       filters:
-        roles_target_id:
-          expose:
-            label: Role
-        permission:
-          expose:
-            label: Permission
         status:
           group_info:
             label: الحالة
             group_items:
               1:
                 title: نشط
-              2:
-                title: Blocked
-        field_domain_access_target_id:
-          expose:
-            label: Domain
