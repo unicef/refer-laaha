@@ -9,7 +9,7 @@ dependencies:
 id: breadcrumbs
 theme: vss
 region: content
-weight: -10
+weight: -8
 provider: null
 plugin: system_breadcrumb_block
 settings:
@@ -17,4 +17,8 @@ settings:
   label: Breadcrumbs
   provider: system
   label_display: visible
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    pages: '*revisions*'
+    negate: true
