@@ -1,0 +1,26 @@
+.link-text {
+	color: $base-secondary-bgcolor;
+  font-size: 14px;
+	text-decoration: underline;
+}
+ 
+p {
+	color: $grey-txt-color;
+	font-size: $base-font-size;
+	margin: 0;
+}
+
+.flex-container {
+	display: flex;
+	justify-content: center;
+	margin: 10px 0;
+}
+.red-text {
+	color: $base-secondary-bgcolor;
+	font-size: $base-font-size;
+	margin: 10px 0;
+}
+#block-erpw-branding, 
+#block-erpw-main-menu {
+	display: none; //temparory added  will remove once menu link functional, it will come under menu
+}

@@ -1,0 +1,20 @@
+body.path-user  main {
+	background: url(../images/signin-page.png) right bottom -35px no-repeat;
+}
+.signin-otp {
+	text-align: center;
+	.signup-link {
+		font-size: $base-font-size;
+		color: $base-secondary-bgcolor;
+		padding-left: 5px;
+		text-decoration: underline;
+	}
+	p {
+		opacity: .87;
+	}
+}
+.user-login-form {
+	.arrow-btn {
+		margin: 0;
+	}
+}

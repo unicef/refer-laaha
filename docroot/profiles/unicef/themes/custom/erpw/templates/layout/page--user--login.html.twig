@@ -62,13 +62,21 @@
     <div class="layout-content">
       {{ page.content }}
     </div>{# /.layout-content #}
-    <a href="/user/password" data-drupal-link-system-path="user/password">Forgot Password?</a><br>
-    Don't have an account? <a href="/user/register" data-drupal-link-system-path="user/register">&nbsp; Sign Up</a>
-    <br><br>OR<br><br>
-Sign in using Phone Number<br>
-
-<input type="text" id="edit-name" name="name" value="" size="60" maxlength="60" placeholder="Phone number" class="form-text required" required="required" aria-required="true">
- <br> <br><input data-drupal-selector="edit-submit" type="submit" id="edit-submit" name="op" value="GET OTP" class="button js-form-submit form-submit"> 
+    <div class="signin-otp">
+      <a href="/user/password" data-drupal-link-system-path="user/password" class="link-text">{{ 'Forgot Password?' |t }}</a>
+      <div class="flex-container">
+        <p>{{ "Don't have an account?" |t }} </p>
+        <a href="/user/register" data-drupal-link-system-path="user/register" class="signup-link">{{ 'Sign Up' |t }}</a>
+      </div>
+      <div class="red-text">{{ 'OR' |t }}</div>
+      <p>{{ 'Sign in using Phone Number' |t}}</p>
+    </div>
+    <div class="form-item">
+      <label for="edit-password">{{ 'Password' |t }}</label>
+      <input type="text" id="edit-name" name="name" value="" size="60" maxlength="60" placeholder="Phone number" class="form-text required" required="required" aria-required="true">
+    </div>
+    <input data-drupal-selector="edit-submit" type="submit" id="edit-submit" name="op" value="GET OTP" class="arrow-btn button js-form-submit form-submit"> 
+  
   </main>
 
   {% if page.footer %}
