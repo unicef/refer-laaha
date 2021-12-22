@@ -47,8 +47,10 @@ p {
   margin: 10px 0;
 }
 
-#block-erpw-branding,
-#block-erpw-main-menu {
+.path-sign-up #block-erpw-branding,
+.path-sign-up #block-erpw-main-menu,
+.path-user #block-erpw-branding,
+.path-user #block-erpw-main-menu {
   display: none;
 }
 
@@ -345,6 +347,7 @@ body.path-user main {
 
 .signin-otp {
   text-align: center;
+  margin-top: 10px;
 }
 .signin-otp .signup-link {
   font-size: 1em;
@@ -356,8 +359,12 @@ body.path-user main {
   opacity: 0.87;
 }
 
-.user-login-form .arrow-btn {
+.user-login-form input[type=submit] {
+  background: url("../images/arrow-white.svg") calc(50% + 50px) center no-repeat #A85766;
   margin: 0;
+}
+.user-login-form .form-item {
+  margin-top: 0;
 }
 
 .ui-dialog {
