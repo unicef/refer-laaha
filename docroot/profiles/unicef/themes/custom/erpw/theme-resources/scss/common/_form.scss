@@ -1,9 +1,4 @@
 form {
-	label {
-		color: $base-secondary-bgcolor;
-		font-size: .75em;
-		font-weight: 500;	
-	}
 	.form-required {
 		&::after {
 			background-image: none;
@@ -11,61 +6,76 @@ form {
 			vertical-align: inherit;
 		}
 	}
-	input[type=text],
-	input[type=password],
 	select {
-		background-position:right;
-		border: 1px solid $border;
-		border-radius: 5px;
-    box-sizing: border-box;
-		display: block;
-		padding: 8px 11px;
-		margin-top: 7px;
-		width: 100%;
-		&:focus {
-			outline: none;
-		}
-		&::-webkit-input-placeholder {
-      color: #E0D7D7;
-    }
-
-    &:-moz-placeholder {
-      color: #E0D7D7;
-    }
-
-    &::-moz-placeholder {
-      color: #E0D7D7;
-    }
-
-    &:-ms-input-placeholder {
-      color: #E0D7D7;
-    }
-	}
-	select {
+		outline: none;
+		-moz-appearance: none;
 		-webkit-appearance: none;
-		-moz-appearance: window;
+		appearance: none;
 		background: url('../images/arrow.svg') right 10px center no-repeat;
 		color: #E0D7D7;
-		option:first-child {
+		option:checked {
 			color: $grey-txt-color;
 		}
 	}
 	.form-actions {
 		text-align: right;
 		margin: 0;
-		input[type=submit] {
+		.signup-next {
 			width: auto;
 		}
 	}
-	input[type=submit] {
-		background: $base-secondary-bgcolor;
-		border: 0;
-		border-radius: 4px;
-		color: $base-white-color;
-		font-size: 14px;
-		margin: 0 0 1em 0;
-		padding: 10px 24px;
-		text-transform: uppercase;
-		width: 100%;
+}
+
+label {
+	color: $base-secondary-bgcolor;
+	font-size: .75em;
+	font-weight: 500;	
+}
+input[type=text],
+input[type=password],
+select {
+	background-position:right;
+	border: 1px solid $border;
+	border-radius: 5px;
+	box-sizing: border-box;
+	display: block;
+	padding: 8px 11px;
+	margin-top: 7px;
+	width: 100%;
+	&:focus {
+		outline: none;
+	}
+	&::-webkit-input-placeholder {
+		color: #E0D7D7;
+	}
+
+	&:-moz-placeholder {
+		color: #E0D7D7;
+	}
+
+	&::-moz-placeholder {
+		color: #E0D7D7;
+	}
+
+	&:-ms-input-placeholder {
+		color: #E0D7D7;
+	}
+}
+input[type=submit] {
+	background: $base-secondary-bgcolor;
+	border: 0;
+	border-radius: 4px;
+	color: $base-white-color;
+	font-size: 14px;
+	margin: 0 0 1em 0;
+	padding: 10px 24px;
+	text-transform: uppercase;
+	width: 100%;
+	&.arrow-btn {
+		background: url('../images/arrow-white.svg') calc(50% - -50px) center no-repeat $base-secondary-bgcolor;
+		margin: 20px 0 40px;
+	}
+	&.use-ajax.arrow-btn {
+		background-position: calc(50% - -100px) center;
 	}
 }

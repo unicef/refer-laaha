@@ -6,7 +6,7 @@
       if ($(this).val()) {
       return $(this).css('color', '#444');
         } else {
-      return $(this).css('color', '#E0D7D7');
+      return $(this).css('color', '#444');
       }
     });
   });

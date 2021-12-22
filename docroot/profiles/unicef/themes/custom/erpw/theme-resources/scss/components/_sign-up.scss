@@ -41,13 +41,23 @@
     text-align: right;
     z-index: -1;
 	}
+	&.active::before {
+		background: $base-secondary-bgcolor;
+	}
 }
-.personal-detail-page::before {
-	background: url('../images/person.svg') center center no-repeat $base-secondary-bgcolor;
-	margin-right: 2px;
+.personal-detail-page {
+	&::before {
+		background: url('../images/person.svg') center center no-repeat $base-secondary-bgcolor;
+		margin-right: 2px;
+	}
 }
-.location-detail-page::before {
-	background: url('../images/location.svg') center center no-repeat;
+.location-detail-page {
+	&::before {
+		background: url('../images/location.svg') center center no-repeat;
+	}
+	&.active::before {
+		background: url('../images/location-white.svg') center center no-repeat $base-secondary-bgcolor;;
+	}
 }
 .password-creation-page {
 	flex-basis: 0;
@@ -56,6 +66,9 @@
 	&::before {
 		background: url('../images/password-key.svg') center center no-repeat;
 		margin-left: 2px;
+	}
+	&.active::before {
+		background: url('../images/password-key-white.svg') center center no-repeat $base-secondary-bgcolor;;
 	}
 	&::after {
 		display: none;
