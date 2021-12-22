@@ -1,0 +1,33 @@
+uuid: a0188229-771f-42e8-a527-8e24335af37b
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_custom
+    - system
+    - user
+  theme:
+    - erpw
+id: signinpopup
+theme: erpw
+region: content
+weight: 0
+provider: null
+plugin: sign_in_popup
+settings:
+  id: sign_in_popup
+  label: 'Sign in popup'
+  label_display: '0'
+  provider: erpw_custom
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous

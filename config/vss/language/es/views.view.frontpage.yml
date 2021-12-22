@@ -1,13 +1,6 @@
-label: Frontpage
-description: 'All content promoted to the front page.'
 display:
   default:
     display_options:
-      empty:
-        area_text_custom:
-          content: 'No front page content has been created yet.<br/>Follow the <a target="_blank" href="https://www.drupal.org/docs/user_guide/en/index.html">User Guide</a> to start building your site.'
-        title:
-          title: 'Welcome to [site:name]'
       exposed_form:
         options:
           submit_button: Aplicar
@@ -22,12 +15,10 @@ display:
             items_per_page_options_all_label: '- Todo -'
             offset_label: Desplazamiento
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
-            first: '« First'
-            last: 'Last »'
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
+            first: '« Primero'
+            last: 'Último »'
     display_title: Master
-  feed_1:
-    display_title: Feed
   page_1:
     display_title: Página

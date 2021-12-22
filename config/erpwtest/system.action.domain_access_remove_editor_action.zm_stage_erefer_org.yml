@@ -1,0 +1,14 @@
+uuid: 3ed6b7d4-48bc-419d-b3ea-e3f3a8e2a2a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.zm_stage_erefer_org
+  module:
+    - domain_access
+id: domain_access_remove_editor_action.zm_stage_erefer_org
+label: 'Remove editors from the Zimbabwe eRPW domain'
+type: user
+plugin: domain_access_remove_editor_action
+configuration:
+  domain_id: zm_stage_erefer_org

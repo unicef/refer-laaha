@@ -1,0 +1,14 @@
+uuid: 70e4e32d-a49b-4180-a0e9-5de336e27fe5
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.zm_dev_erefer_org
+  module:
+    - domain_access
+id: domain_access_remove_action.zm_dev_erefer_org
+label: 'Remove selected content from the Zimbabwe eRPW domain'
+type: node
+plugin: domain_access_remove_action
+configuration:
+  domain_id: zm_dev_erefer_org

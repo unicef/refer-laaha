@@ -1,5 +1,3 @@
-label: People
-description: 'Find and manage people interacting with your site.'
 display:
   default:
     display_title: Master
@@ -14,8 +12,8 @@ display:
       pager:
         options:
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+            previous: '‹ السابق'
+            next: 'التالي ›'
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
@@ -26,13 +24,8 @@ display:
           label: الحالة
           settings:
             format_custom_true: نشط
-            format_custom_false: Blocked
         roles_target_id:
           label: الأدوار
-        created:
-          label: 'Member for'
-        access:
-          label: 'Last access'
         operations:
           label: عمليات
         mail:
@@ -44,25 +37,8 @@ display:
             group_items:
               1:
                 title: نشط
-              2:
-                title: Blocked
-        roles_target_id:
-          expose:
-            label: Role
-        permission:
-          expose:
-            label: Permission
-      title: People
-      empty:
-        area_text_custom:
-          content: 'No people available.'
-      use_more_text: more
   page_1:
     display_title: الصفحة
     display_options:
       menu:
         title: List
-        description: 'Find and manage people interacting with your site.'
-      tab_options:
-        title: People
-        description: 'Manage user accounts, roles, and permissions.'

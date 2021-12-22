@@ -12,59 +12,31 @@ display:
           label: ڕەوش
           settings:
             format_custom_true: چالاکە
-            format_custom_false: Blocked
         roles_target_id:
           label: ڕۆڵەکان
         operations:
           label: کاره‌کان
       filters:
-        roles_target_id:
-          expose:
-            label: Role
-        permission:
-          expose:
-            label: Permission
         status:
           group_info:
             label: ڕەوش
             group_items:
               1:
                 title: چالاکە
-              2:
-                title: Blocked
-      title: People
-      empty:
-        area_text_custom:
-          content: 'No people available.'
-      use_more_text: more
   page_1:
     display_options:
       menu:
         title: List
-      tab_options:
-        title: People
-        description: 'Manage user accounts, roles, and permissions.'
       arguments:
         field_domain_access_target_id:
           exception:
-            title: All
+            title: هەموو
   page_2:
     display_options:
       filters:
-        roles_target_id:
-          expose:
-            label: Role
-        permission:
-          expose:
-            label: Permission
         status:
           group_info:
             label: ڕەوش
             group_items:
               1:
                 title: چالاکە
-              2:
-                title: Blocked
-        field_domain_access_target_id:
-          expose:
-            label: Domain

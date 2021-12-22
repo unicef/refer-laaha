@@ -26,95 +26,100 @@ type_settings:
       default_revision: true
     draft:
       label: Draft
+      weight: -3
       published: false
       default_revision: false
-      weight: -3
     published:
       label: Published
+      weight: -1
       published: true
       default_revision: true
-      weight: -1
     request_for_publish:
-      published: false
-      default_revision: false
       label: 'Request for publish'
       weight: -2
-    request_for_un_publish:
-      published: true
+      published: false
       default_revision: false
+    request_for_un_publish:
       label: 'Request for Un-publish'
       weight: 1
+      published: true
+      default_revision: false
     un_publish:
-      published: false
-      default_revision: true
       label: Un-Publish
       weight: 2
+      published: false
+      default_revision: true
   transitions:
     archive:
       label: Archive
       from:
         - published
       to: archived
-      weight: -1
+      weight: -3
     archived_draft:
       label: 'Restore to Draft'
       from:
         - archived
       to: draft
-      weight: 3
+      weight: 2
     archived_published:
       label: Restore
       from:
         - archived
       to: published
-      weight: 4
+      weight: 3
     create_new_draft:
       label: 'Create New Draft'
-      to: draft
-      weight: -5
       from:
         - draft
-        - published
         - request_for_publish
+      to: draft
+      weight: -6
     publish:
       label: Publish
-      to: published
-      weight: -2
       from:
         - draft
         - published
         - request_for_publish
+      to: published
+      weight: -4
+    publish_to_request_for_publish:
+      label: 'Publish to Request for Publish'
+      from:
+        - published
+      to: request_for_publish
+      weight: -1
     publish_to_un_publish:
       label: 'Publish to Un-Publish'
       from:
         - published
         - request_for_un_publish
       to: un_publish
-      weight: 1
+      weight: 0
     published_to_request_for_un_publish:
       label: 'Published to Request for Un-publish'
       from:
         - published
       to: request_for_un_publish
-      weight: 0
+      weight: -2
     request_for_publish:
       label: 'Request for publish'
       from:
         - draft
       to: request_for_publish
-      weight: -4
+      weight: -5
     un_publish_to_draft:
       label: 'Un-Publish to Draft'
       from:
         - un_publish
       to: draft
-      weight: 2
+      weight: 1
     un_publish_to_request_for_publish:
       label: 'Un-Publish to Request for publish'
       from:
         - un_publish
       to: request_for_publish
-      weight: 5
+      weight: 4
   entity_types:
     block_content:
       - basic
@@ -129,3 +134,4 @@ type_settings:
       - scorm
       - video
   default_moderation_state: draft
+  translation_default_moderation_state_behavior: default
