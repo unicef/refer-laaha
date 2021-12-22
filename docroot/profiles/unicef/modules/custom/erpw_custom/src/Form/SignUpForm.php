@@ -83,6 +83,7 @@ class SignUpForm extends FormBase {
 
     $form_state->set('page', 1);
 
+<<<<<<< HEAD
     $form['progress_step1'] = [
       '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
     ];
@@ -91,7 +92,20 @@ class SignUpForm extends FormBase {
     ];
     $form['progress_step3'] = [
       '#markup' => '<div class="password-creation-page step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
+=======
+    $form['#prefix'] = '<div class"steps-highlight">';
+    $form['#suffix'] = '</div>';
+    $form['progress_step1'] = [
+      '#markup' => '<span class="personal-detail-page step-circle">' . $this->t('1') . '</span>',
+>>>>>>> bug fixes code pushing
     ];
+    $form['progress_step2'] = [
+      '#markup' => '<span  class="location-detail-page step-circle">' . $this->t('2') . '</span>',
+    ];
+    $form['progress_step3'] = [
+      '#markup' => '<span class="password-creation-page step-circle">' . $this->t('3') . '</span>',
+    ];
+   
 
     $form['message-step'] = [
       '#markup' => '<div class="step">' . $this->t('Step 1: Personal details') . '</div>',
@@ -213,6 +227,7 @@ class SignUpForm extends FormBase {
    */
   public function formPageTwo(array &$form, FormStateInterface $form_state) {
 
+<<<<<<< HEAD
     $form['progress_step1'] = [
       '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
     ];
@@ -223,6 +238,19 @@ class SignUpForm extends FormBase {
       '#markup' => '<div class="password-creation-page active step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
     ];
 
+=======
+    $form['#prefix'] = '<div class"steps-highlight">';
+    $form['progress_step1'] = [
+      '#markup' => '<span class="personal-detail-page step-circle">' . $this->t('1') . '</span>',
+    ];
+    $form['progress_step2'] = [
+      '#markup' => '<span  class="location-detail-page step-circle">' . $this->t('2') . '</span>',
+    ];
+    $form['progress_step3'] = [
+      '#markup' => '<span class="password-creation-page step-circle">' . $this->t('3') . '</span>',
+    ];
+    $form['#suffix'] = '</div>';
+>>>>>>> bug fixes code pushing
     $form['message-step'] = [
       '#markup' => '<div class="step">' . $this->t('Step 3: Password') . '</div>',
     ];
@@ -238,7 +266,7 @@ class SignUpForm extends FormBase {
     ];
     $form['password'] = [
       '#type' => 'password',
-      '#title' => $this->t('Password'),
+      '#title' => '<span class="help-text">' . $this->t('Password') . ' ' . $this->t('i') . '</span>',
       '#required' => TRUE,
       '#placeholder' => t('**********'),
     ];
@@ -264,6 +292,7 @@ class SignUpForm extends FormBase {
       ],
     ];
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     return $form;
   }
 
@@ -278,7 +307,7 @@ class SignUpForm extends FormBase {
         $form_state->setErrorByName('password', t('The specified passwords do not match.'));
       }
     }
-    if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,64}$/", $password)) {
+    if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,64}$/", $password)) {
       $form_state->setErrorByName('password', t('Password should contain at least one Number, one Symbol and one alphabet'));
     }
   }
@@ -294,13 +323,16 @@ class SignUpForm extends FormBase {
       $response->addCommand(new InvokeCommand(
         '#status-message', 'addClass', ['messages', 'messages--error']));
       $response->addCommand(new HtmlCommand('#status-message', $command_content));
+      return $response;
+      // $form_state['input'] = array();
+      // $form_state->setRebuild(TRUE);
     }
     else {
       $form_state->clearErrors();
       unset($form_errors['password']);
       $values = $form_state->get('page_values');
       $user_info = [
-        'status' => 0,
+        'status' => 1,
         'name' => $values['email'],
         'pass' => $form_state->getValue('password'),
         'mail' => $values['email'],
