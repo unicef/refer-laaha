@@ -52,7 +52,7 @@ class ViewCountBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $this->pageCacheKillSwitch->trigger();
     $view_count = $this->getViewCount($nid);
     $build['#theme'] = 'view_count_block';
-    $build['#content'] = $view_count + 1;
+    $build['#content'] = empty($view_count) ? 1 : $view_count;
 
     return $build;
   }
@@ -70,7 +70,8 @@ class ViewCountBlock extends BlockBase implements ContainerFactoryPluginInterfac
   public function getViewCount($nid) {
     $query = $this->connection->select('nodeviewcount', 'nvc');
     $query->condition('nvc.nid', $nid);
-    $query->addExpression("COUNT(nvc.nid)", "nvc");
+    $query->addExpression("COUNT(DISTINCT (nvc.nid))", "nvc");
+    $query->groupBy("nvc.uip");
     $node = $query->execute()->fetchField();
     return $node;
   }

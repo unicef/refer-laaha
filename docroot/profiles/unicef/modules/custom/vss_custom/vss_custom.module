@@ -97,6 +97,13 @@ function vss_custom_theme() {
       ],
       'render element' => 'children',
     ],
+    'categories_popup_block' => [
+      'variables' => [
+        'content' => [],
+        'lang_code' => '',
+      ],
+      'render element' => 'children',
+    ],
   ];
 }
 
@@ -572,6 +579,21 @@ function vss_custom_entity_update(EntityInterface $entity) {
           \Drupal::messenger()->addMessage(t('Mail has been sent.'));
         }
       }
+    }
+  }
+}
+
+/**
+ * Implements hook_search_api_autocomplete_suggestions_alter().
+ */
+function vss_custom_search_api_autocomplete_suggestions_alter(array &$suggestions, array $alter_params) {
+  if ($alter_params['search']->id() == 'search') {
+    foreach ($suggestions as $key => &$suggestion) {
+      $options = $suggestion->getUrl()->getOptions();
+      $node = $options['entity'];
+      $suggestion->setSuggestedKeys($node->label());
+      $url = Url::fromUserInput("/search-form", ['query' => ['search_api_fulltext' => $node->label()]]);
+      $suggestion->setUrl($url);
     }
   }
 }

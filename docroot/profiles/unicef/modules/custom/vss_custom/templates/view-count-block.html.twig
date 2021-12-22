@@ -1,5 +1,6 @@
 
-
-<div class="wrapper">
-<div class="text">{{content}} {{ 'views'|t }}</div>
-</div>
+{% if content is not empty %}
+ <div class="wrapper">
+ <div class="text">{{content}} {{ 'views'|t }}</div>
+ </div>
+{% endif %}

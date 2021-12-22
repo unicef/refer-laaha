@@ -19,9 +19,10 @@
  * Define a custom macro that will render all menu trees.
  */
 #}
+{{ attach_library('core/drupal.dialog.ajax') }}
 
 <div class="search-box">
-<img class="searchbox-icon" src="/{{ base_path ~ directory }}/images/search.png" />
+<img class="searchbox-icon use-ajax" data-dialog-type="modal" href="/search-modal/modal" src="/{{ base_path ~ directory }}/images/search.png" />
 </div>
 <div class="settings-wrapper">
   
