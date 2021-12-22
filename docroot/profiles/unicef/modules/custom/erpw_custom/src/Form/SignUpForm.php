@@ -238,7 +238,7 @@ class SignUpForm extends FormBase {
     ];
     $form['password'] = [
       '#type' => 'password',
-      '#title' => $this->t('Password'),
+      '#title' => '<span class="help-text">' . $this->t('Password') . ' ' . $this->t('i') . '</span>',
       '#required' => TRUE,
       '#placeholder' => t('**********'),
     ];
@@ -264,6 +264,7 @@ class SignUpForm extends FormBase {
       ],
     ];
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     return $form;
   }
 
@@ -278,7 +279,7 @@ class SignUpForm extends FormBase {
         $form_state->setErrorByName('password', t('The specified passwords do not match.'));
       }
     }
-    if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,64}$/", $password)) {
+    if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,64}$/", $password)) {
       $form_state->setErrorByName('password', t('Password should contain at least one Number, one Symbol and one alphabet'));
     }
   }
@@ -300,7 +301,7 @@ class SignUpForm extends FormBase {
       unset($form_errors['password']);
       $values = $form_state->get('page_values');
       $user_info = [
-        'status' => 0,
+        'status' => 1,
         'name' => $values['email'],
         'pass' => $form_state->getValue('password'),
         'mail' => $values['email'],
@@ -324,7 +325,7 @@ class SignUpForm extends FormBase {
       $url = Url::fromRoute('<front>');
       $url->setOptions($link_options);
       $link = Link::fromTextAndUrl('OK', $url)->toString();
-      $message = $this->t("Your registration has been sent for review. You will be notified via email, once your registration approved.");
+      $message = $this->t("<div class='review-msg'>Your registration has been <br/> sent for review.</div><div class='email-notify'> You will be notified via email, once your registration approved.</div>");
       $popup_msg = Markup::create($message . ' ' . $link);
       $response = $response->addCommand(new OpenModalDialogCommand("", $popup_msg, ['width' => 400]));
     }

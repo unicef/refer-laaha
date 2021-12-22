@@ -1,8 +1,13 @@
-body.path-user  main {
-	background: url(../images/signin-page.png) right bottom -35px no-repeat;
+body {
+	&.path-user {
+		main {
+			background: url(../images/signin-page.png) right bottom -35px no-repeat;
+		}
+	}
 }
 .signin-otp {
 	text-align: center;
+	margin-top: 10px;
 	.signup-link {
 		font-size: $base-font-size;
 		color: $base-secondary-bgcolor;
@@ -14,7 +19,11 @@ body.path-user  main {
 	}
 }
 .user-login-form {
-	.arrow-btn {
+	input[type=submit] {
+		background: url('../images/arrow-white.svg') calc(50% - -50px) center no-repeat $base-secondary-bgcolor;
 		margin: 0;
+	}
+	.form-item {
+		margin-top: 0;
 	}
 }

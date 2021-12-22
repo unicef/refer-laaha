@@ -9,7 +9,7 @@ dependencies:
 id: breadcrumbs
 theme: vss
 region: content
-weight: -8
+weight: -11
 provider: null
 plugin: system_breadcrumb_block
 settings:
@@ -20,5 +20,5 @@ settings:
 visibility:
   request_path:
     id: request_path
-    pages: '*revisions*'
+    pages: "<front>\r\n*revisions*"
     negate: true
