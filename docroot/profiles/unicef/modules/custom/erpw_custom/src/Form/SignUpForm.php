@@ -301,7 +301,7 @@ class SignUpForm extends FormBase {
       unset($form_errors['password']);
       $values = $form_state->get('page_values');
       $user_info = [
-        'status' => 0,
+        'status' => 1,
         'name' => $values['email'],
         'pass' => $form_state->getValue('password'),
         'mail' => $values['email'],
