@@ -22,7 +22,11 @@
 {{ attach_library('core/drupal.dialog.ajax') }}
 
 <div class="search-box">
-<img class="searchbox-icon use-ajax" data-dialog-type="modal" href="/search-modal/modal" src="/{{ base_path ~ directory }}/images/search.png" />
+{% if lang != 'en' %}
+  <img class="searchbox-icon use-ajax" data-dialog-type="modal" href="{{lang}}/search-modal/modal" src="/{{ base_path ~ directory }}/images/search.png" />
+{% else %}
+  <img class="searchbox-icon use-ajax" data-dialog-type="modal" href="/search-modal/modal" src="/{{ base_path ~ directory }}/images/search.png" />
+{% endif %}
 </div>
 <div class="settings-wrapper">
   

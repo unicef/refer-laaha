@@ -597,3 +597,11 @@ function vss_custom_search_api_autocomplete_suggestions_alter(array &$suggestion
     }
   }
 }
+
+/**
+ * Implements preprocess menu.
+ */
+function vss_custom_preprocess_menu(&$variables) {
+  $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $variables['lang'] = $language;
+}
