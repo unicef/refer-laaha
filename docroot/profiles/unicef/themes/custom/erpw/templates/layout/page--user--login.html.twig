@@ -50,6 +50,7 @@
 
     {{ page.primary_menu }}
   {{ page.secondary_menu }}
+<button onclick="history.back()">Back</button>
 
   {{ page.breadcrumb }}
 
@@ -66,7 +67,7 @@
       <a href="/user/password" data-drupal-link-system-path="user/password" class="link-text">{{ 'Forgot Password?' |t }}</a>
       <div class="flex-container">
         <p>{{ "Don't have an account?" |t }} </p>
-        <a href="/user/register" data-drupal-link-system-path="user/register" class="signup-link">{{ 'Sign Up' |t }}</a>
+        <a href="/sign-up" data-drupal-link-system-path="/sign-up" class="signup-link">{{ 'Sign Up' |t }}</a>
       </div>
       <div class="red-text">{{ 'OR' |t }}</div>
       <p>{{ 'Sign in using Phone Number' |t}}</p>
