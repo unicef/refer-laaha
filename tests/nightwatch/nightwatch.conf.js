@@ -23,7 +23,6 @@ module.exports = {
   
     test_settings: {
       default: {
-        launch_url:'https://stage.iq.virtualsafespace.net/',
         credentials:{
           username: "vssadmin",
           password: "Unicef#12345",
@@ -40,12 +39,12 @@ module.exports = {
           // sslCertTrusted = true,
           chromeOptions: {
             args: [
-              '--headless',
-              // '--no-sandbox',
-              // "--ignore-certificate-errors",
-              // '--incognito',
-              //'--disable-gpu',
-              //'--window-size=1280,1696',
+              //'--headless',
+               '--no-sandbox',
+               "--ignore-certificate-errors",
+               '--incognito',
+              '--disable-gpu',
+              '--window-size=1280,1696',
             ]
           }
         }

@@ -2,9 +2,6 @@ var articleData = require('../Data/components.json');
 const { client } = require("nightwatch-api");
 
 module.exports = {
-  url: function () {
-    return `${process.env.VSS_IQ_URL}`;
-},
 
 elements: {
 

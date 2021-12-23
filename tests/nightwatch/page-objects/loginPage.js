@@ -1,9 +1,7 @@
 const { client } = require("nightwatch-api");
 
 module.exports = {
-  url: function () {
-    return `${process.env.VSS_IQ_URL}`;
-},
+  
   elements: {
     username: '#edit-name',
     password: '#edit-pass',
@@ -14,7 +12,7 @@ module.exports = {
   commands: [
     {
       openUrl_loginCMS: function(){
-      return client.url(process.env.VSS_EC_CMS_URL).pause(1000);
+      return client.url("https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/").pause(1000);
       },
 
       Enter_User_Credentials: function(username, password){

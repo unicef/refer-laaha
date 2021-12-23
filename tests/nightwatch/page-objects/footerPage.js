@@ -2,11 +2,10 @@ var articleData = require('../Data/components.json');
 const { client } = require("nightwatch-api");
 
 module.exports = {
-  url: function () {
-    return `${process.env.VSS_IQ_URL}`;
-},
+//   url: function () {
+//     return `${process.env.VSS_IQ_URL}`;
+// },
 elements: {
-     //*[@href="/admin/structure/menu/item/216/edit?destination=/admin/structure/menu/manage/quick-links"]
 
     QuickLink: {
         selector:
@@ -58,7 +57,7 @@ elements: {
   commands: [
     {
         Navigate_To_Menu_List: function(){
-         return client.url(process.env.MENUs).pause(1000);
+         return client.url(process.env.var_name).pause(1000);
         },
         
       Verify_Footer_Quick_Links: function(){
