@@ -1,0 +1,25 @@
+uuid: 6a0f51d3-2a74-44f8-8e83-45e21994a314
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - vss_custom
+  theme:
+    - vss
+id: categoriespopupblock
+theme: vss
+region: content
+weight: 0
+provider: null
+plugin: categories_popup_block
+settings:
+  id: categories_popup_block
+  label: 'Categories popup block'
+  provider: vss_custom
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: /search-modal/modal
+    negate: false

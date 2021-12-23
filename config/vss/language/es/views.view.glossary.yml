@@ -1,5 +1,3 @@
-label: Glossary
-description: 'All content, by letter.'
 display:
   default:
     display_title: Master
@@ -17,20 +15,10 @@ display:
             items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- Todo -'
             offset_label: Desplazamiento
-          tags:
-            previous: ‹‹
-            next: ››
       fields:
         title:
           label: Título
         name:
           label: Autor
-        changed:
-          label: 'Last update'
-  attachment_1:
-    display_title: Attachment
   page_1:
     display_title: Página
-    display_options:
-      menu:
-        title: Glossary

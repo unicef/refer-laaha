@@ -5,6 +5,7 @@ dependencies: {  }
 id: local
 label: local
 description: 'Configuration for Local environment'
+weight: 0
 folder: ../config/vsslocal
 module: {  }
 theme: {  }
@@ -25,7 +26,7 @@ blacklist:
   - system.action.domain_access_remove_action.vss_iq_lndo_site
   - system.action.domain_access_remove_editor_action.vss_ec_lndo_site
   - system.action.domain_access_remove_editor_action.vss_iq_lndo_site
-graylist: {  }
+graylist:
+  - search_api.server.acquia_search_server
 graylist_dependents: true
 graylist_skip_equal: true
-weight: 0

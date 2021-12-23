@@ -14,6 +14,9 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\AlertCommand;
 use Drupal\user\Entity\User;
+use Drupal\file\Entity\File;
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
 
 /**
  * Implements hook_theme().
@@ -66,6 +69,13 @@ function vss_custom_theme() {
       ],
       'render element' => 'children',
     ],
+    'homepage_hero_categories_block' => [
+      'variables' => [
+        'content' => NULL,
+        'lang_code' => '',
+      ],
+      'render element' => 'children',
+    ],
     'hero_banner_block' => [
       'variables' => [
         'content' => [],
@@ -79,6 +89,19 @@ function vss_custom_theme() {
         'content' => [],
         'lang_code' => '',
         'feature_count' => '',
+      ],
+      'render element' => 'children',
+    ],
+    'view_count_block' => [
+      'variables' => [
+        'content' => [],
+      ],
+      'render element' => 'children',
+    ],
+    'categories_popup_block' => [
+      'variables' => [
+        'content' => [],
+        'lang_code' => '',
       ],
       'render element' => 'children',
     ],
@@ -260,6 +283,7 @@ function validate_password(&$form, &$form_state) {
  */
 function vss_custom_form_node_form_alter(&$form, &$form_state) {
   $form['field_sub_category']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_sub_categories();
+  $form['actions']['preview']['#attributes'] = ['onclick' => 'this.form.target="_blank";return true;'];
 }
 
 /**
@@ -397,6 +421,11 @@ function vss_custom_preprocess_block(&$variables) {
       $variables['label'] = $variables['content']['#block_content']->label();
     }
   }
+  if ($variables['elements']['#id'] == 'homepageherocategoriesblock') {
+    $variables['elements']['#cache']['max-age'] = 0;
+    $commonConfig = \Drupal::config('vss_common_config.vsscommonconfig')->get('vss_common_config');
+    $categories = $commonConfig['homepage_hero'];
+  }
   if ($variables['elements']['#id'] == 'wordsfromexperts') {
     $variables['elements']['#cache']['max-age'] = 0;
     $variables['#cache']['max-age'] = 0;
@@ -479,34 +508,40 @@ function vss_custom_entity_insert(EntityInterface $entity) {
     if ($entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' || $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_un_publish') {
       $domain = $entity->get('field_domain_access')->target_id;
       $state = $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ? 'publish' : 'unpublish';
-      $user = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
+      $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
       ['field_domain_access' => $domain, 'roles' => 'country_admin']);
-      $user = reset($user);
-      if ($user) {
-        $user_email = $user->getEmail();
-        $user_name = $user->name->value;
-        $type = $entity->bundle();
-        $editor_name = $entity->getOwner()->name->value;
-        $nid = $entity->id();
-        $langcode = $entity->get('langcode')->getValue()[0]['value'];
-        $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
-      }
-      $mailManager = \Drupal::service('plugin.manager.mail');
-      $module = 'vss_custom';
-      $key = 'general_mail';
-      $to = $user_email;
-      $params['message'] = "Hi $user_name,
-      $editor_name has requested to $state an $type. Below is a link 
-      <a href = https://$url>https://$url</a> 
-      Click on the link to view the content or go to your dashboard in the CMS";
-      $params['subject'] = "Request for $state content by $editor_name";
-      $send = TRUE;
-      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
-      if ($result['result'] !== TRUE) {
-        \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
-      }
-      else {
-        \Drupal::messenger()->addMessage(t('Mail has been sent.'));
+      foreach ($users as $user) {
+        if ($user) {
+          $user_email = $user->getEmail();
+          $user_name = $user->name->value;
+          $type = $entity->bundle();
+          $editor_name = $entity->getOwner()->name->value;
+          $nid = $entity->id();
+          $langcode = $entity->get('langcode')->getValue()[0]['value'];
+          if ($langcode != 'en') {
+            $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
+          }
+          else {
+            $url = \Drupal::request()->getHost() . "/node/$nid/edit";
+          }
+        }
+        $mailManager = \Drupal::service('plugin.manager.mail');
+        $module = 'vss_custom';
+        $key = 'general_mail';
+        $to = $user_email;
+        $params['message'] = "Hi $user_name,
+        $editor_name has requested to $state an $type. Below is a link 
+        <a href = https://$url>https://$url</a> 
+        Click on the link to view the content or go to your dashboard in the CMS";
+        $params['subject'] = "Request for $state content by $editor_name";
+        $send = TRUE;
+        $result = $mailManager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
+        if ($result['result'] !== TRUE) {
+          \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
+        }
+        else {
+          \Drupal::messenger()->addMessage(t('Mail has been sent.'));
+        }
       }
     }
   }
@@ -520,35 +555,73 @@ function vss_custom_entity_update(EntityInterface $entity) {
     if ($entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' || $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_un_publish') {
       $domain = $entity->get('field_domain_access')->target_id;
       $state = $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ? 'publish' : 'unpublish';
-      $user = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
+      $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
       ['field_domain_access' => $domain, 'roles' => 'country_admin']);
-      $user = reset($user);
-      if ($user) {
-        $user_email = $user->getEmail();
-        $user_name = $user->name->value;
-        $type = $entity->bundle();
-        $editor_name = $entity->getOwner()->name->value;
-        $nid = $entity->id();
-        $langcode = $entity->get('langcode')->getValue()[0]['value'];
-        $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
-      }
-      $mailManager = \Drupal::service('plugin.manager.mail');
-      $module = 'vss_custom';
-      $key = 'general_mail';
-      $to = $user_email;
-      $params['message'] = "Hi $user_name,
-      $editor_name has requested to $state an $type. Below is a link 
-      <a href = https://$url>https://$url</a>
-      Click on the link to view the content or go to your dashboard in the CMS";
-      $params['subject'] = "Request for $state content by $editor_name";
-      $send = TRUE;
-      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
-      if ($result['result'] !== TRUE) {
-        \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
-      }
-      else {
-        \Drupal::messenger()->addMessage(t('Mail has been sent.'));
+      foreach ($users as $user) {
+        if ($user) {
+          $user_email = $user->getEmail();
+          $user_name = $user->name->value;
+          $type = $entity->bundle();
+          $editor_name = $entity->getOwner()->name->value;
+          $nid = $entity->id();
+          $langcode = $entity->get('langcode')->getValue()[0]['value'];
+          if ($langcode != 'en') {
+            $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
+          }
+          else {
+            $url = \Drupal::request()->getHost() . "/node/$nid/edit";
+          }
+        }
+        $mailManager = \Drupal::service('plugin.manager.mail');
+        $module = 'vss_custom';
+        $key = 'general_mail';
+        $to = $user_email;
+        $params['message'] = "Hi $user_name,
+        $editor_name has requested to $state an $type. Below is a link 
+        <a href = https://$url>https://$url</a>
+        Click on the link to view the content or go to your dashboard in the CMS";
+        $params['subject'] = "Request for $state content by $editor_name";
+        $send = TRUE;
+        $result = $mailManager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
+        if ($result['result'] !== TRUE) {
+          \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
+        }
+        else {
+          \Drupal::messenger()->addMessage(t('Mail has been sent.'));
+        }
       }
     }
+  }
+}
+
+/**
+ * Implements hook_search_api_autocomplete_suggestions_alter().
+ */
+function vss_custom_search_api_autocomplete_suggestions_alter(array &$suggestions, array $alter_params) {
+  if ($alter_params['search']->id() == 'search') {
+    foreach ($suggestions as $key => &$suggestion) {
+      $options = $suggestion->getUrl()->getOptions();
+      $node = $options['entity'];
+      $suggestion->setSuggestedKeys($node->label());
+      $url = Url::fromUserInput("/search-form", ['query' => ['search_api_fulltext' => $node->label()]]);
+      $suggestion->setUrl($url);
+    }
+  }
+}
+
+/**
+ * Implements preprocess menu.
+ */
+function vss_custom_preprocess_menu(&$variables) {
+  $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $variables['lang'] = $language;
+}
+
+/**
+ * Implements views query alter.
+ */
+function vss_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  if ($view->id() == 'top_viewed_nodes') {
+    $query->addOrderBy(NULL, NULL, 'DESC', 'nodeviewcount_uip');
   }
 }

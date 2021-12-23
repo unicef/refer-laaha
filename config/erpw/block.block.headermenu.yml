@@ -11,14 +11,14 @@ dependencies:
 id: headermenu
 theme: erpw
 region: header
-weight: 0
+weight: -3
 provider: null
 plugin: 'system_menu_block:header-menu'
 settings:
   id: 'system_menu_block:header-menu'
   label: header-menu
-  provider: system
   label_display: '0'
+  provider: system
   level: 1
   depth: 0
   expand_all_items: false

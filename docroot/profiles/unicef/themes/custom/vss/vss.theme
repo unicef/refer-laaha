@@ -142,18 +142,18 @@ function vss_preprocess_paragraph(&$variables) {
             if ($media->hasTranslation($langcode)) {
               $media = $media->getTranslation($langcode);
             }
-          }
-          $target_id = $media->field_media_image->target_id;
-          $file = \Drupal::entityTypeManager()->getStorage('file')->load($target_id);
-          if ($file) {
-            if ($file->hasTranslation($langcode)) {
-              $file = $file->getTranslation($langcode);
+            if (!$media->field_caption->isEmpty()) {
+              $variables['gallery'][$targetId->target_id]['caption'] = $media->field_caption->value;
+              $target_id = $media->field_media_image->target_id;
+              $file = \Drupal::entityTypeManager()->getStorage('file')->load($target_id);
+              if ($file) {
+                if ($file->hasTranslation($langcode)) {
+                  $file = $file->getTranslation($langcode);
+                }
+                $variables['gallery'][$targetId->target_id]['alt'] = $media->field_media_image->alt;
+                $variables['gallery'][$targetId->target_id]['uri'] = $file->uri->value;
+              }
             }
-          }
-          $variables['gallery'][$target_id]['alt'] = $media->field_media_image->alt;
-          $variables['gallery'][$target_id]['uri'] = $file->uri->value;
-          if (!$media->field_caption->isEmpty()) {
-            $variables['gallery'][$target_id]['caption'] = $media->field_caption->value;
           }
         }
       }

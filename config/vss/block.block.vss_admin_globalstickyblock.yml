@@ -1,0 +1,20 @@
+uuid: db206f05-7d42-471a-9584-83ff8676364e
+langcode: en
+status: true
+dependencies:
+  module:
+    - vss_custom
+  theme:
+    - vss_admin
+id: vss_admin_globalstickyblock
+theme: vss_admin
+region: sidebar_first
+weight: -10
+provider: null
+plugin: global_sticky_block
+settings:
+  id: global_sticky_block
+  label: 'Global Sticky block'
+  provider: vss_custom
+  label_display: '0'
+visibility: {  }

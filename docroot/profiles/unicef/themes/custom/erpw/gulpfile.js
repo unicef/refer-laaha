@@ -48,6 +48,15 @@ gulp.task('compile:scss', function (done) {
 gulp.task('scss', gulp.series(['clean:css', 'compile:scss']));
 
 
+gulp.task("uglify", function (done) {
+  gulp.src('theme-resources/js/**/*.*',)
+    .pipe(concat('build.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('./js/'));
+    done();
+});
+gulp.task('js', gulp.series(['uglify']));
+
 gulp.task("tslint", () =>
   gulp.src('theme-resources/typescript/**/*.*',)
     .pipe(tslint({
@@ -59,7 +68,6 @@ gulp.task("tslint", () =>
     ))
     .pipe(tslint.report())
 );
-
 
 gulp.task('compile:ts', function (cb) {
   return gulp.src([
@@ -140,7 +148,8 @@ gulp.task('default',
   gulp.series([
     'scss',
     'typescript',
-    'concatjs'
+    'concatjs',
+    'js'
   ])
 );
 
@@ -151,6 +160,6 @@ gulp.task('watch', function () {
   gulp.watch('theme-resources/' + 'scss/**/*', gulp.series(['scss']));
 
   // Watch for js changes
-  gulp.watch(['theme-resources/' + 'typescript/**/*'], gulp.series(['typescript', 'concatjs']));
+  gulp.watch(['theme-resources/' + 'js/**/*'], gulp.series(['js']));
 
 });

@@ -24,6 +24,11 @@ targetEntityType: node
 bundle: article
 mode: rss
 content:
+  content_moderation_control:
+    weight: -20
+    settings: {  }
+    third_party_settings: {  }
+    region: content
   links:
     weight: 100
     region: content
@@ -39,3 +44,4 @@ hidden:
   field_tags: true
   field_thumbnail_image: true
   langcode: true
+  search_api_excerpt: true
