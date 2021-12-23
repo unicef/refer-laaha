@@ -59,11 +59,11 @@ select {
 }
 input[type=submit] {
 	background: $base-secondary-bgcolor;
-	border: 0;
+	border: 1px solid $base-secondary-bgcolor;
 	border-radius: 4px;
 	color: $base-white-color;
 	display: inline-block;
-	font-size: .85em;
+	font-size: .875em;
 	margin: 0 0 1em 0;
 	padding: 10px 24px;
 	text-transform: uppercase;

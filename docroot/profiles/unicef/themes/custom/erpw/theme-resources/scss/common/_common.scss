@@ -37,5 +37,19 @@ p {
 	left: 23px;
 	width: 16px;
 }
-
-
+.path-frontpage {
+	#block-erpw-content {
+		display: none;
+	}
+}
+form input[type=submit].button-border {
+	background: none;
+	border: 1px solid $base-secondary-bgcolor;
+	border-radius: 4px;
+	color: $base-secondary-bgcolor;
+	display: inline-block;
+	font-size: 0.875em;
+	margin: 0 15px 1em 0;
+	padding: 10px 24px;
+	text-transform: uppercase;
+}
