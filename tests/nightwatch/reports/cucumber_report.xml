@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Verify Footer Elements" time="38.004" tests="1" failures="1" errors="0" skipped="0">
-    <testcase name="Add and Verify VSS Footer Quick Links" classname="verify-footer-elements;add-and-verify-vss-footer-quick-links" time="38.004">
-      <failure message="Error while running &quot;urlContains&quot; command: Testing if the URL contains [0;33m'/user/46'[0m in 5000ms - expected [0;32m&quot;contains '/user/46'&quot;[0m but got: [0;31m&quot;https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/&quot;[0m [0;90m(5233ms)[0m&#xA;    at Proxy.Enter_User_Credentials (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/page-objects/loginPage.js:25:17)&#xA;    at World.&lt;anonymous> (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/step-definitions/login.js:11:16)"/>
-    </testcase>
+  <testsuite name="Verify Footer Elements" time="28.226" tests="1" failures="0" errors="0" skipped="0">
+    <testcase name="Add and Verify VSS Footer Quick Links" classname="verify-footer-elements;add-and-verify-vss-footer-quick-links" time="28.226"/>
   </testsuite>
-  <testsuite name="Verify Header Elements" time="146.148" tests="4" failures="4" errors="0" skipped="0">
-    <testcase name="Verify all Header elememts" classname="verify-header-elements;verify-all-header-elememts" time="36.434">
-      <failure message="Error while running &quot;urlContains&quot; command: Testing if the URL contains [0;33m'/user/46'[0m in 5000ms - expected [0;32m&quot;contains '/user/46'&quot;[0m but got: [0;31m&quot;https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/&quot;[0m [0;90m(5143ms)[0m&#xA;    at Proxy.Enter_User_Credentials (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/page-objects/loginPage.js:25:17)&#xA;    at World.&lt;anonymous> (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/step-definitions/login.js:11:16)"/>
-    </testcase>
-    <testcase name="Verify Virtual Safe Space Title and logo" classname="verify-header-elements;verify-virtual-safe-space-title-and-logo" time="36.817">
-      <failure message="Error while running &quot;urlContains&quot; command: Testing if the URL contains [0;33m'/user/46'[0m in 5000ms - expected [0;32m&quot;contains '/user/46'&quot;[0m but got: [0;31m&quot;https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/&quot;[0m [0;90m(5121ms)[0m&#xA;    at Proxy.Enter_User_Credentials (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/page-objects/loginPage.js:25:17)&#xA;    at World.&lt;anonymous> (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/step-definitions/login.js:11:16)"/>
-    </testcase>
-    <testcase name="Add and Verify VSS Header Menu Items" classname="verify-header-elements;add-and-verify-vss-header-menu-items" time="36.863">
-      <failure message="Error while running &quot;urlContains&quot; command: Testing if the URL contains [0;33m'/user/46'[0m in 5000ms - expected [0;32m&quot;contains '/user/46'&quot;[0m but got: [0;31m&quot;https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/&quot;[0m [0;90m(5115ms)[0m&#xA;    at Proxy.Enter_User_Credentials (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/page-objects/loginPage.js:25:17)&#xA;    at World.&lt;anonymous> (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/step-definitions/login.js:11:16)"/>
-    </testcase>
-    <testcase name="Exit Functionality" classname="verify-header-elements;exit-functionality" time="36.034">
-      <failure message="Error while running &quot;urlContains&quot; command: Testing if the URL contains [0;33m'/user/46'[0m in 5000ms - expected [0;32m&quot;contains '/user/46'&quot;[0m but got: [0;31m&quot;https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/&quot;[0m [0;90m(5127ms)[0m&#xA;    at Proxy.Enter_User_Credentials (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/page-objects/loginPage.js:25:17)&#xA;    at World.&lt;anonymous> (/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/step-definitions/login.js:11:16)"/>
-    </testcase>
+  <testsuite name="Verify Header Elements" time="84.08" tests="4" failures="0" errors="0" skipped="0">
+    <testcase name="Verify all Header elememts" classname="verify-header-elements;verify-all-header-elememts" time="17.798"/>
+    <testcase name="Verify Virtual Safe Space Title and logo" classname="verify-header-elements;verify-virtual-safe-space-title-and-logo" time="17.883"/>
+    <testcase name="Add and Verify VSS Header Menu Items" classname="verify-header-elements;add-and-verify-vss-header-menu-items" time="26.924"/>
+    <testcase name="Exit Functionality" classname="verify-header-elements;exit-functionality" time="21.475"/>
   </testsuite>
 </testsuites>

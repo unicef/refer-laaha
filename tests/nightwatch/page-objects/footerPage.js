@@ -9,7 +9,7 @@ elements: {
 
     QuickLink: {
         selector:
-        '//li[@class="edit dropbutton-action"]/a[@href="/admin/structure/menu/manage/quick-links"]',
+        '//li[@class="edit dropbutton-action"]/a[@href="/admin/structure/menu/manage/quick-links?destination=/admin/structure/menu"]',
         locateStrategy: 'xpath'
     },
     verifyQuickLink: {
@@ -19,7 +19,7 @@ elements: {
       },
       AddLinkBtn: {
           selector:
-          '//a[@href="/admin/structure/menu/manage/quick-links/add?destination=/admin/structure/menu/manage/quick-links"]',
+          '//a[@href="/admin/structure/menu/manage/quick-links/add?destination=/admin/structure/menu"]',
           locateStrategy: 'xpath'
       },
       VerifyAddMenuLinkTitle: {
@@ -57,7 +57,7 @@ elements: {
   commands: [
     {
         Navigate_To_Menu_List: function(){
-         return client.url("https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/").pause(1000);
+         return client.url("https://stage.ec.virtualsafespace.net/admin/structure/menu").pause(1000);
         },
         
       Verify_Footer_Quick_Links: function(){

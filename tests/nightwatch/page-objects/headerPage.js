@@ -17,7 +17,7 @@ elements: {
   },
   SiteNavMenu: {
     selector:
-    '//li[@class="edit dropbutton-action"]/a[@href="/admin/structure/menu/manage/navigation-header-menu"]',
+    '//li[@class="edit dropbutton-action"]/a[@href="/admin/structure/menu/manage/navigation-header-menu?destination=/admin/structure/menu"]',
     locateStrategy: 'xpath',
   },
   AddLinkBtn: {

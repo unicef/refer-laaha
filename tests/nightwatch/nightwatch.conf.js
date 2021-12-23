@@ -40,7 +40,7 @@ module.exports = {
           chromeOptions: {
             args: [
               '--headless',
-               //'--no-sandbox',
+               '--no-sandbox',
                "--ignore-certificate-errors",
                //'--incognito',
               //'--disable-gpu',
