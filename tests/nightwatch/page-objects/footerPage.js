@@ -57,7 +57,7 @@ elements: {
   commands: [
     {
         Navigate_To_Menu_List: function(){
-         return client.url(process.env.var_name).pause(1000);
+         return client.url("https://vssadmin:Unicef%2312345@stage.ec.virtualsafespace.net/user/login/").pause(1000);
         },
         
       Verify_Footer_Quick_Links: function(){
