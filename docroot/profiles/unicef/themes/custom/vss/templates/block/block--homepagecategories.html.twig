@@ -59,7 +59,7 @@
   {% block content %}
     {{ title_prefix }}
     {% if content.field_hide_title.0['#markup'] == '0' %}
-      <div { title_attributes.addClass('homepage-hero-section--title') }}>{{ content.field_title }}</div>
+      <div class="homepage-hero-section--title">{{ content.field_title }}</div>
     {% endif %}
     {{ title_suffix }}
     
