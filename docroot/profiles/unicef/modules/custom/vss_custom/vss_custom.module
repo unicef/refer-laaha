@@ -14,8 +14,9 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\AlertCommand;
 use Drupal\user\Entity\User;
-use Drupal\media\Entity\Media;
 use Drupal\file\Entity\File;
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
 
 /**
  * Implements hook_theme().
@@ -94,6 +95,13 @@ function vss_custom_theme() {
     'view_count_block' => [
       'variables' => [
         'content' => [],
+      ],
+      'render element' => 'children',
+    ],
+    'categories_popup_block' => [
+      'variables' => [
+        'content' => [],
+        'lang_code' => '',
       ],
       'render element' => 'children',
     ],
@@ -510,7 +518,12 @@ function vss_custom_entity_insert(EntityInterface $entity) {
           $editor_name = $entity->getOwner()->name->value;
           $nid = $entity->id();
           $langcode = $entity->get('langcode')->getValue()[0]['value'];
-          $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
+          if ($langcode != 'en') {
+            $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
+          }
+          else {
+            $url = \Drupal::request()->getHost() . "/node/$nid/edit";
+          }
         }
         $mailManager = \Drupal::service('plugin.manager.mail');
         $module = 'vss_custom';
@@ -552,7 +565,12 @@ function vss_custom_entity_update(EntityInterface $entity) {
           $editor_name = $entity->getOwner()->name->value;
           $nid = $entity->id();
           $langcode = $entity->get('langcode')->getValue()[0]['value'];
-          $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
+          if ($langcode != 'en') {
+            $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
+          }
+          else {
+            $url = \Drupal::request()->getHost() . "/node/$nid/edit";
+          }
         }
         $mailManager = \Drupal::service('plugin.manager.mail');
         $module = 'vss_custom';
@@ -573,5 +591,37 @@ function vss_custom_entity_update(EntityInterface $entity) {
         }
       }
     }
+  }
+}
+
+/**
+ * Implements hook_search_api_autocomplete_suggestions_alter().
+ */
+function vss_custom_search_api_autocomplete_suggestions_alter(array &$suggestions, array $alter_params) {
+  if ($alter_params['search']->id() == 'search') {
+    foreach ($suggestions as $key => &$suggestion) {
+      $options = $suggestion->getUrl()->getOptions();
+      $node = $options['entity'];
+      $suggestion->setSuggestedKeys($node->label());
+      $url = Url::fromUserInput("/search-form", ['query' => ['search_api_fulltext' => $node->label()]]);
+      $suggestion->setUrl($url);
+    }
+  }
+}
+
+/**
+ * Implements preprocess menu.
+ */
+function vss_custom_preprocess_menu(&$variables) {
+  $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $variables['lang'] = $language;
+}
+
+/**
+ * Implements views query alter.
+ */
+function vss_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  if ($view->id() == 'top_viewed_nodes') {
+    $query->addOrderBy(NULL, NULL, 'DESC', 'nodeviewcount_uip');
   }
 }

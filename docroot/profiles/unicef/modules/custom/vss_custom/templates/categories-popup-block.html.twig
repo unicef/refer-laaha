@@ -1,0 +1,22 @@
+{{ attach_library('vss_custom/categories_popup_block') }}
+
+{% if content is not empty %}
+<div class="hero_banner">
+  <div class="row">
+ <div class="hero-wrapper">
+ <div class="row">
+{% for key,value in content %}
+  <div class="col-sm-3 col-xs-6 hero-col text-center">
+    {% if lang_code != 'en' %}
+      <a href="/{{lang_code}}/{{value.url}}" target='_blank'><img class="category-imgs" src ="/{{value.cat_icon}}" alt="" /><span class="subcat-name">{{ value.name }}</span></a><br>
+      <span class="subcat-desc">{{ value.cat_desc }}</span>
+    {% else %}
+      <a href="/{{value.url}}" target='_blank'><img src ="/{{value.cat_icon}}" alt="" /><span class="subcat-name">{{ value.name }}</span></a><br>
+      <span class="subcat-desc">{{ value.cat_desc }}</span>
+    {% endif %}
+    </div>
+{% endfor %}
+</div>
+</div>
+</div>
+{% endif %}

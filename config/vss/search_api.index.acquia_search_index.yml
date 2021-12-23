@@ -5,15 +5,20 @@ dependencies:
   module:
     - search_api_solr
     - node
+    - taxonomy
     - search_api
   config:
     - field.storage.node.body
+    - field.storage.node.field_tags
     - search_api.server.acquia_search_server
 third_party_settings:
   search_api_solr:
     finalize: false
     commit_before_finalize: false
     commit_after_finalize: false
+    multilingual:
+      limit_to_content_language: false
+      include_language_independent: true
     highlighter:
       maxAnalyzedChars: 51200
       fragmenter: gap
@@ -29,8 +34,24 @@ third_party_settings:
         requireFieldMatch: false
         snippets: 3
         fragsize: 0
+    mlt:
+      mintf: 1
+      mindf: 1
+      maxdf: 0
+      maxdfpct: 0
+      minwl: 0
+      maxwl: 0
+      maxqt: 100
+      maxntp: 2000
+      boost: false
+      interestingTerms: none
+    term_modifiers:
+      slop: 3
+      fuzzy: 1
     advanced:
       index_prefix: ''
+      collection: ''
+      timezone: ''
 _core:
   default_config_hash: m3BA7ry9oerhED2EXWWHra57A4vZj7Eobsr5-29dq4M
 id: acquia_search_index
@@ -42,10 +63,26 @@ field_settings:
     label: Body
     datasource_id: 'entity:node'
     property_path: body
-    type: text
+    type: 'solr_text_custom:edgestring'
     dependencies:
       config:
         - field.storage.node.body
+  field_tags:
+    label: Tags
+    datasource_id: 'entity:node'
+    property_path: field_tags
+    type: 'solr_text_custom:edgestring'
+    dependencies:
+      config:
+        - field.storage.node.field_tags
+  name:
+    label: Name
+    datasource_id: 'entity:taxonomy_term'
+    property_path: name
+    type: 'solr_text_custom:edgestring'
+    dependencies:
+      module:
+        - taxonomy
   node_grants:
     label: 'Node access information'
     property_path: search_api_node_grants
@@ -67,7 +104,7 @@ field_settings:
     label: Title
     datasource_id: 'entity:node'
     property_path: title
-    type: text
+    type: 'solr_text_custom:edgestring'
     dependencies:
       module:
         - node
@@ -75,7 +112,7 @@ field_settings:
     label: 'Content type'
     datasource_id: 'entity:node'
     property_path: type
-    type: string
+    type: 'solr_text_custom:edgestring'
     dependencies:
       module:
         - node
@@ -97,6 +134,13 @@ datasource_settings:
     languages:
       default: true
       selected: {  }
+  'entity:taxonomy_term':
+    bundles:
+      default: true
+      selected: {  }
+    languages:
+      default: true
+      selected: {  }
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
@@ -105,21 +149,27 @@ processor_settings:
       preprocess_query: -30
   entity_status: {  }
   highlight:
-    highlight: server
-    highlight_partial: false
+    weights:
+      postprocess_query: 0
+    prefix: '<strong>'
+    suffix: '</strong>'
     excerpt: true
     excerpt_length: 400
     exclude_fields:
       - title
-    prefix: '<strong>'
-    suffix: '</strong>'
-    weights:
-      postprocess_query: 0
+    highlight: server
+    highlight_partial: false
   html_filter:
+    weights:
+      preprocess_index: -15
+      preprocess_query: -15
     all_fields: true
     fields:
       - body
+      - field_tags
+      - name
       - title
+      - type
     title: true
     alt: true
     tags:
@@ -130,24 +180,22 @@ processor_settings:
       h3: 2
       strong: 2
       u: 1
-    weights:
-      preprocess_index: -15
-      preprocess_query: -15
+  language_with_fallback: {  }
   rendered_item: {  }
   solr_date_range:
     weights:
       preprocess_index: 0
   type_boost:
+    weights:
+      preprocess_index: 0
     boosts:
       'entity:node':
         datasource_boost: !!float 1
-    weights:
-      preprocess_index: 0
 tracker_settings:
   default:
     indexing_order: fifo
 options:
   index_directly: false
-  cron_limit: 50
   track_changes_in_references: true
+  cron_limit: 50
 server: acquia_search_server
