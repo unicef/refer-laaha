@@ -1,0 +1,30 @@
+uuid: 9bb45188-a434-4714-883e-995410519ffa
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:services_block:b779b540-6523-4c4f-9bf0-3091937d6eda'
+  module:
+    - block_content
+    - system
+  theme:
+    - vss
+id: servicesblock
+theme: vss
+region: content
+weight: 0
+provider: null
+plugin: 'block_content:b779b540-6523-4c4f-9bf0-3091937d6eda'
+settings:
+  id: 'block_content:b779b540-6523-4c4f-9bf0-3091937d6eda'
+  label: 'Services block'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false

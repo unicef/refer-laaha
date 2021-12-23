@@ -1,0 +1,30 @@
+uuid: 6b468e40-b544-4a24-8934-7a0f4fb647f1
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_media
+field_name: field_media
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: connect
+      label: '<img src ="/profiles/unicef/modules/custom/vss_custom/images/connect.png" alt="Connect img"/>'
+    -
+      value: find
+      label: '<img src ="/profiles/unicef/modules/custom/vss_custom/images/find.png" alt="Find img"/>'
+    -
+      value: discover
+      label: '<img src ="/profiles/unicef/modules/custom/vss_custom/images/discover.png" alt="Discover img" />'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

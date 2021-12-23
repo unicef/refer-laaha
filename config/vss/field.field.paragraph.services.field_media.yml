@@ -1,0 +1,21 @@
+uuid: a53ae210-bb4c-46ac-aec8-ec0e293690db
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_media
+    - paragraphs.paragraphs_type.services
+  module:
+    - options
+id: paragraph.services.field_media
+field_name: field_media
+entity_type: paragraph
+bundle: services
+label: Media
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,61 @@
+uuid: ef152d3f-a327-43f0-b840-d8dc68d28f47
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.services_block
+    - field.storage.block_content.field_service_item
+    - paragraphs.paragraphs_type.services
+  module:
+    - entity_reference_revisions
+id: block_content.services_block.field_service_item
+field_name: field_service_item
+entity_type: block_content
+bundle: services_block
+label: 'Service item'
+description: 'Displays service items'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      services: services
+    target_bundles_drag_drop:
+      external_videos:
+        weight: 12
+        enabled: false
+      from_library:
+        weight: 13
+        enabled: false
+      image:
+        weight: 14
+        enabled: false
+      image_gallery:
+        weight: 15
+        enabled: false
+      layout:
+        weight: 16
+        enabled: false
+      podcast_audio:
+        weight: 17
+        enabled: false
+      scorm:
+        weight: 18
+        enabled: false
+      services:
+        enabled: true
+        weight: 19
+      video:
+        weight: 20
+        enabled: false
+      vtt_entries:
+        weight: 21
+        enabled: false
+      wysiwyg_editor:
+        weight: 22
+        enabled: false
+field_type: entity_reference_revisions
