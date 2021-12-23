@@ -43,11 +43,6 @@ class SignInPopup extends FormBase {
     $form['actions']['export_csv'] = [
       '#type' => 'submit',
       '#value' => $this->t('SIGN IN'),
-      '#attributes' => [
-        'class' => [
-          'arrow-btn',
-        ],
-      ],
     ];
     return $form;
   }
