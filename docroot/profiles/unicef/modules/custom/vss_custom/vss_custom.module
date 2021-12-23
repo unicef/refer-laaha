@@ -518,7 +518,12 @@ function vss_custom_entity_insert(EntityInterface $entity) {
           $editor_name = $entity->getOwner()->name->value;
           $nid = $entity->id();
           $langcode = $entity->get('langcode')->getValue()[0]['value'];
-          $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
+          if ($langcode != 'en') {
+            $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
+          }
+          else {
+            $url = \Drupal::request()->getHost() . "/node/$nid/edit";
+          }
         }
         $mailManager = \Drupal::service('plugin.manager.mail');
         $module = 'vss_custom';
@@ -560,7 +565,12 @@ function vss_custom_entity_update(EntityInterface $entity) {
           $editor_name = $entity->getOwner()->name->value;
           $nid = $entity->id();
           $langcode = $entity->get('langcode')->getValue()[0]['value'];
-          $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
+          if ($langcode != 'en') {
+            $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
+          }
+          else {
+            $url = \Drupal::request()->getHost() . "/node/$nid/edit";
+          }
         }
         $mailManager = \Drupal::service('plugin.manager.mail');
         $module = 'vss_custom';
