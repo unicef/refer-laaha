@@ -1,0 +1,41 @@
+uuid: 91d918e9-f0aa-4087-b582-7d878bc98d73
+langcode: en
+status: true
+dependencies:
+  config:
+    - search_api.index.acquia_search_index
+    - views.view.acquia_search
+  module:
+    - views
+    - search_api_autocomplete
+id: acquia_search
+label: 'Acquia Search Solr'
+index_id: acquia_search_index
+suggester_settings:
+  live_results:
+    fields: {  }
+    view_modes:
+      'entity:node':
+        article: ''
+        page: ''
+        podcast: ''
+        scorm: ''
+        video: ''
+    highlight:
+      enabled: false
+      field: ''
+suggester_weights:
+  live_results: 0
+suggester_limits: {  }
+search_settings:
+  'views:acquia_search':
+    displays:
+      default: true
+      selected: {  }
+options:
+  limit: 10
+  min_length: 1
+  show_count: false
+  autosubmit: true
+  submit_button_selector: ':submit'
+  delay: null
