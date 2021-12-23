@@ -1,0 +1,30 @@
+uuid: 15f42f21-6004-40cb-8d54-3c0aca682385
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:homepage_hero_section:fb282cd6-eb2f-4e53-8806-6c0f8746a6bd'
+  module:
+    - block_content
+    - system
+  theme:
+    - vss
+id: homepagecategories
+theme: vss
+region: content
+weight: -7
+provider: null
+plugin: 'block_content:fb282cd6-eb2f-4e53-8806-6c0f8746a6bd'
+settings:
+  id: 'block_content:fb282cd6-eb2f-4e53-8806-6c0f8746a6bd'
+  label: Homepage-categories
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false

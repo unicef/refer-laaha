@@ -1,0 +1,1 @@
+!function(e){"use strict";0==e("select option:selected").val()&&e("select").css("color","#E0D7D7"),e("select").on("change",function(){return 0==e(this).children("option:selected").val()?e(this).css("color","#E0D7D7"):e(this).css("color","#444")})}(jQuery,(Drupal,drupalSettings));

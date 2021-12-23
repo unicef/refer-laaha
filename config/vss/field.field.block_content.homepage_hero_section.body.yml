@@ -1,0 +1,23 @@
+uuid: 210c1458-9011-4c6e-8580-db0f5e5cd036
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.homepage_hero_section
+    - field.storage.block_content.body
+  module:
+    - text
+id: block_content.homepage_hero_section.body
+field_name: body
+entity_type: block_content
+bundle: homepage_hero_section
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+  required_summary: false
+field_type: text_with_summary

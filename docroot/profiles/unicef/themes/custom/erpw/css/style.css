@@ -47,8 +47,10 @@ p {
   margin: 10px 0;
 }
 
-#block-erpw-branding,
-#block-erpw-main-menu {
+.path-sign-up #block-erpw-branding,
+.path-sign-up #block-erpw-main-menu,
+.path-user #block-erpw-branding,
+.path-user #block-erpw-main-menu {
   display: none;
 }
 
@@ -58,13 +60,11 @@ form .form-required::after {
   vertical-align: inherit;
 }
 form select {
+  outline: none;
+  -moz-appearance: none;
   -webkit-appearance: none;
-  -moz-appearance: window;
+  appearance: none;
   background: url("../images/arrow.svg") right 10px center no-repeat;
-  color: #E0D7D7;
-}
-form select option:first-child {
-  color: #444;
 }
 form .form-actions {
   text-align: right;
@@ -88,7 +88,7 @@ select {
   border-radius: 5px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  display: block;
+  display: inline-block;
   padding: 8px 11px;
   margin-top: 7px;
   width: 100%;
@@ -124,7 +124,8 @@ input[type=submit] {
   border: 0;
   border-radius: 4px;
   color: #ffffff;
-  font-size: 14px;
+  display: inline-block;
+  font-size: 0.85em;
   margin: 0 0 1em 0;
   padding: 10px 24px;
   text-transform: uppercase;
@@ -136,6 +137,48 @@ input[type=submit].arrow-btn {
 }
 input[type=submit].use-ajax.arrow-btn {
   background-position: calc(50% + 100px) center;
+}
+
+.form-type-password {
+  position: relative;
+}
+
+.description {
+  background: none;
+  border: 1px solid #000;
+  border-radius: 50%;
+  font-size: 9px !important;
+  font-style: italic;
+  left: 66px;
+  position: absolute;
+  text-align: center;
+  top: 5px;
+  right: 0;
+  width: 10px;
+}
+
+.password-help-text {
+  -webkit-box-shadow: 0 2px 20px 6px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 20px 6px rgba(0, 0, 0, 0.1);
+  background: #A85766;
+  color: #ffffff;
+  left: 20px;
+  padding: 5px;
+  position: absolute;
+  top: -15px;
+  width: 160px;
+}
+.password-help-text::before {
+  border-bottom: 5px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #A85766;
+  content: "";
+  height: 0;
+  left: -5px;
+  position: absolute;
+  top: 15px;
+  width: 0;
+  z-index: 9;
 }
 
 footer {
@@ -249,7 +292,7 @@ header {
   display: flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
-  margin: 0 50px 40px;
+  margin: 0 0 40px;
 }
 
 .step {
@@ -343,6 +386,7 @@ body.path-user main {
 
 .signin-otp {
   text-align: center;
+  margin-top: 10px;
 }
 .signin-otp .signup-link {
   font-size: 1em;
@@ -354,7 +398,50 @@ body.path-user main {
   opacity: 0.87;
 }
 
-.user-login-form .arrow-btn {
+.user-login-form input[type=submit] {
+  background: url("../images/arrow-white.svg") calc(50% + 50px) center no-repeat #A85766;
   margin: 0;
+}
+.user-login-form .form-item {
+  margin-top: 0;
+}
+
+.ui-dialog {
+  border: 0 !important;
+  border-radius: 10px;
+  padding: 10px 8px;
+  font-size: 1em;
+  text-align: center;
+}
+.ui-dialog .ui-dialog-titlebar {
+  background: none;
+  border: 0;
+}
+.ui-dialog .ui-dialog-content {
+  padding: 0 0.5em 1em !important;
+}
+.ui-dialog .ui-button .ui-icon {
+  background: url("../images/cross.svg") 0 0 no-repeat !important;
+}
+.ui-dialog .review-msg {
+  color: #A85766;
+  line-height: 22px;
+  margin-bottom: 15px;
+}
+.ui-dialog .email-notify {
+  color: #666565;
+}
+.ui-dialog .button.bg-green {
+  background: #A85766;
+  border: 0;
+  border-radius: 4px;
+  color: #ffffff;
+  display: block;
+  font-size: 14px;
+  margin: 15px auto 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+  text-decoration: none;
+  width: 40%;
 }
 /*# sourceMappingURL=style.css.map */
