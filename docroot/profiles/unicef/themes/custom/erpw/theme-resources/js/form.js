@@ -1,13 +1,15 @@
 (function ($, Drupal, drupalSettings) {
   'use strict';
-
-  $(document).ready(function(){
+    if($( "select option:selected").val() == 0) {
+      $('select').css('color', '#E0D7D7');
+    };
     $('select').on('change', function() {
-      if ($(this).val()) {
-      return $(this).css('color', '#444');
+      if ($(this).children("option:selected").val() == 0) {
+      return $(this).css('color', '#E0D7D7');
         } else {
       return $(this).css('color', '#444');
       }
+      
     });
-  });
+   
 })(jQuery, Drupal, drupalSettings);

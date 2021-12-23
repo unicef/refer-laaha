@@ -50,6 +50,7 @@ gulp.task('scss', gulp.series(['clean:css', 'compile:scss']));
 
 gulp.task("uglify", function (done) {
   gulp.src('theme-resources/js/**/*.*',)
+    .pipe(concat('build.js'))
     .pipe(uglify())
     .pipe(gulp.dest('./js/'));
     done();

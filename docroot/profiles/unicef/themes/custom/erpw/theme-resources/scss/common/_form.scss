@@ -12,10 +12,6 @@ form {
 		-webkit-appearance: none;
 		appearance: none;
 		background: url('../images/arrow.svg') right 10px center no-repeat;
-		color: #E0D7D7;
-		option:checked {
-			color: $grey-txt-color;
-		}
 	}
 	.form-actions {
 		text-align: right;
@@ -38,7 +34,7 @@ select {
 	border: 1px solid $border;
 	border-radius: 5px;
 	box-sizing: border-box;
-	display: block;
+	display: inline-block;
 	padding: 8px 11px;
 	margin-top: 7px;
 	width: 100%;
@@ -66,7 +62,8 @@ input[type=submit] {
 	border: 0;
 	border-radius: 4px;
 	color: $base-white-color;
-	font-size: 14px;
+	display: inline-block;
+	font-size: .85em;
 	margin: 0 0 1em 0;
 	padding: 10px 24px;
 	text-transform: uppercase;
@@ -77,5 +74,45 @@ input[type=submit] {
 	}
 	&.use-ajax.arrow-btn {
 		background-position: calc(50% - -100px) center;
+	}
+}
+
+.form-type-password {
+	position: relative;
+}
+//for password hint
+.description {
+	background: none;
+	border: 1px solid $base-black-color;
+	border-radius: 50%;
+	font-size: 9px !important;
+	font-style: italic;
+	left: 66px;
+	position: absolute;
+	text-align: center;
+	top: 5px;
+	right: 0;
+	width: 10px;
+}
+.password-help-text {
+	box-shadow: 0 2px 20px 6px rgb(0 0 0 / 10%);
+	background: $base-secondary-bgcolor;
+	color: $base-white-color;
+	left: 20px;
+	padding: 5px;
+	position: absolute;
+	top: -15px;
+	width: 160px;
+	&::before {
+    border-bottom: 5px solid transparent;
+    border-top: 5px solid transparent;
+    border-right: 5px solid $base-secondary-bgcolor;
+		content: "";
+    height: 0;
+    left: -5px;
+    position: absolute;
+    top: 15px;
+    width: 0;
+    z-index: 9;
 	}
 }
