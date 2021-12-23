@@ -238,9 +238,10 @@ class SignUpForm extends FormBase {
     ];
     $form['password'] = [
       '#type' => 'password',
-      '#title' => '<span class="help-text">' . $this->t('Password') . ' ' . $this->t('i') . '</span>',
+      '#title' => $this->t('Password'),
       '#required' => TRUE,
       '#placeholder' => t('**********'),
+      '#description' => '<span class="help-text">' . $this->t('i') . '</span>',
     ];
     $form['confirm_password'] = [
       '#type' => 'password',
