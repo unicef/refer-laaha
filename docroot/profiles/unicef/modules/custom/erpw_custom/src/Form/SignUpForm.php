@@ -81,8 +81,8 @@ class SignUpForm extends FormBase {
       return self::formPageTwo($form, $form_state);
     }
 
-    $page_1 = $form_state->set('page', 1);
-    
+    $form_state->set('page', 1);
+
     $form['progress_step1'] = [
       '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
     ];
@@ -134,7 +134,7 @@ class SignUpForm extends FormBase {
     $form['organisation'] = [
       '#type' => 'select',
       '#options' => $organisation,
-      '#empty_option' => t('Select organization'),
+      '#empty_option' => t('Select organization '),
       '#title' => $this->t('Organisation'),
       '#required' => TRUE,
     ];
@@ -265,20 +265,6 @@ class SignUpForm extends FormBase {
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     return $form;
   }
-
-  /**
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
-   */
-  public function pageTwoBack(array &$form, FormStateInterface $form_state) {
-    $form_state
-      ->setValues($form_state->get('page_values'))
-      ->set('page', 1)
-      ->setRebuild(TRUE);
-  }
-
 
   /**
    * {@inheritdoc}

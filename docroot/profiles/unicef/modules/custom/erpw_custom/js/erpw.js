@@ -12,10 +12,6 @@
                 event.preventDefault();
                 window.location.href = "/";
             });
-            $(".back-icon").on("click", function(event){
-                event.preventDefault();
-                $(".back-icon-button").click();
-            });
         }
     };
 }(jQuery, Drupal, drupalSettings));
