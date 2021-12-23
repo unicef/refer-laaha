@@ -170,8 +170,6 @@ class SignUpForm extends FormBase {
       '#submit' => ['::submitPageOne'],
       '#validate' => ['::validatePageOne'],
     ];
-    $form['#prefix'] = '<div id="sign-up"><a href="/user/login" class="back-icon"><-</a><div class="page-title">Sign up</div>';
-    $form['#suffix'] = '</div>';
     return $form;
   }
 
@@ -248,18 +246,6 @@ class SignUpForm extends FormBase {
       '#required' => TRUE,
       '#placeholder' => t('**********'),
     ];
-    $form['back'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Back'),
-      '#submit' => ['::pageTwoBack'],
-      '#limit_validation_errors' => [],
-      // '#access' => FALSE,
-      '#attributes' => [
-        'class' => [
-          'back-icon-button',
-        ],
-      ],
-    ];
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('REQUEST REGISTRATION'),
@@ -275,8 +261,6 @@ class SignUpForm extends FormBase {
         'event' => 'click',
       ],
     ];
-    $form['#prefix'] = '<div id="sign-up-2"><a href="" class="back-icon"><-</a><div class="page-title">Sign up</div>';
-    $form['#suffix'] = '</div>';
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     return $form;
