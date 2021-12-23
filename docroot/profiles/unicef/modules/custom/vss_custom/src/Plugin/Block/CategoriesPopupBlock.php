@@ -51,21 +51,23 @@ class CategoriesPopupBlock extends BlockBase implements ContainerFactoryPluginIn
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $content = $this->vssCommonConfigDefault->getCategories()['homepage_hero'];
     foreach ($content as $k => $v) {
-      $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($k);
-      if ($term->hasTranslation($langcode)) {
-        $term = $term->getTranslation($langcode);
+      if ($v != 0) {
+        $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($k);
+        if ($term->hasTranslation($langcode)) {
+          $term = $term->getTranslation($langcode);
+        }
+        $name = $term->label();
+        $cat_popup[$k]['name'] = $name;
+        $cat_icon = $term->get('field_icon')->target_id;
+        $file = $this->entityTypeManager->getStorage('file')->load($cat_icon);
+        if ($file) {
+          $cat_ic = $file->getFileUri();
+          $cat_ic = str_replace('public://', 'sites/default/files/', $cat_ic);
+        }
+        $cat_popup[$k]['cat_icon'] = $cat_ic;
+        $cat_popup[$k]['cat_desc'] = strip_tags($term->get('description')->value);
+        $cat_popup[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $k), '/');
       }
-      $name = $term->label();
-      $cat_popup[$k]['name'] = $name;
-      $cat_icon = $term->get('field_icon')->target_id;
-      $file = $this->entityTypeManager->getStorage('file')->load($cat_icon);
-      if ($file) {
-        $cat_ic = $file->getFileUri();
-        $cat_ic = str_replace('public://', 'sites/default/files/', $cat_ic);
-      }
-      $cat_popup[$k]['cat_icon'] = $cat_ic;
-      $cat_popup[$k]['cat_desc'] = strip_tags($term->get('description')->value);
-      $cat_popup[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $k), '/');
     }
     $build['#theme'] = 'categories_popup_block';
     $build['#content'] = $cat_popup;
