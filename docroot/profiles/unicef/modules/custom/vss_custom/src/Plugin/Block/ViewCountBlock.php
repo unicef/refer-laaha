@@ -70,8 +70,7 @@ class ViewCountBlock extends BlockBase implements ContainerFactoryPluginInterfac
   public function getViewCount($nid) {
     $query = $this->connection->select('nodeviewcount', 'nvc');
     $query->condition('nvc.nid', $nid);
-    $query->addExpression("COUNT(DISTINCT (nvc.nid))", "nvc");
-    $query->groupBy("nvc.uip");
+    $query->addExpression("COUNT(DISTINCT(nvc.uip))", "nvc");
     $node = $query->execute()->fetchField();
     return $node;
   }

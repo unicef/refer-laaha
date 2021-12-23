@@ -203,7 +203,7 @@ display:
           table: nodeviewcount
           field: nid
           relationship: none
-          group_type: count_distinct
+          group_type: group
           admin_label: ''
           label: 'Count views'
           exclude: true
@@ -260,7 +260,7 @@ display:
           table: nodeviewcount
           field: uip
           relationship: none
-          group_type: group
+          group_type: count_distinct
           admin_label: ''
           label: ''
           exclude: true
@@ -303,6 +303,14 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
+          set_precision: false
+          precision: 0
+          decimal: .
+          separator: ','
+          format_plural: 0
+          format_plural_string: !!binary MQNAY291bnQ=
+          prefix: ''
+          suffix: ''
           plugin_id: node_view_count_user_ip
       filters:
         status:
@@ -356,19 +364,7 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: domain_access_current_all_filter
-      sorts:
-        nid:
-          id: nid
-          table: nodeviewcount
-          field: nid
-          relationship: none
-          group_type: count
-          admin_label: ''
-          order: DESC
-          exposed: false
-          expose:
-            label: ''
-          plugin_id: standard
+      sorts: {  }
       header: {  }
       footer: {  }
       empty: {  }
