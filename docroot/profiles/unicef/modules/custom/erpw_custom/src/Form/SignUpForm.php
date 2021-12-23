@@ -149,10 +149,9 @@ class SignUpForm extends FormBase {
     $form['system_role'] = [
       '#type' => 'select',
       '#options' => $system_roles,
-      '#empty_option' => t('Select system roles'),
+      '#empty_option' => t('Select system role'),
       '#title' => $this->t('System role'),
       '#required' => TRUE,
-      '#placeholder' => t('Select system role'),
     ];
 
     $form['actions'] = [
@@ -171,7 +170,6 @@ class SignUpForm extends FormBase {
       '#submit' => ['::submitPageOne'],
       '#validate' => ['::validatePageOne'],
     ];
-
     return $form;
   }
 
@@ -238,9 +236,10 @@ class SignUpForm extends FormBase {
     ];
     $form['password'] = [
       '#type' => 'password',
-      '#title' => '<span class="help-text">' . $this->t('Password') . ' ' . $this->t('i') . '</span>',
+      '#title' => $this->t('Password'),
       '#required' => TRUE,
       '#placeholder' => t('**********'),
+      '#description' => '<span class="help-text">' . $this->t('i') . '</span>',
     ];
     $form['confirm_password'] = [
       '#type' => 'password',
