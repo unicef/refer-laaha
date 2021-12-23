@@ -5,6 +5,7 @@ dependencies:
   config:
     - block_content.type.homepage_hero_section
     - field.field.block_content.homepage_hero_section.body
+    - field.field.block_content.homepage_hero_section.field_hide_description
     - field.field.block_content.homepage_hero_section.field_hide_title
     - field.field.block_content.homepage_hero_section.field_title
   module:
@@ -20,6 +21,16 @@ content:
     weight: 1
     settings: {  }
     third_party_settings: {  }
+    region: content
+  field_hide_description:
+    weight: 3
+    label: hidden
+    settings:
+      format: boolean
+      format_custom_true: ''
+      format_custom_false: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   field_hide_title:
     weight: 2

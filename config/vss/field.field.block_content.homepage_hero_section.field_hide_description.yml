@@ -1,16 +1,16 @@
-uuid: bb704aab-bcb2-424c-bfa2-99f8142edf49
+uuid: 4161f7dc-9024-4069-8754-e71e0d72fae2
 langcode: en
 status: true
 dependencies:
   config:
     - block_content.type.homepage_hero_section
-    - field.storage.block_content.field_hide_title
-id: block_content.homepage_hero_section.field_hide_title
-field_name: field_hide_title
+    - field.storage.block_content.field_hide_description
+id: block_content.homepage_hero_section.field_hide_description
+field_name: field_hide_description
 entity_type: block_content
 bundle: homepage_hero_section
-label: 'Hide Title'
-description: ''
+label: 'Hide Description'
+description: 'Enable to hide description'
 required: false
 translatable: true
 default_value:
