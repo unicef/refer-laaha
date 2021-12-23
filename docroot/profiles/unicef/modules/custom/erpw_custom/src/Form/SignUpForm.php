@@ -149,10 +149,9 @@ class SignUpForm extends FormBase {
     $form['system_role'] = [
       '#type' => 'select',
       '#options' => $system_roles,
-      '#empty_option' => t('Select system roles'),
+      '#empty_option' => t('Select system role'),
       '#title' => $this->t('System role'),
       '#required' => TRUE,
-      '#placeholder' => t('Select system role'),
     ];
 
     $form['actions'] = [
@@ -171,7 +170,6 @@ class SignUpForm extends FormBase {
       '#submit' => ['::submitPageOne'],
       '#validate' => ['::validatePageOne'],
     ];
-
     return $form;
   }
 
