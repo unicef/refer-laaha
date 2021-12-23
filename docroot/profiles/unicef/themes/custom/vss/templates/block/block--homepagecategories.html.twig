@@ -64,18 +64,9 @@
     {{ title_suffix }}
     
     {% if content.body %}
-    <div class="homepage-hero-section--desc">{{ content.body }}</div>
-    {% endif %}
-
-    {% if content.homepage_hero %}
-      <div class="homepage-hero-section--categories">
-        {% for key, item in content.field_categories if key|first != '#' %}
-          <div class="category-item" style="background-color: {{ '#'~item['#taxonomy_term'].field_category_color.0.color }}">
-            <div class="category-thumbnail"><img src="{{ file_url(item['#taxonomy_term'].field_icon.entity.uri.0.value | image_style('thumbnail')) }}"/></div>
-            <div class="category-name"><a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': item['#taxonomy_term'].tid.value }) }}">{{ item['#taxonomy_term'].name.value }} </a></div>
-          </div>
-        {% endfor %}
-      </div>
+      {% if content.field_hide_description.0['#markup'] == '0' %}
+        <div class="homepage-hero-section--desc">{{ content.body }}</div>
+      {% endif %}
     {% endif %}
 
   {% endblock %}
