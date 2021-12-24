@@ -343,7 +343,7 @@ header {
 }
 .sign-in-popup form {
   margin: 0 auto;
-  padding: 20px 30px;
+  padding: 20px 30px 15px;
   background: url("../images/popup-bg.svg") top -125px left -20px no-repeat #fff;
   border-radius: 10px;
   position: relative;
@@ -469,8 +469,8 @@ header {
   display: none;
 }
 
-body.path-user main {
-  background: url(../images/signin-page.png) right bottom -35px no-repeat;
+body.path-user {
+  background: url("../images/signin-page.png") right top -22px no-repeat;
 }
 
 .signin-otp {
