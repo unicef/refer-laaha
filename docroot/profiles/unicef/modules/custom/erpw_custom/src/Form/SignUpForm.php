@@ -318,15 +318,20 @@ class SignUpForm extends FormBase {
           'class' => [
             'button',
             'bg-green',
+            'signin-ok',
           ],
         ],
+      ];
+      $options = [
+        'dialogClass' => 'popup-dialog-class',
+        'width' => '400',
       ];
       $url = Url::fromRoute('<front>');
       $url->setOptions($link_options);
       $link = Link::fromTextAndUrl('OK', $url)->toString();
       $message = $this->t("<div class='review-msg'>Your registration has been <br/> sent for review.</div><div class='email-notify'> You will be notified via email, once your registration approved.</div>");
       $popup_msg = Markup::create($message . ' ' . $link);
-      $response = $response->addCommand(new OpenModalDialogCommand("", $popup_msg, ['width' => 400]));
+      $response = $response->addCommand(new OpenModalDialogCommand("", $popup_msg, $options));
     }
     return $response;
   }
