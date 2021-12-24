@@ -279,7 +279,7 @@ class SignUpForm extends FormBase {
       }
     }
     if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,64}$/", $password)) {
-      $form_state->setErrorByName('password', t('Password should contain at least one Number, one Symbol and one alphabet'));
+      $form_state->setErrorByName('password', t('Password should contain one Number,  one letter, one special symbol (min Length 8 Character)'));
     }
   }
 
