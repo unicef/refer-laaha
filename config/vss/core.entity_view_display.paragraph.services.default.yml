@@ -3,11 +3,14 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.services.field_external_link
     - field.field.paragraph.services.field_media
     - field.field.paragraph.services.field_service_description
+    - field.field.paragraph.services.field_service_link
     - field.field.paragraph.services.field_service_title
     - paragraphs.paragraphs_type.services
   module:
+    - link
     - options
     - text
 id: paragraph.services.default
@@ -15,6 +18,16 @@ targetEntityType: paragraph
 bundle: services
 mode: default
 content:
+  field_external_link:
+    weight: 4
+    label: hidden
+    settings:
+      format: boolean
+      format_custom_true: ''
+      format_custom_false: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
   field_media:
     weight: 2
     label: hidden
@@ -28,6 +41,18 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: text_default
+    region: content
+  field_service_link:
+    weight: 3
+    label: hidden
+    settings:
+      trim_length: null
+      url_only: true
+      url_plain: true
+      rel: '0'
+      target: '0'
+    third_party_settings: {  }
+    type: link
     region: content
   field_service_title:
     weight: 0

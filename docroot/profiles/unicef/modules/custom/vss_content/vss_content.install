@@ -14,3 +14,11 @@ function vss_content_update_9009() {
   $importer = \Drupal::service('vss_content.importer');
   $importer->importContent('block_content/3edf6481-9a3e-4880-81a2-c5a9c6915c7b.yml');
 }
+
+/**
+ * Hook update for the sevices block.
+ */
+function vss_content_update_9010() {
+  $importer = \Drupal::service('vss_content.importer');
+  $importer->importContent('block_content/b779b540-6523-4c4f-9bf0-3091937d6eda.yml');
+}
