@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Google Search" time="4.891" tests="1" failures="0" errors="0" skipped="0">
-    <testcase name="Searching Google" classname="google-search;searching-google" time="4.891"/>
+  <testsuite name="Verify Footer Elements" time="28.226" tests="1" failures="0" errors="0" skipped="0">
+    <testcase name="Add and Verify VSS Footer Quick Links" classname="verify-footer-elements;add-and-verify-vss-footer-quick-links" time="28.226"/>
+  </testsuite>
+  <testsuite name="Verify Header Elements" time="84.08" tests="4" failures="0" errors="0" skipped="0">
+    <testcase name="Verify all Header elememts" classname="verify-header-elements;verify-all-header-elememts" time="17.798"/>
+    <testcase name="Verify Virtual Safe Space Title and logo" classname="verify-header-elements;verify-virtual-safe-space-title-and-logo" time="17.883"/>
+    <testcase name="Add and Verify VSS Header Menu Items" classname="verify-header-elements;add-and-verify-vss-header-menu-items" time="26.924"/>
+    <testcase name="Exit Functionality" classname="verify-header-elements;exit-functionality" time="21.475"/>
   </testsuite>
 </testsuites>

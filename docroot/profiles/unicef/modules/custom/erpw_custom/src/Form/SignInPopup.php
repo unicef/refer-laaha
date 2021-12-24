@@ -33,7 +33,7 @@ class SignInPopup extends FormBase {
       '#type' => 'markup',
       '#prefix' => '<div class="popup-content">',
       '#suffix' => '</div>',
-      '#markup' => $this->t('If you haven’t registered or signed in, you can either click on sign in below or go to menu to sign in or register later.'),
+      '#markup' => $this->t('If you haven’t registered or signed in, you can either click on sign in below or go to <b>menu</b><span class="menu-icon-popup"></span> to sign in or register later.'),
     ];
     $form['actions']['run_reco'] = [
       '#type' => 'submit',

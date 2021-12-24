@@ -13,18 +13,19 @@
 	backdrop-filter: blur(4px);
 }
 .sign-in-popup {
-	position: relative;
+	position: absolute;
     z-index: 9999;
     color: white;
     text-align: center;
+		left: 50%;
     top: 50%;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
+		-ms-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
     width: 303px;
     margin: 0 auto;
 	form {
 		margin: 0 auto;
-		padding: 20px 30px;
+		padding: 20px 30px 15px;
 		background: url('../images/popup-bg.svg') top -125px left -20px no-repeat#fff;
 		border-radius: 10px;
 		position: relative;
@@ -52,4 +53,18 @@
 	position: absolute;
 	right: 16px;
 	top: 16px;
+}
+.menu-icon-popup {
+	display: inline-block;
+	padding-left: 5px;
+	&::before {
+		background: url("../images/menu-icon.svg") left 8px center  no-repeat;
+		content: '(';
+		height: 11px;
+		padding-right: 22px;	
+		width: 16px;
+	}
+	&::after {
+		content: ')';
+	}
 }

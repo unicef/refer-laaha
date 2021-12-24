@@ -1,0 +1,161 @@
+_meta:
+  version: '1.0'
+  entity_type: block_content
+  uuid: b779b540-6523-4c4f-9bf0-3091937d6eda
+  bundle: services_block
+  default_langcode: en
+  depends:
+    f8f9f810-f698-489c-a734-f4720626a3a3: node
+default:
+  revision_user:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  info:
+    -
+      value: 'Services block'
+  reusable:
+    -
+      value: true
+  revision_translation_affected:
+    -
+      value: true
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  content_translation_uid:
+    -
+      target_id: 1
+  content_translation_created:
+    -
+      value: 1640261615
+  field_service_item:
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: 0c1402e6-a8d2-4539-aa98-68e677e0d6cc
+          bundle: services
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1640267606
+          behavior_settings:
+            -
+              value: {  }
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_external_link:
+            -
+              value: false
+          field_media:
+            -
+              value: find
+          field_service_description:
+            -
+              value: "<p>Lorem ipsum doler sit amet</p>\r\n"
+              format: basic_html
+          field_service_link:
+            -
+              target_uuid: f8f9f810-f698-489c-a734-f4720626a3a3
+              title: ''
+              options: {  }
+          field_service_title:
+            -
+              value: Find
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: 1fdc8efd-a6f9-4564-8838-e12cc4965d22
+          bundle: services
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1640267625
+          behavior_settings:
+            -
+              value: {  }
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_external_link:
+            -
+              value: false
+          field_media:
+            -
+              value: connect
+          field_service_description:
+            -
+              value: "<p>Connect to the world</p>\r\n"
+              format: basic_html
+          field_service_title:
+            -
+              value: Connect
+    -
+      entity:
+        _meta:
+          version: '1.0'
+          entity_type: paragraph
+          uuid: 9407acd8-b287-4b11-b16d-806c4902db59
+          bundle: services
+          default_langcode: en
+        default:
+          status:
+            -
+              value: true
+          created:
+            -
+              value: 1640261615
+          behavior_settings:
+            -
+              value: {  }
+          content_translation_source:
+            -
+              value: und
+          content_translation_outdated:
+            -
+              value: false
+          field_external_link:
+            -
+              value: true
+          field_media:
+            -
+              value: discover
+          field_service_description:
+            -
+              value: "<p>Lorem ipsum doler sit amet</p>\r\n"
+              format: basic_html
+          field_service_link:
+            -
+              uri: 'https://www.google.com'
+              title: ''
+              options: {  }
+          field_service_title:
+            -
+              value: Discover
+  field_service_main_title:
+    -
+      value: 'How Virtual Spaces Can Help You'
