@@ -55,7 +55,7 @@ function erpw_custom_preprocess_page_title(&$variables) {
  * Implements hook_user_logout().
  */
 function erpw_custom_user_logout() {
-  // we redirect to an external site
+  // We redirect to an external site.
   $response = new RedirectResponse('/');
   $response->send();
   return $response;
