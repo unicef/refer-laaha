@@ -43,8 +43,8 @@ module.exports = {
                '--no-sandbox',
                "--ignore-certificate-errors",
                //'--incognito',
-              //'--disable-gpu',
-              //'--window-size=1280,1696',
+              '--disable-gpu',
+              '--window-size=1280,1696',
             ]
           }
         }
