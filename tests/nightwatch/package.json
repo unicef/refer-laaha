@@ -11,13 +11,18 @@
   "license": "ISC",
   "dependencies": {
     "@cucumber/pretty-formatter": "^1.0.0-alpha.0",
+    "@wdio/allure-reporter": "^6.6.3",
+    "allure-commandline": "^2.13.0",
     "chromedriver": "^95.0",
+    "cucumber-html-reporter": "^5.3.0",
     "cucumber-junit-convert": "^1.1.1",
     "dotenv": "^10.0.0",
-    "nightwatch": "^1.7.7",
-    "nightwatch-api": "^3.0.2"
+    "nightwatch": "^1.4.0",
+    "nightwatch-api": "^3.0.1"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^7.3.1"
+    "@cucumber/cucumber": "^7.3.1",
+    "nightwatch-allure": "^1.0.4",
+    "nightwatch-html-reporter": "^1.0.8"
   }
 }
