@@ -48,19 +48,32 @@
   ]
 %}
 {% block paragraph %}
-  <div{{ attributes.addClass(classes) }}>
     {% block content %}
-    <div class="service-image">
-      {{ content.field_media.0['#markup']|render|raw }}
+    
+    {% if content.field_external_link.0['#markup'] == '1'%}
+     {% set target_val = "_blank" %}
+    {% else %}
+      {% set target_val = "_self" %}
+    {% endif %}
+
+    <div {{ attributes.addClass(classes) }}>
+    {% if content.field_service_link|render %}
+      <a href="{{content.field_service_link.0 }}" target="{{ target_val }}">
+    {% endif %}
+        <div class="service-image">
+          {{ content.field_media.0['#markup']|render|raw }}
+        </div>
+        <div class="service-block-title">
+        {{ content.field_service_title|render|striptags|length|raw > 163 ? content.field_service_title|render|striptags|slice(0, 163)|raw : content.field_service_title|render|striptags|raw }}
+        </div>
+        <div class="service-desc">
+        {{ content.field_service_description|render|striptags|length|raw > 513 ? content.field_service_description|render|striptags|slice(0, 513)|raw : content.field_service_description|render|striptags|raw }}
+        </div>
+    {% if content.field_service_link|render %}  
+      </a>
+    {% endif %}
     </div>
-    <div class="service-block-title">
-    {{ content.field_service_title|render|striptags|length|raw > 163 ? content.field_service_title|render|striptags|slice(0, 163)|raw : content.field_service_title|render|striptags|raw }}
-    </div>
-    <div class="service-desc">
-     {{ content.field_service_description|render|striptags|length|raw > 513 ? content.field_service_description|render|striptags|slice(0, 513)|raw : content.field_service_description|render|striptags|raw }}
-    </div>
-    {% endblock %}
-  </div>
+  {% endblock %}
 {% endblock paragraph %}
 
 
