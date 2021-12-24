@@ -12,6 +12,10 @@
                 event.preventDefault();
                 window.location.href = "/";
             });
+            $(".signin-ok").on("click", function(event){
+                event.preventDefault();
+                $(".ui-icon-closethick").click();
+            });
         }
     };
 }(jQuery, Drupal, drupalSettings));
