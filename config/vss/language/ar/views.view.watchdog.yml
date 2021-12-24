@@ -1,4 +1,3 @@
-description: 'Recent log messages'
 display:
   default:
     display_title: Master
@@ -16,10 +15,6 @@ display:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
       fields:
-        nothing:
-          admin_label: Icon
-        severity:
-          label: Severity
         type:
           label: النوع
         timestamp:
@@ -35,13 +30,5 @@ display:
         type:
           expose:
             label: النوع
-        severity:
-          expose:
-            label: Severity
-      title: 'Recent log messages'
-      empty:
-        area:
-          admin_label: 'No log messages available.'
-          content: 'No log messages available.'
   page:
     display_title: الصفحة

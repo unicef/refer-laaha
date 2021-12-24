@@ -51,7 +51,7 @@
     <div{{ attributes.addClass(classes) }}>
       {% block content %}
         {% if content.field_video_file['#items'] is not empty %}
-          <video id="video" class="video" controls preload="auto">
+          <amp-video controls width="960" height="500" id="video" class="video" controls preload="auto">
             <source src="{{ file_url(content.field_video_file['#items'].entity.uri.value) }}">
                 {% for item in content.field_vtt_entries %}
                   {% if item['#paragraph'] %}
@@ -59,7 +59,7 @@
                   {% endif %}
                 {% endfor %}
               </source>
-          </video>
+          </amp-video>
         {% endif %}
       {% endblock %}
     </div>

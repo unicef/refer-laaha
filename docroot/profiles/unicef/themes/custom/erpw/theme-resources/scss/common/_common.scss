@@ -1,0 +1,55 @@
+.link-text {
+	color: $base-secondary-bgcolor;
+  font-size: 14px;
+	text-decoration: underline;
+}
+ 
+p {
+	color: $grey-txt-color;
+	font-size: $base-font-size;
+	margin: 0;
+}
+
+.flex-container {
+	display: flex;
+	justify-content: center;
+	margin: 10px 0;
+}
+.red-text {
+	color: $base-secondary-bgcolor;
+	font-size: $base-font-size;
+	margin: 10px 0;
+}
+.path-sign-up,
+.path-user {
+	#block-erpw-branding, 
+	#block-erpw-main-menu {
+		display: none; //temparory added  will remove once menu link functional, it will come under menu
+	}
+}
+.back-arrow {
+	background: url('../images/back-arrow.svg') 0 0 no-repeat;
+	height: 14px;
+	border: 0;
+	text-indent: -99px;
+	position: absolute;
+	top: 20px;
+	left: 23px;
+	width: 16px;
+}
+.path-frontpage {
+	#block-erpw-content {
+		display: none;
+	}
+}
+form input[type=submit].button-border {
+	background: none;
+	border: 1px solid $base-secondary-bgcolor;
+	border-radius: 4px;
+	color: $base-secondary-bgcolor;
+	display: inline-block;
+	font-size: 0.875em;
+	margin: 0 15px 1em 0;
+	padding: 10px 24px;
+	text-transform: uppercase;
+}

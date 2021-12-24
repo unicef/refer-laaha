@@ -1,0 +1,22 @@
+{#
+/**
+* @file
+* Default theme implementation to display a block.
+*
+* @see template_preprocess_block()
+*
+* @ingroup themeable
+*/
+#}
+{{ attach_library('vss_custom/homepage_hero_categories_block') }}
+
+<div class="homepage-category">
+      <div class="homepage-hero-section--categories">
+        {% for key,item in content %}
+          <div class="category-item" style="background-color: {{ '#'~ item.color }}">
+            <div class="category-thumbnail"><img src="{{ file_url( item.icon | image_style('thumbnail')) }}"/></div>
+            <div class="category-name"><a href="{{ item.cat_uri }}">{{ item.name }} </a></div>
+          </div>
+        {% endfor %}
+      </div>
+</div>

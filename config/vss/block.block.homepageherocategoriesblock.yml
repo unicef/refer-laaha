@@ -1,0 +1,25 @@
+uuid: b6e28f85-2f29-4161-b207-84c83950a495
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - vss_custom
+  theme:
+    - vss
+id: homepageherocategoriesblock
+theme: vss
+region: content
+weight: -6
+provider: null
+plugin: homepage_hero_categories_block
+settings:
+  id: homepage_hero_categories_block
+  label: 'Homepage Hero categories block'
+  provider: vss_custom
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false

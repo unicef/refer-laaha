@@ -1,0 +1,23 @@
+uuid: 51df5838-24b1-4c9d-9005-03c2789c82f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_service_link
+    - paragraphs.paragraphs_type.services
+  module:
+    - link
+id: paragraph.services.field_service_link
+field_name: field_service_link
+entity_type: paragraph
+bundle: services
+label: 'Service link'
+description: 'Insert link to make service linkable'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 0
+field_type: link

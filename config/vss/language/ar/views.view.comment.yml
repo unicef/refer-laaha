@@ -1,4 +1,3 @@
-label: Comments
 display:
   default:
     display_title: Master
@@ -12,10 +11,6 @@ display:
           sort_desc_label: تنازلي
       pager:
         options:
-          tags:
-            previous: '‹ previous'
-            next: 'next ›'
-            last: 'last »'
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
@@ -31,10 +26,8 @@ display:
           label: المؤلف
           separator: ', '
         entity_id:
-          label: 'Posted in'
           separator: ', '
         changed:
-          label: Updated
           separator: ', '
         operations:
           label: عمليات
@@ -47,25 +40,8 @@ display:
         langcode:
           expose:
             label: اللغة
-      title: Comments
-      empty:
-        area_text_custom:
-          content: 'No comments available.'
-      use_more_text: more
-  page_published:
-    display_title: 'Published comments'
-    display_options:
-      menu:
-        title: Comments
-        description: 'Comments published'
-      display_description: 'The approved comments listing.'
   page_unapproved:
-    display_title: 'Unapproved comments'
     display_options:
-      menu:
-        title: 'Unapproved comments'
-        description: 'Comments unapproved'
-      display_description: 'The unapproved comments listing.'
       filters:
         subject:
           expose:
@@ -85,10 +61,8 @@ display:
           label: المؤلف
           separator: ', '
         entity_id:
-          label: 'Posted in'
           separator: ', '
         changed:
-          label: Updated
           separator: ', '
         operations:
           label: عمليات

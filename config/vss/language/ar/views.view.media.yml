@@ -16,8 +16,8 @@ display:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+            previous: '‹ السابق'
+            next: 'التالي ›'
       fields:
         media_bulk_form:
           action_title: إجراء
@@ -34,12 +34,8 @@ display:
           separator: ', '
         status:
           label: الحالة
-          settings:
-            format_custom_true: Published
-            format_custom_false: Unpublished
           separator: ', '
         changed:
-          label: Updated
           separator: ', '
         operations:
           label: عمليات
@@ -50,12 +46,6 @@ display:
         status:
           expose:
             label: صحيح
-          group_info:
-            group_items:
-              1:
-                title: Published
-              2:
-                title: Unpublished
         langcode:
           expose:
             label: اللغة

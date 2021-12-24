@@ -11,6 +11,7 @@ footer {
 		justify-content: space-between;
 		margin: 0;
 		padding: 0 50px;
+    height: 60px;
 	}
 	li.menu-item {
 		a {
@@ -41,11 +42,14 @@ footer {
 			&.home::before {
 				background: url(../images/home.svg) no-repeat center center;
 			}
+			&.dashboard::before {
+				background: url(../images/dashboard.svg) no-repeat center center;
+			}
 			&.menu-icon::before {
 				background: url(../images/menu.svg) no-repeat center center;
 			}
 			&.search-icon::before {
-				background: url(../images/searchicon.svg) no-repeat center center;
+				background: url(../images/searchIcon.svg) no-repeat center center;
 			}
 		}
 	

@@ -1,0 +1,23 @@
+uuid: bb704aab-bcb2-424c-bfa2-99f8142edf49
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.homepage_hero_section
+    - field.storage.block_content.field_hide_title
+id: block_content.homepage_hero_section.field_hide_title
+field_name: field_hide_title
+entity_type: block_content
+bundle: homepage_hero_section
+label: 'Hide Title'
+description: 'Enable to hide title'
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

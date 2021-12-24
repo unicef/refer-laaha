@@ -4,7 +4,6 @@ display:
     display_options:
       exposed_form:
         options:
-          submit_button: 'Apply filters'
           reset_button_label: 'إعادة الضبط'
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
@@ -18,14 +17,6 @@ display:
         media_bulk_form:
           action_title: إجراء
       filters:
-        status:
-          group_info:
-            label: Published
-            group_items:
-              1:
-                title: Published
-              2:
-                title: Unpublished
         name:
           expose:
             label: الاسم
@@ -46,7 +37,6 @@ display:
         delete_media:
           text: حذف
   widget:
-    display_title: Widget
     display_options:
       filters:
         name:
@@ -55,12 +45,7 @@ display:
       arguments:
         bundle:
           exception:
-            title: All
-      header:
-        display_link_grid:
-          label: Grid
-        display_link_table:
-          label: Table
+            title: الكل
   widget_table:
     display_options:
       fields:
@@ -70,8 +55,6 @@ display:
           label: الاسم
         uid:
           label: المؤلف
-        changed:
-          label: Updated
       filters:
         name:
           expose:
@@ -79,9 +62,4 @@ display:
       arguments:
         bundle:
           exception:
-            title: All
-      header:
-        display_link_grid:
-          label: Grid
-        display_link_table:
-          label: Table
+            title: الكل

@@ -1,0 +1,14 @@
+uuid: 7f774b03-54bb-4511-8392-dce86210fb8a
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.zm_pw_lndo_site
+  module:
+    - domain_access
+id: domain_access_remove_editor_action.zm_pw_lndo_site
+label: 'Remove editors from the Zimbabwe eRPW domain'
+type: user
+plugin: domain_access_remove_editor_action
+configuration:
+  domain_id: zm_pw_lndo_site
