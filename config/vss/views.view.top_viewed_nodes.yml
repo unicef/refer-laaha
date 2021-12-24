@@ -2,9 +2,13 @@ uuid: 0793be95-aa74-4049-a9e1-23d4ddb73350
 langcode: en
 status: true
 dependencies:
+  config:
+    - field.storage.node.field_thumbnail_image
   module:
     - domain_access
+    - image
     - node
+    - nodeviewcount
 _core:
   default_config_hash: RmSob3HX8IWw-w_FSCTnl56QDhvTpBM2u0LmzIh6ZOM
 id: top_viewed_nodes
@@ -48,7 +52,7 @@ display:
       pager:
         type: some
         options:
-          items_per_page: 10
+          items_per_page: 6
           offset: 0
       style:
         type: default
@@ -65,6 +69,70 @@ display:
           hide_empty: false
           default_field_elements: true
       fields:
+        field_thumbnail_image:
+          id: field_thumbnail_image
+          table: node__field_thumbnail_image
+          field: field_thumbnail_image
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: image
+          settings:
+            image_style: ''
+            image_link: ''
+          group_column: entity_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
         title:
           id: title
           table: node_field_data
@@ -135,10 +203,10 @@ display:
           table: nodeviewcount
           field: nid
           relationship: none
-          group_type: count
+          group_type: group
           admin_label: ''
           label: 'Count views'
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -187,6 +255,63 @@ display:
           prefix: ''
           suffix: ''
           plugin_id: numeric
+        uip:
+          id: uip
+          table: nodeviewcount
+          field: uip
+          relationship: none
+          group_type: count_distinct
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          set_precision: false
+          precision: 0
+          decimal: .
+          separator: ','
+          format_plural: 0
+          format_plural_string: !!binary MQNAY291bnQ=
+          prefix: ''
+          suffix: ''
+          plugin_id: node_view_count_user_ip
       filters:
         status:
           value: '1'
@@ -239,19 +364,49 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: domain_access_current_all_filter
-      sorts:
-        nid:
-          id: nid
-          table: nodeviewcount
-          field: nid
+        langcode:
+          id: langcode
+          table: node_field_data
+          field: langcode
           relationship: none
-          group_type: count
+          group_type: group
           admin_label: ''
-          order: DESC
+          operator: in
+          value:
+            '***LANGUAGE_language_interface***': '***LANGUAGE_language_interface***'
+          group: 1
           exposed: false
           expose:
+            operator_id: ''
             label: ''
-          plugin_id: standard
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: node
+          entity_field: langcode
+          plugin_id: language
+      sorts: {  }
       header: {  }
       footer: {  }
       empty: {  }
@@ -267,7 +422,8 @@ display:
         - 'languages:language_interface'
         - url.site
         - 'user.node_grants:view'
-      tags: {  }
+      tags:
+        - 'config:field.storage.node.field_thumbnail_image'
   block:
     display_plugin: block
     id: block
@@ -276,11 +432,12 @@ display:
     display_options:
       display_extenders: {  }
       block_description: 'Top viewed nodes'
+      rendering_language: '***LANGUAGE_language_interface***'
     cache_metadata:
       max-age: -1
       contexts:
-        - 'languages:language_content'
         - 'languages:language_interface'
         - url.site
         - 'user.node_grants:view'
-      tags: {  }
+      tags:
+        - 'config:field.storage.node.field_thumbnail_image'

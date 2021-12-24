@@ -43,9 +43,11 @@
  */
 #}
 <div class="layout-container">
-
   <header role="banner">
     {{ page.header }}
+     {% if is_front == false %}
+      <button onclick="history.back()" class="back-arrow">{{ 'Back' |t }}</button>
+    {% endif %}
   </header>
 
   {{ page.primary_menu }}
