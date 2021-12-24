@@ -372,18 +372,18 @@ header {
   top: 16px;
 }
 
-.menu-icon {
+.menu-icon-popup {
   display: inline-block;
   padding-left: 5px;
 }
-.menu-icon::before {
+.menu-icon-popup::before {
   background: url("../images/menu-icon.svg") left 8px center no-repeat;
   content: "(";
   height: 11px;
   padding-right: 22px;
   width: 16px;
 }
-.menu-icon::after {
+.menu-icon-popup::after {
   content: ")";
 }
 
