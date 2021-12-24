@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -48,4 +49,14 @@ function erpw_custom_preprocess_page_title(&$variables) {
   if (strpos($path, 'user')) {
     $variables['title'] = 'Sign In';
   }
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function erpw_custom_user_logout() {
+  // we redirect to an external site
+  $response = new RedirectResponse('/');
+  $response->send();
+  return $response;
 }
