@@ -279,7 +279,7 @@ class SignUpForm extends FormBase {
       }
     }
     if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,64}$/", $password)) {
-      $form_state->setErrorByName('password', t('Password should contain one Number,  one letter, one special symbol (min Length 8 Character)'));
+      $form_state->setErrorByName('password', t('Password should contain at least one Number, one Symbol and one alphabet)'));
     }
   }
 
@@ -329,7 +329,7 @@ class SignUpForm extends FormBase {
       $url = Url::fromRoute('<front>');
       $url->setOptions($link_options);
       $link = Link::fromTextAndUrl('OK', $url)->toString();
-      $message = $this->t("<div class='review-msg'>Your registration has been <br/> sent for review.</div><div class='email-notify'> You will be notified via email, once your registration approved.</div>");
+      $message = $this->t("<div class='review-msg'>Your registration has been <br/> sent for review.</div><div class='email-notify'> You will be notified via email, once your registration is approved.</div>");
       $popup_msg = Markup::create($message . ' ' . $link);
       $response = $response->addCommand(new OpenModalDialogCommand("", $popup_msg, $options));
     }
