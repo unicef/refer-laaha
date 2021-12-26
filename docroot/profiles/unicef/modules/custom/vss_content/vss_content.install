@@ -16,9 +16,25 @@ function vss_content_update_9009() {
 }
 
 /**
- * Hook update for the sevices block.
+ * Hook update for the services block.
  */
-function vss_content_update_9010() {
+function vss_content_update_9014() {
   $importer = \Drupal::service('vss_content.importer');
-  $importer->importContent('block_content/b779b540-6523-4c4f-9bf0-3091937d6eda.yml');
+  $importer->importContent('block_content/513be6ed-d147-4c50-8133-1aa43462cbf6.yml');
+}
+
+/**
+ * Hook update for the home categories block.
+ */
+function vss_content_update_9015() {
+  $importer = \Drupal::service('vss_content.importer');
+  $importer->importContent('block_content/13389e9a-8738-459b-8be3-6a0f857205cf.yml');
+}
+
+/**
+ * Hook update for the get help block.
+ */
+function vss_content_update_9016() {
+  $importer = \Drupal::service('vss_content.importer');
+  $importer->importContent('block_content/946137b3-91f1-425e-b257-f9ac1f356f84.yml');
 }
