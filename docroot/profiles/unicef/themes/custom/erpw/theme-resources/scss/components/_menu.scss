@@ -19,13 +19,14 @@
 	}
 }
 #block-erpw-main-menu {
-	background: url('../images/menulist-bg1.svg') top left no-repeat, url('../images/menulist-bg2.svg') bottom 190px right no-repeat  rgba(255, 246, 245, 1);
+	background: url('../images/menulist-bg1.svg') top left no-repeat, url('../images/menulist-bg2.svg') bottom 90px right -20px no-repeat  rgba(255, 246, 245, 1);
 	color: $grey-txt-color;
 	font-size: .875em;
   display: none;
 	position: fixed;
 	height: 100%;
 	padding: 55px 0 0 30px;
+	min-height: 618px;
 	right: 0;
 	top: 0;
 	overflow-y: scroll;
