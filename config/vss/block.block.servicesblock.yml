@@ -1,9 +1,9 @@
-uuid: 2850eb2b-ef0c-48e7-86e6-b19dc4802966
+uuid: 7a36932f-efa1-40c6-889b-215cfafc78dc
 langcode: en
 status: true
 dependencies:
   content:
-    - 'block_content:services_block:b779b540-6523-4c4f-9bf0-3091937d6eda'
+    - 'block_content:services_block:513be6ed-d147-4c50-8133-1aa43462cbf6'
   module:
     - block_content
     - system
@@ -12,11 +12,11 @@ dependencies:
 id: servicesblock
 theme: vss
 region: content
-weight: 0
+weight: -6
 provider: null
-plugin: 'block_content:b779b540-6523-4c4f-9bf0-3091937d6eda'
+plugin: 'block_content:513be6ed-d147-4c50-8133-1aa43462cbf6'
 settings:
-  id: 'block_content:b779b540-6523-4c4f-9bf0-3091937d6eda'
+  id: 'block_content:513be6ed-d147-4c50-8133-1aa43462cbf6'
   label: 'Services block'
   provider: block_content
   label_display: '0'
