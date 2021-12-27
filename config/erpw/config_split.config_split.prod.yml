@@ -5,7 +5,6 @@ dependencies: {  }
 id: prod
 label: prod
 description: 'Configuration for Prod Environment'
-weight: 0
 folder: ../config/erpwprod
 module: {  }
 theme: {  }
@@ -29,3 +28,4 @@ blacklist:
 graylist: {  }
 graylist_dependents: true
 graylist_skip_equal: true
+weight: 0
