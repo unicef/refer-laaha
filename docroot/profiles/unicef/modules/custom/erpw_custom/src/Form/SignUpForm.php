@@ -177,6 +177,7 @@ class SignUpForm extends FormBase {
       '#submit' => ['::submitPageOne'],
       '#validate' => ['::validatePageOne'],
     ];
+    $form['#cache']['max-age'] = 0;
     return $form;
   }
 
@@ -269,6 +270,7 @@ class SignUpForm extends FormBase {
         'event' => 'click',
       ],
     ];
+    $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     return $form;
