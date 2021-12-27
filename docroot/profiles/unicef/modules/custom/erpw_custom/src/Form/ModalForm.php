@@ -37,7 +37,6 @@ class ModalForm extends FormBase {
       '#suffix' => '</div>',
     ];
 
-    $form['actions'] = ['#type' => 'actions'];
     $form['actions']['send'] = [
       '#type' => 'submit',
       '#value' => $this->t('OK'),
