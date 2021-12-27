@@ -61,7 +61,6 @@ class ModalForm extends FormBase {
    * AJAX callback handler that displays any errors or a success message.
    */
   public function submitModalFormAjax(array $form, FormStateInterface $form_state) {
-    \Drupal::messenger()->deleteAll();
     $response = new AjaxResponse();
     $response->addCommand(new RedirectCommand(Url::fromRoute('<front>')->toString()));
     return $response;
