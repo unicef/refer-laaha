@@ -45,13 +45,25 @@ footer {
 			&.dashboard::before {
 				background: url(../images/dashboard.svg) no-repeat center center;
 			}
-			&.menu-icon::before {
-				background: url(../images/menu.svg) no-repeat center center;
-			}
 			&.search-icon::before {
 				background: url(../images/searchIcon.svg) no-repeat center center;
 			}
 		}
-	
+		.menu-icon {
+			color: $base-white-color;
+			cursor: pointer;
+			display: block;
+			font-size: 8px;
+			text-align: center;
+			text-decoration: none;
+			&::before {
+				background: url(../images/menu.svg) no-repeat center center;
+				content: '';
+				display: block;
+				height: 23px;
+				padding-bottom: 15px;
+				width: 40px;
+			}
+		}
 	}
 }
