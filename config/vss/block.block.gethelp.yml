@@ -1,23 +1,23 @@
-uuid: bcb611a0-61d8-4f00-b764-a66d9b52f703
+uuid: 427a0e58-1daf-45af-af85-80808f1959e7
 langcode: en
 status: true
 dependencies:
   content:
-    - 'block_content:homepage_hero_section:13389e9a-8738-459b-8be3-6a0f857205cf'
+    - 'block_content:get_help_block:946137b3-91f1-425e-b257-f9ac1f356f84'
   module:
     - block_content
     - system
   theme:
     - vss
-id: homepagecategories
+id: gethelp
 theme: vss
 region: content
-weight: -7
+weight: -5
 provider: null
-plugin: 'block_content:13389e9a-8738-459b-8be3-6a0f857205cf'
+plugin: 'block_content:946137b3-91f1-425e-b257-f9ac1f356f84'
 settings:
-  id: 'block_content:13389e9a-8738-459b-8be3-6a0f857205cf'
-  label: Homepage-categories
+  id: 'block_content:946137b3-91f1-425e-b257-f9ac1f356f84'
+  label: 'Get help'
   provider: block_content
   label_display: '0'
   status: true
