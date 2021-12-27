@@ -1,0 +1,46 @@
+.ui-dialog {
+	border: 0 !important;
+	border-radius: 10px;
+	padding: 10px 8px;
+	font-size: $base-font-size;
+	text-align: center;
+	width: 287px !important;
+	.ui-dialog-titlebar {
+		background: none;
+		border: 0;
+	}
+	.ui-dialog-content {
+		padding: 0 0.5em 1em !important;
+	}
+	.ui-button .ui-icon {
+		background: url('../images/cross.svg') 0 0 no-repeat !important;
+	}
+	.email-notify {
+		color: $new-txt-color;
+		font-size: .875em;
+		line-height: 20px;
+	}
+	.button.bg-green {
+		background: $base-secondary-bgcolor;
+		border: 0;
+		border-radius: 4px;
+		color: $base-white-color;
+		display: block;
+		font-size: 14px;
+		margin: 15px auto 0;
+		padding: 10px 24px;
+		text-transform: uppercase;
+		text-decoration: none;
+		width: 40%;;
+	}
+}
+.review-msg {
+	color: $base-secondary-bgcolor;
+	line-height: 22px;
+	margin-bottom: 15px;
+}
+.ui-widget-overlay {
+	background: rgba(68, 25, 39, 0.28) !important;
+	backdrop-filter: blur(4px)  !important;
+	opacity: 1 !important;
+}

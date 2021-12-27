@@ -46,12 +46,13 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+<script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js"></script>
 {% block paragraph %}
   <div class="podcast-wrapper">
     <div{{attributes.addClass(classes)}}>
       {% block content %}
         {% if content.field_audio['#items'] is not empty %}
-          <audio id="audio" class="audio" controls preload="auto">
+          <amp-audio width="960" height="100" id="audio" class="audio" controls preload="auto">
             <source src="{{ file_url(content.field_audio['#items'].entity.uri.value) }}">
               {% for item in content.field_vtt_entries %}
                 {% if item['#paragraph'] %}
@@ -59,7 +60,7 @@
                 {% endif %}
               {% endfor %}
             </source>
-          </audio>
+          </amp-audio>
         {% endif %}
       {% endblock %}
     </div>

@@ -1,12 +1,9 @@
-label: 'Media library'
-description: 'Find and manage media.'
 display:
   default:
     display_title: Master
     display_options:
       exposed_form:
         options:
-          submit_button: 'Apply filters'
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
           sort_asc_label: Asc
@@ -17,48 +14,17 @@ display:
             items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- Todo -'
             offset_label: Desplazamiento
-          tags:
-            previous: ‹‹
-            next: ››
       fields:
         media_bulk_form:
           action_title: Acción
       filters:
-        status:
-          expose:
-            label: 'Publishing status'
-          group_info:
-            label: Published
-            group_items:
-              1:
-                title: Published
-              2:
-                title: Unpublished
         name:
           expose:
             label: Nombre
-        bundle:
-          expose:
-            label: 'Media type'
-          group_info:
-            label: 'Media type'
         langcode:
           expose:
             label: Idioma
-      sorts:
-        created:
-          expose:
-            label: 'Newest first'
-        name:
-          expose:
-            label: 'Name (A-Z)'
-        name_1:
-          expose:
-            label: 'Name (Z-A)'
       title: Multimedia
-      empty:
-        area_text_custom:
-          content: 'No media available.'
   page:
     display_title: Página
     display_options:
@@ -68,17 +34,10 @@ display:
         name:
           separator: ', '
         edit_media:
-          alter:
-            text: 'Edit {{ name }}'
-            alt: 'Edit {{ name }}'
           text: Editar
         delete_media:
-          alter:
-            text: 'Delete {{ name }}'
-            alt: 'Delete {{ name }}'
           text: Eliminar
   widget:
-    display_title: Widget
     display_options:
       filters:
         name:
@@ -87,12 +46,7 @@ display:
       arguments:
         bundle:
           exception:
-            title: All
-      header:
-        display_link_grid:
-          label: Grid
-        display_link_table:
-          label: Table
+            title: Todo(s)
   widget_table:
     display_options:
       fields:
@@ -102,8 +56,6 @@ display:
           label: Nombre
         uid:
           label: Autor
-        changed:
-          label: Updated
       filters:
         name:
           expose:
@@ -111,9 +63,4 @@ display:
       arguments:
         bundle:
           exception:
-            title: All
-      header:
-        display_link_grid:
-          label: Grid
-        display_link_table:
-          label: Table
+            title: Todo(s)

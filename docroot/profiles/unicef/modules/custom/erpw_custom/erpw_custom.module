@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * @file
+ * Contains erpw_custom.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'user_login_form') {
+    // Code to modify your form input.
+    $form['name']['#placeholder'][] = t('jane@example.com');
+    $form['pass']['#placeholder'][] = t('**********');
+    $form['name']['#title'] = t('Email ID');
+    unset($form['name']['#description']);
+    unset($form['pass']['#description']);
+    $form['actions']['submit']['#value'] = t('SIGN IN');
+    $form['#validate'][] = 'erpw_custom_form_form_user_login_replace_email_validate';
+  }
+}
+
+/**
+ * A custom validation handler for the user login form.
+ */
+function erpw_custom_form_form_user_login_replace_email_validate(array &$form, FormStateInterface $form_state) {
+  $errors = $form_state->getErrors();
+  if (!empty($errors)) {
+    $string_error = $errors['name'];
+    if (strpos($string_error, 'Unrecognized username or password') !== FALSE) {
+      $form_state->clearErrors();
+      $form_state->setErrorByName('name', 'Email id or password is incorrect');
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function erpw_custom_preprocess_page_title(&$variables) {
+  $request = \Drupal::request();
+  // Get current path.
+  $path = $request->getRequestUri();
+  // Check current path is user profile page.
+  if (strpos($path, 'user')) {
+    $variables['title'] = 'Sign In';
+  }
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function erpw_custom_user_logout() {
+  // We redirect to an external site.
+  $response = new RedirectResponse('/');
+  $response->send();
+  return $response;
+}

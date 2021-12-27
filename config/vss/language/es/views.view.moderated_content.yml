@@ -1,5 +1,3 @@
-label: 'Moderated content'
-description: 'Find and moderate content.'
 display:
   default:
     display_title: Master
@@ -14,10 +12,10 @@ display:
       pager:
         options:
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
-            first: '« First'
-            last: 'Last »'
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
+            first: '« Primero'
+            last: 'Último »'
           expose:
             items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- Todo -'
@@ -33,10 +31,8 @@ display:
           label: Autor
           separator: ', '
         moderation_state:
-          label: 'Moderation state'
           separator: ', '
         changed:
-          label: Updated
           separator: ', '
         operations:
           label: Operaciones
@@ -47,15 +43,6 @@ display:
         type:
           expose:
             label: 'Tipo de contenido'
-        moderation_state:
-          expose:
-            label: 'Moderation state'
         langcode:
           expose:
             label: Idioma
-      title: 'Moderated content'
-      empty:
-        area_text_custom:
-          content: 'No moderated content available. Only pending versions of content, such as drafts, are listed here.'
-  moderated_content:
-    display_title: 'Moderated content'

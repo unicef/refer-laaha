@@ -1,7 +1,15 @@
-erpw_custom.sign_up_form1:
+erpw_custom.sign_up_form:
   path: '/sign-up'
   defaults:
     _form: '\Drupal\erpw_custom\Form\SignUpForm'
-    _title: 'SignUp'
+    _title: 'Sign up'
+  requirements:
+    _permission: 'access content'
+    
+erpw_custom.sign_in_popup:
+  path: '/signin-popup'
+  defaults:
+    _form: '\Drupal\erpw_custom\Form\SignInPopup'
+    _title: 'SignInPopup'
   requirements:
     _permission: 'access content'

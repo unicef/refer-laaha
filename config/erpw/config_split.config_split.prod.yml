@@ -5,11 +5,27 @@ dependencies: {  }
 id: prod
 label: prod
 description: 'Configuration for Prod Environment'
+weight: 0
 folder: ../config/erpwprod
 module: {  }
 theme: {  }
-blacklist: {  }
+blacklist:
+  - domain.config.bn_erefer_org.language.types
+  - domain.config.bn_erefer_org.system.site
+  - domain.config.zm_erefer_org.language.types
+  - domain.config.zm_erefer_org.system.site
+  - domain.language.bn_erefer_org.language.negotiation
+  - domain.language.zm_erefer_org.language.negotiation
+  - domain.record.bn_erefer_org
+  - domain.record.zm_erefer_org
+  - system.action.domain_access_add_action.bn_erefer_org
+  - system.action.domain_access_add_action.zm_erefer_org
+  - system.action.domain_access_add_editor_action.bn_erefer_org
+  - system.action.domain_access_add_editor_action.zm_erefer_org
+  - system.action.domain_access_remove_action.bn_erefer_org
+  - system.action.domain_access_remove_action.zm_erefer_org
+  - system.action.domain_access_remove_editor_action.bn_erefer_org
+  - system.action.domain_access_remove_editor_action.zm_erefer_org
 graylist: {  }
 graylist_dependents: true
 graylist_skip_equal: true
-weight: 0

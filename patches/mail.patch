@@ -1,0 +1,13 @@
+diff --git a/src/AuthDecorator.php b/src/AuthDecorator.php
+index 3a7fd72..f993fb3 100644
+--- a/src/AuthDecorator.php
++++ b/src/AuthDecorator.php
+@@ -58,7 +58,7 @@ class AuthDecorator implements UserAuthInterface {
+       else if ($config->get('mail_login_email_only')) {
+         // Display a custom login error message.
+         \Drupal::messenger()->addError(
+-          t('Login by username has been disabled, please use email address instead.')
++          t('')
+         );
+         return NULL;
+       }

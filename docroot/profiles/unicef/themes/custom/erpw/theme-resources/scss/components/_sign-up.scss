@@ -1,0 +1,76 @@
+.steps-highlight {
+  display: flex;
+	justify-content: space-around;
+	margin: 0 0 40px;
+}
+.step {
+	font-size: $base-font-size;
+	color: $grey-txt-color;
+}
+.step-number {
+	color: $base-secondary-bgcolor;
+	font-size: 10px;
+	left: 18px;
+	position: absolute;
+	top: 46px;
+	text-align: center;
+}
+.step-circle {
+	display: flex;
+	position: relative;
+	flex-grow: 1;
+	&::before {
+		content: '';
+		border: 1px solid $base-secondary-bgcolor;
+		border-radius: 50%;
+		display: inline-block;
+		width: 40px;
+		height: 40px;
+	}
+	&::after {
+		border-bottom: 2px dashed $base-secondary-bgcolor;
+		bottom: -15px;
+    color: $base-white-color;
+    content: ' ';
+    display: flex;
+    flex-grow: 1;
+    height: 0.3em;
+    line-height: 1em;
+    margin: 0;
+    position: relative;
+    text-align: right;
+    z-index: -1;
+	}
+	&.active::before {
+		background: $base-secondary-bgcolor;
+	}
+}
+.personal-detail-page {
+	&::before {
+		background: url('../images/person.svg') center center no-repeat $base-secondary-bgcolor;
+		margin-right: 2px;
+	}
+}
+.location-detail-page {
+	&::before {
+		background: url('../images/location.svg') center center no-repeat;
+	}
+	&.active::before {
+		background: url('../images/location-white.svg') center center no-repeat $base-secondary-bgcolor;;
+	}
+}
+.password-creation-page {
+	flex-basis: 0;
+	flex-grow: 0;
+	flex-shrink: 1;
+	&::before {
+		background: url('../images/password-key.svg') center center no-repeat;
+		margin-left: 2px;
+	}
+	&.active::before {
+		background: url('../images/password-key-white.svg') center center no-repeat $base-secondary-bgcolor;;
+	}
+	&::after {
+		display: none;
+	}
+}

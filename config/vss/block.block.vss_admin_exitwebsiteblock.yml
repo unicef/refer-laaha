@@ -1,0 +1,21 @@
+uuid: 18da58ae-4617-4e42-b4da-57da997fb38e
+langcode: en
+status: true
+dependencies:
+  module:
+    - vss_custom
+  theme:
+    - vss_admin
+id: vss_admin_exitwebsiteblock
+theme: vss_admin
+region: sidebar_first
+weight: -4
+provider: null
+plugin: exit_website_block
+settings:
+  id: exit_website_block
+  label: 'Exit Website Block'
+  provider: vss_custom
+  label_display: '0'
+  exit_website_settings: null
+visibility: {  }

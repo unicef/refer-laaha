@@ -1,0 +1,118 @@
+form {
+	.form-required {
+		&::after {
+			background-image: none;
+			content: '*';
+			vertical-align: inherit;
+		}
+	}
+	select {
+		outline: none;
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		appearance: none;
+		background: url('../images/arrow.svg') right 10px center no-repeat;
+	}
+	.form-actions {
+		text-align: right;
+		margin: 0;
+		.signup-next {
+			width: auto;
+		}
+	}
+}
+
+label {
+	color: $base-secondary-bgcolor;
+	font-size: .75em;
+	font-weight: 500;	
+}
+input[type=text],
+input[type=password],
+select {
+	background-position:right;
+	border: 1px solid $border;
+	border-radius: 5px;
+	box-sizing: border-box;
+	display: inline-block;
+	padding: 8px 11px;
+	margin-top: 7px;
+	width: 100%;
+	&:focus {
+		outline: none;
+	}
+	&::-webkit-input-placeholder {
+		color: #E0D7D7;
+	}
+
+	&:-moz-placeholder {
+		color: #E0D7D7;
+	}
+
+	&::-moz-placeholder {
+		color: #E0D7D7;
+	}
+
+	&:-ms-input-placeholder {
+		color: #E0D7D7;
+	}
+}
+input[type=submit] {
+	background: $base-secondary-bgcolor;
+	border: 1px solid $base-secondary-bgcolor;
+	border-radius: 4px;
+	color: $base-white-color;
+	display: inline-block;
+	font-size: .875em;
+	margin: 0 0 1em 0;
+	padding: 10px 24px;
+	text-transform: uppercase;
+	width: 100%;
+	&.arrow-btn {
+		background: url('../images/arrow-white.svg') calc(50% - -50px) center no-repeat $base-secondary-bgcolor;
+		margin: 20px 0 40px;
+	}
+	&.use-ajax.arrow-btn {
+		background-position: calc(50% - -100px) center;
+	}
+}
+
+.form-type-password {
+	position: relative;
+}
+//for password hint
+.description {
+	background: none;
+	border: 1px solid $base-black-color;
+	border-radius: 50%;
+	font-size: 9px !important;
+	font-style: italic;
+	left: 66px;
+	position: absolute;
+	text-align: center;
+	top: 5px;
+	right: 0;
+	width: 10px;
+}
+.password-help-text {
+	box-shadow: 0 2px 20px 6px rgb(0 0 0 / 10%);
+	background: $base-secondary-bgcolor;
+	color: $base-white-color;
+	left: 20px;
+	padding: 5px;
+	position: absolute;
+	top: -15px;
+	width: 160px;
+	&::before {
+    border-bottom: 5px solid transparent;
+    border-top: 5px solid transparent;
+    border-right: 5px solid $base-secondary-bgcolor;
+		content: "";
+    height: 0;
+    left: -5px;
+    position: absolute;
+    top: 15px;
+    width: 0;
+    z-index: 9;
+	}
+}

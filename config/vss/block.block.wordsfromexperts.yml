@@ -11,8 +11,8 @@ dependencies:
     - vss
 id: wordsfromexperts
 theme: vss
-region: content
-weight: -4
+region: content_bottom_fluid
+weight: -9
 provider: null
 plugin: 'block_content:3edf6481-9a3e-4880-81a2-c5a9c6915c7b'
 settings:
@@ -26,8 +26,8 @@ settings:
 visibility:
   'entity_bundle:taxonomy_term':
     id: 'entity_bundle:taxonomy_term'
-    bundles:
-      categories: categories
     negate: false
     context_mapping:
       taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      categories: categories
