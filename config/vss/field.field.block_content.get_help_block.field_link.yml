@@ -1,0 +1,23 @@
+uuid: 2a5ec921-d96c-4d6e-8847-4ddcc4d980ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.get_help_block
+    - field.storage.block_content.field_link
+  module:
+    - link
+id: block_content.get_help_block.field_link
+field_name: field_link
+entity_type: block_content
+bundle: get_help_block
+label: Link
+description: 'Displays explore link on front'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

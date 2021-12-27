@@ -16,6 +16,9 @@
                 event.preventDefault();
                 $(".ui-icon-closethick").click();
             });
+            $(".ok-btn").click(function(){
+                $("span.ui-icon-closethick").click();
+            });
         }
     };
 }(jQuery, Drupal, drupalSettings));

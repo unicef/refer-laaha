@@ -1,0 +1,19 @@
+uuid: d70ce25d-709e-40a7-ba74-4a76a0b4659f
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.get_help_block
+    - field.storage.block_content.field_help_title
+id: block_content.get_help_block.field_help_title
+field_name: field_help_title
+entity_type: block_content
+bundle: get_help_block
+label: Title
+description: 'Displays get help title'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
