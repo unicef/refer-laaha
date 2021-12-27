@@ -1,23 +1,23 @@
-uuid: bcb611a0-61d8-4f00-b764-a66d9b52f703
+uuid: 7a36932f-efa1-40c6-889b-215cfafc78dc
 langcode: en
 status: true
 dependencies:
   content:
-    - 'block_content:homepage_hero_section:13389e9a-8738-459b-8be3-6a0f857205cf'
+    - 'block_content:services_block:513be6ed-d147-4c50-8133-1aa43462cbf6'
   module:
     - block_content
     - system
   theme:
     - vss
-id: homepagecategories
+id: servicesblock
 theme: vss
 region: content
-weight: -7
+weight: -6
 provider: null
-plugin: 'block_content:13389e9a-8738-459b-8be3-6a0f857205cf'
+plugin: 'block_content:513be6ed-d147-4c50-8133-1aa43462cbf6'
 settings:
-  id: 'block_content:13389e9a-8738-459b-8be3-6a0f857205cf'
-  label: Homepage-categories
+  id: 'block_content:513be6ed-d147-4c50-8133-1aa43462cbf6'
+  label: 'Services block'
   provider: block_content
   label_display: '0'
   status: true
