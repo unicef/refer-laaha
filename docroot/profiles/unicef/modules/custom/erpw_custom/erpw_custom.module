@@ -42,8 +42,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
 }
 
 /**
- * Form validate
- * Checks if there is a duplicate Jewellery Item Title in the database.
+ * Checks if there is a duplicate Title in the database.
  */
 function check_title_exists(&$form, &$form_state) {
   // Remove the last character from the string.
