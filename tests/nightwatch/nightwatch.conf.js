@@ -35,6 +35,7 @@ module.exports = {
           javascriptEnabled: true,
     	    acceptSslCerts: true,
           nativeEvents: true,
+          elementScrollBehavior: 1,
           //acceptSslCerts: true,
           // sslCertTrusted = true,
           chromeOptions: {
