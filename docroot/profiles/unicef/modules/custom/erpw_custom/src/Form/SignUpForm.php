@@ -301,7 +301,7 @@ class SignUpForm extends FormBase {
       $errors = $form_state->getErrors();
       $command_content = $errors['password'];
       $response->addCommand(new InvokeCommand(
-        '#status-message', 'addClass', ['messages', 'messages--error']));
+        '#status-message', 'addClass', ['messages messages--error']));
       $response->addCommand(new HtmlCommand('#status-message', $command_content));
     }
     else {
