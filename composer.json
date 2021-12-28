@@ -25,6 +25,7 @@
         "drupal/adminimal_theme": "^1.6",
         "drupal/amp": "^3.5",
         "drupal/amptheme": "^3.0",
+        "drupal/autologout": "^1.1",
         "drupal/autosave_form": "^1.2",
         "drupal/blazy": "^2.5",
         "drupal/bootstrap": "^3.23",
@@ -72,6 +73,7 @@
         "drupal/pathauto": "^1.8",
         "drupal/public_preview": "^1.0@beta",
         "drupal/pwa": "^1.5",
+        "drupal/quick_node_clone": "^1.14",
         "drupal/search_api_autocomplete": "^1.5",
         "drupal/seckit": "^2.0",
         "drupal/shield": "^1.4",
@@ -83,6 +85,7 @@
         "drupal/video_embed_field": "^2.4",
         "drupal/view_password": "^6.0",
         "drupal/views_exposed_filter_blocks": "^1.1",
+        "drupal/views_infinite_scroll": "^1.9",
         "drupal/warmer": "^2.0",
         "drush/drush": "^10.2"
     },
@@ -177,7 +180,12 @@
             },
             "drupal/core": {
                 "Default moderation state for translated entity": "https://www.drupal.org/files/issues/2021-12-04/3150294-79.patch",
-                "Fix for unpublished translations not visible": "https://www.drupal.org/files/issues/2020-06-09/3088790-10.patch"
+                "Fix for unpublished translations not visible": "https://www.drupal.org/files/issues/2020-06-09/3088790-10.patch",
+                "Fix ajax Uncaught Type Error": "https://www.drupal.org/files/issues/2018-06-27/drupal-uninitialized_variable_url-2922677-8.patch"
+            },
+            "drupal/quick_node_clone": {
+                "translation issue": "https://www.drupal.org/files/issues/2019-10-01/quick_node_clone-cloning_multilanguage_content_moderation-2975704-10.patch",
+                "para issue": "patches/clone_paragraph.patch"
             }
         }
     }

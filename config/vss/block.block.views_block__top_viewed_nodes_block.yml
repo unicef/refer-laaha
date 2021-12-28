@@ -1,0 +1,29 @@
+uuid: b954599a-33d0-4210-b7be-026b138ec665
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.top_viewed_nodes
+  module:
+    - system
+    - views
+  theme:
+    - vss
+id: views_block__top_viewed_nodes_block
+theme: vss
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:top_viewed_nodes-block'
+settings:
+  id: 'views_block:top_viewed_nodes-block'
+  label: 'Popular search'
+  provider: views
+  label_display: visible
+  views_label: 'Popular search'
+  items_per_page: '6'
+visibility:
+  request_path:
+    id: request_path
+    pages: /search-modal/modal
+    negate: false

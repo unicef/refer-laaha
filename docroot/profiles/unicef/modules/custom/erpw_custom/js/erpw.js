@@ -3,7 +3,7 @@
         attach: function (context, settings) {
             jQuery( ".help-text" ).hover(
                 function() {
-                  jQuery( this ).append( jQuery( '<span class="password-help-text">Password should contain at least one Number, one Symbol and one alphabet</span>' ) );
+                  jQuery( this ).append( jQuery( '<span class="password-help-text">Password should contain one Number,  one letter, one special symbol (min Length 8 Character)</span>' ) );
                 }, function() {
                   jQuery( this ).find( "span" ).last().remove();
                 }
@@ -11,6 +11,13 @@
             $(".ui-icon-closethick").on("click", function(event){
                 event.preventDefault();
                 window.location.href = "/";
+            });
+            $(".signin-ok").on("click", function(event){
+                event.preventDefault();
+                $(".ui-icon-closethick").click();
+            });
+            $(".ok-btn").click(function(){
+                $("span.ui-icon-closethick").click();
             });
         }
     };

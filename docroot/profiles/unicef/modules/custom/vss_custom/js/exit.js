@@ -29,6 +29,9 @@
             window.location.replace("/exit-website");
           },600000)
         }
+
+        $('#edit-submit-search').hide();
+        $('.ui-dialog-buttonpane').hide();
       });
     }
   };

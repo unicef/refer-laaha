@@ -54,6 +54,33 @@ p {
   display: none;
 }
 
+.back-arrow {
+  background: url("../images/back-arrow.svg") 0 0 no-repeat;
+  height: 14px;
+  border: 0;
+  text-indent: -99px;
+  position: absolute;
+  top: 25px;
+  left: 23px;
+  width: 16px;
+}
+
+form input[type=submit].button-border {
+  background: none;
+  border: 1px solid #A85766;
+  border-radius: 4px;
+  color: #A85766;
+  display: inline-block;
+  font-size: 0.875em;
+  margin: 0 15px 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+}
+
+.overlay {
+  display: none;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
@@ -65,10 +92,6 @@ form select {
   -webkit-appearance: none;
   appearance: none;
   background: url("../images/arrow.svg") right 10px center no-repeat;
-  color: #E0D7D7;
-}
-form select option:checked {
-  color: #444;
 }
 form .form-actions {
   text-align: right;
@@ -92,7 +115,7 @@ select {
   border-radius: 5px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  display: block;
+  display: inline-block;
   padding: 8px 11px;
   margin-top: 7px;
   width: 100%;
@@ -125,10 +148,11 @@ select:-ms-input-placeholder {
 
 input[type=submit] {
   background: #A85766;
-  border: 0;
+  border: 1px solid #A85766;
   border-radius: 4px;
   color: #ffffff;
-  font-size: 14px;
+  display: inline-block;
+  font-size: 0.875em;
   margin: 0 0 1em 0;
   padding: 10px 24px;
   text-transform: uppercase;
@@ -140,6 +164,48 @@ input[type=submit].arrow-btn {
 }
 input[type=submit].use-ajax.arrow-btn {
   background-position: calc(50% + 100px) center;
+}
+
+.form-type-password {
+  position: relative;
+}
+
+.description {
+  background: none;
+  border: 1px solid #000;
+  border-radius: 50%;
+  font-size: 9px !important;
+  font-style: italic;
+  left: 66px;
+  position: absolute;
+  text-align: center;
+  top: 5px;
+  right: 0;
+  width: 10px;
+}
+
+.password-help-text {
+  -webkit-box-shadow: 0 2px 20px 6px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 20px 6px rgba(0, 0, 0, 0.1);
+  background: #A85766;
+  color: #ffffff;
+  left: 20px;
+  padding: 5px;
+  position: absolute;
+  top: -15px;
+  width: 160px;
+}
+.password-help-text::before {
+  border-bottom: 5px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #A85766;
+  content: "";
+  height: 0;
+  left: -5px;
+  position: absolute;
+  top: 15px;
+  width: 0;
+  z-index: 9;
 }
 
 footer {
@@ -194,11 +260,24 @@ footer {
 .menu--bottom-nav li.menu-item a.dashboard::before {
   background: url(../images/dashboard.svg) no-repeat center center;
 }
-.menu--bottom-nav li.menu-item a.menu-icon::before {
-  background: url(../images/menu.svg) no-repeat center center;
-}
 .menu--bottom-nav li.menu-item a.search-icon::before {
   background: url(../images/searchIcon.svg) no-repeat center center;
+}
+.menu--bottom-nav li.menu-item .menu-icon {
+  color: #ffffff;
+  cursor: pointer;
+  display: block;
+  font-size: 8px;
+  text-align: center;
+  text-decoration: none;
+}
+.menu--bottom-nav li.menu-item .menu-icon::before {
+  background: url(../images/menu.svg) no-repeat center center;
+  content: "";
+  display: block;
+  height: 23px;
+  padding-bottom: 15px;
+  width: 40px;
 }
 
 header {
@@ -208,7 +287,7 @@ header {
 .region-header {
   background: url(../images/top_nav_image.svg) no-repeat right -143px top -130px;
   height: 100%;
-  padding: 20px;
+  padding: 20px 0 0 0;
 }
 
 .menu--header-menu .menu {
@@ -245,6 +324,170 @@ header {
 .path-user .region-header {
   background: none;
   padding: 0;
+}
+
+.toolbar-fixed #block-erpw-main-menu {
+  top: 40px;
+}
+
+.view-empty {
+  display: none;
+}
+.view-empty + .feed-icons {
+  display: none;
+}
+
+.user-logged-in .signin-non-logged,
+.user-logged-in .non-logged-home {
+  display: none;
+}
+.user-logged-in #block-erpw-main-menu {
+  padding-top: 50px;
+}
+
+#block-erpw-main-menu {
+  background: url("../images/menulist-bg1.svg") top left no-repeat, url("../images/menulist-bg2.svg") bottom 90px right -20px no-repeat #fff6f5;
+  color: #444;
+  font-size: 0.875em;
+  display: none;
+  position: fixed;
+  height: 100%;
+  padding: 55px 0 0 30px;
+  min-height: 618px;
+  right: 0;
+  top: 0;
+  overflow-y: scroll;
+  z-index: 2;
+}
+#block-erpw-main-menu b {
+  display: block;
+  margin-top: 5px;
+}
+#block-erpw-main-menu .menu {
+  margin: 0 0 0 -10px;
+  padding-bottom: 100px;
+  width: 242px;
+}
+#block-erpw-main-menu .menu-item {
+  padding: 15px 20px 15px 15px;
+  margin: 0 20px 0 0;
+}
+#block-erpw-main-menu .menu-item.save-logged-in {
+  border-bottom: 1px solid #000;
+  padding-bottom: 25px;
+  margin-bottom: 10px;
+}
+#block-erpw-main-menu .menu-item a {
+  color: #A85766;
+  font-size: 16px;
+  padding-left: 30px;
+  text-decoration: none;
+}
+#block-erpw-main-menu .menu-item .home-fill {
+  background: url("../images/home-fill.svg") top left no-repeat;
+}
+#block-erpw-main-menu .menu-item .setting-icon {
+  background: url("../images/setting.svg") top left no-repeat;
+}
+#block-erpw-main-menu .menu-item .dashboard-fill {
+  background: url("../images/dashboard-fill.svg") top left no-repeat;
+  padding: 3px 0 4px 30px;
+  font-size: 12px;
+  text-decoration: underline;
+}
+#block-erpw-main-menu .menu-item .notification-icon {
+  background: url("../images/notify.svg") top left no-repeat;
+}
+#block-erpw-main-menu .menu-item .save-icon {
+  background: url("../images/save.svg") top left no-repeat;
+}
+#block-erpw-main-menu .menu-item .signout-icon,
+#block-erpw-main-menu .menu-item .signin-icon {
+  background: url("../images/signin.svg") top left no-repeat;
+}
+#block-erpw-main-menu .menu-item .about-icon {
+  background: url("../images/about.svg") top 4px left no-repeat;
+}
+#block-erpw-main-menu .menu-item .help-icon {
+  background: url("../images/help.svg") top left no-repeat;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(68, 25, 39, 0.28);
+  text-align: center;
+  -webkit-transition: opacity 500ms;
+  transition: opacity 500ms;
+  visibility: visible;
+  opacity: 1;
+  z-index: 1;
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+}
+
+.sign-in-popup {
+  position: absolute;
+  z-index: 9999;
+  color: white;
+  text-align: center;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 303px;
+  margin: 0 auto;
+}
+.sign-in-popup form {
+  margin: 0 auto;
+  padding: 20px 30px 15px;
+  background: url("../images/popup-bg.svg") top -125px left -20px no-repeat #fff;
+  border-radius: 10px;
+  position: relative;
+  width: 243px;
+}
+.sign-in-popup input[type=submit] {
+  width: 40.5%;
+  padding: 10px 0;
+}
+
+.welcome-message {
+  margin-top: 20px;
+}
+
+.popup-content {
+  color: #666565;
+  font-size: 13px;
+  line-height: 22px;
+  margin-bottom: 15px;
+}
+
+.close-popup {
+  background: url("../images/cross.svg") 0 0 no-repeat;
+  cursor: pointer;
+  height: 13px;
+  width: 13px;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+
+.menu-icon-popup {
+  display: inline-block;
+  padding-left: 5px;
+}
+.menu-icon-popup::before {
+  background: url("../images/menu-icon.svg") left 8px center no-repeat;
+  content: "(";
+  height: 11px;
+  padding-right: 22px;
+  width: 16px;
+}
+.menu-icon-popup::after {
+  content: ")";
 }
 
 .steps-highlight {
@@ -341,8 +584,8 @@ header {
   display: none;
 }
 
-body.path-user main {
-  background: url(../images/signin-page.png) right bottom -35px no-repeat;
+body.path-user {
+  background: url("../images/signin-page.png") right top -22px no-repeat;
 }
 
 .signin-otp {
@@ -373,6 +616,7 @@ body.path-user main {
   padding: 10px 8px;
   font-size: 1em;
   text-align: center;
+  width: 287px !important;
 }
 .ui-dialog .ui-dialog-titlebar {
   background: none;
@@ -384,13 +628,10 @@ body.path-user main {
 .ui-dialog .ui-button .ui-icon {
   background: url("../images/cross.svg") 0 0 no-repeat !important;
 }
-.ui-dialog .review-msg {
-  color: #A85766;
-  line-height: 22px;
-  margin-bottom: 15px;
-}
 .ui-dialog .email-notify {
   color: #666565;
+  font-size: 0.875em;
+  line-height: 20px;
 }
 .ui-dialog .button.bg-green {
   background: #A85766;
@@ -404,5 +645,18 @@ body.path-user main {
   text-transform: uppercase;
   text-decoration: none;
   width: 40%;
+}
+
+.review-msg {
+  color: #A85766;
+  line-height: 22px;
+  margin-bottom: 15px;
+}
+
+.ui-widget-overlay {
+  background: rgba(68, 25, 39, 0.28) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+          backdrop-filter: blur(4px) !important;
+  opacity: 1 !important;
 }
 /*# sourceMappingURL=style.css.map */

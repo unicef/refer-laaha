@@ -13,9 +13,7 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\InvokeCommand;
-use Drupal\Core\Render\Markup;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
+use Drupal\Core\Form\FormBuilderInterface;
 
 /**
  * Class SignUpForm.
@@ -37,6 +35,13 @@ class SignUpForm extends FormBase {
   protected $messenger;
 
   /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
+
+  /**
    * {@inheritdoc}
    */
   public function getFormId() {
@@ -46,11 +51,12 @@ class SignUpForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(Connection $database, EntityTypeManagerInterface $entityTypeManager, AccountProxyInterface $current_user, MessengerInterface $messenger) {
+  public function __construct(Connection $database, EntityTypeManagerInterface $entityTypeManager, AccountProxyInterface $current_user, MessengerInterface $messenger, FormBuilderInterface $form_builder) {
     $this->database = $database;
     $this->entityTypeManager = $entityTypeManager;
     $this->currentUser = $current_user;
     $this->messenger = $messenger;
+    $this->formBuilder = $form_builder;
   }
 
   /**
@@ -61,7 +67,8 @@ class SignUpForm extends FormBase {
       $container->get('database'),
       $container->get('entity_type.manager'),
       $container->get('current_user'),
-      $container->get('messenger')
+      $container->get('messenger'),
+      $container->get('form_builder')
     );
   }
 
@@ -149,10 +156,9 @@ class SignUpForm extends FormBase {
     $form['system_role'] = [
       '#type' => 'select',
       '#options' => $system_roles,
-      '#empty_option' => t('Select system roles'),
+      '#empty_option' => t('Select system role'),
       '#title' => $this->t('System role'),
       '#required' => TRUE,
-      '#placeholder' => t('Select system role'),
     ];
 
     $form['actions'] = [
@@ -171,7 +177,7 @@ class SignUpForm extends FormBase {
       '#submit' => ['::submitPageOne'],
       '#validate' => ['::validatePageOne'],
     ];
-
+    $form['#cache']['max-age'] = 0;
     return $form;
   }
 
@@ -238,9 +244,10 @@ class SignUpForm extends FormBase {
     ];
     $form['password'] = [
       '#type' => 'password',
-      '#title' => '<span class="help-text">' . $this->t('Password') . ' ' . $this->t('i') . '</span>',
+      '#title' => $this->t('Password'),
       '#required' => TRUE,
       '#placeholder' => t('**********'),
+      '#description' => '<span class="help-text">' . $this->t('i') . '</span>',
     ];
     $form['confirm_password'] = [
       '#type' => 'password',
@@ -263,6 +270,7 @@ class SignUpForm extends FormBase {
         'event' => 'click',
       ],
     ];
+    $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     return $form;
@@ -280,7 +288,7 @@ class SignUpForm extends FormBase {
       }
     }
     if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,64}$/", $password)) {
-      $form_state->setErrorByName('password', t('Password should contain at least one Number, one Symbol and one alphabet'));
+      $form_state->setErrorByName('password', t('Password should contain at least one Number, one Symbol and one alphabet)'));
     }
   }
 
@@ -298,6 +306,7 @@ class SignUpForm extends FormBase {
     }
     else {
       $form_state->clearErrors();
+      $form_state->setRebuild(TRUE);
       unset($form_errors['password']);
       $values = $form_state->get('page_values');
       $user_info = [
@@ -314,20 +323,10 @@ class SignUpForm extends FormBase {
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
       $user->save();
-      $link_options = [
-        'attributes' => [
-          'class' => [
-            'button',
-            'bg-green',
-          ],
-        ],
-      ];
-      $url = Url::fromRoute('<front>');
-      $url->setOptions($link_options);
-      $link = Link::fromTextAndUrl('OK', $url)->toString();
-      $message = $this->t("<div class='review-msg'>Your registration has been <br/> sent for review.</div><div class='email-notify'> You will be notified via email, once your registration approved.</div>");
-      $popup_msg = Markup::create($message . ' ' . $link);
-      $response = $response->addCommand(new OpenModalDialogCommand("", $popup_msg, ['width' => 400]));
+      $response = new AjaxResponse();
+      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\ModalForm');
+      // Add an AJAX command to open a modal dialog with the form as the content.
+      $response->addCommand(new OpenModalDialogCommand('', $modal_form, ['width' => '400']));
     }
     return $response;
   }
@@ -336,7 +335,7 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-
+    \Drupal::messenger()->deleteAll();
   }
 
 }

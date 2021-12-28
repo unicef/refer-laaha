@@ -1,0 +1,26 @@
+uuid: 837121b9-0bf6-44cd-a58b-753702cbcdf1
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - views_exposed_filter_blocks
+  theme:
+    - vss
+id: viewsexposedfilterblock
+theme: vss
+region: content
+weight: -11
+provider: null
+plugin: views_exposed_filter_blocks_block
+settings:
+  id: views_exposed_filter_blocks_block
+  label: Search
+  provider: views_exposed_filter_blocks
+  label_display: '0'
+  view_display: 'search:page_1'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false

@@ -4,56 +4,108 @@
     "elements": [
       {
         "description": "",
-        "id": "google-search;searching-google",
+        "id": "verify-footer-elements;add-and-verify-vss-footer-quick-links",
         "keyword": "Scenario",
-        "line": 3,
-        "name": "Searching Google",
+        "line": 8,
+        "name": "Add and Verify VSS Footer Quick Links",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 2304000000
+              "duration": 2356000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 5,
-            "name": "I open Google's search page",
+            "line": 4,
+            "name": "launch browser, open vss url",
             "match": {
-              "location": "step-definitions/firststep.js:4"
+              "location": "step-definitions/login.js:6"
             },
             "result": {
               "status": "passed",
-              "duration": 1479000000
+              "duration": 5381000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 6,
-            "name": "the title is \"Google\"",
+            "line": 5,
+            "name": "enter the credentials",
             "match": {
-              "location": "step-definitions/firststep.js:8"
+              "location": "step-definitions/login.js:10"
             },
             "result": {
               "status": "passed",
-              "duration": 14000000
+              "duration": 9709000000
             }
           },
           {
             "arguments": [],
-            "keyword": "And ",
-            "line": 7,
-            "name": "the Google search form exists",
+            "keyword": "Given ",
+            "line": 9,
+            "name": "Naviagte to Footer Quick Links Menus",
             "match": {
-              "location": "step-definitions/firststep.js:12"
+              "location": "step-definitions/footer.js:8"
             },
             "result": {
               "status": "passed",
-              "duration": 40000000
+              "duration": 5035000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "Verify Footer Quick Links",
+            "match": {
+              "location": "step-definitions/footer.js:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12394000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "Add Link",
+            "match": {
+              "location": "step-definitions/footer.js:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 125000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "Add Title",
+            "match": {
+              "location": "step-definitions/footer.js:20"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1129000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "Click Save",
+            "match": {
+              "location": "step-definitions/footer.js:24"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4855000000
             }
           },
           {
@@ -61,7 +113,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1054000000
+              "duration": 1059000000
             }
           }
         ],
@@ -69,11 +121,442 @@
         "type": "scenario"
       }
     ],
-    "id": "google-search",
+    "id": "verify-footer-elements",
     "line": 1,
     "keyword": "Feature",
-    "name": "Google Search",
+    "name": "Verify Footer Elements",
     "tags": [],
-    "uri": "features/first.feature"
+    "uri": "features/footer.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "verify-header-elements;verify-all-header-elememts",
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "Verify all Header elememts",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1699000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "launch browser, open vss url",
+            "match": {
+              "location": "step-definitions/login.js:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9262000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "enter the credentials",
+            "match": {
+              "location": "step-definitions/login.js:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9406000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "Verify Exit Functionality",
+            "match": {
+              "location": "step-definitions/header.js:8"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 48000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "Verify VSS Title",
+            "match": {
+              "location": "step-definitions/header.js:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5512000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "Verify VSS Logo",
+            "match": {
+              "location": "step-definitions/header.js:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 120000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "Verify Language Switcher",
+            "match": {
+              "location": "step-definitions/header.js:28"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 34000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "Verify Discover nav Menu",
+            "match": {
+              "location": "step-definitions/header.js:36"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 36000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "Verify FAQs nav menu",
+            "match": {
+              "location": "step-definitions/header.js:40"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 32000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "Verify Get In Touch nav menu",
+            "match": {
+              "location": "step-definitions/header.js:44"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 31000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "Verify Resource Library nav menu",
+            "match": {
+              "location": "step-definitions/header.js:48"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 35000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1058000000
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "verify-header-elements;verify-virtual-safe-space-title-and-logo",
+        "keyword": "Scenario",
+        "line": 17,
+        "name": "Verify Virtual Safe Space Title and logo",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1639000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "launch browser, open vss url",
+            "match": {
+              "location": "step-definitions/login.js:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4071000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "enter the credentials",
+            "match": {
+              "location": "step-definitions/login.js:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6679000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 18,
+            "name": "Verify VSS Title",
+            "match": {
+              "location": "step-definitions/header.js:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5267000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1053000000
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "verify-header-elements;add-and-verify-vss-header-menu-items",
+        "keyword": "Scenario",
+        "line": 20,
+        "name": "Add and Verify VSS Header Menu Items",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1527000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "launch browser, open vss url",
+            "match": {
+              "location": "step-definitions/login.js:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3906000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "enter the credentials",
+            "match": {
+              "location": "step-definitions/login.js:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 10088000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 21,
+            "name": "Naviagte to Header Site Navigation Menus",
+            "match": {
+              "location": "step-definitions/header.js:20"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5542000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 22,
+            "name": "Verify Header Site Navigation Menus",
+            "match": {
+              "location": "step-definitions/header.js:24"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15580000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "Add Link",
+            "match": {
+              "location": "step-definitions/footer.js:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 126000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "Add Title",
+            "match": {
+              "location": "step-definitions/footer.js:20"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1165000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 25,
+            "name": "Click Save",
+            "match": {
+              "location": "step-definitions/footer.js:24"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5725000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1056000000
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "verify-header-elements;exit-functionality",
+        "keyword": "Scenario",
+        "line": 27,
+        "name": "Exit Functionality",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1901000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "launch browser, open vss url",
+            "match": {
+              "location": "step-definitions/login.js:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4632000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "enter the credentials",
+            "match": {
+              "location": "step-definitions/login.js:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 10534000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 28,
+            "name": "Verify Exit Functionality",
+            "match": {
+              "location": "step-definitions/header.js:8"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 44000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 29,
+            "name": "Click on Exit Functionality",
+            "match": {
+              "location": "step-definitions/header.js:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2956000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1055000000
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "verify-header-elements",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Verify Header Elements",
+    "tags": [],
+    "uri": "features/header.feature"
   }
 ]
