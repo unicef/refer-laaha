@@ -1,0 +1,116 @@
+diff --git a/src/Entity/QuickNodeCloneEntityFormBuilder.php b/src/Entity/QuickNodeCloneEntityFormBuilder.php
+index b917a55..8bb5840 100755
+--- a/src/Entity/QuickNodeCloneEntityFormBuilder.php
++++ b/src/Entity/QuickNodeCloneEntityFormBuilder.php
+@@ -3,6 +3,7 @@
+ namespace Drupal\quick_node_clone\Entity;
+ 
+ use Drupal\Core\Config\ConfigFactoryInterface;
++use Drupal\Core\Entity\ContentEntityInterface;
+ use Drupal\Core\Entity\EntityFormBuilder;
+ use Drupal\Core\Entity\EntityInterface;
+ use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
+@@ -12,7 +13,6 @@ use Drupal\Core\Form\FormBuilderInterface;
+ use Drupal\Core\Form\FormState;
+ use Drupal\Core\Session\AccountInterface;
+ use Drupal\group\Entity\GroupContent;
+-use Drupal\node\Entity\Node;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ use Drupal\Core\TempStore\PrivateTempStoreFactory;
+ use Drupal\Core\StringTranslation\StringTranslationTrait;
+@@ -204,27 +204,40 @@ class QuickNodeCloneEntityFormBuilder extends EntityFormBuilder {
+   }
+ 
+   /**
+-   * Clone the paragraphs of a node.
++   * Clone the paragraphs of an entity.
+    *
+-   * If we do not clone the paragraphs attached to the node, the linked
+-   * paragraphs would be linked to two nodes which is not ideal.
++   * If we do not clone the paragraphs attached to the entity, the linked
++   * paragraphs would be linked to two entities which is not ideal.
+    *
+-   * @param \Drupal\node\Entity\Node $node
+-   *   The node to clone.
++   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
++   *   The entity to clone paragraphs for.
+    *
+-   * @return \Drupal\node\Entity\Node
+-   *   The node with cloned paragraph fields.
++   * @return \Drupal\Core\Entity\ContentEntityInterface
++   *   The entity with cloned paragraph fields.
+    */
+-  public function cloneParagraphs(Node $node) {
+-    foreach ($node->getFieldDefinitions() as $field_definition) {
++  public function cloneParagraphs(ContentEntityInterface $entity) {
++    foreach ($entity->getFieldDefinitions() as $field_definition) {
+       $field_storage_definition = $field_definition->getFieldStorageDefinition();
+       $field_settings = $field_storage_definition->getSettings();
+       $field_name = $field_storage_definition->getName();
+       if (isset($field_settings['target_type']) && $field_settings['target_type'] == "paragraph") {
+-        if (!$node->get($field_name)->isEmpty()) {
+-          foreach ($node->get($field_name) as $value) {
++        if (!$entity->get($field_name)->isEmpty()) {
++          // @todo Layout Paragraphs integration:
++          // @todo See https://www.drupal.org/project/layout_paragraphs/issues/3218226#comment-14129846
++          // @todo See https://www.drupal.org/project/quick_node_clone/issues/3218222
++          // @todo All the Steps 1-6 don't belong here in a perfect world but belong to layout_paragraphs
++          // 1. Create helper array to store old / new uuids from all paragraphs
++          // to update parent_uuids from all children later here:
++          $uuidOldNewMap = [];
++          foreach ($entity->get($field_name) as $value) {
+             if ($value->entity) {
++              // 2. Store the old uuid of this paragraph:
++              $oldUuid = $value->entity->uuid();
+               $value->entity = $value->entity->createDuplicate();
++              // 3. Store the new uuid of this paragraph:
++              $newUuid = $value->entity->uuid();
++              // 4. Save old => new uuid relations in array to replace the old one later:
++              $uuidOldNewMap[$oldUuid] = $newUuid;
+               foreach ($value->entity->getFieldDefinitions() as $field_definition) {
+                 $field_storage_definition = $field_definition->getFieldStorageDefinition();
+                 $pfield_settings = $field_storage_definition->getSettings();
+@@ -236,6 +249,34 @@ class QuickNodeCloneEntityFormBuilder extends EntityFormBuilder {
+                 }
+ 
+                 $this->moduleHandler->alter('cloned_node_paragraph_field', $value->entity, $pfield_name, $pfield_settings);
++
++                if (isset($pfield_settings['target_type']) && $pfield_settings['target_type'] == "paragraph" && !empty($value->entity->{$pfield_name})) {
++                  // Do the same for any nested paragraphs.
++                  self::cloneParagraphs($value->entity);
++                }
++              }
++            }
++          }
++          // 5. Update children paragraphs parent_uuid's to the new uuids from
++          // the cloned paragraphs:
++          $behavior_settings = $value->entity->getAllBehaviorSettings();
++          if (isset($behavior_settings['layout_paragraphs']) && !empty($behavior_settings['layout_paragraphs']['parent_uuid'])) {
++            $oldParentUuid = $behavior_settings['layout_paragraphs']['parent_uuid'];
++            if (!empty($uuidOldNewMap[$oldParentUuid])) {
++              $newParentUuid = $uuidOldNewMap[$oldParentUuid];
++              $behavior_settings['layout_paragraphs']['parent_uuid'] = $newParentUuid;
++              $value->entity->setBehaviorSettings('layout_paragraphs', $behavior_settings['layout_paragraphs']);
++
++              // 5. Update children paragraphs parent_uuid's to the new uuids from
++              // the cloned paragraphs:
++              $behavior_settings = $value->entity->getAllBehaviorSettings();
++              if (isset($behavior_settings['layout_paragraphs']) && !empty($behavior_settings['layout_paragraphs']['parent_uuid'])) {
++                $oldParentUuid = $behavior_settings['layout_paragraphs']['parent_uuid'];
++                if (!empty($uuidOldNewMap[$oldParentUuid])) {
++                  $newParentUuid = $uuidOldNewMap[$oldParentUuid];
++                  $behavior_settings['layout_paragraphs']['parent_uuid'] = $newParentUuid;
++                  $value->entity->setBehaviorSettings('layout_paragraphs', $behavior_settings['layout_paragraphs']);
++                }
+               }
+             }
+           }
+@@ -243,7 +284,7 @@ class QuickNodeCloneEntityFormBuilder extends EntityFormBuilder {
+       }
+     }
+ 
+-    return $node;
++    return $entity;
+   }
+ 
+   /**

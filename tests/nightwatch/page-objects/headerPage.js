@@ -22,7 +22,7 @@ elements: {
   },
   AddLinkBtn: {
     selector:
-    '//a[@href="/admin/structure/menu/manage/navigation-header-menu/add?destination=/admin/structure/menu/manage/navigation-header-menu"]',
+    '//a[@href="/admin/structure/menu/manage/navigation-header-menu/add?destination=/admin/structure/menu"]',
     locateStrategy: 'xpath',
   },
   VerifyAddMenuLinkTitle: {
