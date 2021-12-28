@@ -13,7 +13,7 @@ main {
 .page-title {
   border-bottom: 1px solid rgba(243, 193, 191, 0.53);
   color: #A85766;
-  padding-bottom: 20px;
+  padding: 20px 0;
   text-align: center;
   font-size: 1.125em;
   margin: 0;
@@ -79,6 +79,35 @@ form input[type=submit].button-border {
 
 .overlay {
   display: none;
+}
+
+.button-with-icon {
+  background-color: #A85766;
+  border-radius: 20px;
+  padding: 5px 20px;
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+  padding-left: 61px;
+  margin: 20px 0;
+  display: inline-block;
+}
+.button-with-icon::before {
+  content: "*";
+  border-radius: 50%;
+  height: 57px;
+  width: 57px;
+  position: absolute;
+  left: 0;
+  top: -15px;
+}
+
+.color-picker::before {
+  background: url("../images/color-picker.svg") center center no-repeat #A85766;
+}
+
+.icon-picker::before {
+  background: url("../images/icon-picker.svg") center center no-repeat #A85766;
 }
 
 form .form-required::after {
@@ -290,6 +319,11 @@ header {
   padding: 20px 0 0 0;
 }
 
+.menu--header-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 .menu--header-menu .menu {
   margin: 0 10px 0 0;
   text-align: right;
@@ -584,6 +618,10 @@ header {
   display: none;
 }
 
+#status-message.messages--error {
+  margin-bottom: 15px;
+}
+
 body.path-user {
   background: url("../images/signin-page.png") right top -22px no-repeat;
 }
@@ -632,6 +670,7 @@ body.path-user {
   color: #666565;
   font-size: 0.875em;
   line-height: 20px;
+  margin-bottom: 15px;
 }
 .ui-dialog .button.bg-green {
   background: #A85766;

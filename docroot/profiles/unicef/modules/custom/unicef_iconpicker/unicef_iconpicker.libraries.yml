@@ -1,0 +1,20 @@
+unicef-iconpicker:
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
+  version: 3.1.1
+  css:
+    component:
+      icons/unicefFonts.css: {}
+      //unpkg.com/@fonticonpicker/fonticonpicker@3.1.1/dist/css/base/jquery.fonticonpicker.min.css: { type: external, minified: true }
+      //unpkg.com/@fonticonpicker/fonticonpicker@3.1.1/dist/css/themes/grey-theme/jquery.fonticonpicker.grey.min.css: { type: external, minified: true }
+      css/unicef-iconpicker.css: {}
+  js:
+    //unpkg.com/@fonticonpicker/fonticonpicker@3.1.1/dist/js/jquery.fonticonpicker.min.js: { type: external, minified: true }
+    js/unicef-iconpicker.js: {}
+unicef-icons:
+  css:
+    theme:
+      icons/unicefFonts.css: {}
