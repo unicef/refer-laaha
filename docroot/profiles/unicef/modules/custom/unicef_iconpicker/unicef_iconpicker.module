@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @file
+ * Contains unicef_iconpicker .module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function unicef_iconpicker_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help.
+    case 'help.page.fontawesome_iconpicker':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Font Awesome Iconpicker.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function unicef_iconpicker_theme($existing, $type, $theme, $path) {
+  return [
+    'unicef_iconpicker_formatter' => [
+      'variables' => [
+        'icon' => '',
+        'size' => '1',
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ */
+function unicef_iconpicker_field_widget_entity_reference_paragraphs_form_alter(&$element, &$form_state, $context) {
+  $element['#attached']['library'][] = 'unicef_iconpicker/unicef-iconpicker';
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ */
+function unicef_iconpicker_field_widget_paragraphs_form_alter(&$element, &$form_state, $context) {
+  $element['#attached']['library'][] = 'unicef_iconpicker/unicef-iconpicker';
+}
