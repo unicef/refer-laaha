@@ -1,0 +1,20 @@
+field.formatter.settings.unicef_iconpicker_formatter_type:
+  type: mapping
+  label: 'Formatter settings'
+  mapping:
+    size:
+      type: string
+      label: 'Icon size'
+field.widget.settings.unicef_iconpicker:
+  type: mapping
+  label: 'Widget settings'
+  mapping:
+    size:
+      type: integer
+      label: 'Field size'
+    placeholder:
+      type: string
+      label: 'Placeholder'
+    type:
+      type: string
+      label: 'Type'

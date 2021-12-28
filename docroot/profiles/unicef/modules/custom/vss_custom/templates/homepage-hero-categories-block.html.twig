@@ -19,8 +19,10 @@
       <div class="category-thumbnail" style="background-color: {{ '#'~ item.color }}"><img src="{{ file_url( item.icon | image_style('thumbnail')) }}"/></div>
       <div class="category-name hide-desktop"><a href="{{ item.cat_uri }}">{{ item.name }} </a></div>
       <a class="hidden hover-show" href="{{ item.cat_uri }}">
-        <div class="category-thumbnail--large" style="background-color: {{ '#'~ item.color }}"><img src="{{ file_url( item.icon | image_style('thumbnail')) }}"/></div>
-        <p class="category-name-hover"> {{ item.name }} </p>
+        <div class="category-thumbnail--large" style="background-color: {{ '#'~ item.color }}">
+          <img src="{{ file_url( item.icon | image_style('thumbnail')) }}"/>
+          <p class="category-name-hover"> {{ item.name }} > </p>
+        </div>
       </a>
     </div>
   {% endfor %}
