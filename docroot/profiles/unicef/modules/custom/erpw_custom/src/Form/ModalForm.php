@@ -33,7 +33,7 @@ class ModalForm extends FormBase {
     $form['modal_description_2'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="email-notify">',
-      '#markup' => $this->t('You will be notified via email, once your registration approved.'),
+      '#markup' => $this->t('You will be notified via email, once your registration is approved.'),
       '#suffix' => '</div>',
     ];
 
