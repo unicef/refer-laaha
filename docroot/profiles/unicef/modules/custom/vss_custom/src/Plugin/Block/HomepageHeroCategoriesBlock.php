@@ -51,12 +51,13 @@ class HomepageHeroCategoriesBlock extends BlockBase implements ContainerFactoryP
     $content = $this->vssCommonConfigDefault->getCategories();
     foreach ($content['homepage_hero'] as $term_id) {
       $term_obj = Term::load($term_id);
+      dump($term_obj->get('weight')->getValue()[0]['value']); 
       if ($term_obj) {
         $term_name = $term_obj->getName();
         $term_bgcolor = $term_obj->get('field_category_color')->getValue()[0]['color'];
         $icon_path = $term_obj->get('field_icon')->entity->getFileUri();
         $term_alias = $term_obj->get('path')->alias;
-        $hero[] = [
+        $hero[$term_obj->get('weight')->getValue()[0]['value']] = [
           'id' => $term_id,
           'name' => $term_name,
           'color' => $term_bgcolor,
@@ -65,6 +66,7 @@ class HomepageHeroCategoriesBlock extends BlockBase implements ContainerFactoryP
         ];
       }
     }
+    ksort($hero);
     $build['#theme'] = 'homepage_hero_categories_block';
     $build['#content'] = $hero;
     $build['#lang_code'] = $langcode;
