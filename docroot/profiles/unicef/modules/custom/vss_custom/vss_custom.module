@@ -625,3 +625,10 @@ function vss_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $que
     $query->addOrderBy(NULL, NULL, 'DESC', 'nodeviewcount_uip');
   }
 }
+
+/**
+ * Implements entity_operation_alter.
+ */
+function vss_custom_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  $operations['quick_clone']['url']->setOptions($operations['translate']['url']->getOptions());
+}
