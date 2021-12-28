@@ -13,7 +13,7 @@ main {
 .page-title {
   border-bottom: 1px solid rgba(243, 193, 191, 0.53);
   color: #A85766;
-  padding-bottom: 20px;
+  padding: 20px 0;
   text-align: center;
   font-size: 1.125em;
   margin: 0;
@@ -60,7 +60,7 @@ p {
   border: 0;
   text-indent: -99px;
   position: absolute;
-  top: 20px;
+  top: 25px;
   left: 23px;
   width: 16px;
 }
@@ -75,6 +75,39 @@ form input[type=submit].button-border {
   margin: 0 15px 1em 0;
   padding: 10px 24px;
   text-transform: uppercase;
+}
+
+.overlay {
+  display: none;
+}
+
+.button-with-icon {
+  background-color: #A85766;
+  border-radius: 20px;
+  padding: 5px 20px;
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+  padding-left: 61px;
+  margin: 20px 0;
+  display: inline-block;
+}
+.button-with-icon::before {
+  content: "*";
+  border-radius: 50%;
+  height: 57px;
+  width: 57px;
+  position: absolute;
+  left: 0;
+  top: -15px;
+}
+
+.color-picker::before {
+  background: url("../images/color-picker.svg") center center no-repeat #A85766;
+}
+
+.icon-picker::before {
+  background: url("../images/icon-picker.svg") center center no-repeat #A85766;
 }
 
 form .form-required::after {
@@ -256,11 +289,24 @@ footer {
 .menu--bottom-nav li.menu-item a.dashboard::before {
   background: url(../images/dashboard.svg) no-repeat center center;
 }
-.menu--bottom-nav li.menu-item a.menu-icon::before {
-  background: url(../images/menu.svg) no-repeat center center;
-}
 .menu--bottom-nav li.menu-item a.search-icon::before {
   background: url(../images/searchIcon.svg) no-repeat center center;
+}
+.menu--bottom-nav li.menu-item .menu-icon {
+  color: #ffffff;
+  cursor: pointer;
+  display: block;
+  font-size: 8px;
+  text-align: center;
+  text-decoration: none;
+}
+.menu--bottom-nav li.menu-item .menu-icon::before {
+  background: url(../images/menu.svg) no-repeat center center;
+  content: "";
+  display: block;
+  height: 23px;
+  padding-bottom: 15px;
+  width: 40px;
 }
 
 header {
@@ -273,6 +319,11 @@ header {
   padding: 20px 0 0 0;
 }
 
+.menu--header-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 .menu--header-menu .menu {
   margin: 0 10px 0 0;
   text-align: right;
@@ -307,6 +358,92 @@ header {
 .path-user .region-header {
   background: none;
   padding: 0;
+}
+
+.toolbar-fixed #block-erpw-main-menu {
+  top: 40px;
+}
+
+.view-empty {
+  display: none;
+}
+.view-empty + .feed-icons {
+  display: none;
+}
+
+.user-logged-in .signin-non-logged,
+.user-logged-in .non-logged-home {
+  display: none;
+}
+.user-logged-in #block-erpw-main-menu {
+  padding-top: 50px;
+}
+
+#block-erpw-main-menu {
+  background: url("../images/menulist-bg1.svg") top left no-repeat, url("../images/menulist-bg2.svg") bottom 90px right -20px no-repeat #fff6f5;
+  color: #444;
+  font-size: 0.875em;
+  display: none;
+  position: fixed;
+  height: 100%;
+  padding: 55px 0 0 30px;
+  min-height: 618px;
+  right: 0;
+  top: 0;
+  overflow-y: scroll;
+  z-index: 2;
+}
+#block-erpw-main-menu b {
+  display: block;
+  margin-top: 5px;
+}
+#block-erpw-main-menu .menu {
+  margin: 0 0 0 -10px;
+  padding-bottom: 100px;
+  width: 242px;
+}
+#block-erpw-main-menu .menu-item {
+  padding: 15px 20px 15px 15px;
+  margin: 0 20px 0 0;
+}
+#block-erpw-main-menu .menu-item.save-logged-in {
+  border-bottom: 1px solid #000;
+  padding-bottom: 25px;
+  margin-bottom: 10px;
+}
+#block-erpw-main-menu .menu-item a {
+  color: #A85766;
+  font-size: 16px;
+  padding-left: 30px;
+  text-decoration: none;
+}
+#block-erpw-main-menu .menu-item .home-fill {
+  background: url("../images/home-fill.svg") top left no-repeat;
+}
+#block-erpw-main-menu .menu-item .setting-icon {
+  background: url("../images/setting.svg") top left no-repeat;
+}
+#block-erpw-main-menu .menu-item .dashboard-fill {
+  background: url("../images/dashboard-fill.svg") top left no-repeat;
+  padding: 3px 0 4px 30px;
+  font-size: 12px;
+  text-decoration: underline;
+}
+#block-erpw-main-menu .menu-item .notification-icon {
+  background: url("../images/notify.svg") top left no-repeat;
+}
+#block-erpw-main-menu .menu-item .save-icon {
+  background: url("../images/save.svg") top left no-repeat;
+}
+#block-erpw-main-menu .menu-item .signout-icon,
+#block-erpw-main-menu .menu-item .signin-icon {
+  background: url("../images/signin.svg") top left no-repeat;
+}
+#block-erpw-main-menu .menu-item .about-icon {
+  background: url("../images/about.svg") top 4px left no-repeat;
+}
+#block-erpw-main-menu .menu-item .help-icon {
+  background: url("../images/help.svg") top left no-repeat;
 }
 
 .overlay {
@@ -481,6 +618,10 @@ header {
   display: none;
 }
 
+#status-message.messages--error {
+  margin-bottom: 15px;
+}
+
 body.path-user {
   background: url("../images/signin-page.png") right top -22px no-repeat;
 }
@@ -529,6 +670,7 @@ body.path-user {
   color: #666565;
   font-size: 0.875em;
   line-height: 20px;
+  margin-bottom: 15px;
 }
 .ui-dialog .button.bg-green {
   background: #A85766;

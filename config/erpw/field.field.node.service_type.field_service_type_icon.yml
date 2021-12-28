@@ -1,0 +1,19 @@
+uuid: 8ccb38ac-3436-4b15-b8ce-9c715b71a418
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_service_type_icon
+    - node.type.service_type
+id: node.service_type.field_service_type_icon
+field_name: field_service_type_icon
+entity_type: node
+bundle: service_type
+label: 'Pick an icon to Select Service Type'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
