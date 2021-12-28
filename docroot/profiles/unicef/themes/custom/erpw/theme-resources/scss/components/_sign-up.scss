@@ -14,6 +14,7 @@
 	position: absolute;
 	top: 46px;
 	text-align: center;
+
 }
 .step-circle {
 	display: flex;
@@ -74,3 +75,7 @@
 		display: none;
 	}
 }
+#status-message.messages--error {
+	margin-bottom: 15px;
+}
+
