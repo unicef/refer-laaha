@@ -2,7 +2,7 @@
   'use strict';
   Drupal.behaviors.carousal = {
     attach: function (context, settings) {
-      if ($(window).width() < 768) {
+      if ($(window).width() < 768 && $(".category-item").length > 2) {
         $('#carousel').lightSlider({
           item:4,
           loop:true,
