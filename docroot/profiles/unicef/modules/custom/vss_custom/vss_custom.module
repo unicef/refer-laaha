@@ -630,5 +630,9 @@ function vss_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $que
  * Implements entity_operation_alter.
  */
 function vss_custom_entity_operation_alter(array &$operations, EntityInterface $entity) {
-  $operations['quick_clone']['url']->setOptions($operations['translate']['url']->getOptions());
+  if ($entity->getEntityType()->id() == 'node') {
+    if (!empty($operations['translate']['url'])) {
+      $operations['quick_clone']['url']->setOptions($operations['translate']['url']->getOptions());
+    }
+  }
 }
