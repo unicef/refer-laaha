@@ -51,7 +51,7 @@ class HomepageHeroCategoriesBlock extends BlockBase implements ContainerFactoryP
     $content = $this->vssCommonConfigDefault->getCategories();
     foreach ($content['homepage_hero'] as $term_id) {
       $term_obj = Term::load($term_id);
-      dump($term_obj->get('weight')->getValue()[0]['value']); 
+      dump($term_obj->get('weight')->getValue()[0]['value']);
       if ($term_obj) {
         $term_name = $term_obj->getName();
         $term_bgcolor = $term_obj->get('field_category_color')->getValue()[0]['color'];
