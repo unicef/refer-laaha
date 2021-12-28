@@ -1,0 +1,19 @@
+uuid: 9de949b2-687d-44d2-917b-af5c00ad2b8a
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.get_help_block
+    - field.storage.block_content.field_short_description
+id: block_content.get_help_block.field_short_description
+field_name: field_short_description
+entity_type: block_content
+bundle: get_help_block
+label: 'Short description'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

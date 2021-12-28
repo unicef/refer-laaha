@@ -1,0 +1,86 @@
+.toolbar-fixed {
+	#block-erpw-main-menu {
+		top: 40px;
+	}
+}
+.view-empty{
+	display: none;
+	&+.feed-icons {
+		display: none;
+	}
+}
+.user-logged-in  {
+	.signin-non-logged, 
+	.non-logged-home {
+		display: none;
+	}
+	#block-erpw-main-menu {
+		padding-top: 50px;
+	}
+}
+#block-erpw-main-menu {
+	background: url('../images/menulist-bg1.svg') top left no-repeat, url('../images/menulist-bg2.svg') bottom 90px right -20px no-repeat  rgba(255, 246, 245, 1);
+	color: $grey-txt-color;
+	font-size: .875em;
+  display: none;
+	position: fixed;
+	height: 100%;
+	padding: 55px 0 0 30px;
+	min-height: 618px;
+	right: 0;
+	top: 0;
+	overflow-y: scroll;
+	z-index: 2;
+	b {
+		display: block;
+		margin-top: 5px;
+	}
+	.menu {	
+		margin: 0 0 0 -10px;
+		padding-bottom: 100px;
+		width: 242px;
+	}
+	.menu-item {
+		padding:15px 20px 15px 15px;
+		margin: 0 20px 0 0;
+		&.save-logged-in {
+			border-bottom: 1px solid $base-black-color;
+			padding-bottom: 25px;
+			margin-bottom: 10px;
+		}
+		a {
+			color: $base-secondary-bgcolor;
+			font-size: 16px;
+			padding-left: 30px;
+			text-decoration: none;
+		}
+		.home-fill {
+			background: url('../images/home-fill.svg') top left no-repeat;
+		}
+		.setting-icon {
+			background: url('../images/setting.svg') top left no-repeat;
+		}
+		.dashboard-fill {
+			background: url('../images/dashboard-fill.svg') top left no-repeat;
+			padding: 3px 0 4px 30px;
+			font-size: 12px;
+			text-decoration: underline;
+		}
+		.notification-icon {
+			background: url('../images/notify.svg') top left no-repeat;
+		}
+		.save-icon {
+			background: url('../images/save.svg') top left no-repeat;
+		}
+		.signout-icon,
+		.signin-icon  {
+			background: url('../images/signin.svg') top left no-repeat;
+		}
+		.about-icon {
+			background: url('../images/about.svg') top 4px left no-repeat;
+		}
+		.help-icon {
+			background: url('../images/help.svg') top left no-repeat;
+		}
+	}
+}

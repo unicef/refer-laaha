@@ -51,6 +51,7 @@
     'block-' ~ configuration.provider|clean_class,
     'block-' ~ plugin_id|clean_class,
     'clearfix',
+    'homepage-hero'
   ]
 %}
 
@@ -59,7 +60,7 @@
   {% block content %}
     {{ title_prefix }}
     {% if content.field_hide_title.0['#markup'] == '0' %}
-      <div class="homepage-hero-section--title">{{ content.field_title }}</div>
+      <h2 class="homepage-hero-section--title">{{ content.field_title }}</h2>
     {% endif %}
     {{ title_suffix }}
     

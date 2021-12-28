@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a6992505ea3b2ac84ea30b1c6d7e996",
+    "content-hash": "f6702288c75079fb16af6506a6619eb0",
     "packages": [
         {
             "name": "acquia/blt",
@@ -879,16 +879,16 @@
         },
         {
             "name": "consolidation/output-formatters",
-            "version": "4.1.2",
+            "version": "4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/output-formatters.git",
-                "reference": "5821e6ae076bf690058a4de6c94dce97398a69c9"
+                "reference": "2a1a541987f9a8ab7a680e1a382bd32188a24a9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/5821e6ae076bf690058a4de6c94dce97398a69c9",
-                "reference": "5821e6ae076bf690058a4de6c94dce97398a69c9",
+                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/2a1a541987f9a8ab7a680e1a382bd32188a24a9e",
+                "reference": "2a1a541987f9a8ab7a680e1a382bd32188a24a9e",
                 "shasum": ""
             },
             "require": {
@@ -932,9 +932,9 @@
             "description": "Format text by applying transformations provided by plug-in formatters.",
             "support": {
                 "issues": "https://github.com/consolidation/output-formatters/issues",
-                "source": "https://github.com/consolidation/output-formatters/tree/4.1.2"
+                "source": "https://github.com/consolidation/output-formatters/tree/4.1.3"
             },
-            "time": "2020-12-12T19:04:59+00:00"
+            "time": "2021-12-24T13:27:27+00:00"
         },
         {
             "name": "consolidation/robo",
@@ -5456,17 +5456,17 @@
         },
         {
             "name": "drupal/mail_login",
-            "version": "2.4.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/mail_login.git",
-                "reference": "8.x-2.4"
+                "reference": "8.x-2.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/mail_login-8.x-2.4.zip",
-                "reference": "8.x-2.4",
-                "shasum": "9b9572a9df8efdf185fab8ac7c60e0fdc6b9fb61"
+                "url": "https://ftp.drupal.org/files/projects/mail_login-8.x-2.6.zip",
+                "reference": "8.x-2.6",
+                "shasum": "1cb038bba09f5c8b9e6972b6f09caef773255a7a"
             },
             "require": {
                 "drupal/core": "^8 || ^9"
@@ -5474,8 +5474,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-2.4",
-                    "datestamp": "1613094965",
+                    "version": "8.x-2.6",
+                    "datestamp": "1640215989",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -5980,17 +5980,17 @@
         },
         {
             "name": "drupal/paragraphs_edit",
-            "version": "2.0.0-alpha8",
+            "version": "2.0.0-beta1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/paragraphs_edit.git",
-                "reference": "8.x-2.0-alpha8"
+                "reference": "8.x-2.0-beta1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/paragraphs_edit-8.x-2.0-alpha8.zip",
-                "reference": "8.x-2.0-alpha8",
-                "shasum": "7447a72afc3ef528afa51996bbf7c8dbf3d822b8"
+                "url": "https://ftp.drupal.org/files/projects/paragraphs_edit-8.x-2.0-beta1.zip",
+                "reference": "8.x-2.0-beta1",
+                "shasum": "99b89234d438e5a970be308bfbff72472b08d7ab"
             },
             "require": {
                 "drupal/core": "^8 || ^9",
@@ -5999,11 +5999,11 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-2.0-alpha8",
-                    "datestamp": "1592930672",
+                    "version": "8.x-2.0-beta1",
+                    "datestamp": "1640269230",
                     "security-coverage": {
                         "status": "not-covered",
-                        "message": "Alpha releases are not covered by Drupal security advisories."
+                        "message": "Beta releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -6397,6 +6397,64 @@
             "homepage": "https://www.drupal.org/project/pwa",
             "support": {
                 "source": "https://git.drupalcode.org/project/pwa"
+            }
+        },
+        {
+            "name": "drupal/quick_node_clone",
+            "version": "1.14.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/quick_node_clone.git",
+                "reference": "8.x-1.14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/quick_node_clone-8.x-1.14.zip",
+                "reference": "8.x-1.14",
+                "shasum": "c5189402778cba4e4159d61db7e822110b78eab7"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9"
+            },
+            "require-dev": {
+                "drupal/paragraphs": "1.x-dev"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.14",
+                    "datestamp": "1615309355",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "vilepickle",
+                    "homepage": "https://www.drupal.org/u/vilepickle",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Neslee Canil Pinto",
+                    "homepage": "https://www.drupal.org/u/neslee-canil-pinto",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "vilepickle",
+                    "homepage": "https://www.drupal.org/user/783006"
+                }
+            ],
+            "description": "Quickly clone a node with regular fields.",
+            "homepage": "https://www.drupal.org/project/quick_node_clone",
+            "support": {
+                "source": "https://git.drupalcode.org/project/quick_node_clone",
+                "issues": "https://www.drupal.org/project/issues/quick_node_clone"
             }
         },
         {
@@ -10210,16 +10268,16 @@
         },
         {
             "name": "solarium/solarium",
-            "version": "6.2.0",
+            "version": "6.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/solariumphp/solarium.git",
-                "reference": "f63861d9246e8f06487ec2dfaea3cef0d4babccc"
+                "reference": "3c13804d3e12b2783ca450a4e8a6d759e496d651"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/solariumphp/solarium/zipball/f63861d9246e8f06487ec2dfaea3cef0d4babccc",
-                "reference": "f63861d9246e8f06487ec2dfaea3cef0d4babccc",
+                "url": "https://api.github.com/repos/solariumphp/solarium/zipball/3c13804d3e12b2783ca450a4e8a6d759e496d651",
+                "reference": "3c13804d3e12b2783ca450a4e8a6d759e496d651",
                 "shasum": ""
             },
             "require": {
@@ -10267,9 +10325,9 @@
             ],
             "support": {
                 "issues": "https://github.com/solariumphp/solarium/issues",
-                "source": "https://github.com/solariumphp/solarium/tree/6.2.0"
+                "source": "https://github.com/solariumphp/solarium/tree/6.2.1"
             },
-            "time": "2021-12-22T12:55:23+00:00"
+            "time": "2021-12-26T10:15:52+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -14117,16 +14175,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.2.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "e174a4c4324f50a6f2de472aa1055c24a2fe2b2a"
+                "reference": "bbc265e16561ab8e0f5e7cac395ea72640251f0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/e174a4c4324f50a6f2de472aa1055c24a2fe2b2a",
-                "reference": "e174a4c4324f50a6f2de472aa1055c24a2fe2b2a",
+                "url": "https://api.github.com/repos/composer/composer/zipball/bbc265e16561ab8e0f5e7cac395ea72640251f0c",
+                "reference": "bbc265e16561ab8e0f5e7cac395ea72640251f0c",
                 "shasum": ""
             },
             "require": {
@@ -14196,7 +14254,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.2.0"
+                "source": "https://github.com/composer/composer/tree/2.2.1"
             },
             "funding": [
                 {
@@ -14212,7 +14270,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-22T10:03:27+00:00"
+            "time": "2021-12-22T21:21:31+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -15897,16 +15955,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.10",
+            "version": "9.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c814a05837f2edb0d1471d6e3f4ab3501ca3899a"
+                "reference": "2406855036db1102126125537adb1406f7242fdd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c814a05837f2edb0d1471d6e3f4ab3501ca3899a",
-                "reference": "c814a05837f2edb0d1471d6e3f4ab3501ca3899a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2406855036db1102126125537adb1406f7242fdd",
+                "reference": "2406855036db1102126125537adb1406f7242fdd",
                 "shasum": ""
             },
             "require": {
@@ -15984,11 +16042,11 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.10"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.11"
             },
             "funding": [
                 {
-                    "url": "https://phpunit.de/donate.html",
+                    "url": "https://phpunit.de/sponsors.html",
                     "type": "custom"
                 },
                 {
@@ -15996,7 +16054,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-09-25T07:38:51+00:00"
+            "time": "2021-12-25T07:07:57+00:00"
         },
         {
             "name": "react/promise",
