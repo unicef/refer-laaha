@@ -57,7 +57,7 @@ function check_title_exists(&$form, &$form_state) {
   foreach ($results as $record) {
     $title_compared = substr($record->title, 0, -1);
     if ($title_compared === $title_entered) {
-      $form_state->setErrorByName('title', t('Service Type Already Exists. Please update the Name and Save it again'));
+      $form_state->setErrorByName('title', t('Service Type Already Exists. Please update the Name and Save it again.'));
     }
   }
   if ($form_state->getValue('field_service_type_icon') == '') {
