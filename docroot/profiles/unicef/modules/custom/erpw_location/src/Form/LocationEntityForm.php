@@ -34,7 +34,7 @@ class LocationEntityForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    /* @var \Drupal\erpw_location\Entity\LocationEntity $entity */
+    /** @var \Drupal\erpw_location\Entity\LocationEntity $entity */
     $form = parent::buildForm($form, $form_state);
 
     if (!$this->entity->isNew()) {

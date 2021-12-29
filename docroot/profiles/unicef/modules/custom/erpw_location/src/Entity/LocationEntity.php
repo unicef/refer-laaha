@@ -245,8 +245,8 @@ class LocationEntity extends EditorialContentEntityBase implements LocationEntit
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
-    
-      $fields['level_1'] = BaseFieldDefinition::create('string')
+
+    $fields['level_1'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Level 1'))
       ->setDescription(t('The level 1 of the location entity.'))
       ->setSettings([
@@ -264,7 +264,8 @@ class LocationEntity extends EditorialContentEntityBase implements LocationEntit
         'weight' => -5,
       ])
       ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayConfigurable('view', TRUE)
+      ->setTranslatable(TRUE);
 
     $fields['level_2'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Level 2'))
@@ -284,7 +285,8 @@ class LocationEntity extends EditorialContentEntityBase implements LocationEntit
         'weight' => -5,
       ])
       ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayConfigurable('view', TRUE)
+      ->setTranslatable(TRUE);
 
     $fields['level_3'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Level 3'))
@@ -304,7 +306,8 @@ class LocationEntity extends EditorialContentEntityBase implements LocationEntit
         'weight' => -5,
       ])
       ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayConfigurable('view', TRUE)
+      ->setTranslatable(TRUE);
 
     $fields['level_4'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Level 4'))
@@ -324,7 +327,8 @@ class LocationEntity extends EditorialContentEntityBase implements LocationEntit
         'weight' => -5,
       ])
       ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayConfigurable('view', TRUE)
+      ->setTranslatable(TRUE);
 
     $fields['status']->setDescription(t('A boolean indicating whether the Location Entity is published.'))
       ->setDisplayOptions('form', [

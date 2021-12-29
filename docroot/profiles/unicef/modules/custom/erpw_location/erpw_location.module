@@ -37,6 +37,10 @@ function erpw_location_theme() {
     'variables' => ['content' => NULL],
     'file' => 'location.page.inc',
   ];
+  $theme['manage_location_form'] = [
+    'render element' => 'form',
+    'template' => 'location-csv-import',
+  ];
   return $theme;
 }
 
@@ -54,4 +58,67 @@ function erpw_location_theme_suggestions_location(array $variables) {
   $suggestions[] = 'location__' . $entity->id();
   $suggestions[] = 'location__' . $entity->id() . '__' . $sanitized_view_mode;
   return $suggestions;
+}
+
+/**
+ * Callback function used in batch operation to Import location data.
+ */
+function erpw_location_entity_insert_record($data, $operation_details = NULL, &$context = NULL) {
+  $location = [$data[1], $data[2], $data[3], $data[4]];
+  print_r($location);
+  die;
+  $store_address = implode(",", $add_arr);
+  // Fetch lat,lon by full address.
+  $latlong = pfe_monoferric_clinic_get_lat_long($store_address, NULL);
+  $coorindates_flag = FALSE;
+  if (!empty($latlong)) {
+    $latitude = $latlong['latlng']['lat'];
+    $longitude = $latlong['latlng']['lng'];
+    $coorindates_flag = TRUE;
+  }
+  else {
+    // In case lat,lon not found using full address,
+    // try to fetch lat,lon from zip codes.
+    // Fetch lat,lon by zip code.
+    $latlong = pfe_monoferric_clinic_get_lat_long(NULL, $data['4']);
+    if (!empty($latlong)) {
+      $latitude = $latlong['latlng']['lat'];
+      $longitude = $latlong['latlng']['lng'];
+      $coorindates_flag = TRUE;
+    }
+    else {
+      $latitude = $longitude = 0;
+      \Drupal::messenger()->addError(t('Unable to fetch address details from below address : %address', ['%address' => $store_address]));
+      return;
+    }
+  }
+  // If ($coorindates_flag) {
+  //   $healthcare_center = ClinicLocatorEntity::create([
+  //     'Lat' => $latitude,
+  //     'Lon' => $longitude,
+  //     'clinic_name' => $data[0],
+  //     'clinic_address' => $data[1],
+  //     'city' => $data[2],
+  //     'province' => $data[3],
+  //     'zip_code' => $data[4],
+  //   ]);
+  //   $healthcare_center->save();
+  // }
+}
+
+/**
+ * Callback fun. used in clinic data importer, This is cleanup function.
+ */
+function erpw_location_data_finish($success, $results, $operations) {
+  if ($success) {
+    \Drupal::messenger()->addStatus(t('All clinic data has been imported.'));
+  }
+  else {
+    $error_operation = reset($operations);
+    $message = t('An error occurred while processing %error_operation with arguments: @arguments', [
+      '%error_operation' => $error_operation[0],
+      '@arguments' => print_r($error_operation[1], TRUE),
+    ]);
+    \Drupal::messenger()->addError($message, 'error');
+  }
 }

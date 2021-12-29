@@ -5,14 +5,12 @@ namespace Drupal\erpw_location;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\erpw_location\Entity\LocationEntity;
 
-
 /**
  * Provides dynamic permissions for Location Entity of different types.
  *
  * @ingroup erpw_location
- *
  */
-class LocationEntityPermissions{
+class LocationEntityPermissions {
 
   use StringTranslationTrait;
 
