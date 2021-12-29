@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - node
     - system
   theme:
     - erpw
@@ -19,10 +20,17 @@ settings:
   label: Tabs
   provider: core
   label_display: '0'
-  primary: true
-  secondary: true
+  primary: false
+  secondary: false
 visibility:
   request_path:
     id: request_path
     negate: true
     pages: /user/login
+  node_type:
+    id: node_type
+    bundles:
+      service_type: service_type
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
