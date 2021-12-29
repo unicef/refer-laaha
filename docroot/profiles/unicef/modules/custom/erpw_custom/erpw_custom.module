@@ -35,7 +35,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
     $form['actions']['submit']['#value'] = t('PUBLISH');
     $form['title']['widget'][0]['value']['#title'] = t('Name of Service Type');
-    $form['title']['widget'][0]['value']['#placeholder'] = t('Enter Service Type E.g Health Care ');
+    $form['title']['widget'][0]['value']['#placeholder'] = t('Enter service type name. eg:  Health care');
     $form['actions']['submit']['#submit'][] = 'service_type_handler';
     $form['#validate'][] = 'check_title_exists';
     $form['#title'] = t('Add Service Type');
