@@ -30,16 +30,16 @@ function erpw_preprocess_html(&$variables) {
 }
 
 /**
- * @param $variables
+ * Implements preprocess_HOOK for html ()
  */
-function erpw_preprocess_form_element_label(&$variables)
-{
-    if (isset($variables['element']['#id'])) {
-        if ($variables['element']['#id'] == "edit-field-service-type-icon-0-value") {
-            $variables['attributes']['class'][] = 'button-with-icon icon-select';
-        }
-        if ($variables['element']['#id'] == 'edit-field-service-type-color-0-color') {
-          $variables['attributes']['class'][] = 'button-with-icon color-select';
-        }
+function erpw_preprocess_form_element_label(&$variables) {
+  if (isset($variables['element']['#id'])) {
+    if ($variables['element']['#id'] == "edit-field-service-type-icon-0-value") {
+      $variables['attributes']['class'][] = 'button-with-icon icon-select';
     }
+    if ($variables['element']['#id'] == 'edit-field-service-type-color-0-color') {
+      $variables['attributes']['class'][] = 'button-with-icon color-select';
+    }
+  }
 }
+
