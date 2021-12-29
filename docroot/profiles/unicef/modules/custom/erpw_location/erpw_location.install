@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_update_N().
+ */
+function erpw_location_update_9001() {
+
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $entity_type_manager->clearCachedDefinitions();
+  $entity_type = $entity_type_manager->getDefinition('location');
+  \Drupal::entityDefinitionUpdateManager()->installEntityType($entity_type);
+
+  drupal_flush_all_caches();
+
+  return t('Installed the Location entity type');
+
+}

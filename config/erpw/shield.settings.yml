@@ -5,7 +5,13 @@ credentials:
     user: erpwadmin
     pass: 'Unicef#12345'
 print: Hello!
+debug_header: false
+allowlist: 127.0.0.1
+domains: "erpw.lndo.site\r\nzw.erpw.lndo.site\r\nbn.erpw.lndo.site"
+method: 0
+paths: ''
+http_method_allowlist: {  }
 allow_cli: true
+unset_basic_auth_headers: true
 _core:
-  default_config_hash: yHBuI_J_kdrugm0JRNsxHODZ0qQyPzejI6r1ZPacK5Q
-whitelist: ''
+  default_config_hash: FLJZME3II5fjmMSrdEvJHp95ZJf8V_X0jbX0VdVU1BU
