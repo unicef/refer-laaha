@@ -20,6 +20,13 @@ module.exports = {
       server_path: 'node_modules/.bin/chromedriver',
       port: 9515
     },
+
+    common_capabilities: {
+      'build': 'browserstack-build-1',
+      'browserstack.user': 'testingaccount_LpAgVkt',
+      'browserstack.key': 'XKr5kWBy4qkG1uzjXqZp',
+      'browserstack.debug': true
+    },
   
     test_settings: {
       default: {
@@ -40,10 +47,10 @@ module.exports = {
           // sslCertTrusted = true,
           chromeOptions: {
             args: [
-              '--headless',
+              //'--headless',
                '--no-sandbox',
                "--ignore-certificate-errors",
-               //'--incognito',
+               '--incognito',
               '--disable-gpu',
               '--window-size=1280,1696',
             ]
@@ -52,4 +59,3 @@ module.exports = {
       }
     }
   };
-  

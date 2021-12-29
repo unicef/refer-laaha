@@ -3,7 +3,7 @@ const { client } = require("nightwatch-api");
 var counts = 0;
 module.exports = {
     elements: {
-        CreateVideo: {
+        CreatePodcast: {
             selector: '//*[@class="js-quickedit-page-title page-title"]',
             locateStrategy: 'xpath'
         },
@@ -11,19 +11,19 @@ module.exports = {
             selector: '//*[@data-target-id="field-content-wrapper--active-items"]',
             locateStrategy: 'xpath'
         },
-        selectVideo: {
-            selector: '//*[@href= "#video"]',
+        selectPodcastAudio: {
+            selector: '//*[@href= "#podcast_audio"]',
             locateStrategy: 'xpath'
         },
-        UploadVideo: {
-            selector: '//input[@name="files[field_content_entity_form_1_field_video_file_0]"]',
+        UploadAudio: {
+            selector: '//input[@name="files[field_content_entity_form_1_field_audio_0]"]',
             locateStrategy: 'xpath'
         },
         UploadVTT: {
             selector: '//input[@name="files[field_content_entity_form_1_field_vtt_entries_0_subform_field_vtt_file_0]"]',
             locateStrategy: 'xpath'
         },
-        saveVideoButton: {
+        saveAudioButton: {
             selector: '//*[@class= "button js-form-submit form-submit ui-button ui-corner-all ui-widget"]',
             locateStrategy: 'xpath'
           },
@@ -31,12 +31,12 @@ module.exports = {
               selector: '//*[@data-drupal-selector="edit-field-thumbnail-image-0-upload-button"]',
               locateStrategy: 'xpath'
           },
-          videoSubCategory: {
+          audioSubCategory: {
             selector: '//*[@id= "edit-field-sub-category"]',
             locateStrategy: 'xpath'
          },
           
-        VideoTitle: '#edit-title-0-value',
+        PodcastTitle: '#edit-title-0-value',
         LanguageDropdown: '#edit-langcode-0-value',
         Tags: '#edit-field-tags-0-target-id',
         ThumbnailImage: '#edit-field-thumbnail-image-0-upload',
@@ -44,16 +44,15 @@ module.exports = {
         ModerationState: '#edit-moderation-state-0-state',
         SaveBtn: '#edit-submit',
         Preview: '#edit-preview',
-        ThumbnailImage: '#edit-field-thumbnail-image-0-upload',
         imgupload:'[id="edit-field-thumbnail-image-0-upload"]'
 
     },    
 
     commands: [{
 
-        Navigate_to_Video_Page: function () {
+        Navigate_to_Podcast_Page: function () {
             try{
-                return client.url("https://stage.ec.virtualsafespace.net/node/add/video").pause(1000);
+                return client.url("https://stage.ec.virtualsafespace.net/node/add/podcast").pause(1000);
             }
             catch(err) {
                 console.log('Error is >>>>>>>>    ' + err)
@@ -61,10 +60,10 @@ module.exports = {
 
         },
 
-        Verify_Video_Detail_Elements: function () {
+        Verify_Podcast_Detail_Elements: function () {
             return this
-            .assert.visible('@CreateVideo', 'Create Video is displayed')
-            .assert.visible('@VideoTitle', 'Video Title is present')
+            .assert.visible('@CreatePodcast', 'Create Video is displayed')
+            .assert.visible('@PodcastTitle', 'Video Title is present')
             .assert.visible('@LanguageDropdown', 'Language Dropdown is present')
             .assert.visible('@Tags','Tag field is displayed')
             .assert.visible('@ContentLayout', 'Content Layout icon is displayed')
@@ -75,13 +74,13 @@ module.exports = {
             .assert.visible('@Preview', 'Preview is present')
         },
 
-        Video_Title: function (Video) {
+        Podcast_Title: function (Podcast) {
             return this
-            .setValue('@VideoTitle', Video)
+            .setValue('@PodcastTitle', Podcast)
             .pause(1000)
           },
 
-          Video_Language_Dropdown: function () {
+          Podcast_Title_Language_Dropdown: function () {
             return this
             .click('@LanguageDropdown')
             .pause(1000)
@@ -90,7 +89,7 @@ module.exports = {
 
           },
 
-          Video_Tags: function (Tags) {
+          Podcast_Tags: function (Tags) {
             return this
             .click('@Tags')
             .setValue('@Tags',Tags)
@@ -98,7 +97,7 @@ module.exports = {
 
           },
 
-          Video_Content_Layout: function () {
+          Podcast_Content_Layout: function () {
             return this
             .click('css selector','[class="layout-paragraphs-add-content__toggle"]')
             .pause(1000)
@@ -110,21 +109,21 @@ module.exports = {
             .pause(1000)
             .click('xpath','//*[@data-target-id = "field-content-wrapper--item-0-content"]')
             .pause(1000)
-            .click('@selectVideo')
+            .click('@selectPodcastAudio')
             .pause(1000)
-            .setValue('@UploadVideo','/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/Data/media/sample-mov-file.mov')
-            .pause(10000)
-            .click('xpath','//select[@name="field_content[entity_form][1][field_vtt_entries][0][subform][field_language]"]/option[3]')
+            .setValue('@UploadAudio','/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/Data/media/horse.mp3')
             .pause(3000)
+            .click('xpath','//select[@name="field_content[entity_form][1][field_vtt_entries][0][subform][field_language]"]/option[3]')
+            .pause(1000)
             .click('@UploadVTT')
             .pause(1000)
             .setValue('@UploadVTT','/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/Data/media/Example.vtt')
-            .pause(10000)
-            .click('@saveVideoButton')
+            .pause(3000)
+            .click('@saveAudioButton')
             .pause(2000)
         },
 
-        Video_Thumbnail_Image: function () {
+        Podcast_Thumbnail_Image: function () {
             try {           
           this.assert.visible('@ThumbnailImage', 'Thumbnail Image appears')
           client.execute('window.scrollTo(0,document.body.scrollHeight);');
@@ -142,10 +141,10 @@ module.exports = {
         
         },
 
-        Video_Sub_Category: function () {
+        Podcast_Sub_Category: function () {
             try{
                 return this
-                   .click('@videoSubCategory')
+                   .click('@audioSubCategory')
                    .pause(1000)
                    .waitForElementPresent('#edit-field-sub-category > option:nth-child(20)')
                    .click('#edit-field-sub-category > option:nth-child(20)')
@@ -156,7 +155,7 @@ module.exports = {
             }
         },
 
-        Save_Video: function () {
+        Podcast_Save: function () {
             try{
                 return this
                     .click('#edit-submit')

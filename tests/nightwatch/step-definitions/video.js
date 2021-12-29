@@ -5,7 +5,7 @@ var json = require('../Data/components.json');
 const video = client.page.videoPage();
 
 Given(/^Navigate to the video page$/, () => {
-    return video.Navigate_to_Article_Page();
+    return video.Navigate_to_Video_Page();
  });
 
  Then(/^Verify Create video$/, () => {
@@ -63,5 +63,17 @@ Given(/^Navigate to the video page$/, () => {
  Then(/^Add Video Content Layout$/, () => {
      return video.Video_Content_Layout();
  });
+
+ Then(/^Upload Video Thumbnail Image$/, () => {
+   return video.Video_Thumbnail_Image();
+});
+
+Then(/^Select Video Sub Category$/, () => {
+   return video.Video_Sub_Category();
+});
+
+Then(/^Click on Video Save button$/, () => {
+   return video.Save_Video();
+});
  
  

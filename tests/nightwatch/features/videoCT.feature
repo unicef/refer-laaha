@@ -20,6 +20,6 @@ Scenario: Verify Video Detail Elements and Create Video Detail Page
    Then Select Video Language
    Then Add Video Tags
    Then Add Video Content Layout
-#    Then Upload Article Thumbnail Image
-#    Then Select Article Sub Category
-#    Then Click on Save button
+   Then Upload Video Thumbnail Image
+   Then Select Video Sub Category
+   Then Click on Video Save button

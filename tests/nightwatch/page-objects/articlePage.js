@@ -143,7 +143,7 @@ module.exports = {
             this.waitForElementPresent('@thumbnailClick')
             this.click('xpath','//div[@class="image-widget-data"]')            
             this.pause(3000)
-            .setValue('@imgupload', '/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/Data/Images/image1.png')
+            .setValue('@imgupload', '/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/Data/media/image1.png')
             .pause(1000)
             return this;
               }
