@@ -1,0 +1,15 @@
+diff --git a/src/Form/AutosaveFormAlterTrait.php b/src/Form/AutosaveFormAlterTrait.php
+index dd54e2d..9ed6aaf 100644
+--- a/src/Form/AutosaveFormAlterTrait.php
++++ b/src/Form/AutosaveFormAlterTrait.php
+@@ -67,7 +67,9 @@ trait AutosaveFormAlterTrait {
+       // the message exist and only then offer the options for restore and
+       // reject, otherwise will start the auto save process.
+       $date = $this->dateFormatter->format($autosave_form_state_timestamp, 'custom', 'M d, Y H:i');
+-      $message = $this->t('A version of this page you were editing at @date was saved as a draft. Do you want to resume editing or discard it?', ['@date' => $date]);
++      list($form_id, $entity) = $this->getFormIDandEntity($form_state);
++      $author = $entity->getRevisionUser()->name->value ? $entity->getRevisionUser()->name->value : $entity->getOwner()->name->value;
++      $message = $this->t('A version of this page you were editing at @date by @author was saved as a draft. Resume or discard it?', ['@date' => $date, '@author' => $author]);
+       $form['#attached']['drupalSettings']['autosaveForm']['message'] = (string) $message;
+     }
+ 
