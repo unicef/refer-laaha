@@ -1,0 +1,23 @@
+{#
+/**
+* @file
+* Default theme implementation to display a block.
+*
+* @see template_preprocess_block()
+*
+* @ingroup themeable
+*/
+#}
+{{ attach_library('vss_custom/subcategory_hero_block') }}
+
+{% if content is not empty %}
+<div class="hero_banner">
+<img src="{{ file_url( content.thumbnail | image_style('thumbnail')) }}"/>
+<span>{{content.title}}</span>
+{% if lang_code != 'en' %}
+<a href="/{{ lang_code }}/{{content.url}}" target='_blank'>{{'READ MORE'|t }}</a>
+{% else %}
+<a href="/{{content.url}}" target='_blank'>{{'READ MORE'|t }}</a>
+{% endif %}
+</div>
+{% endif %}

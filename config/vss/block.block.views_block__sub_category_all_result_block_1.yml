@@ -1,23 +1,28 @@
-uuid: 76f4bb64-322c-468f-928c-25b17b47b845
+uuid: 368c6cad-7772-45b1-9e97-516a79f98120
 langcode: en
 status: true
 dependencies:
+  config:
+    - views.view.sub_category_all_result
   module:
     - ctools
-    - vss_custom
+    - views
   theme:
     - vss
-id: herobannerblock
+id: views_block__sub_category_all_result_block_1
 theme: vss
 region: content
-weight: -11
+weight: -3
 provider: null
-plugin: hero_banner_block
+plugin: 'views_block:sub_category_all_result-block_1'
 settings:
-  id: hero_banner_block
-  label: 'Hero Banner block'
-  provider: vss_custom
+  id: 'views_block:sub_category_all_result-block_1'
+  label: ''
+  provider: views
   label_display: '0'
+  views_label: ''
+  items_per_page: none
+  context_mapping: {  }
 visibility:
   'entity_bundle:taxonomy_term':
     id: 'entity_bundle:taxonomy_term'

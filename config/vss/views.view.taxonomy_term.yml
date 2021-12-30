@@ -226,20 +226,7 @@ display:
         type: search_view
         options:
           score: false
-      header:
-        entity_taxonomy_term:
-          id: entity_taxonomy_term
-          table: views
-          field: entity_taxonomy_term
-          relationship: none
-          group_type: group
-          admin_label: ''
-          empty: true
-          tokenize: true
-          target: '{{ raw_arguments.tid }}'
-          view_mode: full
-          bypass_access: false
-          plugin_id: entity
+      header: {  }
       footer: {  }
       empty: {  }
       relationships: {  }
