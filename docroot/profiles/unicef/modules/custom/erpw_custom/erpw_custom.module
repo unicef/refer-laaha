@@ -7,6 +7,8 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\views\Views;
+use \Drupal\Core\Url;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -40,6 +42,31 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#validate'][] = 'check_title_exists';
     $form['#title'] = t('Add Service Type');
   }
+  if($form_id == 'node_service_type_quick_node_clone_form'){
+    $form['advanced']['#access'] = FALSE;
+    $form['meta']['#access'] = FALSE;
+    $form['status']['#access'] = FALSE;
+    $form['revision_information']['#access'] = FALSE;
+    $form['options']['#access'] = FALSE;
+    $form['author']['#access'] = FALSE;
+    $form['additional_settings']['#access'] = FALSE;
+    $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
+    $form['actions']['submit']['#value'] = t('PUBLISH');
+    $form['title']['widget'][0]['value']['#title'] = t('Name of Service Type');
+    $form['title']['widget'][0]['value']['#placeholder'] = t('Enter service type name. eg:  Health care');
+    $form['actions']['submit']['#submit'][] = 'clone_service_type_handler';
+    $form['#validate'][] = 'check_title_exists';
+    $form['#title'] = t('Update Service Type');
+  }
+}
+
+/**
+ * {@inheritdoc}
+ */
+function clone_service_type_handler(array &$form, FormStateInterface $form_state) {
+  $response = new RedirectResponse('/manage-service-types');
+  $response->send();
+  return $response;
 }
 
 /**
