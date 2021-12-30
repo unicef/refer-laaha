@@ -48,7 +48,7 @@ class ServiceTypeUpdate extends FormBase {
         ],
       ],
       '#ajax' => [
-        'callback' => [$this, 'ProceedAjax'],
+        'callback' => [$this, 'proceedAjax'],
         'event' => 'click',
       ],
     ];
@@ -65,7 +65,7 @@ class ServiceTypeUpdate extends FormBase {
   /**
    * AJAX callback handler that displays any errors or a success message.
    */
-  public function ProceedAjax(array $form, FormStateInterface $form_state) {
+  public function proceedAjax(array $form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
     $response->addCommand(new CloseModalDialogCommand());
     $updated_service_type = \Drupal::formBuilder()->getForm('Drupal\erpw_custom\Form\UpdatedServiceType');
