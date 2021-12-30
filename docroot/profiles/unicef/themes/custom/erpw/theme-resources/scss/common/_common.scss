@@ -31,24 +31,52 @@ p {
 	background: url('../images/back-arrow.svg') 0 0 no-repeat;
 	height: 14px;
 	border: 0;
-	text-indent: -99px;
+	font-size: 0;
 	position: absolute;
 	top: 25px;
 	left: 23px;
 	width: 16px;
 }
 
-form input[type=submit].button-border {
-	background: none;
-	border: 1px solid $base-secondary-bgcolor;
-	border-radius: 4px;
-	color: $base-secondary-bgcolor;
-	display: inline-block;
-	font-size: 0.875em;
-	margin: 0 15px 1em 0;
-	padding: 10px 24px;
-	text-transform: uppercase;
+form input[type=submit] {
+	&.button-border {
+		background: none;
+		border: 1px solid $base-secondary-bgcolor;
+		border-radius: 4px;
+		color: $base-secondary-bgcolor;
+		display: inline-block;
+		font-size: 0.875em;
+		margin: 0 15px 1em 0;
+		padding: 10px 24px;
+		text-transform: uppercase;
+	}
 }
+
 .overlay {
 	display: none;
+}
+
+.button-with-icon {
+	background-color: $base-secondary-bgcolor;
+	border-radius: 20px;
+	padding: 5px 0 5px 57px;
+	position: relative;
+	color: $base-white-color;
+	margin: 20px 0;
+	display: inline-block;
+	&::before {
+		content: '*';
+		border-radius: 50%;
+    height: 57px;
+    width: 57px;
+    position: absolute;
+    left: 0;
+    top: -15px;
+	}
+}
+.color-select::before {
+	background: url('../images/color-picker.svg') center center no-repeat $base-secondary-bgcolor;
+}
+.icon-select::before {
+	background: url('../images/icon-picker.svg') center center no-repeat $base-secondary-bgcolor;
 }

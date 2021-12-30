@@ -56,19 +56,18 @@
 %}
 
 <div {{ attributes.addClass(classes) }}>
-  
-  {% block content %}
-    {{ title_prefix }}
-    {% if content.field_hide_title.0['#markup'] == '0' %}
-      <h2 class="homepage-hero-section--title">{{ content.field_title }}</h2>
-    {% endif %}
-    {{ title_suffix }}
-    
-    {% if content.body %}
-      {% if content.field_hide_description.0['#markup'] == '0' %}
-        <div class="homepage-hero-section--desc">{{ content.body }}</div>
+  <div class="hero-wrapper">
+    {% block content %}
+      {{ title_prefix }}
+      {% if content.field_hide_title.0['#markup'] == '0' %}
+        <h2 class="homepage-hero-section--title">{{ content.field_title }}</h2>
       {% endif %}
-    {% endif %}
-
-  {% endblock %}
+      {{ title_suffix }}
+      {% if content.body %}
+        {% if content.field_hide_description.0['#markup'] == '0' %}
+          <div class="homepage-hero-section--desc">{{ content.body }}</div>
+        {% endif %}
+      {% endif %}
+    {% endblock %}
+  </div>
 </div>

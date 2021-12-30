@@ -16,8 +16,8 @@
       $(context).find('.unicef-iconpicker-element').once('jsunicefIconpicker').each(function () {
         $(this).fontIconPicker({
           source: unicef_icon,
-          emptyIcon: true,
-          hasSearch: true,
+          emptyIcon: false,
+          hasSearch: false,
           useAttribute: true,
           attributeName: 'class',
           convertToHex: false
