@@ -12,6 +12,7 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\RedirectCommand;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -73,6 +74,33 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       'wrapper' => 'cancel_back_form',
     ];
   }
+
+  if ($form_id == 'node_service_type_quick_node_clone_form') {
+    $form['advanced']['#access'] = FALSE;
+    $form['meta']['#access'] = FALSE;
+    $form['status']['#access'] = FALSE;
+    $form['revision_information']['#access'] = FALSE;
+    $form['options']['#access'] = FALSE;
+    $form['author']['#access'] = FALSE;
+    $form['additional_settings']['#access'] = FALSE;
+    $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
+    $form['actions']['submit']['#value'] = t('PUBLISH');
+    $form['title']['widget'][0]['value']['#title'] = t('Name of Service Type');
+    $form['title']['widget'][0]['value']['#placeholder'] = t('Enter service type name. eg:  Health care');
+    $form['actions']['submit']['#submit'][] = 'clone_service_type_handler';
+    $form['#validate'][] = 'check_title_exists';
+    $form['#title'] = t('Add Service Type');
+  }
+}
+
+/**
+ * {@inheritdoc}
+ */
+function clone_service_type_handler(array &$form, FormStateInterface $form_state) {
+  $url = Url::fromRoute('view.manage_service_types.page_1');
+  $response = new RedirectResponse($url->toString());
+  $response->send();
+  return $response;
 }
 
 /**
