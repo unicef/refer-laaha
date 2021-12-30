@@ -61,7 +61,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['title']['widget'][0]['value']['#placeholder'] = t('Enter Service Type E.g Health Care ');
     $form['#validate'][] = 'check_title_exists';
     $form['actions']['delete']['#access'] = FALSE;
-    // $form['actions']['preview']['#submit'] = 'cancel_service_type_update';
     $form['actions']['submit']['#ajax'] = [
       'callback' => 'update_service_type_handler',
       'event' => 'click',
