@@ -6,7 +6,6 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\RedirectCommand;
-use Drupal\Core\Url;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
 
@@ -54,9 +53,9 @@ class ServiceTypeUpdate extends FormBase {
       ],
     ];
     $form['actions']['cancel'] = [
-        '#type' => 'submit',
-        '#value' => $this->t('CANCEL'),
-      ];
+      '#type' => 'submit',
+      '#value' => $this->t('CANCEL'),
+    ];
 
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
 

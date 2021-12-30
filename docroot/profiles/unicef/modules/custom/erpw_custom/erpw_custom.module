@@ -7,7 +7,6 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Drupal\Core\Url;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\InvokeCommand;
@@ -62,7 +61,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#validate'][] = 'check_title_exists';
     $form['actions']['delete']['#access'] = FALSE;
     // $form['actions']['preview']['#submit'] = 'cancel_service_type_update';
-
     $form['actions']['submit']['#ajax'] = [
       'callback' => 'update_service_type_handler',
       'event' => 'click',
@@ -97,11 +95,12 @@ function update_service_type_handler(array &$form, FormStateInterface $form_stat
   $update_service_type = \Drupal::formBuilder()->getForm('Drupal\erpw_custom\Form\ServiceTypeUpdate');
   if ($form_state->hasAnyErrors()) {
     $errors = $form_state->getErrors();
-      $command_content = $errors['title'];
-      $response->addCommand(new InvokeCommand(
+    $command_content = $errors['title'];
+    $response->addCommand(new InvokeCommand(
         '#status-message', 'addClass', ['messages messages--error']));
-      $response->addCommand(new HtmlCommand('#status-message', $command_content));
-  }else{
+    $response->addCommand(new HtmlCommand('#status-message', $command_content));
+  }
+  else {
     $response->addCommand(new OpenModalDialogCommand('', $update_service_type, ['width' => '400']));
   }
   return $response;

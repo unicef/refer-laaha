@@ -4,8 +4,6 @@ namespace Drupal\erpw_custom\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Url;
 use Drupal\Core\Ajax\RedirectCommand;
 
 /**
@@ -62,7 +60,7 @@ class UpdatedServiceType extends FormBase {
    */
   public function updatedServiceForm(array $form, FormStateInterface $form_state) {
     $response->addCommand(new RedirectCommand(\Drupal::request()->query->get('destination')));
-    return $response; 
+    return $response;
   }
 
   /**
