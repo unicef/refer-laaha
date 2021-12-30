@@ -25,6 +25,13 @@ class ServiceTypeUpdate extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
+      
+    if ($form_state->has('page') && $form_state->get('page') == 2) {
+        return self::formPageTwo($form, $form_state);
+    }
+
+    $form_state->set('page', 1);
+
     $form['modal_description_1'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="review-msg">',
@@ -38,28 +45,73 @@ class ServiceTypeUpdate extends FormBase {
       '#suffix' => '</div>',
     ];
 
-    $form['actions']['proceed'] = [
+    $form['actions']['next'] = [
       '#type' => 'submit',
-      '#value' => $this->t('PROCEED'),
+      '#button_type' => 'primary',
+      '#value' => $this->t('Next'),
       '#attributes' => [
         'class' => [
-          'use-ajax',
-          'ok-btn',
+          'signup-next',
         ],
       ],
-      '#ajax' => [
-        'callback' => [$this, 'proceedAjax'],
-        'event' => 'click',
-      ],
+      '#submit' => ['::submitPageOne'],
+      '#validate' => ['::validatePageOne'],
     ];
+
     $form['actions']['cancel'] = [
       '#type' => 'submit',
       '#value' => $this->t('CANCEL'),
     ];
 
-    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
-
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitPageOne(array &$form, FormStateInterface $form_state) {
+    $form_state->set('page', 2)->setRebuild(TRUE);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function formPageTwo(array &$form, FormStateInterface $form_state) {
+    $form['modal_description_1'] = [
+        '#type' => 'markup',
+        '#prefix' => '<div class="review-msg">',
+        '#markup' => $this->t('Update successful'),
+        '#suffix' => '</div>',
+      ];
+      $form['modal_description_2'] = [
+        '#type' => 'markup',
+        '#prefix' => '<div class="email-notify">',
+        '#markup' => $this->t('The details has been sucessfully updated.'),
+        '#suffix' => '</div>',
+      ];
+  
+      $form['actions']['dashboard'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('BACK TO DASHBOARD'),
+        '#attributes' => [
+          'class' => [
+            'use-ajax',
+            'ok-btn',
+          ],
+        ],
+        '#ajax' => [
+          'callback' => [$this, 'updatedServiceForm'],
+          'event' => 'click',
+        ],
+      ];
+    }
+
+    /**
+   * AJAX callback handler that displays any errors or a success message.
+   */
+  public function updatedServiceForm(array $form, FormStateInterface $form_state) {
+    $response->addCommand(new RedirectCommand(\Drupal::request()->query->get('destination')));
+    return $response;
   }
 
   /**
