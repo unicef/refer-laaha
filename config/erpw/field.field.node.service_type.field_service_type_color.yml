@@ -13,9 +13,12 @@ entity_type: node
 bundle: service_type
 label: 'Pick a color to represent service type'
 description: ''
-required: true
-translatable: true
-default_value: {  }
+required: false
+translatable: false
+default_value:
+  -
+    color: '#f9d14a'
+    opacity: null
 default_value_callback: ''
 settings:
   opacity: 0
