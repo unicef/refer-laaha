@@ -302,7 +302,17 @@ display:
           plugin_id: domain_access_current_all_filter
       sorts: {  }
       title: 'Sub Category All Result'
-      header: {  }
+      header:
+        result:
+          id: result
+          table: views
+          field: result
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          content: 'ALL RESULTS (@total)'
+          plugin_id: result
       footer: {  }
       empty: {  }
       relationships:
