@@ -22,9 +22,8 @@
 		}
 	}
 	.selector-button,
-	.selector-footer,
-	.fip-icon-block,
-	.selector-category {
+	.selector-category,
+	.fip-icon-block {
 		display: none !important;
 	}
 	.field--widget-unicef-iconpicker {
@@ -34,7 +33,6 @@
 		display: block;
 		z-index: inherit;
 		.selector {
-			display: none;
 			border: 0;
 			margin: 10px;
 			position: absolute;
@@ -48,7 +46,6 @@
 		}
 		&.fip-grey {
 			.selected-icon {
-				
 				border-radius: 50%;
 				border: 0;
 				width: 40px;
@@ -67,6 +64,10 @@
 				background-color: $base-secondary-bgcolor;
 				border: 1px solid $base-secondary-bgcolor;
 			}
+			.selector-footer {
+				color: $base-secondary-bgcolor;
+				padding: 10px 15px 0;
+			}
 		}
 		.uf::before {
 			font-size: 22px;
@@ -83,6 +84,7 @@
 		width: 100%;
 		.selector-popup {
 			border: 0;
+			box-shadow: inherit !important;
 			display: block !important;
 			position: inherit !important;
 			overflow: inherit !important;
@@ -138,6 +140,20 @@
 			text-align: center;
     	padding: 10px 0;
 			width: 134px;
+		}
+	}
+	.color_field_widget_box__color {
+		border: 1px solid transparent !important;
+		font-size: 0;
+		display: none !important;
+		&::part(native) { 
+			display: none !important;
+		}
+		div {
+			display: none !important;
+			position: absolute;
+			z-index: 0;
+			font-size: 0;
 		}
 	}
 }

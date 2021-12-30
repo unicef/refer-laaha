@@ -646,9 +646,8 @@ header {
   margin-bottom: 0;
 }
 .node-service-type-form .selector-button,
-.node-service-type-form .selector-footer,
-.node-service-type-form .fip-icon-block,
-.node-service-type-form .selector-category {
+.node-service-type-form .selector-category,
+.node-service-type-form .fip-icon-block {
   display: none !important;
 }
 .node-service-type-form .field--widget-unicef-iconpicker {
@@ -659,7 +658,6 @@ header {
   z-index: inherit;
 }
 .node-service-type-form .icons-selector .selector {
-  display: none;
   border: 0;
   margin: 10px;
   position: absolute;
@@ -690,6 +688,10 @@ header {
   background-color: #A85766;
   border: 1px solid #A85766;
 }
+.node-service-type-form .icons-selector.fip-grey .selector-footer {
+  color: #A85766;
+  padding: 10px 15px 0;
+}
 .node-service-type-form .icons-selector .uf::before {
   font-size: 22px;
 }
@@ -704,6 +706,8 @@ header {
 }
 .node-service-type-form .selector-popup-wrap .selector-popup {
   border: 0;
+  -webkit-box-shadow: inherit !important;
+          box-shadow: inherit !important;
   display: block !important;
   position: inherit !important;
   overflow: inherit !important;
@@ -764,6 +768,20 @@ header {
   text-align: center;
   padding: 10px 0;
   width: 134px;
+}
+.node-service-type-form .color_field_widget_box__color {
+  border: 1px solid transparent !important;
+  font-size: 0;
+  display: none !important;
+}
+.node-service-type-form .color_field_widget_box__color::part(native) {
+  display: none !important;
+}
+.node-service-type-form .color_field_widget_box__color div {
+  display: none !important;
+  position: absolute;
+  z-index: 0;
+  font-size: 0;
 }
 
 body.path-user {
