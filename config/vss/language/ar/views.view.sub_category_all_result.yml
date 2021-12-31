@@ -1,1 +1,12 @@
 label: 'Sub Category All Result Arabic'
+display:
+  default:
+    display_options:
+      header:
+        result:
+          content: 'جميع النتائج (@total)'
+      empty:
+        area:
+          content:
+            value: "<p>لا يوجد محتوى متاح</p>\r\n"
+            format: basic_html
