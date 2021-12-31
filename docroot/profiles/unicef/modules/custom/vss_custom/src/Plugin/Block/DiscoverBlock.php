@@ -61,9 +61,11 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
         $node_url = $node_url->toString();
         $paragraph = $node->field_assets->getValue();
         $paragraph_obj = Paragraph::load($paragraph['1']['target_id']);
-        $paragraph_type = $paragraph_obj->get('type')->getValue()[0]['target_id'];
+        if (!empty($paragraph_obj)) {
+          $paragraph_type = $paragraph_obj->get('type')->getValue()[0]['target_id'];
+        }
         $video_time = 0;
-        if ($paragraph_type == 'external_videos' || $paragraph_type == 'video') {
+        if (!empty($paragraph_type) && ($paragraph_type == 'external_videos' || $paragraph_type == 'video')) {
           $video_time = $paragraph_obj->get('field_video_time')->getValue()[0]['value'];
         }
         if ($node) {
