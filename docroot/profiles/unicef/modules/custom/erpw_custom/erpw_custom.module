@@ -9,9 +9,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\InvokeCommand;
-use Drupal\Core\Ajax\HtmlCommand;
-use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Url;
 
 /**
@@ -47,6 +44,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#title'] = t('Add Service Type');
   }
   if ($form_id == 'node_service_type_edit_form') {
+    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#prefix'] = '<div id="status-message"></div>';
     $form['#title'] = t('Name of Service Type');
     $form['advanced']['#access'] = FALSE;
@@ -60,7 +58,8 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['submit']['#value'] = t('UPDATE');
     $form['title']['widget'][0]['value']['#title'] = t('Name of Service Type');
     $form['title']['widget'][0]['value']['#placeholder'] = t('Enter Service Type E.g Health Care ');
-    $form['#validate'][] = 'check_title_exists';
+    $form['actions']['submit']['#attributes']['class'][] = 'use-ajax ok-btn';
+    $form['#title'] = t('Update Service Type');
     $form['actions']['delete']['#access'] = FALSE;
     $form['actions']['submit']['#ajax'] = [
       'callback' => 'update_service_type_handler',
@@ -110,8 +109,9 @@ function cancel_service_type_update(array &$form, FormStateInterface $form_state
   $response = new AjaxResponse();
   $form_state->clearErrors();
   \Drupal::messenger()->deleteAll();
-  $current_path = \Drupal::service('path.current')->getPath();
-  $response->addCommand(new RedirectCommand(\Drupal::request()->query->get('destination')));
+  $url = Url::fromRoute('view.manage_service_types.page_1');
+  $response = new RedirectResponse($url->toString());
+  $response->send();
   return $response;
 }
 
@@ -121,16 +121,7 @@ function cancel_service_type_update(array &$form, FormStateInterface $form_state
 function update_service_type_handler(array &$form, FormStateInterface $form_state) {
   $response = new AjaxResponse();
   $update_service_type = \Drupal::formBuilder()->getForm('Drupal\erpw_custom\Form\ServiceTypeUpdate');
-  if ($form_state->hasAnyErrors()) {
-    $errors = $form_state->getErrors();
-    $command_content = $errors['title'];
-    $response->addCommand(new InvokeCommand(
-        '#status-message', 'addClass', ['messages messages--error']));
-    $response->addCommand(new HtmlCommand('#status-message', $command_content));
-  }
-  else {
-    $response->addCommand(new OpenModalDialogCommand('', $update_service_type, ['width' => '400']));
-  }
+  $response->addCommand(new OpenModalDialogCommand('', $update_service_type, ['width' => '400']));
   return $response;
 }
 
@@ -152,20 +143,14 @@ function check_title_exists(&$form, &$form_state) {
       $form_state->setErrorByName('title', t('Service Type Already Exists. Please update the Name and Save it again.'));
     }
   }
-  if ($form_state->getValue('field_service_type_icon') == '') {
-    $form_state->setErrorByName('field_service_type_icon', t('Please select icon'));
-  }
-  if ($form_state->getValue('field_service_type_color') == '') {
-    $form_state->setErrorByName('field_service_type_color', t('Please select color'));
-  }
-
 }
 
 /**
  * {@inheritdoc}
  */
 function service_type_handler(array &$form, FormStateInterface $form_state) {
-  $response = new RedirectResponse('/');
+  $url = Url::fromRoute('view.manage_service_types.page_1');
+  $response = new RedirectResponse($url->toString());
   $response->send();
   return $response;
 }

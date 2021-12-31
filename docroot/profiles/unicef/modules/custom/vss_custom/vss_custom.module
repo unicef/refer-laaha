@@ -76,6 +76,14 @@ function vss_custom_theme() {
       ],
       'render element' => 'children',
     ],
+    'discover_block' => [
+      'variables' => [
+        'content' => NULL,
+        'lang_code' => '',
+        'content_node' => NULL,
+      ],
+      'render element' => 'children',
+    ],
     'hero_banner_block' => [
       'variables' => [
         'content' => [],
