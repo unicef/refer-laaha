@@ -192,7 +192,7 @@ display:
           click_sort_column: value
           type: string
           settings:
-            link_to_entity: false
+            link_to_entity: true
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -220,9 +220,47 @@ display:
             operator_limit_selection: false
             operator_list: {  }
           group: 1
+        current_all:
+          id: current_all
+          table: node__field_domain_access
+          field: current_all
+          relationship: reverse__node__field_sub_category
+          group_type: group
+          admin_label: ''
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: domain_access_current_all_filter
         langcode:
           id: langcode
-          table: node_field_revision
+          table: node_field_data
           field: langcode
           relationship: reverse__node__field_sub_category
           group_type: group
@@ -262,10 +300,10 @@ display:
           entity_type: node
           entity_field: langcode
           plugin_id: language
-        current_all:
-          id: current_all
-          table: node__field_domain_access
-          field: current_all
+        status_1:
+          id: status_1
+          table: node_field_data
+          field: status
           relationship: reverse__node__field_sub_category
           group_type: group
           admin_label: ''
@@ -299,8 +337,22 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          plugin_id: domain_access_current_all_filter
-      sorts: {  }
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
+      sorts:
+        random:
+          id: random
+          table: views
+          field: random
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: Random
+          plugin_id: random
       title: 'Sub Category All Result'
       header:
         result:
@@ -384,7 +436,7 @@ display:
       display_extenders: {  }
       use_ajax: true
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -402,7 +454,7 @@ display:
     display_options:
       display_extenders: {  }
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
