@@ -12,6 +12,18 @@
         return $(this).css('color', '#444');
         }
       });
+      $(".form-submit").click(function() {
+        $("input").each(function() {
+          if ($(this).val() == "") {
+            $(this).css("border", "2px solid red");
+          }
+        });
+        $(".form-select").change(function() {
+          if ($(this).children("option:selected").val() == 0) {
+            $(this).css("border", "2px solid green");
+          }
+        })
+      });
     }
   };
 }(jQuery, Drupal, drupalSettings));
