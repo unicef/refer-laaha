@@ -32,11 +32,11 @@
       if ($(window).width() > 1024) {
         $(".category-item").on({
           mouseenter: function () {
-            $(this).find(".category-thumbnail").addClass("hidden");
+            $(this).find(".category-thumbnail").css({"opacity": 0, "visibility": "hidden"});
             $(this).find(".hover-show").removeClass('hidden');
           },
           mouseleave: function () {
-              $(this).find(".category-thumbnail").removeClass('hidden');
+              $(this).find(".category-thumbnail").css({"opacity": 1, "visibility": "visible"});
               $(this).find(".hover-show").addClass('hidden');
           }
         });
