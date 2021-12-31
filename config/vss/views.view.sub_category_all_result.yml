@@ -453,10 +453,10 @@ display:
     position: 1
     display_options:
       display_extenders: {  }
+      rendering_language: '***LANGUAGE_language_interface***'
     cache_metadata:
       max-age: 0
       contexts:
-        - 'languages:language_content'
         - 'languages:language_interface'
         - url
         - url.query_args
