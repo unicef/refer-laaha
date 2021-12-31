@@ -59,22 +59,24 @@ class SubCategoryHeroBlock extends BlockBase implements ContainerFactoryPluginIn
           $term = $term->getTranslation($langcode);
         }
         $nid = $term->get('field_hero_content')->target_id;
-        $node = $this->entityTypeManager->getStorage('node')->load($nid);
-        $hero = [];
-        if ($node) {
-          if ($node->hasTranslation($langcode)) {
-            $node = $node->getTranslation($langcode);
+        if ($nid) {
+          $node = $this->entityTypeManager->getStorage('node')->load($nid);
+          $hero = [];
+          if ($node) {
+            if ($node->hasTranslation($langcode)) {
+              $node = $node->getTranslation($langcode);
+            }
+            $title = $node->title->value;
+            $hero['title'] = $title;
+            $thumbnail = $node->field_thumbnail_image->entity->getFileUri();
+            $hero['thumbnail'] = $thumbnail;
+            $hero['url'] = ltrim($this->aliaspath->getAliasByPath('/node/' . $nid), '/');
+            $hero['type'] = $node->title->value;
           }
-          $title = $node->title->value;
-          $hero['title'] = $title;
-          $thumbnail = $node->field_thumbnail_image->entity->getFileUri();
-          $hero['thumbnail'] = $thumbnail;
-          $hero['url'] = ltrim($this->aliaspath->getAliasByPath('/node/' . $nid), '/');
-          $hero['type'] = $node->title->value;
+          $build['#theme'] = 'subcategory_hero_block';
+          $build['#content'] = $hero;
+          $build['#lang_code'] = $langcode;
         }
-        $build['#theme'] = 'subcategory_hero_block';
-        $build['#content'] = $hero;
-        $build['#lang_code'] = $langcode;
       }
     }
 
