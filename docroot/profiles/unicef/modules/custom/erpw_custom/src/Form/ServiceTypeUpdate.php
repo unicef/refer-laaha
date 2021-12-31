@@ -4,12 +4,7 @@ namespace Drupal\erpw_custom\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\RedirectCommand;
-use Drupal\Core\Ajax\OpenModalDialogCommand;
-use Drupal\Core\Ajax\CloseModalDialogCommand;
 use Drupal\Core\Url;
-use Drupal\Core\Link;
 
 /**
  * ModalForm class.
@@ -42,10 +37,10 @@ class ServiceTypeUpdate extends FormBase {
     $url = Url::fromRoute('erpw_custom.updated_service_type')->toString();
     $external_link = t("<a href='$url' class='use-ajax button bg-green' data-dialog-type='modal' data-dialog-options='{&quot;width&quot;:400}'>PROCEED</a>");
     $form['proceed'] = [
-        '#type' => 'markup',
-        '#prefix' => '<div class="email-notify">',
-        '#markup' => $external_link,
-        '#suffix' => '</div>',
+      '#type' => 'markup',
+      '#prefix' => '<div class="email-notify">',
+      '#markup' => $external_link,
+      '#suffix' => '</div>',
     ];
     $form['actions']['cancel'] = [
       '#type' => 'submit',
@@ -74,4 +69,5 @@ class ServiceTypeUpdate extends FormBase {
     $response->send();
     return $response;
   }
+
 }
