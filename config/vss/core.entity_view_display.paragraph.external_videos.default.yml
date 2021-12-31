@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.external_videos.field_external_video
+    - field.field.paragraph.external_videos.field_video_time
     - field.field.paragraph.external_videos.field_vtt_entries
     - paragraphs.paragraphs_type.external_videos
   module:
@@ -24,5 +25,14 @@ content:
     third_party_settings: {  }
     type: video_embed_field_video
     region: content
+  field_video_time:
+    weight: 1
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
 hidden:
   field_vtt_entries: true
+  search_api_excerpt: true

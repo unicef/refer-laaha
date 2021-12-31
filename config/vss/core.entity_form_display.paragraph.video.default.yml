@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.field.paragraph.video.field_show_transcription
     - field.field.paragraph.video.field_video_file
+    - field.field.paragraph.video.field_video_poster_image
+    - field.field.paragraph.video.field_video_time
     - field.field.paragraph.video.field_vtt_entries
     - paragraphs.paragraphs_type.video
   module:
@@ -16,7 +18,7 @@ bundle: video
 mode: default
 content:
   field_show_transcription:
-    weight: 11
+    weight: 4
     settings:
       display_label: true
     third_party_settings: {  }
@@ -29,9 +31,17 @@ content:
     third_party_settings: {  }
     type: file_generic
     region: content
+  field_video_time:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_vtt_entries:
     type: entity_reference_paragraphs
-    weight: 2
+    weight: 1
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -42,10 +52,11 @@ content:
     third_party_settings: {  }
     region: content
   translation:
-    weight: 10
+    weight: 3
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   created: true
+  field_video_poster_image: true
   status: true
