@@ -61,7 +61,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['submit']['#value'] = t('UPDATE');
     $form['title']['widget'][0]['value']['#title'] = t('Name of Service Type');
     $form['title']['widget'][0]['value']['#placeholder'] = t('Enter Service Type E.g Health Care ');
-    $form['#validate'][] = 'update_check_title_exists';
     $form['actions']['submit']['#attributes']['class'][] = 'use-ajax ok-btn';
     $form['#title'] = t('Update Service Type');
     $form['actions']['delete']['#access'] = FALSE;
@@ -113,26 +112,10 @@ function cancel_service_type_update(array &$form, FormStateInterface $form_state
   $response = new AjaxResponse();
   $form_state->clearErrors();
   \Drupal::messenger()->deleteAll();
-  $response->addCommand(new RedirectCommand(\Drupal::request()->query->get('destination')));
+  $url = Url::fromRoute('view.manage_service_types.page_1');
+  $response = new RedirectResponse($url->toString());
+  $response->send();
   return $response;
-}
-
-/**
- * Checks if there is a duplicate Title in the database.
- */
-function update_check_title_exists(&$form, &$form_state) {
-  $title_compared = '';
-  $db = \Drupal::database();
-  $results = $db->select('node_field_data', 'n')
-    ->fields('n', ['title'])
-    ->condition('n.type', 'service_type')
-    ->execute();
-  foreach ($results as $record) {
-    $title_compared = substr($record->title);
-    if ($title_compared === $form_state->getValue('title')[0]['value']) {
-      $form_state->setErrorByName('title', t('Service Type Already Exists. Please update the Name and Save it again.'));
-    }
-  }
 }
 
 /**
@@ -140,18 +123,8 @@ function update_check_title_exists(&$form, &$form_state) {
  */
 function update_service_type_handler(array &$form, FormStateInterface $form_state) {
   $response = new AjaxResponse();
-  // if ($form_state->hasAnyErrors()) {
-  //   $errors = $form_state->getErrors();
-  //   $command_content = $errors['title'];
-  //   $response->addCommand(new InvokeCommand(
-  //       '#status-message', 'addClass', ['messages messages--error']));
-  //   $response->addCommand(new HtmlCommand('#status-message', $errors));
-  // }
-  // else {
-    $update_service_type = \Drupal::formBuilder()->getForm('Drupal\erpw_custom\Form\ServiceTypeUpdate');
-   
-    $response->addCommand(new OpenModalDialogCommand('', $update_service_type, ['width' => '400']));
-  // }
+  $update_service_type = \Drupal::formBuilder()->getForm('Drupal\erpw_custom\Form\ServiceTypeUpdate');
+  $response->addCommand(new OpenModalDialogCommand('', $update_service_type, ['width' => '400']));
   return $response;
 }
 
@@ -173,13 +146,6 @@ function check_title_exists(&$form, &$form_state) {
       $form_state->setErrorByName('title', t('Service Type Already Exists. Please update the Name and Save it again.'));
     }
   }
-  if ($form_state->getValue('field_service_type_icon') == '') {
-    $form_state->setErrorByName('field_service_type_icon', t('Please select icon'));
-  }
-  if ($form_state->getValue('field_service_type_color') == '') {
-    $form_state->setErrorByName('field_service_type_color', t('Please select color'));
-  }
-
 }
 
 /**
