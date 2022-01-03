@@ -163,3 +163,16 @@ gulp.task('watch', function () {
   gulp.watch(['theme-resources/' + 'js/**/*'], gulp.series(['js']));
 
 });
+
+var fontIcon = require("gulp-font-icon");
+
+gulp.task("fontIcon", function() {
+	return gulp.src(["assets/icons/*.svg"])
+		.pipe(fontIcon({
+			fontName: "unicefFonts",
+			fontAlias: "uf",
+      normalize:true,
+      fontHeight: 1001
+		}))
+		.pipe(gulp.dest("assets/res/icons/"));
+});
