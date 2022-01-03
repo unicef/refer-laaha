@@ -1,0 +1,7 @@
+erpw_location.manage_location:
+  path: '/manage-location'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\ManageLocationForm'
+    _title: 'Manage Locations'
+  requirements:
+    _permission: 'access content'

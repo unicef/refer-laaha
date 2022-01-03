@@ -650,8 +650,37 @@ function vss_custom_preprocess_menu(&$variables) {
  * Implements views query alter.
  */
 function vss_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
-  if ($view->id() == 'top_viewed_nodes') {
+  if ($view->id() == 'top_viewed_nodes' || $view->id() == 'most_viewed_content_report') {
     $query->addOrderBy(NULL, NULL, 'DESC', 'nodeviewcount_uip');
+  }
+  if ($view->id() == 'most_viewed_content_report') {
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+        if ($condition['field'] == 'nodeviewcount.datetime = ***CURRENT_TIME***+0') {
+          if ($view->exposed_raw_input['datetime'] == 'cur_week') {
+            $timestamp = strtotime('monday this week');
+          }
+          elseif ($view->exposed_raw_input['datetime'] == 'cur_mon') {
+            $timestamp = strtotime(date('Y-m-01'));
+          }
+          else {
+            $timestamp = strtotime('first day of January');
+          }
+          $condition = [
+            'field' => 'nodeviewcount.datetime',
+            'value' => $timestamp,
+            'operator' => '>=',
+          ];
+        }
+        else {
+          $condition = [
+            'field' => 'nodeviewcount.datetime',
+            'value' => strtotime('today midnight'),
+            'operator' => '>=',
+          ];
+        }
+      }
+    }
   }
 }
 
@@ -663,5 +692,20 @@ function vss_custom_entity_operation_alter(array &$operations, EntityInterface $
     if (!empty($operations['translate']['url'])) {
       $operations['quick_clone']['url']->setOptions($operations['translate']['url']->getOptions());
     }
+  }
+}
+
+/**
+ * Implements entity_operation_alter.
+ */
+function vss_custom_form_views_exposed_form_alter(&$form, &$form_state) {
+  if ($form['#id'] == 'views-exposed-form-most-viewed-content-report-page-1') {
+    $form['datetime']['#type'] = 'select';
+    $form['datetime']['#options'] = [
+      '' => t('Today'),
+      'cur_week' => t('This Week'),
+      'cur_mon' => t('This Month'),
+      'cur_yr' => t('This Year'),
+    ];
   }
 }

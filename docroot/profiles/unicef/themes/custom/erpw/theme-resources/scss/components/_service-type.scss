@@ -1,4 +1,5 @@
-.node-service-type-form {
+.node-service-type-form,
+.node-service-type-quick-node-clone-form {
 	label {
 		vertical-align: top;
 		margin-top: -15px;
@@ -155,5 +156,86 @@
 			z-index: 0;
 			font-size: 0;
 		}
+	}
+}
+
+//service type listing page
+.new-service-type::before {
+  background: url('../images/plus.svg') center center no-repeat $base-secondary-bgcolor;
+}
+.service-list {
+	.view-header {
+		margin-bottom: 20px;
+	}
+	.title-view {
+		border-top: 2px solid rgba(243, 193, 191, 0.53);
+		color: $grey-txt-color;
+		font-size: 16px;
+		font-weight: 400;
+		margin-top: 15px;
+		padding-top: 15px;
+	}
+	.views-row {
+		box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
+		border-radius: 10px;
+		margin-bottom: 10px;
+		padding: 8px 0;
+		position: relative;
+	}
+	.views-field-field-service-type-icon {
+		position: absolute;
+		top: 20px;
+    left: 22px;
+	}
+	.views-field-field-service-type-color {
+		display: inline-block;
+		padding: 0 10px;
+		vertical-align: middle;
+	}
+	.service-title {
+		display: inline-block;
+		vertical-align: top;
+    margin-top: 10px;
+		a {
+			color: $grey-txt-color;
+			font-size: 15px;
+			font-weight: 500;
+		}
+	}
+	.service-count {
+		color: $grey-txt-color;
+		margin-top: -18px;
+		font-size: 16px;
+		font-weight: 400;
+	}
+	.views-field-nothing {
+		border-top: 1px solid rgb(215 215 215 / 50%);
+		margin-top: 5px;
+	}
+	.edit-delete-links {
+		display: flex;
+		justify-content: flex-end;
+		margin: 0 10px;
+		a {
+			display: inline-flex;
+			font-size: 0;
+			height: 20px;
+			margin-left: 30px;
+			vertical-align: super;
+			width: 20px;
+		}
+	}
+	.clone-service-type a {
+		background: url('../images/clone.svg') center center no-repeat;
+	}
+	.edit-link a {
+		background: url('../images/edit.svg') center center no-repeat;
+	}
+	.delete-link a {
+		background: url('../images/delete-button.svg') center center no-repeat;
+	}
+	div.color_field__swatch label:hover span,
+	div.color_field__swatch input[type=radio]:checked + label span {
+			transform: inherit;
 	}
 }
