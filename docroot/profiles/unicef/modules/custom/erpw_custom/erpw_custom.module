@@ -54,24 +54,25 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['moderation_state']['#access'] = FALSE;
     $form['options']['#access'] = FALSE;
     $form['author']['#access'] = FALSE;
-    $form['actions']['preview']['#value'] = t('CANCEL');
+    $form['actions']['preview']['#access'] = FALSE;
     $form['actions']['submit']['#value'] = t('UPDATE');
     $form['title']['widget'][0]['value']['#title'] = t('Name of Service Type');
     $form['title']['widget'][0]['value']['#placeholder'] = t('Enter Service Type E.g Health Care ');
     $form['actions']['submit']['#attributes']['class'][] = 'use-ajax ok-btn';
     $form['#title'] = t('Update Service Type');
     $form['actions']['delete']['#access'] = FALSE;
+    $form['actions']['submit']['#cancel'][] = 'cancelhandler';
     $form['actions']['submit']['#ajax'] = [
       'callback' => 'update_service_type_handler',
       'event' => 'click',
       'wrapper' => 'service_update_form',
     ];
-
-    $form['actions']['preview']['#ajax'] = [
-      'callback' => 'cancel_service_type_update',
-      'event' => 'click',
-      'wrapper' => 'cancel_back_form',
+    $form['actions']['cancel'] = [
+      '#type' => 'submit',
+      '#value' => t('CANCEL'),
     ];
+    $form['actions']['submit']['#weight'] = 5;
+    $form['actions']['cancel']['#weight'] = 10;
   }
 
   if ($form_id == 'node_service_type_quick_node_clone_form') {
@@ -90,6 +91,35 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#validate'][] = 'check_title_exists';
     $form['#title'] = t('Add Service Type');
   }
+  
+  if ($form_id == 'node_service_type_delete_form') {
+    $url = Url::fromRoute('view.manage_service_types.page_1');
+    $form['#title'] = t('Deleted successfuly <br>The details has been successfully Deleted.');
+    $form['description']['#access'] = FALSE;
+    $form['actions']['submit']['#submit'][] = 'deletecontent';
+    $form['actions']['cancel']['#url'] = $url;
+    // kint($form);exit;
+  }
+}
+
+/**
+ * {@inheritdoc}
+ */
+function deletecontent(array &$form, FormStateInterface $form_state) {
+  $url = Url::fromRoute('view.manage_service_types.page_1');
+  $response = new RedirectResponse($url->toString());
+  $response->send();
+  return $response;
+}
+
+/**
+ * {@inheritdoc}
+ */
+function cancelhandler(array &$form, FormStateInterface $form_state) {
+  $url = Url::fromRoute('view.manage_service_types.page_1');
+  $response = new RedirectResponse($url->toString());
+  $response->send();
+  return $response;
 }
 
 /**
@@ -105,22 +135,9 @@ function clone_service_type_handler(array &$form, FormStateInterface $form_state
 /**
  * {@inheritdoc}
  */
-function cancel_service_type_update(array &$form, FormStateInterface $form_state) {
-  $response = new AjaxResponse();
-  $form_state->clearErrors();
-  \Drupal::messenger()->deleteAll();
-  $url = Url::fromRoute('view.manage_service_types.page_1');
-  $response = new RedirectResponse($url->toString());
-  $response->send();
-  return $response;
-}
-
-/**
- * {@inheritdoc}
- */
 function update_service_type_handler(array &$form, FormStateInterface $form_state) {
   $response = new AjaxResponse();
-  $update_service_type = \Drupal::formBuilder()->getForm('Drupal\erpw_custom\Form\ServiceTypeUpdate');
+  $update_service_type = \Drupal::formBuilder()->getForm('Drupal\erpw_custom\Form\UpdatedServiceType');
   $response->addCommand(new OpenModalDialogCommand('', $update_service_type, ['width' => '400']));
   return $response;
 }
@@ -191,3 +208,4 @@ function erpw_custom_user_logout() {
   $response->send();
   return $response;
 }
+
