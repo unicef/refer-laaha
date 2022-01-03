@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.scorm.field_content
     - field.field.node.scorm.field_domain_access
     - field.field.node.scorm.field_domain_all_affiliates
+    - field.field.node.scorm.field_read_time
     - field.field.node.scorm.field_sub_category
     - field.field.node.scorm.field_tags
     - field.field.node.scorm.field_thumbnail_image
@@ -49,6 +50,14 @@ content:
       display_label: true
     weight: 9
     third_party_settings: {  }
+    region: content
+  field_read_time:
+    weight: 26
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_sub_category:
     weight: 15
