@@ -3,7 +3,9 @@
   font-size: 14px;
 	text-decoration: underline;
 }
- 
+a {
+	text-decoration: none;
+}
 p {
 	color: $grey-txt-color;
 	font-size: $base-font-size;
@@ -37,7 +39,9 @@ p {
 	left: 23px;
 	width: 16px;
 }
-
+.toolbar-icon-9 .back-arrow {
+	top: 62px;
+}
 form input[type=submit] {
 	&.button-border {
 		background: none;
@@ -59,11 +63,16 @@ form input[type=submit] {
 .button-with-icon {
 	background-color: $base-secondary-bgcolor;
 	border-radius: 20px;
-	padding: 5px 0 5px 57px;
+	font-size: 12px;
+	line-height: 14px;
+	padding: 5px 15px 5px 57px;
 	position: relative;
 	color: $base-white-color;
 	margin: 20px 0;
 	display: inline-block;
+	&.new-service-type {
+		padding-left: 0;
+	}
 	&::before {
 		content: '*';
 		border-radius: 50%;
@@ -73,10 +82,25 @@ form input[type=submit] {
     left: 0;
     top: -15px;
 	}
+	a {
+    color: $base-white-color;
+    font-size: 12px;
+		padding-left: 60px;
+		position: relative;
+		z-index: 1;
+  }
 }
 .color-select::before {
 	background: url('../images/color-picker.svg') center center no-repeat $base-secondary-bgcolor;
 }
 .icon-select::before {
 	background: url('../images/icon-picker.svg') center center no-repeat $base-secondary-bgcolor;
+}
+
+//pager
+.pager__items {
+	li	,
+	span {
+		color: $base-secondary-bgcolor;
+	}
 }
