@@ -200,9 +200,9 @@ class ManageLocationForm extends FormBase {
       $j = $k;
       $l = $k;
       $langcode = $csv_langcodes[$k];
-      for ($i = 1; $i <= 4; $i++) {
+      for ($i = 1; $i <= $langcode_count; $i++) {
         $hierarchy_level['level_' . $i] = $csvData[0][$j];
-        $j += 4;
+        $j += $langcode_count;
       }
       $location_hierarchy = array_merge(
         [
@@ -220,9 +220,9 @@ class ManageLocationForm extends FormBase {
         // If the given translation exists, update the translation.
         if ($location_entity->hasTranslation($langcode)) {
           $location_entity = $location_entity->getTranslation($langcode);
-          for ($i = 1; $i <= 4; $i++) {
+          for ($i = 1; $i <= $langcode_count; $i++) {
             $location_entity->set('level_' . $i, $csvData[0][$l]);
-            $l += 4;
+            $l += $langcode_count;
           }
           $location_entity->save();
         }
@@ -315,7 +315,7 @@ class ManageLocationForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  protected function arrayCsvDownload($array, $filename = "export.csv", $delimiter = ",") {
+  protected function arrayCsvDownload($array, $filename = "eRPW Location.csv", $delimiter = ",") {
 
     header('Content-Type: application/csv');
     header('Content-Disposition: attachment; filename="' . $filename . '";');
