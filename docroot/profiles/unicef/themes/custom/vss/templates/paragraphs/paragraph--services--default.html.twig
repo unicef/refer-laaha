@@ -42,6 +42,7 @@
   set classes = [
     'paragraph',
     'service-item',
+    'text-center',
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished'
@@ -63,9 +64,9 @@
         <div class="service-image">
           {{ content.field_media.0['#markup']|render|raw }}
         </div>
-        <div class="service-block-title">
+        <h4 class="service-block-title">
         {{ content.field_service_title|render|striptags|length|raw > 163 ? content.field_service_title|render|striptags|slice(0, 163)|raw : content.field_service_title|render|striptags|raw }}
-        </div>
+        </h4>
         <div class="service-desc">
         {{ content.field_service_description|render|striptags|length|raw > 513 ? content.field_service_description|render|striptags|slice(0, 513)|raw : content.field_service_description|render|striptags|raw }}
         </div>
@@ -75,5 +76,3 @@
     </div>
   {% endblock %}
 {% endblock paragraph %}
-
-
