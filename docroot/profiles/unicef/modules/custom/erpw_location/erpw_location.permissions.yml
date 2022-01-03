@@ -1,0 +1,33 @@
+add location entity entities:
+  title: 'Create new Location Entity entities'
+
+administer location entity entities:
+  title: 'Administer Location Entity entities'
+  description: 'Allow to access the administration form to configure Location Entity entities.'
+  restrict access: true
+
+delete location entity entities:
+  title: 'Delete Location Entity entities'
+
+edit location entity entities:
+  title: 'Edit Location Entity entities'
+
+view published location entity entities:
+  title: 'View published Location Entity entities'
+
+view unpublished location entity entities:
+  title: 'View unpublished Location Entity entities'
+
+view all location entity revisions:
+  title: 'View all Location Entity revisions'
+
+revert all location entity revisions:
+  title: 'Revert all Location Entity revisions'
+  description: 'Role requires permission <em>view Location Entity revisions</em> and <em>edit rights</em> for location entity entities in question or <em>administer location entity entities</em>.'
+
+delete all location entity revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Location Entity revisions</em> and <em>delete rights</em> for location entity entities in question or <em>administer location entity entities</em>.'
+
+permission_callbacks:
+  - \Drupal\erpw_location\LocationEntityPermissions::generatePermissions

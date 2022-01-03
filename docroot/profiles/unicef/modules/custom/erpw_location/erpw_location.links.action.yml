@@ -1,0 +1,10 @@
+entity.location.add_form:
+  route_name: entity.location.add_page
+  title: 'Add Location Entity'
+  appears_on:
+    - entity.location.collection
+entity.location_type.add_form:
+  route_name: entity.location_type.add_form
+  title: 'Add Location Entity type'
+  appears_on:
+    - entity.location_type.collection
