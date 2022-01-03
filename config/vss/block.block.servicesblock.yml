@@ -2,17 +2,14 @@ uuid: 7a36932f-efa1-40c6-889b-215cfafc78dc
 langcode: en
 status: true
 dependencies:
-  content:
-    - 'block_content:services_block:513be6ed-d147-4c50-8133-1aa43462cbf6'
   module:
-    - block_content
     - system
   theme:
     - vss
 id: servicesblock
 theme: vss
 region: content
-weight: -6
+weight: -8
 provider: null
 plugin: 'block_content:513be6ed-d147-4c50-8133-1aa43462cbf6'
 settings:
