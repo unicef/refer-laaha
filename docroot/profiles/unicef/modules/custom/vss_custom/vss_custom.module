@@ -76,6 +76,14 @@ function vss_custom_theme() {
       ],
       'render element' => 'children',
     ],
+    'discover_block' => [
+      'variables' => [
+        'content' => NULL,
+        'lang_code' => '',
+        'content_node' => NULL,
+      ],
+      'render element' => 'children',
+    ],
     'hero_banner_block' => [
       'variables' => [
         'content' => [],
@@ -99,6 +107,13 @@ function vss_custom_theme() {
       'render element' => 'children',
     ],
     'categories_popup_block' => [
+      'variables' => [
+        'content' => [],
+        'lang_code' => '',
+      ],
+      'render element' => 'children',
+    ],
+    'subcategory_hero_block' => [
       'variables' => [
         'content' => [],
         'lang_code' => '',
@@ -439,12 +454,16 @@ function vss_custom_preprocess_block(&$variables) {
   if ($variables['elements']['#id'] == 'wordsfromexperts') {
     $variables['elements']['#cache']['max-age'] = 0;
     $variables['#cache']['max-age'] = 0;
+  }
+  if ($variables['elements']['#id'] == 'views_block__sub_category_all_result_block_1') {
+    $variables['elements']['#cache']['max-age'] = 0;
+    $variables['#cache']['max-age'] = 0;
     if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') {
       $term_id = \Drupal::routeMatch()->getRawParameter('taxonomy_term');
     }
     $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($term_id);
     $sub_category = $term->get('field_sub_category')->value;
-    if ($sub_category == 1) {
+    if (empty($sub_category)) {
       unset($variables['label']);
       unset($variables['content']);
     }

@@ -1,4 +1,4 @@
-uuid: b6e28f85-2f29-4161-b207-84c83950a495
+uuid: 7b31ea0b-f847-4189-a48b-e6267c6ca057
 langcode: en
 status: true
 dependencies:
@@ -7,15 +7,15 @@ dependencies:
     - vss_custom
   theme:
     - vss
-id: homepageherocategoriesblock
+id: discoverblock
 theme: vss
 region: content
-weight: -9
+weight: 0
 provider: null
-plugin: homepage_hero_categories_block
+plugin: discover_block
 settings:
-  id: homepage_hero_categories_block
-  label: 'Homepage Hero categories block'
+  id: discover_block
+  label: 'Discover Block'
   provider: vss_custom
   label_display: '0'
 visibility:

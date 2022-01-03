@@ -1,4 +1,4 @@
-uuid: 76f4bb64-322c-468f-928c-25b17b47b845
+uuid: ac66059e-cd9e-4eaa-a2aa-2889ec4c95d0
 langcode: en
 status: true
 dependencies:
@@ -7,15 +7,15 @@ dependencies:
     - vss_custom
   theme:
     - vss
-id: herobannerblock
+id: subcategoryheroblock
 theme: vss
 region: content
-weight: -11
+weight: -4
 provider: null
-plugin: hero_banner_block
+plugin: subcategory_hero_block
 settings:
-  id: hero_banner_block
-  label: 'Hero Banner block'
+  id: subcategory_hero_block
+  label: 'Sub Category Hero block'
   provider: vss_custom
   label_display: '0'
 visibility:

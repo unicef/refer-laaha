@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.external_videos.field_external_video
+    - field.field.paragraph.external_videos.field_video_time
     - field.field.paragraph.external_videos.field_vtt_entries
     - paragraphs.paragraphs_type.external_videos
   module:
@@ -19,6 +20,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: video_embed_field_textfield
+    region: content
+  field_video_time:
+    weight: 12
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_vtt_entries:
     weight: 11

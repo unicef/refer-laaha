@@ -6,6 +6,8 @@ dependencies:
     - core.entity_view_mode.paragraph.amp
     - field.field.paragraph.video.field_show_transcription
     - field.field.paragraph.video.field_video_file
+    - field.field.paragraph.video.field_video_poster_image
+    - field.field.paragraph.video.field_video_time
     - field.field.paragraph.video.field_vtt_entries
     - paragraphs.paragraphs_type.video
   module:
@@ -31,4 +33,7 @@ content:
     region: content
 hidden:
   field_show_transcription: true
+  field_video_poster_image: true
+  field_video_time: true
   field_vtt_entries: true
+  search_api_excerpt: true
