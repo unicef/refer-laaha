@@ -87,10 +87,10 @@ display:
           group_type: group
           admin_label: ''
           label: ''
-          exclude: true
+          exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<i class="{{ field_service_type_icon }} "></i>'
             make_link: false
             path: ''
             absolute: false
@@ -191,11 +191,11 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: color
-          type: color_field_formatter_swatch
+          type: color_field_formatter_swatch_options
           settings:
             shape: circle
-            width: '20'
-            height: '20'
+            width: '40'
+            height: '40'
             opacity: false
             data_attribute: false
           group_column: ''
@@ -217,7 +217,7 @@ display:
           group_type: group
           admin_label: ''
           label: ''
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -250,8 +250,8 @@ display:
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
+          element_wrapper_type: div
+          element_wrapper_class: service-title
           element_default_classes: true
           empty: ''
           hide_empty: false
@@ -495,7 +495,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-type\">\r\n      <i class=\"{{ field_service_type_icon }}\"></i>\r\n      <span class=\"service-type-name\">{{ title }}</span>\r\n</div>\r\n<div class=\"edit-delete-links\"> \r\n      <span class=\"clone-service-type\">{{ clone_link }}</span>\r\n      <span class=\"edit-link\">{{ edit_node_1 }}</span>\r\n      <a href=\"{{ delete_node_1 }}\" class=\"use-ajax delete-link\" data-dialog-type=\"modal\" data-dialog-options=\"{&quot;width&quot;:400}\">delete</a>\r\n</div>"
+            text: "\r\n    <div class=\"edit-delete-links\"> \r\n        <span class=\"clone-service-type\">{{ clone_link }}</span>\r\n        <span class=\"delete-link\"><a href=\"{{ delete_node_1 }}\" class=\"use-ajax delete-link\" data-dialog-type=\"modal\" data-dialog-options=\"{&quot;width&quot;:400}\">delete</a></span>\r\n<span class=\"edit-link\">{{ edit_node_1 }}</span>\r\n    </div>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -586,7 +586,7 @@ display:
           empty: false
           tokenize: false
           content:
-            value: "<div class=\"new-service-type button-with-icon\"><a href=\"/node/add/service_type\">Add a new Service type</a></div><hr>\r\n\r\n<div class=\"title-view\">Manage Existing service types</div>"
+            value: "<div class=\"new-service-type button-with-icon\"><a href=\"/node/add/service_type\">Add a new Service type</a></div>\r\n\r\n<div class=\"title-view\">Manage Existing service types</div>"
             format: full_html
           plugin_id: text
         result:
@@ -651,6 +651,7 @@ display:
           entity_field: uid
           plugin_id: numeric
       display_extenders: {  }
+      css_class: service-list
     cache_metadata:
       max-age: -1
       contexts:
