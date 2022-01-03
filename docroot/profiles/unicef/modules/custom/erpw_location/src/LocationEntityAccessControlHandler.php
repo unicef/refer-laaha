@@ -72,8 +72,11 @@ class LocationEntityAccessControlHandler extends EntityAccessControlHandler {
    * Test for given 'own' permission.
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
-   * @param $operation
+   *   Entity object.
+   * @param string $operation
+   *   String operation.
    * @param \Drupal\Core\Session\AccountInterface $account
+   *   Account object.
    *
    * @return string|null
    *   The permission string indicating it's allowed.

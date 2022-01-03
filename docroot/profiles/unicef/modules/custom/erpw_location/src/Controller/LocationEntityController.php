@@ -92,7 +92,10 @@ class LocationEntityController extends ControllerBase implements ContainerInject
     $langname = $location->language()->getName();
     $languages = $location->getTranslationLanguages();
     $has_translations = (count($languages) > 1);
-    $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', ['@langname' => $langname, '%title' => $location->label()]) : $this->t('Revisions for %title', ['%title' => $location->label()]);
+    $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', [
+      '@langname' => $langname,
+      '%title' => $location->label(),
+    ]) : $this->t('Revisions for %title', ['%title' => $location->label()]);
 
     $header = [$this->t('Revision'), $this->t('Operations')];
     $revert_permission = (($account->hasPermission("revert all location entity revisions") || $account->hasPermission('administer location entity entities')));

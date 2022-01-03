@@ -157,6 +157,8 @@ class ManageLocationForm extends FormBase {
    *
    * @param string $filepath
    *   The filepath.
+   * @param string $country_name
+   *   The country name.
    */
   protected function handleFileData($filepath, $country_name) {
     $country_name = explode("_", $country_name)[0];

@@ -91,8 +91,14 @@ class LocationEntityRevisionDeleteForm extends ConfirmFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->LocationEntityStorage->deleteRevision($this->revision->getRevisionId());
 
-    $this->logger('content')->notice('Location Entity: deleted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
-    $this->messenger()->addMessage(t('Revision from %revision-date of Location Entity %title has been deleted.', ['%revision-date' => \Drupal::service('date.formatter')->format($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
+    $this->logger('content')->notice('Location Entity: deleted %title revision %revision.', [
+      '%title' => $this->revision->label(),
+      '%revision' => $this->revision->getRevisionId(),
+    ]);
+    $this->messenger()->addMessage(t('Revision from %revision-date of Location Entity %title has been deleted.', [
+      '%revision-date' => \Drupal::service('date.formatter')->format($this->revision->getRevisionCreationTime()),
+      '%title' => $this->revision->label(),
+    ]));
     $form_state->setRedirect(
       'entity.location.canonical',
        ['location' => $this->revision->id()]
