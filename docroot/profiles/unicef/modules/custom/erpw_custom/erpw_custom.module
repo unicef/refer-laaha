@@ -91,7 +91,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#validate'][] = 'check_title_exists';
     $form['#title'] = t('Add Service Type');
   }
-  
+
   if ($form_id == 'node_service_type_delete_form') {
     $url = Url::fromRoute('view.manage_service_types.page_1');
     $form['#title'] = t('Deleted successfuly <br>The details has been successfully Deleted.');
@@ -208,4 +208,3 @@ function erpw_custom_user_logout() {
   $response->send();
   return $response;
 }
-
