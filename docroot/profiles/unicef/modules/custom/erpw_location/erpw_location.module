@@ -92,18 +92,6 @@ function erpw_location_entity_insert_record($data, $operation_details = NULL, &$
       return;
     }
   }
-  // If ($coorindates_flag) {
-  //   $healthcare_center = ClinicLocatorEntity::create([
-  //     'Lat' => $latitude,
-  //     'Lon' => $longitude,
-  //     'clinic_name' => $data[0],
-  //     'clinic_address' => $data[1],
-  //     'city' => $data[2],
-  //     'province' => $data[3],
-  //     'zip_code' => $data[4],
-  //   ]);
-  //   $healthcare_center->save();
-  // }
 }
 
 /**
