@@ -61,11 +61,12 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
         $node_url = $node_url->toString();
         $paragraph = $node->field_assets->getValue();
         $paragraph_obj = Paragraph::load($paragraph['1']['target_id']);
-        if (!empty($paragraph_obj)) {
+        $paragraph_type = NULL;
+        if ($paragraph_obj != NULL) {
           $paragraph_type = $paragraph_obj->get('type')->getValue()[0]['target_id'];
         }
         $video_time = 0;
-        if (!empty($paragraph_type) && ($paragraph_type == 'external_videos' || $paragraph_type == 'video')) {
+        if (($paragraph_type != NULL) && ($paragraph_type == 'external_videos' || $paragraph_type == 'video')) {
           $video_time = $paragraph_obj->get('field_video_time')->getValue()[0]['value'];
         }
         if ($node) {
@@ -79,6 +80,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
             'video_time' => $video_time,
           ];
         }
+
       }
 
       if ($term_obj) {

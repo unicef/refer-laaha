@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.scorm.field_content
     - field.field.node.scorm.field_domain_access
     - field.field.node.scorm.field_domain_all_affiliates
+    - field.field.node.scorm.field_read_time
     - field.field.node.scorm.field_sub_category
     - field.field.node.scorm.field_tags
     - field.field.node.scorm.field_thumbnail_image
@@ -19,15 +20,23 @@ bundle: scorm
 mode: teaser
 content:
   content_moderation_control:
-    weight: -20
+    weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
+  field_read_time:
+    type: string
+    weight: 2
     region: content
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
   links:
-    weight: 100
+    weight: 1
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   field_content: true
   field_domain_access: true
@@ -36,3 +45,4 @@ hidden:
   field_tags: true
   field_thumbnail_image: true
   langcode: true
+  search_api_excerpt: true
