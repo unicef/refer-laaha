@@ -119,7 +119,7 @@ class ImportLocationModalForm extends FormBase {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function openImportCsv(array &$form, FormStateInterface $form_state): AjaxResponse {
 
