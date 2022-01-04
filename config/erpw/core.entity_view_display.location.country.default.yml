@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - erpw_location.location_type.country
+    - field.field.location.country.field_location_taxonomy_term
   module:
     - user
 id: location.country.default
@@ -11,6 +12,14 @@ targetEntityType: location
 bundle: country
 mode: default
 content:
+  field_location_taxonomy_term:
+    weight: 6
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   level_1:
     label: above
     type: string
