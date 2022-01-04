@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\erpw_location\Entity\LocationEntity;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Class ManageLocationForm.
@@ -244,6 +245,24 @@ class ManageLocationForm extends FormBase {
         $location_entity->save();
       }
     }
+    // Create taxonomy with country name.
+    if (empty(taxonomy_term_load_multiple_by_name($country_name, 'country'))) {
+      $term = Term::create([
+        'name' => $country_name,
+        'vid' => 'country',
+      ]);
+      $term->save();
+      $country_term_id = $term->id();
+    }
+    else {
+      $term = taxonomy_term_load_multiple_by_name($country_name, 'country');
+      $term = reset($term);
+      $country_term_id = $term->id();
+    }
+    // Save term reference in the location entity.
+    $taxonomy_reference = ['target_id' => $country_term_id];
+    $location_entity->set('field_location_taxonomy_term', $taxonomy_reference);
+    $location_entity->save();
     return TRUE;
   }
 
@@ -252,6 +271,13 @@ class ManageLocationForm extends FormBase {
    */
   public function exportLocationCsv(array &$form, FormStateInterface $form_state) {
     $location_id = $form_state->getValue('location_options');
+    // Get Country Name.
+    if ($location_id) {
+      $country_name = $form['location_options']['#options'][$location_id];
+    }
+    else {
+      $country_name = 'Country Name';
+    }
     if (!$location_id) {
       $active_languages = \Drupal::languageManager()->getLanguages();
       $active_languages_list = array_keys($active_languages);
@@ -320,7 +346,7 @@ class ManageLocationForm extends FormBase {
   protected function arrayCsvDownload($array, $filename, $delimiter = ",") {
 
     header('Content-Type: application/csv');
-    header('Content-Disposition: attachment; filename="' . $filename . '".csv;');
+    header('Content-Disposition: attachment; filename="' . $filename . '.csv";');
 
     // Clean output buffer.
     ob_end_clean();
