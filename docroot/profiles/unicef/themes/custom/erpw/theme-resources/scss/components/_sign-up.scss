@@ -23,7 +23,7 @@
 	&::before {
 		content: '';
 		border: 1px solid $base-secondary-bgcolor;
-		border-radius: 50%;
+		@include border-radius(50%);
 		display: inline-block;
 		width: 40px;
 		height: 40px;
@@ -59,6 +59,11 @@
 	&.active::before {
 		background: url('../images/location-white.svg') center center no-repeat $base-secondary-bgcolor;;
 	}
+}
+.eye-close {
+	position: absolute;
+	right: 10px;
+	top: 38px;
 }
 .password-creation-page {
 	flex-basis: 0;

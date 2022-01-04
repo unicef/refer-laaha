@@ -46,7 +46,7 @@ form input[type=submit] {
 	&.button-border {
 		background: none;
 		border: 1px solid $base-secondary-bgcolor;
-		border-radius: 4px;
+		@include border-radius(4px);
 		color: $base-secondary-bgcolor;
 		display: inline-block;
 		font-size: 0.875em;
@@ -62,10 +62,10 @@ form input[type=submit] {
 
 .button-with-icon {
 	background-color: $base-secondary-bgcolor;
-	border-radius: 20px;
+	@include border-radius(20px);
 	font-size: 12px;
 	line-height: 14px;
-	padding: 5px 15px 5px 57px;
+	padding: 7px 15px 7px 57px;
 	position: relative;
 	color: $base-white-color;
 	margin: 20px 0;
@@ -75,7 +75,7 @@ form input[type=submit] {
 	}
 	&::before {
 		content: '*';
-		border-radius: 50%;
+		@include border-radius(50%);
     height: 57px;
     width: 57px;
     position: absolute;
@@ -103,4 +103,8 @@ form input[type=submit] {
 	span {
 		color: $base-secondary-bgcolor;
 	}
+}
+
+.layout-container {
+	margin: 0;
 }
