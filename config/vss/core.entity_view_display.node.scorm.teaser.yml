@@ -24,14 +24,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_read_time:
-    type: string
-    weight: 2
-    region: content
-    label: hidden
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
   links:
     weight: 1
     region: content
@@ -41,6 +33,7 @@ hidden:
   field_content: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_read_time: true
   field_sub_category: true
   field_tags: true
   field_thumbnail_image: true
