@@ -27,7 +27,7 @@ class Dashboard extends FormBase {
     $external_link = Link::fromTextAndUrl('Manage Location', $url)->toString();
     $form['manage_location'] = [
       '#type' => 'markup',
-      '#prefix' => '<div class="review-msg">',
+      '#prefix' => '<div class="dashboard-link location-link">',
       '#markup' => $external_link,
       '#suffix' => '</div>',
     ];
@@ -35,7 +35,7 @@ class Dashboard extends FormBase {
     $link = Link::fromTextAndUrl('Manage Services', $url)->toString();
     $form['manage_services'] = [
       '#type' => 'markup',
-      '#prefix' => '<div class="review-msg">',
+      '#prefix' => '<div class="dashboard-link service-link">',
       '#markup' => $link,
       '#suffix' => '</div>',
     ];
