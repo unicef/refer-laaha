@@ -75,13 +75,13 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
           $read_time = $node->field_read_time->getValue()['0']['value'];
           $content[$k]['read_time'] = $read_time;
         }
-        if($v->type == 'video'){
+        if ($v->type == 'video') {
           if (!$node->get('field_video_time')->isEmpty()) {
             $video_time = $node->field_video_time->getValue()['0']['value'];
             $content[$k]['video_time'] = $video_time;
           }
         }
-        
+
         $file = $this->entityTypeManager->getStorage('file')->load($thumbnail);
         if ($file) {
           $thumbnail_final = $file->getFileUri();
