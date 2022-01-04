@@ -97,8 +97,8 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#title'] = t('Deleted successfuly <br>The details has been successfully Deleted.');
     $form['description']['#access'] = FALSE;
     $form['actions']['submit']['#submit'][] = 'deletecontent';
-    $form['actions']['cancel']['#url'] = $url;
-    // kint($form);exit;
+    $form['actions']['cancel']['#access'] = FALSE;
+    $form['actions']['submit']['#value'] = t('BACK TO DASHBOARD');
   }
 }
 
