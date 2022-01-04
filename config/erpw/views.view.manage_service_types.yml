@@ -495,7 +495,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "\r\n    <div class=\"edit-delete-links\"> \r\n        <span class=\"clone-service-type\">{{ clone_link }}</span>\r\n        <span class=\"delete-link\"><a href=\"{{ delete_node_1 }}\" class=\"use-ajax delete-link\" data-dialog-type=\"modal\" data-dialog-options=\"{&quot;width&quot;:400}\">delete</a></span>\r\n<span class=\"edit-link\">{{ edit_node_1 }}</span>\r\n    </div>\r\n"
+            text: "    <div class=\"edit-delete-links\"> \r\n        <span class=\"clone-service-type\">{{ clone_link }}</span>\r\n        <span class=\"delete-link\"><a href=\"{{ delete_node_1 }}\" class=\"use-ajax delete-link\" data-dialog-type=\"modal\" data-dialog-options=\"{&quot;width&quot;:700, &quot;title&quot;:&quot;Deleted successfuly The details has been successfully Deleted. &quot;}\">delete</a></span>\r\n<span class=\"edit-link\">{{ edit_node_1 }}</span>\r\n    </div>\r\n"
             make_link: false
             path: ''
             absolute: false

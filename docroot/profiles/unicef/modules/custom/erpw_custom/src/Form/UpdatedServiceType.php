@@ -4,7 +4,6 @@ namespace Drupal\erpw_custom\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Url;
 
 /**
@@ -35,11 +34,13 @@ class UpdatedServiceType extends FormBase {
       '#markup' => $this->t('The details has been sucessfully updated.'),
       '#suffix' => '</div>',
     ];
-    $form['actions']['dashboard'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('BACK TO DASHBOARD'),
+    $url = Url::fromRoute('view.manage_service_types.page_1')->toString();
+    $external_link = t("<a href='$url' class='btn btn-primary ok-btn'>BACK TO DASHBOARD</a>");
+    $form['cancel'] = [
+      '#type' => 'markup',
+      '#markup' => $external_link,
     ];
-
+    $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     return $form;
   }
 
@@ -51,22 +52,6 @@ class UpdatedServiceType extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    $url = Url::fromRoute('view.manage_service_types.page_1');
-    $response = new RedirectResponse($url->toString());
-    $response->send();
-    return $response;
-  }
-
-  /**
-   * Gets the configuration names that will be editable.
-   *
-   * @return array
-   *   An array of configuration object names that are editable if called in
-   *   conjunction with the trait's config() method.
-   */
-  protected function getEditableConfigNames() {
-    return ['config.modal_form_example_modal_form'];
-  }
+  public function submitForm(array &$form, FormStateInterface $form_state) {}
 
 }
