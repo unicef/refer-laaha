@@ -271,7 +271,7 @@ class ManageLocationForm extends FormBase {
           $i++;
         }
       }
-      $this->arrayCsvDownload($csv_export);
+      $this->arrayCsvDownload($csv_export, $country_name);
     }
     else {
       $location = $this->entityManager->load($location_id);
@@ -309,7 +309,7 @@ class ManageLocationForm extends FormBase {
         $csv_export[1][$i] = $field_value;
         $i++;
       }
-      $this->arrayCsvDownload($csv_export);
+      $this->arrayCsvDownload($csv_export, $country_name);
     }
 
   }
@@ -317,10 +317,10 @@ class ManageLocationForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  protected function arrayCsvDownload($array, $filename = "eRPW Location.csv", $delimiter = ",") {
+  protected function arrayCsvDownload($array, $filename, $delimiter = ",") {
 
     header('Content-Type: application/csv');
-    header('Content-Disposition: attachment; filename="' . $filename . '";');
+    header('Content-Disposition: attachment; filename="' . $filename . '".csv;');
 
     // Clean output buffer.
     ob_end_clean();
