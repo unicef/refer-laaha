@@ -12,8 +12,8 @@
         return $(this).css('color', '#444');
         }
       });
-      $(".form-submit").click(function() {
-        $("input").each(function() {
+      $("form .form-submit").click(function() {
+        $("form input").each(function() {
           if ($(this).val() == "") {
             $(this).css("border", "2px solid red");
           }
