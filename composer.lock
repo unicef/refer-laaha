@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f147cc4b6eb08e7387fa21990fe8fa3",
+    "content-hash": "937984ada1c3177df73786c8ffdf5483",
     "packages": [
         {
             "name": "acquia/blt",
@@ -7047,6 +7047,54 @@
             "homepage": "https://www.drupal.org/project/site_audit",
             "support": {
                 "source": "https://git.drupalcode.org/project/site_audit"
+            }
+        },
+        {
+            "name": "drupal/taxonomy_term_depth",
+            "version": "2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/taxonomy_term_depth.git",
+                "reference": "8.x-2.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/taxonomy_term_depth-8.x-2.5.zip",
+                "reference": "8.x-2.5",
+                "shasum": "e695c4ab3b0c66f199450136900041ec8522719f"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-2.5",
+                    "datestamp": "1614604967",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Cadila",
+                    "homepage": "https://www.drupal.org/user/2669241"
+                },
+                {
+                    "name": "miteshmap",
+                    "homepage": "https://www.drupal.org/user/1404966"
+                }
+            ],
+            "description": "Provides field for storing taxonomy depth value and some wrappers integration with modules",
+            "homepage": "http://drupal.org/project/taxonomy_term_depth",
+            "support": {
+                "source": "https://git.drupalcode.org/project/taxonomy_term_depth"
             }
         },
         {
