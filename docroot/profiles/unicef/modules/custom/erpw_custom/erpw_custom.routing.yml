@@ -27,3 +27,11 @@ erpw_custom.update_service_type_form:
     _form: '\Drupal\erpw_custom\Form\ServiceTypeUpdate'
   requirements:
     _permission: 'access content'
+
+erpw_custom.dashboard:
+  path: '/dashboard'
+  defaults:
+    _form: '\Drupal\erpw_custom\Form\Dashboard'
+    _title: 'Dashboard'
+  requirements:
+    _permission: 'access content'
