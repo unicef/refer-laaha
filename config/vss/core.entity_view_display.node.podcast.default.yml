@@ -21,12 +21,12 @@ bundle: podcast
 mode: default
 content:
   content_moderation_control:
-    weight: -20
+    weight: 0
     region: content
     settings: {  }
     third_party_settings: {  }
   field_content:
-    weight: 0
+    weight: 1
     label: hidden
     settings:
       view_mode: default
@@ -34,16 +34,8 @@ content:
     third_party_settings: {  }
     type: layout_paragraphs
     region: content
-  field_read_time:
-    weight: 2
-    label: hidden
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
   field_tags:
-    weight: 1
+    weight: 2
     label: hidden
     settings:
       link: false
@@ -54,6 +46,7 @@ hidden:
   body: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_read_time: true
   field_sub_category: true
   field_thumbnail_image: true
   langcode: true
