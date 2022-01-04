@@ -1537,6 +1537,9 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
 html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-checkbox-2 {
   right: 28px; }
 
+.block-homepage-hero-categories-block {
+  margin-bottom: 48px; }
+
 .homepage-hero {
   background-color: #fef4f6;
   margin: 0 -20%; }
@@ -1550,22 +1553,22 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
 
 .homepare-cat-wrapper {
   background-color: #fef4f6;
-  margin: 0 -20%; }
+  margin: 0 -20%;
+  position: relative; }
 
 .homepage-category {
-  background: #fef4f6 url("../images/categorybg.png") no-repeat center;
-  background-size: 100%;
-  height: 35vw;
   margin: 0 14%;
   position: relative; }
   @media screen and (min-width: 1024px) {
     .homepage-category {
-      height: 29vw; } }
+      padding-top: 0; } }
   .homepage-category .spacer {
-    height: 100%; }
+    background: #fef4f6 url("../images/categorybg.png") no-repeat center;
+    background-size: 100%;
+    height: 35vw; }
     @media screen and (min-width: 1366px) {
       .homepage-category .spacer {
-        height: 0; } }
+        height: 29vw; } }
 
 .homepage-hero-section--categories {
   background-color: #ffcdd2;
@@ -1644,8 +1647,10 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
     .homepage-hero-section--categories {
       background: transparent;
       height: 100%;
+      left: 0;
       margin: 0;
       position: absolute;
+      top: 0;
       width: 100%; } }
 
 @media screen and (min-width: 1366px) {
@@ -1740,7 +1745,7 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   position: absolute;
   width: 37px;
   height: 37px;
-  bottom: -63px;
+  bottom: 70px;
   cursor: pointer;
   opacity: 0.8;
   -webkit-transition: opacity 0.2s linear;
@@ -1784,5 +1789,30 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
     outline: 0; }
     .block-views-exposed-filter-blocks-block input[name="search_api_fulltext"]:focus {
       border: 3px solid #ffcdd2; }
+
+.homepage-services {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  margin-top: 48px; }
+  .homepage-services .field--item {
+    padding: 20px; }
+  .homepage-services .service-image {
+    margin-bottom: 30px; }
+  .homepage-services .service-block-title,
+  .homepage-services .service-desc {
+    padding: 0 10px; }
+  .homepage-services a {
+    color: #000;
+    text-decoration: none; }
 
 /*# sourceMappingURL=style.css.map */
