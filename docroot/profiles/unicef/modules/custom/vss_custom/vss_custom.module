@@ -656,7 +656,7 @@ function vss_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $que
   if ($view->id() == 'most_viewed_content_report') {
     foreach ($query->where as &$condition_group) {
       foreach ($condition_group['conditions'] as &$condition) {
-        if ($condition['field'] == 'nodeviewcount.datetime = ***CURRENT_TIME***+0') {
+        if ($condition['field'] == 'nodeviewcount.datetime = 0') {
           if ($view->exposed_raw_input['datetime'] == 'cur_week') {
             $timestamp = strtotime('monday this week');
           }
@@ -673,11 +673,13 @@ function vss_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $que
           ];
         }
         else {
-          $condition = [
-            'field' => 'nodeviewcount.datetime',
-            'value' => strtotime('today midnight'),
-            'operator' => '>=',
-          ];
+          if ($view->exposed_raw_input['datetime'] == '') {
+            $condition = [
+              'field' => 'nodeviewcount.datetime',
+              'value' => strtotime('today midnight'),
+              'operator' => '>=',
+            ];
+          }
         }
       }
     }

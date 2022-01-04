@@ -4,11 +4,22 @@ status: true
 dependencies:
   config:
     - erpw_location.location_type.country
+    - field.field.location.country.field_location_taxonomy_term
 id: location.country.default
 targetEntityType: location
 bundle: country
 mode: default
 content:
+  field_location_taxonomy_term:
+    weight: 26
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
   langcode:
     type: language_select
     weight: 5
@@ -56,6 +67,11 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  translation:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
   user_id:
     type: entity_reference_autocomplete
     weight: 6

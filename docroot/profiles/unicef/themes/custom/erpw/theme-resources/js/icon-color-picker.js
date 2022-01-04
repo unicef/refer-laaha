@@ -3,7 +3,7 @@
     Drupal.behaviors.icon_color_picker = {
       attach: function (context, settings) {
         $(document).ready(function() { 
-          $('.field--name-field-service-type-icon .js-form-type-textfield').css('margin-top', 90);
+          $('.field--name-field-service-type-icon .js-form-type-textfield').css('margin-top', 120);
           $('.fip-box').click(function(){
           });
     
