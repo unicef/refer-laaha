@@ -1,5 +1,6 @@
 .node-service-type-form,
-.node-service-type-quick-node-clone-form {
+.node-service-type-quick-node-clone-form,
+.node-service-type-edit-form {
 	label {
 		vertical-align: top;
 		margin-top: -15px;
@@ -35,7 +36,7 @@
 		z-index: inherit;
 		.selector {
 			border: 0;
-			margin: 10px;
+			margin: 0 10px;
 			position: absolute;
 			top: -130px;
 			left: 0;
@@ -190,16 +191,17 @@
 	.views-field-field-service-type-color {
 		display: inline-block;
 		padding: 0 10px;
-		vertical-align: middle;
+		vertical-align: top;
 	}
 	.service-title {
 		display: inline-block;
-		vertical-align: top;
-    margin-top: 10px;
+		padding: 5px 0;
+		width: 80%;
 		a {
 			color: $grey-txt-color;
 			font-size: 15px;
 			font-weight: 500;
+			word-break: break-all;
 		}
 	}
 	.service-count {
