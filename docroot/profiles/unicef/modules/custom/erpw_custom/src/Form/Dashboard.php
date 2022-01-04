@@ -23,7 +23,8 @@ class Dashboard extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
-    $external_link = t("<a href='/manage-location'>Manage Location</a>");
+    $url = Url::fromRoute('erpw_location.manage_location');
+    $external_link = Link::fromTextAndUrl('Manage Location', $url)->toString();
     $form['manage_location'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="review-msg">',
