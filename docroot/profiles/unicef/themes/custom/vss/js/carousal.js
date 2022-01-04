@@ -3,6 +3,8 @@
   Drupal.behaviors.carousal = {
     attach: function (context, settings) {
       if ($(window).width() < 768 && $(".category-item").length > 2) {
+        var isRtl = jQuery("html[lang=ar]").length ? true : false;
+
         $('#carousel').lightSlider({
           item:4,
           loop:true,
@@ -10,6 +12,7 @@
           easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
           speed:600,
           pager: false,
+          rtl: isRtl,
           responsive : [
             {
               breakpoint:480,
