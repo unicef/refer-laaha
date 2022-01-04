@@ -8,7 +8,7 @@
 							{% for key,value in content|slice(0, 2) %}
 								<div class="col-sm-6 two-slice {{value.type}}">
                   {% if lang_code != 'en' %}
-										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'><img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/><span>{{ value.title }}</span>
+										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'><img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/><span>{{ value.title }} {% if value.read_time %}{{'['~ value.read_time ~']'}}{% endif %}</span>
 										{% if value.type == 'video' %}
                       <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
                     {% elseif value.type == 'podcast' %}
@@ -16,7 +16,7 @@
                     {% endif %} 
                     </a>
 									{% else %}
-										<a class={{value.type}} href="/{{value.url}}" target='_blank'><img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/><span>{{ value.title }}</span>
+										<a class={{value.type}} href="/{{value.url}}" target='_blank'><img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/><span>{{ value.title }} {% if value.read_time %}{{'['~ value.read_time ~']'}}{% endif %}</span>
 										{% if value.type == 'video' %}
                       <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
                     {% elseif value.type == 'podcast' %}
