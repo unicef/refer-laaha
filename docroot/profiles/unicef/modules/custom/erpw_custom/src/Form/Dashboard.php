@@ -23,7 +23,6 @@ class Dashboard extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
-    
     $external_link = t("<a href='/manage-location'>Manage Location</a>");
     $form['manage_location'] = [
       '#type' => 'markup',
