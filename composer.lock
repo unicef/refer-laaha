@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "42fcb0126bf8199d06aa250b068105d3",
+    "content-hash": "7f147cc4b6eb08e7387fa21990fe8fa3",
     "packages": [
         {
             "name": "acquia/blt",
@@ -3024,6 +3024,64 @@
                 "docs": "https://drupal-bootstrap.org",
                 "issues": "https://www.drupal.org/project/issues/bootstrap",
                 "irc": "irc://irc.freenode.org/drupal-bootstrap"
+            }
+        },
+        {
+            "name": "drupal/clientside_validation",
+            "version": "3.0.0-rc4",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/clientside_validation.git",
+                "reference": "3.0.0-rc4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/clientside_validation-3.0.0-rc4.zip",
+                "reference": "3.0.0-rc4",
+                "shasum": "646ea754f3331bd2f6d7d29f798d033176b0474a"
+            },
+            "require": {
+                "drupal/core": "^8.7.7 || ^9",
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "drupal/clientside_validation_demo": "*",
+                "drupal/clientside_validation_jquery": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "3.0.0-rc4",
+                    "datestamp": "1592755000",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "RC releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Jelle_S",
+                    "homepage": "https://www.drupal.org/user/829198"
+                },
+                {
+                    "name": "attiks",
+                    "homepage": "https://www.drupal.org/user/105002"
+                },
+                {
+                    "name": "nikunjkotecha",
+                    "homepage": "https://www.drupal.org/user/694082"
+                }
+            ],
+            "description": "This module adds clientside validation",
+            "homepage": "https://www.drupal.org/project/clientside_validation",
+            "support": {
+                "source": "https://git.drupalcode.org/project/clientside_validation",
+                "issues": "https://drupal.org/project/issues/clientside_validation"
             }
         },
         {
@@ -17450,6 +17508,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "drupal/clientside_validation": 5,
         "drupal/conditional_fields": 15,
         "drupal/default_content": 15,
         "drupal/default_content_extra": 10,
