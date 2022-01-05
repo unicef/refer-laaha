@@ -24,7 +24,7 @@ class Dashboard extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
     $url = Url::fromRoute('erpw_location.manage_location');
-    $external_link = Link::fromTextAndUrl('Manage Location', $url)->toString();
+    $external_link = Link::fromTextAndUrl('Manage locations', $url)->toString();
     $form['manage_location'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="dashboard-link location-link">',
@@ -32,7 +32,7 @@ class Dashboard extends FormBase {
       '#suffix' => '</div>',
     ];
     $url = Url::fromRoute('view.manage_service_types.page_1');
-    $link = Link::fromTextAndUrl('Manage Services', $url)->toString();
+    $link = Link::fromTextAndUrl('Manage service types', $url)->toString();
     $form['manage_services'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="dashboard-link service-link">',
