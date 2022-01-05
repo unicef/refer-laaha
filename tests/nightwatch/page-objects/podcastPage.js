@@ -111,13 +111,13 @@ module.exports = {
             .pause(1000)
             .click('@selectPodcastAudio')
             .pause(1000)
-            .setValue('@UploadAudio','/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/Data/media/horse.mp3')
+            .setValue('@UploadAudio','https://stage.ec.virtualsafespace.net/profiles/unicef/themes/custom/vss/nightwatch-media/horse.mp3')
             .pause(3000)
             .click('xpath','//select[@name="field_content[entity_form][1][field_vtt_entries][0][subform][field_language]"]/option[3]')
             .pause(1000)
             .click('@UploadVTT')
             .pause(1000)
-            .setValue('@UploadVTT','/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/Data/media/Example.vtt')
+            .setValue('@UploadVTT','https://stage.ec.virtualsafespace.net/profiles/unicef/themes/custom/vss/nightwatch-media/Example.vtt')
             .pause(3000)
             .click('@saveAudioButton')
             .pause(2000)
@@ -131,7 +131,7 @@ module.exports = {
           this.waitForElementPresent('@thumbnailClick')
           this.click('xpath','//div[@class="image-widget-data"]')            
           this.pause(3000)
-          .setValue('@imgupload', '/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/Data/media/image1.png')
+          .setValue('@imgupload', 'https://stage.ec.virtualsafespace.net/profiles/unicef/themes/custom/vss/nightwatch-media/image1.png')
           .pause(1000)
           return this;
             }
@@ -146,8 +146,8 @@ module.exports = {
                 return this
                    .click('@audioSubCategory')
                    .pause(1000)
-                   .waitForElementPresent('#edit-field-sub-category > option:nth-child(20)')
-                   .click('#edit-field-sub-category > option:nth-child(20)')
+                   .waitForElementPresent('#edit-field-sub-category > option:nth-child(2)')
+                   .click('#edit-field-sub-category > option:nth-child(2)')
                    .pause(2000)
             }
             catch (err) {

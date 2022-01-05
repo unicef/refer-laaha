@@ -48,3 +48,7 @@ Then(/^Verify Get In Touch nav menu$/, () => {
 Then(/^Verify Resource Library nav menu$/, () => {
   return header.Verify_ResourceLibrary_menu();
 });
+
+Then(/^Navigate to created Header Menu Items$/, () => {
+  return header.Delete_Created_Header_Menu_Item();
+});

@@ -75,6 +75,11 @@ ResourceLibrary: {
   '//*[contains(text(), "RESOURCE LIBRARY")]',
   locateStrategy: 'xpath',
 },
+editDelete: {
+  selector:
+  '//*[@class="button button--danger"]',
+  locateStrategy:'xpath'
+},
 
 
     
@@ -173,6 +178,26 @@ ResourceLibrary: {
               return this
               .assert.visible('@ResourceLibrary', 'Resource Library menu is displayed')
             },
+
+            Delete_Created_Header_Menu_Item: function(){
+              try {
+          
+                       this.assert.visible('@SiteNavMenu')
+                       this.click('@SiteNavMenu')
+                       this.pause(1000)
+                       this.click('xpath','//td/a[contains(text(), "Automation Link Added")]//ancestor::tr/td[4]/div/div/ul/li/a')
+                       client.execute('window.scrollTo(0,document.body.scrollHeight);');
+                       this.pause(1000)
+                       this.click('@editDelete')
+                       this.pause(1000)
+                       this.click('xpath','//input[@id="edit-submit"]')
+                       this.pause(1000)
+                       return this
+          }
+          catch (err) {
+              console.log('Error is : >>>>>>>>>   ', err)
+          }
+          },
 
     }]
 }

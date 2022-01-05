@@ -37,6 +37,10 @@ Then(/^Verify Article Language Dropdown$/, () => {
     return article.Verify_Artcile_Detail_Elements();
  });
 
+ Then(/^Add Article Read Time$/, () => {
+    return article.Article_Read_Time(json.ReadTime)
+ });
+
  Then(/^Verify Article Moderation State$/, () => {
     return article.Verify_Artcile_Detail_Elements();
  });

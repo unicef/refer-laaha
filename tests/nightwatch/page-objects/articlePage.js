@@ -63,7 +63,8 @@ module.exports = {
         ModerationState: '#edit-moderation-state-0-state',
         SaveBtn: '#edit-submit',
         Preview: '#edit-preview',
-        imgupload:'[id="edit-field-thumbnail-image-0-upload"]'
+        imgupload:'[id="edit-field-thumbnail-image-0-upload"]',
+        readtime: '[id="edit-field-read-time-0-value"]'
     },    
 
     commands: [{
@@ -143,7 +144,7 @@ module.exports = {
             this.waitForElementPresent('@thumbnailClick')
             this.click('xpath','//div[@class="image-widget-data"]')            
             this.pause(3000)
-            .setValue('@imgupload', '/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/Data/media/image1.png')
+            .setValue('@imgupload', 'https://stage.ec.virtualsafespace.net/profiles/unicef/themes/custom/vss/nightwatch-media/image1.png')
             .pause(1000)
             return this;
               }
@@ -158,13 +159,20 @@ module.exports = {
                   return this
                      .click('@articleSubCategory')
                      .pause(1000)
-                     .waitForElementPresent('#edit-field-sub-category > option:nth-child(20)')
-                     .click('#edit-field-sub-category > option:nth-child(20)')
+                     .waitForElementPresent('#edit-field-sub-category > option:nth-child(2)')
+                     .click('#edit-field-sub-category > option:nth-child(2)')
                      .pause(2000)
               }
               catch (err) {
                   console.log('Error is : >>>>>>>>>>   ',err)
               }
+          },
+          Article_Read_Time: function (readtime) {
+            return this
+            .click('@readtime')
+            .setValue('@readtime', readtime)
+            .pause(1000)
+
           },
 
           Article_Moderation_State: function () {

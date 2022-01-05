@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Article Detail Page" time="61.902" tests="1" failures="0" errors="0" skipped="0">
-    <testcase name="Verify Article Detail Elements and Create Article Detail Page" classname="article-detail-page;verify-article-detail-elements-and-create-article-detail-page" time="61.902"/>
-  </testsuite>
-  <testsuite name="Podcast Detail Page" time="58.736" tests="1" failures="0" errors="0" skipped="0">
-    <testcase name="Verify Podcast Detail Elements and Create Podcast Detail Page" classname="podcast-detail-page;verify-podcast-detail-elements-and-create-podcast-detail-page" time="58.736"/>
-  </testsuite>
-  <testsuite name="Video Detail Page" time="73.628" tests="1" failures="0" errors="0" skipped="0">
-    <testcase name="Verify Video Detail Elements and Create Video Detail Page" classname="video-detail-page;verify-video-detail-elements-and-create-video-detail-page" time="73.628"/>
+  <testsuite name="Verify Header Elements" time="103.00399999999999" tests="4" failures="0" errors="0" skipped="0">
+    <testcase name="Verify all Header elememts" classname="verify-header-elements;verify-all-header-elememts" time="23.54"/>
+    <testcase name="Verify Virtual Safe Space Title and logo" classname="verify-header-elements;verify-virtual-safe-space-title-and-logo" time="20.144"/>
+    <testcase name="Add and Verify VSS Header Menu Items" classname="verify-header-elements;add-and-verify-vss-header-menu-items" time="40.612"/>
+    <testcase name="Exit Functionality" classname="verify-header-elements;exit-functionality" time="18.708"/>
   </testsuite>
 </testsuites>

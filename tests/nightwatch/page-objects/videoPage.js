@@ -112,13 +112,13 @@ module.exports = {
             .pause(1000)
             .click('@selectVideo')
             .pause(1000)
-            .setValue('@UploadVideo','/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/Data/media/sample-mov-file.mov')
+            .setValue('@UploadVideo','https://stage.ec.virtualsafespace.net/profiles/unicef/themes/custom/vss/nightwatch-media/sample-mov-file.mov')
             .pause(10000)
             .click('xpath','//select[@name="field_content[entity_form][1][field_vtt_entries][0][subform][field_language]"]/option[3]')
             .pause(3000)
             .click('@UploadVTT')
             .pause(1000)
-            .setValue('@UploadVTT','/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/Data/media/Example.vtt')
+            .setValue('@UploadVTT','https://stage.ec.virtualsafespace.net/profiles/unicef/themes/custom/vss/nightwatch-media/Example.vtt')
             .pause(10000)
             .click('@saveVideoButton')
             .pause(2000)
@@ -132,7 +132,7 @@ module.exports = {
           this.waitForElementPresent('@thumbnailClick')
           this.click('xpath','//div[@class="image-widget-data"]')            
           this.pause(3000)
-          .setValue('@imgupload', '/Users/sushmita.sinha/workspace/Unicef/eRPW/tests/nightwatch/Data/media/image1.png')
+          .setValue('@imgupload', 'https://stage.ec.virtualsafespace.net/profiles/unicef/themes/custom/vss/nightwatch-media/image1.png')
           .pause(1000)
           return this;
             }
@@ -147,8 +147,8 @@ module.exports = {
                 return this
                    .click('@videoSubCategory')
                    .pause(1000)
-                   .waitForElementPresent('#edit-field-sub-category > option:nth-child(20)')
-                   .click('#edit-field-sub-category > option:nth-child(20)')
+                   .waitForElementPresent('#edit-field-sub-category > option:nth-child(2)')
+                   .click('#edit-field-sub-category > option:nth-child(2)')
                    .pause(2000)
             }
             catch (err) {

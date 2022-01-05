@@ -4,17 +4,17 @@
     "elements": [
       {
         "description": "",
-        "id": "article-detail-page;verify-article-detail-elements-and-create-article-detail-page",
+        "id": "verify-header-elements;verify-all-header-elememts",
         "keyword": "Scenario",
         "line": 7,
-        "name": "Verify Article Detail Elements and Create Article Detail Page",
+        "name": "Verify all Header elememts",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 3542000000
+              "duration": 4311000000
             }
           },
           {
@@ -27,7 +27,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 5255000000
+              "duration": 4121000000
             }
           },
           {
@@ -40,241 +40,98 @@
             },
             "result": {
               "status": "passed",
-              "duration": 7829000000
+              "duration": 7716000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
             "line": 8,
-            "name": "Navigate to the article page",
+            "name": "Verify Exit Functionality",
             "match": {
-              "location": "step-definitions/article.js:8"
+              "location": "step-definitions/header.js:8"
             },
             "result": {
               "status": "passed",
-              "duration": 4407000000
+              "duration": 52000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 9,
-            "name": "Verify Create Article",
+            "name": "Verify VSS Title",
             "match": {
-              "location": "step-definitions/article.js:12"
+              "location": "step-definitions/header.js:16"
             },
             "result": {
               "status": "passed",
-              "duration": 235000000
+              "duration": 5115000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 10,
-            "name": "Verify Article Title",
+            "name": "Verify VSS Logo",
             "match": {
-              "location": "step-definitions/article.js:16"
+              "location": "step-definitions/header.js:32"
             },
             "result": {
               "status": "passed",
-              "duration": 161000000
+              "duration": 996000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 11,
-            "name": "Verify Article Language Dropdown",
+            "name": "Verify Language Switcher",
             "match": {
-              "location": "step-definitions/article.js:20"
+              "location": "step-definitions/header.js:28"
             },
             "result": {
               "status": "passed",
-              "duration": 147000000
+              "duration": 37000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 12,
-            "name": "Verify Artcile Tags",
+            "name": "Verify Discover nav Menu",
             "match": {
-              "location": "step-definitions/article.js:24"
+              "location": "step-definitions/header.js:36"
             },
             "result": {
               "status": "passed",
-              "duration": 162000000
+              "duration": 37000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 13,
-            "name": "Verify Article Content Layout",
+            "name": "Verify FAQs nav menu",
             "match": {
-              "location": "step-definitions/article.js:28"
+              "location": "step-definitions/header.js:40"
             },
             "result": {
               "status": "passed",
-              "duration": 187000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 14,
-            "name": "Verify Article Thumbnail Image",
-            "match": {
-              "location": "step-definitions/article.js:32"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 149000000
+              "duration": 31000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 15,
-            "name": "Verify Article Sub Category Dropdown",
+            "name": "Verify Resource Library nav menu",
             "match": {
-              "location": "step-definitions/article.js:36"
+              "location": "step-definitions/header.js:48"
             },
             "result": {
               "status": "passed",
-              "duration": 149000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 16,
-            "name": "Verify Article Moderation State",
-            "match": {
-              "location": "step-definitions/article.js:40"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 177000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 17,
-            "name": "Verify Article Save Button",
-            "match": {
-              "location": "step-definitions/article.js:44"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 146000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 18,
-            "name": "Verify Article Preview",
-            "match": {
-              "location": "step-definitions/article.js:48"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 166000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 19,
-            "name": "Add Title in Article",
-            "match": {
-              "location": "step-definitions/article.js:52"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 1178000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 20,
-            "name": "Select Article Language",
-            "match": {
-              "location": "step-definitions/article.js:56"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 1169000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 21,
-            "name": "Add Article Tags",
-            "match": {
-              "location": "step-definitions/article.js:60"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 1373000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 22,
-            "name": "Add Article Content Layout",
-            "match": {
-              "location": "step-definitions/article.js:64"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 14266000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 23,
-            "name": "Upload Article Thumbnail Image",
-            "match": {
-              "location": "step-definitions/article.js:68"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 8520000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 24,
-            "name": "Select Article Sub Category",
-            "match": {
-              "location": "step-definitions/article.js:72"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 3431000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 25,
-            "name": "Click on Save button",
-            "match": {
-              "location": "step-definitions/article.js:80"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 8196000000
+              "duration": 56000000
             }
           },
           {
@@ -282,37 +139,26 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1057000000
+              "duration": 1068000000
             }
           }
         ],
         "tags": [],
         "type": "scenario"
-      }
-    ],
-    "id": "article-detail-page",
-    "line": 1,
-    "keyword": "Feature",
-    "name": "Article Detail Page",
-    "tags": [],
-    "uri": "features/articleCT.feature"
-  },
-  {
-    "description": "",
-    "elements": [
+      },
       {
         "description": "",
-        "id": "podcast-detail-page;verify-podcast-detail-elements-and-create-podcast-detail-page",
+        "id": "verify-header-elements;verify-virtual-safe-space-title-and-logo",
         "keyword": "Scenario",
-        "line": 7,
-        "name": "Verify Podcast Detail Elements and Create Podcast Detail Page",
+        "line": 17,
+        "name": "Verify Virtual Safe Space Title and logo",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 3399000000
+              "duration": 3113000000
             }
           },
           {
@@ -325,7 +171,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 4105000000
+              "duration": 3968000000
             }
           },
           {
@@ -338,241 +184,20 @@
             },
             "result": {
               "status": "passed",
-              "duration": 6459000000
+              "duration": 6558000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 8,
-            "name": "Navigate to the podcast page",
-            "match": {
-              "location": "step-definitions/podcast.js:7"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 4309000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 9,
-            "name": "Verify Create Podcast",
-            "match": {
-              "location": "step-definitions/podcast.js:11"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 229000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 10,
-            "name": "Verify Podcast Title",
-            "match": {
-              "location": "step-definitions/podcast.js:15"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 150000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 11,
-            "name": "Verify Podcast Language Dropdown",
-            "match": {
-              "location": "step-definitions/podcast.js:19"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 153000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 12,
-            "name": "Verify Podcast Tags",
-            "match": {
-              "location": "step-definitions/podcast.js:23"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 154000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 13,
-            "name": "Verify Podcast Content Layout",
-            "match": {
-              "location": "step-definitions/podcast.js:27"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 143000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 14,
-            "name": "Verify Podcast Thumbnail Image",
-            "match": {
-              "location": "step-definitions/podcast.js:31"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 164000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 15,
-            "name": "Verify Podcast Sub Category Dropdown",
-            "match": {
-              "location": "step-definitions/podcast.js:35"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 163000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 16,
-            "name": "Verify Podcast Moderation State",
-            "match": {
-              "location": "step-definitions/podcast.js:39"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 168000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 17,
-            "name": "Verify Podcast Save Button",
-            "match": {
-              "location": "step-definitions/podcast.js:43"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 167000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
             "line": 18,
-            "name": "Verify Podcast Preview",
+            "name": "Verify VSS Title",
             "match": {
-              "location": "step-definitions/podcast.js:47"
+              "location": "step-definitions/header.js:16"
             },
             "result": {
               "status": "passed",
-              "duration": 175000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 19,
-            "name": "Add Title in Podcast",
-            "match": {
-              "location": "step-definitions/podcast.js:51"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 1154000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 20,
-            "name": "Select Podcast Language",
-            "match": {
-              "location": "step-definitions/podcast.js:55"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 1157000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 21,
-            "name": "Add Podcast Tags",
-            "match": {
-              "location": "step-definitions/podcast.js:59"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 1422000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 22,
-            "name": "Add Podcast Content Layout",
-            "match": {
-              "location": "step-definitions/podcast.js:63"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 17730000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 23,
-            "name": "Upload Podcast Thumbnail Image",
-            "match": {
-              "location": "step-definitions/podcast.js:67"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 6190000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 24,
-            "name": "Select Podcast Sub Category",
-            "match": {
-              "location": "step-definitions/podcast.js:71"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 3563000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 25,
-            "name": "Click on Podcast Save button",
-            "match": {
-              "location": "step-definitions/podcast.js:75"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 6472000000
+              "duration": 5445000000
             }
           },
           {
@@ -580,37 +205,26 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1110000000
+              "duration": 1060000000
             }
           }
         ],
         "tags": [],
         "type": "scenario"
-      }
-    ],
-    "id": "podcast-detail-page",
-    "line": 1,
-    "keyword": "Feature",
-    "name": "Podcast Detail Page",
-    "tags": [],
-    "uri": "features/podcastCT.feature"
-  },
-  {
-    "description": "",
-    "elements": [
+      },
       {
         "description": "",
-        "id": "video-detail-page;verify-video-detail-elements-and-create-video-detail-page",
+        "id": "verify-header-elements;add-and-verify-vss-header-menu-items",
         "keyword": "Scenario",
-        "line": 7,
-        "name": "Verify Video Detail Elements and Create Video Detail Page",
+        "line": 20,
+        "name": "Add and Verify VSS Header Menu Items",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 3198000000
+              "duration": 2560000000
             }
           },
           {
@@ -623,7 +237,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 4206000000
+              "duration": 3976000000
             }
           },
           {
@@ -636,241 +250,85 @@
             },
             "result": {
               "status": "passed",
-              "duration": 6948000000
+              "duration": 6214000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 8,
-            "name": "Navigate to the video page",
-            "match": {
-              "location": "step-definitions/video.js:7"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 3419000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 9,
-            "name": "Verify Create video",
-            "match": {
-              "location": "step-definitions/video.js:11"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 217000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 10,
-            "name": "Verify Video Title",
-            "match": {
-              "location": "step-definitions/video.js:15"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 161000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 11,
-            "name": "Verify Video Language Dropdown",
-            "match": {
-              "location": "step-definitions/video.js:19"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 145000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 12,
-            "name": "Verify Video Tags",
-            "match": {
-              "location": "step-definitions/video.js:23"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 144000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 13,
-            "name": "Verify Video Content Layout",
-            "match": {
-              "location": "step-definitions/video.js:27"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 145000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 14,
-            "name": "Verify Video Thumbnail Image",
-            "match": {
-              "location": "step-definitions/video.js:31"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 157000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 15,
-            "name": "Verify Video Sub Category Dropdown",
-            "match": {
-              "location": "step-definitions/video.js:35"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 137000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 16,
-            "name": "Verify Video Moderation State",
-            "match": {
-              "location": "step-definitions/video.js:39"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 139000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 17,
-            "name": "Verify Video Save Button",
-            "match": {
-              "location": "step-definitions/video.js:43"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 151000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 18,
-            "name": "Verify Video Preview",
-            "match": {
-              "location": "step-definitions/video.js:47"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 193000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 19,
-            "name": "Add Title in Video",
-            "match": {
-              "location": "step-definitions/video.js:51"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 1165000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 20,
-            "name": "Select Video Language",
-            "match": {
-              "location": "step-definitions/video.js:55"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 1177000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
             "line": 21,
-            "name": "Add Video Tags",
+            "name": "Naviagte to Header Site Navigation Menus",
             "match": {
-              "location": "step-definitions/video.js:59"
+              "location": "step-definitions/header.js:20"
             },
             "result": {
               "status": "passed",
-              "duration": 1396000000
+              "duration": 5868000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 22,
-            "name": "Add Video Content Layout",
+            "name": "Verify Header Site Navigation Menus",
             "match": {
-              "location": "step-definitions/video.js:63"
+              "location": "step-definitions/header.js:24"
             },
             "result": {
               "status": "passed",
-              "duration": 32683000000
+              "duration": 6516000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 23,
-            "name": "Upload Video Thumbnail Image",
+            "name": "Add Link",
             "match": {
-              "location": "step-definitions/video.js:67"
+              "location": "step-definitions/footer.js:16"
             },
             "result": {
               "status": "passed",
-              "duration": 7362000000
+              "duration": 172000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 24,
-            "name": "Select Video Sub Category",
+            "name": "Add Title",
             "match": {
-              "location": "step-definitions/video.js:71"
+              "location": "step-definitions/footer.js:20"
             },
             "result": {
               "status": "passed",
-              "duration": 3467000000
+              "duration": 1182000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 25,
-            "name": "Click on Video Save button",
+            "name": "Click Save",
             "match": {
-              "location": "step-definitions/video.js:75"
+              "location": "step-definitions/footer.js:24"
             },
             "result": {
               "status": "passed",
-              "duration": 5939000000
+              "duration": 2430000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 26,
+            "name": "Navigate to created Header Menu Items",
+            "match": {
+              "location": "step-definitions/header.js:52"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 10613000000
             }
           },
           {
@@ -878,7 +336,86 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1079000000
+              "duration": 1081000000
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "verify-header-elements;exit-functionality",
+        "keyword": "Scenario",
+        "line": 28,
+        "name": "Exit Functionality",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 3144000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "launch browser, open vss url",
+            "match": {
+              "location": "step-definitions/login.js:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4166000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "enter the credentials",
+            "match": {
+              "location": "step-definitions/login.js:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6372000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 29,
+            "name": "Verify Exit Functionality",
+            "match": {
+              "location": "step-definitions/header.js:8"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 52000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 30,
+            "name": "Click on Exit Functionality",
+            "match": {
+              "location": "step-definitions/header.js:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3908000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1066000000
             }
           }
         ],
@@ -886,11 +423,11 @@
         "type": "scenario"
       }
     ],
-    "id": "video-detail-page",
+    "id": "verify-header-elements",
     "line": 1,
     "keyword": "Feature",
-    "name": "Video Detail Page",
+    "name": "Verify Header Elements",
     "tags": [],
-    "uri": "features/videoCT.feature"
+    "uri": "features/header.feature"
   }
 ]
