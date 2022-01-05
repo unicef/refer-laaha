@@ -142,6 +142,43 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   margin: 0;
 }
 
+.manage-location {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.export-csv input[type=submit],
+.export-csv a,
+.import-csv input[type=submit],
+.import-csv a {
+  background: none;
+  border: 0;
+  color: #A85766;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  font-size: 12px;
+  padding: 40px 0 0;
+  vertical-align: top;
+  text-transform: capitalize;
+}
+
+.export-csv {
+  background: url("../images/export.png") top center no-repeat transparent;
+}
+
+.import-csv {
+  background: url("../images/import.png") top center no-repeat transparent;
+  margin-right: 10px;
+}
+.import-csv .ajax-progress-throbber {
+  display: none;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
@@ -1050,6 +1087,7 @@ body.path-user {
 }
 .ui-dialog .ui-dialog-content {
   padding: 0 0.5em 1em !important;
+  overflow-x: hidden;
 }
 .ui-dialog .ui-button .ui-icon {
   background: url("../images/cross.svg") 0 0 no-repeat !important;

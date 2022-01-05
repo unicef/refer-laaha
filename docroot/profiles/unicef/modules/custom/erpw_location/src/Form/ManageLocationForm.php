@@ -87,7 +87,7 @@ class ManageLocationForm extends FormBase {
     $form['#attributes']['enctype'] = "multipart/form-data";
     $form['open_modal'] = [
       '#type' => 'link',
-      '#title' => $this->t('Import Location CSV'),
+      '#title' => $this->t('Import'),
       '#url' => Url::fromRoute('erpw_location.open_import_modal'),
       '#attributes' => [
         'class' => [
@@ -98,7 +98,7 @@ class ManageLocationForm extends FormBase {
     ];
     $form['export_csv'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Export Location CSV'),
+      '#value' => $this->t('Export'),
       '#submit' => ['::exportLocationCsv'],
     ];
     $location_entities = $this->entityManager->loadByProperties(
