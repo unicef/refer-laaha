@@ -1,0 +1,5 @@
+services:
+  visitors.terminate:
+    class: Drupal\visitors\EventSubscriber\KernelTerminateSubscriber
+    tags:
+      - { name: event_subscriber }

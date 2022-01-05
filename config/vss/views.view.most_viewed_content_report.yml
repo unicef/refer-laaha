@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - system.menu.admin
     - user.role.administrator
     - user.role.super_admin
   module:
@@ -297,6 +298,15 @@ display:
     display_options:
       display_extenders: {  }
       path: most-viewed-content-report
+      menu:
+        type: normal
+        title: 'Most Viewed Content Report'
+        description: ''
+        expanded: false
+        parent: system.admin_reports
+        weight: 0
+        context: '0'
+        menu_name: admin
     cache_metadata:
       max-age: -1
       contexts:
