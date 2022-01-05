@@ -5,6 +5,7 @@
  * Functions to support theming in the erpw theme.
  */
 
+use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
 
 /**
@@ -48,10 +49,10 @@ function erpw_preprocess_form_element_label(&$variables) {
  */
 function erpw_preprocess_node(&$variables) {
   $node = $variables["node"];
-  switch($node->bundle()){
+  switch ($node->bundle()) {
     case "service_type":
       $node = \Drupal::routeMatch()->getParameter('node');
-      if ($node instanceof \Drupal\node\NodeInterface) {
+      if ($node instanceof NodeInterface) {
         $nid = $node->id();
       }
       $query_path = \Drupal::request()->query->get('action');
