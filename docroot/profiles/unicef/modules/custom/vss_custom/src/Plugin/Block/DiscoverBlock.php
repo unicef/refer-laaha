@@ -35,12 +35,21 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
   protected $languageManager;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $instance = new static($configuration, $plugin_id, $plugin_definition);
     $instance->vssCommonConfigDefault = $container->get('vss_common_config.default');
     $instance->languageManager = $container->get('language_manager');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+
     return $instance;
   }
 
@@ -57,7 +66,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
 
       if (!$term_obj->get('field_related_content')->isEmpty()) {
         foreach ($term_obj->get('field_related_content')->getValue() as $target_id) {
-          $node = \Drupal::entityTypeManager()->getStorage('node')->load($target_id['target_id']);
+          $node = $this->entityTypeManager->getStorage('node')->load($target_id['target_id']);
           $node_url = Url::fromRoute('entity.node.canonical', ['node' => $target_id['target_id']]);
           $node_url = $node_url->toString();
 
