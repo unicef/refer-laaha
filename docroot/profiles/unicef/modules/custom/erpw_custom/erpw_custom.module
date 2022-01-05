@@ -93,8 +93,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
   }
 
   if ($form_id == 'node_service_type_delete_form') {
-    $url = Url::fromRoute('view.manage_service_types.page_1');
-    $form['#title'] = t('Deleted successfuly <br>The details has been successfully Deleted.');
     $form['description']['#access'] = FALSE;
     $form['actions']['submit']['#submit'][] = 'deletecontent';
     $form['actions']['cancel']['#access'] = FALSE;
