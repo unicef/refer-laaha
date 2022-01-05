@@ -29,6 +29,7 @@
         "drupal/autosave_form": "^1.2",
         "drupal/blazy": "^2.5",
         "drupal/bootstrap": "^3.23",
+        "drupal/ckeditor_tippy": "^1.0",
         "drupal/clientside_validation": "^3.0@RC",
         "drupal/coder": "^8.3.9",
         "drupal/color_field": "^2.5",
@@ -192,6 +193,9 @@
             },
             "drupal/autosave_form": {
                 "author name issue": "patches/autosave.patch"
+            },
+            "drupal/ckeditor_tippy": {
+                "popper js issue": "https://www.drupal.org/files/issues/2021-11-01/3247089-2.patch"
             }
         }
     }

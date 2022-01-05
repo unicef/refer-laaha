@@ -5,6 +5,8 @@
  * Contains erpw_location.module.
  */
 
+use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
@@ -39,7 +41,7 @@ function erpw_location_theme() {
   ];
   $theme['manage_location_form'] = [
     'render element' => 'form',
-    'template' => 'location-csv-import',
+    'template' => 'manage-location-form',
   ];
   return $theme;
 }
@@ -58,4 +60,20 @@ function erpw_location_theme_suggestions_location(array $variables) {
   $suggestions[] = 'location__' . $entity->id();
   $suggestions[] = 'location__' . $entity->id() . '__' . $sanitized_view_mode;
   return $suggestions;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete().
+ */
+function erpw_location_entity_predelete(EntityInterface $entity) {
+  $type = $entity
+    ->getEntityTypeId();
+  $id = $entity->id();
+  if ($type == 'location') {
+    $taxonomy_term_id = $entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+    if ($term = Term::load($taxonomy_term_id)) {
+      // Delete the term itself.
+      $term->delete();
+    }
+  }
 }

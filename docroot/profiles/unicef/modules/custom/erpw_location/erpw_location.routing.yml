@@ -5,3 +5,10 @@ erpw_location.manage_location:
     _title: 'Manage Locations'
   requirements:
     _permission: 'access content'
+erpw_location.open_import_modal:
+  path: '/import-location-modal'
+  defaults:
+    _title: 'Modal Form'
+    _controller: '\Drupal\erpw_location\Controller\ModalFormController::openModalForm'
+  requirements:
+    _permission: 'access content'

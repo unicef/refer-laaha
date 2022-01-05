@@ -32,7 +32,7 @@ input[type=password],
 select {
 	background-position:right;
 	border: 1px solid $border;
-	border-radius: 5px;
+	@include border-radius(5px);
 	box-sizing: border-box;
 	display: inline-block;
 	padding: 8px 11px;
@@ -64,7 +64,7 @@ select {
 input[type=submit] {
 	background: $base-secondary-bgcolor;
 	border: 1px solid $base-secondary-bgcolor;
-	border-radius: 4px;
+	@include border-radius(4px);
 	color: $base-white-color;
 	display: inline-block;
 	font-size: .875em;
@@ -88,7 +88,7 @@ input[type=submit] {
 .description {
 	background: none;
 	border: 1px solid $base-black-color;
-	border-radius: 50%;
+	@include border-radius(50%);
 	font-size: 9px !important;
 	font-style: italic;
 	left: 66px;

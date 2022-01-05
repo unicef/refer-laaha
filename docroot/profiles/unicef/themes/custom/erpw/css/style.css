@@ -394,6 +394,39 @@ header {
   padding: 0;
 }
 
+.dashboard .dashboard-link {
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
+          box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
+  padding: 7px 10px;
+  margin-bottom: 32px;
+}
+.dashboard .dashboard-link a {
+  background: url("../images/arrow-right.svg") right center no-repeat;
+  color: #A85766;
+  display: block;
+  margin: 0 9px 0 0;
+}
+.dashboard .dashboard-link a::before {
+  display: inline-block;
+  height: 36px;
+  margin-right: 20px;
+  width: 36px;
+  vertical-align: middle;
+}
+.dashboard .dashboard-link.location-link a::before {
+  background-color: #444;
+  content: "";
+  -webkit-mask: url("../images/location.svg") center center no-repeat;
+  mask: url("../images/location.svg") center center no-repeat;
+}
+.dashboard .dashboard-link.service-link a::before {
+  background-color: #165A07;
+  content: "";
+  -webkit-mask: url("../images/service.svg") center center no-repeat;
+  mask: url("../images/service.svg") center center no-repeat;
+}
+
 .toolbar-fixed #block-erpw-main-menu {
   top: 40px;
 }

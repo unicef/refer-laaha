@@ -1475,6 +1475,40 @@ html[dir="rtl"] .region-header #block-settingsmenu .navbar-text {
     margin-left: 0;
     margin-right: 0px; }
 
+html[dir="rtl"] .service-title,
+html[dir="rtl"] .service-block-title {
+  text-align: right; }
+
+html[dir="rtl"] .homepage-services .service-desc {
+  text-align: right; }
+
+html[dir="rtl"] .get-help-container .get-help-details-wrapper {
+  text-align: right; }
+
+html[dir="rtl"] .get-help-container .get-help--title,
+html[dir="rtl"] .get-help-container .get-help--title-mobile {
+  text-align: right; }
+  html[dir="rtl"] .get-help-container .get-help--title::after,
+  html[dir="rtl"] .get-help-container .get-help--title-mobile::after {
+    margin-left: 0;
+    margin-right: 15px;
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg); }
+
+html[dir="rtl"] .get-help-container .get-help--title-mobile {
+  -webkit-box-pack: right;
+      -ms-flex-pack: right;
+          justify-content: right; }
+
+html[dir="rtl"] .get-help-container .get-help--link a::after {
+  margin-left: 0;
+  margin-right: 10px;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg); }
+
+html[dir="rtl"] .get-help-container .get-help--desc {
+  text-align: right; }
+
 @media screen and (max-width: 767px) {
   html[dir="rtl"] #block-recommendedrelatedcontentblock .recomended-header span {
     padding-right: 8px;
@@ -1808,11 +1842,101 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
     padding: 20px; }
   .homepage-services .service-image {
     margin-bottom: 30px; }
+    .homepage-services .service-image img {
+      width: 100%; }
   .homepage-services .service-block-title,
   .homepage-services .service-desc {
     padding: 0 10px; }
   .homepage-services a {
     color: #000;
     text-decoration: none; }
+
+.service-title {
+  margin: 20px auto;
+  width: 80%; }
+
+.homepage-get-help {
+  background-color: #fdf3f6;
+  margin: 0 -20%;
+  padding: 32px 0; }
+
+.get-help-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 0 14%; }
+  .get-help-container .get-help-image-wrapper {
+    margin-bottom: 32px;
+    text-align: center; }
+    .get-help-container .get-help-image-wrapper img {
+      width: 80%; }
+  .get-help-container .get-help--title {
+    display: none; }
+    @media screen and (min-width: 1024px) {
+      .get-help-container .get-help--title {
+        display: -webkit-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex; } }
+  .get-help-container .get-help--title-mobile {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    margin-bottom: 32px; }
+    @media screen and (min-width: 1024px) {
+      .get-help-container .get-help--title-mobile {
+        display: none; } }
+  .get-help-container .get-help--title::after,
+  .get-help-container .get-help--title-mobile::after {
+    background: url("../images/button-arrow.svg") no-repeat center;
+    background-size: contain;
+    content: '';
+    display: inline-block;
+    height: 44px;
+    margin-left: 15px;
+    vertical-align: bottom;
+    width: 18px; }
+  .get-help-container .get-help--link {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    margin-top: 24px; }
+    .get-help-container .get-help--link .field--item {
+      display: -webkit-inline-box;
+      display: -ms-inline-flexbox;
+      display: inline-flex; }
+    .get-help-container .get-help--link a {
+      background: #fecdd2;
+      border-radius: 4px;
+      color: #000;
+      font-weight: 500;
+      padding: 14px 25px;
+      text-transform: uppercase; }
+      .get-help-container .get-help--link a:hover {
+        text-decoration: none; }
+      .get-help-container .get-help--link a::after {
+        background: url("../images/button-arrow.svg") no-repeat center;
+        content: '';
+        display: inline-block;
+        height: 20px;
+        margin-left: 10px;
+        vertical-align: bottom;
+        width: 10px; }
+  @media screen and (min-width: 1024px) {
+    .get-help-container {
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row; } }
+
+@media screen and (min-width: 1024px) {
+  .text-md-left {
+    text-align: left; } }
 
 /*# sourceMappingURL=style.css.map */
