@@ -15,7 +15,7 @@
       $("form .form-submit").click(function() {
         $("form input").each(function() {
           if ($(this).val() == "") {
-            $(this).css("border", "2px solid red");
+            $(this).css("border", "2px solid red !important");
           } else {
             $(this).css("border", "1px solid #F3C1BF");
           }
