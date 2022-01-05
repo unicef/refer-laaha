@@ -31,7 +31,7 @@ input[type=text],
 input[type=password],
 select {
 	background-position:right;
-	border: 1px solid $border !important;
+	border: 1px solid $border;
 	@include border-radius(5px);
 	box-sizing: border-box;
 	display: inline-block;
