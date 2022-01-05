@@ -731,7 +731,8 @@ header {
   margin-bottom: 15px;
 }
 
-.form-item select.error {
+.form-item select.error,
+.form-item input.error {
   border: 2px solid red !important;
 }
 
