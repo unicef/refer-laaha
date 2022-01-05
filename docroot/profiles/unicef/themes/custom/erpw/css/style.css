@@ -209,7 +209,7 @@ input[type=text],
 input[type=password],
 select {
   background-position: right;
-  border: 1px solid #F3C1BF !important;
+  border: 1px solid #F3C1BF;
   border-radius: 5px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -731,8 +731,9 @@ header {
   margin-bottom: 15px;
 }
 
-.form-item select.error {
-  border: 2px solid red !important;
+.form-item select.error,
+.form-item input.error {
+  border: 2px solid red;
 }
 
 .node-service-type-form label,
