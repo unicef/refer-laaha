@@ -3,7 +3,9 @@
   font-size: 14px;
 	text-decoration: underline;
 }
- 
+a {
+	text-decoration: none;
+}
 p {
 	color: $grey-txt-color;
 	font-size: $base-font-size;
@@ -31,24 +33,108 @@ p {
 	background: url('../images/back-arrow.svg') 0 0 no-repeat;
 	height: 14px;
 	border: 0;
-	text-indent: -99px;
+	font-size: 0;
 	position: absolute;
 	top: 25px;
 	left: 23px;
 	width: 16px;
 }
-
-form input[type=submit].button-border {
-	background: none;
-	border: 1px solid $base-secondary-bgcolor;
-	border-radius: 4px;
-	color: $base-secondary-bgcolor;
-	display: inline-block;
-	font-size: 0.875em;
-	margin: 0 15px 1em 0;
-	padding: 10px 24px;
-	text-transform: uppercase;
+.toolbar-icon-9 .back-arrow {
+	top: 62px;
 }
+form input[type=submit] {
+	&.button-border {
+		background: none;
+		border: 1px solid $base-secondary-bgcolor;
+		@include border-radius(4px);
+		color: $base-secondary-bgcolor;
+		display: inline-block;
+		font-size: 0.875em;
+		margin: 0 15px 1em 0;
+		padding: 10px 24px;
+		text-transform: uppercase;
+	}
+}
+
 .overlay {
 	display: none;
+}
+
+.button-with-icon {
+	background-color: $base-secondary-bgcolor;
+	@include border-radius(20px);
+	font-size: 12px;
+	line-height: 14px;
+	padding: 7px 15px 7px 57px;
+	position: relative;
+	color: $base-white-color;
+	margin: 20px 0;
+	display: inline-block;
+	&.new-service-type {
+		padding-left: 0;
+	}
+	&::before {
+		content: '*';
+		@include border-radius(50%);
+    height: 57px;
+    width: 57px;
+    position: absolute;
+    left: 0;
+    top: -15px;
+	}
+	a {
+    color: $base-white-color;
+    font-size: 12px;
+		padding-left: 60px;
+		position: relative;
+		z-index: 1;
+  }
+}
+.color-select::before {
+	background: url('../images/color-picker.svg') center center no-repeat $base-secondary-bgcolor;
+}
+.icon-select::before {
+	background: url('../images/icon-picker.svg') center center no-repeat $base-secondary-bgcolor;
+}
+
+//pager
+.pager__items {
+	li,
+	span {
+		color: $base-secondary-bgcolor;
+	}
+}
+
+.layout-container {
+	margin: 0;
+}
+//export import CSV
+.manage-location {
+	display: flex;
+  justify-content: flex-end;
+}
+.export-csv,
+.import-csv {
+	input[type=submit],
+	a {
+		background: none;
+		border: 0;
+		color: $base-secondary-bgcolor;
+		display: inline-flex;
+		font-size: 12px;
+		padding: 40px 0 0;
+		vertical-align: top;
+		text-transform: capitalize;
+	}
+}
+.export-csv {
+	background: url('../images/export.png') top center no-repeat transparent;
+}
+
+.import-csv {
+	background: url('../images/import.png') top center no-repeat transparent;
+	margin-right: 10px;
+	.ajax-progress-throbber {
+		display: none;
+	}
 }

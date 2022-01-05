@@ -1,0 +1,71 @@
+uuid: 4cca70aa-bd6d-4442-a26e-e0f6aa140473
+langcode: en
+status: true
+dependencies:
+  config:
+    - erpw_location.location_type.country
+    - field.field.location.country.field_location_taxonomy_term
+  module:
+    - user
+id: location.country.default
+targetEntityType: location
+bundle: country
+mode: default
+content:
+  field_location_taxonomy_term:
+    weight: 6
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  level_1:
+    label: above
+    type: string
+    weight: 1
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  level_2:
+    label: above
+    type: string
+    weight: 2
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  level_3:
+    label: above
+    type: string
+    weight: 3
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  level_4:
+    label: above
+    type: string
+    weight: 4
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  name:
+    label: above
+    type: string
+    weight: 0
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  user_id:
+    label: hidden
+    type: author
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true

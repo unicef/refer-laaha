@@ -1,0 +1,25 @@
+uuid: 7b31ea0b-f847-4189-a48b-e6267c6ca057
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - vss_custom
+  theme:
+    - vss
+id: discoverblock
+theme: vss
+region: content
+weight: 0
+provider: null
+plugin: discover_block
+settings:
+  id: discover_block
+  label: 'Discover Block'
+  provider: vss_custom
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false

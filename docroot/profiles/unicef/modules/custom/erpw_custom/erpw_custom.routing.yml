@@ -13,3 +13,25 @@ erpw_custom.sign_in_popup:
     _title: 'SignInPopup'
   requirements:
     _permission: 'access content'
+
+erpw_custom.updated_service_type:
+  path: '/updated-service-type'
+  defaults:
+    _form: '\Drupal\erpw_custom\Form\UpdatedServiceType'
+  requirements:
+    _permission: 'access content'
+
+erpw_custom.update_service_type_form:
+  path: '/update-service-type-form'
+  defaults:
+    _form: '\Drupal\erpw_custom\Form\ServiceTypeUpdate'
+  requirements:
+    _permission: 'access content'
+
+erpw_custom.dashboard:
+  path: '/dashboard'
+  defaults:
+    _form: '\Drupal\erpw_custom\Form\Dashboard'
+    _title: 'Dashboard'
+  requirements:
+    _permission: 'access content'

@@ -8,36 +8,36 @@ dependencies:
     - field.field.node.podcast.field_content
     - field.field.node.podcast.field_domain_access
     - field.field.node.podcast.field_domain_all_affiliates
+    - field.field.node.podcast.field_read_time
     - field.field.node.podcast.field_sub_category
     - field.field.node.podcast.field_tags
     - field.field.node.podcast.field_thumbnail_image
     - node.type.podcast
   module:
-    - text
     - user
 id: node.podcast.teaser
 targetEntityType: node
 bundle: podcast
 mode: teaser
 content:
-  body:
-    label: hidden
-    type: text_summary_or_trimmed
-    weight: 101
-    settings:
-      trim_length: 600
-    third_party_settings: {  }
+  content_moderation_control:
+    weight: 0
     region: content
-  links:
-    weight: 100
     settings: {  }
     third_party_settings: {  }
+  links:
+    weight: 1
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
+  body: true
   field_content: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_read_time: true
   field_sub_category: true
   field_tags: true
   field_thumbnail_image: true
   langcode: true
+  search_api_excerpt: true

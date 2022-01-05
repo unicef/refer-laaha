@@ -8,15 +8,25 @@
 							{% for key,value in content|slice(0, 2) %}
 								<div class="col-sm-6 two-slice {{value.type}}">
                   {% if lang_code != 'en' %}
-										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'><img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/><span>{{ value.title }}</span>
+										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'>
+										<img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/>
 										{% if value.type == 'video' %}
-                      <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
-                    {% elseif value.type == 'podcast' %}
-                      <img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
-                    {% endif %} 
-                    </a>
+										<span class="video-time-wrapper">{% if value.video_time %}{{ value.video_time }}{% endif %}</span>
+										{% endif %}
+										<span>{{ value.title }} {% if value.read_time %}{{'[ '~ value.read_time ~' ]'}}{% endif %}</span>
+										{% if value.type == 'video' %}
+										<img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
+										{% elseif value.type == 'podcast' %}
+										<img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
+										{% endif %} 
+										</a>
 									{% else %}
-										<a class={{value.type}} href="/{{value.url}}" target='_blank'><img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/><span>{{ value.title }}</span>
+										<a class={{value.type}} href="/{{value.url}}" target='_blank'>
+										<img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/>
+										{% if value.type == 'video' %}
+										<span class="video-time-wrapper">{% if value.video_time %}{{ value.video_time }}{% endif %}</span>
+										{% endif %}
+										<span>{{ value.title }} {% if value.read_time %}{{'[ '~ value.read_time ~' ]'}}{% endif %}</span>
 										{% if value.type == 'video' %}
                       <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
                     {% elseif value.type == 'podcast' %}
@@ -31,7 +41,11 @@
 							{% for key,value in content|slice(2, 6) %}
 								<div class="col-sm-3 four-slice {{value.type}}">
 									{% if lang_code != 'en' %}
-										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'><img class="four-slice-img" src="/{{value.thumbnail}}" alt=""/><span>{{ value.title }}</span>
+										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'><img class="four-slice-img" src="/{{value.thumbnail}}" alt=""/>
+										{% if value.type == 'video' %}
+										<span class="video-time-wrapper">{% if value.video_time %}{{ value.video_time }}{% endif %}</span>
+										{% endif %}
+										<span>{{ value.title }} {% if value.read_time %}{{'[ '~ value.read_time ~' ]'}}{% endif %}</span>
 										{% if value.type == 'video' %}
                       <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
                     {% elseif value.type == 'podcast' %}
@@ -39,7 +53,11 @@
                     {% endif %} 
                     </a>
 									{% else %}
-										<a class={{value.type}} href="/{{value.url}}" target='_blank'><img  class="four-slice-img" src="/{{value.thumbnail}}" alt=""/><span>{{ value.title }}</span>
+										<a class={{value.type}} href="/{{value.url}}" target='_blank'><img  class="four-slice-img" src="/{{value.thumbnail}}" alt=""/>
+										{% if value.type == 'video' %}
+										<span class="video-time-wrapper">{% if value.video_time %}{{ value.video_time }}{% endif %}</span>
+										{% endif %}
+										<span>{{ value.title }} {% if value.read_time %}{{'[ '~ value.read_time ~' ]'}}{% endif %}</span>
 										{% if value.type == 'video' %}
                       <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
                     {% elseif value.type == 'podcast' %}

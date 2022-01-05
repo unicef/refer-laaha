@@ -5,6 +5,7 @@
  * Functions to support theming in the erpw theme.
  */
 
+use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
 
 /**
@@ -40,5 +41,22 @@ function erpw_preprocess_form_element_label(&$variables) {
     if ($variables['element']['#id'] == 'edit-field-service-type-color-0-color') {
       $variables['attributes']['class'][] = 'button-with-icon color-select';
     }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK() for dashboard.
+ */
+function erpw_preprocess_node(&$variables) {
+  $node = $variables["node"];
+  switch ($node->bundle()) {
+    case "service_type":
+      $node = \Drupal::routeMatch()->getParameter('node');
+      if ($node instanceof NodeInterface) {
+        $nid = $node->id();
+      }
+      $query_path = \Drupal::request()->query->get('action');
+      $variables['nid'] = $nid;
+      $variables['query'] = $query_path;
   }
 }

@@ -12,6 +12,22 @@
         return $(this).css('color', '#444');
         }
       });
+      $("form .form-submit").click(function() {
+        $("form input").each(function() {
+          if ($(this).val() == "") {
+            $(this).css("border", "2px solid red");
+          } else {
+            $(this).css("border", "1px solid #F3C1BF");
+          }
+        });
+        $(".form-select").change(function() {
+          if ($(this).children("option:selected").val() == 0 &&  $(this).children("option").val() == 0) {
+            $(this).css("border", "2px solid red");
+          } else {
+            $(this).css("border", "1px solid #F3C1BF");
+          }
+        })
+      });
     }
   };
 }(jQuery, Drupal, drupalSettings));

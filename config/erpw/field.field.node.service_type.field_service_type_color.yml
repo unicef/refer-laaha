@@ -15,7 +15,10 @@ label: 'Pick a color to represent service type'
 description: ''
 required: true
 translatable: false
-default_value: {  }
+default_value:
+  -
+    color: '#F9D14A'
+    opacity: null
 default_value_callback: ''
 settings:
   opacity: 0

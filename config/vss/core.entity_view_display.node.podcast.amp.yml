@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.podcast.field_content
     - field.field.node.podcast.field_domain_access
     - field.field.node.podcast.field_domain_all_affiliates
+    - field.field.node.podcast.field_read_time
     - field.field.node.podcast.field_sub_category
     - field.field.node.podcast.field_tags
     - field.field.node.podcast.field_thumbnail_image
@@ -20,8 +21,13 @@ targetEntityType: node
 bundle: podcast
 mode: amp
 content:
-  field_content:
+  content_moderation_control:
     weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_content:
+    weight: 1
     label: hidden
     settings:
       view_mode: default
@@ -30,7 +36,7 @@ content:
     type: layout_paragraphs
     region: content
   field_tags:
-    weight: 1
+    weight: 2
     label: hidden
     settings:
       link: false
@@ -41,7 +47,9 @@ hidden:
   body: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_read_time: true
   field_sub_category: true
   field_thumbnail_image: true
   langcode: true
   links: true
+  search_api_excerpt: true

@@ -23,7 +23,7 @@
 	&::before {
 		content: '';
 		border: 1px solid $base-secondary-bgcolor;
-		border-radius: 50%;
+		@include border-radius(50%);
 		display: inline-block;
 		width: 40px;
 		height: 40px;
@@ -60,6 +60,11 @@
 		background: url('../images/location-white.svg') center center no-repeat $base-secondary-bgcolor;;
 	}
 }
+.eye-close {
+	position: absolute;
+	right: 10px;
+	top: 38px;
+}
 .password-creation-page {
 	flex-basis: 0;
 	flex-grow: 0;
@@ -78,4 +83,7 @@
 #status-message.messages--error {
 	margin-bottom: 15px;
 }
-
+.form-item select.error,
+.form-item input.error {
+	border: 2px solid red;
+}

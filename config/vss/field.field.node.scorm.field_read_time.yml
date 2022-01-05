@@ -1,0 +1,19 @@
+uuid: 080865c8-e7d8-4a99-85bc-c7d6b457552a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_read_time
+    - node.type.scorm
+id: node.scorm.field_read_time
+field_name: field_read_time
+entity_type: node
+bundle: scorm
+label: 'Read time'
+description: 'Display reading time in front'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

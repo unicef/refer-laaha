@@ -1,9 +1,13 @@
+.block-homepage-hero-categories-block  {
+  margin-bottom: 48px;
+}
+
 .homepage-hero {
   background-color: #fef4f6;
   margin: 0 -20%;
 
   .homepage-hero-section--title {
-    @media screen and (min-width:1024px) {
+    @media screen and (min-width: 1024px) {
       padding: 0 30px;
     }
   }
@@ -17,23 +21,23 @@
 .homepare-cat-wrapper {
   background-color: #fef4f6;
   margin: 0 -20%;
+  position: relative;
 }
 
 .homepage-category {
-  background: #fef4f6 url('../images/categorybg.png') no-repeat center;
-  background-size: 100%;
-  height: 35vw;
   margin: 0 14%;
   position: relative;
 
-  @media screen and (min-width:1024px) {
-    height: 29vw;
+  @media screen and (min-width: 1024px) {
+    padding-top: 0;
   }
 
   .spacer {
-    height: 100%;
-    @media screen and (min-width:1024px) {
-      height: 0;
+    background: #fef4f6 url('../images/categorybg.png') no-repeat center;
+    background-size: 100%;
+    height: 35vw;
+    @media screen and (min-width: 1366px) {
+      height: 29vw;
     }
   }
 }
@@ -54,10 +58,14 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    padding: 0 5px;
+    padding: 15px 5px;
 
     &:hover {
       cursor: pointer;
+    }
+    @media screen and (min-width: 1366px) {
+      padding: 0;
+      position: absolute;
     }
   }
 
@@ -80,9 +88,12 @@
     }
 
     &--large {
+      bottom: 0;
       flex-direction: column;
-      height: 140px;
-      width: 140px;
+      height: 200px;
+      position: absolute;
+      width: 200px;
+
 
       .category-name-hover {
         color: #000;
@@ -94,171 +105,173 @@
   }
 
   .category-name {
-    padding: 5px 0;
+    padding-top: 5px;
     text-align: center;
     width: 100px;
   }
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: 1366px) {
     background: transparent;
     height: 100%;
+    left: 0;
     margin: 0;
     position: absolute;
+    top: 0;
     width: 100%;
   }
 }
+// commenting this coz this might need later
+// @todo: remove this if not required later
+// @media screen and (min-width: 1024px) {
+//   .category-item {
+//     position: absolute;
+//   }
 
-@media screen and (min-width: 1024px) {
-  .category-item {
-    position: absolute;
-  }
+//   .categories-1 {
+//     .category-item-0 {
+//       top: 7px;
+//     }
+//   }
 
+//   .categories-2 {
+//     .category-item-0 {
+//       left: 40%;
+//       position: absolute;
+//       top: 5%;
+//     }
+
+//     .category-item-1 {
+//       position: absolute;
+//       right: 40%;
+//       top: 5%;
+//     }
+//   }
+
+//   .categories-3 {
+//     .category-item-0 {
+//       left: 25%;
+//       position: absolute;
+//       top: 28%;
+//     }
+
+//     .category-item-1 {
+//       position: absolute;
+//       top: 7px;
+//     }
+
+//     .category-item-2 {
+//       position: absolute;
+//       right: 25%;
+//       top: 28%;
+//     }
+//   }
+
+//   .categories-4 {
+//     .category-item-0 {
+//       left: 28%;
+//       top: 17%;
+//     }
+
+//     .category-item-1 {
+//       left: 40%;
+//       position: absolute;
+//       top: 2%;
+//     }
+
+//     .category-item-2 {
+//       position: absolute;
+//       right: 40%;
+//       top: 2%;
+//     }
+
+//     .category-item-3 {
+//       right: 28%;
+//       top: 17%;
+//     }
+//   }
+
+//   .categories-5 {
+//     .category-item-0 {
+//       left: 25%;
+//       top: 24%;
+//     }
+
+//     .category-item-1 {
+//       left: 35%;
+//       top: 6%;
+//     }
+
+//     .category-item-2 {
+//       top: 1%;
+//     }
+
+//     .category-item-3 {
+//       right: 35%;
+//       top: 6%;
+//     }
+
+//     .category-item-4 {
+//       right: 25%;
+//       top: 24%;
+//     }
+//   }
+
+//   .categories-6 {
+//     .category-item-0 {
+//       left: 20%;
+//       position: absolute;
+//       top: 41%;
+//     }
+
+//     .category-item-1 {
+//       left: 28%;
+//       position: absolute;
+//       top: 17%;
+//       }
+
+//     .category-item-2 {
+//       left: 40%;
+//       position: absolute;
+//       top: 2%;
+//     }
+
+//     .category-item-3 {
+//       position: absolute;
+//       right: 40%;
+//       top: 2%;
+//       }
+
+//     .category-item-4 {
+//       position: absolute;
+//       right: 28%;
+//       top: 17%;
+//     }
+
+//     .category-item-5 {
+//       position: absolute;
+//       right: 20%;
+//       top: 41%;
+//     }
+//   }
+// }
+
+
+@media screen and (min-width: 1366px) {
   .categories-1 {
     .category-item-0 {
-      top: 7px;
+      top: 9%;
     }
   }
 
   .categories-2 {
     .category-item-0 {
-      left: 40%;
-      position: absolute;
-      top: 5%;
+      left: 37%;
+      top: 13%;
     }
 
     .category-item-1 {
-      position: absolute;
-      right: 40%;
-      top: 5%;
-    }
-  }
-
-  .categories-3 {
-    .category-item-0 {
-      left: 25%;
-      position: absolute;
-      top: 28%;
-    }
-
-    .category-item-1 {
-      position: absolute;
-      top: 7px;
-    }
-
-    .category-item-2 {
-      position: absolute;
-      right: 25%;
-      top: 28%;
-    }
-  }
-
-  .categories-4 {
-    .category-item-0 {
-      left: 28%;
-      top: 17%;
-    }
-
-    .category-item-1 {
-      left: 40%;
-      position: absolute;
-      top: 2%;
-    }
-
-    .category-item-2 {
-      position: absolute;
-      right: 40%;
-      top: 2%;
-    }
-
-    .category-item-3 {
-      right: 28%;
-      top: 17%;
-    }
-  }
-
-  .categories-5 {
-    .category-item-0 {
-      left: 25%;
-      top: 24%;
-    }
-
-    .category-item-1 {
-      left: 35%;
-      top: 6%;
-    }
-
-    .category-item-2 {
-      top: 1%;
-    }
-
-    .category-item-3 {
-      right: 35%;
-      top: 6%;
-    }
-
-    .category-item-4 {
-      right: 25%;
-      top: 24%;
-    }
-  }
-
-  .categories-6 {
-    .category-item-0 {
-      left: 20%;
-      position: absolute;
-      top: 41%;
-    }
-
-    .category-item-1 {
-      left: 28%;
-      position: absolute;
-      top: 17%;
-      }
-
-    .category-item-2 {
-      left: 40%;
-      position: absolute;
-      top: 2%;
-    }
-
-    .category-item-3 {
-      position: absolute;
-      right: 40%;
-      top: 2%;
-      }
-
-    .category-item-4 {
-      position: absolute;
-      right: 28%;
-      top: 17%;
-    }
-
-    .category-item-5 {
-      position: absolute;
-      right: 20%;
-      top: 41%;
-    }
-  }
-}
-
-
-@media screen and (min-width: 1200px) {
-  .categories-1 {
-    .category-item-0 {
-      position: absolute;
-      top: 8%;
-    }
-  }
-
-  .categories-2 {
-    .category-item-0 {
-      left: 40%;
-      top: 11%;
-    }
-
-    .category-item-1 {
-      right: 40%;
-      top: 11%;
+      right: 37%;
+      top: 13%;
     }
   }
 
@@ -281,94 +294,113 @@
 
   .categories-4 {
     .category-item-0 {
-      left: 28%;
-      top: 25%;
+      left: 26%;
+      top: 29%;
+
+      .category-thumbnail--large {
+        right: 0;
+      }
     }
 
     .category-item-1 {
-      left: 40%;
-      position: absolute;
+      left: 39%;
       top: 11%;
     }
 
     .category-item-2 {
-      position: absolute;
-      right: 40%;
+      right: 39%;
       top: 11%;
     }
 
     .category-item-3 {
-      right: 28%;
-      top: 25%;
+      right: 26%;
+      top: 29%;
+
+      .category-thumbnail--large {
+        left: 0;
+      }
     }
   }
 
   .categories-5 {
     .category-item-0 {
-      left: 25%;
-      position: absolute;
-      top: 30%;
+      left: 20%;
+      top: 47%;
+
+      .category-thumbnail--large {
+        right: 0;
+      }
     }
 
     .category-item-1 {
-      left: 35%;
-      position: absolute;
-      top: 13%;
+      left: 31%;
+      top: 20%;
     }
 
     .category-item-2 {
-      position: absolute;
-      top: 7%;
+      top: 9%;
     }
 
     .category-item-3 {
-      position: absolute;
-      right: 35%;
-      top: 13%;
+      right: 31%;
+      top: 20%;
     }
 
     .category-item-4 {
-      position: absolute;
-      right: 25%;
-      top: 30%;
+      right: 20%;
+      top: 47%;
+
+      .category-thumbnail--large {
+        left: 0;
+      }
     }
   }
 
   .categories-6 {
     .category-item-0 {
-      left: 20%;
-      position: absolute;
-      top: 47%;
+      left: 17%;
+      top: 60%;
+
+      .category-thumbnail--large {
+        right: 0;
+      }
     }
 
     .category-item-1 {
-      left: 28%;
-      position: absolute;
-      top: 25%;
+      left: 26%;
+      top: 29%;
+
+      .category-thumbnail--large {
+        right: 0;
+      }
       }
 
     .category-item-2 {
-      left: 40%;
-      position: absolute;
+      left: 39%;
       top: 11%;
     }
 
     .category-item-3 {
-      position: absolute;
-      right: 40%;
+      right: 39%;
       top: 11%;
       }
 
     .category-item-4 {
-      position: absolute;
-      right: 28%;
-      top: 25%;
+      right: 26%;
+      top: 29%;
+
+      .category-thumbnail--large {
+        left: 0;
+      }
     }
 
     .category-item-5 {
-      position: absolute;
-      right: 20%;
-      top: 47%;
+      right: 17%;
+      top: 60%;
+
+      .category-thumbnail--large {
+        left: 0;
+      }
     }
   }
 }
@@ -388,7 +420,7 @@
   position: absolute;
   width: 37px;
   height: 37px;
-  bottom: -63px;
+  bottom: 70px;
   cursor: pointer;
   opacity: 0.8;
   -webkit-transition: opacity 0.2s linear;
@@ -398,7 +430,7 @@
 }
 
 .hide-desktop {
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: 1366px) {
     display: none;
   }
 }
@@ -420,24 +452,31 @@
   form {
     margin: 0 20%;
     padding: 30px;
+    text-align: center;
   }
 
   .form-type-search-api-autocomplete,
   .input-group {
     width: 100%;
+  }
 
-    .input-group-addon {
-      display: none;
+  .input-group {
+    @media screen and (min-width: 1024px) {
+      width: 60%;
     }
+  }
 
-    input[name="search_api_fulltext"] {
+  .input-group-addon {
+    display: none;
+  }
+
+  input[name="search_api_fulltext"] {
+    border: 3px solid #ffcdd2;
+    border-radius: 3px !important;
+    outline: 0;
+
+    &:focus {
       border: 3px solid #ffcdd2;
-      border-radius: 3px !important;
-      outline: 0;
-  
-      &:focus {
-        border: 3px solid #ffcdd2;
-      }
     }
   }
 }

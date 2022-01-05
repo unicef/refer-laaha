@@ -47,6 +47,7 @@
 #}
 {%
   set classes = [
+    'homepage-get-help',
     'block',
     'block-' ~ configuration.provider|clean_class,
     'block-' ~ plugin_id|clean_class,
@@ -57,15 +58,22 @@
 <div {{ attributes.addClass(classes) }}>
   {% block content %}
   <div class="get-help-container">
-    <div class="get-help-image-wrapper"> </div>
-    <div class="get-help-details-wrapper">
+    <div class="get-help-image-wrapper col-12 col-md-6">
+      {{ title_prefix }}
+        {% if content.field_help_title|render %}
+          <h3 class="get-help--title-mobile text-center text-md-left">{{ content.field_help_title }} </h3>
+        {% endif %}
+
+      <img src ="/{{ base_path ~ directory }}/images/get-help.png" alt="get-help image"/>
+    </div>
+    <div class="get-help-details-wrapper col-12 col-md-6 text-center text-md-left">
         {{ title_prefix }}
         {% if content.field_help_title|render %}
-          <div class="get-help--title">{{ content.field_help_title }}</div>
+          <h3 class="get-help--title text-center text-md-left">{{ content.field_help_title }} </h3>
         {% endif %}
         {{ title_suffix }}
         {% if content.field_short_description|render %}
-            <div class="get-help--desc">{{ content.field_short_description }}</div>
+            <div class="get-help--desc text-center text-md-left">{{ content.field_short_description }}</div>
         {% endif %}
         {% if content.field_link|render %}
             <div class="get-help--link">{{ content.field_link }}</div>

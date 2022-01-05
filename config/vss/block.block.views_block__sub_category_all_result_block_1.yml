@@ -1,0 +1,33 @@
+uuid: 368c6cad-7772-45b1-9e97-516a79f98120
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.sub_category_all_result
+  module:
+    - ctools
+    - views
+  theme:
+    - vss
+id: views_block__sub_category_all_result_block_1
+theme: vss
+region: content
+weight: -3
+provider: null
+plugin: 'views_block:sub_category_all_result-block_1'
+settings:
+  id: 'views_block:sub_category_all_result-block_1'
+  label: ''
+  provider: views
+  label_display: '0'
+  views_label: ''
+  items_per_page: none
+  context_mapping: {  }
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    bundles:
+      categories: categories
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'

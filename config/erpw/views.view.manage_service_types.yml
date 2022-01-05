@@ -3,11 +3,14 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.node.field_service_type_color
     - field.storage.node.field_service_type_icon
     - node.type.service_type
     - user.role.authenticated
   module:
+    - color_field
     - node
+    - quick_node_clone
     - user
 id: manage_service_types
 label: 'Manage service types'
@@ -84,10 +87,10 @@ display:
           group_type: group
           admin_label: ''
           label: ''
-          exclude: true
+          exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: '<i class="{{ field_service_type_icon }} "></i>'
             make_link: false
             path: ''
             absolute: false
@@ -139,6 +142,73 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        field_service_type_color:
+          id: field_service_type_color
+          table: node__field_service_type_color
+          field: field_service_type_color
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: color
+          type: color_field_formatter_swatch_options
+          settings:
+            shape: circle
+            width: '40'
+            height: '40'
+            opacity: false
+            data_attribute: false
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
         title:
           id: title
           table: node_field_data
@@ -147,7 +217,7 @@ display:
           group_type: group
           admin_label: ''
           label: ''
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -180,8 +250,8 @@ display:
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
+          element_wrapper_type: div
+          element_wrapper_class: service-title
           element_default_classes: true
           empty: ''
           hide_empty: false
@@ -190,7 +260,7 @@ display:
           click_sort_column: value
           type: string
           settings:
-            link_to_entity: false
+            link_to_entity: true
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -363,6 +433,123 @@ display:
           absolute: true
           entity_type: node
           plugin_id: entity_link_delete
+        clone_link:
+          id: clone_link
+          table: node
+          field: clone_link
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          text: Clone
+          entity_type: node
+          plugin_id: quick_node_clone_link
+        nid:
+          id: nid
+          table: node_field_data
+          field: nid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: node
+          entity_field: nid
+          plugin_id: field
         nothing:
           id: nothing
           table: views
@@ -374,7 +561,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-type\">\r\n      <i class=\"{{ field_service_type_icon }}\"></i>\r\n      <span class=\"service-type-name\">{{ title }}</span>\r\n</div>\r\n<div class=\"edit-delete-links\"> \r\n      <span class=\"edit-link\">{{ edit_node_1 }}</span>\r\n      <a href=\"{{ delete_node_1 }}\" class=\"use-ajax delete-link\" data-dialog-type=\"modal\" data-dialog-options=\"{&quot;width&quot;:700}\">delete</a>\r\n</div>"
+            text: "    <div class=\"edit-delete-links\"> \r\n        <span class=\"clone-service-type\">{{ clone_link }}</span>\r\n        <span class=\"delete-link\"><a href=\"/node/{{ nid }}?action=delete\">delete</a></span>\r\n<span class=\"edit-link\">{{ edit_node_1 }}</span>\r\n    </div>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -439,21 +626,20 @@ display:
             operator_limit_selection: false
             operator_list: {  }
       sorts:
-        created:
-          id: created
+        title:
+          id: title
           table: node_field_data
-          field: created
-          order: DESC
-          entity_type: node
-          entity_field: created
-          plugin_id: date
+          field: title
           relationship: none
           group_type: group
           admin_label: ''
+          order: ASC
           exposed: false
           expose:
             label: ''
-          granularity: second
+          entity_type: node
+          entity_field: title
+          plugin_id: standard
       title: 'Manage service types'
       header:
         area:
@@ -466,14 +652,25 @@ display:
           empty: false
           tokenize: false
           content:
-            value: "<div class=\"new-service-type\"><a href=\"/node/add/service_type\">Add a new Service type</a></div><hr>\r\n\r\n<div class=\"title-view\">Manage existing service types</div>"
+            value: '<div class="new-service-type button-with-icon"><a href="/node/add/service_type">Add a new Service type</a></div>'
             format: full_html
           plugin_id: text
+        result:
+          id: result
+          table: views
+          field: result
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          content: '<div class="service-count more-link">@total Services</div>'
+          plugin_id: result
       footer: {  }
       empty: {  }
       relationships: {  }
       arguments: {  }
       display_extenders: {  }
+      css_class: service-list
     cache_metadata:
       max-age: -1
       contexts:
@@ -483,6 +680,7 @@ display:
         - 'user.node_grants:view'
         - user.roles
       tags:
+        - 'config:field.storage.node.field_service_type_color'
         - 'config:field.storage.node.field_service_type_icon'
   page_1:
     display_plugin: page
@@ -505,4 +703,5 @@ display:
         - 'user.node_grants:view'
         - user.roles
       tags:
+        - 'config:field.storage.node.field_service_type_color'
         - 'config:field.storage.node.field_service_type_icon'

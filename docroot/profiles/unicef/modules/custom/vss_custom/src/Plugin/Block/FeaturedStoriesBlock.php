@@ -70,6 +70,18 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
       if ($count > 1) {
         $content[$k]['title'] = $v->title;
         $thumbnail = $v->field_thumbnail_image_target_id;
+        $node = \Drupal::entityTypeManager()->getStorage('node')->load($v->nft_entity_id);
+        if (!$node->get('field_read_time')->isEmpty()) {
+          $read_time = $node->field_read_time->getValue()['0']['value'];
+          $content[$k]['read_time'] = $read_time;
+        }
+        if ($v->type == 'video') {
+          if (!$node->get('field_video_time')->isEmpty()) {
+            $video_time = $node->field_video_time->getValue()['0']['value'];
+            $content[$k]['video_time'] = $video_time;
+          }
+        }
+
         $file = $this->entityTypeManager->getStorage('file')->load($thumbnail);
         if ($file) {
           $thumbnail_final = $file->getFileUri();
@@ -77,6 +89,7 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
         }
         $content[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/node/' . $v->nft_entity_id), '/');
         $content[$k]['type'] = $v->type;
+
       }
     }
     $this->pageCacheKillSwitch->trigger();
@@ -106,6 +119,7 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
     $query->join('node__field_sub_category', 'nscat', 'nscat.entity_id = nft.entity_id');
     $query->join('taxonomy_term__parent', 'tp', 'tp.entity_id = nscat.field_sub_category_target_id AND tp.parent_target_id = t.tid');
     $query->join('node_field_data', 'n', 'nft.entity_id = n.nid');
+    // $query->join('node__field_read_time', 'frt', 'nft.entity_id = n.nid');
     $query->condition('t.vid', 'categories');
     $query->condition('n.langcode', $langcode);
     $query->condition('t.tid', $term_id);
@@ -116,6 +130,7 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
     $query->fields('n', ['title']);
     $query->fields('n', ['type']);
     $terms = $query->execute()->fetchAll(\PDO::FETCH_GROUP | \PDO::FETCH_UNIQUE);
+
     return $terms;
   }
 

@@ -2,17 +2,14 @@ uuid: bcb611a0-61d8-4f00-b764-a66d9b52f703
 langcode: en
 status: true
 dependencies:
-  content:
-    - 'block_content:homepage_hero_section:13389e9a-8738-459b-8be3-6a0f857205cf'
   module:
-    - block_content
     - system
   theme:
     - vss
 id: homepagecategories
 theme: vss
 region: content
-weight: -7
+weight: -10
 provider: null
 plugin: 'block_content:13389e9a-8738-459b-8be3-6a0f857205cf'
 settings:

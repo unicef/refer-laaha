@@ -4,7 +4,7 @@ header {
 .region-header {
   background: url(../images/top_nav_image.svg) no-repeat right -143px top -130px;
   height: 100%;
-  padding: 20px 0 0 0;
+  padding: 0;
 }
 .menu--header-menu {
   position: absolute;
@@ -27,7 +27,7 @@ header {
       background: #4FB5EE;
       color:  $base-white-color;
       position: absolute;
-      border-radius: 50%;
+      @include border-radius(50%);
       height: 11px;
       width: 14px;
       right: -7px;
