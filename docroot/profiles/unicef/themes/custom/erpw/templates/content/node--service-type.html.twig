@@ -87,6 +87,6 @@
 <div class="color-label">{{ content.field_service_type_color['#title']}}*:  {{ node.field_service_type_color.entity.field_service_type_color.color }}</div>
 {% if query %}
     <a href="/node/{{ nid }}/{{ query }}" class="use-ajax modal-popup" data-dialog-type="modal" data-dialog-options="{&quot;width&quot;:700, &quot;title&quot;:&quot;Deleted successfuly The details has been successfully Deleted. &quot;}">DELETE SERVICE TYPE</a>
-    <span class="error-msg">This action cannot be reversed ! Please note that deleting a location will remove any mapping it has with existing referral pathways and Service providers of application</span>
+    <span class="error-msg">{{ 'This action cannot be reversed ! Please note that deleting a location will remove any mapping it has with existing referral pathways and Service providers of application' | t }}</span>
 {% endif %}
 
