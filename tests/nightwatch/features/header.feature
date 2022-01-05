@@ -11,7 +11,7 @@ Background: Verify user can launch browser and login into CMS
           Then Verify Language Switcher
           Then Verify Discover nav Menu
           Then Verify FAQs nav menu
-          Then Verify Get In Touch nav menu
+          #Then Verify Get In Touch nav menu
           Then Verify Resource Library nav menu
 
         Scenario: Verify Virtual Safe Space Title and logo
@@ -23,6 +23,7 @@ Background: Verify user can launch browser and login into CMS
           Then Add Link
           Then Add Title
           Then Click Save
+          Then Navigate to created Header Menu Items
 
         Scenario: Exit Functionality
           Given Verify Exit Functionality

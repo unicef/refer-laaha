@@ -2,9 +2,7 @@ var articleData = require('../Data/components.json');
 const { client } = require("nightwatch-api");
 
 module.exports = {
-//   url: function () {
-//     return `${process.env.VSS_IQ_URL}`;
-// },
+
 elements: {
 
     QuickLink: {
@@ -51,7 +49,38 @@ elements: {
           selector:
           '//*[contains(text(), "Automation Link Added")]',
           locateStrategy: 'xpath'
-      }
+      },
+      DeleteMenuLink: {
+          selector:
+          '//*[contains(text(), "Automation Link Added")]',
+          locateStrategy: 'xpath'
+      },
+      DeleteBTN: {
+          selector:
+          '//*[@id="edit-delete"]',
+          locateStrategy: 'xpath'
+      },
+      deleteInMenuItems: {
+          selector:
+          'tr:nth-child(2) [class="delete dropbutton-action secondary-action"]',
+          locateStrategy:'xpath'
+      },
+      editInMenuTerms: {
+          selector:
+          'tr:nth-child(2) [class="edit dropbutton-action"]',
+          locateStrategy: 'xpath'
+      },
+      downArrowInMenuTerms: {
+          selector:
+          'tr:nth-child(2) [class="dropbutton-toggle"]',
+          locateStrategy: 'xpath'
+      },
+      editDelete: {
+          selector:
+          '//*[@class="button button--danger"]',
+          locateStrategy:'xpath'
+      },
+
 
   },
   commands: [
@@ -135,16 +164,30 @@ elements: {
 },
     Delete_Created_Menu_Item: function(){
     try {
-        return this
-             .waitForElementPresent('@EditQuickLink')
-             .assert.visible('@EditQuickLink')
-             .click('@EditQuickLink')
-             .pause(1000)
-             .waitForElementPresent('@VerifyAddMenuLinkTitle')
-             .assert.visible('@VerifyAddMenuLinkTitle')
-             .assert.visible('@MenulinkTitle')            
-             .setValue('@MenulinkTitle', editedTitle)
-             .pause(1000)
+
+             this.assert.visible('@QuickLink')
+             this.click('@QuickLink')
+             this.pause(1000)
+             this.click('xpath','//td/a[contains(text(), "Automation Link Added")]//ancestor::tr/td[4]/div/div/ul/li/a')
+             client.execute('window.scrollTo(0,document.body.scrollHeight);');
+             this.pause(1000)
+             this.click('@editDelete')
+             this.pause(1000)
+             this.click('xpath','//input[@id="edit-submit"]')
+             this.pause(1000)
+             return this
+
+            //  .click(`//td/a[contains(text(), "Automation Link Added")]//ancestor::tr/td[7]//ul/li/a[text()="Delete"]`)
+            //  .pause(3000)
+            //  .click('//input[@id="edit-submit"]')
+            //  .pause(1000)
+            //  .click('@EditQuickLink')
+            //  .pause(1000)
+            //  .waitForElementPresent('@VerifyAddMenuLinkTitle')
+            //  .assert.visible('@VerifyAddMenuLinkTitle')
+            //  .assert.visible('@MenulinkTitle')            
+            //  .setValue('@MenulinkTitle', editedTitle)
+            //  .pause(1000)
 }
 catch (err) {
     console.log('Error is : >>>>>>>>>   ', err)

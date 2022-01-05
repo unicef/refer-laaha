@@ -11,6 +11,8 @@ Feature: Verify Footer Elements
         Then Add Link
         Then Add Title
         Then Click Save
+        Then Navigate to created Quick Links
+
 
     #  Scenario: Add and Verify VSS Footer Last Menu Items
     #     Given Naviagte to Footer Quick Links Menus
