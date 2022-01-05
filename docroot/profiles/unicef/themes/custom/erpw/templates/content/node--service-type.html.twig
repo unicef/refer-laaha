@@ -82,7 +82,7 @@
 %}
 
 {{ attach_library('unicef_iconpicker/unicef-icons')}}
-<div class="title"><span>Name of Service Type*:</span> {{ node.title.value }} </div>
+<div class="title"><span>{{ 'Name of Service Type' | t }}*:</span> {{ node.title.value }} </div>
 <div class="icon-label">{{ content.field_service_type_icon['#title']}}*:  <i class="{{ node.field_service_type_icon.entity.field_service_type_icon.value }}"></i></div>
 <div class="color-label">{{ content.field_service_type_color['#title']}}*:  {{ node.field_service_type_color.entity.field_service_type_color.color }}</div>
 {% if query %}

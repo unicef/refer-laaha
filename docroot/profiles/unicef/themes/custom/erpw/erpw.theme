@@ -47,11 +47,15 @@ function erpw_preprocess_form_element_label(&$variables) {
  * Implements hook_theme_suggestions_HOOK() for dashboard.
  */
 function erpw_preprocess_node(&$variables) {
-  $nid = '';
-  $path = \Drupal::request()->getpathInfo();
-  $curr_path = explode('/', $path);
-  $nid = !empty($curr_path[2]) ? $curr_path[2] : '';
-  $query_path = \Drupal::request()->query->get('action');
-  $variables['nid'] = $nid;
-  $variables['query'] = $query_path;
+  $node = $variables["node"];
+  switch($node->bundle()){
+    case "service_type":
+      $node = \Drupal::routeMatch()->getParameter('node');
+      if ($node instanceof \Drupal\node\NodeInterface) {
+        $nid = $node->id();
+      }
+      $query_path = \Drupal::request()->query->get('action');
+      $variables['nid'] = $nid;
+      $variables['query'] = $query_path;
+  }
 }
