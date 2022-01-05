@@ -16,6 +16,8 @@
         $("form input").each(function() {
           if ($(this).val() == "") {
             $(this).css("border", "2px solid red");
+          } else {
+            $(this).css("border", "1px solid #F3C1BF");
           }
         });
         $(".form-select").change(function() {
