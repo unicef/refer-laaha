@@ -38,9 +38,8 @@ class TopPages extends ControllerBase {
   /**
    * Constructs a TopPages object.
    *
-   * @param \Drupal\Core\Datetime\DateFormatterInterface $date
+   * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
    *   The date service.
-   *
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
    *   The form builder service.
    */
@@ -130,8 +129,8 @@ class TopPages extends ControllerBase {
     $results = $query->execute();
 
     $rows = [];
-
-    $page = isset($_GET['page']) ? $_GET['page'] : 0;
+    $get_page = \Drupal::request()->query->get('page');
+    $page = isset($get_page) ? $get_page : 0;
     $i = 0 + $page * $items_per_page;
     // @todo add links
     foreach ($results as $data) {

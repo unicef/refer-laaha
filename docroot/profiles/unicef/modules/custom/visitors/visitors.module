@@ -5,8 +5,6 @@
  * Logs visitors for your site.
  */
 
-use Drupal\Core\Database\Database;
-
 /**
  * Implements of hook_help().
  */
@@ -47,12 +45,11 @@ function visitors_date_filter_sql_condition(&$query) {
   elseif ($from == 'cur_mon') {
     $timestamp = strtotime(date('Y-m-01'));
   }
-  else if($from == 'cur_yr'){
+  elseif ($from == 'cur_yr') {
     $timestamp = strtotime('first day of January');
-  }else{
+  }
+  else {
     $timestamp = strtotime('today midnight');
   }
   $query->condition('visitors_date_time', $timestamp, '>=');
 }
-
-

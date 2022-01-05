@@ -2,10 +2,7 @@
 
 namespace Drupal\visitors\Form;
 
-use Drupal\Component\Utility\NestedArray;
-use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Form\FormBase;
-use Drupal\Core\Datetime\DateHelper;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
@@ -15,14 +12,14 @@ use Drupal\Core\Url;
 class DateFilter extends FormBase {
 
   /**
-   * Form Id.
+   * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'visitors_date_filter_form';
   }
 
   /**
-   * Form builder
+   * Form builder.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
@@ -38,7 +35,7 @@ class DateFilter extends FormBase {
         'cur_week' => t('This Week'),
         'cur_mon' => t('This Month'),
         'cur_yr' => t('This Year'),
-      ]
+      ],
     ];
 
     $form['submit'] = [
@@ -50,13 +47,13 @@ class DateFilter extends FormBase {
   }
 
   /**
-   * validate form.
+   * Validate form.
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    $fromvalue     = $form_state->getValue('visitors_date_from_filter');
-    $tovalue       = $form_state->getValue('to');
-    $from          = [];
-    $to            = [];
+    $fromvalue = $form_state->getValue('visitors_date_from_filter');
+    $tovalue   = $form_state->getValue('to');
+    $from      = [];
+    $to        = [];
   }
 
   /**
@@ -67,4 +64,5 @@ class DateFilter extends FormBase {
     $url = Url::fromRoute('visitors.top_pages', [], ['query' => ['timestamp' => $from]]);
     $form_state->setRedirectUrl($url);
   }
+
 }
