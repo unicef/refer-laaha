@@ -32,7 +32,7 @@ class Dashboard extends FormBase {
       '#suffix' => '</div>',
     ];
     $url = Url::fromRoute('view.manage_service_types.page_1');
-    $link = Link::fromTextAndUrl('Manage Services', $url)->toString();
+    $link = Link::fromTextAndUrl('Manage service types', $url)->toString();
     $form['manage_services'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="dashboard-link service-link">',
