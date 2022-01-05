@@ -35,12 +35,21 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
   protected $languageManager;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $instance = new static($configuration, $plugin_id, $plugin_definition);
     $instance->vssCommonConfigDefault = $container->get('vss_common_config.default');
     $instance->languageManager = $container->get('language_manager');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+
     return $instance;
   }
 
@@ -55,32 +64,40 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     foreach ($content['homepage_hero'] as $term_id => $val) {
       $term_obj = Term::load($term_id);
 
-      foreach ($term_obj->get('field_related_content')->getValue() as $target_id) {
-        $node = \Drupal::entityTypeManager()->getStorage('node')->load($target_id['target_id']);
-        $node_url = Url::fromRoute('entity.node.canonical', ['node' => $target_id['target_id']]);
-        $node_url = $node_url->toString();
-        $paragraph = $node->field_assets->getValue();
-        $paragraph_obj = Paragraph::load($paragraph['1']['target_id']);
-        $paragraph_type = NULL;
-        if ($paragraph_obj != NULL) {
-          $paragraph_type = $paragraph_obj->get('type')->getValue()[0]['target_id'];
-        }
-        $video_time = 0;
-        if (($paragraph_type != NULL) && ($paragraph_type == 'external_videos' || $paragraph_type == 'video')) {
-          $video_time = $paragraph_obj->get('field_video_time')->getValue()[0]['value'];
-        }
-        if ($node) {
-          $discover_article[] = [
-            'term_id' => $term_id,
-            'nid' => $target_id['target_id'],
-            'node_name' => $node->getTitle(),
-            'node_url' => $node_url,
-            'thumbnail_img' => $node->get('field_thumbnail_image')->entity->getFileUri(),
-            'paragraph_type' => $paragraph_type,
-            'video_time' => $video_time,
-          ];
-        }
+      if (!$term_obj->get('field_related_content')->isEmpty()) {
+        foreach ($term_obj->get('field_related_content')->getValue() as $target_id) {
+          $node = $this->entityTypeManager->getStorage('node')->load($target_id['target_id']);
+          $node_url = Url::fromRoute('entity.node.canonical', ['node' => $target_id['target_id']]);
+          $node_url = $node_url->toString();
 
+          if (!$node->get('field_assets')->isEmpty()) {
+            $paragraph = $node->field_assets->getValue();
+            $paragraph_obj = Paragraph::load($paragraph['1']['target_id']);
+            $paragraph_type = NULL;
+            if ($paragraph_obj != NULL) {
+              $paragraph_type = $paragraph_obj->get('type')->getValue()[0]['target_id'];
+            }
+          }
+
+          $video_time = 0;
+          if (($paragraph_type != NULL) && ($paragraph_type == 'external_videos' || $paragraph_type == 'video')) {
+            if (!$paragraph_obj->get('field_video_time')->isEmpty()) {
+              $video_time = $paragraph_obj->get('field_video_time')->getValue()[0]['value'];
+            }
+          }
+          if ($node) {
+            $discover_article[] = [
+              'term_id' => $term_id,
+              'nid' => $target_id['target_id'],
+              'node_name' => $node->getTitle(),
+              'node_url' => $node_url,
+              'thumbnail_img' => $node->get('field_thumbnail_image')->entity->getFileUri(),
+              'paragraph_type' => $paragraph_type,
+              'video_time' => $video_time,
+            ];
+          }
+
+        }
       }
 
       if ($term_obj) {
