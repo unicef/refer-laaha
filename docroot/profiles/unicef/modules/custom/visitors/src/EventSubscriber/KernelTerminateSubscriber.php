@@ -28,8 +28,15 @@ class KernelTerminateSubscriber implements EventSubscriberInterface {
 
     $user = \Drupal::currentUser();
     $visitors_uid = isset($user) ? $user->id() : '';
-    if ($user->isAnonymous()) {
+    if ($user->isAnonymous() && (strpos(Url::fromRoute('<current>')->toString(), 'user') == '' && strpos(Url::fromRoute('<current>')->toString(), 'modal') == '')) {
       $ip_str = $this->getIpStr();
+      if (Url::fromRoute('<current>')->toString() == '/') {
+        $title = 'Home';
+      }
+      if (Url::fromRoute('<current>')->toString() == '/search-form') {
+        $title = 'Search result page';
+      }
+
       $fields = [
         'visitors_uid'        => $visitors_uid,
         'visitors_ip'         => $ip_str,
@@ -37,7 +44,7 @@ class KernelTerminateSubscriber implements EventSubscriberInterface {
         'visitors_url'        => $this->getUrl(),
         'visitors_referer'    => $this->getReferer(),
         'visitors_path'       => Url::fromRoute('<current>')->toString(),
-        'visitors_title'      => $this->getTitle(),
+        'visitors_title'      => $title ? $title : $this->getTitle(),
         'visitors_user_agent' => $this->getUserAgent(),
       ];
 

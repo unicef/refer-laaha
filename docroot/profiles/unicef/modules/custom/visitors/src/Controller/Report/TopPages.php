@@ -91,7 +91,7 @@ class TopPages extends ControllerBase {
         'field'     => 'count',
         'specifier' => 'count',
         'class'     => [RESPONSIVE_PRIORITY_LOW],
-        // 'sort'      => 'desc',
+        'sort'      => 'desc',
       ],
     ];
   }
