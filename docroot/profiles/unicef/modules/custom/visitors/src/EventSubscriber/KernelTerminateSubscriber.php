@@ -28,7 +28,7 @@ class KernelTerminateSubscriber implements EventSubscriberInterface {
 
     $user = \Drupal::currentUser();
     $visitors_uid = isset($user) ? $user->id() : '';
-    if ($user->isAnonymous() && (strpos(Url::fromRoute('<current>')->toString(), 'user') == '' && strpos(Url::fromRoute('<current>')->toString(), 'modal') == '')) {
+    if ($user->isAnonymous() && (strpos(Url::fromRoute('<current>')->toString(), 'user') == '' && strpos(Url::fromRoute('<current>')->toString(), 'modal') == '' && strpos(Url::fromRoute('<current>')->toString(), 'autocomplete') == '')) {
       $ip_str = $this->getIpStr();
       if (Url::fromRoute('<current>')->toString() == '/') {
         $title = 'Home';
