@@ -82,11 +82,13 @@
 %}
 
 {{ attach_library('unicef_iconpicker/unicef-icons')}}
-<div class="title"><span>{{ 'Name of Service Type' | t }} </span> {{ node.title.value }} </div>
-<div class="icon-label">{{ 'Selected icon' | t }}  <i class="{{ node.field_service_type_icon.entity.field_service_type_icon.value }}"></i></div>
-<div class="color-label">{{ 'Selected colour' | t }}  {{ node.field_service_type_color.entity.field_service_type_color.color }}</div>
+<div class="delete-screen">
+<div class="detail-row"><label>{{ 'Name of Service Type:' | t }} </label><span> {{ node.title.value }}</span> </div>
+<div class="detail-row"><label>{{ 'Icon:' | t }} </label> <i class="{{ node.field_service_type_icon.entity.field_service_type_icon.value }}"></i></div>
+<div class="detail-row color-label"><label>{{ 'Colour:' | t }} </label><span style="background-color:  {{ node.field_service_type_color.entity.field_service_type_color.color }}"></span></div>
 {% if query %}
-    <a href="/node/{{ nid }}/{{ query }}" class="use-ajax modal-popup" data-dialog-type="modal" data-dialog-options="{&quot;width&quot;:700, &quot;title&quot;:&quot;Deleted successfuly The details has been successfully Deleted. &quot;}">{{ 'DELETE SERVICE TYPE' | t }}</a>
-    <span class="error-msg">{{ 'This action cannot be reversed ! Please note that deleting a service type will remove any mapping it has with existing referral pathways and Organisation Services of application.' | t }}</span>
+    <a href="/node/{{ nid }}/{{ query }}" class="use-ajax modal-popup button-red" data-dialog-type="modal" data-dialog-options="{&quot;width&quot;:700, &quot;title&quot;:&quot; Deleted successfuly The details has been successfully Deleted. &quot;}">{{ 'DELETE SERVICE TYPE' | t }}</a>
+    <div class="msg-note">{{ 'This action cannot be reversed ! Please note that deleting a service type will remove any mapping it has with existing referral pathways and Organisation Services of application.' | t }}</div>
 {% endif %}
+</div>
 
