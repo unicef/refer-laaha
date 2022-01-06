@@ -125,6 +125,8 @@ permissions:
   - 'use editorial transition published_to_request_for_un_publish'
   - 'use editorial transition request_for_publish'
   - 'use editorial transition request_for_publish_to_published'
+  - 'use editorial transition request_to_delete'
+  - 'use editorial transition request_to_delete_to_request_to_unpublish'
   - 'use editorial transition un_publish_to_draft'
   - 'use text format full_html'
   - 'use text format restricted_html'
