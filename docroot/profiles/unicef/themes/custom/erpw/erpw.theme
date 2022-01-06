@@ -20,7 +20,20 @@ function erpw_preprocess_block(&$variables) {
     $variables['user_logged_in_name'] = ucfirst($user_firstname);
     $variables['#cache']['max-age'] = 0;
   }
-
+  $node = \Drupal::routeMatch()->getRouteName();
+  if ($variables['plugin_id'] == 'page_title_block' && $node == 'entity.node.canonical') {
+    $route = \Drupal::routeMatch()->getParameter('node');
+    $nid = $route->id();
+    if ($route->bundle() == 'service_type') {
+      $query_path = \Drupal::request()->query->get('action');
+      if (!empty($query_path)) {
+        $variables['content']['#title'] = t("Delete Service Type");
+      }
+      else {
+        $variables['content']['#title'] = t("Service Type Details");
+      }
+    }
+  }
 }
 
 /**
