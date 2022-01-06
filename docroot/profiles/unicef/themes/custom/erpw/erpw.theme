@@ -29,6 +29,9 @@ function erpw_preprocess_block(&$variables) {
       if (!empty($query_path)) {
         $variables['content']['#title'] = t("Delete Service Type");
       }
+      else {
+        $variables['content']['#title'] = t("Service Type Details");
+      }
     }
   }
 }
