@@ -28,7 +28,8 @@ function erpw_preprocess_block(&$variables) {
       $query_path = \Drupal::request()->query->get('action');
       if (!empty($query_path)) {
         $variables['content']['#title'] = t("Delete Service Type");
-      }else{
+      }
+      else {
         $variables['content']['#title'] = t("Service Type Details");
       }
     }
