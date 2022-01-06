@@ -11,8 +11,6 @@ display:
           submit_button: Aplicar
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       pager:
         options:
           tags:
@@ -27,14 +25,6 @@ display:
       fields:
         title:
           label: Título
-          separator: ', '
-        nid:
-          format_plural_string: !!binary MQNAY291bnQ=
-        view_node:
-          label: Ver
-          text: vista
-      title: 'Node views count statistics'
     display_title: Máster
   page:
     display_title: Página
-label: 'Node views count statistics'
