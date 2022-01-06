@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.podcast_audio.field_audio
+    - field.field.paragraph.podcast_audio.field_podcast_time
     - field.field.paragraph.podcast_audio.field_show_transcription
     - field.field.paragraph.podcast_audio.field_vtt_entries
     - paragraphs.paragraphs_type.podcast_audio
@@ -22,8 +23,16 @@ content:
     third_party_settings: {  }
     type: file_generic
     region: content
+  field_podcast_time:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_show_transcription:
-    weight: 11
+    weight: 4
     settings:
       display_label: true
     third_party_settings: {  }
@@ -48,10 +57,10 @@ content:
     type: paragraphs
     region: content
   translation:
-    weight: 10
+    weight: 3
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   created: true
   status: true
