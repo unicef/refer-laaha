@@ -5,9 +5,8 @@
 	font-size: $base-font-size;
 	text-align: center;
 	width: 287px !important;
-	.ui-dialog-titlebar {
-		background: none;
-		border: 0;
+	.ui-dialog-title {
+		margin-top: 10px;
 	}
 	.ui-dialog-content {
 		padding: 0 0.5em 1em !important;
@@ -15,6 +14,28 @@
 	}
 	.ui-button .ui-icon {
 		background: url('../images/cross.svg') 0 0 no-repeat !important;
+	}
+	.ui-dialog-buttonpane {
+		padding: 0;
+    border-width: 0;
+    background: none;
+		.ui-dialog-buttonset {
+			float: none;
+			text-align: center;
+		}
+		button {
+			background: $base-secondary-bgcolor;
+			border: 1px solid $base-secondary-bgcolor;
+			box-sizing: border-box;
+			@include border-radius(4px);
+			color: $base-white-color;
+			display: inline-block;
+			font-size: .875em;
+			margin: 0 0 1em 0;
+			padding: 10px 24px;
+			text-transform: uppercase;
+			width: 72%;
+		}	
 	}
 	.email-notify {
 		color: $new-txt-color;
@@ -38,10 +59,27 @@
 .review-msg {
 	color: $base-secondary-bgcolor;
 	line-height: 22px;
-	margin-bottom: 15px;
+	margin-bottom: 5px;
 }
 .ui-widget-overlay {
 	background: rgba(68, 25, 39, 0.28) !important;
 	backdrop-filter: blur(4px)  !important;
 	opacity: 1 !important;
+}
+
+.page-node-type-service-type {
+	.ui-dialog-titlebar {
+		background: none;
+		border: 0;
+		font-weight: 400;
+		padding: 0;
+		.ui-dialog-title {
+			margin: 40px 0 0;
+			white-space: inherit;
+			width: 100%;
+		}
+		&-close {
+			top: 17px;
+		}
+	}
 }

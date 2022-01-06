@@ -134,7 +134,17 @@ form input[type=submit] {
 .import-csv {
 	background: url('../images/import.png') top center no-repeat transparent;
 	margin-right: 10px;
-	.ajax-progress-throbber {
-		display: none;
-	}
+}
+.ajax-progress-throbber {
+	display: none;
+}
+//note message
+.msg-note {
+	color: $grey-txt-color;
+	font-size: 10px;
+	line-height: 14px;
+	text-align: center;
+}
+.margin-space {
+	margin-bottom: 20px;
 }
