@@ -191,6 +191,22 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   margin-bottom: 20px;
 }
 
+.button-red {
+  background: #A85766;
+  border: 1px solid #A85766;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 4px;
+  color: #ffffff !important;
+  display: inline-block;
+  font-size: 0.875em;
+  font-weight: 500;
+  margin: 0 0 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+  width: 100%;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
@@ -260,8 +276,7 @@ select:-ms-input-placeholder {
   font-size: 14px;
 }
 
-input[type=submit],
-.button-red {
+input[type=submit] {
   background: #A85766;
   border: 1px solid #A85766;
   -webkit-box-sizing: border-box;
@@ -276,13 +291,11 @@ input[type=submit],
   text-transform: uppercase;
   width: 100%;
 }
-input[type=submit].arrow-btn,
-.button-red.arrow-btn {
+input[type=submit].arrow-btn {
   background: url("../images/arrow-white.svg") calc(50% + 50px) center no-repeat #A85766;
   margin: 20px 0 40px;
 }
-input[type=submit].use-ajax.arrow-btn,
-.button-red.use-ajax.arrow-btn {
+input[type=submit].use-ajax.arrow-btn {
   background-position: calc(50% + 100px) center;
 }
 
@@ -1137,14 +1150,23 @@ body.path-user {
   width: 287px !important;
 }
 .ui-dialog .ui-dialog-title {
+  float: none;
   margin-top: 10px;
 }
+.ui-dialog .ui-dialog-titlebar {
+  background: none;
+  border: 0;
+}
 .ui-dialog .ui-dialog-content {
-  padding: 0 0.5em 1em !important;
+  padding: 0 !important;
   overflow-x: hidden;
 }
 .ui-dialog .ui-button .ui-icon {
   background: url("../images/cross.svg") 0 0 no-repeat !important;
+}
+.ui-dialog input[type=submit],
+.ui-dialog .button-red {
+  width: 72%;
 }
 .ui-dialog .ui-dialog-buttonpane {
   padding: 0;
@@ -1205,10 +1227,9 @@ body.path-user {
   background: none;
   border: 0;
   font-weight: 400;
-  padding: 0;
+  padding: 20px 0 0;
 }
 .page-node-type-service-type .ui-dialog-titlebar .ui-dialog-title {
-  margin: 40px 0 0;
   white-space: inherit;
   width: 100%;
 }
