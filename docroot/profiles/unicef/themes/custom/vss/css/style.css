@@ -1509,6 +1509,30 @@ html[dir="rtl"] .get-help-container .get-help--link a::after {
 html[dir="rtl"] .get-help-container .get-help--desc {
   text-align: right; }
 
+html[dir="rtl"] .block-subcategory-hero-block {
+  background: url("../images/subcat-hero-mobile-rtl.svg") no-repeat;
+  background-size: 100%;
+  left: 50%;
+  margin: 0 -50vw;
+  max-width: 100vw;
+  min-height: 500px;
+  position: relative;
+  right: 50%;
+  width: 100vw; }
+  @media screen and (min-width: 1024px) {
+    html[dir="rtl"] .block-subcategory-hero-block {
+      background: url("../images/subcategory-hero-rtl.svg") no-repeat; } }
+  html[dir="rtl"] .block-subcategory-hero-block .hero-banner .banner-left,
+  html[dir="rtl"] .block-subcategory-hero-block .hero-banner .banner-right {
+    padding-right: 0; }
+  html[dir="rtl"] .block-subcategory-hero-block .hero-banner .thumbnail-icon {
+    right: 18px; }
+  html[dir="rtl"] .block-subcategory-hero-block .banner-cta::after {
+    margin-left: 0;
+    margin-right: 10px;
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg); }
+
 @media screen and (max-width: 767px) {
   html[dir="rtl"] #block-recommendedrelatedcontentblock .recomended-header span {
     padding-right: 8px;
@@ -1939,11 +1963,81 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   .text-md-left {
     text-align: left; } }
 
-/* Faq show hide css */
-.faq-answer-wrapper.hide-short-text .short-text{
-  display: none;
-}
-.faq-answer-wrapper.hide-long-text .long-text{
-  display: none;
-}
+.discover-section .discover-category-thumbnail {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 80px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  overflow: hidden;
+  width: 80px; }
+
+.block-subcategory-hero-block {
+  background: url("../images/subcat-hero-mobile.svg") no-repeat;
+  background-size: 100%;
+  left: 50%;
+  margin: 0 -50vw;
+  max-width: 100vw;
+  min-height: 500px;
+  position: relative;
+  right: 50%;
+  width: 100vw; }
+  @media screen and (min-width: 1024px) {
+    .block-subcategory-hero-block {
+      background: url("../images/subcategory-hero.svg") no-repeat; } }
+  @media screen and (min-width: 1024px) {
+    .block-subcategory-hero-block .hero-banner {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      padding-top: 80px; } }
+  .block-subcategory-hero-block .hero-banner .banner-left,
+  .block-subcategory-hero-block .hero-banner .banner-right {
+    padding: 0; }
+  .block-subcategory-hero-block .hero-banner .banner-left img {
+    border-radius: 20px;
+    max-width: 100%; }
+  .block-subcategory-hero-block .hero-banner .banner-title {
+    font-weight: 400;
+    margin-bottom: 32px; }
+  .block-subcategory-hero-block .hero-banner .thumbnail-icon {
+    background-size: 100% !important;
+    height: 25px;
+    left: 18px;
+    position: absolute;
+    top: 18px;
+    width: 20px; }
+  .block-subcategory-hero-block .hero-banner .icon-video {
+    background: url("../images/video-icon.png") no-repeat; }
+  .block-subcategory-hero-block .hero-banner .icon-podcast {
+    background: url("../images/podcast-icon.png") no-repeat; }
+  .block-subcategory-hero-block .hero-banner .icon-article {
+    background: url("../images/article-icon.png") no-repeat; }
+  .block-subcategory-hero-block .hero-banner .icon-scorm {
+    background: url("../images/cources-icon.png") no-repeat; }
+  .block-subcategory-hero-block .banner-cta {
+    background: #fecdd2;
+    border-radius: 4px;
+    color: #000;
+    font-weight: 500;
+    padding: 14px 25px;
+    text-transform: uppercase; }
+    .block-subcategory-hero-block .banner-cta:hover {
+      text-decoration: none; }
+    .block-subcategory-hero-block .banner-cta::after {
+      background: url("../images/button-arrow.svg") no-repeat center;
+      content: '';
+      display: inline-block;
+      height: 20px;
+      margin-left: 10px;
+      vertical-align: bottom;
+      width: 10px; }
+
 /*# sourceMappingURL=style.css.map */

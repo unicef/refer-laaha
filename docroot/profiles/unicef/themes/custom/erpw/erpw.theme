@@ -7,6 +7,7 @@
 
 use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_preprocess_HOOK()
@@ -20,7 +21,20 @@ function erpw_preprocess_block(&$variables) {
     $variables['user_logged_in_name'] = ucfirst($user_firstname);
     $variables['#cache']['max-age'] = 0;
   }
-
+  $node = \Drupal::routeMatch()->getRouteName();
+  if ($variables['plugin_id'] == 'page_title_block' && $node == 'entity.node.canonical') {
+    $route = \Drupal::routeMatch()->getParameter('node');
+    $nid = $route->id();
+    if ($route->bundle() == 'service_type') {
+      $query_path = \Drupal::request()->query->get('action');
+      if (!empty($query_path)) {
+        $variables['content']['#title'] = t("Delete Service Type");
+      }
+      else {
+        $variables['content']['#title'] = t("Service Type Details");
+      }
+    }
+  }
 }
 
 /**
@@ -58,5 +72,9 @@ function erpw_preprocess_node(&$variables) {
       $query_path = \Drupal::request()->query->get('action');
       $variables['nid'] = $nid;
       $variables['query'] = $query_path;
+
+      $url = Url::fromRoute('erpw_custom.dashboard');
+      $variables['#attached']['library'][] = 'erpw_custom/erpw_js';
+      $variables['#attached']['drupalSettings']['erpw_custom']['dashboard'] = $url->toString();
   }
 }

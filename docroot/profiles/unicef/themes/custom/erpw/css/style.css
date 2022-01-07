@@ -175,8 +175,20 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   background: url("../images/import.png") top center no-repeat transparent;
   margin-right: 10px;
 }
-.import-csv .ajax-progress-throbber {
+
+.ajax-progress-throbber {
   display: none;
+}
+
+.msg-note {
+  color: #444;
+  font-size: 10px;
+  line-height: 14px;
+  text-align: center;
+}
+
+.margin-space {
+  margin-bottom: 20px;
 }
 
 form .form-required::after {
@@ -248,23 +260,29 @@ select:-ms-input-placeholder {
   font-size: 14px;
 }
 
-input[type=submit] {
+input[type=submit],
+.button-red {
   background: #A85766;
   border: 1px solid #A85766;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   border-radius: 4px;
   color: #ffffff;
   display: inline-block;
   font-size: 0.875em;
+  font-weight: 500;
   margin: 0 0 1em 0;
   padding: 10px 24px;
   text-transform: uppercase;
   width: 100%;
 }
-input[type=submit].arrow-btn {
+input[type=submit].arrow-btn,
+.button-red.arrow-btn {
   background: url("../images/arrow-white.svg") calc(50% + 50px) center no-repeat #A85766;
   margin: 20px 0 40px;
 }
-input[type=submit].use-ajax.arrow-btn {
+input[type=submit].use-ajax.arrow-btn,
+.button-red.use-ajax.arrow-btn {
   background-position: calc(50% + 100px) center;
 }
 
@@ -464,6 +482,37 @@ header {
   mask: url("../images/service.svg") center center no-repeat;
 }
 
+.delete-screen .detail-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 20px;
+}
+.delete-screen .detail-row span {
+  color: #444;
+  max-width: 70%;
+  width: 100%;
+}
+.delete-screen label {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  margin-right: 15px;
+  max-width: 130px;
+  width: 100%;
+}
+.delete-screen .button-red {
+  text-align: center;
+}
+.delete-screen .color-label span {
+  border-radius: 4px;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  height: 37px;
+  width: 36px;
+}
+
 .toolbar-fixed #block-erpw-main-menu {
   top: 40px;
 }
@@ -597,7 +646,7 @@ header {
 
 .popup-content {
   color: #666565;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 22px;
   margin-bottom: 15px;
 }
@@ -1018,7 +1067,8 @@ header {
   border-top: 1px solid rgba(215, 215, 215, 0.5);
   margin-top: 5px;
 }
-.service-list .edit-delete-links {
+
+.edit-delete-links {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1027,7 +1077,7 @@ header {
           justify-content: flex-end;
   margin: 0 10px;
 }
-.service-list .edit-delete-links a {
+.edit-delete-links a {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -1037,17 +1087,17 @@ header {
   vertical-align: super;
   width: 20px;
 }
-.service-list .clone-service-type a {
+.edit-delete-links .clone-service-type a {
   background: url("../images/clone.svg") center center no-repeat;
 }
-.service-list .edit-link a {
+.edit-delete-links .edit-link a {
   background: url("../images/edit.svg") center center no-repeat;
 }
-.service-list .delete-link a {
+.edit-delete-links .delete-link a {
   background: url("../images/delete-button.svg") center center no-repeat;
 }
-.service-list div.color_field__swatch label:hover span,
-.service-list div.color_field__swatch input[type=radio]:checked + label span {
+.edit-delete-links div.color_field__swatch label:hover span,
+.edit-delete-links div.color_field__swatch input[type=radio]:checked + label span {
   -webkit-transform: inherit;
           transform: inherit;
 }
@@ -1086,9 +1136,8 @@ body.path-user {
   text-align: center;
   width: 287px !important;
 }
-.ui-dialog .ui-dialog-titlebar {
-  background: none;
-  border: 0;
+.ui-dialog .ui-dialog-title {
+  margin-top: 10px;
 }
 .ui-dialog .ui-dialog-content {
   padding: 0 0.5em 1em !important;
@@ -1096,6 +1145,29 @@ body.path-user {
 }
 .ui-dialog .ui-button .ui-icon {
   background: url("../images/cross.svg") 0 0 no-repeat !important;
+}
+.ui-dialog .ui-dialog-buttonpane {
+  padding: 0;
+  border-width: 0;
+  background: none;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+  float: none;
+  text-align: center;
+}
+.ui-dialog .ui-dialog-buttonpane button {
+  background: #A85766;
+  border: 1px solid #A85766;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 4px;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 0.875em;
+  margin: 0 0 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+  width: 72%;
 }
 .ui-dialog .email-notify {
   color: #666565;
@@ -1119,7 +1191,7 @@ body.path-user {
 .review-msg {
   color: #A85766;
   line-height: 22px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .ui-widget-overlay {
@@ -1127,5 +1199,20 @@ body.path-user {
   -webkit-backdrop-filter: blur(4px) !important;
           backdrop-filter: blur(4px) !important;
   opacity: 1 !important;
+}
+
+.page-node-type-service-type .ui-dialog-titlebar {
+  background: none;
+  border: 0;
+  font-weight: 400;
+  padding: 0;
+}
+.page-node-type-service-type .ui-dialog-titlebar .ui-dialog-title {
+  margin: 40px 0 0;
+  white-space: inherit;
+  width: 100%;
+}
+.page-node-type-service-type .ui-dialog-titlebar-close {
+  top: 17px;
 }
 /*# sourceMappingURL=style.css.map */

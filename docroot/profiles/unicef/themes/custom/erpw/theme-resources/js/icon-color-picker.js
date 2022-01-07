@@ -21,6 +21,9 @@
           })
           var activeDiv = $('.color_field_widget_box__square.active').css( "background-color" );
           $(add_bg).css('background-color', activeDiv);
+
+          //Delete screen dialogtitle custom
+          $( ".page-node-type-service-type .ui-dialog" ).find('.ui-dialog-title').html('<div class="review-msg">Deleted successfuly</div><div class="popup-content">The details has been successfully Deleted.</div>')
         });
       }
     };
