@@ -42,6 +42,9 @@ function erpw_preprocess_block(&$variables) {
  */
 function erpw_preprocess_html(&$variables) {
   $variables['is_front'] = \Drupal::service('path.matcher')->isFrontPage();
+  $url = Url::fromRoute('erpw_custom.dashboard');
+  $variables['#attached']['library'][] = 'erpw_custom/erpw_js';
+  $variables['#attached']['drupalSettings']['erpw_custom']['dashboard'] = $url->toString();
 }
 
 /**
