@@ -11,9 +11,10 @@
 {{ attach_library('vss_custom/discover_block') }}
 {% if content %}
 <div class="discover-section">
-    {% for key,item in content[0]|batch(2) %}
+    {% for key,item in content|batch(2) %}
       <div class="discover-section-row col-12">
         {% for key_1,item_1 in item %}
+        {% set item_1 = item_1[0]%}
         <div class="discovery-category-wrapper" style="background-color: {{ '#'~ item_1.color }}">
           <div class="discover-category-item  col-12 col-md-6">
             <div class="discover-category-thumbnail category-thumbnail" style="background-color: {{ '#'~ item_1.color }}"><img src="{{ file_url( item_1.icon | image_style('thumbnail')) }}"/></div>
