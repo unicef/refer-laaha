@@ -10,8 +10,10 @@
                   {% if lang_code != 'en' %}
 										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'>
 										<img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/>
-										{% if value.type == 'video' %}
-										<span class="video-time-wrapper">{% if value.video_time %}{{ value.video_time }}{% endif %}</span>
+										{% if (value.type == 'video') and (value.video_time is not empty) %}
+										<span class="video-time-wrapper">{{ value.video_time }}</span>
+										{% elseif (value.type == 'podcast') and (value.podcast_time is not empty) %}
+										<span class="podcast-time-wrapper">{{ value.podcast_time }}</span>
 										{% endif %}
 										<span>{{ value.title }} {% if value.read_time %}{{'[ '~ value.read_time ~' ]'}}{% endif %}</span>
 										{% if value.type == 'video' %}
@@ -23,8 +25,10 @@
 									{% else %}
 										<a class={{value.type}} href="/{{value.url}}" target='_blank'>
 										<img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/>
-										{% if value.type == 'video' %}
-										<span class="video-time-wrapper">{% if value.video_time %}{{ value.video_time }}{% endif %}</span>
+										{% if (value.type == 'video') and (value.video_time is not empty) %}
+										<span class="video-time-wrapper">{{ value.video_time }}</span>
+										{% elseif (value.type == 'podcast') and (value.podcast_time is not empty) %}
+										<span class="podcast-time-wrapper">{{ value.podcast_time }}</span>
 										{% endif %}
 										<span>{{ value.title }} {% if value.read_time %}{{'[ '~ value.read_time ~' ]'}}{% endif %}</span>
 										{% if value.type == 'video' %}
