@@ -24,8 +24,8 @@ p {
 }
 .path-sign-up,
 .path-user {
-	#block-erpw-branding, 
-	#block-erpw-main-menu {
+	[id^='block-erpw-branding'], 
+	[id^='block-erpw-main-menu'] {
 		display: none; //temparory added  will remove once menu link functional, it will come under menu
 	}
 }
