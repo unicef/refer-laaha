@@ -121,7 +121,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
               'nid' => $target_id['target_id'],
               'node_name' => $node->getTitle(),
               'node_url' => $node_url,
-              'thumbnail_img' => $node->get('field_thumbnail_image')->entity->getFileUri(),
+              'thumbnail_img' => $thumbnail_img,
               'node_type' => $node_type,
               'node_read_time' => $node_read_time,
               'paragraph_video_time' => $paragraph_video_time,
