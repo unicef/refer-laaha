@@ -41,7 +41,7 @@
                         <span class="discover-article-name">{{ item_2.node_name }} {{ item_2.node_read_time is not null ?  '[' ~ item_2.node_read_time ~ ']': '' }}</span>
                       </a>
                     {% else %}
-                      <a href="/{{ item_2.node_url }}" target='_blank'>
+                      <a href="{{ item_2.node_url }}" target='_blank'>
                         <div class="discover-category-thumbnail"><img src="{{ file_url(item_2.thumbnail_img) }}"/></div>
                         {% if item_2.node_type == 'video' %}
                           <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
