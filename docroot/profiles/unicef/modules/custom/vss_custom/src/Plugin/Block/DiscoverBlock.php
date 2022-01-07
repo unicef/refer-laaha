@@ -130,7 +130,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
       }
 
       if ($term_obj) {
-        $discover[$term_obj->get('weight')->getValue()[0]['value']] = [
+        $discover[$term_obj->get('weight')->getValue()[0]['value']][] = [
           'id' => $term_id,
           'name' => $term_obj->getName(),
           'color' => $term_obj->get('field_category_color')->getValue()[0]['color'],
