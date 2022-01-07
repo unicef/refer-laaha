@@ -6,6 +6,7 @@ dependencies:
     - system.menu.admin
   module:
     - node
+    - nodeviewcount
     - user
 _core:
   default_config_hash: r-HORjL15WKPcPegAGbzMTIYkVGArW6Go_F6hbAusl0
@@ -170,9 +171,9 @@ display:
           table: nodeviewcount
           field: nid
           relationship: none
-          group_type: count
+          group_type: group
           admin_label: ''
-          label: 'Count views'
+          label: 'Node id'
           exclude: false
           alter:
             alter_text: false
@@ -213,23 +214,15 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          set_precision: false
-          precision: 0
-          decimal: .
-          separator: ','
-          format_plural: false
-          format_plural_string: !!binary MQNAY291bnQ=
-          prefix: ''
-          suffix: ''
-          plugin_id: numeric
-        view_node:
-          id: view_node
-          table: node
-          field: view_node
+          plugin_id: node_view_count_node_id
+        uip:
+          id: uip
+          table: nodeviewcount
+          field: uip
           relationship: none
           group_type: group
           admin_label: ''
-          label: View
+          label: 'User IP'
           exclude: false
           alter:
             alter_text: false
@@ -270,14 +263,10 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          text: view
-          entity_type: node
-          plugin_id: entity_link
-          output_url_as_text: false
-          absolute: false
+          plugin_id: node_view_count_user_ip
       filters:
         status:
-          value: true
+          value: '1'
           table: node_field_data
           field: status
           plugin_id: boolean
@@ -289,6 +278,55 @@ display:
             operator_limit_selection: false
             operator_list: {  }
           group: 1
+        nid:
+          id: nid
+          table: nodeviewcount
+          field: nid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: nid_op
+            label: 'Node id'
+            description: ''
+            use_operator: false
+            operator: nid_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: nid
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              country_admin: '0'
+              content_editor: '0'
+              super_admin: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: numeric
       sorts:
         nid:
           id: nid
@@ -322,12 +360,13 @@ display:
       arguments: {  }
       display_extenders: {  }
       title: 'Node views count statistics'
-      group_by: true
+      group_by: false
     cache_metadata:
-      max-age: 0
+      max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
@@ -350,10 +389,11 @@ display:
         context: '0'
         menu_name: admin
     cache_metadata:
-      max-age: 0
+      max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions

@@ -23,7 +23,8 @@
           $(add_bg).css('background-color', activeDiv);
 
           //Delete screen dialogtitle custom
-          $( ".delete-screen" ).parents('body').find('.ui-dialog .ui-dialog-title').html('<div class="review-msg">Deleted successfuly</div><div class="popup-content">The details has been successfully Deleted.</div>');
+          var popup_msg = Drupal.t('<div class="review-msg">Deleted successfuly</div><div class="popup-content">The details has been successfully Deleted.</div>')
+          $( ".delete-screen" ).parents('body').find('.ui-dialog .ui-dialog-title').html(popup_msg);
         });
       }
     };

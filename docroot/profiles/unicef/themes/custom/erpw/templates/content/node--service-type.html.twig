@@ -82,6 +82,15 @@
 %}
 
 {{ attach_library('unicef_iconpicker/unicef-icons')}}
+
+{% if not query %}
+    <div class="edit-delete-links margin-space"> 
+        <span class="clone-service-type"><a href="/clone/{{ nid }}/{{ 'quick_clone' | t }}">{{ 'clone' | t }}</a></span>
+        <span class="delete-link"><a href="/node/{{ nid }}?{{ 'action=delete' | t }}">{{ 'delete' | t }}</a></span>
+        <span class="edit-link"><a href="/node/{{ nid }}/{{ 'edit' | t }}">{{ 'edit' | t }}</a></span>
+    </div>
+{% endif %}
+
 <div class="delete-screen">
 <div class="detail-row"><label>{{ 'Name of Service Type:' | t }} </label><span> {{ node.title.value }}</span> </div>
 <div class="detail-row"><label>{{ 'Icon:' | t }} </label> <i class="{{ node.field_service_type_icon.entity.field_service_type_icon.value }}"></i></div>
