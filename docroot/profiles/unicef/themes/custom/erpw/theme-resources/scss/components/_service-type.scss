@@ -214,18 +214,20 @@
 		border-top: 1px solid rgb(215 215 215 / 50%);
 		margin-top: 5px;
 	}
-	.edit-delete-links {
-		display: flex;
-		justify-content: flex-end;
-		margin: 0 10px;
-		a {
-			display: inline-flex;
-			font-size: 0;
-			height: 20px;
-			margin-left: 30px;
-			vertical-align: super;
-			width: 20px;
-		}
+}
+
+//edit, delete and edit icon
+.edit-delete-links {
+	display: flex;
+	justify-content: flex-end;
+	margin: 0 10px;
+	a {
+		display: inline-flex;
+		font-size: 0;
+		height: 20px;
+		margin-left: 30px;
+		vertical-align: super;
+		width: 20px;
 	}
 	.clone-service-type a {
 		background: url('../images/clone.svg') center center no-repeat;

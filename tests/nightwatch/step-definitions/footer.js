@@ -33,5 +33,10 @@ Then(/^Save Edited Quick Link$/, () => {
   return footer.Click_Save();
 });
 
+Then(/^Navigate to created Quick Links$/, () => {
+  return footer.Delete_Created_Menu_Item();
+});
+
+
 
 

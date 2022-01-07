@@ -83,4 +83,7 @@
 #status-message.messages--error {
 	margin-bottom: 15px;
 }
-
+.form-item select.error,
+.form-item input.error {
+	border: 2px solid red;
+}

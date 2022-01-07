@@ -4,135 +4,6 @@
     "elements": [
       {
         "description": "",
-        "id": "verify-footer-elements;add-and-verify-vss-footer-quick-links",
-        "keyword": "Scenario",
-        "line": 8,
-        "name": "Add and Verify VSS Footer Quick Links",
-        "steps": [
-          {
-            "keyword": "Before",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 2356000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 4,
-            "name": "launch browser, open vss url",
-            "match": {
-              "location": "step-definitions/login.js:6"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 5381000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 5,
-            "name": "enter the credentials",
-            "match": {
-              "location": "step-definitions/login.js:10"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 9709000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 9,
-            "name": "Naviagte to Footer Quick Links Menus",
-            "match": {
-              "location": "step-definitions/footer.js:8"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 5035000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 10,
-            "name": "Verify Footer Quick Links",
-            "match": {
-              "location": "step-definitions/footer.js:12"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 12394000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 11,
-            "name": "Add Link",
-            "match": {
-              "location": "step-definitions/footer.js:16"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 125000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 12,
-            "name": "Add Title",
-            "match": {
-              "location": "step-definitions/footer.js:20"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 1129000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 13,
-            "name": "Click Save",
-            "match": {
-              "location": "step-definitions/footer.js:24"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 4855000000
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 1059000000
-            }
-          }
-        ],
-        "tags": [],
-        "type": "scenario"
-      }
-    ],
-    "id": "verify-footer-elements",
-    "line": 1,
-    "keyword": "Feature",
-    "name": "Verify Footer Elements",
-    "tags": [],
-    "uri": "features/footer.feature"
-  },
-  {
-    "description": "",
-    "elements": [
-      {
-        "description": "",
         "id": "verify-header-elements;verify-all-header-elememts",
         "keyword": "Scenario",
         "line": 7,
@@ -143,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1699000000
+              "duration": 4311000000
             }
           },
           {
@@ -156,7 +27,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 9262000000
+              "duration": 4121000000
             }
           },
           {
@@ -169,7 +40,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 9406000000
+              "duration": 7716000000
             }
           },
           {
@@ -182,7 +53,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 48000000
+              "duration": 52000000
             }
           },
           {
@@ -195,7 +66,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 5512000000
+              "duration": 5115000000
             }
           },
           {
@@ -208,7 +79,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 120000000
+              "duration": 996000000
             }
           },
           {
@@ -221,7 +92,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 34000000
+              "duration": 37000000
             }
           },
           {
@@ -234,7 +105,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 36000000
+              "duration": 37000000
             }
           },
           {
@@ -244,19 +115,6 @@
             "name": "Verify FAQs nav menu",
             "match": {
               "location": "step-definitions/header.js:40"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 32000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 14,
-            "name": "Verify Get In Touch nav menu",
-            "match": {
-              "location": "step-definitions/header.js:44"
             },
             "result": {
               "status": "passed",
@@ -273,7 +131,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 35000000
+              "duration": 56000000
             }
           },
           {
@@ -281,7 +139,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1058000000
+              "duration": 1068000000
             }
           }
         ],
@@ -300,7 +158,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1639000000
+              "duration": 3113000000
             }
           },
           {
@@ -313,7 +171,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 4071000000
+              "duration": 3968000000
             }
           },
           {
@@ -326,7 +184,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 6679000000
+              "duration": 6558000000
             }
           },
           {
@@ -339,7 +197,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 5267000000
+              "duration": 5445000000
             }
           },
           {
@@ -347,7 +205,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1053000000
+              "duration": 1060000000
             }
           }
         ],
@@ -366,7 +224,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1527000000
+              "duration": 2560000000
             }
           },
           {
@@ -379,7 +237,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 3906000000
+              "duration": 3976000000
             }
           },
           {
@@ -392,7 +250,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 10088000000
+              "duration": 6214000000
             }
           },
           {
@@ -405,7 +263,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 5542000000
+              "duration": 5868000000
             }
           },
           {
@@ -418,7 +276,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 15580000000
+              "duration": 6516000000
             }
           },
           {
@@ -431,7 +289,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 126000000
+              "duration": 172000000
             }
           },
           {
@@ -444,7 +302,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1165000000
+              "duration": 1182000000
             }
           },
           {
@@ -457,7 +315,20 @@
             },
             "result": {
               "status": "passed",
-              "duration": 5725000000
+              "duration": 2430000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 26,
+            "name": "Navigate to created Header Menu Items",
+            "match": {
+              "location": "step-definitions/header.js:52"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 10613000000
             }
           },
           {
@@ -465,7 +336,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1056000000
+              "duration": 1081000000
             }
           }
         ],
@@ -476,7 +347,7 @@
         "description": "",
         "id": "verify-header-elements;exit-functionality",
         "keyword": "Scenario",
-        "line": 27,
+        "line": 28,
         "name": "Exit Functionality",
         "steps": [
           {
@@ -484,7 +355,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1901000000
+              "duration": 3144000000
             }
           },
           {
@@ -497,7 +368,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 4632000000
+              "duration": 4166000000
             }
           },
           {
@@ -510,33 +381,33 @@
             },
             "result": {
               "status": "passed",
-              "duration": 10534000000
+              "duration": 6372000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 28,
+            "line": 29,
             "name": "Verify Exit Functionality",
             "match": {
               "location": "step-definitions/header.js:8"
             },
             "result": {
               "status": "passed",
-              "duration": 44000000
+              "duration": 52000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 29,
+            "line": 30,
             "name": "Click on Exit Functionality",
             "match": {
               "location": "step-definitions/header.js:12"
             },
             "result": {
               "status": "passed",
-              "duration": 2956000000
+              "duration": 3908000000
             }
           },
           {
@@ -544,7 +415,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1055000000
+              "duration": 1066000000
             }
           }
         ],
