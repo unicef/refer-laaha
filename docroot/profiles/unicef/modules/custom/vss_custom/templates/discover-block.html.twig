@@ -9,6 +9,7 @@
 */
 #}
 {{ attach_library('vss_custom/discover_block') }}
+{% if content %}
 <div class="discover-section">
     {% for key,item in content[0]|batch(2) %}
       <div class="discover-section-row col-12">
@@ -65,3 +66,4 @@
       </div>
     {% endfor %}
 </div>
+{% endif %}
