@@ -64,7 +64,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     foreach ($content['homepage_hero'] as $term_id => $val) {
       $term_obj = Term::load($term_id);
 
-      if (!$term_obj->get('field_related_content')->isEmpty()) {
+      if (isset($term_obj) && !$term_obj->get('field_related_content')->isEmpty()) {
         foreach ($term_obj->get('field_related_content')->getValue() as $target_id) {
           $node = $this->entityTypeManager->getStorage('node')->load($target_id['target_id']);
           $node_url = Url::fromRoute('entity.node.canonical', ['node' => $target_id['target_id']]);
@@ -111,6 +111,9 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
               }
             }
           }
+          if (!$node->get('field_thumbnail_image')->isEmpty()) {
+            $thumbnail_img = $node->get('field_thumbnail_image')->entity->getFileUri();
+          }
 
           if ($node) {
             $discover_article[] = [
@@ -118,7 +121,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
               'nid' => $target_id['target_id'],
               'node_name' => $node->getTitle(),
               'node_url' => $node_url,
-              'thumbnail_img' => $node->get('field_thumbnail_image')->entity->getFileUri(),
+              'thumbnail_img' => $thumbnail_img,
               'node_type' => $node_type,
               'node_read_time' => $node_read_time,
               'paragraph_video_time' => $paragraph_video_time,
@@ -130,7 +133,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
       }
 
       if ($term_obj) {
-        $discover[$term_obj->get('weight')->getValue()[0]['value']] = [
+        $discover[$term_obj->get('weight')->getValue()[0]['value']][] = [
           'id' => $term_id,
           'name' => $term_obj->getName(),
           'color' => $term_obj->get('field_category_color')->getValue()[0]['color'],

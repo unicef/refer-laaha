@@ -3,13 +3,13 @@
   Drupal.behaviors.menu_list = {
   attach: function (context, settings) {
     $('.menu-icon').click(function(){
-      $("#block-erpw-main-menu").append("<span class='close-popup'></span>");
-        $('#block-erpw-main-menu').show();
+      $('[id^="block-erpw-main-menu"]').append("<span class='close-popup'></span>");
+        $('[id^="block-erpw-main-menu"]').show();
         $('.overlay').show();
 
         $('.close-popup').click(function(e){
           e.preventDefault();
-          $('.overlay, #block-erpw-main-menu').hide();
+          $('.overlay, [id^="block-erpw-main-menu"]').hide();
           $('.close-popup').remove();
         })
       });

@@ -1,5 +1,5 @@
 .toolbar-fixed {
-	#block-erpw-main-menu {
+	[id^='block-erpw-main-menu'] {
 		top: 40px;
 	}
 }
@@ -14,11 +14,11 @@
 	.non-logged-home {
 		display: none;
 	}
-	#block-erpw-main-menu {
+	[id^='block-erpw-main-menu'] {
 		padding-top: 50px;
 	}
 }
-#block-erpw-main-menu {
+[id^='block-erpw-main-menu'] {
 	background: url('../images/menulist-bg1.svg') top left no-repeat, url('../images/menulist-bg2.svg') bottom 90px right -20px no-repeat  rgba(255, 246, 245, 1);
 	color: $grey-txt-color;
 	font-size: .875em;

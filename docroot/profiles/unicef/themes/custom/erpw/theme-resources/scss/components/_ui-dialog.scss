@@ -6,14 +6,24 @@
 	text-align: center;
 	width: 287px !important;
 	.ui-dialog-title {
+		float: none;
 		margin-top: 10px;
 	}
+	.ui-dialog-titlebar {
+		background: none;
+		border: 0;
+	}
 	.ui-dialog-content {
-		padding: 0 0.5em 1em !important;
+		padding: 0 !important;
 		overflow-x: hidden;
 	}
 	.ui-button .ui-icon {
 		background: url('../images/cross.svg') 0 0 no-repeat !important;
+	}
+
+	input[type=submit],
+	.button-red {
+		width: 72%;
 	}
 	.ui-dialog-buttonpane {
 		padding: 0;
@@ -72,9 +82,8 @@
 		background: none;
 		border: 0;
 		font-weight: 400;
-		padding: 0;
+		padding: 20px 0 0;
 		.ui-dialog-title {
-			margin: 40px 0 0;
 			white-space: inherit;
 			width: 100%;
 		}
