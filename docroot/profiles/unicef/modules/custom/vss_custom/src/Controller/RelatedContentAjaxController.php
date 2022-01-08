@@ -2,6 +2,7 @@
 
 namespace Drupal\vss_custom\Controller;
 
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\node\NodeInterface;
@@ -104,8 +105,47 @@ class RelatedContentAjaxController extends ControllerBase {
           }
           $data[$viewNode->id()]['alt'] = $viewNode->get('field_thumbnail_image')->alt;
         }
+        if ($viewNode->hasField('field_read_time') && !empty($viewNode->get('field_read_time')->first())) {
+          $data[$viewNode->id()]['read_time'] = $viewNode->get('field_read_time')->value;
+        }
+        $paragraph_video_time = NULL;
+        if ($viewNode->bundle() == 'video') {
+          if ($viewNode->hasField('field_content') && !empty($viewNode->get('field_content')->first())) {
+            $paragraph_id = $viewNode->get('field_content')->getValue();
+            foreach ($paragraph_id as $content_id) {
+              $paragraph_obj = Paragraph::load($content_id['target_id']);
+              $paragraph_type = $paragraph_obj->get('type')->getValue()['0']['target_id'];
+              if ($paragraph_type == "video") {
+                if (!$paragraph_obj->get('field_video_time')->isEmpty()) {
+                  $paragraph_video_time = $paragraph_obj->get('field_video_time')->getValue()['0']['value'];
+                  break;
+                }
+              }
+            }
+          }
+        }
+
+        $paragraph_podcast_time = NULL;
+        if ($viewNode->bundle() == 'podcast') {
+          if ($viewNode->hasField('field_content') && !empty($viewNode->get('field_content')->first())) {
+            $paragraph_podcast = $viewNode->get('field_content')->getValue();
+            foreach ($paragraph_podcast as $content_pod_id) {
+              $paragraph_pod_obj = Paragraph::load($content_pod_id['target_id']);
+              $paragraph_pod_type = $paragraph_pod_obj->get('type')->getValue()['0']['target_id'];
+              if ($paragraph_pod_type == "podcast_audio") {
+                if (!$paragraph_pod_obj->get('field_podcast_time')->isEmpty()) {
+                  $paragraph_podcast_time = $paragraph_pod_obj->get('field_podcast_time')->getValue()['0']['value'];
+                  break;
+                }
+              }
+            }
+          }
+        }
+
         $data[$viewNode->id()]['link'] = $viewNode->toUrl()->toString();
         $data[$viewNode->id()]['type'] = $viewNode->bundle();
+        $data[$viewNode->id()]['video_time'] = $paragraph_video_time;
+        $data[$viewNode->id()]['audio_time'] = $paragraph_podcast_time;
         $output = $data;
       }
     }
