@@ -299,10 +299,6 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
       '#title' => t('Password'),
     ];
 
-    // $form['actions']['password_save'] = [
-    //   '#type' => 'submit',
-    //   '#value' => t('Save Password'),
-    // ];
     $form['#validate'][] = 'preview_validate';
     $form['#submit'][] = 'preview_submit';
   }
