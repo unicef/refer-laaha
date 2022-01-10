@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.podcast_audio.field_audio
+    - field.field.paragraph.podcast_audio.field_podcast_time
     - field.field.paragraph.podcast_audio.field_show_transcription
     - field.field.paragraph.podcast_audio.field_vtt_entries
     - paragraphs.paragraphs_type.podcast_audio
@@ -16,29 +17,38 @@ bundle: podcast_audio
 mode: default
 content:
   field_audio:
-    weight: 0
+    type: file_url_plain
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: file_url_plain
+    weight: 0
+    region: content
+  field_podcast_time:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
     region: content
   field_show_transcription:
-    weight: 2
+    type: boolean
     label: hidden
     settings:
       format: default
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    type: boolean
+    weight: 2
     region: content
   field_vtt_entries:
-    weight: 1
+    type: entity_reference_revisions_entity_view
     label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    type: entity_reference_revisions_entity_view
+    weight: 1
     region: content
-hidden: {  }
+hidden:
+  search_api_excerpt: true
