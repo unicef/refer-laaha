@@ -1865,7 +1865,14 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   .homepage-services .field--item {
     padding: 20px; }
   .homepage-services .service-image {
-    margin-bottom: 30px; }
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 30px;
+    min-height: 240px; }
     .homepage-services .service-image img {
       width: 100%; }
   .homepage-services .service-block-title,
@@ -2009,11 +2016,11 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
     margin-bottom: 32px; }
   .block-subcategory-hero-block .hero-banner .thumbnail-icon {
     background-size: 100% !important;
-    height: 25px;
+    height: 32px;
     left: 18px;
     position: absolute;
     top: 18px;
-    width: 20px; }
+    width: 32px; }
   .block-subcategory-hero-block .hero-banner .icon-video {
     background: url("../images/video-icon.png") no-repeat; }
   .block-subcategory-hero-block .hero-banner .icon-podcast {
@@ -2039,5 +2046,12 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
       margin-left: 10px;
       vertical-align: bottom;
       width: 10px; }
+
+.subcategory-content-listing {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap; }
 
 /*# sourceMappingURL=style.css.map */
