@@ -19,7 +19,7 @@
   </a>
   {% endif %}
   {% if item.title %}
-    <span class="r-title"><a href="{{ item.link }}"> {{ item.title }} {% if item.read_time is not null %}  {{ '[ ' ~ item.read_time ~ ' ]'}}</a></span>
+    <span class="r-title"><a href="{{ item.link }}"> {{ item.title }} {% if item.read_time is not null %}  {{ '[ ' ~ item.read_time ~ ' ]'}}{% endif %}</a></span>
   {% endif %}
 
 </div>
