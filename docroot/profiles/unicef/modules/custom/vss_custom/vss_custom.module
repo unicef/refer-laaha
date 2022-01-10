@@ -299,11 +299,6 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
       '#title' => t('Password'),
     ];
 
-    $form['actions']['password_save'] = [
-      '#type' => 'submit',
-      '#value' => t('Save Password'),
-    ];
-
     $form['#validate'][] = 'preview_validate';
     $form['#submit'][] = 'preview_submit';
   }
@@ -314,10 +309,10 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
  */
 function preview_validate(&$form, &$form_state) {
   $op = $form_state->getTriggeringElement()['#value'];
-  if ($op == 'Save Password') {
+  if ($op == 'Generate') {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $password = $form_state->getValue(['previews'])[$lang]['password'];
-    if (!empty($password) && (strlen($password) < 8)) {
+    if ((strlen($password) < 8)) {
       $form_state->setErrorByName('pass', t('Password must be of minimum 8 characters'));
     }
   }
@@ -328,7 +323,22 @@ function preview_validate(&$form, &$form_state) {
  */
 function preview_submit(&$form, FormStateInterface $form_state) {
   $op = $form_state->getTriggeringElement()['#value'];
-  if ($op == 'Save Password') {
+  if ($op == 'Remove') {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof NodeInterface) {
+      if ($node->hasTranslation($lang)) {
+        $node = $node->getTranslation($lang);
+      }
+      $nid = $node->id();
+      $nd = Node::load($nid);
+      if ($nd->hasTranslation($lang)) {
+        $nd = $nd->getTranslation($lang);
+      }
+      $nd->set('field_preview_password', '');
+      $nd->save();
+    }
+  }
+  else {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $password = $form_state->getValue(['previews'])[$lang]['password'];
     $node = \Drupal::routeMatch()->getParameter('node');
@@ -343,21 +353,7 @@ function preview_submit(&$form, FormStateInterface $form_state) {
       }
       $nd->set('field_preview_password', $password);
       $nd->save();
-    }
-  }
-  if ($op == 'Remove') {
-    $node = \Drupal::routeMatch()->getParameter('node');
-    if ($node instanceof NodeInterface) {
-      if ($node->hasTranslation($lang)) {
-        $node = $node->getTranslation($lang);
-      }
-      $nid = $node->id();
-      $nd = Node::load($nid);
-      if ($nd->hasTranslation($lang)) {
-        $nd = $nd->getTranslation($lang);
-      }
-      $nd->set('field_preview_password', '');
-      $nd->save();
+      \Drupal::messenger()->addMessage(t('Password Saved.'));
     }
   }
 }
