@@ -57,7 +57,7 @@
       {% set target_val = "_self" %}
     {% endif %}
 
-    <div {{ attributes.addClass(classes) }}>
+  <div {{ attributes.addClass(classes) }}>
     {% if content.field_service_link|render %}
       <a href="{{content.field_service_link.0 }}" target="{{ target_val }}">
     {% endif %}
@@ -67,12 +67,12 @@
         <h4 class="service-block-title">
         {{ content.field_service_title|render|striptags|length|raw > 163 ? content.field_service_title|render|striptags|slice(0, 163)|raw : content.field_service_title|render|striptags|raw }}
         </h4>
-        <div class="service-desc">
-        {{ content.field_service_description|render|striptags|length|raw > 513 ? content.field_service_description|render|striptags|slice(0, 513)|raw : content.field_service_description|render|striptags|raw }}
-        </div>
     {% if content.field_service_link|render %}  
       </a>
     {% endif %}
+    <div class="service-desc">
+    {{ content.field_service_description|render|striptags|length|raw > 513 ? content.field_service_description|render|striptags|slice(0, 513)|raw : content.field_service_description|render|striptags|raw }}
     </div>
+  </div>
   {% endblock %}
 {% endblock paragraph %}

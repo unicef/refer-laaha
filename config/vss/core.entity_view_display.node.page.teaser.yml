@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.page.field_content
     - field.field.node.page.field_domain_access
     - field.field.node.page.field_domain_all_affiliates
+    - field.field.node.page.field_preview_password
     - node.type.page
   module:
     - text
@@ -27,6 +28,11 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
+  content_moderation_control:
+    weight: -20
+    settings: {  }
+    third_party_settings: {  }
+    region: content
   links:
     weight: 101
     region: content
@@ -34,4 +40,6 @@ hidden:
   field_content: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_preview_password: true
   langcode: true
+  search_api_excerpt: true
