@@ -58,7 +58,7 @@ class ModalController extends ControllerBase {
     $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\ModalPopup');
 
     // Add an AJAX command to open a modal dialog with the form as the content.
-    $response->addCommand(new OpenModalDialogCommand('', $modal_form ,['width' => '400']));
+    $response->addCommand(new OpenModalDialogCommand('', $modal_form, ['width' => '400']));
 
     return $response;
   }
