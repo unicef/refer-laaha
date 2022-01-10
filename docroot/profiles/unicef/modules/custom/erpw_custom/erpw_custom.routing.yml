@@ -35,3 +35,10 @@ erpw_custom.dashboard:
     _title: 'Dashboard'
   requirements:
     _role: 'authenticated'
+
+erpw_custom.node_delete:
+  path: '/node/delete/{id}'
+  defaults:
+    _controller: '\Drupal\erpw_custom\Controller\ModalController::deleteServiceTypeNode'
+  requirements:
+    _permission: 'access content'
