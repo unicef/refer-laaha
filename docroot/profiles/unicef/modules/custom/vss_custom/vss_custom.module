@@ -314,13 +314,13 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
  */
 function preview_validate(&$form, &$form_state) {
   $op = $form_state->getTriggeringElement()['#value'];
-  //if ($op == 'Save Password') {
+  if ($op == 'Generate') {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $password = $form_state->getValue(['previews'])[$lang]['password'];
     if ((strlen($password) < 8)) {
       $form_state->setErrorByName('pass', t('Password must be of minimum 8 characters'));
     }
-  //}
+  }
 }
 
 /**
