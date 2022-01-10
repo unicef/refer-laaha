@@ -303,7 +303,6 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
     //   '#type' => 'submit',
     //   '#value' => t('Save Password'),
     // ];
-
     $form['#validate'][] = 'preview_validate';
     $form['#submit'][] = 'preview_submit';
   }
@@ -342,7 +341,8 @@ function preview_submit(&$form, FormStateInterface $form_state) {
       $nd->set('field_preview_password', '');
       $nd->save();
     }
-  }else{
+  }
+  else {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $password = $form_state->getValue(['previews'])[$lang]['password'];
     $node = \Drupal::routeMatch()->getParameter('node');
@@ -358,7 +358,7 @@ function preview_submit(&$form, FormStateInterface $form_state) {
       $nd->set('field_preview_password', $password);
       $nd->save();
       \Drupal::messenger()->addMessage(t('Password Saved.'));
-    }  
+    }
   }
 }
 
