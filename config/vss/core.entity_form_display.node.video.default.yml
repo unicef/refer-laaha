@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.video.field_content
     - field.field.node.video.field_domain_access
     - field.field.node.video.field_domain_all_affiliates
+    - field.field.node.video.field_preview_password
     - field.field.node.video.field_read_time
     - field.field.node.video.field_sub_category
     - field.field.node.video.field_tags
@@ -158,3 +159,4 @@ content:
     third_party_settings: {  }
 hidden:
   body: true
+  field_preview_password: true
