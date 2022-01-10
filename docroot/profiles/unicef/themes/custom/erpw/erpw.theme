@@ -9,6 +9,7 @@ use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
 use Drupal\Core\Url;
 
+
 /**
  * Implements hook_preprocess_HOOK()
  */
@@ -76,8 +77,8 @@ function erpw_preprocess_node(&$variables) {
       $variables['nid'] = $nid;
       $variables['query'] = $query_path;
 
-      $url = Url::fromRoute('erpw_custom.dashboard');
+      $url = Url::fromRoute('view.manage_service_types.page_1');
       $variables['#attached']['library'][] = 'erpw_custom/erpw_js';
-      $variables['#attached']['drupalSettings']['erpw_custom']['dashboard'] = $url->toString();
+      $variables['#attached']['drupalSettings']['erpw_custom']['manage_service_type_page'] = $url->toString();
   }
 }
