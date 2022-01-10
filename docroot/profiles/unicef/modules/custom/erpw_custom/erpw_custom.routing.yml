@@ -34,4 +34,4 @@ erpw_custom.dashboard:
     _form: '\Drupal\erpw_custom\Form\Dashboard'
     _title: 'Dashboard'
   requirements:
-    _permission: 'access content'
+    _role: 'authenticated'
