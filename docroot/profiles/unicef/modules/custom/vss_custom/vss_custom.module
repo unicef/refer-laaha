@@ -431,7 +431,7 @@ function vss_custom_field_widget_entity_reference_paragraphs_form_alter(&$elemen
  */
 function vss_custom_preprocess_paragraph(&$variables) {
   $paragraph = $variables['paragraph'];
-  if ($paragraph->bundle() == 'video' || $paragraph->bundle() == 'podcast_audio') {
+  if ($paragraph->bundle() == 'video' || $paragraph->bundle() == 'podcast_audio' || $paragraph->bundle() == 'external_videos') {
     if ($paragraph->hasField('field_show_transcription')) {
       $show_transcript = $paragraph->get('field_show_transcription')->getValue()[0]['value'];
     }
