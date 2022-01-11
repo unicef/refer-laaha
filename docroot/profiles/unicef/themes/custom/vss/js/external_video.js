@@ -21,6 +21,7 @@
                 var transcriptId = $('.show-transcript-external')[i].getAttribute("data-id").split("_")[1];
                 var frameId = 'youtube_' + transcriptId;
                 $('#youtube_' + transcriptId).find('iframe').attr('id', frameId);
+                $('#youtube_' + transcriptId).css({"border-radius": "20px"});
                 youtube_url = $('#youtube_' + transcriptId).find('iframe').attr('src');
                 videoId = youtube_parser(youtube_url);
                 player = new YT.Player(frameId, {
