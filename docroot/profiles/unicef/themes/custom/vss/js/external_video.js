@@ -78,7 +78,11 @@
                 }
 
             }
-
+            $(document).on('click', '.btnSeekEx', function () {
+                var seekToTime = $(this).data('seek');
+                var transcriptId = $(this).parent().attr("id").split("_")[1];
+                players[transcriptId].seekTo(seekToTime);
+            });
             $(".transcript-container").hide();
             $(".hide-transcript-external").hide();
             $(".show-transcript-external").click(function () {
