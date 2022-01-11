@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.homepage.body
     - field.field.node.homepage.field_domain_access
     - field.field.node.homepage.field_domain_all_affiliates
+    - field.field.node.homepage.field_preview_password
     - node.type.homepage
   module:
     - text
@@ -24,6 +25,11 @@ content:
       trim_length: 600
     third_party_settings: {  }
     region: content
+  content_moderation_control:
+    weight: -20
+    settings: {  }
+    third_party_settings: {  }
+    region: content
   links:
     weight: 100
     settings: {  }
@@ -32,5 +38,6 @@ content:
 hidden:
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_preview_password: true
   langcode: true
   search_api_excerpt: true

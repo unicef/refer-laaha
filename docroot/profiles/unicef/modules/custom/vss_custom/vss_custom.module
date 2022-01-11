@@ -5,6 +5,7 @@
  * Contains vss_custom.module.
  */
 
+use Drupal\node\NodeInterface;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\paragraphs\Entity\Paragraph;
@@ -17,6 +18,7 @@ use Drupal\user\Entity\User;
 use Drupal\file\Entity\File;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\node\Entity\Node;
 
 /**
  * Implements hook_theme().
@@ -280,6 +282,79 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
   if ($form_id == 'user_register_form' || $form_id == 'user_form') {
     $form['account']['mail']['#required'] = TRUE;
     $form['#validate'][] = 'validate_password';
+  }
+
+  if ($form_id == 'public_preview_preview_links_form' && !empty($form['previews'][$language_manager->getId()]['url'])) {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof NodeInterface) {
+      if ($node->hasTranslation($language_manager->getId())) {
+        $node = $node->getTranslation($language_manager->getId());
+      }
+      $prev_pass = $node->get('field_preview_password')->value;
+    }
+
+    $form['previews'][$language_manager->getId()]['password'] = [
+      '#type' => 'textfield',
+      '#default_value' => $prev_pass ? $prev_pass : '',
+      '#title' => t('Password'),
+    ];
+
+    $form['#validate'][] = 'preview_validate';
+    $form['#submit'][] = 'preview_submit';
+  }
+}
+
+/**
+ * Validate Password.
+ */
+function preview_validate(&$form, &$form_state) {
+  $op = $form_state->getTriggeringElement()['#value'];
+  if ($op == 'Generate') {
+    $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $password = $form_state->getValue(['previews'])[$lang]['password'];
+    if ((strlen($password) < 8)) {
+      $form_state->setErrorByName('pass', t('Password must be of minimum 8 characters'));
+    }
+  }
+}
+
+/**
+ * Submit Password.
+ */
+function preview_submit(&$form, FormStateInterface $form_state) {
+  $op = $form_state->getTriggeringElement()['#value'];
+  $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  if ($op == 'Remove') {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof NodeInterface) {
+      if ($node->hasTranslation($lang)) {
+        $node = $node->getTranslation($lang);
+      }
+      $nid = $node->id();
+      $nd = Node::load($nid);
+      if ($nd->hasTranslation($lang)) {
+        $nd = $nd->getTranslation($lang);
+      }
+      $nd->set('field_preview_password', '');
+      $nd->save();
+    }
+  }
+  else {
+    $password = $form_state->getValue(['previews'])[$lang]['password'];
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof NodeInterface) {
+      if ($node->hasTranslation($lang)) {
+        $node = $node->getTranslation($lang);
+      }
+      $nid = $node->id();
+      $nd = Node::load($nid);
+      if ($nd->hasTranslation($lang)) {
+        $nd = $nd->getTranslation($lang);
+      }
+      $nd->set('field_preview_password', $password);
+      $nd->save();
+      \Drupal::messenger()->addMessage(t('Password Saved.'));
+    }
   }
 }
 
