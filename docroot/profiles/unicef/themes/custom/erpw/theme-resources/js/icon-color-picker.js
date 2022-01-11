@@ -21,6 +21,10 @@
           })
           var activeDiv = $('.color_field_widget_box__square.active').css( "background-color" );
           $(add_bg).css('background-color', activeDiv);
+
+          //Delete screen dialogtitle custom
+          var popup_msg = Drupal.t('<div class="review-msg">Deleted successfully</div><div class="popup-content">The details has been successfully Deleted.</div>')
+          $( ".delete-screen" ).parents('body').find('.ui-dialog .ui-dialog-title').html(popup_msg);
         });
       }
     };

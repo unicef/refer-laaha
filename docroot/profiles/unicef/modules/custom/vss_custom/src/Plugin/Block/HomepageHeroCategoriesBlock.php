@@ -54,11 +54,11 @@ class HomepageHeroCategoriesBlock extends BlockBase implements ContainerFactoryP
       if ($term_obj) {
         $term_name = $term_obj->getName();
         $term_short_name = $term_obj->get('field_category_short_name')->getValue() ?
-         $term_obj->get('field_category_short_name')->getValue()[0]['value'] : '';
+        $term_obj->get('field_category_short_name')->getValue()[0]['value'] : '';
         $term_bgcolor = $term_obj->get('field_category_color')->getValue()[0]['color'];
         $icon_path = $term_obj->get('field_icon')->entity->getFileUri();
         $term_alias = $term_obj->get('path')->alias;
-        $hero[$term_obj->get('weight')->getValue()[0]['value']] = [
+        $hero[$term_obj->get('weight')->getValue()[0]['value']][] = [
           'id' => $term_id,
           'name' => $term_name,
           'sname' => $term_short_name,

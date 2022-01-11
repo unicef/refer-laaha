@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.field_content
     - node.type.page
     - paragraphs.paragraphs_type.external_videos
+    - paragraphs.paragraphs_type.faq
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.layout
@@ -32,12 +33,16 @@ settings:
       image: image
       image_gallery: image_gallery
       layout: layout
+      faq: faq
       video: video
       wysiwyg_editor: wysiwyg_editor
     target_bundles_drag_drop:
       external_videos:
         enabled: true
         weight: 9
+      faq:
+        enabled: true
+        weight: 14
       from_library:
         weight: 10
         enabled: false
@@ -50,6 +55,15 @@ settings:
       layout:
         enabled: true
         weight: 13
+      podcast_audio:
+        weight: 19
+        enabled: false
+      scorm:
+        weight: 20
+        enabled: false
+      services:
+        weight: 21
+        enabled: false
       video:
         enabled: true
         weight: 14

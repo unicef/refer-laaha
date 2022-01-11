@@ -1,0 +1,7 @@
+visitors.top_pages:
+  path: '/visitors/pages'
+  defaults:
+    _controller: '\Drupal\visitors\Controller\Report\TopPages::display'
+    _title: 'Top pages'
+  requirements:
+    _permission: 'access visitors'

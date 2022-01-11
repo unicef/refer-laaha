@@ -68,10 +68,13 @@ class SubCategoryHeroBlock extends BlockBase implements ContainerFactoryPluginIn
             }
             $title = $node->title->value;
             $hero['title'] = $title;
-            $thumbnail = $node->field_thumbnail_image->entity->getFileUri();
-            $hero['thumbnail'] = $thumbnail;
+            $thumbnail = $node->field_thumbnail_image->target_id;
+            $file = $this->entityTypeManager->getStorage('file')->load($thumbnail);
+            if ($file) {
+              $hero['thumbnail'] = $file->getFileUri();
+            }
             $hero['url'] = ltrim($this->aliaspath->getAliasByPath('/node/' . $nid), '/');
-            $hero['type'] = $node->title->value;
+            $hero['type'] = $node->getType();
           }
           $build['#theme'] = 'subcategory_hero_block';
           $build['#content'] = $hero;

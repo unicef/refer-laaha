@@ -1,0 +1,19 @@
+uuid: 0d2b7991-a10e-4432-8442-97240391d739
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_podcast_time
+    - paragraphs.paragraphs_type.podcast_audio
+id: paragraph.podcast_audio.field_podcast_time
+field_name: field_podcast_time
+entity_type: paragraph
+bundle: podcast_audio
+label: 'Podcast time'
+description: 'Displays posdcat time in front'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

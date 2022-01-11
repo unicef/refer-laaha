@@ -48,6 +48,11 @@ type_settings:
       default_revision: false
       label: 'Request for Un-publish'
       weight: 1
+    request_to_delete:
+      published: true
+      default_revision: true
+      label: 'Request to delete'
+      weight: 3
     un_publish:
       published: false
       default_revision: true
@@ -88,6 +93,7 @@ type_settings:
         - draft
         - published
         - request_for_publish
+        - request_to_delete
     publish_to_un_publish:
       label: 'Publish to Un-Publish'
       from:
@@ -105,8 +111,26 @@ type_settings:
       label: 'Request for publish'
       from:
         - draft
+        - request_for_publish
       to: request_for_publish
       weight: -4
+    request_to_delete:
+      label: 'Request to delete'
+      from:
+        - draft
+        - published
+        - request_for_un_publish
+        - request_to_delete
+        - un_publish
+      to: request_to_delete
+      weight: 6
+    request_to_delete_to_request_to_unpublish:
+      label: 'Request to delete to Request to unpublish'
+      from:
+        - request_for_un_publish
+        - request_to_delete
+      to: request_for_un_publish
+      weight: 7
     un_publish_to_draft:
       label: 'Un-Publish to Draft'
       from:
@@ -137,3 +161,4 @@ type_settings:
       - scorm
       - video
   default_moderation_state: draft
+  translation_default_moderation_state_behavior: current

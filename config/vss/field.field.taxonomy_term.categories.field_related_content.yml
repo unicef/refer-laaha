@@ -5,6 +5,9 @@ dependencies:
   config:
     - field.storage.taxonomy_term.field_related_content
     - node.type.article
+    - node.type.podcast
+    - node.type.scorm
+    - node.type.video
     - taxonomy.vocabulary.categories
 id: taxonomy_term.categories.field_related_content
 field_name: field_related_content
@@ -21,9 +24,12 @@ settings:
   handler_settings:
     target_bundles:
       article: article
+      podcast: podcast
+      scorm: scorm
+      video: video
     sort:
       field: _none
       direction: ASC
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: article
 field_type: entity_reference

@@ -1,0 +1,27 @@
+.delete-screen {
+	.detail-row {
+		display: flex;
+		margin-bottom: 20px;
+		span {
+			color: $grey-txt-color;
+			max-width: 70%;
+			word-break: break-all;
+    	width: 100%;
+		}
+	}
+	label {
+    display: inline-flex;
+		margin-right: 15px;
+    max-width: 130px;
+    width: 100%;
+	}
+	.button-red {
+		text-align: center;
+	}
+	.color-label span {
+		@include border-radius(4px);
+		display: inline-flex;
+		height: 37px;
+		width: 36px;
+	}
+}

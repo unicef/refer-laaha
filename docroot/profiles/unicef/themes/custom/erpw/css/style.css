@@ -52,10 +52,10 @@ p {
   margin: 10px 0;
 }
 
-.path-sign-up #block-erpw-branding,
-.path-sign-up #block-erpw-main-menu,
-.path-user #block-erpw-branding,
-.path-user #block-erpw-main-menu {
+.path-sign-up [id^=block-erpw-branding],
+.path-sign-up [id^=block-erpw-main-menu],
+.path-user [id^=block-erpw-branding],
+.path-user [id^=block-erpw-main-menu] {
   display: none;
 }
 
@@ -175,8 +175,38 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   background: url("../images/import.png") top center no-repeat transparent;
   margin-right: 10px;
 }
-.import-csv .ajax-progress-throbber {
+
+.ajax-progress-throbber {
   display: none;
+}
+
+.msg-note {
+  color: #A85766;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.margin-space {
+  margin-bottom: 20px;
+}
+
+.button-red {
+  background: #A85766;
+  border: 1px solid #A85766;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 4px;
+  color: #ffffff !important;
+  display: inline-block;
+  font-size: 0.875em;
+  font-weight: 500;
+  margin: 0 0 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+  width: 100%;
+}
+.button-red a {
+  color: #ffffff;
 }
 
 form .form-required::after {
@@ -251,10 +281,13 @@ select:-ms-input-placeholder {
 input[type=submit] {
   background: #A85766;
   border: 1px solid #A85766;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   border-radius: 4px;
   color: #ffffff;
   display: inline-block;
   font-size: 0.875em;
+  font-weight: 500;
   margin: 0 0 1em 0;
   padding: 10px 24px;
   text-transform: uppercase;
@@ -464,7 +497,39 @@ header {
   mask: url("../images/service.svg") center center no-repeat;
 }
 
-.toolbar-fixed #block-erpw-main-menu {
+.delete-screen .detail-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 20px;
+}
+.delete-screen .detail-row span {
+  color: #444;
+  max-width: 70%;
+  word-break: break-all;
+  width: 100%;
+}
+.delete-screen label {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  margin-right: 15px;
+  max-width: 130px;
+  width: 100%;
+}
+.delete-screen .button-red {
+  text-align: center;
+}
+.delete-screen .color-label span {
+  border-radius: 4px;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  height: 37px;
+  width: 36px;
+}
+
+.toolbar-fixed [id^=block-erpw-main-menu] {
   top: 40px;
 }
 
@@ -479,11 +544,11 @@ header {
 .user-logged-in .non-logged-home {
   display: none;
 }
-.user-logged-in #block-erpw-main-menu {
+.user-logged-in [id^=block-erpw-main-menu] {
   padding-top: 50px;
 }
 
-#block-erpw-main-menu {
+[id^=block-erpw-main-menu] {
   background: url("../images/menulist-bg1.svg") top left no-repeat, url("../images/menulist-bg2.svg") bottom 90px right -20px no-repeat #fff6f5;
   color: #444;
   font-size: 0.875em;
@@ -497,55 +562,55 @@ header {
   overflow-y: scroll;
   z-index: 2;
 }
-#block-erpw-main-menu b {
+[id^=block-erpw-main-menu] b {
   display: block;
   margin-top: 5px;
 }
-#block-erpw-main-menu .menu {
+[id^=block-erpw-main-menu] .menu {
   margin: 0 0 0 -10px;
   padding-bottom: 100px;
   width: 212px;
 }
-#block-erpw-main-menu .menu-item {
+[id^=block-erpw-main-menu] .menu-item {
   padding: 15px 20px 15px 15px;
   margin: 0 20px 0 0;
 }
-#block-erpw-main-menu .menu-item.save-logged-in {
+[id^=block-erpw-main-menu] .menu-item.save-logged-in {
   border-bottom: 1px solid #000;
   padding-bottom: 25px;
   margin-bottom: 10px;
 }
-#block-erpw-main-menu .menu-item a {
+[id^=block-erpw-main-menu] .menu-item a {
   color: #A85766;
   font-size: 16px;
   padding-left: 30px;
 }
-#block-erpw-main-menu .menu-item .home-fill {
+[id^=block-erpw-main-menu] .menu-item .home-fill {
   background: url("../images/home-fill.svg") top left no-repeat;
 }
-#block-erpw-main-menu .menu-item .setting-icon {
+[id^=block-erpw-main-menu] .menu-item .setting-icon {
   background: url("../images/setting.svg") top left no-repeat;
 }
-#block-erpw-main-menu .menu-item .dashboard-fill {
+[id^=block-erpw-main-menu] .menu-item .dashboard-fill {
   background: url("../images/dashboard-fill.svg") top left no-repeat;
   padding: 3px 0 4px 30px;
   font-size: 12px;
   text-decoration: underline;
 }
-#block-erpw-main-menu .menu-item .notification-icon {
+[id^=block-erpw-main-menu] .menu-item .notification-icon {
   background: url("../images/notify.svg") top left no-repeat;
 }
-#block-erpw-main-menu .menu-item .save-icon {
+[id^=block-erpw-main-menu] .menu-item .save-icon {
   background: url("../images/save.svg") top left no-repeat;
 }
-#block-erpw-main-menu .menu-item .signout-icon,
-#block-erpw-main-menu .menu-item .signin-icon {
+[id^=block-erpw-main-menu] .menu-item .signout-icon,
+[id^=block-erpw-main-menu] .menu-item .signin-icon {
   background: url("../images/signin.svg") top left no-repeat;
 }
-#block-erpw-main-menu .menu-item .about-icon {
+[id^=block-erpw-main-menu] .menu-item .about-icon {
   background: url("../images/about.svg") top 4px left no-repeat;
 }
-#block-erpw-main-menu .menu-item .help-icon {
+[id^=block-erpw-main-menu] .menu-item .help-icon {
   background: url("../images/help.svg") top left no-repeat;
 }
 
@@ -597,7 +662,7 @@ header {
 
 .popup-content {
   color: #666565;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 22px;
   margin-bottom: 15px;
 }
@@ -1018,7 +1083,8 @@ header {
   border-top: 1px solid rgba(215, 215, 215, 0.5);
   margin-top: 5px;
 }
-.service-list .edit-delete-links {
+
+.edit-delete-links {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1027,7 +1093,7 @@ header {
           justify-content: flex-end;
   margin: 0 10px;
 }
-.service-list .edit-delete-links a {
+.edit-delete-links a {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -1037,17 +1103,17 @@ header {
   vertical-align: super;
   width: 20px;
 }
-.service-list .clone-service-type a {
+.edit-delete-links .clone-service-type a {
   background: url("../images/clone.svg") center center no-repeat;
 }
-.service-list .edit-link a {
+.edit-delete-links .edit-link a {
   background: url("../images/edit.svg") center center no-repeat;
 }
-.service-list .delete-link a {
+.edit-delete-links .delete-link a {
   background: url("../images/delete-button.svg") center center no-repeat;
 }
-.service-list div.color_field__swatch label:hover span,
-.service-list div.color_field__swatch input[type=radio]:checked + label span {
+.edit-delete-links div.color_field__swatch label:hover span,
+.edit-delete-links div.color_field__swatch input[type=radio]:checked + label span {
   -webkit-transform: inherit;
           transform: inherit;
 }
@@ -1086,16 +1152,47 @@ body.path-user {
   text-align: center;
   width: 287px !important;
 }
+.ui-dialog .ui-dialog-title {
+  float: none;
+  margin-top: 10px;
+}
 .ui-dialog .ui-dialog-titlebar {
   background: none;
   border: 0;
 }
 .ui-dialog .ui-dialog-content {
-  padding: 0 0.5em 1em !important;
+  padding: 0 !important;
   overflow-x: hidden;
 }
 .ui-dialog .ui-button .ui-icon {
   background: url("../images/cross.svg") 0 0 no-repeat !important;
+}
+.ui-dialog input[type=submit],
+.ui-dialog .button-red {
+  width: 72%;
+}
+.ui-dialog .ui-dialog-buttonpane {
+  padding: 0;
+  border-width: 0;
+  background: none;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+  float: none;
+  text-align: center;
+}
+.ui-dialog .ui-dialog-buttonpane button {
+  background: #A85766;
+  border: 1px solid #A85766;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 4px;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 0.875em;
+  margin: 0 0 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+  width: 72%;
 }
 .ui-dialog .email-notify {
   color: #666565;
@@ -1119,7 +1216,7 @@ body.path-user {
 .review-msg {
   color: #A85766;
   line-height: 22px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .ui-widget-overlay {
@@ -1127,5 +1224,19 @@ body.path-user {
   -webkit-backdrop-filter: blur(4px) !important;
           backdrop-filter: blur(4px) !important;
   opacity: 1 !important;
+}
+
+.page-node-type-service-type .ui-dialog-titlebar {
+  background: none;
+  border: 0;
+  font-weight: 400;
+  padding: 20px 0 0;
+}
+.page-node-type-service-type .ui-dialog-titlebar .ui-dialog-title {
+  white-space: inherit;
+  width: 100%;
+}
+.page-node-type-service-type .ui-dialog-titlebar-close {
+  top: 17px;
 }
 /*# sourceMappingURL=style.css.map */

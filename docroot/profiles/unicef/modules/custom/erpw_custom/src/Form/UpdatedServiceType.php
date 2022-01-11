@@ -35,7 +35,7 @@ class UpdatedServiceType extends FormBase {
       '#suffix' => '</div>',
     ];
     $url = Url::fromRoute('view.manage_service_types.page_1')->toString();
-    $external_link = t("<a href='$url' class='btn btn-primary ok-btn'>BACK TO DASHBOARD</a>");
+    $external_link = t("<a href='$url' class='button-red'>BACK TO DASHBOARD</a>");
     $form['cancel'] = [
       '#type' => 'markup',
       '#markup' => $external_link,

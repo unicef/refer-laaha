@@ -24,8 +24,8 @@ p {
 }
 .path-sign-up,
 .path-user {
-	#block-erpw-branding, 
-	#block-erpw-main-menu {
+	[id^='block-erpw-branding'], 
+	[id^='block-erpw-main-menu'] {
 		display: none; //temparory added  will remove once menu link functional, it will come under menu
 	}
 }
@@ -134,7 +134,34 @@ form input[type=submit] {
 .import-csv {
 	background: url('../images/import.png') top center no-repeat transparent;
 	margin-right: 10px;
-	.ajax-progress-throbber {
-		display: none;
+}
+.ajax-progress-throbber {
+	display: none;
+}
+//note message
+.msg-note {
+	color: $base-secondary-bgcolor;
+	font-size: 10px;
+	line-height: 14px;
+}
+.margin-space {
+	margin-bottom: 20px;
+}
+
+.button-red {
+	background: $base-secondary-bgcolor;
+	border: 1px solid $base-secondary-bgcolor;
+	box-sizing: border-box;
+	@include border-radius(4px);
+	color: $base-white-color !important;
+	display: inline-block;
+	font-size: .875em;
+	font-weight: 500;
+	margin: 0 0 1em 0;
+	padding: 10px 24px;
+	text-transform: uppercase;
+	width: 100%;
+	a {
+		color: $base-white-color;
 	}
 }

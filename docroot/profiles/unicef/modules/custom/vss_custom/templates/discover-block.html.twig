@@ -9,33 +9,62 @@
 */
 #}
 {{ attach_library('vss_custom/discover_block') }}
+{% if content %}
 <div class="discover-section">
     {% for key,item in content|batch(2) %}
-      <div class="discover-section-row">
+      <div class="discover-section-row col-12">
         {% for key_1,item_1 in item %}
+        {% set item_1 = item_1[0]%}
         <div class="discovery-category-wrapper" style="background-color: {{ '#'~ item_1.color }}">
-          <div class="discover-category-item">
-            <div class="discover-category-thumbnail" style="background-color: {{ '#'~ item_1.color }}"><img src="{{ file_url( item_1.icon | image_style('thumbnail')) }}"/></div>
+          <div class="discover-category-item  col-12 col-md-6">
+            <div class="discover-category-thumbnail category-thumbnail" style="background-color: {{ '#'~ item_1.color }}"><img src="{{ file_url( item_1.icon | image_style('thumbnail')) }}"/></div>
             <div class="discover-category-name"><a href="{{ item_1.cat_uri }}">{{ item_1.name }} > </a></div>
             <div class="discover-category-description">{{ item_1.description|raw }}</div>
-          </div>
             {% if content_node is not empty %}
               {% for key_2,item_2 in content_node %}
                 {% if item_1['id'] == item_2['term_id'] %}
-                  <div class="discovery-articles">
-                    <div class="discovery-article-wrapper {{ item_2.paragraph_type ~ '-icon' }}">
-                      <div class="discover-category-thumbnail"><img src="{{ file_url(item_2.thumbnail_img) }}"/></div>
-                      {% if item_2['video_time'] != 0 %}
-                        <div class="discover-category-video-time">{{ item_2.video_time }} </div>
-                      {% endif %}
-                    </div>
-                    <div class="discover-article-name"><a href="{{ item_2.node_url }}">{{ item_2.node_name }}</a></div>
+                  <div class="discovery-articles {{ item_2.node_type ~ '-icon' }}">
+                    {% if lang_code != 'en' %}
+                      <a href="/{{lang_code}}/{{ item_2.node_url }}" target='_blank'>
+                        <div class="discover-category-thumbnail"><img src="{{ file_url(item_2.thumbnail_img) }}"/></div>
+                        {% if item_2.node_type == 'video' %}
+                          <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
+                          {% if item_2.paragraph_video_time is not null %}
+                            <div class="video-time"> {{ item_2.paragraph_video_time }} </div>
+                          {% endif %}
+                        {% elseif item_2.node_type == 'podcast' %}
+                          <img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
+                          {% if item_2.paragraph_audio_time is not null %}
+                          <div class="podcast-time"> {{ item_2.paragraph_audio_time }} </div>
+                          {% endif %}
+                        {% endif %} 
+                        <span class="discover-article-name">{{ item_2.node_name }} {{ item_2.node_read_time is not null ?  '[' ~ item_2.node_read_time ~ ']': '' }}</span>
+                      </a>
+                    {% else %}
+                      <a href="{{ item_2.node_url }}" target='_blank'>
+                        <div class="discover-category-thumbnail"><img src="{{ file_url(item_2.thumbnail_img) }}"/></div>
+                        {% if item_2.node_type == 'video' %}
+                          <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
+                          {% if item_2.paragraph_video_time is not null %}
+                            <div class="video-time"> {{ item_2.paragraph_video_time }} </div>
+                          {% endif %}
+                        {% elseif item_2.node_type == 'podcast' %}
+                          <img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
+                          {% if item_2.paragraph_audio_time is not null %}
+                          <div class="podcast-time"> {{ item_2.paragraph_audio_time }} </div>
+                          {% endif %}
+                        {% endif %} 
+                        <span class="discover-article-name">{{ item_2.node_name }} {{ item_2.node_read_time is not null ?  '[' ~ item_2.node_read_time ~ ']': '' }}</span>
+                      </a>
+                    {% endif %}
                   </div>
                 {% endif %}
               {% endfor %}
             {% endif %}
+          </div>
         </div>
         {% endfor %}
       </div>
     {% endfor %}
 </div>
+{% endif %}

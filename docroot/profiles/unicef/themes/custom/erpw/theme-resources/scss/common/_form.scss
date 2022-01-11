@@ -64,10 +64,12 @@ select {
 input[type=submit] {
 	background: $base-secondary-bgcolor;
 	border: 1px solid $base-secondary-bgcolor;
+	box-sizing: border-box;
 	@include border-radius(4px);
 	color: $base-white-color;
 	display: inline-block;
 	font-size: .875em;
+	font-weight: 500;
 	margin: 0 0 1em 0;
 	padding: 10px 24px;
 	text-transform: uppercase;

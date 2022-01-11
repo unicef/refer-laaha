@@ -1,6 +1,7 @@
 (function ($, Drupal, drupalSettings) {
     Drupal.behaviors.catapult_img_preview = {
         attach: function (context, settings) {
+            var manage_service_type_url = drupalSettings.erpw_custom.manage_service_type_page;
             jQuery( ".help-text" ).hover(
                 function() {
                   jQuery( this ).append( jQuery( '<span class="password-help-text">Password should contain one Number,  one letter, one special symbol (min Length 8 Character)</span>' ) );
@@ -8,9 +9,11 @@
                   jQuery( this ).find( "span" ).last().remove();
                 }
             );
-            $(".ui-icon-closethick").on("click", function(event){
-                event.preventDefault();
-                window.location.href = "/";
+            $(document).ready(function() {
+                $(".page-node-type-service-type .ui-icon-closethick").on("click", function(event){
+                    event.preventDefault();
+                    window.location.href = manage_service_type_url;
+                });
             });
             $(".signin-ok").on("click", function(event){
                 event.preventDefault();

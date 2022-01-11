@@ -12,7 +12,7 @@
     }
       $('.overlay').on("click", function() {
         $('.sign-in-popup').hide();
-        $('#block-erpw-main-menu').hide();
+        $('[id^="block-erpw-main-menu"]').hide();
         $(this).hide();
         $('.close-popup').remove();
       }).appendTo($(document.body));

@@ -20,6 +20,13 @@ video_transcript:
     theme:
       css/transcript.css: {}
 
+external_video_transcript:
+  js:
+    js/external_video.js: {}
+  css:
+    theme:
+      css/transcript.css: {}
+
 podcast_transcript:
   js:
     js/podcast_transcript.js: {}
@@ -31,6 +38,10 @@ carousal:
   js:
     library/slick.js: {}
     js/carousal.js: {}
+
+faq:
+  js:
+    js/faq.js: {}
 
 
       # Uncomment for LESS source JavaScript files.
