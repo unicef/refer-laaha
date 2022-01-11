@@ -1,0 +1,49 @@
+header {
+  background: $base-primary-bgcolor;
+}
+.region-header {
+  background: url(../images/top_nav_image.svg) no-repeat right -143px top -130px;
+  height: 100%;
+  padding: 0;
+}
+.menu--header-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  .menu {
+    margin: 0 10px 0 0;
+    text-align: right;
+  }
+  .notification {
+    background: url(../images/notify.svg) no-repeat center center;
+    display: inline-block;
+    font-size: 0;
+    height: 19px;
+    position: relative;
+    vertical-align: top;
+    width: 15px;
+    &::after {
+      content: '26';
+      background: #4FB5EE;
+      color:  $base-white-color;
+      position: absolute;
+      @include border-radius(50%);
+      height: 11px;
+      width: 14px;
+      right: -7px;
+      top: -2px;
+      font-size: 7px;
+      text-align: center;
+      padding-top: 3px;
+    }
+  }
+}
+
+.path-sign-up,
+.path-user {
+  header, 
+  .region-header {
+		background: none;
+    padding: 0;
+	}
+}

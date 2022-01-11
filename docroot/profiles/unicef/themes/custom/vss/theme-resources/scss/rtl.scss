@@ -1,7 +1,57 @@
 html[dir="rtl"] {
-  #block-recommendedrelatedcontentblock{
+  @media screen and (max-width: 767px) {
+    .inverted-comma-img{
+      float: left;
+      margin-top: 0;
+      margin-left: -30px !important;
+    }
+  }
+  #block-wordsfromexperts {
+    .experts-img, .inverted-comma-img{
+      transform: scaleX(-1);
+    }
+    .inverted-comma-img{
+      float: left;
+      margin-top: 10%;
+      margin-left: -30px !important;
+    }
+    .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
+      font-size: $base-footer-font-size;
+    }
+  }
+  .featured-stories {
+    .featured-head{
+      text-align: right;
+      img{
+        padding-left: 9px;
+        padding-right: 0;
+      }
+    }
+    .featured_stories_block { 
+      .four-slice:after,
+      .two-slice:after{
+        left:calc( 100% -  86px);
+      }
+      .four-slice,
+      .two-slice{
+        .play-circle-podcast{
+          left:calc( 100% -   78px);
+        }
+      }
+    }
+  }
+
+  #block-recommendedrelatedcontentblock {
+    .recomended-header{
+      text-align: right;
+    }
+
     .recomended-wrapper{
       .recomended-item{
+        .play-circle-podcast{
+          left: inherit;
+          right:22px;
+        } 
         &:after{
           left:inherit;
           right: 27px;
@@ -9,15 +59,17 @@ html[dir="rtl"] {
       }
     }
   }
+
   .shepherd-element {
-  .shepherd-footer {
-    button {
-      i{
-        transform: rotate(180deg);
+    .shepherd-footer {
+      button {
+        i{
+          transform: rotate(180deg);
+        }
       }
     }
   }
-}
+
   .breadcrumb {
     li:first-child {
       a::before {
@@ -39,7 +91,7 @@ html[dir="rtl"] {
       .shepherd-cancel-icon {
 
         right: inherit;
-        left: 29px;
+        left: 25px;
       }
     }
   }
@@ -170,10 +222,6 @@ html[dir="rtl"] {
       .discoverdd {
         right: 24px;
       }
-
-
-
-
     }
 
     #block-settingsmenu {
@@ -183,7 +231,6 @@ html[dir="rtl"] {
 
       .dropdown-menu {
         right: calc(100% - 240px);
-
       }
     }
   }
@@ -193,7 +240,6 @@ html[dir="rtl"] {
       .form-item-audio {
         .checkbox-toggle {
           right: -10px;
-
         }
       }
 
@@ -238,7 +284,95 @@ html[dir="rtl"] {
     }
   }
 
+  // Services block
+  .service-title,
+  .service-block-title {
+    text-align: right;
+  }
+
+  .homepage-services {
+    .service-desc {
+      text-align: right;
+    }
+  }
+
+  // get help block 
+  .get-help-container {
+    .get-help-details-wrapper {
+      text-align: right;
+    }
+
+    .get-help--title,
+    .get-help--title-mobile {
+      text-align: right;
+
+      &::after {
+        margin-left: 0;
+        margin-right: 15px;
+        transform: rotate(180deg);
+      }
+    }
+
+    .get-help--title-mobile {
+      justify-content: right;
+    }
+
+    .get-help--link {
+      a {
+        &::after {
+          margin-left: 0;
+          margin-right: 10px;
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .get-help--desc {
+      text-align: right;
+    }
+  }
+  // subcategory hero block
+
+  .block-subcategory-hero-block {
+    background: url('../images/subcat-hero-mobile-rtl.svg') no-repeat;
+    background-size: 100% ;
+    left: 50%;
+    margin: 0 -50vw;
+    max-width: 100vw;
+    min-height: 500px;
+    position: relative;
+    right: 50%;
+    width: 100vw;
+    @media screen and (min-width: 1024px) {
+      background: url('../images/subcategory-hero-rtl.svg') no-repeat;
+    }
+
+    .hero-banner {
+      @media screen and (min-width: 1024px) {
+        
+      }
+
+      .banner-left,
+      .banner-right {
+        padding-right: 0;
+      }
+
+      .thumbnail-icon {
+        right: 18px;
+      }
+    }
+
+    .banner-cta {
+      &::after {
+        margin-left: 0;
+        margin-right: 10px;
+        transform: rotate(180deg);
+      }
+    }
+  }
+
 }
+
 
 @media screen and (max-width:767px) {
 
@@ -336,7 +470,7 @@ html[dir="rtl"] {
         }
       }
     }
-    #block-globalstickyblock {
+    .global-sticky-region {
       left: 2%;
       right: inherit;
     }

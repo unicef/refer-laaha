@@ -4,12 +4,16 @@ display:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: 'إعادة الضبط'
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
           sort_desc_label: تنازلي
       pager:
         options:
+          tags:
+            previous: '‹ السابق'
+            next: 'التالي ›'
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
@@ -24,6 +28,8 @@ display:
           label: الأدوار
         operations:
           label: عمليات
+        mail:
+          separator: ', '
       filters:
         status:
           group_info:
@@ -33,3 +39,6 @@ display:
                 title: نشط
   page_1:
     display_title: الصفحة
+    display_options:
+      menu:
+        title: List

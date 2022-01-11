@@ -4,8 +4,11 @@ display:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       pager:
         options:
           expose:
@@ -17,10 +20,20 @@ display:
           action_title: Acción
         subject:
           label: Asunto
+          separator: ', '
+        uid:
+          separator: ', '
         name:
           label: Autor
+          separator: ', '
+        entity_id:
+          separator: ', '
+        changed:
+          separator: ', '
         operations:
           label: Operaciones
+        name_1:
+          separator: ', '
       filters:
         subject:
           expose:
@@ -42,7 +55,17 @@ display:
           action_title: Acción
         subject:
           label: Asunto
+          separator: ', '
+        uid:
+          separator: ', '
         name:
           label: Autor
+          separator: ', '
+        entity_id:
+          separator: ', '
+        changed:
+          separator: ', '
         operations:
           label: Operaciones
+        name_1:
+          separator: ', '

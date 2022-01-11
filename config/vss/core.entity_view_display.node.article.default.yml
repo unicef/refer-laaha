@@ -10,6 +10,8 @@ dependencies:
     - field.field.node.article.field_domain_access
     - field.field.node.article.field_domain_all_affiliates
     - field.field.node.article.field_image
+    - field.field.node.article.field_preview_password
+    - field.field.node.article.field_read_time
     - field.field.node.article.field_sub_category
     - field.field.node.article.field_tags
     - field.field.node.article.field_thumbnail_image
@@ -29,14 +31,19 @@ mode: default
 content:
   body:
     type: text_default
-    weight: 1
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
     label: hidden
+  content_moderation_control:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_add_narration:
     type: boolean
-    weight: 4
+    weight: 5
     region: content
     label: hidden
     settings:
@@ -46,7 +53,7 @@ content:
     third_party_settings: {  }
   field_assets:
     type: layout_paragraphs
-    weight: 3
+    weight: 4
     label: hidden
     settings:
       view_mode: default
@@ -55,7 +62,7 @@ content:
     region: content
   field_image:
     type: image
-    weight: 0
+    weight: 1
     region: content
     settings:
       image_style: large
@@ -64,7 +71,7 @@ content:
     label: hidden
   field_tags:
     type: entity_reference_label
-    weight: 2
+    weight: 3
     region: content
     label: hidden
     settings:
@@ -74,7 +81,10 @@ hidden:
   comment: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_preview_password: true
+  field_read_time: true
   field_sub_category: true
   field_thumbnail_image: true
   langcode: true
   links: true
+  search_api_excerpt: true

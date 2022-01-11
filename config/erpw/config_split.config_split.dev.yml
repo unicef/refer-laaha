@@ -8,7 +8,19 @@ description: 'Configuration for Dev Environment'
 folder: ../config/erpwdev
 module: {  }
 theme: {  }
-blacklist: {  }
+blacklist:
+  - domain.config.bn_dev_erefer_org.language.types
+  - domain.config.bn_dev_erefer_org.system.site
+  - domain.config.zm_dev_erefer_org.language.types
+  - domain.config.zm_dev_erefer_org.system.site
+  - domain.language.bn_dev_erefer_org.language.negotiation
+  - domain.language.zm_dev_erefer_org.language.negotiation
+  - domain.record.bn_dev_erefer_org
+  - domain.record.zm_dev_erefer_org
+  - system.action.domain_access_remove_action.bn_dev_erefer_org
+  - system.action.domain_access_remove_action.zm_dev_erefer_org
+  - system.action.domain_access_remove_editor_action.bn_dev_erefer_org
+  - system.action.domain_access_remove_editor_action.zm_dev_erefer_org
 graylist: {  }
 graylist_dependents: true
 graylist_skip_equal: true

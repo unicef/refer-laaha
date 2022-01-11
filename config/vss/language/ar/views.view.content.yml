@@ -4,15 +4,22 @@ display:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: 'إعادة الضبط'
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
           sort_desc_label: تنازلي
+      pager:
+        options:
+          tags:
+            previous: '‹ السابق'
+            next: 'التالي ›'
       fields:
         title:
           label: العنوان
         type:
           label: 'نوع المحتوى'
+          separator: ', '
         name:
           label: المؤلف
         status:

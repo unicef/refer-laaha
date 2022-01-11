@@ -1,0 +1,34 @@
+{#
+/**
+* @file
+* Default theme implementation to display a block.
+*
+* @see template_preprocess_block()
+*
+* @ingroup themeable
+*/
+#}
+{{ attach_library('vss_custom/homepage_hero_categories_block') }}
+{{ attach_library('vss/carousal') }}
+
+<div class="homepare-cat-wrapper">
+  <div class="homepage-category">
+    <div class="spacer"></div>
+    <div  id="carousel" class="homepage-hero-section--categories categories-{{ content|length }}">
+    {% for key,item in content %}
+    {% set item = item['0'] %}
+
+      <div class="category-item category-item-{{ loop.index0 }}">
+        <div class="category-thumbnail" style="background-color: {{ '#'~ item.color }}"><img src="{{ file_url( item.icon | image_style('thumbnail')) }}"/></div>
+        <div class="category-name hide-desktop"><a href="{{ item.cat_uri }}">{{ item.sname ? item.sname : item.name}} </a></div>
+        <a class="hidden hover-show" href="{{ item.cat_uri }}">
+          <div class="category-thumbnail--large" style="background-color: {{ '#'~ item.color }}">
+            <img src="{{ file_url( item.icon | image_style('thumbnail')) }}"/>
+            <p class="category-name-hover"> {{ item.sname ? item.sname : item.name }} > </p>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</div>

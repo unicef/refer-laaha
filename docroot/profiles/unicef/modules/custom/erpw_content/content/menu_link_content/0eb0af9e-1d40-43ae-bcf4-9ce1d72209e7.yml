@@ -1,0 +1,42 @@
+_meta:
+  version: '1.0'
+  entity_type: menu_link_content
+  uuid: 0eb0af9e-1d40-43ae-bcf4-9ce1d72209e7
+  bundle: menu_link_content
+  default_langcode: en
+default:
+  enabled:
+    -
+      value: true
+  title:
+    -
+      value: 'Sign Out'
+  menu_name:
+    -
+      value: main
+  link:
+    -
+      uri: 'internal:/user/logout'
+      title: ''
+      options: {  }
+  external:
+    -
+      value: false
+  rediscover:
+    -
+      value: true
+  weight:
+    -
+      value: -41
+  expanded:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  menu_item_roles:
+    -
+      target_id: authenticated
+  menu_item_override_children:
+    -
+      value: false

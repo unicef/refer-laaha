@@ -15,6 +15,11 @@ targetEntityType: media
 bundle: image
 mode: default
 content:
+  content_moderation_control:
+    weight: -20
+    settings: {  }
+    third_party_settings: {  }
+    region: content
   field_caption:
     weight: 1
     label: above
@@ -44,5 +49,6 @@ hidden:
   created: true
   langcode: true
   name: true
+  search_api_excerpt: true
   thumbnail: true
   uid: true

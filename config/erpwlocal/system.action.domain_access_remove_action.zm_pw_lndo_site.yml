@@ -1,0 +1,14 @@
+uuid: 1a1bb768-c5d2-46d0-92f5-cb9beb6dc959
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.zm_pw_lndo_site
+  module:
+    - domain_access
+id: domain_access_remove_action.zm_pw_lndo_site
+label: 'Remove selected content from the Zimbabwe eRPW domain'
+type: node
+plugin: domain_access_remove_action
+configuration:
+  domain_id: zm_pw_lndo_site

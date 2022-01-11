@@ -4,6 +4,7 @@ display:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: 'إعادة الضبط'
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
@@ -18,10 +19,20 @@ display:
           action_title: إجراء
         subject:
           label: الموضوع
+          separator: ', '
+        uid:
+          separator: ', '
         name:
           label: المؤلف
+          separator: ', '
+        entity_id:
+          separator: ', '
+        changed:
+          separator: ', '
         operations:
           label: عمليات
+        name_1:
+          separator: ', '
       filters:
         subject:
           expose:
@@ -43,7 +54,17 @@ display:
           action_title: إجراء
         subject:
           label: الموضوع
+          separator: ', '
+        uid:
+          separator: ', '
         name:
           label: المؤلف
+          separator: ', '
+        entity_id:
+          separator: ', '
+        changed:
+          separator: ', '
         operations:
           label: عمليات
+        name_1:
+          separator: ', '

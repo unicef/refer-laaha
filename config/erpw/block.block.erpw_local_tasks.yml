@@ -2,6 +2,9 @@ uuid: b7587812-4c69-44a9-a5ac-243cb907effd
 langcode: en
 status: true
 dependencies:
+  module:
+    - node
+    - system
   theme:
     - erpw
 _core:
@@ -9,7 +12,7 @@ _core:
 id: erpw_local_tasks
 theme: erpw
 region: content
-weight: -40
+weight: -6
 provider: null
 plugin: local_tasks_block
 settings:
@@ -17,6 +20,17 @@ settings:
   label: Tabs
   provider: core
   label_display: '0'
-  primary: true
-  secondary: true
-visibility: {  }
+  primary: false
+  secondary: false
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /user/login
+  node_type:
+    id: node_type
+    bundles:
+      service_type: service_type
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

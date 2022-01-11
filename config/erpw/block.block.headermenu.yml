@@ -1,0 +1,25 @@
+uuid: 5847b851-d3f5-406f-a587-6acd08743f7f
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.header-menu
+  module:
+    - system
+  theme:
+    - erpw
+id: headermenu
+theme: erpw
+region: header
+weight: -3
+provider: null
+plugin: 'system_menu_block:header-menu'
+settings:
+  id: 'system_menu_block:header-menu'
+  label: header-menu
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

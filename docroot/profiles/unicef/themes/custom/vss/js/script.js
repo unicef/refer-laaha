@@ -11,7 +11,7 @@
         $(".logo-wrapper", context).clone().insertBefore("#block-iraqnavigationheadermenu");
         $("#block-exitwebsiteblock .telephone-header", context).insertBefore(".telephone_in_mobile .holder");
       }
-
+       $('.paragraph--type--wysiwyg-editor table').addClass('table table-bordered') ;
 
     }
   };
@@ -39,22 +39,6 @@
       });
     });
 
-    if (jQuery(window).width() >= 768) {
-      if (jQuery(".main-container").height() < 500) {
-        jQuery('#block-globalstickyblock').addClass("absoluteclass");
-      }
-
-      function checkOffset() {
-        if (jQuery('#block-globalstickyblock').offset().top + jQuery('#block-globalstickyblock').height() >= jQuery('#footer').offset().top) {
-          jQuery('#block-globalstickyblock').addClass("absoluteclass");
-        }
-        if (jQuery(document).scrollTop() + window.innerHeight < jQuery('#footer').offset().top - 10)
-          jQuery('#block-globalstickyblock').removeClass("absoluteclass");
-      }
-      jQuery(document).scroll(function () {
-        checkOffset();
-      });
-    }
   });
 
 })(jQuery, Drupal, drupalSettings);

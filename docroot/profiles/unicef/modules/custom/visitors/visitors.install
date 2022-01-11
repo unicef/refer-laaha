@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @file
+ * Vim: set filetype=php. */
+
+/**
+ * @file
+ * Install/uninstall visitors module.
+ */
+
+/**
+ * Implementats of hook_schema().
+ */
+function visitors_schema() {
+  $schema['visitors'] = [
+    'fields' => [
+      'visitors_id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+      ],
+      'visitors_uid' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'visitors_ip' => [
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'visitors_date_time' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'visitors_url' => [
+        'type' => 'text',
+        'not null' => TRUE,
+      ],
+      'visitors_referer' => [
+        'type' => 'text',
+        'not null' => TRUE,
+      ],
+      'visitors_path' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'visitors_title' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'visitors_user_agent' => [
+        'type' => 'text',
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['visitors_id'],
+  ];
+
+  return $schema;
+}

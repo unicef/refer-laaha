@@ -6,6 +6,8 @@ display:
         options:
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       pager:
         options:
           expose:
@@ -29,6 +31,8 @@ display:
       fields:
         media_bulk_form:
           action_title: Acción
+        name:
+          separator: ', '
         edit_media:
           text: Editar
         delete_media:
@@ -39,6 +43,10 @@ display:
         name:
           expose:
             label: Nombre
+      arguments:
+        bundle:
+          exception:
+            title: Todo(s)
   widget_table:
     display_options:
       fields:
@@ -52,3 +60,7 @@ display:
         name:
           expose:
             label: Nombre
+      arguments:
+        bundle:
+          exception:
+            title: Todo(s)

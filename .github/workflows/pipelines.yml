@@ -17,7 +17,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  phpcs:
+  UNICEF-Pipeline:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -96,15 +96,15 @@ jobs:
       - name: Excecute Drush Commands at Stage
         if: github.ref == 'refs/heads/stage'
         run : ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cr -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test updb -y; ./vendor/bin/drush @vss2.test updb -y -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cim -y -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cr -l https://stage.erefer.org;
-      - name: Use Node.js for Night watch test cases ${{ matrix.node-version }}
-        if: ${{ startsWith(github.ref, 'refs/heads/develop'  ) }} || ${{ startsWith(github.ref, 'refs/heads/stage'  ) }} || ${{ startsWith(github.ref, 'refs/tags/tags'  ) }} || ${{ startsWith(github.ref, 'refs/heads/master'  ) }}
-        uses: actions/setup-node@v1
-        with:
-          #ref: workaround
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependency and Run tests
-        run: |
-          cd tests/nightwatch && npm install && npm run test:cucumber:e2e
+      #- name: Use Node.js for Night watch test cases ${{ matrix.node-version }}
+      #  if: ${{ startsWith(github.ref, 'refs/heads/develop'  ) }} || ${{ startsWith(github.ref, 'refs/heads/stage'  ) }} || ${{ startsWith(github.ref, 'refs/tags/tags'  ) }} || ${{ startsWith(github.ref, 'refs/heads/master'  ) }}
+      #  uses: actions/setup-node@v1
+      #  with:
+      #    #ref: workaround
+      #    node-version: ${{ matrix.node-version }}
+      #- name: Install dependency and Run tests
+      #  run: |
+      #    cd tests/nightwatch && npm install && npm run test:cucumber:e2e
            
       # - name: Deployment Status - Acquia BLT
       #   uses: ravsamhq/notify-slack-action@master
@@ -115,11 +115,11 @@ jobs:
       #     notify_when: 'success,failure,warnings'
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} 
-      - name:  Deployment Status - Acquia BLT
-        uses: 8398a7/action-slack@v3
-        with:
-            status: ${{ job.status }}
-            fields: repo,message,commit,author,action,eventName,ref,workflow # selectable (default: repo,message)
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
-        if: always()
+      #- name:  Deployment Status - Acquia BLT
+      #  uses: 8398a7/action-slack@v3
+      #  with:
+      #      status: ${{ job.status }}
+      #      fields: repo,message,commit,author,action,eventName,ref,workflow # selectable (default: repo,message)
+      #  env:
+      #    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
+      #  if: always()

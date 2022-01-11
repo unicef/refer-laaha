@@ -30,6 +30,8 @@ display:
       fields:
         media_bulk_form:
           action_title: إجراء
+        name:
+          separator: ', '
         edit_media:
           text: تحرير
         delete_media:
@@ -40,6 +42,10 @@ display:
         name:
           expose:
             label: الاسم
+      arguments:
+        bundle:
+          exception:
+            title: الكل
   widget_table:
     display_options:
       fields:
@@ -53,3 +59,7 @@ display:
         name:
           expose:
             label: الاسم
+      arguments:
+        bundle:
+          exception:
+            title: الكل

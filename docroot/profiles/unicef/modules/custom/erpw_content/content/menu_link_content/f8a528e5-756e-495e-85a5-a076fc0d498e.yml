@@ -1,0 +1,42 @@
+_meta:
+  version: '1.0'
+  entity_type: menu_link_content
+  uuid: f8a528e5-756e-495e-85a5-a076fc0d498e
+  bundle: menu_link_content
+  default_langcode: en
+default:
+  enabled:
+    -
+      value: true
+  title:
+    -
+      value: Saved
+  menu_name:
+    -
+      value: main
+  link:
+    -
+      uri: 'internal:#'
+      title: ''
+      options: {  }
+  external:
+    -
+      value: false
+  rediscover:
+    -
+      value: true
+  weight:
+    -
+      value: -42
+  expanded:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  menu_item_roles:
+    -
+      target_id: authenticated
+  menu_item_override_children:
+    -
+      value: false

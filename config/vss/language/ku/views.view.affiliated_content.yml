@@ -3,6 +3,7 @@ display:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
       fields:
         title:
@@ -26,6 +27,10 @@ display:
         langcode:
           expose:
             label: زمان
+      arguments:
+        field_domain_access_target_id:
+          exception:
+            title: هەموو
   page_1:
     display_options:
       menu:

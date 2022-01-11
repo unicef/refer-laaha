@@ -6,6 +6,7 @@ dependencies:
     - field.field.taxonomy_term.categories.field_category_color
     - field.field.taxonomy_term.categories.field_category_reference
     - field.field.taxonomy_term.categories.field_domain
+    - field.field.taxonomy_term.categories.field_hero_content
     - field.field.taxonomy_term.categories.field_icon
     - field.field.taxonomy_term.categories.field_related_content
     - field.field.taxonomy_term.categories.field_sub_category
@@ -16,11 +17,20 @@ id: taxonomy_term.categories.default
 targetEntityType: taxonomy_term
 bundle: categories
 mode: default
-content: {  }
+content:
+  field_hero_content:
+    weight: -4
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
 hidden:
   description: true
   field_category_color: true
   field_category_reference: true
+  field_category_short_name: true
   field_domain: true
   field_icon: true
   field_related_content: true
@@ -28,3 +38,4 @@ hidden:
   field_sub_category_thumbnail: true
   field_tags: true
   langcode: true
+  search_api_excerpt: true

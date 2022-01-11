@@ -6,10 +6,14 @@ dependencies:
     - field.field.node.scorm.field_content
     - field.field.node.scorm.field_domain_access
     - field.field.node.scorm.field_domain_all_affiliates
+    - field.field.node.scorm.field_preview_password
+    - field.field.node.scorm.field_read_time
     - field.field.node.scorm.field_sub_category
+    - field.field.node.scorm.field_tags
     - field.field.node.scorm.field_thumbnail_image
     - image.style.thumbnail
     - node.type.scorm
+    - workflows.workflow.editorial
   module:
     - content_moderation
     - image
@@ -27,7 +31,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_content:
-    weight: 12
+    weight: 13
     settings:
       preview_view_mode: default
       nesting_depth: 0
@@ -48,14 +52,32 @@ content:
     weight: 9
     third_party_settings: {  }
     region: content
+  field_read_time:
+    weight: 16
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_sub_category:
-    weight: 14
+    weight: 15
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
+  field_tags:
+    weight: 12
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
   field_thumbnail_image:
-    weight: 13
+    weight: 14
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
@@ -125,4 +147,5 @@ content:
       match_limit: 10
     region: content
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_preview_password: true

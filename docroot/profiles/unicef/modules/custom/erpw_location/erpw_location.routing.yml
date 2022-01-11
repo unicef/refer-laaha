@@ -1,0 +1,21 @@
+erpw_location.manage_location:
+  path: '/manage-location'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\ManageLocationForm'
+    _title: 'Manage Locations'
+  requirements:
+    _permission: 'access content'
+erpw_location.open_import_modal:
+  path: '/import-location-modal'
+  defaults:
+    _title: 'Modal Form'
+    _controller: '\Drupal\erpw_location\Controller\ModalFormController::openModalForm'
+  requirements:
+    _permission: 'access content'
+erpw_location.autocomplete:
+  path: '/location-autocomplete/{tid}'
+  defaults:
+    _controller: '\Drupal\erpw_location\Controller\AutocompleteController::handleAutocomplete'
+    _format: json
+  requirements:
+    _access: 'TRUE'

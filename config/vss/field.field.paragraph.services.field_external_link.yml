@@ -1,0 +1,23 @@
+uuid: 7d1bbcf1-383c-41e5-b8a3-19f1c30b0b7e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_external_link
+    - paragraphs.paragraphs_type.services
+id: paragraph.services.field_external_link
+field_name: field_external_link
+entity_type: paragraph
+bundle: services
+label: 'Open in a new tab'
+description: 'Enable to open in a new tab'
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

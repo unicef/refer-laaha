@@ -1,0 +1,208 @@
+<?php
+
+/**
+ * @file
+ * Contains erpw_custom.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'user_login_form') {
+    // Code to modify your form input.
+    $form['name']['#placeholder'][] = t('jane@example.com');
+    $form['pass']['#placeholder'][] = t('**********');
+    $form['name']['#title'] = t('Email ID');
+    unset($form['name']['#description']);
+    unset($form['pass']['#description']);
+    $form['actions']['submit']['#value'] = t('SIGN IN');
+    $form['#validate'][] = 'erpw_custom_form_form_user_login_replace_email_validate';
+  }
+
+  if ($form_id == 'node_service_type_form') {
+    $form['#title'] = t('Name of Service Type');
+    $form['advanced']['#access'] = FALSE;
+    $form['meta']['#access'] = FALSE;
+    $form['status']['#access'] = FALSE;
+    $form['revision_information']['#access'] = FALSE;
+    $form['moderation_state']['#access'] = FALSE;
+    $form['options']['#access'] = FALSE;
+    $form['author']['#access'] = FALSE;
+    $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
+    $form['actions']['submit']['#value'] = t('PUBLISH');
+    $form['title']['widget'][0]['value']['#title'] = t('Name of Service Type');
+    $form['title']['widget'][0]['value']['#placeholder'] = t('Enter service type name. eg:  Health care');
+    $form['actions']['submit']['#submit'][] = 'service_type_handler';
+    $form['#validate'][] = 'check_title_exists';
+    $form['#title'] = t('Add Service Type');
+  }
+  if ($form_id == 'node_service_type_edit_form') {
+    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    $form['#prefix'] = '<div id="status-message"></div>';
+    $form['#title'] = t('Name of Service Type');
+    $form['advanced']['#access'] = FALSE;
+    $form['meta']['#access'] = FALSE;
+    $form['status']['#access'] = FALSE;
+    $form['revision_information']['#access'] = FALSE;
+    $form['moderation_state']['#access'] = FALSE;
+    $form['options']['#access'] = FALSE;
+    $form['author']['#access'] = FALSE;
+    $form['actions']['preview']['#access'] = FALSE;
+    $form['actions']['submit']['#value'] = t('UPDATE');
+    $form['title']['widget'][0]['value']['#title'] = t('Name of Service Type');
+    $form['title']['widget'][0]['value']['#placeholder'] = t('Enter Service Type E.g Health Care ');
+    $form['actions']['submit']['#attributes']['class'][] = 'use-ajax ok-btn';
+    $form['#title'] = t('Update Service Type');
+    $form['actions']['delete']['#access'] = FALSE;
+    $form['actions']['submit']['#cancel'][] = 'cancelhandler';
+    $form['actions']['submit']['#ajax'] = [
+      'callback' => 'update_service_type_handler',
+      'event' => 'click',
+      'wrapper' => 'service_update_form',
+    ];
+    $form['actions']['cancel'] = [
+      '#type' => 'submit',
+      '#value' => t('CANCEL'),
+    ];
+    $form['actions']['submit']['#weight'] = 5;
+    $form['actions']['cancel']['#weight'] = 10;
+  }
+
+  if ($form_id == 'node_service_type_quick_node_clone_form') {
+    $form['advanced']['#access'] = FALSE;
+    $form['meta']['#access'] = FALSE;
+    $form['status']['#access'] = FALSE;
+    $form['revision_information']['#access'] = FALSE;
+    $form['options']['#access'] = FALSE;
+    $form['author']['#access'] = FALSE;
+    $form['additional_settings']['#access'] = FALSE;
+    $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
+    $form['actions']['submit']['#value'] = t('PUBLISH');
+    $form['title']['widget'][0]['value']['#title'] = t('Name of Service Type');
+    $form['title']['widget'][0]['value']['#placeholder'] = t('Enter service type name. eg:  Health care');
+    $form['actions']['submit']['#submit'][] = 'clone_service_type_handler';
+    $form['#validate'][] = 'check_title_exists';
+    $form['#title'] = t('Add Service Type');
+  }
+
+  if ($form_id == 'node_service_type_delete_form') {
+    $form['description']['#access'] = FALSE;
+    $form['actions']['submit']['#submit'][] = 'deletecontent';
+    $form['actions']['cancel']['#access'] = FALSE;
+    $form['actions']['submit']['#value'] = t('BACK TO DASHBOARD');
+  }
+}
+
+/**
+ * {@inheritdoc}
+ */
+function deletecontent(array &$form, FormStateInterface $form_state) {
+  $url = Url::fromRoute('erpw_custom.dashboard');
+  $response = new RedirectResponse($url->toString());
+  $response->send();
+  return $response;
+}
+
+/**
+ * {@inheritdoc}
+ */
+function cancelhandler(array &$form, FormStateInterface $form_state) {
+  $url = Url::fromRoute('view.manage_service_types.page_1');
+  $response = new RedirectResponse($url->toString());
+  $response->send();
+  return $response;
+}
+
+/**
+ * {@inheritdoc}
+ */
+function clone_service_type_handler(array &$form, FormStateInterface $form_state) {
+  $url = Url::fromRoute('view.manage_service_types.page_1');
+  $response = new RedirectResponse($url->toString());
+  $response->send();
+  return $response;
+}
+
+/**
+ * {@inheritdoc}
+ */
+function update_service_type_handler(array &$form, FormStateInterface $form_state) {
+  $response = new AjaxResponse();
+  $update_service_type = \Drupal::formBuilder()->getForm('Drupal\erpw_custom\Form\UpdatedServiceType');
+  $response->addCommand(new OpenModalDialogCommand('', $update_service_type, ['width' => '400']));
+  return $response;
+}
+
+/**
+ * Checks if there is a duplicate Title in the database.
+ */
+function check_title_exists(&$form, &$form_state) {
+  // Remove the last character from the string.
+  $title_entered = substr($form_state->getValue('title')[0]['value'], 0, -1);
+  $title_compared = '';
+  $db = \Drupal::database();
+  $results = $db->select('node_field_data', 'n')
+    ->fields('n', ['title'])
+    ->condition('n.type', 'service_type')
+    ->execute();
+  foreach ($results as $record) {
+    $title_compared = substr($record->title, 0, -1);
+    if ($title_compared === $title_entered) {
+      $form_state->setErrorByName('title', t('Service Type Already Exists. Please update the Name and Save it again.'));
+    }
+  }
+}
+
+/**
+ * {@inheritdoc}
+ */
+function service_type_handler(array &$form, FormStateInterface $form_state) {
+  $url = Url::fromRoute('view.manage_service_types.page_1');
+  $response = new RedirectResponse($url->toString());
+  $response->send();
+  return $response;
+}
+
+/**
+ * A custom validation handler for the user login form.
+ */
+function erpw_custom_form_form_user_login_replace_email_validate(array &$form, FormStateInterface $form_state) {
+  $errors = $form_state->getErrors();
+  if (!empty($errors)) {
+    $string_error = $errors['name'];
+    if (strpos($string_error, 'Unrecognized username or password') !== FALSE) {
+      $form_state->clearErrors();
+      $form_state->setErrorByName('name', 'Email id or password is incorrect');
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function erpw_custom_preprocess_page_title(&$variables) {
+  $request = \Drupal::request();
+  // Get current path.
+  $path = $request->getRequestUri();
+  // Check current path is user profile page.
+  if (strpos($path, 'user')) {
+    $variables['title'] = 'Sign In';
+  }
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function erpw_custom_user_logout() {
+  // We redirect to an external site.
+  $response = new RedirectResponse('/');
+  $response->send();
+  return $response;
+}

@@ -3,6 +3,7 @@ display:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
       fields:
         name:
@@ -22,6 +23,14 @@ display:
             group_items:
               1:
                 title: چالاکە
+  page_1:
+    display_options:
+      menu:
+        title: List
+      arguments:
+        field_domain_access_target_id:
+          exception:
+            title: هەموو
   page_2:
     display_options:
       filters:

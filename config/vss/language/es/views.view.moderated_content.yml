@@ -4,10 +4,18 @@ display:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       pager:
         options:
+          tags:
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
+            first: '« Primero'
+            last: 'Último »'
           expose:
             items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- Todo -'
@@ -15,10 +23,17 @@ display:
       fields:
         title:
           label: Título
+          separator: ', '
         type:
           label: 'Tipo de contenido'
+          separator: ', '
         name:
           label: Autor
+          separator: ', '
+        moderation_state:
+          separator: ', '
+        changed:
+          separator: ', '
         operations:
           label: Operaciones
       filters:

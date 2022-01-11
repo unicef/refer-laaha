@@ -9,6 +9,44 @@
       }
     }
   }
+  #block-wordsfromexperts {
+    .experts-img {
+      display: none;
+    }
+
+    .bg-banner {
+      background: url("../images/bg-expert-mobile.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+
+    .field.field--name-body.field--type-text-with-summary.field--label-hidden.field--item p {
+      padding: 0;
+      margin-top: 10%;
+      font-size: $base-footer-font-size;
+      font-weight: 400;
+      line-height: 20px;
+      text-align: center;
+    }
+
+    h2.block-title {
+      text-align: center;
+      font-size: $base-para-tag;
+      font-weight: 500;
+      line-height: 28px;
+
+    }
+    .inverted-comma-img {
+      float: right;
+      margin-top: 0;
+      margin-left: -70px !important;
+      width: 18.74px;
+      height: 16px;
+    }
+    .banner-parent {
+      padding: 10%;
+    }
+  
+  }
 #block-recommendedrelatedcontentblock{
   padding: 5px 0;
   border-top: 2px solid #00000066;
@@ -217,9 +255,7 @@
 
   }
 
-  .telephone-header {
-    /* display: none;*/
-  }
+  
 
   .telephone_in_mobile {
     img {
@@ -247,19 +283,27 @@
     margin-top: 24px;
 
   }
-
-  #block-globalstickyblock {
+.content-wrapper-main{
+ .global-sticky-region {
     top: inherit;
     right: 0;
     bottom: 0;
+    position: fixed;
+    z-index: 99;
     width: 100%;
-    border-top-right-radius: 20px;
+    
+    height: 72px;
+    
+   
+.region-global-sticky{
+  border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
-    height: 72px;
-    padding-top: 15px;
-
+  padding-top: 15px;
+  width: 100%;
+  position:inherit;
+  top:inherit;
     .global_sticky {
       flex-direction: row;
       justify-content: space-around;
@@ -280,11 +324,86 @@
       }
     }
   }
+}
+}
 
   .footer-wrapper {
-    margin-bottom: 60px;
+    margin-bottom: 55px;
 
   }
+  .featured-stories{
+    background: none;
+    h3{
+      margin: 24px 0;
+      line-height: 28px;
+      font-size: $header-logo-font;
+      img{
+        display: none;
+      }
+     
+    }
+  .featured_stories_block{
+    margin-bottom: 40px;
+    a{
+      span{
+        min-height: inherit;
+      }
+    }
+    .four-slice,
+    .two-slice{
+      .play-circle{
+        top:30%;
+      }
+      .play-circle-podcast{
+        top: 125px;
+      }
+      .four-slice-img,
+      .two-slice-img{
+      height: 184px;
+      }
+
+    }
+
+  }
+}
+/*catagery hero*/
+.block-hero-banner-block{
+  
+    h2{ 
+      font-size: $base-font-big-size  ;
+      margin: 40px 0 24px 0;
+      img{
+        width:28px;
+        height: 28px;
+        border-radius: 50%;
+      }
+    }
+  
+  .hero-wrapper{
+    .hero-col{
+      margin-bottom: 24px;
+      min-height: 250px;
+    }
+    a{
+       text-decoration: none;
+       color:$base-black-color;
+       img{
+         width:120px;
+         height: 120px;
+         border-radius: 50%;
+       }
+      span{
+        display: block;
+        text-align: center;
+        line-height: 24px;
+        font-weight: 400;
+        font-size: $base-font-size ;
+        margin-top: 24px;
+      }
+    }
+  }
+}
+
 }
 
 @media screen and (min-width:768px) {

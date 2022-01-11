@@ -1,0 +1,16 @@
+uuid: e42d7fc6-6bf4-4b9b-8ea9-04f440b60eae
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.get_help_block
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: block_content.get_help_block
+target_entity_type_id: block_content
+target_bundle: get_help_block
+default_langcode: current_interface
+language_alterable: true

@@ -1,0 +1,27 @@
+uuid: 427a0e58-1daf-45af-af85-80808f1959e7
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - vss
+id: gethelp
+theme: vss
+region: content
+weight: -7
+provider: null
+plugin: 'block_content:946137b3-91f1-425e-b257-f9ac1f356f84'
+settings:
+  id: 'block_content:946137b3-91f1-425e-b257-f9ac1f356f84'
+  label: 'Get help'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false

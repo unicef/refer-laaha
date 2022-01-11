@@ -7,12 +7,16 @@ dependencies:
     - field.field.node.podcast.field_content
     - field.field.node.podcast.field_domain_access
     - field.field.node.podcast.field_domain_all_affiliates
+    - field.field.node.podcast.field_preview_password
+    - field.field.node.podcast.field_read_time
     - field.field.node.podcast.field_sub_category
     - field.field.node.podcast.field_tags
     - field.field.node.podcast.field_thumbnail_image
     - image.style.thumbnail
     - node.type.podcast
+    - workflows.workflow.editorial
   module:
+    - content_moderation
     - image
     - layout_paragraphs
     - path
@@ -28,7 +32,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_content:
-    weight: 26
+    weight: 12
     settings:
       preview_view_mode: default
       nesting_depth: 0
@@ -49,8 +53,16 @@ content:
     weight: 9
     third_party_settings: {  }
     region: content
+  field_read_time:
+    weight: 15
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_sub_category:
-    weight: 28
+    weight: 14
     settings: {  }
     third_party_settings: {  }
     type: options_select
@@ -66,7 +78,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_thumbnail_image:
-    weight: 27
+    weight: 13
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
@@ -79,6 +91,12 @@ content:
     region: content
     settings:
       include_locked: true
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 16
+    settings: {  }
+    region: content
     third_party_settings: {  }
   path:
     type: path
@@ -132,3 +150,4 @@ content:
     third_party_settings: {  }
 hidden:
   body: true
+  field_preview_password: true

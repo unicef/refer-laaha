@@ -106,23 +106,23 @@
 </div>
 {# Main #}
 {% block main %}
-<div class="wrapper">
-  <div role="main" class="main-container  container js-quickedit-main-content">
-    <div class="row">
+<div class="content-wrapper-main">
+			<div class="wrapper">
+				<div role="main" class="main-container  container js-quickedit-main-content">
+					<div
+						class="row">
 
-    
+						{# Sidebar First #}
+						{% if page.sidebar_first %}
+							{% block sidebar_first %}
+								<aside class="col-sm-3" role="complementary">
+									{{ page.sidebar_first }}
+								</aside>
+							{% endblock %}
+						{% endif %}
 
-      {# Sidebar First #}
-      {% if page.sidebar_first %}
-        {% block sidebar_first %}
-          <aside class="col-sm-3" role="complementary">
-            {{ page.sidebar_first }}
-          </aside>
-        {% endblock %}
-      {% endif %}
-
-      {# Content #}
-      {%
+						{# Content #}
+						{%
         set content_classes = [
           page.sidebar_first and page.sidebar_second ? 'col-sm-6',
           page.sidebar_first and page.sidebar_second is empty ? 'col-sm-9',
@@ -130,57 +130,67 @@
           page.sidebar_first is empty and page.sidebar_second is empty ? 'col-sm-12'
         ]
       %}
-      <section{{ content_attributes.addClass(content_classes) }}>
+						<section{{content_attributes.addClass(content_classes)}}>
 
-        {# Highlighted #}
-        {% if page.highlighted %}
-          {% block highlighted %}
-            <div class="highlighted">{{ page.highlighted }}</div>
-          {% endblock %}
-        {% endif %}
+							{# Highlighted #}
+							{% if page.highlighted %}
+								{% block highlighted %}
+									<div class="highlighted">{{ page.highlighted }}</div>
+								{% endblock %}
+							{% endif %}
 
-        {# Help #}
-        {% if page.help %}
-          {% block help %}
-            {{ page.help }}
-          {% endblock %}
-        {% endif %}
+							{# Help #}
+							{% if page.help %}
+								{% block help %}
+									{{ page.help }}
+								{% endblock %}
+							{% endif %}
 
-        {# Content #}
-        {% block content %}
-          <a id="main-content"></a>
-          {{ page.content }}
-        {% endblock %}
-        {% if page.content_bottom %}
-          {% block content_bottom %}
-            {{ page.content_bottom }}
-          {% endblock %}
-        {% endif %}
-      </section>
+							{# Content #}
+							{% block content %}
+								<a id="main-content"></a>
+								{{ page.content }}
+							{% endblock %}
+							{% if page.content_bottom %}
+								{% block content_bottom %}
+									{{ page.content_bottom }}
+								{% endblock %}
+							{% endif %}
+						</section>
 
-      {# Sidebar Second #}
-      {% if page.sidebar_second %}
-        {% block sidebar_second %}
-          <aside class="col-sm-3" role="complementary">
-            {{ page.sidebar_second }}
-          </aside>
-        {% endblock %}
-      {% endif %}
-    </div>
-  </div>
-</div>  
-{% endblock %}
-{% if page.global_sticky %}
-  {% block global_sticky %}
-    <div class="global-sticky-region" >
-      {{ page.global_sticky }}
-    </div>
-  {% endblock %}
-{% endif %}
+						{# Sidebar Second #}
+						{% if page.sidebar_second %}
+							{% block sidebar_second %}
+								<aside class="col-sm-3" role="complementary">
+									{{ page.sidebar_second }}
+								</aside>
+							{% endblock %}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		{% endblock %}
+		{% if page.content_bottom_fluid %}
+			{% block content_bottom_fluid %}
+				<div class="content-bottom-fluid">
+					{{ page.content_bottom_fluid }}
+				</div>
+			{% endblock %}
+		{% endif %}
+
+		{% if page.global_sticky %}
+			{% block global_sticky %}
+				<div class="global-sticky-region">
+					{{ page.global_sticky }}
+				</div>
+			{% endblock %}
+		{% endif %}
+	</div>
+
 <footer id="footer" class= "footer-wrapper {{ container }}" role="contentinfo">
 {% if page.footer_top %}
   {% block footer_top %}
-    <div class="footer_top container" >
+    <div class="footer_top container">
       {{ page.footer_top }}
     </div>
   {% endblock %}

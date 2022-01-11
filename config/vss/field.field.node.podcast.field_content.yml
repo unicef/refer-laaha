@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_content
     - node.type.podcast
+    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.layout
     - paragraphs.paragraphs_type.podcast_audio
     - paragraphs.paragraphs_type.scorm
@@ -26,6 +28,8 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
+      image: image
+      image_gallery: image_gallery
       layout: layout
       podcast_audio: podcast_audio
       scorm: scorm
@@ -38,11 +42,11 @@ settings:
         weight: 11
         enabled: false
       image:
+        enabled: true
         weight: 12
-        enabled: false
       image_gallery:
+        enabled: true
         weight: 13
-        enabled: false
       layout:
         enabled: true
         weight: 14
@@ -52,6 +56,9 @@ settings:
       scorm:
         enabled: true
         weight: 17
+      services:
+        weight: 19
+        enabled: false
       video:
         weight: 16
         enabled: false

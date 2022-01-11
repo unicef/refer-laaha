@@ -4,8 +4,11 @@ display:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       pager:
         options:
           expose:
@@ -15,12 +18,21 @@ display:
       fields:
         label:
           label: Label
+          separator: ', '
         type:
           label: Tipo
+          separator: ', '
+        paragraphs__target_id:
+          label: Paragraphs
+          separator: ', '
         langcode:
           label: Idioma
+          separator: ', '
         id:
           label: ID
+          separator: ', '
+        changed:
+          separator: ', '
         operations:
           label: Operaciones
       filters:

@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Logs visitors for your site.
+ */
+
+/**
+ * Implements of hook_help().
+ */
+function visitors_help($section) {
+  switch ($section) {
+    case 'visitors':
+      return t('Visitors info.');
+
+    default:
+      return '';
+  }
+}
+
+/**
+ * Get value of MySQL system variable time_zone.
+ */
+function visitors_get_mysql_current_timezone() {
+  $query = 'SHOW variables LIKE \'time_zone\'';
+  return \Drupal::database()->query($query)->fetchField(1);
+}
+
+/**
+ * Get difference in seconds user timezone and GMT.
+ */
+function visitors_timezone_diff() {
+  $timezone = date_default_timezone_get();
+  return timezone_offset_get(timezone_open($timezone), date_create());
+}
+
+/**
+ * Build sql query from date filter values.
+ */
+function visitors_date_filter_sql_condition(&$query) {
+  $from = \Drupal::request()->query->get('timestamp');
+  if ($from == 'cur_week') {
+    $timestamp = strtotime('monday this week');
+  }
+  elseif ($from == 'cur_mon') {
+    $timestamp = strtotime(date('Y-m-01'));
+  }
+  elseif ($from == 'cur_yr') {
+    $timestamp = strtotime('first day of January');
+  }
+  else {
+    $timestamp = strtotime('today midnight');
+  }
+  $query->condition('visitors_date_time', $timestamp, '>=');
+}

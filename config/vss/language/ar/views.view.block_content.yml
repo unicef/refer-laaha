@@ -11,14 +11,19 @@ display:
           sort_desc_label: تنازلي
       pager:
         options:
+          tags:
+            previous: '‹ السابق'
+            next: 'التالي ›'
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
       fields:
         info:
           label: 'Block description'
+          separator: ', '
         type:
           label: 'Block type'
+          separator: ', '
         operations:
           label: عمليات
       filters:

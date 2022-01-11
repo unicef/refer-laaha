@@ -1,0 +1,21 @@
+uuid: 11a1b85e-84e2-4172-acc7-22a9018380f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_answer
+    - paragraphs.paragraphs_type.faq
+  module:
+    - text
+id: paragraph.faq.field_answer
+field_name: field_answer
+entity_type: paragraph
+bundle: faq
+label: Answer
+description: 'Displays answer in front'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

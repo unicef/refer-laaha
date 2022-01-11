@@ -4,10 +4,18 @@ display:
     display_options:
       exposed_form:
         options:
+          submit_button: Filter
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       pager:
         options:
+          tags:
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
+            first: '« Primero'
+            last: 'Último »'
           expose:
             items_per_page_label: 'Elementos por página'
             items_per_page_options_all_label: '- Todo -'
@@ -19,8 +27,16 @@ display:
           label: Estado
           settings:
             format_custom_true: Activo
+        roles_target_id:
+          label: Roles
+        field_domain_access:
+          separator: ', '
+        field_domain_all_affiliates:
+          separator: ', '
         operations:
           label: Operaciones
+        mail:
+          separator: ', '
       filters:
         status:
           group_info:
@@ -28,6 +44,14 @@ display:
             group_items:
               1:
                 title: Activo
+  page_1:
+    display_options:
+      menu:
+        title: List
+      arguments:
+        field_domain_access_target_id:
+          exception:
+            title: Todo(s)
   page_2:
     display_options:
       filters:

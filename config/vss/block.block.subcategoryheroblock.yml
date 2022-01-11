@@ -1,0 +1,28 @@
+uuid: ac66059e-cd9e-4eaa-a2aa-2889ec4c95d0
+langcode: en
+status: true
+dependencies:
+  module:
+    - ctools
+    - vss_custom
+  theme:
+    - vss
+id: subcategoryheroblock
+theme: vss
+region: content
+weight: -4
+provider: null
+plugin: subcategory_hero_block
+settings:
+  id: subcategory_hero_block
+  label: 'Sub Category Hero block'
+  provider: vss_custom
+  label_display: '0'
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    bundles:
+      categories: categories
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
