@@ -10,11 +10,8 @@
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        //Holds a reference to the YouTube player
-        var player;
+        var players = [];
         window.onYouTubeIframeAPIReady = function () {
-
             videoTranscriptsCount = $('.show-transcript-external').length;
             for (var i = 0; i < videoTranscriptsCount; i++) {
                 var transcriptId = $('.show-transcript-external')[i].getAttribute("data-id").split("_")[1];
@@ -37,6 +34,7 @@
                         'onStateChange': onPlayerStateChange
                     }
                 });
+                players[transcriptId] = player;
             }
 
             function youtube_parser(url) {
@@ -53,8 +51,8 @@
                 if (event.data == YT.PlayerState.PLAYING) {
                     timeupdater = setInterval(function () {
                         {
-                            now = player.getCurrentTime();
                             var transcriptId = event.target.getIframe().id.split('_')[1];
+                            var now =  players[transcriptId].getCurrentTime();
                             var lines = document.getElementById("transcript_" + transcriptId).getElementsByTagName("div");
                             // Highlight text as video plays.
                             for (var i = 0, l = lines.length; i < l; i++) {
@@ -80,7 +78,11 @@
                 }
 
             }
-
+            $(document).on('click', '.btnSeekEx', function () {
+                var seekToTime = $(this).data('seek');
+                var transcriptId = $(this).parent().attr("id").split("_")[1];
+                players[transcriptId].seekTo(seekToTime);
+            });
             $(".transcript-container").hide();
             $(".hide-transcript-external").hide();
             $(".show-transcript-external").click(function () {
