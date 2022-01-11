@@ -16,7 +16,6 @@
         window.onYouTubeIframeAPIReady = function () {
 
             videoTranscriptsCount = $('.show-transcript-external').length;
-            console.log(videoTranscriptsCount);
             for (var i = 0; i < videoTranscriptsCount; i++) {
                 var transcriptId = $('.show-transcript-external')[i].getAttribute("data-id").split("_")[1];
                 var frameId = 'youtube_' + transcriptId;
@@ -56,7 +55,6 @@
                         {
                             now = player.getCurrentTime();
                             var transcriptId = event.target.getIframe().id.split('_')[1];
-                            console.log("transcriptID " + transcriptId);
                             var lines = document.getElementById("transcript_" + transcriptId).getElementsByTagName("div");
                             // Highlight text as video plays.
                             for (var i = 0, l = lines.length; i < l; i++) {
