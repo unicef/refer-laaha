@@ -2,10 +2,12 @@ exit_website:
   js:
     js/exit.js: {}
     js/tour_display.js: {}
+    js/preview_password.js: {}
   dependencies:
     - core/jquery
     - core/drupalSettings
     - core/jquery.once
+    - core/jquery.ui
 narrate:
   js:
     js/narrate.js: {}
