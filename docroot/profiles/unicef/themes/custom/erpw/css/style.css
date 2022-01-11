@@ -181,10 +181,9 @@ form .node-service-type-edit-form input[type=submit].button--primary,
 }
 
 .msg-note {
-  color: #444;
+  color: #A85766;
   font-size: 10px;
   line-height: 14px;
-  text-align: center;
 }
 
 .margin-space {
@@ -205,6 +204,9 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   padding: 10px 24px;
   text-transform: uppercase;
   width: 100%;
+}
+.button-red a {
+  color: #ffffff;
 }
 
 form .form-required::after {
@@ -504,6 +506,7 @@ header {
 .delete-screen .detail-row span {
   color: #444;
   max-width: 70%;
+  word-break: break-all;
   width: 100%;
 }
 .delete-screen label {
