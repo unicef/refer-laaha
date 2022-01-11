@@ -4,17 +4,17 @@
     "elements": [
       {
         "description": "",
-        "id": "verify-header-elements;verify-all-header-elememts",
+        "id": "onboarding-tour;add-and-verify-tour",
         "keyword": "Scenario",
         "line": 7,
-        "name": "Verify all Header elememts",
+        "name": "Add and Verify Tour",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 4311000000
+              "duration": 3590000000
             }
           },
           {
@@ -27,7 +27,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 4121000000
+              "duration": 4106000000
             }
           },
           {
@@ -40,295 +40,215 @@
             },
             "result": {
               "status": "passed",
-              "duration": 7716000000
+              "duration": 7847000000
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
             "line": 8,
-            "name": "Verify Exit Functionality",
+            "name": "Navigate to the Tour screen",
             "match": {
-              "location": "step-definitions/header.js:8"
+              "location": "step-definitions/onboardingTour.js:7"
             },
             "result": {
               "status": "passed",
-              "duration": 52000000
+              "duration": 3456000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 9,
-            "name": "Verify VSS Title",
+            "name": "Add Tour",
             "match": {
-              "location": "step-definitions/header.js:16"
+              "location": "step-definitions/onboardingTour.js:11"
             },
             "result": {
               "status": "passed",
-              "duration": 5115000000
+              "duration": 5302000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 10,
-            "name": "Verify VSS Logo",
+            "name": "Verify Add Tour Screen",
             "match": {
-              "location": "step-definitions/header.js:32"
+              "location": "step-definitions/onboardingTour.js:15"
             },
             "result": {
               "status": "passed",
-              "duration": 996000000
+              "duration": 114000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 11,
-            "name": "Verify Language Switcher",
+            "name": "Add Tour Name",
             "match": {
-              "location": "step-definitions/header.js:28"
+              "location": "step-definitions/onboardingTour.js:19"
             },
             "result": {
               "status": "passed",
-              "duration": 37000000
+              "duration": 1166000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 12,
-            "name": "Verify Discover nav Menu",
+            "name": "Add Module Name",
             "match": {
-              "location": "step-definitions/header.js:36"
+              "location": "step-definitions/onboardingTour.js:24"
             },
             "result": {
               "status": "passed",
-              "duration": 37000000
+              "duration": 1141000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 13,
-            "name": "Verify FAQs nav menu",
+            "name": "Add Routes",
             "match": {
-              "location": "step-definitions/header.js:40"
+              "location": "step-definitions/onboardingTour.js:28"
             },
             "result": {
               "status": "passed",
-              "duration": 31000000
+              "duration": 1158000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "Save Tour",
+            "match": {
+              "location": "step-definitions/onboardingTour.js:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5094000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 15,
-            "name": "Verify Resource Library nav menu",
+            "name": "Select Text Label from Dropdown",
             "match": {
-              "location": "step-definitions/header.js:48"
+              "location": "step-definitions/onboardingTour.js:36"
             },
             "result": {
               "status": "passed",
-              "duration": 56000000
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 1068000000
-            }
-          }
-        ],
-        "tags": [],
-        "type": "scenario"
-      },
-      {
-        "description": "",
-        "id": "verify-header-elements;verify-virtual-safe-space-title-and-logo",
-        "keyword": "Scenario",
-        "line": 17,
-        "name": "Verify Virtual Safe Space Title and logo",
-        "steps": [
-          {
-            "keyword": "Before",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 3113000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 4,
-            "name": "launch browser, open vss url",
-            "match": {
-              "location": "step-definitions/login.js:6"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 3968000000
+              "duration": 2521000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 5,
-            "name": "enter the credentials",
+            "line": 16,
+            "name": "Click on Add and Verify Tip Screen elements",
             "match": {
-              "location": "step-definitions/login.js:10"
+              "location": "step-definitions/onboardingTour.js:40"
             },
             "result": {
               "status": "passed",
-              "duration": 6558000000
+              "duration": 5388000000
             }
           },
           {
             "arguments": [],
-            "keyword": "Given ",
+            "keyword": "Then ",
+            "line": 17,
+            "name": "Add Label",
+            "match": {
+              "location": "step-definitions/onboardingTour.js:44"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1130000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
             "line": 18,
-            "name": "Verify VSS Title",
+            "name": "Add Selector",
             "match": {
-              "location": "step-definitions/header.js:16"
+              "location": "step-definitions/onboardingTour.js:48"
             },
             "result": {
               "status": "passed",
-              "duration": 5445000000
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 1060000000
-            }
-          }
-        ],
-        "tags": [],
-        "type": "scenario"
-      },
-      {
-        "description": "",
-        "id": "verify-header-elements;add-and-verify-vss-header-menu-items",
-        "keyword": "Scenario",
-        "line": 20,
-        "name": "Add and Verify VSS Header Menu Items",
-        "steps": [
-          {
-            "keyword": "Before",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 2560000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 4,
-            "name": "launch browser, open vss url",
-            "match": {
-              "location": "step-definitions/login.js:6"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 3976000000
+              "duration": 1159000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 5,
-            "name": "enter the credentials",
+            "line": 19,
+            "name": "Select Position",
             "match": {
-              "location": "step-definitions/login.js:10"
+              "location": "step-definitions/onboardingTour.js:52"
             },
             "result": {
               "status": "passed",
-              "duration": 6214000000
+              "duration": 54000000
             }
           },
           {
             "arguments": [],
-            "keyword": "Given ",
-            "line": 21,
-            "name": "Naviagte to Header Site Navigation Menus",
+            "keyword": "Then ",
+            "line": 20,
+            "name": "Add text in Body",
             "match": {
-              "location": "step-definitions/header.js:20"
+              "location": "step-definitions/onboardingTour.js:56"
             },
             "result": {
               "status": "passed",
-              "duration": 5868000000
+              "duration": 173000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "Save Tour",
+            "match": {
+              "location": "step-definitions/onboardingTour.js:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3516000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 22,
-            "name": "Verify Header Site Navigation Menus",
+            "name": "Verify Tour in added Node",
             "match": {
-              "location": "step-definitions/header.js:24"
+              "location": "step-definitions/onboardingTour.js:60"
             },
             "result": {
               "status": "passed",
-              "duration": 6516000000
+              "duration": 14965000000
             }
           },
           {
             "arguments": [],
-            "keyword": "Then ",
+            "keyword": "Given ",
             "line": 23,
-            "name": "Add Link",
+            "name": "Navigate to the Tour screen",
             "match": {
-              "location": "step-definitions/footer.js:16"
+              "location": "step-definitions/onboardingTour.js:7"
             },
             "result": {
               "status": "passed",
-              "duration": 172000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 24,
-            "name": "Add Title",
-            "match": {
-              "location": "step-definitions/footer.js:20"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 1182000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 25,
-            "name": "Click Save",
-            "match": {
-              "location": "step-definitions/footer.js:24"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 2430000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 26,
-            "name": "Navigate to created Header Menu Items",
-            "match": {
-              "location": "step-definitions/header.js:52"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 10613000000
+              "duration": 3044000000
             }
           },
           {
@@ -336,86 +256,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1081000000
-            }
-          }
-        ],
-        "tags": [],
-        "type": "scenario"
-      },
-      {
-        "description": "",
-        "id": "verify-header-elements;exit-functionality",
-        "keyword": "Scenario",
-        "line": 28,
-        "name": "Exit Functionality",
-        "steps": [
-          {
-            "keyword": "Before",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 3144000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 4,
-            "name": "launch browser, open vss url",
-            "match": {
-              "location": "step-definitions/login.js:6"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 4166000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 5,
-            "name": "enter the credentials",
-            "match": {
-              "location": "step-definitions/login.js:10"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 6372000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "line": 29,
-            "name": "Verify Exit Functionality",
-            "match": {
-              "location": "step-definitions/header.js:8"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 52000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 30,
-            "name": "Click on Exit Functionality",
-            "match": {
-              "location": "step-definitions/header.js:12"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 3908000000
-            }
-          },
-          {
-            "keyword": "After",
-            "hidden": true,
-            "result": {
-              "status": "passed",
-              "duration": 1066000000
+              "duration": 1077000000
             }
           }
         ],
@@ -423,11 +264,11 @@
         "type": "scenario"
       }
     ],
-    "id": "verify-header-elements",
+    "id": "onboarding-tour",
     "line": 1,
     "keyword": "Feature",
-    "name": "Verify Header Elements",
+    "name": "Onboarding Tour",
     "tags": [],
-    "uri": "features/header.feature"
+    "uri": "features/vssFeatures/onboardingTour.feature"
   }
 ]
