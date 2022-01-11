@@ -559,7 +559,6 @@ body .absoluteclass {
 #transcript,
 #podcast-transcript,
 .hide-transcript,
-.hide-transcript-external,
 .hide-podcast-transcript {
   display: none; }
 
@@ -1522,7 +1521,10 @@ html[dir="rtl"] .block-subcategory-hero-block {
   width: 100vw; }
   @media screen and (min-width: 1024px) {
     html[dir="rtl"] .block-subcategory-hero-block {
-      background: url("../images/subcategory-hero-rtl.svg") no-repeat; } }
+      background: url("../images/subcat-hero-rtl.svg") no-repeat; } }
+  @media screen and (min-width: 1024px) {
+    html[dir="rtl"] .block-subcategory-hero-block .hero-banner {
+      padding-right: 56px; } }
   html[dir="rtl"] .block-subcategory-hero-block .hero-banner .banner-left,
   html[dir="rtl"] .block-subcategory-hero-block .hero-banner .banner-right {
     padding-right: 0; }
