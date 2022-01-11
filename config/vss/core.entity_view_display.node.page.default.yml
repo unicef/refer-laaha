@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.page.field_content
     - field.field.node.page.field_domain_access
     - field.field.node.page.field_domain_all_affiliates
+    - field.field.node.page.field_preview_password
     - node.type.page
   module:
     - layout_paragraphs
@@ -18,9 +19,14 @@ targetEntityType: node
 bundle: page
 mode: default
 content:
+  content_moderation_control:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_content:
     type: layout_paragraphs
-    weight: 0
+    weight: 1
     label: hidden
     settings:
       view_mode: default
@@ -31,5 +37,7 @@ hidden:
   body: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_preview_password: true
   langcode: true
   links: true
+  search_api_excerpt: true

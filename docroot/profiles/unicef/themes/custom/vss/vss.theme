@@ -107,6 +107,9 @@ function vss_preprocess_node(array &$variables) {
       $variables['#attached']['drupalSettings']['langId'] = $lang_id;
     }
   }
+  if (!empty(strpos($_SERVER['REQUEST_URI'], 'preview-link'))) {
+    $variables['#attached']['drupalSettings']['password'] = $node->get('field_preview_password')->value;
+  }
 }
 
 /**
