@@ -775,14 +775,8 @@ function vss_custom_entity_operation_alter(array &$operations, EntityInterface $
 /**
  * Implements entity_operation_alter.
  */
-function vss_custom_form_views_exposed_form_alter(&$form, &$form_state) {
-  if ($form['#id'] == 'views-exposed-form-most-viewed-content-report-page-1') {
-    $form['datetime']['#type'] = 'select';
-    $form['datetime']['#options'] = [
-      '' => t('Today'),
-      'cur_week' => t('This Week'),
-      'cur_mon' => t('This Month'),
-      'cur_yr' => t('This Year'),
-    ];
+function vss_custom_preprocess_page(&$variables) {
+  if ($variables['page']['content']['system_main']['#view_id'] == 'frontpage') {
+    \Drupal::service('page_cache_kill_switch')->trigger();
   }
 }

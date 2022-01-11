@@ -82,16 +82,9 @@ class TopPages extends ControllerBase {
       ],
       'visitors_url' => [
         'data'      => t('Content title (This will include all content pages, Category, Sub category page, Homepage, FAQ, About Us)'),
-        'field'     => 'visitors_title',
-        'specifier' => 'visitors_title',
-        'class'     => [RESPONSIVE_PRIORITY_LOW],
       ],
       'count' => [
         'data'      => t('URL hit times'),
-        'field'     => 'count',
-        'specifier' => 'count',
-        'class'     => [RESPONSIVE_PRIORITY_LOW],
-        'sort'      => 'desc',
       ],
     ];
   }
@@ -116,14 +109,14 @@ class TopPages extends ControllerBase {
     $query->addExpression('COUNT(visitors_id)', 'count');
     $query->addExpression('MIN(visitors_title)', 'visitors_title');
     $query->addExpression('MIN(visitors_url)', 'visitors_url');
-    $query->fields('v', ['visitors_path']);
+    $query->fields('v', ['visitors_title']);
     visitors_date_filter_sql_condition($query);
-    $query->groupBy('visitors_path');
-    $query->orderByHeader($header);
+    $query->groupBy('visitors_title');
+    $query->orderBy('count', 'DESC');
     $query->limit($items_per_page);
 
     $count_query = \Drupal::database()->select('visitors', 'v');
-    $count_query->addExpression('COUNT(DISTINCT visitors_path)');
+    $count_query->addExpression('COUNT(DISTINCT visitors_title)');
     visitors_date_filter_sql_condition($count_query);
     $query->setCountQuery($count_query);
     $results = $query->execute();
