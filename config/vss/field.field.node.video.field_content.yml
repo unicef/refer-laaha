@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_content
     - node.type.video
+    - paragraphs.paragraphs_type.external_videos
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.layout
@@ -26,46 +27,50 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
+      external_videos: external_videos
       image: image
       image_gallery: image_gallery
       layout: layout
       video: video
       scorm: scorm
       wysiwyg_editor: wysiwyg_editor
+    negate: 0
     target_bundles_drag_drop:
       external_videos:
         weight: 10
+        enabled: true
+      faq:
+        weight: 14
         enabled: false
       from_library:
         weight: 11
         enabled: false
       image:
-        enabled: true
         weight: 12
+        enabled: true
       image_gallery:
-        enabled: true
         weight: 13
-      layout:
         enabled: true
+      layout:
         weight: 14
+        enabled: true
       podcast_audio:
         weight: 15
         enabled: false
       scorm:
-        enabled: true
         weight: 17
+        enabled: true
       services:
         weight: 19
         enabled: false
       video:
-        enabled: true
         weight: 16
+        enabled: true
       vtt_entries:
         weight: 17
         enabled: false
       wysiwyg_editor:
-        enabled: true
         weight: 18
+        enabled: true
 field_type: entity_reference_revisions
