@@ -9,12 +9,16 @@
   right: 50%;
   width: 100vw;
   @media screen and (min-width: 768px) {
-    background: #fef4f6 url('../images/subcategory-hero-bg.svg') no-repeat;
+    background: url('../images/subcat-hero-bg.svg') no-repeat;
     min-height: 500px;
   }
 
+  @media screen and (min-width: 1024px) {
+    background-size: 100%;
+  }
+
   .hero-banner {
-    padding-top: 50px;
+    padding-top: 20px;
 
     @media screen and (min-width: 1024px) {
       display: flex;

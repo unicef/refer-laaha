@@ -2003,10 +2003,13 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   width: 100vw; }
   @media screen and (min-width: 768px) {
     .block-subcategory-hero-block {
-      background: #fef4f6 url("../images/subcategory-hero-bg.svg") no-repeat;
+      background: url("../images/subcat-hero-bg.svg") no-repeat;
       min-height: 500px; } }
+  @media screen and (min-width: 1024px) {
+    .block-subcategory-hero-block {
+      background-size: 100%; } }
   .block-subcategory-hero-block .hero-banner {
-    padding-top: 50px; }
+    padding-top: 20px; }
     @media screen and (min-width: 1024px) {
       .block-subcategory-hero-block .hero-banner {
         display: -webkit-box;
