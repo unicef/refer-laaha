@@ -284,7 +284,20 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
     $form['#validate'][] = 'validate_password';
   }
 
+  if ($form_id == 'public_preview_preview_links_form') {
+    foreach ($form['previews'] as $key => $val) {
+      if ($key != $language_manager->getId()) {
+        unset($form['previews'][$key]);
+      }
+    }
+  }
+
   if ($form_id == 'public_preview_preview_links_form' && !empty($form['previews'][$language_manager->getId()]['url'])) {
+    foreach ($form['previews'] as $key => $val) {
+      if ($key != $language_manager->getId()) {
+        unset($form['previews'][$key]);
+      }
+    }
     $node = \Drupal::routeMatch()->getParameter('node');
     if ($node instanceof NodeInterface) {
       if ($node->hasTranslation($language_manager->getId())) {
@@ -785,5 +798,23 @@ function vss_custom_entity_operation_alter(array &$operations, EntityInterface $
 function vss_custom_preprocess_page(&$variables) {
   if ($variables['is_front'] == TRUE) {
     \Drupal::service('page_cache_kill_switch')->trigger();
+  }
+}
+
+/**
+ * Implements exposed form alter.
+ */
+function vss_custom_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $view_ids = ['most_viewed_content_report'];
+  if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
+    $form['datetime'] = [
+      '#type'             => 'select',
+      '#options'          => [
+        '' => t('Today'),
+        'cur_week' => t('This Week'),
+        'cur_mon' => t('This Month'),
+        'cur_yr' => t('This Year'),
+      ],
+    ];
   }
 }
