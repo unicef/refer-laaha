@@ -11,11 +11,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Url;
-use Drupal\taxonomy\Entity\Term;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\ReplaceCommand;
-use Drupal\Core\Ajax\HtmlCommand;
-use Drupal\views\Views;
 
 /**
  * Class ManageLocationForm.
@@ -60,7 +55,7 @@ class ManageLocationForm extends FormBase {
   public function __construct(LoggerChannelFactory $logger, Connection $connection, EntityTypeManagerInterface $entityManager, MessengerInterface $messenger, FormBuilderInterface $form_builder) {
     $this->logger = $logger;
     $this->connection = $connection;
-    $this->entityManager = $entityManager->getStorage('location');
+    $this->entityManager = $entityManager;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
   }
@@ -106,14 +101,13 @@ class ManageLocationForm extends FormBase {
       '#value' => $this->t('Export'),
       '#submit' => ['::exportLocationCsv'],
     ];
-    $location_entities = $this->entityManager->loadByProperties(
+    $location_entities = $this->entityManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
 
-      // kint($location_entities);exit;
     $location_options = [];
     foreach ($location_entities as $location) {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
-      
+
     }
     if (!empty($location_entities)) {
       $form['location_options'] = [
@@ -126,78 +120,55 @@ class ManageLocationForm extends FormBase {
           'event' => 'change',
           'wrapper' => 'edit-location-details',
           'progress' => [
-            'type' => 'throbber'
+            'type' => 'throbber',
           ],
         ],
       ];
     }
 
-    $form['location_list'] = [ 
+    $form['location_list'] = [
       '#prefix' => '<div id="edit-location-details">',
       '#suffix' => '</div>',
     ];
-    // $location_values = '';
-    $last_level_value = '';
-    $location_labels = '';
-    if ($form_state->getValue('location_options') != FALSE) {
-      $location_entity_id = !empty($form_state->getValue('location_options')) ? $form_state->getValue('location_options') : '';
+    if (!empty($form_state->getValue('location_options'))) {
+      $location_entity_id = $form_state->getValue('location_options');
       $location_levels = \Drupal::service('erpw_location.location_services')->getLocationLevels($location_entity_id);
       $location_levels_count = count($location_levels);
-      $location_entity = \Drupal::entityTypeManager()->getStorage('location')->load($location_entity_id);
+      $location_entity = $this->entityManager->getStorage('location')->load($location_entity_id);
       $location_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
-      $manager = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+      $manager = $this->entityManager->getStorage('taxonomy_term');
       $tree = $manager->loadTree('country', $location_tid, $location_levels_count, TRUE);
-      $result = [];
-      $location_term_name = [];
+      $locations = [];
+      $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
       foreach ($tree as $term) {
         if ($term->depth == $location_levels_count - 1) {
           $tid = $term->id();
-          $term_name = Term::load($tid)->get('name')->value;
-          $location_term_name[$term_name] = $term_name;
-          
+          $term_name = $term->hasTranslation($langcode) ? $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
+          $locations[$tid] = $term_name;
         }
       }
-      foreach ($location_levels as $key => $location_levels_values){
-        $location_labels .= "<div class='level-labels'>$location_levels_values";
-        $location_labels .= "</div>";
-      }
-      // $ancestors = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($tid);
-      // print_r($location_labels);
-      // die;
-      $location_term_name_count = count($location_term_name);
-      
-      // $string = "<div class='location-list'>";
-      foreach($location_term_name as $key => $value){
-        $last_level_value .= "<div class='location-list'>$value";
-        $last_level_value .= "</div>";
-        // $string .= "</div>";
-      }
-    }
-    
-    if (!empty($form_state->getValue('location_options'))) {
-      $form['location_list']['location_label'] = [
-        '#type' => 'markup',
-        '#markup' => t('update locations'),
-        '#prefix' => '<div id="location-title"></div>'
-      ];
       $form['location_list']['location_count'] = [
         '#type' => 'markup',
-        '#markup' => $location_term_name_count . t(' Locations '),
-        '#prefix' => '<div id="location-count"></div>'
+        '#prefix' => '<div id="location-count">' . count($locations) . ' ' . $this->t('Locations') . '</div>',
       ];
-      $form['location_list']['location'] = [
-        '#type' => 'markup',
-        '#markup' => $last_level_value,
-        '#prefix' => '<div id="location-details"></div>'
-      ];
-      $form['location_list']['location_labels'] = [
-        '#type' => 'markup',
-        '#markup' => $location_labels,
-        '#prefix' => '<div id="location-labels"></div>'
-      ];
+      foreach ($locations as $tid => $location) {
+        $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
+        $ancestors = array_reverse(array_keys($ancestors));
+        $location_details = '';
+        foreach ($location_levels as $key => $level) {
+          $level_term = $this->entityManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
+          $level_data_name = $level_term->get('name')->value;
+          if ($key !== array_key_last($location_levels)) {
+            $location_details .= '<div class="level">' . $level . " : " . $level_data_name . '</div><br/>';
+          }
+        }
+        $form['location_list']['location_' . $tid] = [
+          '#type' => 'markup',
+          '#prefix' => '<div id="location-title">' . $location . '</div> <div class="location-details>' . $location_details . '</div>',
+        ];
+      }
     }
-    // \Drupal::logger('hello lokesh')->notice('<pre><code>' . print_r($form['location_list']['location'], TRUE) . '</code></pre>' );
-    $form['#cache']['max-age'] = 0; 
+    $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#theme'] = 'manage_location_form';
     return $form;
@@ -208,73 +179,10 @@ class ManageLocationForm extends FormBase {
    * {@inheritdoc}
    */
   public function getLocationDetail(array &$form, FormStateInterface $form_state) {
-
-    // Just return redendered location list.
-    // return $form['location_list'];
-    $location_entity_id = !empty($form_state->getValue('location_options')) ? $form_state->getValue('location_options') : '';
-      $location_levels = \Drupal::service('erpw_location.location_services')->getLocationLevels($location_entity_id);
-      $location_levels_count = count($location_levels);
-      $location_entity = \Drupal::entityTypeManager()->getStorage('location')->load($location_entity_id);
-      $location_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
-      $manager = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-      $tree = $manager->loadTree('country', $location_tid, $location_levels_count, TRUE);
-      $result = [];
-      $location_term_name = [];
-      foreach ($tree as $term) {
-        if ($term->depth == $location_levels_count - 1) {
-          $tid = $term->id();
-          $term_name = Term::load($tid)->get('name')->value;
-          $location_term_name[$term_name] = $term_name;
-          
-        }
-      }
-
-    $depth = [$location_levels_count + 1] ;
-    $view_result = [];
-    $view = Views::getView('location_list');
-    if (is_object($view)) {
-      $view->setDisplay('page_1');
-      $view->setExposedInput(['depth_level' => $depth]);
-      $view->preExecute();
-      $view->execute();
-      // $view->setArguments($depth);
-      
-      
-      // $exposed_filters = ['depth_level' => 5];
-      // $filters = $view->getDisplay()->getOption('filters');
-      // $filters["depth_level"]["value"] = 5;
-      // $view->setExposedInput(['depth_level' => $depth]);
-      // $view->exposed_input['depth_level'] = $category;
-      // $view->display_handler->overrideOption('filters', $filters);
-      // $view->exposed_input = array_merge($exposed_filters, (array)$view->exposed_input);
-      // $view->exposed_raw_input = array_merge($exposed_filters, (array)$view->exposed_raw_input);
-      // $view->exposed_data = array_merge($exposed_filters, (array)$view->exposed_data);
-      // $view->display_handler->display->display_options['filters']['depth_level']['default_value'] = '5';
-      // $view->display_handler->handlers['filter']['depth_level']->validated_exposed_input = '5';
-      // $view->setExposedInput($exposed_filters);
-      // $view->execute();
-      // $view_result = !empty($view->result) ? $view->result : '';
-      $rendered = $view->render();
-      $output = \Drupal::service('renderer')->render($rendered);
-    }
-    print_r($output);
-    die;
-    // $location_term_name_count = count($location_term_name);
-    // $response = new AjaxResponse();
-    // // $messages = \Drupal::service('renderer')->render($location_term_name);
-    // // print_r($messages);
-    // // die;
-    // $response->addCommand(new HtmlCommand('#edit-location-details', $view_result));
-    // return $response;
-    
-    // return new Response(render($location_term_name));
-    
-    // Get depth of a given country.
-
-    // Get the taxonomy term reference target id . from location entity.
-
-    // Get the locations values at thte given depth of the given taxonomy.
+    $form_state->setRebuild();
+    return $form['location_list'];
   }
+
   /**
    * {@inheritdoc}
    */
@@ -321,7 +229,7 @@ class ManageLocationForm extends FormBase {
       $this->arrayCsvDownload($csv_export, $country_name);
     }
     else {
-      $location = $this->entityManager->load($location_id);
+      $location = $this->entityManager->getStorage('location')->load($location_id);
       $active_languages = \Drupal::languageManager()->getLanguages();
       $active_languages_list = array_keys($active_languages);
       $location_lang_count = 0;
