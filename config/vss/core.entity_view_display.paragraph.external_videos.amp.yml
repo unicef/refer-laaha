@@ -5,6 +5,8 @@ dependencies:
   config:
     - core.entity_view_mode.paragraph.amp
     - field.field.paragraph.external_videos.field_external_video
+    - field.field.paragraph.external_videos.field_show_transcription
+    - field.field.paragraph.external_videos.field_video_time
     - field.field.paragraph.external_videos.field_vtt_entries
     - paragraphs.paragraphs_type.external_videos
   module:
@@ -15,19 +17,20 @@ bundle: external_videos
 mode: amp
 content:
   field_external_video:
-    weight: 0
+    type: video_embed_field_lazyload
     label: hidden
     settings:
-      image_style: ''
-      link_image_to: ''
+      autoplay: false
       responsive: true
       width: 854
       height: 480
-      autoplay: false
+      image_style: ''
+      link_image_to: ''
     third_party_settings: {  }
-    type: video_embed_field_lazyload
+    weight: 0
     region: content
 hidden:
+  field_show_transcription: true
   field_video_time: true
   field_vtt_entries: true
   search_api_excerpt: true

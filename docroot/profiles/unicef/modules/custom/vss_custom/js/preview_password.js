@@ -14,7 +14,7 @@
               location.reload();
             }
           }  
-        }, 10);
+        }, 5);
       }
   });
 })(jQuery, Drupal, drupalSettings);

@@ -10,22 +10,19 @@
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        //Holds a reference to the YouTube player
-        var player;
+        var players = [];
         window.onYouTubeIframeAPIReady = function () {
-
             videoTranscriptsCount = $('.show-transcript-external').length;
-            console.log(videoTranscriptsCount);
             for (var i = 0; i < videoTranscriptsCount; i++) {
                 var transcriptId = $('.show-transcript-external')[i].getAttribute("data-id").split("_")[1];
                 var frameId = 'youtube_' + transcriptId;
                 $('#youtube_' + transcriptId).find('iframe').attr('id', frameId);
+                $('#youtube_' + transcriptId).css({"border-radius": "20px"});
                 youtube_url = $('#youtube_' + transcriptId).find('iframe').attr('src');
                 videoId = youtube_parser(youtube_url);
                 player = new YT.Player(frameId, {
                     width: '100%',
-                    height: '390',
+                    height: '570',
                     videoId: videoId,
                     modestbranding: 1, // Hide the Youtube Logo
                     host: 'https://www.youtube.com',
@@ -37,6 +34,7 @@
                         'onStateChange': onPlayerStateChange
                     }
                 });
+                players[transcriptId] = player;
             }
 
             function youtube_parser(url) {
@@ -53,9 +51,8 @@
                 if (event.data == YT.PlayerState.PLAYING) {
                     timeupdater = setInterval(function () {
                         {
-                            now = player.getCurrentTime();
                             var transcriptId = event.target.getIframe().id.split('_')[1];
-                            console.log("transcriptID " + transcriptId);
+                            var now =  players[transcriptId].getCurrentTime();
                             var lines = document.getElementById("transcript_" + transcriptId).getElementsByTagName("div");
                             // Highlight text as video plays.
                             for (var i = 0, l = lines.length; i < l; i++) {
@@ -81,7 +78,11 @@
                 }
 
             }
-
+            $(document).on('click', '.btnSeekEx', function () {
+                var seekToTime = $(this).data('seek');
+                var transcriptId = $(this).parent().attr("id").split("_")[1];
+                players[transcriptId].seekTo(seekToTime);
+            });
             $(".transcript-container").hide();
             $(".hide-transcript-external").hide();
             $(".show-transcript-external").click(function () {
