@@ -313,12 +313,10 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
 }
 
 /**
- *
+ * Save draft pdf redirect.
  */
 function vss_custom_node_submit(&$form, FormStateInterface $form_state) {
   $node_id = $form_state->getformObject()->getEntity()->id();
-  // $form_state['#redirect'] =  '/entity_pdf/node/'.$node_id.'/pdf';
-  // dump('/entity_pdf/node/'.$node_id.'/pdf');
   $url = Url::fromRoute('entity_pdf.view', [
     'entity_type' => "node",
     'entity' => $node_id,
@@ -399,7 +397,6 @@ function vss_custom_form_node_form_alter(&$form, &$form_state) {
   $form['actions']['preview']['#attributes'] = ['onclick' => 'this.form.target="_blank";return true;'];
 
   $node_id = $form_state->getformObject()->getEntity()->id();
-
   $form['actions']['save_pdf'] = [
     '#type' => 'submit',
     '#value' => t('Save PDF'),
@@ -407,8 +404,6 @@ function vss_custom_form_node_form_alter(&$form, &$form_state) {
     '#submit' => ['vss_custom_node_submit'],
     '#weight' => 99,
   ];
-
-  // dump($form);
 }
 
 /**
