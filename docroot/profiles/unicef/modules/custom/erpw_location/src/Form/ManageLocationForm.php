@@ -149,7 +149,7 @@ class ManageLocationForm extends FormBase {
       }
       $form['location_list']['location_count'] = [
         '#type' => 'markup',
-        '#prefix' => '<div id="location-count">' . count($locations) . ' ' . $this->t('Locations') . '</div>',
+        '#markup' => '<div id="location-count">' . count($locations) . ' ' . $this->t('Locations') . '</div>',
       ];
       foreach ($locations as $tid => $location) {
         $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
@@ -173,8 +173,8 @@ class ManageLocationForm extends FormBase {
         $location_operations = $clone_op . $delete_op . $edit_op;
         $form['location_list']['location_' . $tid] = [
           '#type' => 'markup',
-          '#prefix' => '<div id="location-title">' . $location . '</div>
-          <div class="location-operations">' . $location_operations . '</</div><div class="location-details>' . $location_details . '</div>',
+          '#markup' => '<div class="location-card"><div id="location-title">' . $location . '</div>
+          <div class="location-operations">' . $location_operations . '</div><div class="location-details>' . $location_details . '</div></div>',
         ];
       }
     }
