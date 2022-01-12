@@ -783,7 +783,7 @@ function vss_custom_entity_operation_alter(array &$operations, EntityInterface $
  * Implements entity_operation_alter.
  */
 function vss_custom_preprocess_page(&$variables) {
-  if ($variables['page']['content']['system_main']['#view_id'] == 'frontpage') {
+  if ($variables['is_front'] == TRUE) {
     \Drupal::service('page_cache_kill_switch')->trigger();
   }
 }
