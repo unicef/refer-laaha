@@ -22,7 +22,7 @@
                 videoId = youtube_parser(youtube_url);
                 player = new YT.Player(frameId, {
                     width: '100%',
-                    height: '390',
+                    height: '570',
                     videoId: videoId,
                     modestbranding: 1, // Hide the Youtube Logo
                     host: 'https://www.youtube.com',
