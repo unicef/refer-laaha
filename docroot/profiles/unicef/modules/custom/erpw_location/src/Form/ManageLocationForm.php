@@ -162,9 +162,19 @@ class ManageLocationForm extends FormBase {
             $location_details .= '<div class="level">' . $level . " : " . $level_data_name . '</div><br/>';
           }
         }
+        // @todo url routes to be updated.
+        $clone_url = Url::fromRoute('erpw_location.manage_location')->toString();
+        $delete_url = Url::fromRoute('erpw_location.manage_location')->toString();
+        $edit_url = Url::fromRoute('erpw_location.manage_location')->toString();
+
+        $clone_op = '<span class="delete-location"><a href="' . $clone_url . '">' . $this->t('Clone') . '</a></span>';
+        $delete_op = '<span class="delete-location"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>';
+        $edit_op = '<span class="delete-location"><a href="' . $edit_url . '">' . $this->t('Edit') . '</a></span>';
+        $location_operations = $clone_op . $delete_op . $edit_op;
         $form['location_list']['location_' . $tid] = [
           '#type' => 'markup',
-          '#prefix' => '<div id="location-title">' . $location . '</div> <div class="location-details>' . $location_details . '</div>',
+          '#prefix' => '<div id="location-title">' . $location . '</div>
+          <div class="location-operations">' . $location_operations . '</</div><div class="location-details>' . $location_details . '</div>',
         ];
       }
     }
