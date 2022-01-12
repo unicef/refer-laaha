@@ -15,6 +15,10 @@
                     window.location.href = manage_service_type_url;
                 });
             });
+            $(".ui-icon-closethick").on("click", function(event){
+                event.preventDefault();
+                window.location.href = "/";
+            });
             $(".signin-ok").on("click", function(event){
                 event.preventDefault();
                 $(".ui-icon-closethick").click();
