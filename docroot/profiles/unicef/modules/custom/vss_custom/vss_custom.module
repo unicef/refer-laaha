@@ -299,6 +299,13 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
       '#title' => t('Password'),
     ];
 
+    if ($language_manager->getId() != 'en') {
+      $url = $form['previews'][$language_manager->getId()]['url']['#default_value'];
+      $url = explode('node', $url);
+      $new_url = $url[0] . $language_manager->getId() . '/node' . $url[1];
+      $form['previews'][$language_manager->getId()]['url']['#default_value'] = $new_url;
+    }
+
     $form['#validate'][] = 'preview_validate';
     $form['#submit'][] = 'preview_submit';
   }
@@ -776,7 +783,7 @@ function vss_custom_entity_operation_alter(array &$operations, EntityInterface $
  * Implements entity_operation_alter.
  */
 function vss_custom_preprocess_page(&$variables) {
-  if ($variables['page']['content']['system_main']['#view_id'] == 'frontpage') {
+  if ($variables['is_front'] == TRUE) {
     \Drupal::service('page_cache_kill_switch')->trigger();
   }
 }
