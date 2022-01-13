@@ -172,7 +172,7 @@ class ManageLocationForm extends FormBase {
         <span class="delete-link"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>
         <span class="edit-link"><a href="' . $edit_url . '">' . $this->t('Edit') . '</a></span>
         </div>';
-        
+
         $form['location_list']['location_' . $tid] = [
           '#type' => 'markup',
           '#markup' => '<div class="location-card"><div id="location-title">' . $location . '</div>
