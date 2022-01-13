@@ -284,7 +284,20 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
     $form['#validate'][] = 'validate_password';
   }
 
+  if ($form_id == 'public_preview_preview_links_form') {
+    foreach ($form['previews'] as $key => $val) {
+      if ($key != $language_manager->getId()) {
+        unset($form['previews'][$key]);
+      }
+    }
+  }
+
   if ($form_id == 'public_preview_preview_links_form' && !empty($form['previews'][$language_manager->getId()]['url'])) {
+    foreach ($form['previews'] as $key => $val) {
+      if ($key != $language_manager->getId()) {
+        unset($form['previews'][$key]);
+      }
+    }
     $node = \Drupal::routeMatch()->getParameter('node');
     if ($node instanceof NodeInterface) {
       if ($node->hasTranslation($language_manager->getId())) {
@@ -299,9 +312,30 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
       '#title' => t('Password'),
     ];
 
+    if ($language_manager->getId() != 'en') {
+      $url = $form['previews'][$language_manager->getId()]['url']['#default_value'];
+      $url = explode('node', $url);
+      $new_url = $url[0] . $language_manager->getId() . '/node' . $url[1];
+      $form['previews'][$language_manager->getId()]['url']['#default_value'] = $new_url;
+    }
+
     $form['#validate'][] = 'preview_validate';
     $form['#submit'][] = 'preview_submit';
   }
+
+}
+
+/**
+ * Save draft pdf redirect.
+ */
+function vss_custom_node_submit(&$form, FormStateInterface $form_state) {
+  $node_id = $form_state->getformObject()->getEntity()->id();
+  $url = Url::fromRoute('entity_pdf.view', [
+    'entity_type' => "node",
+    'entity' => $node_id,
+    'view_mode' => "pdf",
+  ]);
+  $form_state->setRedirectUrl($url);
 }
 
 /**
@@ -323,6 +357,7 @@ function preview_validate(&$form, &$form_state) {
  */
 function preview_submit(&$form, FormStateInterface $form_state) {
   $op = $form_state->getTriggeringElement()['#value'];
+  $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
   if ($op == 'Remove') {
     $node = \Drupal::routeMatch()->getParameter('node');
     if ($node instanceof NodeInterface) {
@@ -339,7 +374,6 @@ function preview_submit(&$form, FormStateInterface $form_state) {
     }
   }
   else {
-    $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $password = $form_state->getValue(['previews'])[$lang]['password'];
     $node = \Drupal::routeMatch()->getParameter('node');
     if ($node instanceof NodeInterface) {
@@ -374,6 +408,15 @@ function validate_password(&$form, &$form_state) {
 function vss_custom_form_node_form_alter(&$form, &$form_state) {
   $form['field_sub_category']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_sub_categories();
   $form['actions']['preview']['#attributes'] = ['onclick' => 'this.form.target="_blank";return true;'];
+
+  $node_id = $form_state->getformObject()->getEntity()->id();
+  $form['actions']['save_pdf'] = [
+    '#type' => 'submit',
+    '#value' => t('Save PDF'),
+    '#access' => TRUE,
+    '#submit' => ['vss_custom_node_submit'],
+    '#weight' => 99,
+  ];
 }
 
 /**
@@ -431,7 +474,7 @@ function vss_custom_field_widget_entity_reference_paragraphs_form_alter(&$elemen
  */
 function vss_custom_preprocess_paragraph(&$variables) {
   $paragraph = $variables['paragraph'];
-  if ($paragraph->bundle() == 'video' || $paragraph->bundle() == 'podcast_audio') {
+  if ($paragraph->bundle() == 'video' || $paragraph->bundle() == 'podcast_audio' || $paragraph->bundle() == 'external_videos') {
     if ($paragraph->hasField('field_show_transcription')) {
       $show_transcript = $paragraph->get('field_show_transcription')->getValue()[0]['value'];
     }
@@ -775,14 +818,26 @@ function vss_custom_entity_operation_alter(array &$operations, EntityInterface $
 /**
  * Implements entity_operation_alter.
  */
-function vss_custom_form_views_exposed_form_alter(&$form, &$form_state) {
-  if ($form['#id'] == 'views-exposed-form-most-viewed-content-report-page-1') {
-    $form['datetime']['#type'] = 'select';
-    $form['datetime']['#options'] = [
-      '' => t('Today'),
-      'cur_week' => t('This Week'),
-      'cur_mon' => t('This Month'),
-      'cur_yr' => t('This Year'),
+function vss_custom_preprocess_page(&$variables) {
+  if ($variables['is_front'] == TRUE) {
+    \Drupal::service('page_cache_kill_switch')->trigger();
+  }
+}
+
+/**
+ * Implements exposed form alter.
+ */
+function vss_custom_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $view_ids = ['most_viewed_content_report'];
+  if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
+    $form['datetime'] = [
+      '#type'             => 'select',
+      '#options'          => [
+        '' => t('Today'),
+        'cur_week' => t('This Week'),
+        'cur_mon' => t('This Month'),
+        'cur_yr' => t('This Year'),
+      ],
     ];
   }
 }

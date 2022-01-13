@@ -39,15 +39,18 @@
   .get-help--title,
   .get-help--title-mobile {
 
-    &::after {
-      background: url('../images/button-arrow.svg') no-repeat center;
-      background-size: contain;
-      content: '';
-      display: inline-block;
-      height: 44px;
-      margin-left: 15px;
-      vertical-align: bottom;
-      width: 18px;
+    @media screen and (min-width: 1024px) {
+
+      &::after {
+        background: url('../images/button-arrow.svg') no-repeat center;
+        background-size: contain;
+        content: '';
+        display: inline-block;
+        height: 44px;
+        margin-left: 15px;
+        vertical-align: bottom;
+        width: 18px;
+      }
     }
   }
 

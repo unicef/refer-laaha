@@ -27,7 +27,7 @@ class DateFilter extends FormBase {
     $form = [];
 
     $form['visitors_date_from_filter'] = [
-      '#title'            => t('Timestamp'),
+      '#title'            => t('Filter By'),
       '#type'             => 'select',
       '#default_value'    => $from,
       '#options'          => [

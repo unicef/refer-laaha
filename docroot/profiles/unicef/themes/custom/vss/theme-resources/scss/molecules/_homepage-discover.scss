@@ -1,4 +1,8 @@
 .discover-section {
+  .discover-section-title  {
+    margin: 40px 0;
+  }
+
   .discover-category-thumbnail {
     align-items: center;
     border: 5px solid #fff;
@@ -8,5 +12,65 @@
     justify-content: center;
     overflow: hidden;
     width: 80px;
+  }
+
+  .discovery-articles {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (min-width: 1024px) {
+      flex-direction: row;
+    }
+  }
+
+  .discover-content-link {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    padding: 0;
+  }
+
+  .discover-content-thumbnail {
+    height: 130px;
+
+    img {
+      border-radius: 20px;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .discover-section-row  {
+    display: flex;
+  }
+
+  .discovery-category-wrapper {
+    border-radius: 20px;
+    margin: 2px;
+    padding: 15px;
+  }
+
+  .discover-category-description {
+    padding: 5px;
+  }
+
+  .discover-category-name {
+    font-size: 16px;
+    padding: 5px;
+
+    a {
+      color: #000;
+      text-decoration: none;
+    }
+  }
+
+  .discover-article-name {
+    color: #000;
+    font-size: 14px;
+    margin-top: 12px;
+
+    a {
+      text-decoration: none;
+    }
   }
 }
