@@ -13,7 +13,7 @@ use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\erpw_location\LocationService;
 
 /**
- * Class AddLocationForm.
+ * Class for add location.
  */
 class AddLocationForm extends FormBase {
 
@@ -39,9 +39,9 @@ class AddLocationForm extends FormBase {
   protected $entityManager;
 
   /**
-   * Drupal\erpw_location\LocationService definition.
+   * A LocationService instance.
    *
-   * @var \Drupal\erpw_location\LocationService
+   * @var Drupal\erpw_location\LocationService
    */
   protected $locationService;
 
@@ -58,7 +58,7 @@ class AddLocationForm extends FormBase {
    *   The messenger service.
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
    *   The form_builder service.
-   * @param \Drupal\erpw_location\LocationService $locationService
+   * @param \Drupal\erpw_location\LocationService $location_service
    *   The location service.
    */
   public function __construct(LoggerChannelFactory $logger, Connection $connection, EntityTypeManagerInterface $entityManager, MessengerInterface $messenger, FormBuilderInterface $form_builder, LocationService $location_service) {
@@ -105,7 +105,7 @@ class AddLocationForm extends FormBase {
       $form['location_options'] = [
         '#type' => 'select',
         '#options' => $location_options,
-        '#empty_option' => t('Select Country'),
+        '#empty_option' => $this->t('Select Country'),
         '#title' => $this->t('Country'),
         '#ajax' => [
           'callback' => '::ajaxCallback',
@@ -140,7 +140,6 @@ class AddLocationForm extends FormBase {
       $form['all_wrapper']['level1_wrapper']['level1'] = [
         '#type' => 'textfield',
         '#title' => $location->get('level_1')->value,
-        '#description' => 'Please select level two term',
         '#autocomplete_route_name' => 'erpw_location.autocomplete',
         '#autocomplete_route_parameters' => ['tid' => $location->get('field_location_taxonomy_term')->target_id],
         '#ajax' => [
@@ -164,7 +163,6 @@ class AddLocationForm extends FormBase {
       $form['all_wrapper']['level2_wrapper']['level2'] = [
         '#type' => 'textfield',
         '#title' => $location->get('level_2')->value,
-        '#description' => 'Please select level two term',
         '#autocomplete_route_name' => 'erpw_location.autocomplete',
         '#autocomplete_route_parameters' => ['tid' => $level1int],
         '#ajax' => [
@@ -189,7 +187,6 @@ class AddLocationForm extends FormBase {
       $form['all_wrapper']['level3_wrapper']['level3'] = [
         '#type' => 'textfield',
         '#title' => $location->get('level_3')->value,
-        '#description' => 'Please select level two term',
         '#autocomplete_route_name' => 'erpw_location.autocomplete',
         '#autocomplete_route_parameters' => ['tid' => $level2int],
         '#attributes' => [
@@ -201,7 +198,6 @@ class AddLocationForm extends FormBase {
       $form['all_wrapper']['level4_wrapper']['level4'] = [
         '#type' => 'textfield',
         '#title' => $location->get('level_4')->value,
-        '#description' => 'Please select level two term',
         '#attributes' => [
           'class' => [
             'mycategory',
@@ -212,8 +208,7 @@ class AddLocationForm extends FormBase {
     }
     $form['ajax_wrapper']['submit'] = [
       '#type' => 'submit',
-      '#value' => t('Publish'),
-
+      '#value' => $this->t('Publish'),
     ];
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
