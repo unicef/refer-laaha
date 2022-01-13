@@ -601,9 +601,11 @@ function vss_custom_query_sort_by_random_alter($query) {
 function get_all_sub_categories() {
   $query = \Drupal::database()->select('taxonomy_term_field_data', 't');
   $query->join('taxonomy_term__field_domain', 'fd', 'fd.entity_id = t.tid');
-  $query->leftjoin('taxonomy_term__field_sub_category', 'sc', 'sc.entity_id = t.tid');
+  $query->join('taxonomy_term__field_sub_category', 'sc', 'sc.entity_id = t.tid');
   $query->condition('fd.bundle', 'categories');
+  $query->condition('t.status', 1);
   $query->condition('sc.field_sub_category_value', 1, '=');
+  $query->condition('sc.deleted', 0, '=');
   $query->fields('t', ['tid']);
   $query->fields('t', ['name']);
   $terms = $query->execute()->fetchAllKeyed(0, 1);
