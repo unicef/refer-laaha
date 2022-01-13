@@ -56,7 +56,7 @@ class AutocompleteController extends ControllerBase {
     foreach ($locations as $key => $value) {
       $results[] = [
         'value' => $value . ' (' . $key . ')',
-        'label' => $value
+        'label' => $value,
       ];
     }
     return new JsonResponse($results);

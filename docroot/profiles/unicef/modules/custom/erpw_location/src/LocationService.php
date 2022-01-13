@@ -69,4 +69,11 @@ class LocationService {
     return $result;
   }
 
+  /**
+   *
+   */
+  public function clean($string) {
+    return (int) preg_replace('/[^0-9]/', '', $string);
+  }
+
 }
