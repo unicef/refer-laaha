@@ -11,6 +11,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\erpw_location\LocationService;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
 
 /**
  * Class for add location.
@@ -106,6 +108,7 @@ class AddLocationForm extends FormBase {
         '#type' => 'select',
         '#options' => $location_options,
         '#empty_option' => $this->t('Select Country'),
+        '#required' => TRUE,
         '#title' => $this->t('Country'),
         '#ajax' => [
           'callback' => '::ajaxCallback',
@@ -137,10 +140,12 @@ class AddLocationForm extends FormBase {
     if ($form_state->getValue('location_options') != FALSE) {
       unset($form['all_wrapper']['intro_text']);
       $location = $this->entityManager->load($form_state->getValue('location_options'));
+      $location_levels = $this->locationService->getLocationLevels($form_state->getValue('location_options'));
       $form['all_wrapper']['level1_wrapper']['level1'] = [
         '#type' => 'textfield',
-        '#title' => $location->get('level_1')->value,
+        '#title' => $location_levels[0],
         '#autocomplete_route_name' => 'erpw_location.autocomplete',
+        '#required' => TRUE,
         '#autocomplete_route_parameters' => ['tid' => $location->get('field_location_taxonomy_term')->target_id],
         '#ajax' => [
           'callback' => '::deptFilterSelect',
@@ -162,9 +167,10 @@ class AddLocationForm extends FormBase {
       }
       $form['all_wrapper']['level2_wrapper']['level2'] = [
         '#type' => 'textfield',
-        '#title' => $location->get('level_2')->value,
+        '#title' => $location_levels[1],
         '#autocomplete_route_name' => 'erpw_location.autocomplete',
         '#autocomplete_route_parameters' => ['tid' => $level1int],
+        '#required' => TRUE,
         '#ajax' => [
           'callback' => '::ajaxCallback3',
           'event' => 'autocompleteclose',
@@ -186,8 +192,9 @@ class AddLocationForm extends FormBase {
       }
       $form['all_wrapper']['level3_wrapper']['level3'] = [
         '#type' => 'textfield',
-        '#title' => $location->get('level_3')->value,
+        '#title' => $location_levels[2],
         '#autocomplete_route_name' => 'erpw_location.autocomplete',
+        '#required' => TRUE,
         '#autocomplete_route_parameters' => ['tid' => $level2int],
         '#attributes' => [
           'class' => [
@@ -197,7 +204,8 @@ class AddLocationForm extends FormBase {
       ];
       $form['all_wrapper']['level4_wrapper']['level4'] = [
         '#type' => 'textfield',
-        '#title' => $location->get('level_4')->value,
+        '#title' => $location_levels[3],
+        '#required' => TRUE,
         '#attributes' => [
           'class' => [
             'mycategory',
@@ -206,9 +214,12 @@ class AddLocationForm extends FormBase {
       ];
 
     }
-    $form['ajax_wrapper']['submit'] = [
+    $form['ajax_wrapper']['button'] = [
       '#type' => 'submit',
       '#value' => $this->t('Publish'),
+      '#ajax' => [
+        'callback' => '::sendMessageForm',
+      ],
     ];
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
@@ -224,6 +235,7 @@ class AddLocationForm extends FormBase {
     $form['all_wrapper']['level1_wrapper']['level1']['#value'] = "";
     $form['all_wrapper']['level2_wrapper']['level2']['#value'] = "";
     $form['all_wrapper']['level3_wrapper']['level3']['#value'] = "";
+    $form['all_wrapper']['level1_wrapper']['#disable_inline_form_errors_summary'] = TRUE;
     return $form['all_wrapper'];
   }
 
@@ -231,6 +243,7 @@ class AddLocationForm extends FormBase {
    * Ajax callback to add location.
    */
   public function deptFilterSelect(array &$form, FormStateInterface $form_state) {
+    $form['all_wrapper']['level2_wrapper']['#disable_inline_form_errors_summary'] = TRUE;
     return $form['all_wrapper']['level2_wrapper'];
   }
 
@@ -238,6 +251,7 @@ class AddLocationForm extends FormBase {
    * Ajax callback to add location.
    */
   public function ajaxCallback3(array &$form, FormStateInterface $form_state) {
+    $form['all_wrapper']['level3_wrapper']['#disable_inline_form_errors_summary'] = TRUE;
     return $form['all_wrapper']['level3_wrapper'];
   }
 
@@ -252,7 +266,33 @@ class AddLocationForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    if ($form_state->getErrors()) {
+      $response = new AjaxResponse();
+      return $response;
+    }
+  }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function sendMessageForm(array &$form, FormStateInterface $form_state) {
+    if ($form_state->getErrors()) {
+      $response = new AjaxResponse();
+      return $response;
+    }
+    $location = $this->entityManager->load($form_state->getValue('location_options'));
+    $cid = $location->get('field_location_taxonomy_term')->target_id;
+    // State.
+    $level1_tid = $this->locationService->processTaxonomyData($form_state->getValue('level1'), $cid);
+    // City.
+    $level2_tid = $this->locationService->processTaxonomyData($form_state->getValue('level2'), $level1_tid);
+    // District.
+    $level3_tid = $this->locationService->processTaxonomyData($form_state->getValue('level3'), $level2_tid);
+    $level4_tid = $this->locationService->processTaxonomyData($form_state->getValue('level4'), $level3_tid, 4);
+    $response = new AjaxResponse();
+    $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup');
+    $response->addCommand(new OpenModalDialogCommand('', $modal_form, ['width' => '400']));
+    return $response;
   }
 
 }
