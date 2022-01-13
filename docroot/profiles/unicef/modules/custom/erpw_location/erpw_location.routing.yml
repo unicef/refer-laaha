@@ -19,3 +19,10 @@ erpw_location.autocomplete:
     _format: json
   requirements:
     _access: 'TRUE'
+erpw_location.add_location:
+  path: '/add-new-location'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\AddLocationForm'
+    _title: 'Add Location'
+  requirements:
+    _permission: 'access content'
