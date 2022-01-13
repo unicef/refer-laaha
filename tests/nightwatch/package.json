@@ -6,6 +6,7 @@
   "scripts": {
     "test": "nightwatch",
     "test:browserstack": "nightwatch -c nightwatch.browserstack.conf.js",
+    "single": "nightwatch --test ./tests/nightwatch/nightwatch.browserstack.conf --env browserstack",
     "test:cucumber:e2e": "mkdirp report && cucumber-js --require cucumber.conf.js --require step-definitions --format @cucumber/pretty-formatter --format json:reports/cucumber_report.json --publish-quiet"
   },
   "author": "",
