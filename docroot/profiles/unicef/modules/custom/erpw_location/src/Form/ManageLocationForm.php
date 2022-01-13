@@ -149,7 +149,7 @@ class ManageLocationForm extends FormBase {
       }
       $form['location_list']['location_count'] = [
         '#type' => 'markup',
-        '#markup' => '<div id="location-count">' . count($locations) . ' ' . $this->t('Locations') . '</div>',
+        '#markup' => '<div class="location-count edit-delete-links margin-space">' . count($locations) . ' ' . $this->t('Locations') . '</div>',
       ];
       foreach ($locations as $tid => $location) {
         $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
@@ -167,10 +167,12 @@ class ManageLocationForm extends FormBase {
         $delete_url = Url::fromRoute('erpw_location.manage_location')->toString();
         $edit_url = Url::fromRoute('erpw_location.manage_location')->toString();
 
-        $clone_op = '<span class="delete-location"><a href="' . $clone_url . '">' . $this->t('Clone') . '</a></span>';
-        $delete_op = '<span class="delete-location"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>';
-        $edit_op = '<span class="delete-location"><a href="' . $edit_url . '">' . $this->t('Edit') . '</a></span>';
-        $location_operations = $clone_op . $delete_op . $edit_op;
+        $location_operations = '<div class="edit-delete-links margin-space"> 
+        <span class="clone-service-type"><a href="' . $clone_url . '">' . $this->t('Clone') . '</a></span>
+        <span class="delete-link"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>
+        <span class="edit-link"><a href="' . $edit_url . '">' . $this->t('Edit') . '</a></span>
+        </div>';
+
         $form['location_list']['location_' . $tid] = [
           '#type' => 'markup',
           '#markup' => '<div class="location-card"><div id="location-title">' . $location . '</div>
