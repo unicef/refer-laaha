@@ -53,7 +53,7 @@
                           {% if item_2.node_type|lower == 'video' %}
                             <span class="video-play-icon"></span>
                             {% if item_2.paragraph_video_time is not null %}
-                              <div span="video-time"> {{ item_2.paragraph_video_time }} </span>
+                              <span class="video-time"> {{ item_2.paragraph_video_time }} </span>
                             {% endif %}
                           {% elseif item_2.node_type|lower == 'podcast' %}
                             <span class="podcast-play-icon"></span>
