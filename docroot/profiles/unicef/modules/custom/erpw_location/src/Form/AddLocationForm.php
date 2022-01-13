@@ -137,8 +137,6 @@ class AddLocationForm extends FormBase {
       '#type' => 'container',
       '#attributes' => ['id' => 'level3-wrapper'],
     ];
-    
-
     if ($form_state->getValue('location_options') != FALSE) {
       unset($form['all_wrapper']['intro_text']);
       $location = $this->entityManager->load($form_state->getValue('location_options'));
