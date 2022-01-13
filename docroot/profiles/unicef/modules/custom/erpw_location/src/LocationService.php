@@ -6,7 +6,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManager;
 
 /**
- * Class LocationService.
+ * Class is used for the locations services.
  */
 class LocationService {
   /**
@@ -67,6 +67,13 @@ class LocationService {
       }
     }
     return $result;
+  }
+
+  /**
+   * Clean the autocomplete string.
+   */
+  public function clean($string) {
+    return (int) preg_replace('/[^0-9]/', '', $string);
   }
 
 }
