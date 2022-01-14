@@ -316,7 +316,7 @@ class ImportLocationModalForm extends FormBase {
           $tid = $term->id();
           $term_depth = taxonomy_term_depth_get_by_tid($tid);
           $current_level = ($j / count($csv_langcodes)) + 1;
-          // check if term exists at the same depth
+          // Check if term exists at the same depth.
           if (($term_depth - 1 == $i + 1) && $term_depth - 1 == $current_level) {
             $term_exists = TRUE;
             $parent_term_id = $tid;
