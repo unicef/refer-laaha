@@ -147,7 +147,7 @@ class ManageLocationForm extends FormBase {
           $locations[$tid] = $term_name;
         }
       }
-      asort($locations);
+      usort($locations);
       $form['location_list']['location_count'] = [
         '#type' => 'markup',
         '#markup' => '<div class="location-count edit-delete-links margin-space">' . count($locations) . ' ' . $this->t('Locations') . '</div>',
