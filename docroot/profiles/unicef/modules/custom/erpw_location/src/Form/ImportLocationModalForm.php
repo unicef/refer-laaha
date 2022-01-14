@@ -244,7 +244,7 @@ class ImportLocationModalForm extends FormBase {
       $query->condition('lc.name', $country_name);
       $result = $query->execute()->fetchAll();
       // If location exist update the hierarchy.
-      if ($result[0]->name == $country_name) {
+      if (!empty($result) && $result[0]->name == $country_name) {
         $entity_id = $result[0]->id;
         $location_entity = LocationEntity::load($entity_id);
         // If the given translation exists, update the translation.
