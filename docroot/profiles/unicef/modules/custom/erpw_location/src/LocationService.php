@@ -6,7 +6,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManager;
 
 /**
- * Class LocationService.
+ * Class is used for the locations services.
  */
 class LocationService {
   /**
@@ -70,10 +70,59 @@ class LocationService {
   }
 
   /**
-   *
+   * Clean the autocomplete string.
    */
   public function clean($string) {
     return (int) preg_replace('/[^0-9]/', '', $string);
+  }
+
+  /**
+   * Create taxonomy data.
+   */
+  public function taxonomyTermCreate($term, $vocabulary, array $parent = []) {
+
+    // Create the taxonomy term.
+    $new_term = $this->entityManager->getStorage('taxonomy_term')->create([
+      'name' => $term,
+      'vid' => $vocabulary,
+      'parent' => $parent,
+    ]);
+
+    // Save the taxonomy term.
+    $new_term->save();
+
+    // Return the taxonomy term id.
+    return $new_term->id();
+  }
+
+  /**
+   * Taxonomy exist check.
+   */
+  public function taxonomyTermExist($tid) {
+    $term = $this->entityManager
+      ->getStorage('taxonomy_term')
+      ->load($tid);
+    return $term->id();
+  }
+
+  /**
+   * Process taxonomy data.
+   */
+  public function processTaxonomyData($string, $pid, $level = 0) {
+    if ($level == 4) {
+      $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
+      return $level_term_id;
+    }
+    if ($this->clean($string) != 0) {
+
+      $term_string_level = $this->clean($string);
+      $level_term_id = $this->taxonomyTermExist($term_string_level);
+    }
+    else {
+
+      $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
+    }
+    return $level_term_id;
   }
 
 }
