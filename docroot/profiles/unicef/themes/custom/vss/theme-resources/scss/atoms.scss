@@ -31,3 +31,14 @@ article{
   @include p-tag;
 }
 }
+.right-arrow {
+  &::after {
+    background: url('../images/button-arrow.svg') no-repeat center;
+    content: '';
+    display: inline-block;
+    height: 20px;
+    margin-left: 10px;
+    vertical-align: middle;
+    width: 10px;
+  }
+}

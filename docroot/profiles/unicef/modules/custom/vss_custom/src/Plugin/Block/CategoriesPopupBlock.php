@@ -65,6 +65,7 @@ class CategoriesPopupBlock extends BlockBase implements ContainerFactoryPluginIn
           $cat_ic = str_replace('public://', 'sites/default/files/', $cat_ic);
         }
         $cat_popup[$k]['cat_icon'] = $cat_ic;
+        $cat_popup[$k]['cat_color'] = $term->get('field_category_color')->color;
         $cat_popup[$k]['cat_desc'] = strip_tags($term->get('description')->value);
         $cat_popup[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $k), '/');
       }
