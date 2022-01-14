@@ -2154,47 +2154,39 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
       .ui-dialog .block-title {
         font-size: 2.57em;
         margin-bottom: 30px; } }
-  .ui-dialog .view-content {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    margin: 0 -12px; }
-    .ui-dialog .view-content .views-row {
-      margin: 0 12px 20px; }
-      @media screen and (max-width: 414px) {
-        .ui-dialog .view-content .views-row:nth-of-type(1), .ui-dialog .view-content .views-row:nth-of-type(2) {
-          -webkit-box-flex: 0;
-              -ms-flex: 0 0 87%;
-                  flex: 0 0 87%; } }
-      @media screen and (min-width: 768px) {
-        .ui-dialog .view-content .views-row:nth-of-type(1), .ui-dialog .view-content .views-row:nth-of-type(2) {
-          -webkit-box-flex: 0;
-              -ms-flex: 0 0 47%;
-                  flex: 0 0 47%; } }
-      @media screen and (max-width: 414px) {
-        .ui-dialog .view-content .views-row {
-          -webkit-box-flex: 0;
-              -ms-flex: 0 0 80%;
-                  flex: 0 0 80%; } }
-      .ui-dialog .view-content .views-row img {
-        width: 100%; }
-    .ui-dialog .view-content .views-field-field-thumbnail-image {
-      margin-bottom: 10px; }
-      @media screen and (min-width: 768px) {
-        .ui-dialog .view-content .views-field-field-thumbnail-image {
-          margin-bottom: 16px; } }
-      .ui-dialog .view-content .views-field-field-thumbnail-image img {
-        border-radius: 20px; }
-    .ui-dialog .view-content .views-field-title a {
-      font-size: 1.14em;
-      text-decoration: none; }
-      .ui-dialog .view-content .views-field-title a:hover {
-        color: #030303; }
+  @media screen and (min-width: 1366px) {
+    .ui-dialog .view-content {
+      margin: 0 -12px; } }
+  .ui-dialog .view-content .views-row {
+    display: inline-block;
+    margin: 0 12px 20px;
+    vertical-align: top;
+    width: calc(24.6% - 24px); }
+    @media screen and (max-width: 414px) {
+      .ui-dialog .view-content .views-row {
+        display: block;
+        width: calc(100% - 24px); } }
+    @media screen and (max-width: 414px) {
+      .ui-dialog .view-content .views-row:nth-of-type(1), .ui-dialog .view-content .views-row:nth-of-type(2) {
+        display: block;
+        width: calc(100% - 24px); } }
+    @media screen and (min-width: 768px) {
+      .ui-dialog .view-content .views-row:nth-of-type(1), .ui-dialog .view-content .views-row:nth-of-type(2) {
+        width: calc(49.7% - 24px); } }
+    .ui-dialog .view-content .views-row img {
+      width: 100%; }
+  .ui-dialog .view-content .views-field-field-thumbnail-image {
+    margin-bottom: 10px; }
+    @media screen and (min-width: 768px) {
+      .ui-dialog .view-content .views-field-field-thumbnail-image {
+        margin-bottom: 16px; } }
+    .ui-dialog .view-content .views-field-field-thumbnail-image img {
+      border-radius: 20px; }
+  .ui-dialog .view-content .views-field-title a {
+    font-size: 1.14em;
+    text-decoration: none; }
+    .ui-dialog .view-content .views-field-title a:hover {
+      color: #030303; }
   .ui-dialog .category-popup-section {
     background: url("../images/search-popup-bg.png") top -100px center no-repeat rgba(255, 205, 210, 0.2);
     padding: 20px 0; }
