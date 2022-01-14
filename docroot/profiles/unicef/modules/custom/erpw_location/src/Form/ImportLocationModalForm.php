@@ -310,14 +310,20 @@ class ImportLocationModalForm extends FormBase {
         $lang_code = $csv_langcodes[$k];
         // Check if term exists at level $i+1.
         $term = taxonomy_term_load_multiple_by_name($location[$j + $k], 'country');
+        $create_term = FALSE;
         if (!empty($term)) {
           $term = reset($term);
           $tid = $term->id();
           $term_depth = taxonomy_term_depth_get_by_tid($tid);
-          if ($term_depth - 1 == $i + 1) {
+          $current_level = ($j / count($csv_langcodes)) + 1;
+          // check if term exists at the same depth
+          if (($term_depth - 1 == $i + 1) && $term_depth - 1 == $current_level) {
             $term_exists = TRUE;
+            $parent_term_id = $tid;
           }
-          $parent_term_id = $tid;
+          else {
+            $create_term = TRUE;
+          }
         }
         elseif ($term_exists || $k > 0) {
           $term = Term::load($parent_term_id);
@@ -326,9 +332,22 @@ class ImportLocationModalForm extends FormBase {
               'name' => $location[$j + $k],
             ])->save();
           }
+          $parent_term_id = $term->id();
         }
         else {
           // Create the location term.
+          $term = Term::create([
+            'name' => $location[$j + $k],
+            'vid' => 'country',
+            'parent' => [
+              'target_id' => $parent_term_id,
+            ],
+          ]);
+          $term->save();
+          $parent_term_id = $term->id();
+        }
+
+        if ($create_term) {
           $term = Term::create([
             'name' => $location[$j + $k],
             'vid' => 'country',
