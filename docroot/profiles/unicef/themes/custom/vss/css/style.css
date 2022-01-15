@@ -2291,4 +2291,39 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
 .icon-scorm {
   background: url("../images/cources-icon.png") no-repeat; }
 
+.paragraph--type--wysiwyg-editor .about-us__top body,
+.paragraph--type--wysiwyg-editor .about-us__top h2,
+.paragraph--type--wysiwyg-editor .about-us__top h3,
+.paragraph--type--wysiwyg-editor .about-us__top p {
+  text-align: center; }
+
+.paragraph--type--wysiwyg-editor .full-width {
+  background: yellow;
+  left: 50%;
+  margin: 0 -50vw;
+  max-width: 100vw;
+  position: relative;
+  right: 50%;
+  width: 100vw; }
+
+.paragraph--type--wysiwyg-editor .bg-pink {
+  background-color: #fdf3f6; }
+
+.paragraph--type--wysiwyg-editor .about-us__shared {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  .paragraph--type--wysiwyg-editor .about-us__shared .item-row-reverse {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse; }
+  .paragraph--type--wysiwyg-editor .about-us__shared .shared-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; }
+
 /*# sourceMappingURL=style.css.map */

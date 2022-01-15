@@ -12,18 +12,18 @@ dependencies:
 id: views_block__top_viewed_nodes_block
 theme: vss
 region: content
-weight: -5
+weight: -6
 provider: null
 plugin: 'views_block:top_viewed_nodes-block'
 settings:
   id: 'views_block:top_viewed_nodes-block'
-  label: 'Popular search'
-  provider: views
+  label: 'Popular searches'
   label_display: visible
-  views_label: 'Popular search'
+  provider: views
+  views_label: 'Popular searches'
   items_per_page: '6'
 visibility:
   request_path:
     id: request_path
-    pages: /search-modal/modal
     negate: false
+    pages: /search-modal/modal
