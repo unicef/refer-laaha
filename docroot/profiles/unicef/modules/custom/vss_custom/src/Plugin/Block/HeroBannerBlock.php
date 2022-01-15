@@ -92,6 +92,8 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
     if ($this->routeMatch->getRouteName() == 'entity.node.canonical') {
       $nid = $this->routeMatch->getRawParameter('node');
       $node = $this->entityTypeManager->getStorage('node')->load($nid);
+      $arr = [];
+      $parent_id = [];
       foreach ($node->field_sub_category->getValue() as $value) {
         if (!empty($value['target_id'])) {
           $parent = $this->entityTypeManager->getStorage('taxonomy_term')->loadParents($value['target_id']);
