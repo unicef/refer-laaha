@@ -147,6 +147,7 @@ class ManageLocationForm extends FormBase {
           $locations[$tid] = $term_name;
         }
       }
+      natcasesort($locations);
       $form['location_list']['location_count'] = [
         '#type' => 'markup',
         '#markup' => '<div class="location-count edit-delete-links margin-space">' . count($locations) . ' ' . $this->t('Locations') . '</div>',
@@ -159,7 +160,7 @@ class ManageLocationForm extends FormBase {
           $level_term = $this->entityManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
           $level_data_name = $level_term->get('name')->value;
           if ($key !== array_key_last($location_levels)) {
-            $location_details .= '<div class="level">' . $level . " : " . $level_data_name . '</div><br/>';
+            $location_details .= '<div class="level">' . $level . " : " . $level_data_name . '</div>';
           }
         }
         // @todo url routes to be updated.
@@ -175,8 +176,8 @@ class ManageLocationForm extends FormBase {
 
         $form['location_list']['location_' . $tid] = [
           '#type' => 'markup',
-          '#markup' => '<div class="location-card"><div id="location-title">' . $location . '</div>
-          <div class="location-operations">' . $location_operations . '</div><div class="location-details>' . $location_details . '</div></div>',
+          '#markup' => '<div class="location-card"><div class="title-with-icons"><div id="location-title" class="location-title">' . $location . '</div>
+          <div class="location-operations">' . $location_operations . '</div></div><div class="location-details>' . $location_details . '</div></div> ',
         ];
       }
     }

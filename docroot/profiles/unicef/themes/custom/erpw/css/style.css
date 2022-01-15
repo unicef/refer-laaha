@@ -529,6 +529,61 @@ header {
   width: 36px;
 }
 
+.manage-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 30px;
+}
+.manage-list .country-list {
+  -ms-flex-preferred-size: 70%;
+      flex-basis: 70%;
+}
+.manage-list .country-list .form-item {
+  margin: 0;
+}
+
+.location-list .location-count {
+  color: #9B9B9B;
+  font-size: 12px;
+  line-height: 10px;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.location-list .location-card {
+  -webkit-box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
+          box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
+  border-radius: 10px;
+  padding: 5px 10px 10px;
+  margin: 13px 0 15px;
+}
+.location-list .location-card .level {
+  color: #444;
+  font-size: 12px;
+  line-height: 28px;
+  padding-left: 5px;
+}
+.location-list .title-with-icons {
+  border-bottom: 0.5px solid #D7D7D7;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+.location-list .title-with-icons .location-title {
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
 .toolbar-fixed [id^=block-erpw-main-menu] {
   top: 40px;
 }

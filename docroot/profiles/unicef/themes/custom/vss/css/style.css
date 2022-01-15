@@ -985,6 +985,15 @@ article p {
   font-weight: 400;
   line-height: 32px; }
 
+.right-arrow::after {
+  background: url("../images/button-arrow.svg") no-repeat center;
+  content: '';
+  display: inline-block;
+  height: 20px;
+  margin-left: 10px;
+  vertical-align: middle;
+  width: 10px; }
+
 @media screen and (max-width: 767px) {
   body .shepherd-element {
     width: 100%; }
@@ -2094,6 +2103,122 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
     .discover-section {
       padding: 0 64px; } }
 
+.ui-dialog {
+  margin: 0 auto;
+  padding: 0;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important; }
+  @media screen and (min-width: 1400px) {
+    .ui-dialog {
+      width: 1400px !important; } }
+  .ui-dialog .ui-dialog-content {
+    overflow-x: hidden;
+    padding: 0; }
+  .ui-dialog .ui-dialog-titlebar {
+    background: none;
+    border: 0; }
+  .ui-dialog .ui-dialog-titlebar-close {
+    background: url("../images/close.png") 0 0 no-repeat;
+    border: 0;
+    height: 24px;
+    width: 24px; }
+  .ui-dialog .input-group {
+    width: 75%;
+    margin: 0 auto; }
+    .ui-dialog .input-group input[name='search_api_fulltext'] {
+      border: 4px solid #CB9CA1;
+      border-radius: 4px !important;
+      color: rgba(36, 36, 36, 0.6);
+      padding: 24px 15px; }
+  .ui-dialog .block-views-exposed-filter-blocks-block {
+    background: none; }
+    .ui-dialog .block-views-exposed-filter-blocks-block form {
+      margin: 0 13%; }
+      @media screen and (min-width: 1400px) {
+        .ui-dialog .block-views-exposed-filter-blocks-block form {
+          margin: 0 20%; } }
+  .ui-dialog .block-views-blocktop-viewed-nodes-block {
+    max-width: 1045px;
+    width: 100%;
+    margin: 0 auto 40px; }
+    @media screen and (min-width: 768px) {
+      .ui-dialog .block-views-blocktop-viewed-nodes-block {
+        margin: 40px auto 55px; } }
+  .ui-dialog .block-title {
+    font-size: 1.42em;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: center; }
+    @media screen and (min-width: 768px) {
+      .ui-dialog .block-title {
+        font-size: 2.57em;
+        margin-bottom: 30px; } }
+  @media screen and (min-width: 1366px) {
+    .ui-dialog .view-content {
+      margin: 0 -12px; } }
+  .ui-dialog .view-content .views-row {
+    display: inline-block;
+    margin: 0 12px 20px;
+    vertical-align: top;
+    width: calc(24.6% - 24px); }
+    @media screen and (max-width: 414px) {
+      .ui-dialog .view-content .views-row {
+        display: block;
+        width: calc(100% - 24px); } }
+    @media screen and (max-width: 414px) {
+      .ui-dialog .view-content .views-row:nth-of-type(1), .ui-dialog .view-content .views-row:nth-of-type(2) {
+        display: block;
+        width: calc(100% - 24px); } }
+    @media screen and (min-width: 768px) {
+      .ui-dialog .view-content .views-row:nth-of-type(1), .ui-dialog .view-content .views-row:nth-of-type(2) {
+        width: calc(49.7% - 24px); } }
+    .ui-dialog .view-content .views-row img {
+      width: 100%; }
+  .ui-dialog .view-content .views-field-field-thumbnail-image {
+    margin-bottom: 10px; }
+    @media screen and (min-width: 768px) {
+      .ui-dialog .view-content .views-field-field-thumbnail-image {
+        margin-bottom: 16px; } }
+    .ui-dialog .view-content .views-field-field-thumbnail-image img {
+      border-radius: 20px; }
+  .ui-dialog .view-content .views-field-title a {
+    font-size: 1.14em;
+    text-decoration: none; }
+    .ui-dialog .view-content .views-field-title a:hover {
+      color: #030303; }
+  .ui-dialog .category-popup-section {
+    background: url("../images/search-popup-bg.png") top -100px center no-repeat rgba(255, 205, 210, 0.2);
+    padding: 20px 0; }
+    .ui-dialog .category-popup-section .subcat-name {
+      display: block;
+      font-size: 1.14em;
+      margin: 16px 0; }
+      @media screen and (min-width: 768px) {
+        .ui-dialog .category-popup-section .subcat-name {
+          font-size: 1.714em; } }
+    .ui-dialog .category-popup-section .subcat-desc {
+      line-height: 24px; }
+      @media screen and (min-width: 768px) {
+        .ui-dialog .category-popup-section .subcat-desc {
+          font-size: 1em; } }
+    .ui-dialog .category-popup-section .cat-col {
+      margin: 0 0 24px; }
+      .ui-dialog .category-popup-section .cat-col a:hover {
+        color: #000;
+        text-decoration: none; }
+  .ui-dialog .category-detail {
+    width: 80%;
+    margin: 0 auto; }
+    @media screen and (min-width: 1024px) {
+      .ui-dialog .category-detail {
+        width: 960px !important;
+        margin: 65px auto 30px; } }
+    .ui-dialog .category-detail .category-icon {
+      border-radius: 50%;
+      display: inline-block;
+      padding: 17px 16px; }
+
 .block-subcategory-hero-block {
   background: url("../images/subcat-hero-mobile.svg") no-repeat;
   background-size: 100%;
@@ -2165,128 +2290,5 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
 
 .icon-scorm {
   background: url("../images/cources-icon.png") no-repeat; }
-
-.block-views-blocksub-category-all-result-block-1 {
-  background-size: 100%;
-  left: 50%;
-  margin: 0 -50vw;
-  max-width: 100vw;
-  position: relative;
-  right: 50%;
-  width: 100vw; }
-  @media screen and (min-width: 1024px) {
-    .block-views-blocksub-category-all-result-block-1 {
-      background: url("../images/subcategory-list-bg.svg") repeat-y; } }
-  .block-views-blocksub-category-all-result-block-1 .view-header {
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    border-bottom: 2px solid #CB9CA1;
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    margin: 35px 0;
-    padding: 14px; }
-    .block-views-blocksub-category-all-result-block-1 .view-header::before {
-      background: url("../images/allresult.svg") no-repeat;
-      background-size: 100%;
-      content: '';
-      display: inline-block;
-      height: 14px;
-      margin-right: 5px;
-      width: 12px; }
-  .block-views-blocksub-category-all-result-block-1 + .views-element-container {
-    display: none; }
-  .block-views-blocksub-category-all-result-block-1 .pager__item .button {
-    background: #fecdd2;
-    border-radius: 4px;
-    color: #000;
-    font-weight: 500;
-    margin-top: 40px;
-    padding: 14px 25px;
-    text-transform: uppercase; }
-    .block-views-blocksub-category-all-result-block-1 .pager__item .button:hover {
-      text-decoration: none; }
-    .block-views-blocksub-category-all-result-block-1 .pager__item .button::after {
-      background: url("../images/button-arrow.svg") no-repeat center;
-      content: '';
-      display: inline-block;
-      height: 20px;
-      margin-left: 10px;
-      -webkit-transform: rotate(90deg);
-              transform: rotate(90deg);
-      vertical-align: bottom;
-      width: 10px; }
-
-.subcategory-content-listing {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap; }
-  .subcategory-content-listing .thumbnail-image {
-    height: 184px;
-    margin: 20px 0;
-    position: relative;
-    width: 100%; }
-    @media screen and (min-width: 1024px) {
-      .subcategory-content-listing .thumbnail-image {
-        height: 286px; } }
-    .subcategory-content-listing .thumbnail-image img {
-      border-radius: 20px;
-      height: 100%;
-      width: 100%; }
-  .subcategory-content-listing .content-title {
-    font-size: 16px; }
-  .subcategory-content-listing .read-time {
-    font-size: 16px;
-    margin-left: 5px; }
-  .subcategory-content-listing .item-small .thumbnail-image {
-    height: 186px; }
-  @media screen and (min-width: 1024px) {
-    .subcategory-content-listing .item-small .thumbnail-image {
-      height: 140px; } }
-  .subcategory-content-listing a {
-    color: #000;
-    display: block;
-    text-decoration: none; }
-  @media screen and (min-width: 768px) {
-    .subcategory-content-listing {
-      -webkit-box-orient: horizontal;
-      -webkit-box-direction: normal;
-          -ms-flex-direction: row;
-              flex-direction: row; } }
-
-.video-play-icon {
-  background: url("../images/play-circle.png") no-repeat center;
-  background-size: 100%;
-  height: 45px;
-  left: 50%;
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  width: 45px; }
-
-.podcast-play-icon {
-  background: url("../images/play-circle-pod.png") no-repeat center;
-  background-size: 100%;
-  bottom: 8px;
-  height: 36px;
-  left: 8px;
-  position: absolute;
-  width: 36px; }
-
-.video-time {
-  background: #000;
-  bottom: 9px;
-  color: #fff;
-  padding: 0 4px;
-  position: absolute;
-  right: 8px; }
 
 /*# sourceMappingURL=style.css.map */
