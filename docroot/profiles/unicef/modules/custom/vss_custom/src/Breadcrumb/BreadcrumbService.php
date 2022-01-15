@@ -105,6 +105,20 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
         $url_object = \Drupal::service('path.validator')->getUrlIfValid($path);
         if ($url_object->getRouteName() == 'entity.taxonomy_term.canonical') {
           $term_id = $url_object->getrouteParameters()['taxonomy_term'];
+          $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($term_id);
+          $subcat = $term->get('field_sub_category')->value;
+          if (!$subcat) {
+            foreach ($node->field_sub_category->getValue() as $value) {
+              if (!empty($value['target_id'])) {
+                $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($value['target_id']);
+                if ($term->name->value != NULL) {
+                  $values[$value['target_id']] = $term->name->value;
+                }
+              }
+            }
+            asort($values);
+            $term_id = array_key_first($values);
+          }
         }
         else {
           foreach ($node->field_sub_category->getValue() as $value) {
