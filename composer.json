@@ -83,6 +83,7 @@
         "drupal/simple_sitemap": "^3.11",
         "drupal/site_audit": "^3.0@RC",
         "drupal/taxonomy_term_depth": "^2.5",
+        "drupal/term_reference_tree": "^1.1",
         "drupal/tour_ui": "^1.0@beta",
         "drupal/twig_tweak": "^3.1",
         "drupal/update_helper": "^2.0",
@@ -107,7 +108,17 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/console-extend-plugin": true,
+            "acquia/blt": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "drupal/core-vendor-hardening": true
+        }
     },
     "extra": {
         "drupal-scaffold": {
