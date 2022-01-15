@@ -211,7 +211,7 @@ class SignUpForm extends FormBase {
       'email' => $form_state->getValue('email'),
       'phone' => $form_state->getValue('phone'),
       'organisation' => $form_state->getValue('organisation'),
-      'positon' => $form_state->getValue('positon'),
+      'position' => $form_state->getValue('position'),
       'system_role' => $form_state->getValue('system_role'),
     ])
       ->set('page', 2)
@@ -279,11 +279,8 @@ class SignUpForm extends FormBase {
     if (!empty($form_state->getValue('location_options'))) {
       unset($form['location']['intro_text']);
       $location_country_id = $form_state->getValue('location_options');
-      // print_r($location_country_id);
       $location_levels = \Drupal::service('erpw_location.location_services')->getLocationLevels($location_country_id);
-      $term_child = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($location_country_id);
       $childs = \Drupal::service('erpw_location.location_services')->getChildrenByTid($location_country_id);
-      // print_r($term_child);die;
       $i = 1;
       $form['location']['location_level'] = [
         '#prefix' => '<div id="location-levels">',
@@ -461,9 +458,9 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitPageTwo(array &$form, FormStateInterface $form_state) {
-    // $values = ;
     $form_state->set('page_two_values', [
       'personal_details' => $form_state->get('page_values'),
+      'location_values' => $form_state->getValue('level_1'),
     ])
       ->set('page', 3)
       ->setRebuild(TRUE);
@@ -563,6 +560,7 @@ class SignUpForm extends FormBase {
       $form_state->clearErrors();
       $form_state->setRebuild(TRUE);
       $values = $form_state->get('page_values');
+      $location_values = $form_state->get('page_two_values');
       $user_info = [
         'status' => 1,
         'name' => $values['email'],
@@ -572,7 +570,8 @@ class SignUpForm extends FormBase {
         'field_last_name' => $values['last_name'],
         'field_phone' => $values['phone'],
         'field_organisation' => $values['organisation'],
-        'field_position' => $values['positon'],
+        'field_position' => $values['position'],
+        'field_location_details' => $location_values,
         'roles' => $values['system_role'],
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
