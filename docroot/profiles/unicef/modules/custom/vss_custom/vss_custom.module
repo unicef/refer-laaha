@@ -585,6 +585,10 @@ function vss_custom_preprocess_block(&$variables) {
       unset($variables['content']);
     }
   }
+  if ($variables['elements']['#base_plugin_id'] == 'system_breadcrumb_block') {
+    $variables['elements']['#cache']['max-age'] = 0;
+    $variables['#cache']['max-age'] = 0;
+  }
 }
 
 /**
