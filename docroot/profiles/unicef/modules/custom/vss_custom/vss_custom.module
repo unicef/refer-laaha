@@ -406,7 +406,6 @@ function validate_password(&$form, &$form_state) {
  * Use node form alter.
  */
 function vss_custom_form_node_form_alter(&$form, &$form_state) {
-  $form['field_sub_category']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_sub_categories();
   $form['actions']['preview']['#attributes'] = ['onclick' => 'this.form.target="_blank";return true;'];
 
   $node_id = $form_state->getformObject()->getEntity()->id();
@@ -585,6 +584,10 @@ function vss_custom_preprocess_block(&$variables) {
       unset($variables['label']);
       unset($variables['content']);
     }
+  }
+  if ($variables['elements']['#base_plugin_id'] == 'system_breadcrumb_block') {
+    $variables['elements']['#cache']['max-age'] = 0;
+    $variables['#cache']['max-age'] = 0;
   }
 }
 
