@@ -165,7 +165,7 @@ class ManageLocationForm extends FormBase {
         }
         // @todo url routes to be updated.
         $clone_url = Url::fromRoute('erpw_location.manage_location')->toString();
-        $delete_url = Url::fromRoute('erpw_location.manage_location')->toString();
+        $delete_url = Url::fromUri('base:/delete-location/' . $tid . '')->toString();
         $edit_url = Url::fromRoute('erpw_location.manage_location')->toString();
 
         $location_operations = '<div class="edit-delete-links margin-space"> 
