@@ -51,7 +51,7 @@ class LocationService {
   /**
    * Get subsequent children a location term.
    */
-  public function getChildrenByTid($location_tid, $q) {
+  public function getChildrenByTid($location_tid, $q='') {
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $tree = $this->entityManager->getStorage('taxonomy_term')->loadTree(
         'country',
