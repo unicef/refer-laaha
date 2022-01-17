@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.video.field_content
     - field.field.node.video.field_domain_access
     - field.field.node.video.field_domain_all_affiliates
+    - field.field.node.video.field_preview_password
     - field.field.node.video.field_read_time
     - field.field.node.video.field_sub_category
     - field.field.node.video.field_tags
@@ -20,6 +21,7 @@ dependencies:
     - image
     - layout_paragraphs
     - path
+    - term_reference_tree
 id: node.video.default
 targetEntityType: node
 bundle: video
@@ -62,10 +64,15 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_sub_category:
-    type: options_select
+    type: term_reference_tree
     weight: 14
     region: content
-    settings: {  }
+    settings:
+      start_minimized: false
+      leaves_only: true
+      select_parents: false
+      cascading_selection: 0
+      max_depth: 2
     third_party_settings: {  }
   field_tags:
     type: entity_reference_autocomplete
@@ -150,4 +157,5 @@ content:
     third_party_settings: {  }
 hidden:
   body: true
+  field_preview_password: true
   field_video_time: true

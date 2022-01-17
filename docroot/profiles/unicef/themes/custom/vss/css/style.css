@@ -1555,6 +1555,12 @@ html[dir="rtl"] .video-time {
   left: 8px;
   right: unset; }
 
+html[dir="rtl"] .paragraph--type--wysiwyg-editor .about-us__top body,
+html[dir="rtl"] .paragraph--type--wysiwyg-editor .about-us__top h2,
+html[dir="rtl"] .paragraph--type--wysiwyg-editor .about-us__top h3,
+html[dir="rtl"] .paragraph--type--wysiwyg-editor .about-us__top p {
+  text-align: right; }
+
 @media screen and (max-width: 767px) {
   html[dir="rtl"] #block-recommendedrelatedcontentblock .recomended-header span {
     padding-right: 8px;
@@ -2290,5 +2296,52 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
 
 .icon-scorm {
   background: url("../images/cources-icon.png") no-repeat; }
+
+.paragraph--type--wysiwyg-editor .about-us__top body,
+.paragraph--type--wysiwyg-editor .about-us__top h2,
+.paragraph--type--wysiwyg-editor .about-us__top h3,
+.paragraph--type--wysiwyg-editor .about-us__top p {
+  text-align: center; }
+
+.paragraph--type--wysiwyg-editor .full-width {
+  left: 50%;
+  margin: 0 -50vw;
+  max-width: 100vw;
+  position: relative;
+  right: 50%;
+  width: 100vw; }
+
+.paragraph--type--wysiwyg-editor .bg-pink {
+  background-color: #fdf3f6; }
+
+.paragraph--type--wysiwyg-editor .about-us__shared {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  @media screen and (min-width: 768px) {
+    .paragraph--type--wysiwyg-editor .about-us__shared .item-row-reverse {
+      -webkit-box-orient: horizontal !important;
+      -webkit-box-direction: reverse !important;
+          -ms-flex-direction: row-reverse !important;
+              flex-direction: row-reverse !important; } }
+  .paragraph--type--wysiwyg-editor .about-us__shared .shared-item {
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column; }
+    @media screen and (min-width: 768px) {
+      .paragraph--type--wysiwyg-editor .about-us__shared .shared-item {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+                flex-direction: row; } }
+  .paragraph--type--wysiwyg-editor .about-us__shared img {
+    max-width: 100%; }
 
 /*# sourceMappingURL=style.css.map */

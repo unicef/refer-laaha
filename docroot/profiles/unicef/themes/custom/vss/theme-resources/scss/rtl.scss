@@ -395,6 +395,18 @@ html[dir="rtl"] {
     left: 8px;
     right: unset;
   }
+
+  // about-us page 
+  .paragraph--type--wysiwyg-editor {
+    .about-us__top {
+      body,
+      h2,
+      h3,
+      p {
+        text-align: right;
+      }
+    }
+  }
 }
 
 
