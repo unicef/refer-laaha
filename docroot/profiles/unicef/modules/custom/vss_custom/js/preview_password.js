@@ -16,5 +16,12 @@
           }  
         }, 5);
       }
+
+      //search pooup global sticky z-index increased
+      $( ".searchbox-icon" ).on( "click", function() {
+          $('.global-sticky-region').css('z-index', 102);
+      });
+      $(".form-type-search-api-autocomplete input").attr("placeholder", "Type here to search");
+
   });
 })(jQuery, Drupal, drupalSettings);

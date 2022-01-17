@@ -1,0 +1,45 @@
+.manage-list {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 30px;
+	.country-list {
+		flex-basis: 70%;
+		.form-item {
+			margin: 0;
+		}
+	}
+}
+.location-list {
+	.location-count {
+		color: #9B9B9B;
+		font-size: 12px;
+		line-height: 10px;
+		text-align: center;
+		letter-spacing: 0.5px;
+	}
+	.location-card {
+		box-shadow: 0px 4px 12px rgb(103 97 97 / 15%);
+		border-radius: 10px;
+		padding: 5px 10px 10px;
+		margin: 13px 0 15px;
+		.level {
+			color: $grey-txt-color;
+			font-size: 12px;
+			line-height: 28px;
+			padding-left: 5px;
+		}
+	}
+	.title-with-icons {
+		border-bottom: 0.5px solid #D7D7D7;
+		display: flex;
+		justify-content: space-between;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
+		.location-title {
+			font-size: 12px;
+			line-height: 20px;
+			font-weight: 700;
+			margin-top: 10px;
+		}
+	}
+}
