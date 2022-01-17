@@ -12,18 +12,17 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Path\CurrentPathStack;
-use \Drupal\taxonomy\Entity\Term;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
+use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\erpw_location\LocationService;
 
 /**
  * ModalForm class.
  */
 class DeleteLocationForm extends FormBase {
 
-   
-   /**
+
+  /**
    * A logger instance.
    *
    * @var \Psr\Log\LoggerChannelFactory
@@ -38,12 +37,25 @@ class DeleteLocationForm extends FormBase {
   protected $connection;
 
   /**
-   * A entityManager instance.
+   * A entityTypeManager instance.
    *
    * @var Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $entityManager;
+  protected $entityTypeManager;
+
+  /**
+   * A currentPathStack instance.
+   *
+   * @var Drupal\Core\Path\CurrentPathStack
+   */
   protected $currentPathStack;
+
+  /**
+   * A LocationService instance.
+   *
+   * @var Drupal\erpw_location\LocationService
+   */
+  protected $locationService;
 
   /**
    * {@inheritdoc}
@@ -59,20 +71,25 @@ class DeleteLocationForm extends FormBase {
    *   Logger object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entityManager
+   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   EntityManager object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
    *   The form_builder service.
+   * @param Drupal\Core\Path\CurrentPathStack $currentPathStack
+   *   The location service.
+   * @param \Drupal\erpw_location\LocationService $location_service
+   *   The location service.
    */
-  public function __construct(LoggerChannelFactory $logger, Connection $connection, EntityTypeManagerInterface $entityManager, MessengerInterface $messenger, FormBuilderInterface $form_builder, CurrentPathStack $currentPathStack) {
+  public function __construct(LoggerChannelFactory $logger, Connection $connection, EntityTypeManagerInterface $entityTypeManager, MessengerInterface $messenger, FormBuilderInterface $form_builder, CurrentPathStack $currentPathStack, LocationService $location_service) {
     $this->logger = $logger;
     $this->connection = $connection;
-    $this->entityManager = $entityManager;
+    $this->entityTypeManager = $entityTypeManager;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
     $this->currentPathStack = $currentPathStack;
+    $this->locationService = $location_service;
   }
 
   /**
@@ -85,40 +102,40 @@ class DeleteLocationForm extends FormBase {
       $container->get('entity_type.manager'),
       $container->get('messenger'),
       $container->get('form_builder'),
-      $container->get('path.current')
+      $container->get('path.current'),
+      $container->get('erpw_location.location_services'),
     );
   }
-
-  
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
-    $contry_name = '';
+    $contry_name = NULL;
     $current_path = $this->currentPathStack->getPath();
-    $curr_path = explode("/",$current_path);
-    $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($curr_path[2]);
+    $curr_path = explode("/", $current_path);
+    $ancestors = $this->entityTypeManager->getStorage('taxonomy_term')->loadAllParents($curr_path[2]);
     $ancestors = array_reverse(array_keys($ancestors));
     $country_term_name = Term::load($ancestors[0])->get('name')->value;
-    $contry_name .= '<div class="country-name">Country name*: '.$country_term_name.'</div>';
-    $location_levels = \Drupal::service('erpw_location.location_services')->getLocationLevels($ancestors[0]);
+    $country_label = t('Country name');
+    $contry_name .= '<div class="country-name">' . $country_label . " *: " . $country_term_name . '</div>';
+    $location_levels = $this->locationService->getLocationLevels($ancestors[0]);
     $location_details = '';
     foreach ($location_levels as $key => $level) {
-        $level_term = $this->entityManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
-        $level_data_name = $level_term->get('name')->value;
-        $location_details .= '<div class="level">' . $level . " *: " . $level_data_name . '</div>';
+      $level_term = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
+      $level_data_name = $level_term->get('name')->value;
+      $location_details .= '<div class="level">' . $level . " *: " . $level_data_name . '</div>';
     }
-    $form['tid'] =[
-        '#type' => 'hidden',
-        '#value' => $curr_path[2],
+    $form['tid'] = [
+      '#type' => 'hidden',
+      '#value' => $curr_path[2],
     ];
     $form['location_values1'] = [
-        '#type' => 'markup',
-        '#prefix' => '<div class="review-msg">',
-        '#markup' => $contry_name,
-        '#suffix' => '</div>',
-      ];
+      '#type' => 'markup',
+      '#prefix' => '<div class="review-msg">',
+      '#markup' => $contry_name,
+      '#suffix' => '</div>',
+    ];
     $form['location_values'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="review-msg">',
@@ -151,23 +168,18 @@ class DeleteLocationForm extends FormBase {
   public function deleteLocation(array $form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
     $response = new AjaxResponse();
-    $Term = Term::load($values['tid']);
-    if (!empty($Term)) {
-      $Term->delete();
+    $term = Term::load($values['tid']);
+    if (!empty($term)) {
+      $term->delete();
     }
     // Get the modal form using the form builder.
-    $modal_form = $this->formBuilder->getForm('Drupal\erpw_location\Form\LocationPopupForm');
+    $location_popup_form = $this->formBuilder->getForm('Drupal\erpw_location\Form\LocationPopupForm');
 
     // Add an AJAX command to open a modal dialog with the form as the content.
-    $response->addCommand(new OpenModalDialogCommand('', $modal_form, ['width' => '400']));
+    $response->addCommand(new OpenModalDialogCommand('', $location_popup_form, ['width' => '400']));
 
     return $response;
   }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {}
 
   /**
    * {@inheritdoc}

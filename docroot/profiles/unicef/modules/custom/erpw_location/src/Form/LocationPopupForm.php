@@ -4,8 +4,6 @@ namespace Drupal\erpw_location\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Url;
 use Drupal\Core\Link;
 
@@ -18,7 +16,7 @@ class LocationPopupForm extends FormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'modal_form_example_modal_form';
+    return 'location_popup_form';
   }
 
   /**
@@ -37,13 +35,21 @@ class LocationPopupForm extends FormBase {
       '#markup' => $this->t('The details has been sucessfully deleted.'),
       '#suffix' => '</div>',
     ];
-
+    $link_options = [
+      'attributes' => [
+        'class' => [
+          'back-to-dashboard',
+          'bg-green',
+        ],
+      ],
+    ];
     $url = Url::fromRoute('erpw_custom.dashboard');
-    $Dashboard_url = Link::fromTextAndUrl('BACK TO DASHBOARD', $url)->toString();
+    $url->setOptions($link_options);
+    $dashboard_url = Link::fromTextAndUrl('BACK TO DASHBOARD', $url)->toString();
     $form['back_to_dashboard'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="use-ajax modal-popup button-red">',
-      '#markup' => $Dashboard_url,
+      '#markup' => $dashboard_url,
       '#suffix' => '</div>',
     ];
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
