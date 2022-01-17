@@ -404,26 +404,12 @@ function vss_custom_form_node_form_alter(&$form, &$form_state) {
     ]);
     $form['actions']['save_pdf'] = [
       '#type' => 'link',
-      '#type' => 'link',
       '#title' => t('Export as PDF'),
       '#access' => TRUE,
       '#url' => $url,
       '#weight' => 99,
     ];
   }
-}
-
-/**
- * Save draft pdf redirect.
- */
-function vss_custom_node_submit(&$form, FormStateInterface $form_state) {
-  $node_id = $form_state->getformObject()->getEntity()->id();
-  $url = Url::fromRoute('entity_pdf.view', [
-    'entity_type' => "node",
-    'entity' => $node_id,
-    'view_mode' => "pdf",
-  ]);
-  $form_state->setRedirectUrl($url);
 }
 
 /**
