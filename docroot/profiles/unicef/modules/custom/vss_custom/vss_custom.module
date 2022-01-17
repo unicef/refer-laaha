@@ -326,19 +326,6 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
 }
 
 /**
- * Save draft pdf redirect.
- */
-function vss_custom_node_submit(&$form, FormStateInterface $form_state) {
-  $node_id = $form_state->getformObject()->getEntity()->id();
-  $url = Url::fromRoute('entity_pdf.view', [
-    'entity_type' => "node",
-    'entity' => $node_id,
-    'view_mode' => "pdf",
-  ]);
-  $form_state->setRedirectUrl($url);
-}
-
-/**
  * Validate Password.
  */
 function preview_validate(&$form, &$form_state) {
@@ -409,13 +396,20 @@ function vss_custom_form_node_form_alter(&$form, &$form_state) {
   $form['actions']['preview']['#attributes'] = ['onclick' => 'this.form.target="_blank";return true;'];
 
   $node_id = $form_state->getformObject()->getEntity()->id();
-  $form['actions']['save_pdf'] = [
-    '#type' => 'submit',
-    '#value' => t('Save PDF'),
-    '#access' => TRUE,
-    '#submit' => ['vss_custom_node_submit'],
-    '#weight' => 99,
-  ];
+  if ($node_id) {
+    $url = Url::fromRoute('entity_pdf.view', [
+      'entity_type' => "node",
+      'entity' => $node_id,
+      'view_mode' => "pdf",
+    ]);
+    $form['actions']['save_pdf'] = [
+      '#type' => 'link',
+      '#title' => t('Export as PDF'),
+      '#access' => TRUE,
+      '#url' => $url,
+      '#weight' => 99,
+    ];
+  }
 }
 
 /**
