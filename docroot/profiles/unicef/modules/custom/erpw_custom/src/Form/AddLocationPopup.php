@@ -27,7 +27,7 @@ class AddLocationPopup extends FormBase {
     $external_link = Link::fromTextAndUrl('BACK TO DASHBOARD', $url)->toString();
     $form['message'] = [
       '#type' => 'markup',
-      '#markup' => '<h2>Location addded</h2><div>' . $this->t('The location has been added successfully. You can now access it in the application') . '</div>',
+      '#markup' => '<div class="review-msg">' . $this->t('Location added') . '</div><div class="email-notify">' . $this->t('The location has been added successfully. You can now access it in the application') . '</div>',
     ];
     $form['back_to_dashboard'] = [
       '#type' => 'markup',

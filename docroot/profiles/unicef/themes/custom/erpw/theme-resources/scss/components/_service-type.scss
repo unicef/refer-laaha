@@ -166,7 +166,13 @@
 }
 .service-list {
 	.view-header {
+		border-bottom: 2px solid rgba(243, 193, 191, 0.53);
 		margin-bottom: 20px;
+		padding-bottom: 10px;
+		position: relative;
+	}
+	.view-content {
+		margin-top: 40px;
 	}
 	.title-view {
 		border-top: 2px solid rgba(243, 193, 191, 0.53);
@@ -196,7 +202,7 @@
 	.service-title {
 		display: inline-block;
 		padding: 5px 0;
-		width: 80%;
+		width: 77%;
 		a {
 			color: $grey-txt-color;
 			font-size: 15px;
@@ -206,9 +212,11 @@
 	}
 	.service-count {
 		color: $grey-txt-color;
-		margin-top: -18px;
 		font-size: 16px;
 		font-weight: 400;
+		position: absolute;
+		right: 0;
+		bottom: -30px;
 	}
 	.views-field-nothing {
 		border-top: 1px solid rgb(215 215 215 / 50%);
