@@ -116,7 +116,7 @@ class DeleteLocationForm extends FormBase {
     $curr_path = explode("/", $current_path);
     $ancestors = $this->entityTypeManager->getStorage('taxonomy_term')->loadAllParents($curr_path[2]);
     $ancestors = array_reverse(array_keys($ancestors));
-    $country_term_name = Term::load($ancestors[0])->get('name')->value;
+    $country_term_name = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[0])->get('name')->value;
     $country_label = t('Country name');
     $contry_name .= '<div class="country-name">' . $country_label . " *: " . $country_term_name . '</div>';
     $location_levels = $this->locationService->getLocationLevels($ancestors[0]);
