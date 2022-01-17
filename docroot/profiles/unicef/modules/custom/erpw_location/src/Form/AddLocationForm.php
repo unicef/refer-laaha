@@ -109,7 +109,7 @@ class AddLocationForm extends FormBase {
         '#options' => $location_options,
         '#empty_option' => $this->t('Select Country'),
         '#required' => TRUE,
-        '#title' => $this->t('Country'),
+        '#title' => $this->t('Country name'),
         '#ajax' => [
           'callback' => '::ajaxCallback',
           'wrapper' => 'all-wrapper',
@@ -119,23 +119,30 @@ class AddLocationForm extends FormBase {
     $form_state->setCached(FALSE);
     $form['all_wrapper'] = [
       '#type' => 'container',
-      '#attributes' => ['id' => 'all-wrapper'],
+      '#attributes' => ['id' => 'all-wrapper', 'class' => 'location-container'],
     ];
     $form['all_wrapper']['intro_text'] = [
       '#type' => 'markup',
-      '#markup' => '<div id="intro-text">' . $this->t('Select the county first, to view the respective form') . '</div>',
+      '#markup' => '<div id="intro-text">' . $this->t('Please select the country to fill the location details') . '</div>',
     ];
+    if (!empty($form_state->getValue('location_options'))) {
+      $form['all_wrapper']['location-container-heading']  = [
+        '#type' => 'markup',
+        '#markup' => '<div class="location-container-heading">' . $this->t('Add the new location details ') . '</div>',
+      ];
+    }
     $form['all_wrapper']['level1_wrapper'] = [
       '#type' => 'container',
-      '#attributes' => ['id' => 'level1-wrapper'],
+      '#attributes' => ['id' => 'level1-wrapper', 'class' => 'location-level'],
     ];
+    
     $form['all_wrapper']['level2_wrapper'] = [
       '#type' => 'container',
-      '#attributes' => ['id' => 'level2-wrapper'],
+      '#attributes' => ['id' => 'level2-wrapper', 'class' => 'location-level'],
     ];
     $form['all_wrapper']['level3_wrapper'] = [
       '#type' => 'container',
-      '#attributes' => ['id' => 'level3-wrapper'],
+      '#attributes' => ['id' => 'level3-wrapper', 'class' => 'location-level'],
     ];
     if ($form_state->getValue('location_options') != FALSE) {
       unset($form['all_wrapper']['intro_text']);
@@ -214,6 +221,18 @@ class AddLocationForm extends FormBase {
       ];
 
     }
+    $form['ajax_wrapper']['save_draft'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Save as Draft'),
+      '#attributes' => [
+        'class' => [
+          'button-border',
+        ],
+      ],
+      '#ajax' => [
+        'callback' => '::sendMessageForm',
+      ],
+    ];
     $form['ajax_wrapper']['button'] = [
       '#type' => 'submit',
       '#value' => $this->t('Publish'),

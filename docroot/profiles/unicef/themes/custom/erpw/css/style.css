@@ -530,6 +530,7 @@ header {
 }
 
 .manage-list {
+  border-bottom: 2px solid rgba(243, 193, 191, 0.53);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -537,6 +538,7 @@ header {
       -ms-flex-pack: justify;
           justify-content: space-between;
   margin-bottom: 30px;
+  padding-bottom: 10px;
 }
 .manage-list .country-list {
   -ms-flex-preferred-size: 70%;
@@ -578,10 +580,33 @@ header {
   margin-bottom: 10px;
 }
 .location-list .title-with-icons .location-title {
+  color: #444;
   font-size: 12px;
   line-height: 20px;
   font-weight: 700;
   margin-top: 10px;
+}
+
+.location-container {
+  -webkit-box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
+          box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
+  border-radius: 10px;
+  padding: 12px 0;
+  margin: 30px 0;
+}
+
+.location-container-heading {
+  border-bottom: 0.5px solid #D7D7D7;
+  color: #444;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0 0 18px 15px;
+  margin: 0 5px;
+}
+
+.location-level,
+.form-item-level4 {
+  margin: 0 15px;
 }
 
 .toolbar-fixed [id^=block-erpw-main-menu] {
@@ -1089,7 +1114,13 @@ header {
 }
 
 .service-list .view-header {
+  border-bottom: 2px solid rgba(243, 193, 191, 0.53);
   margin-bottom: 20px;
+  padding-bottom: 10px;
+  position: relative;
+}
+.service-list .view-content {
+  margin-top: 40px;
 }
 .service-list .title-view {
   border-top: 2px solid rgba(243, 193, 191, 0.53);
@@ -1130,9 +1161,11 @@ header {
 }
 .service-list .service-count {
   color: #444;
-  margin-top: -18px;
   font-size: 16px;
   font-weight: 400;
+  position: absolute;
+  right: 0;
+  bottom: -30px;
 }
 .service-list .views-field-nothing {
   border-top: 1px solid rgba(215, 215, 215, 0.5);
