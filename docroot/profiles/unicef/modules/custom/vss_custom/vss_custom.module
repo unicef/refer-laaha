@@ -405,7 +405,7 @@ function vss_custom_form_node_form_alter(&$form, &$form_state) {
     $form['actions']['save_pdf'] = [
       '#type' => 'link',
       '#type' => 'link',
-      '#title' => t('Save PDF'),
+      '#title' => t('Export as PDF'),
       '#access' => TRUE,
       '#url' => $url,
       '#weight' => 99,
