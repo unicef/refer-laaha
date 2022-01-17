@@ -75,47 +75,33 @@
     'clearfix',
   ]
 %}
-{% if content.field_add_narration.0['#markup']|lower == 'yes' and wysiwyg %}
-	{{ attach_library('vss_custom/narrate') }}
-{% endif %}
-{{ attach_library('vss/readmore') }}
-{{ attach_library('vss/print_pdf') }}
+
 <input type="submit" value="submit" onclick="generatePDF();" /> 
 <div class="pdf-print-nodes">
-<article{{attributes.addClass(classes)}}>
-	<div class="article-hero-img">
-		<img class="hero-img img-responsive" src="/{{ base_path ~ directory }}/images/hero-banner.png"/>
-		<h2 class="article">{{ label }}</h1>
-	</div>
+    <article{{ attributes.addClass(classes) }}>
+      {{ title_prefix }}
+      {% if label and not page %}
+        <h2{{ title_attributes }}>
+          <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+        </h2>
+      {% endif %}
+      {{ title_suffix }}
 
-	<div class="readmore" id="readmore_article">
-		{% if content.field_add_narration.0['#markup']|lower == 'yes' and wysiwyg %}
-			<div class="wrapper">
-				<div id="text"></div>
-				<div class="buttons">
-					<button id="play-article" class="button-defult play-article">{{ 'NARRATE'|t }}</button>
-					<button id="pause-article" class="button-defult  pause-article">{{ 'NARRATE'|t }}</button>
-					<button id="resume-article" class="button-defult  resume-article">{{ 'NARRATE'|t }}</button>
-				</div>
-			</div>
-		{% endif %}
-		{{ content.field_assets }}
-	</div>
-	<div class="field--name-field-tags">
-		<div class="field-label">
-      <span class="tag-label">{{ 'Tags'|t }}:</span>
-			{{ content.field_tags }}
-    </div>
-	</div>
-	{{ title_prefix }}
-	{% if label and not page %}
-		<h2{{title_attributes}}>
-			<a href="{{ url }}" rel="bookmark">{{ label }}</a>
-		</h2>
-	{% endif %}
-	{{ title_suffix }}
-	<div{{content_attributes.addClass('content')}}>
-		{{ content|without('field_tags', 'field_assets', 'field_add_narration', 'body') }}
-	</div>
-</article>
+      {% if display_submitted %}
+        <footer>
+          {{ author_picture }}
+          <div{{ author_attributes.addClass('author') }}>
+            {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
+            {{ metadata }}
+          </div>
+        </footer>
+      {% endif %}
+
+      <div{{ content_attributes.addClass('content') }}>
+        {{ content }}
+      </div>
+
+    </article>
 </div>
+
+{{ attach_library('vss/print_pdf') }}

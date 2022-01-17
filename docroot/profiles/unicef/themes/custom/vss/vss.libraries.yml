@@ -43,6 +43,13 @@ faq:
   js:
     js/faq.js: {}
 
+print_pdf:
+  js:
+    js/print_pdf.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js: { external: true }
+    https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js: { external: true }
+    
+
 
       # Uncomment for LESS source JavaScript files.
 #  js:
