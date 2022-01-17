@@ -126,7 +126,7 @@ class AddLocationForm extends FormBase {
       '#markup' => '<div id="intro-text">' . $this->t('Please select the country to fill the location details') . '</div>',
     ];
     if (!empty($form_state->getValue('location_options'))) {
-      $form['all_wrapper']['location-container-heading']  = [
+      $form['all_wrapper']['location-container-heading'] = [
         '#type' => 'markup',
         '#markup' => '<div class="location-container-heading">' . $this->t('Add the new location details ') . '</div>',
       ];
@@ -135,7 +135,6 @@ class AddLocationForm extends FormBase {
       '#type' => 'container',
       '#attributes' => ['id' => 'level1-wrapper', 'class' => 'location-level'],
     ];
-    
     $form['all_wrapper']['level2_wrapper'] = [
       '#type' => 'container',
       '#attributes' => ['id' => 'level2-wrapper', 'class' => 'location-level'],
