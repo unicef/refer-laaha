@@ -76,8 +76,10 @@
   ]
 %}
 
-<input type="submit" value="submit" onclick="generatePDF();" /> 
-<div class="pdf-print-nodes">
+{{ attach_library('vss/print_pdf') }}
+
+<div class="export-to-pdf">{{ 'Export to PDF'|t }}</div>
+<div id="pdf-print-nodes">
     <article{{ attributes.addClass(classes) }}>
       {{ title_prefix }}
       {% if label and not page %}
@@ -97,11 +99,9 @@
         </footer>
       {% endif %}
 
-      <div{{ content_attributes.addClass('content') }}>
+      <div id="pdf-content" {{ content_attributes.addClass('content') }}>
         {{ content }}
       </div>
 
     </article>
 </div>
-
-{{ attach_library('vss/print_pdf') }}
