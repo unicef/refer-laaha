@@ -198,11 +198,18 @@ class ImportLocationModalForm extends FormBase {
     }
     fclose($handle);
     $header_count = count($headerData);
-    $langcode_count = $header_count / 4;
+    $levels = [];
+    foreach ($headerData as $header) {
+      $levels[] = explode("_", $header)[0] . explode("_", $header)[1];
+    }
+    $level_count = count(array_unique($levels));
+    $langcode_count = $header_count / $level_count;
     $csv_langcodes = [];
     for ($i = 0; $i < $langcode_count; $i++) {
       $csv_langcodes[$i] = explode("_", $headerData[$i])[2];
     }
+    // print_r($csv_langcodes);
+    // die;
     // Check if the language in the csv is an active language.
     $active_languages = \Drupal::languageManager()->getLanguages();
     $active_languages_list = array_keys($active_languages);
@@ -230,7 +237,7 @@ class ImportLocationModalForm extends FormBase {
       $j = $k;
       $l = $k;
       $langcode = $csv_langcodes[$k];
-      for ($i = 1; $i <= $langcode_count; $i++) {
+      for ($i = 1; $i <= $level_count; $i++) {
         $hierarchy_level['level_' . $i] = $csvData[0][$j];
         $j += $langcode_count;
       }
@@ -244,13 +251,13 @@ class ImportLocationModalForm extends FormBase {
       $query->condition('lc.name', $country_name);
       $result = $query->execute()->fetchAll();
       // If location exist update the hierarchy.
-      if ($result[0]->name == $country_name) {
+      if (!empty($result) && $result[0]->name == $country_name) {
         $entity_id = $result[0]->id;
         $location_entity = LocationEntity::load($entity_id);
         // If the given translation exists, update the translation.
         if ($location_entity->hasTranslation($langcode)) {
           $location_entity = $location_entity->getTranslation($langcode);
-          for ($i = 1; $i <= $langcode_count; $i++) {
+          for ($i = 1; $i <= $level_count; $i++) {
             $location_entity->set('level_' . $i, $csvData[0][$l]);
             $l += $langcode_count;
           }
@@ -309,35 +316,41 @@ class ImportLocationModalForm extends FormBase {
       for ($k = 0; $k < count($csv_langcodes); $k++) {
         $lang_code = $csv_langcodes[$k];
         // Check if term exists at level $i+1.
-        $term = taxonomy_term_load_multiple_by_name($location[$j + $k], 'country');
-        if (!empty($term)) {
-          $term = reset($term);
-          $tid = $term->id();
-          $term_depth = taxonomy_term_depth_get_by_tid($tid);
-          if ($term_depth - 1 == $i + 1) {
-            $term_exists = TRUE;
+        if (isset($location[$j + $k])) {
+          $term = taxonomy_term_load_multiple_by_name($location[$j + $k], 'country');
+          if (!empty($term)) {
+            $term = reset($term);
+            $tid = $term->id();
+            $term_depth = taxonomy_term_depth_get_by_tid($tid);
+            $current_level = ($j / count($csv_langcodes)) + 1;
+            // Check if term exists at the same depth.
+            if (($term_depth - 1 == $i + 1) && $term_depth - 1 == $current_level) {
+              $term_exists = TRUE;
+              $parent_term_id = $tid;
+            }
           }
-          $parent_term_id = $tid;
-        }
-        elseif ($term_exists || $k > 0) {
-          $term = Term::load($parent_term_id);
-          if (!$term->hasTranslation($lang_code)) {
-            $term->addTranslation($lang_code, [
+          if ($term_exists || $k > 0) {
+
+            $term = Term::load($parent_term_id);
+            if (!$term->hasTranslation($lang_code)) {
+              $term->addTranslation($lang_code, [
+                'name' => $location[$j + $k],
+              ])->save();
+            }
+            $parent_term_id = $term->id();
+          }
+          else {
+            // Create the location term.
+            $term = Term::create([
               'name' => $location[$j + $k],
-            ])->save();
+              'vid' => 'country',
+              'parent' => [
+                'target_id' => $parent_term_id,
+              ],
+            ]);
+            $term->save();
+            $parent_term_id = $term->id();
           }
-        }
-        else {
-          // Create the location term.
-          $term = Term::create([
-            'name' => $location[$j + $k],
-            'vid' => 'country',
-            'parent' => [
-              'target_id' => $parent_term_id,
-            ],
-          ]);
-          $term->save();
-          $parent_term_id = $term->id();
         }
       }
       $j = $j + $k;

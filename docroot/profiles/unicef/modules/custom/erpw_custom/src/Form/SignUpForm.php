@@ -88,6 +88,10 @@ class SignUpForm extends FormBase {
       return self::formPageTwo($form, $form_state);
     }
 
+    if ($form_state->has('page') && $form_state->get('page') == 3) {
+      return self::formPageThree($form, $form_state);
+    }
+
     $form_state->set('page', 1);
 
     $form['progress_step1'] = [
@@ -207,7 +211,7 @@ class SignUpForm extends FormBase {
       'email' => $form_state->getValue('email'),
       'phone' => $form_state->getValue('phone'),
       'organisation' => $form_state->getValue('organisation'),
-      'positon' => $form_state->getValue('positon'),
+      'position' => $form_state->getValue('position'),
       'system_role' => $form_state->getValue('system_role'),
     ])
       ->set('page', 2)
@@ -226,6 +230,252 @@ class SignUpForm extends FormBase {
       '#markup' => '<div class="location-detail-page active step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
     ];
     $form['progress_step3'] = [
+      '#markup' => '<div class="password-creation-page step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
+    ];
+
+    $form['message-step'] = [
+      '#markup' => '<div class="step">' . $this->t('Step 2: Location details') . '</div>',
+    ];
+    $form['#prefix'] = '<div id="status-message"></div>';
+
+    $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
+      ['type' => 'country', 'status' => 1]);
+    $location_options = [];
+    foreach ($location_entities as $location) {
+      $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
+    }
+
+    if (!empty($location_entities)) {
+      $form['location_options'] = [
+        '#type' => 'select',
+        '#options' => $location_options,
+        '#empty_option' => t('Select Country'),
+        '#title' => $this->t('Country'),
+        '#required' => TRUE,
+        '#ajax' => [
+          'callback' => '::getLocationDetail',
+          'event' => 'change',
+          'wrapper' => 'edit-location-details',
+          'progress' => [
+            'type' => 'throbber',
+          ],
+        ],
+      ];
+    }
+    $form['location'] = [
+      '#prefix' => '<div id="edit-location-details">',
+      '#suffix' => '</div>',
+    ];
+    if (!empty($form_state->getValue('location_options'))) {
+      $form['location']['message'] = [
+        '#type' => 'markup',
+        '#markup' => '<div id="intro-text">' . $this->t('Add the new location details') . '</div>',
+      ];
+    }
+    $form['location']['intro_text'] = [
+      '#type' => 'markup',
+      '#markup' => '<div id="intro-text">' . $this->t('Select the county first, to view the respective form') . '</div>',
+    ];
+    if (!empty($form_state->getValue('location_options'))) {
+      unset($form['location']['intro_text']);
+      $location_country_id = $form_state->getValue('location_options');
+      $location_levels = \Drupal::service('erpw_location.location_services')->getLocationLevels($location_country_id);
+      $childs = \Drupal::service('erpw_location.location_services')->getChildrenByTid($location_country_id);
+      $i = 1;
+      $form['location']['location_level'] = [
+        '#prefix' => '<div id="location-levels">',
+        '#suffix' => '</div>',
+      ];
+      $form['location']['location_level']['location_level1'] = [
+        '#prefix' => '<div id="location-level-1">',
+        '#suffix' => '</div>',
+      ];
+      $form['location']['location_level']['location_level1']['location_level2'] = [
+        '#prefix' => '<div id="location-level-2">',
+        '#suffix' => '</div>',
+      ];
+      foreach ($location_levels as $key => $level) {
+        if ($key == 0) {
+          $this->level_key = $key;
+          $form['location']['location_level']['level_' . ($key + 1)] = [
+            '#type' => 'select',
+            '#empty_option' => t("Select Level ' . $i . ' Label"),
+            '#options' => $childs,
+            '#title' => $level,
+            '#weight' => 10,
+            '#ajax' => [
+              'callback' => '::getNextLevelData',
+              'event' => 'change',
+              'wrapper' => 'location-levels',
+              'progress' => [
+                'type' => 'throbber',
+              ],
+            ],
+          ];
+        }
+        else {
+          if (!empty($form_state->getValue('level_' . $key))) {
+            if ($key == 1) {
+              $parent_tid = $form_state->getValue('level_' . $key);
+              $level_1_options = \Drupal::service('erpw_location.location_services')->getChildrenByTid($parent_tid);
+              $form['location']['location_level']['level_' . ($key + 1)] = [
+                '#type' => 'select',
+                '#empty_option' => t("Select Level ' . $i . ' Label"),
+                '#options' => $level_1_options,
+                '#title' => $level,
+                '#weight' => 20,
+                '#ajax' => [
+                  'callback' => '::getLevelTwoData',
+                  'event' => 'change',
+                  'wrapper' => 'location-level-1',
+                  'progress' => [
+                    'type' => 'throbber',
+                  ],
+                ],
+              ];
+            }
+            else {
+              if (!empty($form_state->getValue('level_' . $key))) {
+                if ($key == 2) {
+                  $parent_level2_tid = $form_state->getValue('level_' . $key);
+                  $level_2_options = \Drupal::service('erpw_location.location_services')->getChildrenByTid($parent_level2_tid);
+                  $form['location']['location_level']['location_level1']['location_level2']['level_' . ($key + 1)] = [
+                    '#type' => 'select',
+                    '#empty_option' => t("Select Level ' . $i . ' Label"),
+                    '#options' => $level_2_options,
+                    '#title' => $level,
+                    '#weight' => 30,
+                    '#ajax' => [
+                      'callback' => '::getLevelThreeData',
+                      'event' => 'change',
+                      'wrapper' => 'location-level-2',
+                      'progress' => [
+                        'type' => 'throbber',
+                      ],
+                    ],
+                  ];
+                }
+                else {
+                  if (!empty($form_state->getValue('level_' . $key))) {
+                    if ($key == 3) {
+                      $parent_level3_tid = $form_state->getValue('level_' . $key);
+                      $level_3_options = \Drupal::service('erpw_location.location_services')->getChildrenByTid($parent_level3_tid);
+                      $form['location']['location_level']['location_level1']['location_level2']['level_' . ($key + 1)] = [
+                        '#type' => 'select',
+                        '#empty_option' => t("Select Level ' . $i . ' Label"),
+                        '#options' => $level_3_options,
+                        '#title' => $level,
+                        '#weight' => 40,
+                        '#ajax' => [
+                          'callback' => '::getLevelFourData',
+                          'event' => 'change',
+                          'wrapper' => 'location-level-3',
+                          'progress' => [
+                            'type' => 'throbber',
+                          ],
+                        ],
+                      ];
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        $i++;
+      }
+    }
+    $form['actions'] = [
+      '#type' => 'actions',
+    ];
+    $form['actions']['next'] = [
+      '#type' => 'submit',
+      '#button_type' => 'primary',
+      '#value' => $this->t('Next'),
+      '#attributes' => [
+        'class' => [
+          'signup-next',
+        ],
+      ],
+      '#submit' => ['::submitPageTwo'],
+      '#validate' => ['::validatePageTwo'],
+    ];
+
+    $form['#cache']['max-age'] = 0;
+    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    $form['#attached']['library'][] = 'erpw_custom/erpw_js';
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getNextLevelData(array &$form, FormStateInterface $form_state) {
+    return $form['location']['location_level'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLevelTwoData(array &$form, FormStateInterface $form_state) {
+    return $form['location']['location_level']['location_level1'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLevelThreeData(array &$form, FormStateInterface $form_state) {
+    return $form['location']['location_level']['location_level1']['location_level2'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLevelFourData(array &$form, FormStateInterface $form_state) {
+    return $form['location']['location_level']['location_level1'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLocationDetail(array &$form, FormStateInterface $form_state) {
+    unset($form['locatin']['intro_text']);
+    return $form['location'];
+  }
+
+  /**
+   * Sets an error if supplied fields has not been filled.
+   */
+  public function validatePageTwo(array &$form, FormStateInterface $form_state) {
+    if (empty($form_state->getValue('location_options'))) {
+      $form_state->setErrorByName('location_options', t('Please fill the required fileds'));
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitPageTwo(array &$form, FormStateInterface $form_state) {
+    $form_state->set('page_two_values', [
+      'personal_details' => $form_state->get('page_values'),
+      'location_values' => $form_state->getValue('level_1'),
+    ])
+      ->set('page', 3)
+      ->setRebuild(TRUE);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function formPageThree(array &$form, FormStateInterface $form_state) {
+
+    $form['progress_step1'] = [
+      '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
+    ];
+    $form['progress_step2'] = [
+      '#markup' => '<div class="location-detail-page active step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
+    ];
+    $form['progress_step3'] = [
       '#markup' => '<div class="password-creation-page active step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
     ];
 
@@ -233,14 +483,14 @@ class SignUpForm extends FormBase {
       '#markup' => '<div class="step">' . $this->t('Step 3: Password') . '</div>',
     ];
     $form['#prefix'] = '<div id="status-message"></div>';
-
+    $values = $form_state->get('page_values');
     $form['email'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Email'),
       '#required' => TRUE,
       '#placeholder' => t('Enter email id'),
       '#disabled' => TRUE,
-      '#default_value' => $form_state->getValue('email'),
+      '#default_value' => $values['email'],
     ];
     $form['password'] = [
       '#type' => 'password',
@@ -308,6 +558,7 @@ class SignUpForm extends FormBase {
       $form_state->clearErrors();
       $form_state->setRebuild(TRUE);
       $values = $form_state->get('page_values');
+      $location_values = $form_state->get('page_two_values');
       $user_info = [
         'status' => 1,
         'name' => $values['email'],
@@ -317,7 +568,8 @@ class SignUpForm extends FormBase {
         'field_last_name' => $values['last_name'],
         'field_phone' => $values['phone'],
         'field_organisation' => $values['organisation'],
-        'field_position' => $values['positon'],
+        'field_position' => $values['position'],
+        'field_location_details' => $location_values,
         'roles' => $values['system_role'],
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);

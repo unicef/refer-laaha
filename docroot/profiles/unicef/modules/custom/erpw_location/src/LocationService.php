@@ -51,7 +51,7 @@ class LocationService {
   /**
    * Get subsequent children a location term.
    */
-  public function getChildrenByTid($location_tid, $q) {
+  public function getChildrenByTid($location_tid, $q = '') {
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $tree = $this->entityManager->getStorage('taxonomy_term')->loadTree(
         'country',
@@ -74,6 +74,55 @@ class LocationService {
    */
   public function clean($string) {
     return (int) preg_replace('/[^0-9]/', '', $string);
+  }
+
+  /**
+   * Create taxonomy data.
+   */
+  public function taxonomyTermCreate($term, $vocabulary, array $parent = []) {
+
+    // Create the taxonomy term.
+    $new_term = $this->entityManager->getStorage('taxonomy_term')->create([
+      'name' => $term,
+      'vid' => $vocabulary,
+      'parent' => $parent,
+    ]);
+
+    // Save the taxonomy term.
+    $new_term->save();
+
+    // Return the taxonomy term id.
+    return $new_term->id();
+  }
+
+  /**
+   * Taxonomy exist check.
+   */
+  public function taxonomyTermExist($tid) {
+    $term = $this->entityManager
+      ->getStorage('taxonomy_term')
+      ->load($tid);
+    return $term->id();
+  }
+
+  /**
+   * Process taxonomy data.
+   */
+  public function processTaxonomyData($string, $pid, $level = 0) {
+    if ($level == 4) {
+      $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
+      return $level_term_id;
+    }
+    if ($this->clean($string) != 0) {
+
+      $term_string_level = $this->clean($string);
+      $level_term_id = $this->taxonomyTermExist($term_string_level);
+    }
+    else {
+
+      $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
+    }
+    return $level_term_id;
   }
 
 }
