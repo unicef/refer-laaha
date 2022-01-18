@@ -60,7 +60,7 @@ class ImportLocationModalForm extends FormBase {
   public function __construct(LoggerChannelFactory $logger, Connection $connection, EntityTypeManagerInterface $entityManager, MessengerInterface $messenger) {
     $this->logger = $logger;
     $this->connection = $connection;
-    $this->entityManager = $entityManager->getStorage('location');
+    $this->entityManager = $entityManager;
     $this->messenger = $messenger;
   }
 
@@ -208,8 +208,6 @@ class ImportLocationModalForm extends FormBase {
     for ($i = 0; $i < $langcode_count; $i++) {
       $csv_langcodes[$i] = explode("_", $headerData[$i])[2];
     }
-    // print_r($csv_langcodes);
-    // die;
     // Check if the language in the csv is an active language.
     $active_languages = \Drupal::languageManager()->getLanguages();
     $active_languages_list = array_keys($active_languages);
@@ -321,10 +319,12 @@ class ImportLocationModalForm extends FormBase {
           if (!empty($term)) {
             $term = reset($term);
             $tid = $term->id();
+            $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
+            $ancestors = array_reverse(array_keys($ancestors));
             $term_depth = taxonomy_term_depth_get_by_tid($tid);
             $current_level = ($j / count($csv_langcodes)) + 1;
             // Check if term exists at the same depth.
-            if (($term_depth - 1 == $i + 1) && $term_depth - 1 == $current_level) {
+            if (($term_depth - 1 == $i + 1) && $term_depth - 1 == $current_level && $ancestors[0] == $country_term_id) {
               $term_exists = TRUE;
               $parent_term_id = $tid;
             }
