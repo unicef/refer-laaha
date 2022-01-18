@@ -1,11 +1,11 @@
 (function ($, Drupal, drupalSettings) {
     'use strict';
-        $(".export-to-pdf").click(function(){
+        $(".export-to-pdf").on('click',function(){
             generatePDF();
         })
         function generatePDF() {
             // Choose the element that our invoice is rendered in.
-            const element = document.getElementById('pdf-content');
+            const element = document.getElementById('pdf-print-nodes');
             var opt = {
                 margin:       1,
                 filename:     'myfile.pdf',
@@ -13,8 +13,8 @@
                 html2canvas:  { scale: 2 },
                 jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
               };
-              
+
               // New Promise-based usage:
-              html2pdf(element,opt);
+              html2pdf().set(opt).from(element).save();
         }
   })(jQuery, Drupal, drupalSettings);
