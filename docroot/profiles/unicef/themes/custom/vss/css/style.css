@@ -1655,6 +1655,9 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
     @media screen and (min-width: 1366px) {
       .homepage-category .spacer {
         height: 29vw; } }
+  .homepage-category .lSSlideWrapper,
+  .homepage-category .lSSlideOuter {
+    overflow: visible !important; }
 
 .homepage-hero-section--categories {
   background-color: #ffcdd2;
@@ -2343,5 +2346,28 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
                 flex-direction: row; } }
   .paragraph--type--wysiwyg-editor .about-us__shared img {
     max-width: 100%; }
+
+.paragraph--type--wysiwyg-editor .chat-bubble {
+  background: #fff;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  padding: 16px;
+  position: relative; }
+  .paragraph--type--wysiwyg-editor .chat-bubble::after {
+    border: 16px solid;
+    border-color: #fff transparent transparent;
+    bottom: -32px;
+    content: ' ';
+    height: 0;
+    left: 50%;
+    position: absolute;
+    right: auto;
+    width: 0; }
+
+.faq-item .hide-long-text .long-text {
+  display: none; }
+
+.faq-item .hide-short-text .short-text {
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */
