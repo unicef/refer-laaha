@@ -70,8 +70,10 @@ class RelatedContentAjaxController extends ControllerBase {
         if ($term->parent->target_id) {
           $parent = $this->entityTypeManager->getStorage('taxonomy_term')->load($term->parent->target_id);
           if ($parent->hasField('field_tags')) {
-            foreach ($parent->get('field_tags')->getValue() as $value) {
-              $ids[] = $value['target_id'];
+            foreach ($parent->get('field_tags')->getValue() as $val) {
+              if (in_array($val, $node->get('field_tags')->getValue())) {
+                $ids[] = $val['target_id'];
+              }
             }
           }
         }
