@@ -112,14 +112,22 @@ class DeleteLocationForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
     $contry_name = NULL;
+    $query = \Drupal::entityQuery('location');
+    $query->condition('status', 1);
+    $query->condition('type', 'country');
+    $entity_ids = $query->execute();
+    foreach ($entity_ids as $value) {
+      $entity['entity_id'] = $value;
+    }
     $current_path = $this->currentPathStack->getPath();
     $curr_path = explode("/", $current_path);
     $ancestors = $this->entityTypeManager->getStorage('taxonomy_term')->loadAllParents($curr_path[2]);
     $ancestors = array_reverse(array_keys($ancestors));
-    $country_term_name = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[0])->get('name')->value;
+    $country_term_ = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[0]);
+    $country_term_name = $country_term_->get('name')->value;
     $country_label = t('Country name');
     $contry_name .= '<div class="country-name">' . $country_label . " *: " . $country_term_name . '</div>';
-    $location_levels = $this->locationService->getLocationLevels($ancestors[0]);
+    $location_levels = $this->locationService->getLocationLevels($entity['entity_id']);
     $location_details = '';
     foreach ($location_levels as $key => $level) {
       $level_term = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
