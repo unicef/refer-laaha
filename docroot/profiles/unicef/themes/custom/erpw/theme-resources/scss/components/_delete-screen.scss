@@ -9,8 +9,12 @@
     	width: 100%;
 		}
 	}
-	label {
+	label,
+	.label-text {
+		color: $base-secondary-bgcolor;
     display: inline-flex;
+		font-size: .75em;
+		font-weight: 500;	
 		margin-right: 15px;
     max-width: 130px;
     width: 100%;

@@ -124,7 +124,7 @@ class DeleteLocationForm extends FormBase {
     $ancestors = array_reverse(array_keys($ancestors));
     $country_term_name = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[0])->get('name')->value;
     $country_label = $this->t('Country name');
-    $country_name .= '<div class="country-name">' . $country_label . " *: " . $country_term_name . '</div>';
+    $country_name .= '<div class="detail-row"><div class="label-text">' . $country_label . " *: " . '</div>' . '<span>' . $country_term_name . '</span></div>';
     // Get location entity id.
     $query = $this->entityTypeManager->getStorage('location')->getQuery();
     $query->condition('status', 1);
@@ -140,7 +140,7 @@ class DeleteLocationForm extends FormBase {
     foreach ($location_levels as $key => $level) {
       $level_term = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
       $level_data_name = $level_term->get('name')->value;
-      $location_details .= '<div class="level">' . $level . " *: " . $level_data_name . '</div>';
+      $location_details .= '<div class="detail-row"><div class="label-text">' . $level . " *: " . '</div>' . '<span>' . $level_data_name . '</span></div>';
     }
     $form['tid'] = [
       '#type' => 'hidden',
@@ -148,13 +148,13 @@ class DeleteLocationForm extends FormBase {
     ];
     $form['location_values1'] = [
       '#type' => 'markup',
-      '#prefix' => '<div class="review-msg">',
+      '#prefix' => '<div class="delete-screen">',
       '#markup' => $country_name,
       '#suffix' => '</div>',
     ];
     $form['location_values'] = [
       '#type' => 'markup',
-      '#prefix' => '<div class="review-msg">',
+      '#prefix' => '<div class="delete-screen">',
       '#markup' => $location_details,
       '#suffix' => '</div>',
     ];
@@ -171,6 +171,10 @@ class DeleteLocationForm extends FormBase {
         'callback' => [$this, 'deleteLocation'],
         'event' => 'click',
       ],
+    ];
+    $form['msg_note'] = [
+      '#type' => 'markup',
+      '#markup' => '<div class="msg-note">' . $this->t('This action cannot be reversed ! Please note that deleting a location will remove any mapping it has with existing referral pathways and Service providers of application ') . '</div>',
     ];
 
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
