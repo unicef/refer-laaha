@@ -161,8 +161,12 @@
 }
 
 //service type listing page
-.new-service-type::before {
-  background: url('../images/plus.svg') center center no-repeat $base-secondary-bgcolor;
+.new-service-type,
+.plus-icon {
+	padding-left: 0;
+	&::before {
+		background: url('../images/plus.svg') center center no-repeat $base-secondary-bgcolor;
+	}
 }
 .service-list {
 	.view-header {

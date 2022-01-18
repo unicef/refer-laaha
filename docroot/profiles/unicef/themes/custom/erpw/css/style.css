@@ -509,10 +509,14 @@ header {
   word-break: break-word;
   width: 100%;
 }
-.delete-screen label {
+.delete-screen label,
+.delete-screen .label-text {
+  color: #A85766;
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
+  font-size: 0.75em;
+  font-weight: 500;
   margin-right: 15px;
   max-width: 130px;
   width: 100%;
@@ -1109,7 +1113,12 @@ header {
   font-size: 0;
 }
 
-.new-service-type::before {
+.new-service-type,
+.plus-icon {
+  padding-left: 0;
+}
+.new-service-type::before,
+.plus-icon::before {
   background: url("../images/plus.svg") center center no-repeat #A85766;
 }
 
