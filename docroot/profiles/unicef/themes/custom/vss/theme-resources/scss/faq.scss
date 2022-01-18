@@ -1,13 +1,12 @@
-.faq-item{
-    .hide-long-text {
+.faq-answer-wrapper{
+    &.hide-long-text{
         .long-text {
             display: none;
         }
     }
-    .hide-short-text {
+    &.hide-short-text{
         .short-text {
             display: none;
         }
     }
-} 
-
+}
