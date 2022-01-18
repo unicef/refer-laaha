@@ -20,3 +20,53 @@ function erpw_location_update_9001() {
   return t('Installed the Location entity type');
 
 }
+
+/**
+ * Update hook for adding custom table to erpw location.
+ */
+function erpw_location_update_9002() {
+  $database = \Drupal::database();
+  $schema = $database->schema();
+  $table_name = 'erpw_location';
+
+  $table_schema = [
+    'description' => 'eRPW Location Mappings',
+    'fields' => [
+      'country_tid' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Country Term ID',
+      ],
+      'level1' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Level 1 Term ID',
+      ],
+      'level2' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Level 2 Term ID',
+      ],
+      'level3' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Level 3 Term ID',
+      ],
+      'level4' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Level 4 Term ID',
+      ],
+    ],
+  ];
+  $schema->createTable($table_name, $table_schema);
+}
