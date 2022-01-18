@@ -52,15 +52,18 @@ class ImportLocationModalForm extends FormBase {
    *   Logger object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entityManager
+   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   EntityManager object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    */
-  public function __construct(LoggerChannelFactory $logger, Connection $connection, EntityTypeManagerInterface $entityManager, MessengerInterface $messenger) {
+  public function __construct(LoggerChannelFactory $logger,
+    Connection $connection,
+    EntityTypeManagerInterface $entity_manager,
+    MessengerInterface $messenger) {
     $this->logger = $logger;
     $this->connection = $connection;
-    $this->entityManager = $entityManager;
+    $this->entityManager = $entity_manager;
     $this->messenger = $messenger;
   }
 
@@ -141,7 +144,7 @@ class ImportLocationModalForm extends FormBase {
         $country_name = explode('.', $file_obj_data->getFilename())[0];
         $imported = $this->handleFileData($file_path, $country_name);
         if ($imported) {
-          $this->messenger->addMessage(t('Location CSV imported successfully.'));
+          $this->messenger->addMessage($this->t('Location CSV imported successfully.'));
         }
         $response->addCommand(new CloseModalDialogCommand());
         $response->addCommand(new RedirectCommand(Url::fromRoute('erpw_location.manage_location')->toString()));
@@ -213,14 +216,14 @@ class ImportLocationModalForm extends FormBase {
     $active_languages_list = array_keys($active_languages);
     foreach ($csv_langcodes as $langcode) {
       if (!in_array($langcode, $active_languages_list)) {
-        $this->messenger->addError(t('%langcode is not a valid langcode available in the system.', [
+        $this->messenger->addError($this->t('%langcode is not a valid langcode available in the system.', [
           '%langcode' => $langcode,
         ]));
         return FALSE;
       }
     }
     if (count($csvData) == 0) {
-      $this->messenger->addError(t('Please import the CSV with valid hierarchy data.'));
+      $this->messenger->addError($this->t('Please import the CSV with valid hierarchy data.'));
       $response = new AjaxResponse();
       $content = $this->t('Please upload the Location CSV file to start the import process.');
       $response->addCommand(new InvokeCommand(
