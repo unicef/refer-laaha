@@ -79,10 +79,6 @@
 	{{ attach_library('vss_custom/narrate') }}
 {% endif %}
 {{ attach_library('vss/readmore') }}
-{{ attach_library('vss/print_pdf') }}
-x
-
-<div class="pdf-print-nodes">
 <article{{attributes.addClass(classes)}}>
 	<div class="article-hero-img">
 		<img class="hero-img img-responsive" src="/{{ base_path ~ directory }}/images/hero-banner.png"/>
@@ -119,4 +115,3 @@ x
 		{{ content|without('field_tags', 'field_assets', 'field_add_narration', 'body') }}
 	</div>
 </article>
-</div>

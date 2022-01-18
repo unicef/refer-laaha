@@ -75,8 +75,6 @@
     'clearfix',
   ]
 %}
-
-<div class="pdf-print-nodes">
 <article{{attributes.addClass(classes)}}>
 	<h2 class="pod-video">{{ label }}</h2>
 	{{ content.field_content }}
@@ -90,5 +88,4 @@
 		{{ content|without('field_tags', 'field_content', 'body') }}
 	</div>
 </article>
-</div>
 
