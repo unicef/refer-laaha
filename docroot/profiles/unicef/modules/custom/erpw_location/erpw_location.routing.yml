@@ -20,7 +20,7 @@ erpw_location.autocomplete:
   requirements:
     _access: 'TRUE'
 erpw_location.add_location:
-  path: '/add-new-location'
+  path: '/add-location'
   defaults:
     _form: '\Drupal\erpw_location\Form\AddLocationForm'
     _title: 'Add Location'
