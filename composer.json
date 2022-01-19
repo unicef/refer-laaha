@@ -52,6 +52,7 @@
         "drupal/domain_language_negotiation": "3.0.x-dev@dev",
         "drupal/dropzonejs": "^2.5",
         "drupal/entity_browser": "^2.6",
+        "drupal/entity_pdf": "^2.0",
         "drupal/entity_usage": "^2.0@beta",
         "drupal/environment_indicator": "^4.0",
         "drupal/imageapi_optimize": "^4.0",
@@ -82,6 +83,7 @@
         "drupal/simple_sitemap": "^3.11",
         "drupal/site_audit": "^3.0@RC",
         "drupal/taxonomy_term_depth": "^2.5",
+        "drupal/term_reference_tree": "^1.1",
         "drupal/tour_ui": "^1.0@beta",
         "drupal/twig_tweak": "^3.1",
         "drupal/update_helper": "^2.0",
@@ -106,7 +108,17 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/console-extend-plugin": true,
+            "acquia/blt": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "drupal/core-vendor-hardening": true
+        }
     },
     "extra": {
         "drupal-scaffold": {
@@ -177,7 +189,8 @@
                 "lang issue": "patches/active_lang.patch"
             },
             "drupal/paragraphs": {
-                "Fix for translation handler": "https://www.drupal.org/files/issues/2021-01-22/paragraph-entity-type-did-not-specify-translation-halder-3031598-45.patch"
+                "Fix for translation handler": "https://www.drupal.org/files/issues/2021-01-22/paragraph-entity-type-did-not-specify-translation-halder-3031598-45.patch",   
+                "No link canonical": "https://www.drupal.org/files/issues/2021-10-18/3238515-8-paragraphs-entity-toUrl-error.patch"
             },
             "drupal/tour_ui": {
                 "tour class selector issue": "https://www.drupal.org/files/issues/2021-05-28/tour_ui-3214357-7.patch"
@@ -196,6 +209,9 @@
             },
             "drupal/ckeditor_tippy": {
                 "popper js issue": "https://www.drupal.org/files/issues/2021-11-01/3247089-2.patch"
+            },
+            "drupal/content_lock": {
+                "ajax modal popup": "https://www.drupal.org/files/issues/2020-08-25/3167103-content_lock_with_paragraphs_edit-2.patch"
             }
         }
     }

@@ -28,7 +28,12 @@ class KernelTerminateSubscriber implements EventSubscriberInterface {
 
     $user = \Drupal::currentUser();
     $visitors_uid = isset($user) ? $user->id() : '';
-    if ($user->isAnonymous() && $this->getTitle() && (strpos(Url::fromRoute('<current>')->toString(), 'user') == '' && strpos(Url::fromRoute('<current>')->toString(), 'modal') == '' && strpos(Url::fromRoute('<current>')->toString(), 'autocomplete') == ''  && strpos(Url::fromRoute('<current>')->toString(), 'nodeviewcount') == '' && strpos(Url::fromRoute('<current>')->toString(), 'profiles') == '')) {
+    $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    if ($user->isAnonymous() && (Url::fromRoute('<current>')->toString() == '/' || Url::fromRoute('<current>')->toString() == '/node' || Url::fromRoute('<current>')->toString() == "/$lang/node")) {
+      $title = 'Home';
+    }
+
+    if ($user->isAnonymous() && ($this->getTitle() || $title) && (strpos(Url::fromRoute('<current>')->toString(), 'user') == '' && strpos(Url::fromRoute('<current>')->toString(), 'modal') == '' && strpos(Url::fromRoute('<current>')->toString(), 'autocomplete') == ''  && strpos(Url::fromRoute('<current>')->toString(), 'nodeviewcount') == '' && strpos(Url::fromRoute('<current>')->toString(), 'profiles') == '')) {
       $ip_str = $this->getIpStr();
       if (Url::fromRoute('<current>')->toString() == '/') {
         $title = 'Home';

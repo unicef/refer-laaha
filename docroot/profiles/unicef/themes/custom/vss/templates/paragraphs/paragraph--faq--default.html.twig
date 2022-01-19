@@ -51,21 +51,23 @@
 {% block paragraph %}
     {% block content %}
     <div {{ attributes.addClass(classes) }}>
-        <h4 class="faq-question-wrapper">
-        {{ content.field_question}}
-        </h4>
+        <h4 class="faq-question-wrapper">{{ content.field_question}}</h4>
         <div class="faq-answer-wrapper">
         {% if content.field_answer.0['#text']|raw|length > 450 %}
           <div class="short-text">
-            {{ (content.field_answer.0['#text']|slice(0,450)|split(' ')|slice(0, -1)|join(' ') ~ '&hellip;')|raw }}
+            <div class="faq-answer-container">
+              {{ content.field_answer.0['#text'][:450]|striptags ~ ' ...' }}
+            </div>
             <div class="faq_btn-more"><a href="javascript:void(0);">{{ 'Read more'|t }}</a></div>
           </div>
           <div class="long-text">
-            {{ content.field_answer }}
+             <div class="faq-answer-container">
+              {{ content.field_answer }}
+              </div>
             <div class="faq_btn-less"><a href="javascript:void(0);">{{ 'Read less'|t }}</a></div>
           </div>
-        {% elseif content.field_answer.0['#text']|raw|length < 400  %}
-          {{ content.field_answer }}
+        {% elseif content.field_answer.0['#text']|raw|length < 450  %}
+          <div class="faq-answer-container">{{ content.field_answer }}</div>
         {% endif %}
         </div>
     </div>

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.external_videos.field_external_video
+    - field.field.paragraph.external_videos.field_show_transcription
     - field.field.paragraph.external_videos.field_video_time
     - field.field.paragraph.external_videos.field_vtt_entries
     - paragraphs.paragraphs_type.external_videos
@@ -15,23 +16,33 @@ bundle: external_videos
 mode: default
 content:
   field_external_video:
-    weight: 0
+    type: video_embed_field_video
     label: hidden
     settings:
+      autoplay: false
       responsive: true
       width: 854
       height: 480
-      autoplay: false
     third_party_settings: {  }
-    type: video_embed_field_video
+    weight: 0
+    region: content
+  field_show_transcription:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 2
     region: content
   field_video_time:
-    weight: 1
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 1
     region: content
 hidden:
   field_vtt_entries: true

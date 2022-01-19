@@ -52,15 +52,18 @@ class ImportLocationModalForm extends FormBase {
    *   Logger object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entityManager
+   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   EntityManager object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    */
-  public function __construct(LoggerChannelFactory $logger, Connection $connection, EntityTypeManagerInterface $entityManager, MessengerInterface $messenger) {
+  public function __construct(LoggerChannelFactory $logger,
+    Connection $connection,
+    EntityTypeManagerInterface $entity_manager,
+    MessengerInterface $messenger) {
     $this->logger = $logger;
     $this->connection = $connection;
-    $this->entityManager = $entityManager->getStorage('location');
+    $this->entityManager = $entity_manager;
     $this->messenger = $messenger;
   }
 
@@ -141,7 +144,7 @@ class ImportLocationModalForm extends FormBase {
         $country_name = explode('.', $file_obj_data->getFilename())[0];
         $imported = $this->handleFileData($file_path, $country_name);
         if ($imported) {
-          $this->messenger->addMessage(t('Location CSV imported successfully.'));
+          $this->messenger->addMessage($this->t('Location CSV imported successfully.'));
         }
         $response->addCommand(new CloseModalDialogCommand());
         $response->addCommand(new RedirectCommand(Url::fromRoute('erpw_location.manage_location')->toString()));
@@ -198,7 +201,12 @@ class ImportLocationModalForm extends FormBase {
     }
     fclose($handle);
     $header_count = count($headerData);
-    $langcode_count = $header_count / 4;
+    $levels = [];
+    foreach ($headerData as $header) {
+      $levels[] = explode("_", $header)[0] . explode("_", $header)[1];
+    }
+    $level_count = count(array_unique($levels));
+    $langcode_count = $header_count / $level_count;
     $csv_langcodes = [];
     for ($i = 0; $i < $langcode_count; $i++) {
       $csv_langcodes[$i] = explode("_", $headerData[$i])[2];
@@ -208,14 +216,14 @@ class ImportLocationModalForm extends FormBase {
     $active_languages_list = array_keys($active_languages);
     foreach ($csv_langcodes as $langcode) {
       if (!in_array($langcode, $active_languages_list)) {
-        $this->messenger->addError(t('%langcode is not a valid langcode available in the system.', [
+        $this->messenger->addError($this->t('%langcode is not a valid langcode available in the system.', [
           '%langcode' => $langcode,
         ]));
         return FALSE;
       }
     }
     if (count($csvData) == 0) {
-      $this->messenger->addError(t('Please import the CSV with valid hierarchy data.'));
+      $this->messenger->addError($this->t('Please import the CSV with valid hierarchy data.'));
       $response = new AjaxResponse();
       $content = $this->t('Please upload the Location CSV file to start the import process.');
       $response->addCommand(new InvokeCommand(
@@ -230,7 +238,7 @@ class ImportLocationModalForm extends FormBase {
       $j = $k;
       $l = $k;
       $langcode = $csv_langcodes[$k];
-      for ($i = 1; $i <= $langcode_count; $i++) {
+      for ($i = 1; $i <= $level_count; $i++) {
         $hierarchy_level['level_' . $i] = $csvData[0][$j];
         $j += $langcode_count;
       }
@@ -244,13 +252,13 @@ class ImportLocationModalForm extends FormBase {
       $query->condition('lc.name', $country_name);
       $result = $query->execute()->fetchAll();
       // If location exist update the hierarchy.
-      if ($result[0]->name == $country_name) {
+      if (!empty($result) && $result[0]->name == $country_name) {
         $entity_id = $result[0]->id;
         $location_entity = LocationEntity::load($entity_id);
         // If the given translation exists, update the translation.
         if ($location_entity->hasTranslation($langcode)) {
           $location_entity = $location_entity->getTranslation($langcode);
-          for ($i = 1; $i <= $langcode_count; $i++) {
+          for ($i = 1; $i <= $level_count; $i++) {
             $location_entity->set('level_' . $i, $csvData[0][$l]);
             $l += $langcode_count;
           }
@@ -309,35 +317,43 @@ class ImportLocationModalForm extends FormBase {
       for ($k = 0; $k < count($csv_langcodes); $k++) {
         $lang_code = $csv_langcodes[$k];
         // Check if term exists at level $i+1.
-        $term = taxonomy_term_load_multiple_by_name($location[$j + $k], 'country');
-        if (!empty($term)) {
-          $term = reset($term);
-          $tid = $term->id();
-          $term_depth = taxonomy_term_depth_get_by_tid($tid);
-          if ($term_depth - 1 == $i + 1) {
-            $term_exists = TRUE;
+        if (isset($location[$j + $k])) {
+          $term = taxonomy_term_load_multiple_by_name($location[$j + $k], 'country');
+          if (!empty($term)) {
+            $term = reset($term);
+            $tid = $term->id();
+            $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
+            $ancestors = array_reverse(array_keys($ancestors));
+            $term_depth = taxonomy_term_depth_get_by_tid($tid);
+            $current_level = ($j / count($csv_langcodes)) + 1;
+            // Check if term exists at the same depth.
+            if (($term_depth - 1 == $i + 1) && $term_depth - 1 == $current_level && $ancestors[0] == $country_term_id) {
+              $term_exists = TRUE;
+              $parent_term_id = $tid;
+            }
           }
-          $parent_term_id = $tid;
-        }
-        elseif ($term_exists || $k > 0) {
-          $term = Term::load($parent_term_id);
-          if (!$term->hasTranslation($lang_code)) {
-            $term->addTranslation($lang_code, [
+          if ($term_exists || $k > 0) {
+
+            $term = Term::load($parent_term_id);
+            if (!$term->hasTranslation($lang_code)) {
+              $term->addTranslation($lang_code, [
+                'name' => $location[$j + $k],
+              ])->save();
+            }
+            $parent_term_id = $term->id();
+          }
+          else {
+            // Create the location term.
+            $term = Term::create([
               'name' => $location[$j + $k],
-            ])->save();
+              'vid' => 'country',
+              'parent' => [
+                'target_id' => $parent_term_id,
+              ],
+            ]);
+            $term->save();
+            $parent_term_id = $term->id();
           }
-        }
-        else {
-          // Create the location term.
-          $term = Term::create([
-            'name' => $location[$j + $k],
-            'vid' => 'country',
-            'parent' => [
-              'target_id' => $parent_term_id,
-            ],
-          ]);
-          $term->save();
-          $parent_term_id = $term->id();
         }
       }
       $j = $j + $k;

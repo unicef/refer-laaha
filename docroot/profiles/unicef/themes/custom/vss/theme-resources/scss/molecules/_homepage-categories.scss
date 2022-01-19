@@ -40,6 +40,11 @@
       height: 29vw;
     }
   }
+
+  .lSSlideWrapper,
+  .lSSlideOuter {
+    overflow: visible !important;
+  }
 }
 
 .homepage-hero-section--categories {
@@ -120,6 +125,7 @@
     width: 100%;
   }
 }
+
 // commenting this coz this might need later
 // @todo: remove this if not required later
 // @media screen and (min-width: 1024px) {
@@ -452,6 +458,7 @@
   form {
     margin: 0 20%;
     padding: 30px;
+    padding-bottom: 0;
     text-align: center;
   }
 

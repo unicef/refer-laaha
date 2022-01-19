@@ -11,8 +11,10 @@
                     var seekToTime = $(this).data('seek');
                     var transcriptId = $(this).parent().attr("id").split("_")[1];
                     var player = $('#video_' + transcriptId).get(0);
-                    player.currentTime = seekToTime;
-                    player.play();
+                    if (player) {
+                        player.currentTime = seekToTime;
+                        player.play();
+                    }
                 });
                 videoTranscriptsCount = $('.show-transcript').length;
                 var players = [];
