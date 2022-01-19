@@ -1212,8 +1212,11 @@ header {
 .edit-delete-links .delete-link a {
   background: url("../images/delete-button.svg") center center no-repeat;
 }
-.edit-delete-links div.color_field__swatch label:hover span,
-.edit-delete-links div.color_field__swatch input[type=radio]:checked + label span {
+
+div.color_field__swatch label:hover span,
+div.color_field__swatch input[type=checkbox]:checked + label span,
+div.color_field__swatch input[type=radio]:checked + label span {
+  border: 0;
   -webkit-transform: inherit;
           transform: inherit;
 }
