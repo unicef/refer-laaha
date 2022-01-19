@@ -4,17 +4,16 @@ status: true
 dependencies:
   module:
     - editor
-    - media
 _core:
   default_config_hash: P8ddpAIKtawJDi5SzOwCzVnnNYqONewSTJ6Xn0dW_aQ
 name: 'Basic HTML'
 format: basic_html
-weight: 0
+weight: -9
 filters:
   filter_html:
     id: filter_html
     provider: filter
-    status: true
+    status: false
     weight: -10
     settings:
       allowed_html: '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <p> <br> <span> <table> <caption> <tbody> <thead> <tfoot> <th> <td> <tr> <tippy data-tippy-content class="tippy-tooltip-text"> <img data-tippy-content src alt data-entity-type data-entity-uuid data-align data-caption>'
@@ -32,24 +31,15 @@ filters:
     status: true
     weight: 8
     settings: {  }
-  filter_html_image_secure:
-    id: filter_html_image_secure
-    provider: filter
-    status: true
-    weight: 9
-    settings: {  }
   editor_file_reference:
     id: editor_file_reference
     provider: editor
     status: true
     weight: 11
     settings: {  }
-  media_embed:
-    id: media_embed
-    provider: media
-    status: false
-    weight: 100
-    settings:
-      default_view_mode: default
-      allowed_media_types: {  }
-      allowed_view_modes: {  }
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
+    provider: filter
+    status: true
+    weight: 10
+    settings: {  }
