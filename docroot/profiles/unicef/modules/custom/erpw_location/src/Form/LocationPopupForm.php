@@ -26,7 +26,7 @@ class LocationPopupForm extends FormBase {
     $form['modal_description_1'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="review-msg">',
-      '#markup' => $this->t('Delete successful'),
+      '#markup' => $this->t('Delete successfully'),
       '#suffix' => '</div>',
     ];
     $form['modal_description_2'] = [

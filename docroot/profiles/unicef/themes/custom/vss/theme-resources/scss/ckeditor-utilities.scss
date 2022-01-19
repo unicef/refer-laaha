@@ -43,4 +43,24 @@
       max-width: 100%;
     }
   }
+
+  .chat-bubble {
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    padding: 16px;
+    position: relative;
+
+    &::after {
+      border: 16px solid;
+      border-color: #fff transparent transparent;
+      bottom: -32px;
+      content: ' ';
+      height: 0;
+      left: 50%;
+      position: absolute;
+      right: auto;
+      width: 0;
+    }
+  }
 }

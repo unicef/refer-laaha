@@ -222,7 +222,7 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function formPageTwo(array &$form, FormStateInterface $form_state) {
-
+    $form['#prefix'] = '<div id="status-message"></div>';
     $form['progress_step1'] = [
       '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
     ];
@@ -236,8 +236,6 @@ class SignUpForm extends FormBase {
     $form['message-step'] = [
       '#markup' => '<div class="step">' . $this->t('Step 2: Location details') . '</div>',
     ];
-    $form['#prefix'] = '<div id="status-message"></div>';
-
     $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
     $location_options = [];
@@ -276,35 +274,47 @@ class SignUpForm extends FormBase {
       '#type' => 'markup',
       '#markup' => '<div id="intro-text">' . $this->t('Select the county first, to view the respective form') . '</div>',
     ];
+
     if (!empty($form_state->getValue('location_options'))) {
       unset($form['location']['intro_text']);
       $location_country_id = $form_state->getValue('location_options');
+      $location_entity = $this->entityTypeManager->getStorage('location')->load($location_country_id);
+      $location_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
       $location_levels = \Drupal::service('erpw_location.location_services')->getLocationLevels($location_country_id);
-      $childs = \Drupal::service('erpw_location.location_services')->getChildrenByTid($location_country_id);
+      $childs = \Drupal::service('erpw_location.location_services')->getChildrenByTid($location_tid);
       $i = 1;
       $form['location']['location_level'] = [
         '#prefix' => '<div id="location-levels">',
         '#suffix' => '</div>',
       ];
-      $form['location']['location_level']['location_level1'] = [
-        '#prefix' => '<div id="location-level-1">',
+      $form['location']['location_level1'] = [
+        '#prefix' => '<div id="location-level-1"></div>',
         '#suffix' => '</div>',
       ];
-      $form['location']['location_level']['location_level1']['location_level2'] = [
+      $form['location']['location_level2'] = [
         '#prefix' => '<div id="location-level-2">',
+        '#suffix' => '</div>',
+      ];
+      $form['location']['location_level3'] = [
+        '#prefix' => '<div id="location-level-3">',
+        '#suffix' => '</div>',
+      ];
+      $form['location']['location_level4'] = [
+        '#prefix' => '<div id="location-level-4">',
         '#suffix' => '</div>',
       ];
       foreach ($location_levels as $key => $level) {
         if ($key == 0) {
           $this->level_key = $key;
-          $form['location']['location_level']['level_' . ($key + 1)] = [
+          $form['location']['location_level']['level_1'] = [
             '#type' => 'select',
-            '#empty_option' => t("Select Level ' . $i . ' Label"),
+            '#empty_option' => $this->t("Select Level 1 Label"),
+            '#empty_value' => '',
             '#options' => $childs,
             '#title' => $level,
             '#weight' => 10,
             '#ajax' => [
-              'callback' => '::getNextLevelData',
+              'callback' => '::getLevelTwo',
               'event' => 'change',
               'wrapper' => 'location-levels',
               'progress' => [
@@ -318,14 +328,15 @@ class SignUpForm extends FormBase {
             if ($key == 1) {
               $parent_tid = $form_state->getValue('level_' . $key);
               $level_1_options = \Drupal::service('erpw_location.location_services')->getChildrenByTid($parent_tid);
-              $form['location']['location_level']['level_' . ($key + 1)] = [
+              $form['location']['location_level']['level_2'] = [
                 '#type' => 'select',
-                '#empty_option' => t("Select Level ' . $i . ' Label"),
+                '#empty_option' => $this->t("Select Level 2 Label"),
                 '#options' => $level_1_options,
+                '#empty_value' => '',
                 '#title' => $level,
                 '#weight' => 20,
                 '#ajax' => [
-                  'callback' => '::getLevelTwoData',
+                  'callback' => '::getLevelThree',
                   'event' => 'change',
                   'wrapper' => 'location-level-1',
                   'progress' => [
@@ -333,47 +344,54 @@ class SignUpForm extends FormBase {
                   ],
                 ],
               ];
+              $array_keys = array_keys($location_levels);
+              $last_key = end($array_keys);
+              if ($last_key == $key) {
+                $form['location']['location_level']['level_' . ($key + 1)]['#multiple'] = TRUE;
+              }
             }
             else {
               if (!empty($form_state->getValue('level_' . $key))) {
                 if ($key == 2) {
                   $parent_level2_tid = $form_state->getValue('level_' . $key);
                   $level_2_options = \Drupal::service('erpw_location.location_services')->getChildrenByTid($parent_level2_tid);
-                  $form['location']['location_level']['location_level1']['location_level2']['level_' . ($key + 1)] = [
+                  $form['location']['location_level']['level_3'] = [
                     '#type' => 'select',
-                    '#empty_option' => t("Select Level ' . $i . ' Label"),
+                    '#empty_option' => $this->t("Select Level 3 Label"),
+                    '#empty_value' => '',
                     '#options' => $level_2_options,
                     '#title' => $level,
                     '#weight' => 30,
-                    '#ajax' => [
-                      'callback' => '::getLevelThreeData',
+                  ];
+                  $array_keys = array_keys($location_levels);
+                  $last_key = end($array_keys);
+                  if ($last_key == $key) {
+                    $form['location']['location_level']['level_' . ($key + 1)]['#multiple'] = TRUE;
+                  }
+                  else {
+                    $form['location']['location_level']['level_' . ($key + 1)]['#ajax'] = [
+                      'callback' => '::getLevelFour',
                       'event' => 'change',
                       'wrapper' => 'location-level-2',
                       'progress' => [
                         'type' => 'throbber',
                       ],
-                    ],
-                  ];
+                    ];
+                  }
                 }
                 else {
                   if (!empty($form_state->getValue('level_' . $key))) {
                     if ($key == 3) {
                       $parent_level3_tid = $form_state->getValue('level_' . $key);
                       $level_3_options = \Drupal::service('erpw_location.location_services')->getChildrenByTid($parent_level3_tid);
-                      $form['location']['location_level']['location_level1']['location_level2']['level_' . ($key + 1)] = [
+                      $form['location']['location_level']['level_4'] = [
                         '#type' => 'select',
-                        '#empty_option' => t("Select Level ' . $i . ' Label"),
+                        '#multiple' => TRUE,
+                        '#empty_option' => $this->t("Select Level 4 Label"),
+                        '#empty_value' => '',
                         '#options' => $level_3_options,
                         '#title' => $level,
                         '#weight' => 40,
-                        '#ajax' => [
-                          'callback' => '::getLevelFourData',
-                          'event' => 'change',
-                          'wrapper' => 'location-level-3',
-                          'progress' => [
-                            'type' => 'throbber',
-                          ],
-                        ],
                       ];
                     }
                   }
@@ -385,6 +403,7 @@ class SignUpForm extends FormBase {
         $i++;
       }
     }
+
     $form['actions'] = [
       '#type' => 'actions',
     ];
@@ -410,29 +429,29 @@ class SignUpForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function getNextLevelData(array &$form, FormStateInterface $form_state) {
+  public function getLevelTwo(array &$form, FormStateInterface $form_state) {
     return $form['location']['location_level'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getLevelTwoData(array &$form, FormStateInterface $form_state) {
-    return $form['location']['location_level']['location_level1'];
+  public function getLevelThree(array &$form, FormStateInterface $form_state) {
+    return $form['location']['location_level']['level_3'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getLevelThreeData(array &$form, FormStateInterface $form_state) {
-    return $form['location']['location_level']['location_level1']['location_level2'];
+  public function getLevelFour(array &$form, FormStateInterface $form_state) {
+    return $form['location']['location_level']['level_4'];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getLevelFourData(array &$form, FormStateInterface $form_state) {
-    return $form['location']['location_level']['location_level1'];
+    return $form['location']['location_level']['location_level3'];
   }
 
   /**
@@ -456,9 +475,18 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitPageTwo(array &$form, FormStateInterface $form_state) {
+    if (!empty($form_state->getValue('level_4'))) {
+      $location_tid = $form_state->getValue('level_4');
+    }
+    elseif (!empty($form_state->getValue('level_3'))) {
+      $location_tid = $form_state->getValue('level_3');
+    }
+    elseif (!empty($form_state->getValue('level_2'))) {
+      $location_tid = $form_state->getValue('level_2');
+    }
     $form_state->set('page_two_values', [
       'personal_details' => $form_state->get('page_values'),
-      'location_values' => $form_state->getValue('level_1'),
+      'location_tid' => $location_tid,
     ])
       ->set('page', 3)
       ->setRebuild(TRUE);
@@ -569,7 +597,7 @@ class SignUpForm extends FormBase {
         'field_phone' => $values['phone'],
         'field_organisation' => $values['organisation'],
         'field_position' => $values['position'],
-        'field_location_details' => $location_values,
+        'field_location_details' => $location_values['location_tid'],
         'roles' => $values['system_role'],
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);

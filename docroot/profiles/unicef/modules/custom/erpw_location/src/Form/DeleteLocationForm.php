@@ -82,7 +82,13 @@ class DeleteLocationForm extends FormBase {
    * @param \Drupal\erpw_location\LocationService $location_service
    *   The location service.
    */
-  public function __construct(LoggerChannelFactory $logger, Connection $connection, EntityTypeManagerInterface $entityTypeManager, MessengerInterface $messenger, FormBuilderInterface $form_builder, CurrentPathStack $currentPathStack, LocationService $location_service) {
+  public function __construct(LoggerChannelFactory $logger,
+    Connection $connection,
+    EntityTypeManagerInterface $entityTypeManager,
+    MessengerInterface $messenger,
+    FormBuilderInterface $form_builder,
+    CurrentPathStack $currentPathStack,
+    LocationService $location_service) {
     $this->logger = $logger;
     $this->connection = $connection;
     $this->entityTypeManager = $entityTypeManager;
@@ -111,20 +117,30 @@ class DeleteLocationForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
-    $contry_name = NULL;
+    $country_name = NULL;
     $current_path = $this->currentPathStack->getPath();
     $curr_path = explode("/", $current_path);
     $ancestors = $this->entityTypeManager->getStorage('taxonomy_term')->loadAllParents($curr_path[2]);
     $ancestors = array_reverse(array_keys($ancestors));
     $country_term_name = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[0])->get('name')->value;
-    $country_label = t('Country name');
-    $contry_name .= '<div class="country-name">' . $country_label . " *: " . $country_term_name . '</div>';
-    $location_levels = $this->locationService->getLocationLevels($ancestors[0]);
+    $country_label = $this->t('Country name');
+    $country_name .= '<div class="detail-row"><div class="label-text">' . $country_label . " *: " . '</div>' . '<span>' . $country_term_name . '</span></div>';
+    // Get location entity id.
+    $query = $this->entityTypeManager->getStorage('location')->getQuery();
+    $query->condition('status', 1);
+    $query->condition('type', 'country');
+    $query->condition('field_location_taxonomy_term', $ancestors[0]);
+    $location_entities = $query->execute();
+    $location_id = NULL;
+    foreach ($location_entities as $location_entity_id) {
+      $location_id = $location_entity_id;
+    }
+    $location_levels = $this->locationService->getLocationLevels($location_id);
     $location_details = '';
     foreach ($location_levels as $key => $level) {
       $level_term = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
       $level_data_name = $level_term->get('name')->value;
-      $location_details .= '<div class="level">' . $level . " *: " . $level_data_name . '</div>';
+      $location_details .= '<div class="detail-row"><div class="label-text">' . $level . " *: " . '</div>' . '<span>' . $level_data_name . '</span></div>';
     }
     $form['tid'] = [
       '#type' => 'hidden',
@@ -132,13 +148,13 @@ class DeleteLocationForm extends FormBase {
     ];
     $form['location_values1'] = [
       '#type' => 'markup',
-      '#prefix' => '<div class="review-msg">',
-      '#markup' => $contry_name,
+      '#prefix' => '<div class="delete-screen">',
+      '#markup' => $country_name,
       '#suffix' => '</div>',
     ];
     $form['location_values'] = [
       '#type' => 'markup',
-      '#prefix' => '<div class="review-msg">',
+      '#prefix' => '<div class="delete-screen">',
       '#markup' => $location_details,
       '#suffix' => '</div>',
     ];
@@ -155,6 +171,10 @@ class DeleteLocationForm extends FormBase {
         'callback' => [$this, 'deleteLocation'],
         'event' => 'click',
       ],
+    ];
+    $form['msg_note'] = [
+      '#type' => 'markup',
+      '#markup' => '<div class="msg-note">' . $this->t('This action cannot be reversed ! Please note that deleting a location will remove any mapping it has with existing referral pathways and Service providers of application ') . '</div>',
     ];
 
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';

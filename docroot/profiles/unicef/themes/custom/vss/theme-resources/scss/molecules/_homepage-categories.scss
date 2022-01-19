@@ -40,6 +40,11 @@
       height: 29vw;
     }
   }
+
+  .lSSlideWrapper,
+  .lSSlideOuter {
+    overflow: visible !important;
+  }
 }
 
 .homepage-hero-section--categories {
@@ -120,6 +125,7 @@
     width: 100%;
   }
 }
+
 // commenting this coz this might need later
 // @todo: remove this if not required later
 // @media screen and (min-width: 1024px) {
