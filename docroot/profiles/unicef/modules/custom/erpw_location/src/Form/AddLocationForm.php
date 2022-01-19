@@ -263,26 +263,26 @@ class AddLocationForm extends FormBase {
         ];
       }
 
-    }
-    $form['ajax_wrapper']['save_draft'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Save as Draft'),
-      '#attributes' => [
-        'class' => [
-          'button-border',
+      $form['all_wrapper']['save_draft'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Save as Draft'),
+        '#attributes' => [
+          'class' => [
+            'button-border',
+          ],
         ],
-      ],
-      '#ajax' => [
-        'callback' => '::sendMessageForm',
-      ],
-    ];
-    $form['ajax_wrapper']['button'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Publish'),
-      '#ajax' => [
-        'callback' => '::sendMessageForm',
-      ],
-    ];
+        '#ajax' => [
+          'callback' => '::sendMessageForm',
+        ],
+      ];
+      $form['all_wrapper']['button'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Publish'),
+        '#ajax' => [
+          'callback' => '::sendMessageForm',
+        ],
+      ];
+    }
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     return $form;
