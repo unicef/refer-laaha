@@ -126,7 +126,8 @@
 		[id^='edit-submit'] {
 			order: 2;
 		}
-		[id^='edit-preview'] {
+		[id^='edit-preview'],
+		[id^='edit-cancel'] {
 			background: none;
 			border: 1px solid $base-secondary-bgcolor;
 			@include border-radius(4px);
