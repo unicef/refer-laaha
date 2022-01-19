@@ -98,11 +98,13 @@ class LocationService {
   /**
    * Taxonomy exist check.
    */
-  public function taxonomyTermExist($tid) {
-    $term = $this->entityManager
-      ->getStorage('taxonomy_term')
-      ->load($tid);
-    return $term->id();
+  public function taxonomyTermExist($name) {
+    $entities = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['name' => $name]);
+    if ($entities) {
+      $first_match = reset($entities);
+      return $first_match->id();
+    }
+    return '';
   }
 
   /**
@@ -114,15 +116,37 @@ class LocationService {
       return $level_term_id;
     }
     if ($this->clean($string) != 0) {
-
       $term_string_level = $this->clean($string);
-      $level_term_id = $this->taxonomyTermExist($term_string_level);
+      $tid_array = explode("(", $string);
+      $level_term_id = $this->taxonomyTermExist(trim($tid_array[0]));
+    }
+    elseif ($this->clean($string) == 0) {
+      $level_term_id = $this->taxonomyTermExist($string);
+      if ($level_term_id) {
+        return $level_term_id;
+      }
+      else {
+        $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
+      }
     }
     else {
 
       $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
     }
     return $level_term_id;
+  }
+
+  /**
+   * Get location entities.
+   */
+  public function getLocationEntities() {
+    $location_entities = $this->entityManager->getStorage('location')->loadByProperties(
+      ['type' => 'country', 'status' => 1]);
+    $location_options = [];
+    foreach ($location_entities as $location) {
+      $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
+    }
+    return $location_options;
   }
 
 }
