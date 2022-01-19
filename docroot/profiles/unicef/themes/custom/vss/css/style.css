@@ -2183,17 +2183,25 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
         width: calc(49.7% - 24px); } }
     .ui-dialog .view-content .views-row img {
       width: 100%; }
-  .ui-dialog .view-content .views-field-field-thumbnail-image {
+  .ui-dialog .view-content .popular-search-thumbnail {
+    position: relative;
     margin-bottom: 10px; }
     @media screen and (min-width: 768px) {
-      .ui-dialog .view-content .views-field-field-thumbnail-image {
+      .ui-dialog .view-content .popular-search-thumbnail {
         margin-bottom: 16px; } }
-    .ui-dialog .view-content .views-field-field-thumbnail-image img {
+    .ui-dialog .view-content .popular-search-thumbnail img {
       border-radius: 20px; }
-  .ui-dialog .view-content .views-field-title a {
+    .ui-dialog .view-content .popular-search-thumbnail span.video-time {
+      background: #000;
+      color: #ffffff;
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      padding: 0 5px; }
+  .ui-dialog .view-content .popped-category-title a {
     font-size: 1.14em;
     text-decoration: none; }
-    .ui-dialog .view-content .views-field-title a:hover {
+    .ui-dialog .view-content .popped-category-title a:hover {
       color: #030303; }
   .ui-dialog .category-popup-section {
     background: url("../images/search-popup-bg.png") top -100px center no-repeat rgba(255, 205, 210, 0.2);

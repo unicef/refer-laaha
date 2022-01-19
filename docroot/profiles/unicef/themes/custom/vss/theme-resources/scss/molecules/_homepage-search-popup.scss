@@ -65,6 +65,7 @@
 		@media screen and (min-width: 1366px) {
 			margin: 0 -12px;
 		}
+	
 		.views-row {
 			display: inline-block;
 			margin: 0 12px 20px;
@@ -88,7 +89,8 @@
 				width: 100%;
 			}
 		}
-		.views-field-field-thumbnail-image {
+		.popular-search-thumbnail {
+			position: relative;
 			margin-bottom: 10px;
 			@media screen and (min-width: 768px) {
 				margin-bottom: 16px;
@@ -96,8 +98,16 @@
 			img {
 				border-radius: 20px;
 			}
+			span.video-time {
+				background: $base-black-color;
+				color:$base-white-color;
+				position: absolute;
+				right: 10px;
+				bottom: 10px;
+				padding: 0 5px;
+			}
 		}
-		.views-field-title a {
+		.popped-category-title a {
 			font-size: $base-font-size;
 			text-decoration: none;
 			&:hover {
