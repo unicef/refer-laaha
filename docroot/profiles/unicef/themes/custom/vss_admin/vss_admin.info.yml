@@ -4,6 +4,10 @@ core: 8.x
 core_version_requirement: ^8 || ^9
 name: 'VSS Admin Theme'
 description: 'Adminimal based sub-theme.'
+
+libraries:
+  - vss_admin/global-styling
+
 regions:
   header: 'Header'
   pre_content: 'Pre-content'
