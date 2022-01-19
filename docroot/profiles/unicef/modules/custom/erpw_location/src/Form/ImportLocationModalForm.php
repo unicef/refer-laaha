@@ -301,7 +301,7 @@ class ImportLocationModalForm extends FormBase {
 
     // Import locations from CSV.
     for ($i = 1; $i < count($csvData); $i++) {
-      $this->importLocationData($csvData[$i], $csv_langcodes, $country_term_id);
+      $this->importLocationData($csvData[$i], $csv_langcodes, $country_term_id, $level_count);
     }
     return TRUE;
   }
@@ -309,7 +309,7 @@ class ImportLocationModalForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  protected function importLocationData($location, $csv_langcodes, $country_term_id) {
+  protected function importLocationData($location, $csv_langcodes, $country_term_id, $level_count) {
     $j = 0;
     $parent_term_id = $country_term_id;
     for ($i = 0; $i < count($csv_langcodes); $i++) {
@@ -353,6 +353,26 @@ class ImportLocationModalForm extends FormBase {
             ]);
             $term->save();
             $parent_term_id = $term->id();
+            if ($i == ($level_count - 1)) {
+              $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($term->id());
+              $ancestors = array_reverse(array_keys($ancestors));
+              $query = $this->connection->insert('erpw_location');
+              $query->fields([
+                'country_tid',
+                'level1',
+                'level2',
+                'level3',
+                'level4',
+              ]);
+              $query->values([
+                $country_term_id,
+                isset($ancestors[1]) ? $ancestors[1] : '',
+                isset($ancestors[2]) ? $ancestors[2] : '',
+                isset($ancestors[3]) ? $ancestors[3] : '',
+                isset($ancestors[4]) ? $ancestors[4] : '',
+              ]);
+              $query->execute();
+            }
           }
         }
       }
