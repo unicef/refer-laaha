@@ -34,6 +34,7 @@ function erpw_preprocess_block(&$variables) {
         $variables['content']['#title'] = t("Service Type Details");
       }
     }
+    $variables['#cache']['max-age'] = 0;
   }
 }
 
@@ -73,15 +74,13 @@ function erpw_preprocess_node(&$variables) {
         $nid = $node->id();
       }
       $query_path = \Drupal::request()->query->get('action');
-      $variables['nid'] = $nid;
-      $variables['query'] = $query_path;
+      $variables['nid'] = !empty($nid) ? $nid : '';
+      $variables['query'] = !empty($query_path) ? $query_path : '';
 
       $url = Url::fromRoute('view.manage_service_types.page_1');
       $variables['#attached']['library'][] = 'erpw_custom/erpw_js';
       $variables['#attached']['drupalSettings']['erpw_custom']['manage_service_type_page'] = $url->toString();
-
-      $url = Url::fromRoute('erpw_location.manage_location');
-      $variables['#attached']['library'][] = 'erpw_location/erpw_location_js';
-      $variables['#attached']['drupalSettings']['erpw_location']['manage_location_page'] = $url->toString();
+    break;
   }
+  $variables['#cache']['max-age'] = 0;
 }
