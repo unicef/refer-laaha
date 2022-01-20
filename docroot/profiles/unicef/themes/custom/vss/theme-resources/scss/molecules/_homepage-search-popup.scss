@@ -147,7 +147,10 @@
 	//categories
 	.category-popup-section {
 		background: url('../images/search-popup-bg.png') top -100px center no-repeat rgba(255, 205, 210, 0.2);
-		padding: 20px 0;
+		padding: 20px 0 100px;
+        @media screen and (min-width: 768px) {
+            padding: 20px 0;
+        }
 		.subcat-name {
 			display: block;
 			font-size: $base-font-size;
