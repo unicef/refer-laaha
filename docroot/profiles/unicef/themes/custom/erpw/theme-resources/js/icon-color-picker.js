@@ -24,7 +24,7 @@
 
           //Delete screen dialogtitle custom
           var popup_msg = Drupal.t('<div class="review-msg">Deleted successfully</div><div class="popup-content">The details has been successfully Deleted.</div>')
-          $( ".delete-screen" ).parents('body').find('.ui-dialog .ui-dialog-title').html(popup_msg);
+          $( ".page-node-type-service-type .delete-screen" ).parents('body').find('.ui-dialog .ui-dialog-title').html(popup_msg);
         });
       }
     };

@@ -187,7 +187,7 @@ form .node-service-type-edit-form input[type=submit].button--primary,
 }
 
 .margin-space {
-  margin-bottom: 20px;
+  margin-bottom: 20px !important;
 }
 
 .button-red {
@@ -509,10 +509,14 @@ header {
   word-break: break-word;
   width: 100%;
 }
-.delete-screen label {
+.delete-screen label,
+.delete-screen .label-text {
+  color: #A85766;
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
+  font-size: 0.9em;
+  font-weight: 500;
   margin-right: 15px;
   max-width: 130px;
   width: 100%;
@@ -525,8 +529,8 @@ header {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  height: 37px;
-  width: 36px;
+  height: 27px;
+  width: 26px;
 }
 
 .manage-list {
@@ -1066,8 +1070,11 @@ header {
           order: 2;
 }
 .node-service-type-form .form-actions [id^=edit-preview],
+.node-service-type-form .form-actions [id^=edit-cancel],
 .node-service-type-quick-node-clone-form .form-actions [id^=edit-preview],
-.node-service-type-edit-form .form-actions [id^=edit-preview] {
+.node-service-type-quick-node-clone-form .form-actions [id^=edit-cancel],
+.node-service-type-edit-form .form-actions [id^=edit-preview],
+.node-service-type-edit-form .form-actions [id^=edit-cancel] {
   background: none;
   border: 1px solid #A85766;
   border-radius: 4px;
@@ -1109,7 +1116,12 @@ header {
   font-size: 0;
 }
 
-.new-service-type::before {
+.new-service-type,
+.plus-icon {
+  padding-left: 0;
+}
+.new-service-type::before,
+.plus-icon::before {
   background: url("../images/plus.svg") center center no-repeat #A85766;
 }
 
@@ -1200,8 +1212,11 @@ header {
 .edit-delete-links .delete-link a {
   background: url("../images/delete-button.svg") center center no-repeat;
 }
-.edit-delete-links div.color_field__swatch label:hover span,
-.edit-delete-links div.color_field__swatch input[type=radio]:checked + label span {
+
+div.color_field__swatch label:hover span,
+div.color_field__swatch input[type=checkbox]:checked + label span,
+div.color_field__swatch input[type=radio]:checked + label span {
+  border: 0;
   -webkit-transform: inherit;
           transform: inherit;
 }

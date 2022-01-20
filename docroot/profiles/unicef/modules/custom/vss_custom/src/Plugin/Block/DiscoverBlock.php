@@ -69,7 +69,10 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
           $node = $this->entityTypeManager->getStorage('node')->load($target_id['target_id']);
           $node_url = Url::fromRoute('entity.node.canonical', ['node' => $target_id['target_id']]);
           $node_url = $node_url->toString();
-          $node_type = $node->get('type')->getValue()['0']['target_id'];
+          $node_type = NULL;
+          if (!$node->get('type')->isEmpty()) {
+            $node_type = $node->get('type')->getValue()['0']['target_id'];
+          }
 
           $node_read_time = NULL;
           if (!$node->get('field_read_time')->isEmpty()) {
