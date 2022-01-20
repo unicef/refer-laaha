@@ -80,7 +80,7 @@ function erpw_preprocess_node(&$variables) {
       $url = Url::fromRoute('view.manage_service_types.page_1');
       $variables['#attached']['library'][] = 'erpw_custom/erpw_js';
       $variables['#attached']['drupalSettings']['erpw_custom']['manage_service_type_page'] = $url->toString();
-    break;
+      break;
   }
   $variables['#cache']['max-age'] = 0;
 }
