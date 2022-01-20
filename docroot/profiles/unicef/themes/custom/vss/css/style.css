@@ -2190,6 +2190,8 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
     @media screen and (min-width: 768px) {
       .ui-dialog .view-content .popular-search-thumbnail {
         margin-bottom: 16px; } }
+    .ui-dialog .view-content .popular-search-thumbnail .thumbnail-icon {
+      z-index: 9; }
     .ui-dialog .view-content .popular-search-thumbnail .popular-picture {
       display: block;
       height: auto;
@@ -2488,7 +2490,7 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
       .faq-item .faq-answer-wrapper p,
       .faq-item .faq-answer-container p,
       .faq-item .faq-answer-container p {
-        font-size: 1.42em;
+        font-size: 1.28em;
         line-height: 28px; } }
   .faq-item .faq-answer-wrapper .button-defult,
   .faq-item .faq-answer-container .button-defult,
