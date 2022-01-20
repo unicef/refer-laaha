@@ -95,6 +95,33 @@
 			@media screen and (min-width: 768px) {
 				margin-bottom: 16px;
 			}
+			.thumbnail-icon {
+				z-index: 9;
+			}
+			.popular-picture {
+				display: block;
+				height: auto;
+				max-width: 100%;
+				position: relative;
+				&::before {
+					content: "";
+					display: block;
+					width: 100%;
+					padding-top: 63.1%;
+				}
+				img {
+					transition: all 250ms ease;
+					position: absolute;
+					top: 0;
+					left: 0;
+					transform: scale(1);
+					height: 100%;
+					width: 100%;
+					-o-object-fit: cover;
+					object-fit: cover;
+				}
+			}
+		
 			img {
 				border-radius: 20px;
 			}
