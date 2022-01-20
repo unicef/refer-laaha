@@ -77,10 +77,12 @@ function erpw_preprocess_node(&$variables) {
       $variables['nid'] = !empty($nid) ? $nid : '';
       $variables['query'] = !empty($query_path) ? $query_path : '';
 
+      $variables['#cache']['contexts'][] = 'url.query_args';
+
       $url = Url::fromRoute('view.manage_service_types.page_1');
       $variables['#attached']['library'][] = 'erpw_custom/erpw_js';
       $variables['#attached']['drupalSettings']['erpw_custom']['manage_service_type_page'] = $url->toString();
       break;
   }
-  $variables['#cache']['max-age'] = 0;
+  
 }
