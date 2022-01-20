@@ -1,0 +1,19 @@
+uuid: 8045259a-788f-4dba-997e-278079437e1d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_facebook
+    - node.type.service_provider
+id: node.service_provider.field_facebook
+field_name: field_facebook
+entity_type: node
+bundle: service_provider
+label: Facebook
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

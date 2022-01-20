@@ -1,0 +1,19 @@
+uuid: 92500202-915f-4914-b9ad-930c86d4517c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_service_provider_name
+    - node.type.service_provider
+id: node.service_provider.field_service_provider_name
+field_name: field_service_provider_name
+entity_type: node
+bundle: service_provider
+label: 'Service Provider Name'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
