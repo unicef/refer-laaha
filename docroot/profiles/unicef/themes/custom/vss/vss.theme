@@ -146,7 +146,7 @@ function vss_preprocess_paragraph(&$variables) {
               $media = $media->getTranslation($langcode);
             }
             if (!$media->field_media_image->isEmpty()) {
-              if (!$media->field_caption->isEmpty() && $media->field_media_image->value != NULL ) {
+              if (!$media->field_caption->isEmpty() && $media->field_media_image->value != NULL) {
                 $variables['gallery'][$targetId->target_id]['caption'] = $media->field_caption->value;
               }
               $target_id = $media->field_media_image->target_id;
