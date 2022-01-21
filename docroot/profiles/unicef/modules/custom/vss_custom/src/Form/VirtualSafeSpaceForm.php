@@ -33,14 +33,6 @@ class VirtualSafeSpaceForm extends FormBase {
       }
     }
 
-    $config = \Drupal::configFactory()->get('language.negotiation');
-    $languages = \Drupal::languageManager()->getLanguages();
-    $prefixes = $config->get('url.prefixes');
-    $domains = $config->get('url.domains');
-    // Foreach ($languages as $langcode => $language) {
-    //     $prefix = $prefixes[$langcode];
-    //     $domain = $domains[$langcode];
-    // }.
     $prefixes = \Drupal::config('language.negotiation')->get('url.prefixes');
     $languages = \Drupal::languageManager()->getLanguages();
     foreach ($languages as $langcode => $language) {

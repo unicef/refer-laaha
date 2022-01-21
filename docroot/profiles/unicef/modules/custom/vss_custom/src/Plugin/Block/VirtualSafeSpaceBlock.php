@@ -5,7 +5,6 @@ namespace Drupal\vss_custom\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Form\FormInterface;
 use Drupal\Core\Cache\Cache;
 
 /**
@@ -68,7 +67,6 @@ class VirtualSafeSpaceBlock extends BlockBase implements ContainerFactoryPluginI
 
     $data['location_selection_form'] = \Drupal::formBuilder()->getForm('\Drupal\vss_custom\Form\VirtualSafeSpaceForm');
 
-    
     $string = str_replace('&nbsp;', '', $html);
     $build['#theme'] = 'virtual_safe_space_block';
     $build['#content'] = $data;
