@@ -1495,12 +1495,10 @@ html[dir="rtl"] .get-help-container .get-help-details-wrapper {
   text-align: right; }
 
 html[dir="rtl"] .get-help-container .get-help--title,
-html[dir="rtl"] .get-help-container .get-help--title-mobile,
-html[dir="rtl"] .get-help-container .subcat-name.right-arrow {
+html[dir="rtl"] .get-help-container .get-help--title-mobile {
   text-align: right; }
   html[dir="rtl"] .get-help-container .get-help--title::after,
-  html[dir="rtl"] .get-help-container .get-help--title-mobile::after,
-  html[dir="rtl"] .get-help-container .subcat-name.right-arrow::after {
+  html[dir="rtl"] .get-help-container .get-help--title-mobile::after {
     margin-left: 0;
     margin-right: 15px;
     -webkit-transform: rotate(180deg);
@@ -1563,11 +1561,21 @@ html[dir="rtl"] .paragraph--type--wysiwyg-editor .about-us__top h3,
 html[dir="rtl"] .paragraph--type--wysiwyg-editor .about-us__top p {
   text-align: right; }
 
+html[dir="rtl"] .subcat-name.right-arrow {
+  text-align: right; }
+  html[dir="rtl"] .subcat-name.right-arrow::after {
+    margin-left: 0;
+    margin-right: 15px;
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg); }
+
 html[dir="rtl"] .ques,
 html[dir="rtl"] .ans {
-  margin-left: 10px; }
+  margin-left: 10px;
+  margin-right: 0; }
 
 html[dir="rtl"] .faq-item .faq-answer-wrapper .button-defult::after {
+  margin-left: 0;
   margin-right: 14px; }
 
 @media screen and (max-width: 767px) {
