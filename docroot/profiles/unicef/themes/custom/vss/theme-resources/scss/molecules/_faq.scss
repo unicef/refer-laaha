@@ -2,57 +2,82 @@
 	box-shadow: 0px 0.8px 1.5px rgba(0, 0, 0, 0.2), 0px 6px 12px rgba(0, 0, 0, 0.1);
 	border-radius: 20px;
 	margin-bottom: 24px;
-	padding: 45px 40px;
+	padding: 24px 16px;
+	@media screen and (min-width: 768px) {
+		padding: 45px 40px;
+	}
 	.faq-question {
 		color: rgba(0, 0, 0, 0.87);
+		display: flex;
 		font-weight: $base-footer-font-weight-medium;
-		font-size: $header-logo-font;
-		line-height: 28px;
-		margin-bottom: 33px;
+		font-size: $base-font-size;
+		line-height: 24px;
+		margin-bottom: 20px;
+		@media screen and (min-width: 768px) {
+			font-size: $header-logo-font;
+			line-height: 28px;
+			margin-bottom: 33px;
+		}
 	}
 	.faq-answer-wrapper,
 	.faq-answer-container,
-	.faq-answer-container p {
+	.faq-answer-container {
+		p {
 		color: rgba(0, 0, 0, 0.87);
-		font-size: 18px;
-		line-height: 28px;
+		font-size: $base-footer-font-size;
+		line-height: 20px;
 		letter-spacing: 0.01em;
+			@media screen and (min-width: 768px) {
+				font-size: $base-font-big-size;
+				line-height: 28px;
+			}
+		}
+		.button-defult {
+			font-weight: $base-footer-font-weight-medium;
+			text-transform: uppercase;
+			text-decoration: none;
+			&:hover {
+				color: $base-black-color;
+			}
+			&::after {
+				background: url('../images/button-arrow.svg') no-repeat center 2px;
+				content: '';
+				display: inline-block;
+				height: 20px;
+				margin-left: 14px;
+				transform: rotate(90deg);
+				vertical-align: text-top;
+				width: 10px;
+			}
+		}
 	}
 	.faq-answer-container {
-		margin-bottom: 24px;
-	}
-	.faq_btn-more a {
-		&::after {
-			background: url('../images/button-arrow.svg') no-repeat center 2px;
-			content: '';
-			display: inline-block;
-			height: 20px;
-			margin-left: 14px;
-			transform: rotate(90deg);
-			vertical-align: middle;
-			width: 10px;
+		margin-bottom: 34px;
+		display: flex;
+		p {
+			margin: 0;
 		}
 	}
-	.faq_btn-less a {
-		&::after {
-			background: url('../images/button-arrow.svg') no-repeat center 2px;
-			content: '';
-			display: inline-block;
-			height: 20px;
-			margin-left: 14px;
-			transform: rotate(-90deg);
-			vertical-align: middle;
-			width: 10px;
+
+	.faq_btn-more {
+		text-align: center;
+	}
+	.faq_btn-less {
+		text-align: center;
+		a {
+			&::after {
+				transform: rotate(-90deg);
+			}
 		}
 	}
-	.hide-long-text {
-		.long-text {
-			display: none;
-		}
+	.ques,
+	.ans {
+		display: inline-block;
+		font-size: 18px;
+		line-height: 28px;
+		margin-right: 10px;
 	}
-	.hide-short-text {
-		.short-text {
-			display: none;
-		}
+	.long-text {
+		display: none;
 	}
 }
