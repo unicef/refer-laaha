@@ -6,11 +6,11 @@
     $('.long-text').hide();
     $('.faq_btn-more').click(function(){
       $(this).parent('.short-text').hide();
-      $(this).parent().next('.long-text').slideDown();
+      $(this).parent().next('.long-text').show();
     });
     $('.faq_btn-less').click(function(){
       $(this).parent().prev('.short-text').show();
-      $(this).parent('.long-text').slideUp();
+      $(this).parent('.long-text').hide();
     });
   });
 })(jQuery, Drupal, drupalSettings);
