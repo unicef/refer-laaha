@@ -303,8 +303,7 @@ html[dir="rtl"] {
     }
 
     .get-help--title,
-    .get-help--title-mobile,
-    .subcat-name.right-arrow {
+    .get-help--title-mobile {
       text-align: right;
 
       &::after {
@@ -409,7 +408,17 @@ html[dir="rtl"] {
     }
   }
 
-  //faq page
+  //faq page and popular search
+  .subcat-name.right-arrow {
+    text-align: right;
+
+    &::after {
+      margin-left: 0;
+      margin-right: 15px;
+      transform: rotate(180deg);
+    }
+  }
+  
   .ques,
   .ans {
     margin-left: 10px;
