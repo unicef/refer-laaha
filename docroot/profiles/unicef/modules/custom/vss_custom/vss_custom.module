@@ -840,3 +840,21 @@ function vss_custom_form_views_exposed_form_alter(&$form, FormStateInterface $fo
     ];
   }
 }
+
+/**
+ * View preprocess.
+ */
+function vss_custom_preprocess_views_view(&$variables) {
+  // dump($variables['view']->element['#name']);.
+  if ($variables['id'] == 'need_help_view') {
+    $domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+
+    if (strpos($domain, "iq") !== FALSE) {
+      $country = 'IRAQ';
+    }
+    else {
+      $country = 'ECUADOR';
+    }
+    $variables['header']['area_text_custom']['#markup'] = $variables['header']['area_text_custom']['#markup'] . ' ' .'<b>'.$country.'</b>';
+  }
+}
