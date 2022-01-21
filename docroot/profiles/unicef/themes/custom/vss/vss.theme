@@ -145,8 +145,10 @@ function vss_preprocess_paragraph(&$variables) {
             if ($media->hasTranslation($langcode)) {
               $media = $media->getTranslation($langcode);
             }
-            if (!$media->field_caption->isEmpty()) {
-              $variables['gallery'][$targetId->target_id]['caption'] = $media->field_caption->value;
+            if (!$media->field_media_image->isEmpty()) {
+              if (!$media->field_caption->isEmpty() && $media->field_media_image->value != NULL ) {
+                $variables['gallery'][$targetId->target_id]['caption'] = $media->field_caption->value;
+              }
               $target_id = $media->field_media_image->target_id;
               $file = \Drupal::entityTypeManager()->getStorage('file')->load($target_id);
               if ($file) {
