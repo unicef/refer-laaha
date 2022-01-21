@@ -483,14 +483,14 @@ function vss_custom_preprocess_paragraph(&$variables) {
         $vtt_entry = Paragraph::load($vtt_p['target_id']);
         $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
         $vtt = $vtt_entry->hasTranslation($current_language) ? $vtt_entry->getTranslation($current_language) : $vtt_entry;
-        
-        if($vtt->get('field_vtt_file')->getValue() != NULL){
+
+        if ($vtt->get('field_vtt_file')->getValue() != NULL) {
           $vtt_file = $vtt->get('field_vtt_file')->entity->getFileUri();
         }
-        if($vtt->get('field_language')->getValue() !=  NULL){
+        if ($vtt->get('field_language')->getValue() != NULL) {
           $langcode = $vtt->get('field_language')->getValue()[0]['target_id'];
         }
-        if($vtt->get('field_language')->getValue() !=  NULL && $vtt->get('field_vtt_file')->getValue() != NULL){
+        if ($vtt->get('field_language')->getValue() != NULL && $vtt->get('field_vtt_file')->getValue() != NULL) {
           if ($current_language == $langcode && $show_transcript) {
             $transcript = vss_custom_parse_vtt($vtt_file);
             $variables['transcript'][$vtt_p['target_id']] = $transcript;
