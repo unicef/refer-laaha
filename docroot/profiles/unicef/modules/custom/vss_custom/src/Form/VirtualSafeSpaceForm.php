@@ -7,12 +7,30 @@ use Drupal\Core\Url;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Form\FormStateInterface;
 
-/**
- *
+ /**
+ * Constructs a new VirtualSafeSpaceForm object.
  */
 class VirtualSafeSpaceForm extends FormBase {
 
   /**
+   * Drupal\Core\Language\LanguageManagerInterface.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $instance = new static($configuration, $plugin_id, $plugin_definition);
+    $instance->languageManager = $container->get('language_manager');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    return $instance;
+  }
+
+  /**
+   * Form ID function
    * {@inheritdoc}
    */
   public function getFormId() {
@@ -20,6 +38,7 @@ class VirtualSafeSpaceForm extends FormBase {
   }
 
   /**
+   * Constructs a new VirtualSpace form.
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
