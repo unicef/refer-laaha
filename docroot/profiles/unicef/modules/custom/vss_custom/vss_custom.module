@@ -19,6 +19,8 @@ use Drupal\file\Entity\File;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\node\Entity\Node;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * Implements hook_theme().
@@ -582,6 +584,13 @@ function vss_custom_preprocess_block(&$variables) {
   if ($variables['elements']['#base_plugin_id'] == 'system_breadcrumb_block') {
     $variables['elements']['#cache']['max-age'] = 0;
     $variables['#cache']['max-age'] = 0;
+  }
+  if ($variables['elements']['#base_plugin_id'] == 'disclaimer_pop_up_block') {
+    $cookie_get = \Drupal::request()->cookies->get('disclaimer');
+    if ($cookie_get == 1) {
+      unset($variables['label']);
+      unset($variables['content']);
+    }
   }
 }
 

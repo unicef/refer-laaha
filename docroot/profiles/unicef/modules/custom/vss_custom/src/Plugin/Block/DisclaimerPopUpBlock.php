@@ -46,6 +46,7 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->languageManager = $container->get('language_manager');
     $instance->vssCommonService = $container->get('vss_common_config.default');
+    $instance->pageCacheKillSwitch = $container->get('page_cache_kill_switch');
     return $instance;
   }
 
@@ -65,6 +66,7 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
       $html .= strip_tags($data['disclaimer_description']);
     }
     $string = str_replace('&nbsp;', '', $html);
+    $this->pageCacheKillSwitch->trigger();
     $build['#theme'] = 'disclaimer_pop_up_block';
     $build['#content'] = $data;
     if ($lang_id == 'ar') {
