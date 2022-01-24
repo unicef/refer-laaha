@@ -251,8 +251,10 @@
 	.delete-link a {
 		background: url('../images/delete-button.svg') center center no-repeat;
 	}
-	div.color_field__swatch label:hover span,
-	div.color_field__swatch input[type=radio]:checked + label span {
-			transform: inherit;
-	}
+}
+div.color_field__swatch label:hover span,
+div.color_field__swatch input[type=checkbox]:checked + label span, 
+div.color_field__swatch input[type=radio]:checked + label span {
+    border: 0;
+    transform: inherit;
 }

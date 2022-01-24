@@ -65,6 +65,7 @@
 		@media screen and (min-width: 1366px) {
 			margin: 0 -12px;
 		}
+	
 		.views-row {
 			display: inline-block;
 			margin: 0 12px 20px;
@@ -88,16 +89,53 @@
 				width: 100%;
 			}
 		}
-		.views-field-field-thumbnail-image {
+		.popular-search-thumbnail {
+			position: relative;
 			margin-bottom: 10px;
 			@media screen and (min-width: 768px) {
 				margin-bottom: 16px;
 			}
+			.thumbnail-icon {
+				z-index: 9;
+			}
+			.popular-picture {
+				display: block;
+				height: auto;
+				max-width: 100%;
+				position: relative;
+				&::before {
+					content: "";
+					display: block;
+					width: 100%;
+					padding-top: 63.1%;
+				}
+				img {
+					transition: all 250ms ease;
+					position: absolute;
+					top: 0;
+					left: 0;
+					transform: scale(1);
+					height: 100%;
+					width: 100%;
+					-o-object-fit: cover;
+					object-fit: cover;
+				}
+			}
+		
 			img {
 				border-radius: 20px;
 			}
+			span.video-time,
+			span.podcast-time {
+				background: $base-black-color;
+				color:$base-white-color;
+				position: absolute;
+				right: 10px;
+				bottom: 10px;
+				padding: 0 5px;
+			}
 		}
-		.views-field-title a {
+		.popped-category-title a {
 			font-size: $base-font-size;
 			text-decoration: none;
 			&:hover {
@@ -109,7 +147,10 @@
 	//categories
 	.category-popup-section {
 		background: url('../images/search-popup-bg.png') top -100px center no-repeat rgba(255, 205, 210, 0.2);
-		padding: 20px 0;
+		padding: 20px 0 100px;
+        @media screen and (min-width: 768px) {
+            padding: 20px 0;
+        }
 		.subcat-name {
 			display: block;
 			font-size: $base-font-size;

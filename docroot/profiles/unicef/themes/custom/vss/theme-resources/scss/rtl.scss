@@ -407,6 +407,27 @@ html[dir="rtl"] {
       }
     }
   }
+
+  //faq page and popular search
+  .subcat-name.right-arrow {
+    text-align: right;
+
+    &::after {
+      margin-left: 0;
+      margin-right: 15px;
+      transform: rotate(180deg);
+    }
+  }
+  
+  .ques,
+  .ans {
+    margin-left: 10px;
+    margin-right: 0
+  }
+  .faq-item .faq-answer-wrapper .button-defult::after {
+    margin-left: 0;
+    margin-right: 14px;
+  }
 }
 
 
