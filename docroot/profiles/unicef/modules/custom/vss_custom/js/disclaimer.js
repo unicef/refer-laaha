@@ -28,6 +28,13 @@
         // add UI event handlers
         play.addEventListener("click", () => {
           var utterance = new SpeechSynthesisUtterance(drupalSettings.disclaimer_narrate);
+          if (drupalSettings.voiceId) {
+            var voices = speechSynthesis.getVoices();
+            utterance.voice = voices[drupalSettings.voiceId];
+          }
+          else {
+            utterance.lang = drupalSettings.langId;
+          }
           utterance.lang = drupalSettings.disclaimer_landId;
           play.hidden = true;
           resume.hidden = true;
