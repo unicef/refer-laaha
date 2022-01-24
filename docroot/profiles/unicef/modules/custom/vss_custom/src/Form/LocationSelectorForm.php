@@ -105,7 +105,7 @@ class LocationSelectorForm extends FormBase {
     $domain_lang = $form_state->getValue('language');
 
     // Get selected domain's url.
-    $url = $domain_path . $domain_lang;
+    $url = $domain_path . $domain_lang . '/home';
 
     $response = new TrustedRedirectResponse($url);
 
