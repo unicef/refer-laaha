@@ -101,24 +101,19 @@ class NeedHelpCsvUpload extends FormBase {
         $csv_datas = $this->csvtoarray($file->getFileUri(), ',');
         $csv_line = 2;
         $csv_mandatory_fields = ['Service Name',
-          'Service Provider Name',
+          'Organisation Name',
+          'Telephone Number',
           'Hierarchy level 1',
           'Hierarchy level 2',
           'Hierarchy level 3',
           'Hierarchy level 4',
           'City',
           'Country',
+          'Priority',
         ];
         foreach ($csv_datas as $item) {
           $item = array_map('trim', $item);
           $item_keys = array_keys($item);
-
-          $unique_comb = $item['Service Name'] . $item['priority'];
-          if (array_key_exists($unique_comb, $res['unique_combination'])) {
-            $errors .= 'Duplicate Data Found (Service Name - Priority) in line No:' . $csv_line . '<br>';
-          }
-
-          $res['unique_combination'][$unique_comb] = $unique_comb;
           foreach ($item_keys as $key) {
             if (in_array($key, $csv_mandatory_fields) && empty($item[$key])) {
               $errors .= 'Line No: ' . $csv_line . " - " . $key . " can't be empty" . '<br>';

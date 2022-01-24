@@ -45,8 +45,10 @@ class ImportNeedHelpData {
   public static function createData($item, &$context) {
     $item = array_map('trim', $item);
     $language = $context['master_results']['language_datas'];
+    $service_base_name = $item['Service Base Name'];
+    $service_provider_base_name = $item['Organisation Base Name'];
     $service_name = $item['Service Name'];
-    $service_provider_name = $item['Service Provider Name'];
+    $service_provider_name = $item['Organisation Name'];
     $email = $item['Email ID'];
     $tel_no = $item['Telephone Number'];
     $hierarchy_1 = $item['Hierarchy level 1'];
@@ -62,8 +64,13 @@ class ImportNeedHelpData {
     $country = $item['Country'];
     $description = $item['Description'];
 
-    $node = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(
-        ['title' => $service_name, 'field_priority' => $priority]);
+    if (!empty($service_base_name) && !empty($service_provider_base_name) && !empty($hierarchy_4)) {
+      $node = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+        'title' => $service_base_name,
+        'field_service_provider_name' => $service_provider_base_name,
+        'field_hierarchy_level_4' => $hierarchy_4,
+      ]);
+    }
     if ($node) {
       $nid = array_key_first($node);
       $nd = Node::load($nid);
@@ -77,18 +84,30 @@ class ImportNeedHelpData {
       $nd->set('field_city', $city);
       $nd->set('field_service_provider_name', $service_provider_name);
       $nd->set('field_country', $country);
-      $nd->set('field_email_id', $email);
-      $nd->set('field_facebook', $fb);
+      if ($email) {
+        $nd->set('field_email_id', $email);
+      }
+      if ($fb) {
+        $nd->set('field_facebook', $fb);
+      }
       $nd->set('field_hierarchy_level_1', $hierarchy_1);
       $nd->set('field_hierarchy_level_2', $hierarchy_2);
       $nd->set('field_hierarchy_level_3', $hierarchy_3);
       $nd->set('field_hierarchy_level_4', $hierarchy_4);
-      $nd->set('field_linkedin', $linkedin);
+      if ($linkedin) {
+        $nd->set('field_linkedin', $linkedin);
+      }
       $nd->set('field_priority', $priority);
-      $nd->set('field_state', $state);
+      if ($state) {
+        $nd->set('field_state', $state);
+      }
       $nd->set('field_telephone_number', $tel_no);
-      $nd->set('field_twitter', $twitter);
-      $nd->set('field_description', $description);
+      if ($twitter) {
+        $nd->set('field_twitter', $twitter);
+      }
+      if ($description) {
+        $nd->set('field_description', $description);
+      }
       $nd->save();
     }
     else {
