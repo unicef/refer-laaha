@@ -35,7 +35,6 @@
           else {
             utterance.lang = drupalSettings.langId;
           }
-          utterance.lang = drupalSettings.disclaimer_landId;
           play.hidden = true;
           resume.hidden = true;
           pause.hidden = false;
