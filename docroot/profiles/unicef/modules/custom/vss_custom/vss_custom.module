@@ -855,6 +855,6 @@ function vss_custom_preprocess_views_view(&$variables) {
     else {
       $country = 'ECUADOR';
     }
-    $variables['header']['area_text_custom']['#markup'] = $variables['header']['area_text_custom']['#markup'] . ' ' .'<b>'.$country.'</b>';
+    $variables['header']['area_text_custom']['#markup'] = $variables['header']['area_text_custom']['#markup'] . ' ' . '<b>' . $country . '</b>';
   }
 }
