@@ -62,6 +62,8 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     $content = $this->vssCommonConfigDefault->getCategories();
     $count = 0;
     $term_length = count($content['homepage_hero']);
+    $discover = NULL;
+    $discover_article = NULL;
     foreach ($content['homepage_hero'] as $term_id => $val) {
       $term_obj = Term::load($term_id);
       if ($term_obj) {
