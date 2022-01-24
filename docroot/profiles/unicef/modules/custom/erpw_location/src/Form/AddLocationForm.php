@@ -57,6 +57,13 @@ class AddLocationForm extends FormBase {
   protected $cid;
 
   /**
+   * A tid variable.
+   *
+   * @var Drupal\erpw_location
+   */
+  protected $tid;
+
+  /**
    * ManageLocation constructor.
    *
    * @param \Psr\Log\LoggerChannelFactory $logger
@@ -110,10 +117,18 @@ class AddLocationForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-
+  public function buildForm(array $form, FormStateInterface $form_state, $id = "") {
+    $this->tid = $id;
     $location_options = $this->locationService->getLocationEntities();
-    if (!empty($location_options)) {
+    $level_1_name = "";
+    $level_2_name = "";
+    $level_3_name = "";
+    $level_4_name = "";
+    $readonly_level1 = FALSE;
+    $readonly_level2 = FALSE;
+    $readonly_level3 = FALSE;
+    $readonly_level4 = FALSE;
+    if (!empty($location_options) && $id == "") {
       $form['location_options'] = [
         '#type' => 'select',
         '#options' => $location_options,
@@ -126,17 +141,43 @@ class AddLocationForm extends FormBase {
         ],
       ];
     }
+    else {
+
+      if (!empty($id)) {
+
+        $ancestors = $this->locationService->getAllAncestors($id);
+        // Echo "<pre>"; print_r($ancestors); die;.
+        $top_level = $this->locationService->getTaxonomyTermById($ancestors[0]);
+        if (isset($ancestors[1])) {
+          $level_1_name = $this->locationService->getTaxonomyTermById($ancestors[1]) . " " . "(" . $ancestors[1] . ")";
+        }
+        if (isset($ancestors[2])) {
+          $level_2_name = $this->locationService->getTaxonomyTermById($ancestors[2]) . " " . "(" . $ancestors[2] . ")";
+        }
+        if (isset($ancestors[3])) {
+          $level_3_name = $this->locationService->getTaxonomyTermById($ancestors[3]) . " " . "(" . $ancestors[3] . ")";
+        }
+        if (isset($ancestors[4])) {
+          $level_4_name = $this->locationService->getTaxonomyTermById($ancestors[4]) . " " . "(" . $ancestors[4] . ")";
+        }
+        $form['update_all_wrapper']['location-container-heading'] = [
+          '#type' => 'markup',
+          '#markup' => '<div class="location-container-heading">' . $this->t('Country name :') . " " . $top_level . '</div>',
+        ];
+      }
+    }
     $form_state->setCached(FALSE);
 
     $form['all_wrapper'] = [
       '#type' => 'container',
       '#attributes' => ['id' => 'all-wrapper', 'class' => 'location-container'],
     ];
-
-    $form['all_wrapper']['intro_text'] = [
-      '#type' => 'markup',
-      '#markup' => '<div id="intro-text">' . $this->t('Please select the country to fill the location details') . '</div>',
-    ];
+    if ($id == "") {
+      $form['all_wrapper']['intro_text'] = [
+        '#type' => 'markup',
+        '#markup' => '<div id="intro-text">' . $this->t('Please select the country to fill the location details') . '</div>',
+      ];
+    }
     if (!empty($form_state->getValue('location_options'))) {
       $form['all_wrapper']['location-container-heading'] = [
         '#type' => 'markup',
@@ -167,18 +208,34 @@ class AddLocationForm extends FormBase {
       '#type' => 'markup',
       '#markup' => '<div id="error-text3"></div>',
     ];
-    if ($form_state->getValue('location_options') != FALSE) {
-      unset($form['all_wrapper']['intro_text']);
-      $location = $this->entityManager->load($form_state->getValue('location_options'));
-      $location_levels = $this->locationService->getLocationLevels($form_state->getValue('location_options'));
-      $this->cid = $location->get('field_location_taxonomy_term')->target_id;
+    if ($form_state->getValue('location_options') != FALSE || !empty($id)) {
+      if (empty($id)) {
+        unset($form['all_wrapper']['intro_text']);
+        $location = $this->entityManager->load($form_state->getValue('location_options'));
+        $location_levels = $this->locationService->getLocationLevels($form_state->getValue('location_options'));
+        $this->cid = $location->get('field_location_taxonomy_term')->target_id;
+      }
+      else {
+        $location_levels = $this->locationService->getLocationEntityByTid($ancestors[0]);
+        $this->cid = $ancestors[0];
+      }
       if (isset($location_levels[0]) && !empty($location_levels[0])) {
+        if ($id != "") {
+          if ($id != $ancestors[1]) {
+            $readonly_level1 = 'disabled';
+
+          }
+          else {
+            $readonly_level1 = FALSE;
+          }
+        }
         $form['all_wrapper']['level1_wrapper']['level1'] = [
           '#type' => 'textfield',
           '#title' => $location_levels[0],
           '#autocomplete_route_name' => 'erpw_location.autocomplete',
+          '#default_value' => $level_1_name,
         // '#required' => TRUE,
-          '#autocomplete_route_parameters' => ['tid' => $location->get('field_location_taxonomy_term')->target_id],
+          '#autocomplete_route_parameters' => ['tid' => $this->cid],
           '#ajax' => [
             'callback' => '::deptFilterSelect',
             'event' => 'autocompleteclose',
@@ -190,6 +247,7 @@ class AddLocationForm extends FormBase {
               'mycategory',
             ],
             'placeholder' => $this->t('Plese enter') . " " . $location_levels[0],
+            'disabled' => $readonly_level1,
           ],
         ];
       }
@@ -200,11 +258,21 @@ class AddLocationForm extends FormBase {
         $level1int = -1;
       }
       if (isset($location_levels[1]) && !empty($location_levels[1])) {
-        $readonly_level2 = !empty($form_state->getValue('level1')) ? FALSE : 'readonly';
+        if ($id) {
+          if ($id != $ancestors[2]) {
+            $readonly_level2 = 'disabled';
+
+          }
+          else {
+            $readonly_level2 = FALSE;
+          }
+        }
+
         $form['all_wrapper']['level2_wrapper']['level2'] = [
           '#type' => 'textfield',
           '#title' => $location_levels[1],
           '#autocomplete_route_name' => 'erpw_location.autocomplete',
+          '#default_value' => $level_2_name,
           '#autocomplete_route_parameters' => ['tid' => $level1int],
         // '#required' => TRUE,
           '#ajax' => [
@@ -219,7 +287,7 @@ class AddLocationForm extends FormBase {
 
             ],
             'placeholder' => $this->t('Plese enter') . " " . $location_levels[1],
-            // 'readonly' => $readonly_level2,
+            'disabled' => $readonly_level2,
           ],
 
         ];
@@ -231,11 +299,20 @@ class AddLocationForm extends FormBase {
         $level2int = -1;
       }
       if (isset($location_levels[2]) && !empty($location_levels[2])) {
-        $readonly_level3 = !empty($form_state->getValue('level2')) ? FALSE : 'readonly';
+        if ($id) {
+          if ($id != $ancestors[3]) {
+            $readonly_level3 = 'disabled';
+
+          }
+          else {
+            $readonly_level3 = FALSE;
+          }
+        }
         $form['all_wrapper']['level3_wrapper']['level3'] = [
           '#type' => 'textfield',
           '#title' => $location_levels[2],
           '#autocomplete_route_name' => 'erpw_location.autocomplete',
+          '#default_value' => $level_3_name,
         // '#required' => TRUE,
           '#autocomplete_route_parameters' => ['tid' => $level2int],
           '#attributes' => [
@@ -243,22 +320,31 @@ class AddLocationForm extends FormBase {
               'mycategory',
             ],
             'placeholder' => $this->t('Plese enter') . " " . $location_levels[2],
-            // 'readonly' => $readonly_level3,
+            'disabled' => $readonly_level3,
           ],
         ];
       }
       if (isset($location_levels[3]) && !empty($location_levels[3])) {
-        $readonly_level4 = !empty($form_state->getValue('level3')) ? FALSE : 'readonly';
+        if ($id) {
+          if ($id != $ancestors[4]) {
+            $readonly_level4 = 'disabled';
+
+          }
+          else {
+            $readonly_level4 = FALSE;
+          }
+        }
         $form['all_wrapper']['level4_wrapper']['level4'] = [
           '#type' => 'textfield',
           '#title' => $location_levels[3],
+          '#default_value' => $level_4_name,
         // '#required' => TRUE,
           '#attributes' => [
             'class' => [
               'mycategory',
             ],
             'placeholder' => $this->t('Plese enter') . " " . $location_levels[3],
-            // 'readonly' => $readonly_level4,
+            'disabled' => $readonly_level4,
           ],
         ];
       }
@@ -334,9 +420,9 @@ class AddLocationForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function sendMessageForm(array &$form, FormStateInterface $form_state) {
+  public function sendMessageForm(array &$form, FormStateInterface $form_state, $id = "") {
     $response = new AjaxResponse();
-    if (empty($form_state->getValue('location_options'))) {
+    if (empty($form_state->getValue('location_options')) && $id == "") {
       $response->addCommand(new HtmlCommand('#intro-text',
       $this->t('Please select the country to fill the location details.')));
       $response->addCommand(new InvokeCommand('#intro-text',
@@ -345,21 +431,21 @@ class AddLocationForm extends FormBase {
     }
     if (empty($form_state->getValue('level1'))) {
       $response->addCommand(new HtmlCommand('#error-text',
-      $form['all_wrapper']['level1_wrapper']['level1']['#title'] . "  " . ' field is required.'));
+      $form['all_wrapper']['level1_wrapper']['level1']['#title'] . "  " . $this->t('field is required.')));
       $response->addCommand(new InvokeCommand('#error-text',
       'css', ["color", "red"]));
       return $response;
     }
     if (empty($form_state->getValue('level2'))) {
       $response->addCommand(new HtmlCommand('#error-text2',
-      $form['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . ' field is required.'));
+      $form['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('field is required.')));
       $response->addCommand(new InvokeCommand('#error-text2',
       'css', ["color", "red"]));
       return $response;
     }
     if (empty($form_state->getValue('level3'))) {
       $response->addCommand(new HtmlCommand('#error-text3',
-      $form['all_wrapper']['level3_wrapper']['level3']['#title'] . " " . ' field is required.'));
+      $form['all_wrapper']['level3_wrapper']['level3']['#title'] . " " . $this->t('field is required.')));
       $response->addCommand(new InvokeCommand('#error-text3',
       'css', ["color", "red"]));
       return $response;
@@ -368,21 +454,71 @@ class AddLocationForm extends FormBase {
     // State.
     if ($form_state->getValue('level1')) {
       $level1_tid = $this->locationService->processTaxonomyData($form_state->getValue('level1'), $this->cid);
+
     }
     // City.
     if ($form_state->getValue('level2')) {
       $level2_tid = $this->locationService->processTaxonomyData($form_state->getValue('level2'), $level1_tid);
+      $last_level_tid = $level2_tid;
+      // Update case.
+      if ($this->tid) {
+        if ($this->tid == $last_level_tid) {
+          $response->addCommand(new HtmlCommand('#error-text3',
+          $form['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('already exist.')));
+          $response->addCommand(new InvokeCommand('#error-text3',
+          'css', ["color", "red"]));
+          return $response;
+        }
+      }
     }
     // District.
     if ($form_state->getValue('level3')) {
-      $level3_tid = $this->locationService->processTaxonomyData($form_state->getValue('level3'), $level2_tid);
+      if ($this->tid) {
+        $level3_tid = $this->locationService->processTaxonomyData($form_state->getValue('level3'), $level2_tid, 0, 'update', $this->tid);
+      }
+      else {
+        $level3_tid = $this->locationService->processTaxonomyData($form_state->getValue('level3'), $level2_tid);
+      }
+      $last_level_tid = $level3_tid;
+      // Update case.
+      if ($this->tid) {
+        if ($this->tid == $last_level_tid || $last_level_tid == 0) {
+          $response->addCommand(new HtmlCommand('#error-text3',
+          $form['all_wrapper']['level3_wrapper']['level3']['#title'] . $last_level_tid . $this->t('already exist.')));
+          $response->addCommand(new InvokeCommand('#error-text3',
+          'css', ["color", "red"]));
+          return $response;
+        }
+      }
     }
     if ($form_state->getValue('level4')) {
-      $level4_tid = $this->locationService->processTaxonomyData($form_state->getValue('level4'), $level3_tid, 4);
+      if ($this->tid) {
+        $level4_tid = $this->locationService->processTaxonomyData($form_state->getValue('level4'), $level3_tid, 4, 'update', $this->tid);
+      }
+      else {
+        $level4_tid = $this->locationService->processTaxonomyData($form_state->getValue('level4'), $level3_tid);
+      }
+      // Update case.
+      $last_level_tid = $level4_tid;
+      if ($this->tid) {
+        if ($this->tid == $last_level_tid || $last_level_tid == 0) {
+          $response->addCommand(new HtmlCommand('#error-text3',
+          $form['all_wrapper']['level4_wrapper']['level4']['#title'] . " " . $this->t('already exist.')));
+          $response->addCommand(new InvokeCommand('#error-text3',
+          'css', ["color", "red"]));
+          return $response;
+        }
+      }
     }
-    $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup');
-    $response->addCommand(new InvokeCommand('.messages',
-    'css', ["color", "green"]));
+
+    if (empty($this->tid) && $this->tid == "") {
+      $this->locationService->addEprwLocation($last_level_tid, $this->cid);
+      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup', $this->t('Location added successfuly'), $this->t('The location has been added successfully. You can now access it in the application'));
+    }
+    else {
+      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup', $this->t('Updated successfully'), $this->t('The details have been successfully updated.'));
+    }
+
     $response->addCommand(new OpenModalDialogCommand('', $modal_form, ['width' => '400']));
     return $response;
   }

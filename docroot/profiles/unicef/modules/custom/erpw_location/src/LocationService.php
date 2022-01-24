@@ -4,6 +4,7 @@ namespace Drupal\erpw_location;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManager;
+use Drupal\Core\Database\Connection;
 
 /**
  * Class is used for the locations services.
@@ -17,16 +18,29 @@ class LocationService {
   protected $entityManager;
 
   /**
+   * Database Connection instance.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $connection;
+
+  /**
    * LocationService constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityManager
    *   Entity Manager Object.
    * @param \Drupal\Core\Language\LanguageManager $languageManager
    *   Location Manager object.
+   * @param \Drupal\Core\Database\Connection $connection
+   *   Connection Object.
    */
-  public function __construct(EntityTypeManagerInterface $entityManager, LanguageManager $languageManager) {
+  public function __construct(EntityTypeManagerInterface $entityManager,
+  LanguageManager $languageManager,
+  Connection $connection
+  ) {
     $this->entityManager = $entityManager;
     $this->languageManager = $languageManager;
+    $this->connection = $connection;
   }
 
   /**
@@ -98,8 +112,11 @@ class LocationService {
   /**
    * Taxonomy exist check.
    */
-  public function taxonomyTermExist($name) {
-    $entities = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['name' => $name]);
+  public function taxonomyTermExist($name, $parent) {
+    $entities = $this->entityManager->getStorage('taxonomy_term')->loadByProperties([
+      'name' => $name,
+      'parent' => $parent,
+    ]);
     if ($entities) {
       $first_match = reset($entities);
       return $first_match->id();
@@ -108,25 +125,47 @@ class LocationService {
   }
 
   /**
+   * Taxonomy Update check.
+   */
+  public function taxonomyTermUpdate($update_tid_value, $string) {
+    $term = $this->entityManager->getStorage('taxonomy_term')->load($update_tid_value);
+    $term->setName($string);
+    $term->save();
+    return 1;
+  }
+
+  /**
    * Process taxonomy data.
    */
-  public function processTaxonomyData($string, $pid, $level = 0) {
-    if ($level == 4) {
+  public function processTaxonomyData($string, $pid, $level = 0, $mode = "", $update_tid_value = 0) {
+    if ($level == 4 && $mode == "") {
       $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
       return $level_term_id;
     }
+    // Maharastr (4)
     if ($this->clean($string) != 0) {
       $term_string_level = $this->clean($string);
       $tid_array = explode("(", $string);
-      $level_term_id = $this->taxonomyTermExist(trim($tid_array[0]));
+      $level_term_id = $this->taxonomyTermExist(trim($tid_array[0]), $pid);
     }
+    // Maharastra.
     elseif ($this->clean($string) == 0) {
-      $level_term_id = $this->taxonomyTermExist($string);
+      $level_term_id = $this->taxonomyTermExist($string, $pid);
+      if ($mode == 'update' && $level_term_id) {
+        return 0;
+      }
       if ($level_term_id) {
         return $level_term_id;
       }
       else {
-        $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
+        if ($mode == 'update') {
+          $level_term_id = $this->taxonomyTermUpdate($update_tid_value, $string);
+          return $level_term_id;
+        }
+        else {
+          $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
+        }
+        return $level_term_id;
       }
     }
     else {
@@ -147,6 +186,62 @@ class LocationService {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
     }
     return $location_options;
+  }
+
+  /**
+   * Get location entities.
+   */
+  public function addEprwLocation($tid, $country_term_id) {
+    $ancestors = $this->getAllAncestors($tid);
+    $query = $this->connection->insert('erpw_location');
+    $query->fields([
+      'country_tid',
+      'level1',
+      'level2',
+      'level3',
+      'level4',
+    ]);
+    $query->values([
+      $country_term_id,
+      isset($ancestors[1]) ? $ancestors[1] : '',
+      isset($ancestors[2]) ? $ancestors[2] : '',
+      isset($ancestors[3]) ? $ancestors[3] : '',
+      isset($ancestors[4]) ? $ancestors[4] : '',
+    ]);
+    $query->execute();
+  }
+
+  /**
+   * Get ancestors of taxonomy.
+   */
+  public function getAllAncestors($tid) {
+    $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
+    $ancestors = array_reverse(array_keys($ancestors));
+    return $ancestors;
+  }
+
+  /**
+   * Taxonomy exist check.
+   */
+  public function getTaxonomyTermById($id) {
+    $langcode = $this->languageManager->getCurrentLanguage()->getId();
+    $term = $this->entityManager->getStorage('taxonomy_term')->load($id);
+    if ($term) {
+      $term_name = $term->hasTranslation($langcode) ? $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
+      return $term_name;
+    }
+    return '';
+  }
+
+  /**
+   * Get location entities.
+   */
+  public function getLocationEntityByTid($tid) {
+    $location_options = $this->entityManager->getStorage('location')->loadByProperties(['field_location_taxonomy_term' => $tid]);
+    foreach ($location_options as $location) {
+      $location_levels = $this->getLocationLevels($location->id());
+    }
+    return $location_levels;
   }
 
 }
