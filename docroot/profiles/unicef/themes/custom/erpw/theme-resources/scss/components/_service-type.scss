@@ -126,7 +126,8 @@
 		[id^='edit-submit'] {
 			order: 2;
 		}
-		[id^='edit-preview'] {
+		[id^='edit-preview'],
+		[id^='edit-cancel'] {
 			background: none;
 			border: 1px solid $base-secondary-bgcolor;
 			@include border-radius(4px);
@@ -161,8 +162,12 @@
 }
 
 //service type listing page
-.new-service-type::before {
-  background: url('../images/plus.svg') center center no-repeat $base-secondary-bgcolor;
+.new-service-type,
+.plus-icon {
+	padding-left: 0;
+	&::before {
+		background: url('../images/plus.svg') center center no-repeat $base-secondary-bgcolor;
+	}
 }
 .service-list {
 	.view-header {
@@ -246,8 +251,10 @@
 	.delete-link a {
 		background: url('../images/delete-button.svg') center center no-repeat;
 	}
-	div.color_field__swatch label:hover span,
-	div.color_field__swatch input[type=radio]:checked + label span {
-			transform: inherit;
-	}
+}
+div.color_field__swatch label:hover span,
+div.color_field__swatch input[type=checkbox]:checked + label span, 
+div.color_field__swatch input[type=radio]:checked + label span {
+    border: 0;
+    transform: inherit;
 }

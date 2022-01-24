@@ -46,9 +46,10 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-{% if transcript_id %}
+{% if transcript_id  and (transcript_id is not null) %}
 	{{ attach_library('vss/video_transcript') }}
 {% endif %}
+
 {% block paragraph %}
 	<div class="video-wrapper">
 		<div{{attributes.addClass(classes)}}>
@@ -62,7 +63,7 @@
           <video id="video_{{ transcript_id }}" class="video" controls preload="none" poster="{{ poster }}">
 					<source src="{{ file_url(content.field_video_file['#items'].entity.uri.value) }}">
 					{% for item in content.field_vtt_entries %}
-						{% if item['#paragraph'] %}
+						{% if item['#paragraph'] and item['#paragraph'].field_vtt_file.entity.uri.value is not null %}
 							<track label="{{item['#paragraph'].field_language.target_id}}" style="color: white" id="trk" kind="subtitles" srclang="{{item['#paragraph'].field_language.target_id}}" src="{{ file_url(item['#paragraph'].field_vtt_file.entity.uri.value) }}" default/>
 						{% endif %}
 					{% endfor %}
@@ -71,7 +72,7 @@
 		{% endif %}
 	{% endblock %}
 </div>
-{% if transcript_id %}
+{% if transcript_id and transcript_id is not null %}
 	<div class="transcript-btn">
 		<button class="show-transcript button-defult" id="{{ 'show_' ~ transcript_id }}" data-id="{{ 'transcript_' ~ transcript_id }}">{{ 'SHOW TRANSCRIPTION'|t }}
 			<i class="fa fa-angle-down" aria-hidden="true"></i>

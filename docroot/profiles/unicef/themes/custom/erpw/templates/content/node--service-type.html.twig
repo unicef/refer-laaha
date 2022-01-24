@@ -93,10 +93,10 @@
 {% endif %}
 
 <div class="delete-screen">
-<div class="detail-row"><label>{{ 'Name of Service Type:' | t }} </label><span> {{ node.title.value }}</span> </div>
+<div class="detail-row"><label>{{ 'Service Type:' | t }} </label><span> {{ node.title.value }}</span> </div>
 <div class="detail-row"><label>{{ 'Icon:' | t }} </label> <i class="{{ node.field_service_type_icon.entity.field_service_type_icon.value }}"></i></div>
 <div class="detail-row color-label"><label>{{ 'Colour:' | t }} </label><span style="background-color:  {{ node.field_service_type_color.entity.field_service_type_color.color }}"></span></div>
-{% if query %}
+{% if query is not empty %}
     <a href="/node/{{ query }}/{{ nid }}" class="use-ajax modal-popup button-red">{{ 'DELETE SERVICE TYPE' | t }}</a>
     <div class="msg-note">{{ 'This action cannot be reversed ! Please note that deleting a service type will remove any mapping it has with existing referral pathways and Organisation Services of application.' | t }}</div>
 {% endif %}

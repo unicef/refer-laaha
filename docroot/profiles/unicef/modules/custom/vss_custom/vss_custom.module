@@ -36,6 +36,12 @@ function vss_custom_theme() {
       ],
       'render element' => 'children',
     ],
+    'virtual_safe_space_block' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'render element' => 'children',
+    ],
     'social_icons' => [
       'variables' => [
         'content' => NULL,
@@ -236,6 +242,7 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
     $form['description']['widget'][0]['#required'] = 'true';
     $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories();
     $form['#validate'][] = 'validate_category';
+    $form['relations']['#access'] = FALSE;
   }
   if ($form_id == 'user_form') {
     $form['reinvite_user'] = [
@@ -477,13 +484,21 @@ function vss_custom_preprocess_paragraph(&$variables) {
         $vtt_entry = Paragraph::load($vtt_p['target_id']);
         $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
         $vtt = $vtt_entry->hasTranslation($current_language) ? $vtt_entry->getTranslation($current_language) : $vtt_entry;
-        $vtt_file = $vtt->get('field_vtt_file')->entity->getFileUri();
-        $langcode = $vtt->get('field_language')->getValue()[0]['target_id'];
-        if ($current_language == $langcode && $show_transcript) {
-          $transcript = vss_custom_parse_vtt($vtt_file);
-          $variables['transcript'][$vtt_p['target_id']] = $transcript;
-          $variables['transcript_id'] = $vtt_p['target_id'];
+
+        if ($vtt->get('field_vtt_file')->getValue() != NULL) {
+          $vtt_file = $vtt->get('field_vtt_file')->entity->getFileUri();
         }
+        if ($vtt->get('field_language')->getValue() != NULL) {
+          $langcode = $vtt->get('field_language')->getValue()[0]['target_id'];
+        }
+        if ($vtt->get('field_language')->getValue() != NULL && $vtt->get('field_vtt_file')->getValue() != NULL) {
+          if ($current_language == $langcode && $show_transcript) {
+            $transcript = vss_custom_parse_vtt($vtt_file);
+            $variables['transcript'][$vtt_p['target_id']] = $transcript;
+            $variables['transcript_id'] = $vtt_p['target_id'];
+          }
+        }
+
       }
     }
   }

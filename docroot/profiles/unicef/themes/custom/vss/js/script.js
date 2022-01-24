@@ -13,6 +13,13 @@
       }
        $('.paragraph--type--wysiwyg-editor table').addClass('table table-bordered') ;
 
+
+      //search popup global 
+      $( ".searchbox-icon" ).on( "click", function() {
+        $('.global-sticky-region').css('z-index', 102);
+      });
+      $(".form-type-search-api-autocomplete input").attr("placeholder", "Type here to search");
+
     }
   };
 
