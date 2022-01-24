@@ -889,7 +889,7 @@ display:
           plugin_id: search_api_language
           operator: in
           value:
-            '***LANGUAGE_language_content***': '***LANGUAGE_language_content***'
+            '***LANGUAGE_language_interface***': '***LANGUAGE_language_interface***'
           group: 1
           exposed: false
           expose:
@@ -960,6 +960,152 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        field_city:
+          id: field_city
+          table: search_api_index_acquia_search_index
+          field: field_city
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_string
+          operator: 'not empty'
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_city_op
+            label: City
+            description: ''
+            use_operator: false
+            operator: field_city_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_city
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              country_admin: '0'
+              content_editor: '0'
+              super_admin: '0'
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_service_provider_name:
+          id: field_service_provider_name
+          table: search_api_index_acquia_search_index
+          field: field_service_provider_name
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_string
+          operator: 'not empty'
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_service_provider_name_op
+            label: 'Service Provider Name'
+            description: ''
+            use_operator: false
+            operator: field_service_provider_name_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_service_provider_name
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              country_admin: '0'
+              content_editor: '0'
+              super_admin: '0'
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        title_1:
+          id: title_1
+          table: search_api_index_acquia_search_index
+          field: title_1
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_string
+          operator: 'not empty'
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       style:
         type: table
         options:
@@ -1115,8 +1261,12 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      cache:
+        type: none
+      defaults:
+        cache: false
       display_extenders: {  }
-      path: need-help-page
+      path: need-help
     cache_metadata:
       max-age: -1
       contexts:
