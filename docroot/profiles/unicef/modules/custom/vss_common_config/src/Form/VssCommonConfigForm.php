@@ -264,6 +264,26 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#options' => $tax_opt,
       '#default_value' => !empty($commonConfig['homepage_hero']) ? $commonConfig['homepage_hero'] : [],
     ];
+
+    $form['location_selection'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Location Selection Page'),
+      '#group' => 'vsscommonconfig',
+    ];
+
+    $form['location_selection']['location_selection_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Title'),
+      '#default_value' => !empty($commonConfig['location_selection_title']) ? $commonConfig['location_selection_title'] : '',
+    ];
+
+    $form['location_selection']['location_selection_description'] = [
+      '#type' => 'text_format',
+      '#format' => 'full_html',
+      '#title' => $this->t('Description'),
+      '#default_value' => !empty($commonConfig['location_selection_description']) ? $commonConfig['location_selection_description']['value'] : '',
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 

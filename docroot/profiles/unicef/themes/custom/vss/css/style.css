@@ -1561,6 +1561,23 @@ html[dir="rtl"] .paragraph--type--wysiwyg-editor .about-us__top h3,
 html[dir="rtl"] .paragraph--type--wysiwyg-editor .about-us__top p {
   text-align: right; }
 
+html[dir="rtl"] .subcat-name.right-arrow {
+  text-align: right; }
+  html[dir="rtl"] .subcat-name.right-arrow::after {
+    margin-left: 0;
+    margin-right: 15px;
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg); }
+
+html[dir="rtl"] .ques,
+html[dir="rtl"] .ans {
+  margin-left: 10px;
+  margin-right: 0; }
+
+html[dir="rtl"] .faq-item .faq-answer-wrapper .button-defult::after {
+  margin-left: 0;
+  margin-right: 14px; }
+
 @media screen and (max-width: 767px) {
   html[dir="rtl"] #block-recommendedrelatedcontentblock .recomended-header span {
     padding-right: 8px;
@@ -2190,6 +2207,8 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
     @media screen and (min-width: 768px) {
       .ui-dialog .view-content .popular-search-thumbnail {
         margin-bottom: 16px; } }
+    .ui-dialog .view-content .popular-search-thumbnail .thumbnail-icon {
+      z-index: 9; }
     .ui-dialog .view-content .popular-search-thumbnail .popular-picture {
       display: block;
       height: auto;
@@ -2229,7 +2248,10 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
       color: #030303; }
   .ui-dialog .category-popup-section {
     background: url("../images/search-popup-bg.png") top -100px center no-repeat rgba(255, 205, 210, 0.2);
-    padding: 20px 0; }
+    padding: 20px 0 100px; }
+    @media screen and (min-width: 768px) {
+      .ui-dialog .category-popup-section {
+        padding: 20px 0; } }
     .ui-dialog .category-popup-section .subcat-name {
       display: block;
       font-size: 1.14em;
@@ -2488,7 +2510,7 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
       .faq-item .faq-answer-wrapper p,
       .faq-item .faq-answer-container p,
       .faq-item .faq-answer-container p {
-        font-size: 1.42em;
+        font-size: 1.28em;
         line-height: 28px; } }
   .faq-item .faq-answer-wrapper .button-defult,
   .faq-item .faq-answer-container .button-defult,

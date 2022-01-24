@@ -13,15 +13,15 @@ entity_type: paragraph
 bundle: vtt_entries
 label: 'VTT File'
 description: ''
-required: true
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
+  handler: 'default:file'
+  handler_settings: {  }
   file_directory: '[date:custom:Y]-[date:custom:m]'
   file_extensions: vtt
   max_filesize: ''
   description_field: true
-  handler: 'default:file'
-  handler_settings: {  }
 field_type: file
