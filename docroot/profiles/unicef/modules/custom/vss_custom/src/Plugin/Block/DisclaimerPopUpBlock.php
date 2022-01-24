@@ -66,7 +66,7 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
       $html .= strip_tags($data['disclaimer_description']);
     }
     $string = str_replace('&nbsp;', '', $html);
-    $this->pageCacheKillSwitch->trigger();
+
     $build['#theme'] = 'disclaimer_pop_up_block';
     $build['#content'] = $data;
     if ($lang_id == 'ar') {
@@ -85,8 +85,7 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
     $build['#attached']['drupalSettings']['disclaimer_landId'] = $lang_id;
     $build['#attached']['drupalSettings']['disclaimer_narrate'] = $string;
     $build['#attached']['drupalSettings']['disclaimer'] = TRUE;
-    $build['#cache']['tags'] = $this->getCacheTags();
-    $build['#cache']['contexts'] = $this->getCacheContexts();
+    $this->pageCacheKillSwitch->trigger();
     return $build;
   }
 
