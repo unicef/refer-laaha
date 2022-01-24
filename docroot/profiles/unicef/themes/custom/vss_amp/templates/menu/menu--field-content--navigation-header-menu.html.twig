@@ -1,0 +1,84 @@
+{#
+/**
+ * @file
+ * Theme implementation to display a menu with fields.
+ *
+ * It is a very similar implementation to the system module template
+ * except for the following code that will render the menu item
+ * as an entity when is available.
+ *
+ * @code
+ * {% if item.content %}
+ *   {{ item.content }}
+ * {% else %}
+ *   {{ link(item.title, item.url) }}
+ * {% endif %}
+ * @endcode
+ *
+ * When the menu.html.twig template is overriden in your theme
+ * this piece of code needs to be added.
+ */
+#}
+{% import _self as menus %}
+
+{#
+  We call a macro which calls itself to render the full tree.
+  @see http://twig.sensiolabs.org/doc/tags/macro.html
+#}
+{{ menus.menu_links(items, attributes, 0) }}
+
+{% macro menu_links(items, attributes, menu_level) %}
+  {% import _self as menus %}
+  {% if items %}
+    {% if menu_level == 0 %}
+      <ul{{ attributes }}  class="nav navbar-nav">
+    {% else %}
+      <ul class="dropdown-menu discoverdd" aria-labelledby="discover1">
+    {% endif %}
+    {% for item in items %}
+      {% set menu_attributes = menus_attribute(items|keys[loop.index0]) %}
+      {%
+        set classes = [
+          item.is_expanded ? 'menu-item--expanded',
+          item.is_collapsed ? 'menu-item--collapsed',
+          item.in_active_trail ? 'menu-item--active-trail',
+          menu_attributes.item.class ? menu_attributes.item.class
+        ]
+      %}
+    <li {{ item.attributes.addClass(classes) }}
+        {% if menu_attributes.item.id %}
+          {{ item.attributes.setAttribute('id', menu_attributes.item.id) }}
+        {% endif %}
+        {% if menu_attributes.item.style %}
+          {{ item.attributes.setAttribute('style', menu_attributes.item.style) }}
+        {% endif %}
+         {% if menu_level == 1 and item.is_expanded and item.below %}
+          {% set link_title %}{{ link_title }} <span class="caret"></span>{% endset %}
+          {% set link_attributes = link_attributes.addClass('dropdown-toggle').setAttribute('data-toggle', 'dropdown') %}
+        {% endif %}
+      >
+        {% if item.content %}
+        {% if menu_attributes.item.id=="discover"%}
+       <div  class="dropdown-toggle" id="discover1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">   {{ item.content }}  <span class="caret"></span></div>
+       {% else %}
+         {{ item.content }}
+         {% endif %}
+        {% else %}
+          {{ link(item.title, item.url) }}
+        {% endif %}
+        {# {% if item.below %}
+          {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+        {% endif %} #}
+      </li>
+      
+    {% endfor %}
+     {% if menu_level == 0 %}
+    <li class="telephone_in_mobile">
+    <span class="holder"></span>
+     
+
+      </li>
+      {% endif %}
+    </ul>
+  {% endif %}
+{% endmacro %}
