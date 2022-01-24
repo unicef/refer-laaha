@@ -33,7 +33,7 @@
             utterance.voice = voices[drupalSettings.voiceId];
           }
           else {
-            utterance.lang = drupalSettings.langId;
+            utterance.lang = drupalSettings.disclaimer_landId;
           }
           play.hidden = true;
           resume.hidden = true;
