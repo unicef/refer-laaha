@@ -242,6 +242,7 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
     $form['description']['widget'][0]['#required'] = 'true';
     $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories();
     $form['#validate'][] = 'validate_category';
+    $form['relations']['#access'] = FALSE;
   }
   if ($form_id == 'user_form') {
     $form['reinvite_user'] = [
