@@ -16,11 +16,11 @@ plugin: views_exposed_filter_blocks_block
 settings:
   id: views_exposed_filter_blocks_block
   label: Search
-  provider: views_exposed_filter_blocks
   label_display: '0'
+  provider: views_exposed_filter_blocks
   view_display: 'search:page_1'
 visibility:
   request_path:
     id: request_path
-    pages: '<front>'
     negate: false
+    pages: /home
