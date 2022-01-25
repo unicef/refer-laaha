@@ -52,7 +52,6 @@ class LocationSelectorForm extends FormBase {
         ],
       ],
     ];
-
     $lang_select = [];
     if (!empty($form_state->getValue('country'))) {
       $selected_domain = $form_state->getValue('country');
@@ -101,17 +100,17 @@ class LocationSelectorForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Get domain path from dropdown.
     $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($form_state->getValue('country'));
+    $default_lang = \Drupal::configFactory()->get('domain.config.' . $domain->id() . '.system.site');
+
     $domain_path = $domain->get('path');
     $domain_lang = $form_state->getValue('language');
+    if ($default_lang->get('default_langcode') == $domain_lang) {
+      $domain_lang = '';
+    }
 
     // Get selected domain's url.
     $url = $domain_path . $domain_lang . '/home';
-
     $response = new TrustedRedirectResponse($url);
-
-    $metadata = $response->getCacheableMetadata();
-    $metadata->setCacheMaxAge(0);
-
     $form_state->setResponse($response);
     return;
   }
