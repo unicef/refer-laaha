@@ -9,12 +9,12 @@ dependencies:
 id: vss_amp_disclaimerpopupblock
 theme: vss_amp
 region: header
-weight: 0
+weight: -3
 provider: null
 plugin: disclaimer_pop_up_block
 settings:
   id: disclaimer_pop_up_block
   label: 'Disclaimer pop up block'
-  provider: vss_custom
   label_display: '0'
+  provider: vss_custom
 visibility: {  }
