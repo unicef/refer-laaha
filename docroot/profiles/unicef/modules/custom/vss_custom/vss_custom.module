@@ -888,11 +888,13 @@ function vss_custom_preprocess_views_view(&$variables) {
  * View field preprocess.
  */
 function vss_custom_preprocess_views_view_field(&$variables) {
-  if ($variables['field']->field == 'name') {
-    $variables['output'] = explode(",", $variables['output'])[0];
-  }
-  if ($variables['field']->field == 'field_icon') {
-    $string = explode(",", $variables['output'])[0];
-    $variables['output'] = Markup::create($string);
+  if ($variables['view']->storage->id() == 'search') {
+    if ($variables['field']->field == 'name') {
+      $variables['output'] = explode(",", $variables['output'])[0];
+    }
+    if ($variables['field']->field == 'field_icon') {
+      $string = explode(",", $variables['output'])[0];
+      $variables['output'] = Markup::create($string);
+    }
   }
 }
