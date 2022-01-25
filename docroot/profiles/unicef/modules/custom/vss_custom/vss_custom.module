@@ -5,6 +5,7 @@
  * Contains vss_custom.module.
  */
 
+use Drupal\Core\Render\Markup;
 use Drupal\node\NodeInterface;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\Core\Form\FormStateInterface;
@@ -19,8 +20,6 @@ use Drupal\file\Entity\File;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\node\Entity\Node;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * Implements hook_theme().
@@ -882,5 +881,18 @@ function vss_custom_preprocess_views_view(&$variables) {
       $country = 'ECUADOR';
     }
     $variables['header']['area_text_custom']['#markup'] = $variables['header']['area_text_custom']['#markup'] . ' ' . '<b>' . $country . '</b>';
+  }
+}
+
+/**
+ * View field preprocess.
+ */
+function vss_custom_preprocess_views_view_field(&$variables) {
+  if ($variables['field']->field == 'name') {
+    $variables['output'] = explode(",", $variables['output'])[0];
+  }
+  if ($variables['field']->field == 'field_icon') {
+    $string = explode(",", $variables['output'])[0];
+    $variables['output'] = Markup::create($string);
   }
 }
