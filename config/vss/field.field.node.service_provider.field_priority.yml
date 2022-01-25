@@ -1,0 +1,23 @@
+uuid: 1385db0b-7976-47ce-b5f4-b26a428cb61c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_priority
+    - node.type.service_provider
+id: node.service_provider.field_priority
+field_name: field_priority
+entity_type: node
+bundle: service_provider
+label: Priority
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

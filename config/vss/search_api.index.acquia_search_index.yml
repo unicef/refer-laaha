@@ -2,33 +2,34 @@ uuid: 2f9a2b19-c44c-4ed4-bc1b-87fba3e5af04
 langcode: en
 status: true
 dependencies:
+  config:
+    - field.storage.node.body
+    - field.storage.node.field_city
+    - field.storage.node.field_service_provider_name
+    - field.storage.node.field_sub_category
+    - field.storage.taxonomy_term.field_icon
+    - field.storage.node.field_tags
+    - search_api.server.acquia_search_server
   module:
     - search_api_solr
     - node
     - taxonomy
     - search_api
-  config:
-    - field.storage.node.body
-    - field.storage.node.field_tags
-    - search_api.server.acquia_search_server
 third_party_settings:
   search_api_solr:
     finalize: false
     commit_before_finalize: false
     commit_after_finalize: false
-    multilingual:
-      limit_to_content_language: false
-      include_language_independent: true
     highlighter:
       maxAnalyzedChars: 51200
       fragmenter: gap
+      usePhraseHighlighter: true
+      highlightMultiTerm: true
+      preserveMulti: false
       regex:
         slop: 0.5
         pattern: blank
         maxAnalyzedChars: 10000
-      usePhraseHighlighter: true
-      highlightMultiTerm: true
-      preserveMulti: false
       highlight:
         mergeContiguous: false
         requireFieldMatch: false
@@ -52,6 +53,9 @@ third_party_settings:
       index_prefix: ''
       collection: ''
       timezone: ''
+    multilingual:
+      limit_to_content_language: false
+      include_language_independent: true
 _core:
   default_config_hash: m3BA7ry9oerhED2EXWWHra57A4vZj7Eobsr5-29dq4M
 id: acquia_search_index
@@ -67,20 +71,51 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.body
-  field_tags:
-    label: Tags
+  field_city:
+    label: City
     datasource_id: 'entity:node'
-    property_path: field_tags
+    property_path: field_city
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_city
+  field_icon:
+    label: 'Sub Category » Taxonomy term » Term Parents » Taxonomy term » Icon'
+    datasource_id: 'entity:node'
+    property_path: 'field_sub_category:entity:parent:entity:field_icon'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_sub_category
+        - field.storage.taxonomy_term.field_icon
+      module:
+        - taxonomy
+  field_service_provider_name:
+    label: 'Service Provider Name'
+    datasource_id: 'entity:node'
+    property_path: field_service_provider_name
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_service_provider_name
+  name:
+    label: 'Sub Category » Taxonomy term » Term Parents » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_sub_category:entity:parent:entity:name'
+    type: 'solr_text_custom:edgestring'
+    dependencies:
+      config:
+        - field.storage.node.field_sub_category
+      module:
+        - taxonomy
+  name_1:
+    label: 'Tags » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_tags:entity:name'
     type: 'solr_text_custom:edgestring'
     dependencies:
       config:
         - field.storage.node.field_tags
-  name:
-    label: Name
-    datasource_id: 'entity:taxonomy_term'
-    property_path: name
-    type: 'solr_text_custom:edgestring'
-    dependencies:
       module:
         - taxonomy
   node_grants:
@@ -108,11 +143,19 @@ field_settings:
     dependencies:
       module:
         - node
+  title_1:
+    label: Title1
+    datasource_id: 'entity:node'
+    property_path: title
+    type: string
+    dependencies:
+      module:
+        - node
   type:
     label: 'Content type'
     datasource_id: 'entity:node'
     property_path: type
-    type: 'solr_text_custom:edgestring'
+    type: string
     dependencies:
       module:
         - node
@@ -128,13 +171,6 @@ field_settings:
         - node
 datasource_settings:
   'entity:node':
-    bundles:
-      default: true
-      selected: {  }
-    languages:
-      default: true
-      selected: {  }
-  'entity:taxonomy_term':
     bundles:
       default: true
       selected: {  }
@@ -166,9 +202,12 @@ processor_settings:
     all_fields: true
     fields:
       - body
-      - field_tags
+      - field_city
+      - field_service_provider_name
       - name
+      - name_1
       - title
+      - title_1
       - type
     title: true
     alt: true
@@ -195,7 +234,7 @@ tracker_settings:
   default:
     indexing_order: fifo
 options:
+  cron_limit: 50
   index_directly: false
   track_changes_in_references: true
-  cron_limit: 50
 server: acquia_search_server

@@ -1,0 +1,160 @@
+uuid: 0dcc7331-8f4d-4e69-b556-4dab43eb674d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.service_provider.field_city
+    - field.field.node.service_provider.field_country
+    - field.field.node.service_provider.field_description
+    - field.field.node.service_provider.field_domain_access
+    - field.field.node.service_provider.field_domain_all_affiliates
+    - field.field.node.service_provider.field_email_id
+    - field.field.node.service_provider.field_facebook
+    - field.field.node.service_provider.field_hierarchy_level_1
+    - field.field.node.service_provider.field_hierarchy_level_2
+    - field.field.node.service_provider.field_hierarchy_level_3
+    - field.field.node.service_provider.field_hierarchy_level_4
+    - field.field.node.service_provider.field_linkedin
+    - field.field.node.service_provider.field_priority
+    - field.field.node.service_provider.field_service_provider_name
+    - field.field.node.service_provider.field_state
+    - field.field.node.service_provider.field_telephone_number
+    - field.field.node.service_provider.field_twitter
+    - node.type.service_provider
+  module:
+    - text
+    - user
+id: node.service_provider.default
+targetEntityType: node
+bundle: service_provider
+mode: default
+content:
+  field_city:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_country:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 116
+    region: content
+  field_email_id:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_facebook:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_hierarchy_level_1:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_hierarchy_level_2:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  field_hierarchy_level_3:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_hierarchy_level_4:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 115
+    region: content
+  field_linkedin:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_priority:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_service_provider_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_state:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_telephone_number:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_twitter:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  langcode: true
+  search_api_excerpt: true

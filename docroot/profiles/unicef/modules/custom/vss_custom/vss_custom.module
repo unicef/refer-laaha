@@ -19,6 +19,8 @@ use Drupal\file\Entity\File;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\node\Entity\Node;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * Implements hook_theme().
@@ -598,6 +600,15 @@ function vss_custom_preprocess_block(&$variables) {
     $variables['elements']['#cache']['max-age'] = 0;
     $variables['#cache']['max-age'] = 0;
   }
+  if ($variables['elements']['#base_plugin_id'] == 'disclaimer_pop_up_block') {
+    $variables['elements']['#cache']['max-age'] = 0;
+    $variables['#cache']['max-age'] = 0;
+    $cookie_get = \Drupal::request()->cookies->get('disclaimer');
+    if ($cookie_get) {
+      unset($variables['label']);
+      unset($variables['content']);
+    }
+  }
 }
 
 /**
@@ -853,5 +864,23 @@ function vss_custom_form_views_exposed_form_alter(&$form, FormStateInterface $fo
         'cur_yr' => t('This Year'),
       ],
     ];
+  }
+}
+
+/**
+ * View preprocess.
+ */
+function vss_custom_preprocess_views_view(&$variables) {
+  // dump($variables['view']->element['#name']);.
+  if ($variables['id'] == 'need_help_view') {
+    $domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+
+    if (strpos($domain, "iq") !== FALSE) {
+      $country = 'IRAQ';
+    }
+    else {
+      $country = 'ECUADOR';
+    }
+    $variables['header']['area_text_custom']['#markup'] = $variables['header']['area_text_custom']['#markup'] . ' ' . '<b>' . $country . '</b>';
   }
 }

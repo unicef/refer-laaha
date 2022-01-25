@@ -7,6 +7,7 @@ dependencies:
   module:
     - comment
     - contact
+    - facets
     - filter
     - media
     - search
@@ -23,6 +24,7 @@ permissions:
   - 'access content'
   - 'access shortcuts'
   - 'access site-wide contact form'
+  - 'administer facets'
   - 'post comments'
   - 'search content'
   - 'skip comment approval'

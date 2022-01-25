@@ -36,3 +36,11 @@ vss_custom.modal:
     _controller: '\Drupal\vss_custom\Controller\CustomModalController::modal'
   requirements:
     _access: "TRUE"
+
+vss_custom.need_help_form:
+  path: "need-help-csv-upload"
+  defaults:
+    _form: '\Drupal\vss_custom\Form\NeedHelpCsvUpload'
+    _title: "Need Help CSV Upload"
+  requirements:
+    _role: "content_editor"
