@@ -43,12 +43,6 @@ class NeedHelpCsvUpload extends FormBase {
         ],
       ],
     ];
-
-    $form['download_template'] = [
-      '#markup' => $this->t('<a href="@downloadlink">Download Template</a>', [
-        '@downloadlink' => $base_url . '/profiles/unicef/custom/vss_custom/csv_templates/need_help_template.csv',
-      ]),
-    ];
     $form['actions']['#type'] = 'actions';
 
     $form['actions']['submit'] = [
