@@ -118,6 +118,16 @@ field_settings:
         - field.storage.node.field_tags
       module:
         - taxonomy
+  name_2:
+    label: 'Sub Category » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_sub_category:entity:name'
+    type: 'solr_text_custom:edgestring'
+    dependencies:
+      config:
+        - field.storage.node.field_sub_category
+      module:
+        - taxonomy
   node_grants:
     label: 'Node access information'
     property_path: search_api_node_grants
@@ -213,6 +223,7 @@ processor_settings:
       - field_service_provider_name
       - name
       - name_1
+      - name_2
       - title
       - title_1
       - type
