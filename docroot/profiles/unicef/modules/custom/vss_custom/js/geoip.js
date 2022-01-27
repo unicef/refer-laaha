@@ -4,7 +4,6 @@
  */
 
  (function ($, Drupal, drupalSettings) {
-
   'use strict';
   $(document).ready(function () {
 
@@ -13,14 +12,15 @@
     }
 
     function showPosition(position) {
-      //  var latitude = position.coords.latitude ;
-      //  var longitude = position.coords.longitude;
-       var latitude = '0.1807° S' ;
-       var longitude = '78.4678° W';
+       var api_key = drupalSettings.api_key;
+       var latitude = position.coords.latitude ;
+       var longitude = position.coords.longitude;
+       console.log(api_key);
        if(latitude != null || longitude != null){
-       var url = "https://api.opencagedata.com/geocode/v1/json?key=c6ea4bfd74d1403ab52e4bacf7478f36&q="+latitude+"+"+longitude+"&pretty=1&no_annotations=1"
+       var url = "https://api.opencagedata.com/geocode/v1/json?key="+api_key+"&q="+latitude+"+"+longitude+"&pretty=1&no_annotations=1"
         jQuery.ajax({url: url , success: function(result){
           var country_code = result['results'][0]['components']['country_code'];
+          console.log(country_code);
           jQuery('#country-dropdown option').each(function(){
               if(this.value != null){
                 const myArray = this.value.split("_");

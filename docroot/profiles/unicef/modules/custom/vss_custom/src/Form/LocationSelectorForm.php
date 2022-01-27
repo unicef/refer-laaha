@@ -57,10 +57,7 @@ class LocationSelectorForm extends FormBase {
     ];
     $lang_select = [];
     if (!empty($form_state->getValue('country'))) {
-
-      if (!empty($form_state->getValue('country'))) {
-        $selected_domain = $form_state->getValue('country');
-      }
+      $selected_domain = $form_state->getValue('country');
       // Get the active languages for the given domain.
       // Update form options.
       $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($selected_domain);
@@ -97,6 +94,7 @@ class LocationSelectorForm extends FormBase {
     ];
 
     $form['#attached']['library'][] = 'vss_custom/geoip';
+    $form['#attached']['drupalSettings']['api_key'] = 'c6ea4bfd74d1403ab52e4bacf7478f36';
     return $form;
   }
 
