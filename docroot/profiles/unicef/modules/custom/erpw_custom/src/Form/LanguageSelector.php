@@ -29,7 +29,6 @@ class LanguageSelector extends FormBase {
    */
   protected $languageManager;
 
-
   /**
    * {@inheritdoc}
    */
@@ -55,33 +54,32 @@ class LanguageSelector extends FormBase {
     );
   }
 
-
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
     $form['description_1'] = [
-        '#type' => 'markup',
-        '#prefix' => '<div class="review-msg">',
-        '#markup' => $this->t('Welcome to eRPW'),
-        '#suffix' => '</div>',
+      '#type' => 'markup',
+      '#prefix' => '<div class="review-msg">',
+      '#markup' => $this->t('Welcome to eRPW'),
+      '#suffix' => '</div>',
     ];
     $form['description_2'] = [
-        '#type' => 'markup',
-        '#prefix' => '<div class="email-notify">',
-        '#markup' => $this->t('Choose your preferred language'),
-        '#suffix' => '</div>',
+      '#type' => 'markup',
+      '#prefix' => '<div class="email-notify">',
+      '#markup' => $this->t('Choose your preferred language'),
+      '#suffix' => '</div>',
     ];
     $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
     $active_lang = $this->configfactory->get('domain.language.' . $domain->id() . '.language.negotiation')->getRawData()['languages'];
     $site_languages = $this->languageManager->getNativeLanguages();
     $languages = [];
     foreach ($active_lang as $languagecode => $language_value) {
-        $languages[$languagecode] = $site_languages[$language_value]->getName();
+      $languages[$languagecode] = $site_languages[$language_value]->getName();
     }
     $form['language_selector'] = [
-        '#type' => 'radios',
-        '#options' => $languages,
+      '#type' => 'radios',
+      '#options' => $languages,
     ];
     $form['actions']['lang_selector'] = [
       '#type' => 'submit',
@@ -103,7 +101,7 @@ class LanguageSelector extends FormBase {
     $value = $form_state->getValues();
     $redirect_url = Url::fromUri('base:/' . $value['language_selector']);
     $form_state->setRedirectUrl($redirect_url);
-  } 
+  }
 
   /**
    * Gets the configuration names that will be editable.
