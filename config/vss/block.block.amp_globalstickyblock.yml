@@ -1,15 +1,15 @@
-uuid: 5d69ce79-a9e7-4628-84e5-cf048c68eb43
+uuid: 7ab6f9d1-9370-4852-b660-ff66a3f2c85e
 langcode: en
 status: true
 dependencies:
   module:
     - vss_custom
   theme:
-    - vss
-id: globalstickyblock
-theme: vss
+    - vss_amp
+id: amp_globalstickyblock
+theme: vss_amp
 region: global_sticky
-weight: -10
+weight: 0
 provider: null
 plugin: global_sticky_block
 settings:

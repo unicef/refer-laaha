@@ -80,6 +80,11 @@
         {{ page.sidebar_second }}
       </aside>
     {% endif %}
+    {% if page.global_sticky %}
+      <div class="global-sticky-region">
+        {{ page.global_sticky }}
+      </div>
+    {% endif %}
     </div>
     </div>
   </main>

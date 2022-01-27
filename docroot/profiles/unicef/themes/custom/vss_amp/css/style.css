@@ -1049,17 +1049,17 @@ body .absoluteclass {
 }
 
 /* global sticky*/
-.content-wrapper-main {
+.layout-container {
   position: relative;
 }
-.content-wrapper-main .global-sticky-region {
+.layout-container .global-sticky-region {
   position: absolute;
   top: 0;
   bottom: -10px;
   display: block;
   right: 2%;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky {
+.layout-container .global-sticky-region .region-global-sticky {
   z-index: 99;
   position: sticky;
   top: 33.3333333333vh;
@@ -1067,7 +1067,7 @@ body .absoluteclass {
   background: #CB9CA1;
   border-radius: 8px;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky {
+.layout-container .global-sticky-region .region-global-sticky .global_sticky {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1076,23 +1076,22 @@ body .absoluteclass {
       -ms-flex-direction: column;
           flex-direction: column;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .gethelp {
+.layout-container .global-sticky-region .region-global-sticky .global_sticky .gethelp {
   margin: 28px 0;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky a {
+.layout-container .global-sticky-region .region-global-sticky .global_sticky a {
   text-align: center;
   color: #000;
   font-size: 0.85em;
   cursor: pointer;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky a:hover {
+.layout-container .global-sticky-region .region-global-sticky .global_sticky a:hover {
   text-decoration: none;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky a img {
-  display: block;
-  margin: 0 auto 6px;
+.layout-container .global-sticky-region .region-global-sticky .global_sticky a img {
+  display: none;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky a span {
+.layout-container .global-sticky-region .region-global-sticky .global_sticky a span {
   display: block;
   text-align: center;
   line-height: 16px;
@@ -1412,7 +1411,7 @@ article p {
     margin-top: 24px;
   }
 
-  .content-wrapper-main .global-sticky-region {
+  .layout-container .global-sticky-region {
     top: inherit;
     right: 0;
     bottom: 0;
@@ -1421,7 +1420,7 @@ article p {
     width: 100%;
     height: 72px;
   }
-  .content-wrapper-main .global-sticky-region .region-global-sticky {
+  .layout-container .global-sticky-region .region-global-sticky {
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     border-bottom-right-radius: 0px;
@@ -1431,24 +1430,24 @@ article p {
     position: inherit;
     top: inherit;
   }
-  .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky {
+  .layout-container .global-sticky-region .region-global-sticky .global_sticky {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
             flex-direction: row;
     -ms-flex-pack: distribute;
         justify-content: space-around;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
   }
-  .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .gethelp {
+  .layout-container .global-sticky-region .region-global-sticky .global_sticky .gethelp {
     margin: 0;
     -webkit-box-ordinal-group: 0;
         -ms-flex-order: -1;
             order: -1;
   }
-  .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .chatbot img {
-    margin-top: 2px;
-  }
-  .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .chatbot span {
+  .layout-container .global-sticky-region .region-global-sticky .global_sticky .chatbot span {
     margin-top: 8px;
   }
 
