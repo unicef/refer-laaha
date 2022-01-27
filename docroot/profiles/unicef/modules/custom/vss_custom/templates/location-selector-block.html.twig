@@ -13,15 +13,15 @@
     'pop-up-speech'
 ] %}
 {{ attach_library('vss_custom/location_selector_block') }}
-{{ attach_library('vss_custom/disclaimer') }}
+{{ attach_library('vss_custom/location_selector') }}
 
 <div{{ attributes.addClass(classes) }}>
     <div class="wrapper">
     <div id="text"></div>
         <div class="buttons">
-        <button id="play" class="play">{{ 'Play'|t }}</button>
-        <button id="pause" class="pause">{{ 'Pause'|t }}</button>
-        <button id="resume" class="resume">{{ 'Resume'|t }}</button>
+        <button id="virtual-play" class="play">{{ 'Play'|t }}</button>
+        <button id="virtual-pause" class="pause">{{ 'Pause'|t }}</button>
+        <button id="virtual-resume" class="resume">{{ 'Resume'|t }}</button>
         </div>
     </div>
    <div class="virtual-main-title">{{ 'Virtual Safe Space'|t }}</div>
