@@ -1,0 +1,49 @@
+{#
+/**
+* @file
+* Default theme implementation to display a block.
+*
+* @see template_preprocess_block()
+*
+* @ingroup themeable
+*/
+#}
+{% set classes = [
+    'clear-both',
+    'pop-up-speech'
+] %}
+{{ attach_library('vss_custom/location_selector_block') }}
+{{ attach_library('vss_custom/disclaimer') }}
+
+<div{{ attributes.addClass(classes) }}>
+    <div class="wrapper">
+    <div id="text"></div>
+        <div class="buttons">
+        <button id="play" class="play">{{ 'Play'|t }}</button>
+        <button id="pause" class="pause">{{ 'Pause'|t }}</button>
+        <button id="resume" class="resume">{{ 'Resume'|t }}</button>
+        </div>
+    </div>
+   <div class="virtual-main-title">{{ 'Virtual Safe Space'|t }}</div>
+    <div class="virtual-image-wrapper"></div>
+    <div class="virtual-content-wrapper">
+        {% if content is not empty %}
+            {% if content.location_selection_title is not empty %}
+                <div class="virtual-title">
+                    {{content.location_selection_title}}
+                </div>
+            {% endif %}
+            {% if content.location_selection_description is not empty %}
+                <div class="virtual-description">
+                    {{ content.location_selection_description|raw }}
+                </div>
+            {% endif %}
+            {% if content.location_selection_description is not empty %}
+                <div class="virtual-form">
+                    {{ content.location_selection_form }}
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+

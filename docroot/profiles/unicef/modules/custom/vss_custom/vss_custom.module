@@ -5,6 +5,7 @@
  * Contains vss_custom.module.
  */
 
+use Drupal\Core\Render\Markup;
 use Drupal\node\NodeInterface;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\Core\Form\FormStateInterface;
@@ -31,6 +32,12 @@ function vss_custom_theme() {
       ],
     ],
     'disclaimer_pop_up_block' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'render element' => 'children',
+    ],
+    'location_selector_block' => [
       'variables' => [
         'content' => NULL,
       ],
@@ -236,6 +243,7 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
     $form['description']['widget'][0]['#required'] = 'true';
     $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories();
     $form['#validate'][] = 'validate_category';
+    $form['relations']['#access'] = FALSE;
   }
   if ($form_id == 'user_form') {
     $form['reinvite_user'] = [
@@ -477,13 +485,21 @@ function vss_custom_preprocess_paragraph(&$variables) {
         $vtt_entry = Paragraph::load($vtt_p['target_id']);
         $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
         $vtt = $vtt_entry->hasTranslation($current_language) ? $vtt_entry->getTranslation($current_language) : $vtt_entry;
-        $vtt_file = $vtt->get('field_vtt_file')->entity->getFileUri();
-        $langcode = $vtt->get('field_language')->getValue()[0]['target_id'];
-        if ($current_language == $langcode && $show_transcript) {
-          $transcript = vss_custom_parse_vtt($vtt_file);
-          $variables['transcript'][$vtt_p['target_id']] = $transcript;
-          $variables['transcript_id'] = $vtt_p['target_id'];
+
+        if ($vtt->get('field_vtt_file')->getValue() != NULL) {
+          $vtt_file = $vtt->get('field_vtt_file')->entity->getFileUri();
         }
+        if ($vtt->get('field_language')->getValue() != NULL) {
+          $langcode = $vtt->get('field_language')->getValue()[0]['target_id'];
+        }
+        if ($vtt->get('field_language')->getValue() != NULL && $vtt->get('field_vtt_file')->getValue() != NULL) {
+          if ($current_language == $langcode && $show_transcript) {
+            $transcript = vss_custom_parse_vtt($vtt_file);
+            $variables['transcript'][$vtt_p['target_id']] = $transcript;
+            $variables['transcript_id'] = $vtt_p['target_id'];
+          }
+        }
+
       }
     }
   }
@@ -582,6 +598,15 @@ function vss_custom_preprocess_block(&$variables) {
   if ($variables['elements']['#base_plugin_id'] == 'system_breadcrumb_block') {
     $variables['elements']['#cache']['max-age'] = 0;
     $variables['#cache']['max-age'] = 0;
+  }
+  if ($variables['elements']['#base_plugin_id'] == 'disclaimer_pop_up_block') {
+    $variables['elements']['#cache']['max-age'] = 0;
+    $variables['#cache']['max-age'] = 0;
+    $cookie_get = \Drupal::request()->cookies->get('disclaimer');
+    if ($cookie_get) {
+      unset($variables['label']);
+      unset($variables['content']);
+    }
   }
 }
 
@@ -838,5 +863,38 @@ function vss_custom_form_views_exposed_form_alter(&$form, FormStateInterface $fo
         'cur_yr' => t('This Year'),
       ],
     ];
+  }
+}
+
+/**
+ * View preprocess.
+ */
+function vss_custom_preprocess_views_view(&$variables) {
+  // dump($variables['view']->element['#name']);.
+  if ($variables['id'] == 'need_help_view') {
+    $domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+
+    if (strpos($domain, "iq") !== FALSE) {
+      $country = 'IRAQ';
+    }
+    else {
+      $country = 'ECUADOR';
+    }
+    $variables['header']['area_text_custom']['#markup'] = $variables['header']['area_text_custom']['#markup'] . ' ' . '<b>' . $country . '</b>';
+  }
+}
+
+/**
+ * View field preprocess.
+ */
+function vss_custom_preprocess_views_view_field(&$variables) {
+  if ($variables['view']->storage->id() == 'search') {
+    if ($variables['field']->field == 'name') {
+      $variables['output'] = explode(",", $variables['output'])[0];
+    }
+    if ($variables['field']->field == 'field_icon') {
+      $string = explode(",", $variables['output'])[0];
+      $variables['output'] = Markup::create($string);
+    }
   }
 }

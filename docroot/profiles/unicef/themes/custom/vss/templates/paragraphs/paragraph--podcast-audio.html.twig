@@ -54,19 +54,19 @@
 	<div class="podcast-wrapper">
 		<div{{attributes.addClass(classes)}}>
 			{% block content %}
-			{% if content.field_audio['#items'] is not empty %}
-				<audio id="audio_{{ transcript_id }}" class="audio" controls preload="none">
-					<source src="{{ file_url(content.field_audio['#items'].entity.uri.value) }}">
-					{% for item in content.field_vtt_entries %}
-						{% if item['#paragraph'] %}
-							<track label="{{item['#paragraph'].field_language.target_id}}" style="color: white" id="trk" kind="subtitles" srclang="{{item['#paragraph'].field_language.target_id}}" src="{{ file_url(item['#paragraph'].field_vtt_file.entity.uri.value) }}" default/>
-						{% endif %}
-					{% endfor %}
-				</source>
-			</audio>
-		{% endif %}
-	{% endblock %}
-</div>
+				{% if content.field_audio['#items'] is not empty %}
+					<audio id="audio_{{ transcript_id }}" class="audio" controls preload="none">
+						<source src="{{ file_url(content.field_audio['#items'].entity.uri.value) }}">
+							{% for item in content.field_vtt_entries %}
+								{% if item['#paragraph'] and (item['#paragraph'].field_vtt_file.entity.uri.value is not null)%}
+									<track label="{{item['#paragraph'].field_language.target_id}}" style="color: white" id="trk" kind="subtitles" srclang="{{item['#paragraph'].field_language.target_id}}" src="{{ file_url(item['#paragraph'].field_vtt_file.entity.uri.value) }}" default/>
+								{% endif %}
+							{% endfor %}
+						</source>
+					</audio>
+			    {% endif %}
+		    {% endblock %}
+	    </div>
 {% if transcript_id %}
 	<div class="podcast-transcript-btn">
 		<button class="show-podcast-transcript button-defult" id="{{ 'show_podcast_' ~ transcript_id }}" data-id="{{ 'transcript_' ~ transcript_id }}">{{ 'SHOW TRANSCRIPTION'|t }}

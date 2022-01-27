@@ -1,0 +1,30 @@
+uuid: 2203a2d2-5a16-44f0-97ef-f6b6a581cba7
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:get_help_block:a761bec5-14a3-4791-8235-35c558ca2024'
+  module:
+    - block_content
+    - system
+  theme:
+    - vss_amp
+id: amp_gethelp
+theme: vss_amp
+region: content
+weight: -5
+provider: null
+plugin: 'block_content:a761bec5-14a3-4791-8235-35c558ca2024'
+settings:
+  id: 'block_content:a761bec5-14a3-4791-8235-35c558ca2024'
+  label: 'Get Help'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

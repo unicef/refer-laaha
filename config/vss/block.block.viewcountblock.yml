@@ -16,16 +16,16 @@ plugin: view_count_block
 settings:
   id: view_count_block
   label: 'View Count block'
-  provider: vss_custom
   label_display: '0'
+  provider: vss_custom
 visibility:
   node_type:
     id: node_type
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
     bundles:
       article: article
       podcast: podcast
       scorm: scorm
       video: video
-    negate: false
-    context_mapping:
-      node: '@node.node_route_context:node'

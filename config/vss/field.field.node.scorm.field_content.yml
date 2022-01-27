@@ -22,10 +22,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       layout: layout
       scorm: scorm
+    negate: 0
     target_bundles_drag_drop:
       external_videos:
         weight: 11
@@ -40,14 +40,14 @@ settings:
         weight: 14
         enabled: false
       layout:
-        enabled: true
         weight: 15
+        enabled: true
       podcast_audio:
         weight: 16
         enabled: false
       scorm:
-        enabled: true
         weight: 17
+        enabled: true
       video:
         weight: 18
         enabled: false

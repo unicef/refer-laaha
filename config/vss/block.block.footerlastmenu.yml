@@ -17,11 +17,11 @@ plugin: 'menu_item_fields:footer-last-menu'
 settings:
   id: 'menu_item_fields:footer-last-menu'
   label: 'Footer Last Menu'
-  provider: menu_item_fields
   label_display: '0'
+  provider: menu_item_fields
+  view_mode: default
   level: '1'
   depth: '0'
   expand_all_items: 0
-  view_mode: default
   view_mode_override_field: _none
 visibility: {  }

@@ -2148,10 +2148,15 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
     background: url("../images/close.png") 0 0 no-repeat;
     border: 0;
     height: 24px;
+    right: 30px;
+    top: 30px;
     width: 24px; }
   .ui-dialog .input-group {
-    width: 75%;
+    width: 99%;
     margin: 0 auto; }
+    @media screen and (min-width: 768px) {
+      .ui-dialog .input-group {
+        width: 76.3%; } }
     .ui-dialog .input-group input[name='search_api_fulltext'] {
       border: 4px solid #CB9CA1;
       border-radius: 4px !important;
@@ -2185,62 +2190,69 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
       margin: 0 -12px; } }
   .ui-dialog .view-content .views-row {
     display: inline-block;
-    margin: 0 12px 20px;
+    margin: 0 11px 20px;
     vertical-align: top;
-    width: calc(24.6% - 24px); }
+    width: calc(24.7% - 23px); }
     @media screen and (max-width: 414px) {
       .ui-dialog .view-content .views-row {
         display: block;
-        width: calc(100% - 24px); } }
+        margin: 0 15px 20px;
+        width: calc(100% - 30px); } }
+    @media screen and (min-width: 1040px) {
+      .ui-dialog .view-content .views-row {
+        width: calc(24.7% - 22px); } }
+    .ui-dialog .view-content .views-row .popular-search-thumbnail {
+      position: relative;
+      margin-bottom: 10px; }
+      @media screen and (min-width: 768px) {
+        .ui-dialog .view-content .views-row .popular-search-thumbnail {
+          margin-bottom: 16px; } }
+      .ui-dialog .view-content .views-row .popular-search-thumbnail .thumbnail-icon {
+        z-index: 9; }
+      .ui-dialog .view-content .views-row .popular-search-thumbnail .popular-picture {
+        display: block;
+        height: auto;
+        max-width: 100%;
+        position: relative; }
+        .ui-dialog .view-content .views-row .popular-search-thumbnail .popular-picture::before {
+          content: "";
+          display: block;
+          width: 100%;
+          padding-top: 56.3%; }
+        .ui-dialog .view-content .views-row .popular-search-thumbnail .popular-picture img {
+          -webkit-transition: all 250ms ease;
+          transition: all 250ms ease;
+          position: absolute;
+          top: 0;
+          left: 0;
+          -webkit-transform: scale(1);
+                  transform: scale(1);
+          height: 100%;
+          width: 100%;
+          -o-object-fit: cover;
+          object-fit: cover; }
+      .ui-dialog .view-content .views-row .popular-search-thumbnail img {
+        border-radius: 20px; }
+      .ui-dialog .view-content .views-row .popular-search-thumbnail span.video-time,
+      .ui-dialog .view-content .views-row .popular-search-thumbnail span.podcast-time {
+        background: #000;
+        color: #ffffff;
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        padding: 0 5px; }
     @media screen and (max-width: 414px) {
       .ui-dialog .view-content .views-row:nth-of-type(1), .ui-dialog .view-content .views-row:nth-of-type(2) {
         display: block;
-        width: calc(100% - 24px); } }
+        width: calc(100% - 30px); } }
     @media screen and (min-width: 768px) {
       .ui-dialog .view-content .views-row:nth-of-type(1), .ui-dialog .view-content .views-row:nth-of-type(2) {
-        width: calc(49.7% - 24px); } }
+        width: calc(49.6% - 22px); } }
+    @media screen and (min-width: 1100px) {
+      .ui-dialog .view-content .views-row:nth-of-type(1) .popular-search-thumbnail .popular-picture img, .ui-dialog .view-content .views-row:nth-of-type(2) .popular-search-thumbnail .popular-picture img {
+        height: 286px; } }
     .ui-dialog .view-content .views-row img {
       width: 100%; }
-  .ui-dialog .view-content .popular-search-thumbnail {
-    position: relative;
-    margin-bottom: 10px; }
-    @media screen and (min-width: 768px) {
-      .ui-dialog .view-content .popular-search-thumbnail {
-        margin-bottom: 16px; } }
-    .ui-dialog .view-content .popular-search-thumbnail .thumbnail-icon {
-      z-index: 9; }
-    .ui-dialog .view-content .popular-search-thumbnail .popular-picture {
-      display: block;
-      height: auto;
-      max-width: 100%;
-      position: relative; }
-      .ui-dialog .view-content .popular-search-thumbnail .popular-picture::before {
-        content: "";
-        display: block;
-        width: 100%;
-        padding-top: 63.1%; }
-      .ui-dialog .view-content .popular-search-thumbnail .popular-picture img {
-        -webkit-transition: all 250ms ease;
-        transition: all 250ms ease;
-        position: absolute;
-        top: 0;
-        left: 0;
-        -webkit-transform: scale(1);
-                transform: scale(1);
-        height: 100%;
-        width: 100%;
-        -o-object-fit: cover;
-        object-fit: cover; }
-    .ui-dialog .view-content .popular-search-thumbnail img {
-      border-radius: 20px; }
-    .ui-dialog .view-content .popular-search-thumbnail span.video-time,
-    .ui-dialog .view-content .popular-search-thumbnail span.podcast-time {
-      background: #000;
-      color: #ffffff;
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-      padding: 0 5px; }
   .ui-dialog .view-content .popped-category-title a {
     font-size: 1.14em;
     text-decoration: none; }

@@ -16,10 +16,10 @@ plugin: discover_block
 settings:
   id: discover_block
   label: 'Discover Block'
-  provider: vss_custom
   label_display: '0'
+  provider: vss_custom
 visibility:
   request_path:
     id: request_path
-    pages: '<front>'
     negate: false
+    pages: '<front>'

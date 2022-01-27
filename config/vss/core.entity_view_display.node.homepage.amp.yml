@@ -1,0 +1,42 @@
+uuid: 2cd1c75d-12eb-4eda-b773-320395e6e132
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.amp
+    - field.field.node.homepage.body
+    - field.field.node.homepage.field_domain_access
+    - field.field.node.homepage.field_domain_all_affiliates
+    - field.field.node.homepage.field_preview_password
+    - node.type.homepage
+  module:
+    - amp
+    - user
+id: node.homepage.amp
+targetEntityType: node
+bundle: homepage
+mode: amp
+content:
+  body:
+    type: amp_iframe
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_preview_password: true
+  langcode: true
+  search_api_excerpt: true

@@ -1,0 +1,21 @@
+uuid: edbebb30-0643-4742-be3f-3c3e7ac242a4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_domain_all_affiliates
+    - node.type.service_provider
+id: node.service_provider.field_domain_all_affiliates
+field_name: field_domain_all_affiliates
+entity_type: node
+bundle: service_provider
+label: 'Send to all affiliates'
+description: 'Make this content available on all domains.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

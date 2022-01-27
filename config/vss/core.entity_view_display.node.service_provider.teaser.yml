@@ -1,0 +1,56 @@
+uuid: 75c20534-2e02-4e07-b8d5-f1e88a1a26ee
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.service_provider.field_city
+    - field.field.node.service_provider.field_country
+    - field.field.node.service_provider.field_description
+    - field.field.node.service_provider.field_domain_access
+    - field.field.node.service_provider.field_domain_all_affiliates
+    - field.field.node.service_provider.field_email_id
+    - field.field.node.service_provider.field_facebook
+    - field.field.node.service_provider.field_hierarchy_level_1
+    - field.field.node.service_provider.field_hierarchy_level_2
+    - field.field.node.service_provider.field_hierarchy_level_3
+    - field.field.node.service_provider.field_hierarchy_level_4
+    - field.field.node.service_provider.field_linkedin
+    - field.field.node.service_provider.field_priority
+    - field.field.node.service_provider.field_service_provider_name
+    - field.field.node.service_provider.field_state
+    - field.field.node.service_provider.field_telephone_number
+    - field.field.node.service_provider.field_twitter
+    - node.type.service_provider
+  module:
+    - user
+id: node.service_provider.teaser
+targetEntityType: node
+bundle: service_provider
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_city: true
+  field_country: true
+  field_description: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_email_id: true
+  field_facebook: true
+  field_hierarchy_level_1: true
+  field_hierarchy_level_2: true
+  field_hierarchy_level_3: true
+  field_hierarchy_level_4: true
+  field_linkedin: true
+  field_priority: true
+  field_service_provider_name: true
+  field_state: true
+  field_telephone_number: true
+  field_twitter: true
+  langcode: true
+  search_api_excerpt: true
