@@ -1,0 +1,25 @@
+uuid: 66900bb9-029d-44e4-b2d5-6a5e2ee268e6
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - vss_custom
+  theme:
+    - vss_amp
+id: amp_discoverblock
+theme: vss_amp
+region: content
+weight: -4
+provider: null
+plugin: discover_block
+settings:
+  id: discover_block
+  label: 'Discover block'
+  label_display: '0'
+  provider: vss_custom
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'
