@@ -20,11 +20,16 @@
 		background: url('../images/close.png') 0 0 no-repeat;
 		border: 0;
     height: 24px;
+		right: 30px;
+    top: 30px;
     width: 24px;
 	}
 	.input-group {
-		width: 75%;
+		width: 99%;
 		margin: 0 auto;
+		@media screen and (min-width: 768px) {
+			width: 76.3%;
+		}
 		input[name='search_api_fulltext'] {
 			border: 4px solid #CB9CA1;
 			border-radius: 4px !important;
@@ -68,71 +73,80 @@
 	
 		.views-row {
 			display: inline-block;
-			margin: 0 12px 20px;
+			margin: 0 11px 20px;
 			vertical-align: top;
-			width: calc(24.6% - 24px);
+			width: calc(24.7% - 23px);
 			@media screen and (max-width: 414px) {
 				display: block;
-				width: calc(100% - 24px);
+				margin: 0 15px 20px;
+				width: calc(100% - 30px);
+			}
+			@media screen and (min-width: 1040px) {
+				width: calc(24.7% - 22px);
+			}
+			.popular-search-thumbnail {
+				position: relative;
+				margin-bottom: 10px;
+				@media screen and (min-width: 768px) {
+					margin-bottom: 16px;
+				}
+				.thumbnail-icon {
+					z-index: 9;
+				}
+				.popular-picture {
+					display: block;
+					height: auto;
+					max-width: 100%;
+					position: relative;
+					&::before {
+						content: "";
+						display: block;
+						width: 100%;
+						padding-top: 56.3%;
+					}
+					img {
+						transition: all 250ms ease;
+						position: absolute;
+						top: 0;
+						left: 0;
+						transform: scale(1);
+						height: 100%;
+						width: 100%;
+						-o-object-fit: cover;
+						object-fit: cover;
+						
+					}
+				}
+				img {
+					border-radius: 20px;
+				}
+				span.video-time,
+				span.podcast-time {
+					background: $base-black-color;
+					color:$base-white-color;
+					position: absolute;
+					right: 10px;
+					bottom: 10px;
+					padding: 0 5px;
+				}
 			}
 			&:nth-of-type(1),
 			&:nth-of-type(2) {
 				@media screen and (max-width: 414px) {
 					display: block;
-					width: calc(100% - 24px);
+					width: calc(100% - 30px);
 				}
 				@media screen and (min-width: 768px) {
-					width: calc(49.7% - 24px);
+					width: calc(49.6% - 22px);
+				}
+				@media screen and (min-width: 1100px) {
+					.popular-search-thumbnail .popular-picture img {
+						height: 286px;
+					}
 				}
 			}
 			img {
 				width: 100%;
-			}
-		}
-		.popular-search-thumbnail {
-			position: relative;
-			margin-bottom: 10px;
-			@media screen and (min-width: 768px) {
-				margin-bottom: 16px;
-			}
-			.thumbnail-icon {
-				z-index: 9;
-			}
-			.popular-picture {
-				display: block;
-				height: auto;
-				max-width: 100%;
-				position: relative;
-				&::before {
-					content: "";
-					display: block;
-					width: 100%;
-					padding-top: 63.1%;
-				}
-				img {
-					transition: all 250ms ease;
-					position: absolute;
-					top: 0;
-					left: 0;
-					transform: scale(1);
-					height: 100%;
-					width: 100%;
-					-o-object-fit: cover;
-					object-fit: cover;
-				}
-			}
-		
-			img {
-				border-radius: 20px;
-			}
-			span.video-time,
-			span.podcast-time {
-				background: $base-black-color;
-				color:$base-white-color;
-				position: absolute;
-				right: 10px;
-				bottom: 10px;
-				padding: 0 5px;
 			}
 		}
 		.popped-category-title a {
