@@ -38,3 +38,11 @@ function vss_content_update_9016() {
   $importer = \Drupal::service('vss_content.importer');
   $importer->importContent('block_content/946137b3-91f1-425e-b257-f9ac1f356f84.yml');
 }
+
+/**
+ * Hook update for the need help block.
+ */
+function vss_content_update_9017() {
+  $importer = \Drupal::service('vss_content.importer');
+  $importer->importContent('block_content/0b1ba97b-332f-4c68-b979-8bfab8952f16.yml');
+}

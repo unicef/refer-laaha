@@ -1,0 +1,16 @@
+uuid: 201d0da2-e09e-47db-b611-f78c7c9cdf79
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.service_provider
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.service_provider
+target_entity_type_id: node
+target_bundle: service_provider
+default_langcode: current_interface
+language_alterable: true

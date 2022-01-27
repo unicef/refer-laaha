@@ -11,14 +11,14 @@ dependencies:
 id: vss_amp_settingsmenu
 theme: vss_amp
 region: header
-weight: -1
+weight: -4
 provider: null
 plugin: 'system_menu_block:settings-menu'
 settings:
   id: 'system_menu_block:settings-menu'
   label: 'Settings Menu'
-  provider: system
   label_display: '0'
+  provider: system
   level: 1
   depth: 2
   expand_all_items: false

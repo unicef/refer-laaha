@@ -12,6 +12,7 @@
           if (!sessionStorage.getItem('pop-up')) {
             sessionStorage.setItem('pop-up', '1');
           }
+          $.cookie('disclaimer', '1');
         });
         if (!drupalSettings.disclaimer_narrate) {
         return;
@@ -27,7 +28,13 @@
         // add UI event handlers
         play.addEventListener("click", () => {
           var utterance = new SpeechSynthesisUtterance(drupalSettings.disclaimer_narrate);
-          utterance.lang = drupalSettings.disclaimer_landId;
+          if (drupalSettings.voiceId) {
+            var voices = speechSynthesis.getVoices();
+            utterance.voice = voices[drupalSettings.voiceId];
+          }
+          else {
+            utterance.lang = drupalSettings.disclaimer_landId;
+          }
           play.hidden = true;
           resume.hidden = true;
           pause.hidden = false;

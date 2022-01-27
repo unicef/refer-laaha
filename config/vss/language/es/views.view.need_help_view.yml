@@ -1,0 +1,24 @@
+label: 'Need Help View Sp'
+display:
+  default:
+    display_options:
+      title: 'Necesitas ayuda'
+      fields:
+        nothing:
+          label: 'Habla a'
+        field_email_id:
+          label: 'Identificación de correo'
+        field_telephone_number:
+          label: 'Número de teléfono'
+        nothing_1:
+          label: 'Redes sociales'
+      header:
+        area_text_custom:
+          content: '<b>Estás seleccionando ciudad del país</b>'
+      pager:
+        options:
+          tags:
+            next: 'Próximo ›'
+            previous: '‹ Previo'
+            first: '« Primero'
+            last: 'Último »'
