@@ -1170,7 +1170,7 @@ body {
 }
 
 /* global sticky*/
-.content-wrapper-main {
+.layout-container {
   position: relative;
 
   .global-sticky-region {
@@ -1208,8 +1208,7 @@ body {
           }
 
           img {
-            display: block;
-            margin: 0 auto 6px;
+            display: none;
           }
 
           span {
