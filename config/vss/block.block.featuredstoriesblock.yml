@@ -16,13 +16,13 @@ plugin: featured_stories_block
 settings:
   id: featured_stories_block
   label: 'Featured Stories block'
-  provider: vss_custom
   label_display: '0'
+  provider: vss_custom
 visibility:
   'entity_bundle:taxonomy_term':
     id: 'entity_bundle:taxonomy_term'
-    bundles:
-      categories: categories
     negate: false
     context_mapping:
       taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      categories: categories
