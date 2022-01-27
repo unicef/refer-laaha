@@ -46,6 +46,7 @@ class LocationSelectorBlock extends BlockBase implements ContainerFactoryPluginI
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->languageManager = $container->get('language_manager');
     $instance->vssCommonService = $container->get('vss_common_config.default');
+    $instance->pageCacheKillSwitch = $container->get('page_cache_kill_switch');
     return $instance;
   }
 
@@ -88,6 +89,7 @@ class LocationSelectorBlock extends BlockBase implements ContainerFactoryPluginI
     $build['#attached']['drupalSettings']['disclaimer'] = TRUE;
     $build['#cache']['tags'] = $this->getCacheTags();
     $build['#cache']['contexts'] = $this->getCacheContexts();
+    $this->pageCacheKillSwitch->trigger();
     return $build;
   }
 
