@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Url;
+use Drupal\Core\Routing\UrlGeneratorInterface;
 
 /**
  * Class ManageLocationForm.
@@ -39,6 +40,13 @@ class ManageLocationForm extends FormBase {
   protected $entityManager;
 
   /**
+   * A UrlService instance.
+   *
+   * @var Drupal\Core\Routing\UrlGeneratorInterface
+   */
+  protected $urlGenerator;
+
+  /**
    * ManageLocation constructor.
    *
    * @param \Psr\Log\LoggerChannelFactory $logger
@@ -51,13 +59,16 @@ class ManageLocationForm extends FormBase {
    *   The messenger service.
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
    *   The form_builder service.
+   * @param \Drupal\Core\Routing\UrlGeneratorInterface $url_generator
+   *   The url generator.
    */
-  public function __construct(LoggerChannelFactory $logger, Connection $connection, EntityTypeManagerInterface $entityManager, MessengerInterface $messenger, FormBuilderInterface $form_builder) {
+  public function __construct(LoggerChannelFactory $logger, Connection $connection, EntityTypeManagerInterface $entityManager, MessengerInterface $messenger, FormBuilderInterface $form_builder, UrlGeneratorInterface $url_generator) {
     $this->logger = $logger;
     $this->connection = $connection;
     $this->entityManager = $entityManager;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
+    $this->urlGenerator = $url_generator;
   }
 
   /**
@@ -69,7 +80,8 @@ class ManageLocationForm extends FormBase {
       $container->get('database'),
       $container->get('entity_type.manager'),
       $container->get('messenger'),
-      $container->get('form_builder')
+      $container->get('form_builder'),
+      $container->get('url_generator')
     );
   }
 
@@ -164,10 +176,16 @@ class ManageLocationForm extends FormBase {
           }
         }
         // @todo url routes to be updated.
-        $clone_url = Url::fromRoute('erpw_location.manage_location')->toString();
-        $delete_url = Url::fromUri('base:/delete-location/' . $tid . '')->toString();
-        $edit_url = Url::fromUri('base:/update-location/' . $tid . '')->toString();
-
+        $clone_url = $this->urlGenerator->generateFromRoute('erpw_location.manage_location');
+        $delete_url = $this->urlGenerator->generateFromRoute('erpw_location.delete_location',
+           ['tid' => $tid]
+         );
+        $edit_url = $this->urlGenerator->generateFromRoute('erpw_location.edit_location',
+           ['id' => $tid]
+         );
+        $view_url = $this->urlGenerator->generateFromRoute('erpw_location.view_location',
+           ['tid' => $tid, 'mode' => 'view']
+        );
         $location_operations = '<div class="edit-delete-links margin-space"> 
         <span class="clone-service-type"><a href="' . $clone_url . '">' . $this->t('Clone') . '</a></span>
         <span class="delete-link"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>
@@ -177,7 +195,7 @@ class ManageLocationForm extends FormBase {
         $form['location_list']['location_' . $tid] = [
           '#type' => 'markup',
           '#markup' => '<div class="location-card"><div class="title-with-icons"><div id="location-title" class="location-title">' . $location . '</div>
-          <div class="location-operations">' . $location_operations . '</div></div><div class="location-details>' . $location_details . '</div></div> ',
+          <div class="location-operations">' . $location_operations . '</div></div><a href="' . $view_url . '"><div class="location-details>' . $location_details . '</div></div></a> ',
         ];
       }
     }

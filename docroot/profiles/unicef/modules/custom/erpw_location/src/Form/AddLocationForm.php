@@ -15,6 +15,7 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Routing\UrlGeneratorInterface;
 
 /**
  * Class for add location.
@@ -50,6 +51,13 @@ class AddLocationForm extends FormBase {
   protected $locationService;
 
   /**
+   * A UrlService instance.
+   *
+   * @var Drupal\Core\Routing\UrlGeneratorInterface
+   */
+  protected $urlGenerator;
+
+  /**
    * A cid variable.
    *
    * @var Drupal\erpw_location
@@ -78,19 +86,23 @@ class AddLocationForm extends FormBase {
    *   The form_builder service.
    * @param \Drupal\erpw_location\LocationService $location_service
    *   The location service.
+   * @param \Drupal\Core\Routing\UrlGeneratorInterface $url_generator
+   *   The url generator.
    */
   public function __construct(LoggerChannelFactory $logger,
     Connection $connection,
     EntityTypeManagerInterface $entity_type_manager,
     MessengerInterface $messenger,
     FormBuilderInterface $form_builder,
-    LocationService $location_service) {
+    LocationService $location_service,
+    UrlGeneratorInterface $url_generator) {
     $this->logger = $logger;
     $this->connection = $connection;
     $this->entityManager = $entity_type_manager->getStorage('location');
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
     $this->locationService = $location_service;
+    $this->urlGenerator = $url_generator;
   }
 
   /**
@@ -104,6 +116,7 @@ class AddLocationForm extends FormBase {
       $container->get('messenger'),
       $container->get('form_builder'),
       $container->get('erpw_location.location_services'),
+      $container->get('url_generator')
     );
   }
 
@@ -137,7 +150,7 @@ class AddLocationForm extends FormBase {
         '#title' => $this->t('Country name'),
         '#ajax' => [
           'callback' => '::ajaxCallback',
-          'wrapper' => 'all-wrapper',
+          'wrapper' => 'top-wrapper',
         ],
       ];
     }
@@ -146,7 +159,6 @@ class AddLocationForm extends FormBase {
       if (!empty($id)) {
 
         $ancestors = $this->locationService->getAllAncestors($id);
-        // Echo "<pre>"; print_r($ancestors); die;.
         $top_level = $this->locationService->getTaxonomyTermById($ancestors[0]);
         if (isset($ancestors[1])) {
           $level_1_name = $this->locationService->getTaxonomyTermById($ancestors[1]) . " " . "(" . $ancestors[1] . ")";
@@ -167,50 +179,64 @@ class AddLocationForm extends FormBase {
       }
     }
     $form_state->setCached(FALSE);
-
+    $form['top_wrapper'] = [
+      '#type' => 'container',
+      '#attributes' => ['id' => 'top-wrapper'],
+    ];
     $form['all_wrapper'] = [
       '#type' => 'container',
-      '#attributes' => ['id' => 'all-wrapper', 'class' => 'location-container'],
+      '#attributes' => ['id' => 'all-wrapper'],
     ];
     if ($id == "") {
-      $form['all_wrapper']['intro_text'] = [
+      $form['top_wrapper']['all_wrapper']['intro_text'] = [
         '#type' => 'markup',
         '#markup' => '<div id="intro-text">' . $this->t('Please select the country to fill the location details') . '</div>',
       ];
     }
+
+    if (!empty($form_state->getValue('location_options')) || !empty($id)) {
+      $form['top_wrapper']['all_wrapper']['#prefix'] = '<div class="location-container">';
+      $form['top_wrapper']['all_wrapper']['#suffix'] = '</div>';
+    }
+
     if (!empty($form_state->getValue('location_options'))) {
-      $form['all_wrapper']['location-container-heading'] = [
+      $form['top_wrapper']['all_wrapper']['location-container-heading'] = [
         '#type' => 'markup',
         '#markup' => '<div class="location-container-heading">' . $this->t('Add the new location details') . '</div>',
       ];
+    } if (!empty($location_options) && $id !== "") {
+      $form['top_wrapper']['all_wrapper']['location-container-heading'] = [
+        '#type' => 'markup',
+        '#markup' => '<div class="location-container-heading">' . $this->t('Update location details') . '</div>',
+      ];
     }
-    $form['all_wrapper']['level1_wrapper'] = [
+    $form['top_wrapper']['all_wrapper']['level1_wrapper'] = [
       '#type' => 'container',
       '#attributes' => ['id' => 'level1-wrapper', 'class' => 'location-level'],
     ];
-    $form['all_wrapper']['level2_wrapper'] = [
+    $form['top_wrapper']['all_wrapper']['level2_wrapper'] = [
       '#type' => 'container',
       '#attributes' => ['id' => 'level2-wrapper', 'class' => 'location-level'],
     ];
-    $form['all_wrapper']['level3_wrapper'] = [
+    $form['top_wrapper']['all_wrapper']['level3_wrapper'] = [
       '#type' => 'container',
       '#attributes' => ['id' => 'level3-wrapper', 'class' => 'location-level'],
     ];
-    $form['all_wrapper']['level2_wrapper']['error_text'] = [
+    $form['top_wrapper']['all_wrapper']['level2_wrapper']['error_text'] = [
       '#type' => 'markup',
       '#markup' => '<div id="error-text"></div>',
     ];
-    $form['all_wrapper']['level3_wrapper']['error_text'] = [
+    $form['top_wrapper']['all_wrapper']['level3_wrapper']['error_text'] = [
       '#type' => 'markup',
       '#markup' => '<div id="error-text2"></div>',
     ];
-    $form['all_wrapper']['level4_wrapper']['error_text'] = [
+    $form['top_wrapper']['all_wrapper']['level4_wrapper']['error_text'] = [
       '#type' => 'markup',
       '#markup' => '<div id="error-text3"></div>',
     ];
     if ($form_state->getValue('location_options') != FALSE || !empty($id)) {
       if (empty($id)) {
-        unset($form['all_wrapper']['intro_text']);
+        unset($form['top_wrapper']['all_wrapper']['intro_text']);
         $location = $this->entityManager->load($form_state->getValue('location_options'));
         $location_levels = $this->locationService->getLocationLevels($form_state->getValue('location_options'));
         $this->cid = $location->get('field_location_taxonomy_term')->target_id;
@@ -229,7 +255,7 @@ class AddLocationForm extends FormBase {
             $readonly_level1 = FALSE;
           }
         }
-        $form['all_wrapper']['level1_wrapper']['level1'] = [
+        $form['top_wrapper']['all_wrapper']['level1_wrapper']['level1'] = [
           '#type' => 'textfield',
           '#title' => $location_levels[0],
           '#autocomplete_route_name' => 'erpw_location.autocomplete',
@@ -246,7 +272,7 @@ class AddLocationForm extends FormBase {
             'class' => [
               'mycategory',
             ],
-            'placeholder' => $this->t('Plese enter') . " " . $location_levels[0],
+            'placeholder' => $this->t('Select') . " " . $location_levels[0],
             'disabled' => $readonly_level1,
           ],
         ];
@@ -268,7 +294,7 @@ class AddLocationForm extends FormBase {
           }
         }
 
-        $form['all_wrapper']['level2_wrapper']['level2'] = [
+        $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2'] = [
           '#type' => 'textfield',
           '#title' => $location_levels[1],
           '#autocomplete_route_name' => 'erpw_location.autocomplete',
@@ -286,7 +312,7 @@ class AddLocationForm extends FormBase {
               'mycategory',
 
             ],
-            'placeholder' => $this->t('Plese enter') . " " . $location_levels[1],
+            'placeholder' => $this->t('Select') . " " . $location_levels[1],
             'disabled' => $readonly_level2,
           ],
 
@@ -308,7 +334,7 @@ class AddLocationForm extends FormBase {
             $readonly_level3 = FALSE;
           }
         }
-        $form['all_wrapper']['level3_wrapper']['level3'] = [
+        $form['top_wrapper']['all_wrapper']['level3_wrapper']['level3'] = [
           '#type' => 'textfield',
           '#title' => $location_levels[2],
           '#autocomplete_route_name' => 'erpw_location.autocomplete',
@@ -319,7 +345,7 @@ class AddLocationForm extends FormBase {
             'class' => [
               'mycategory',
             ],
-            'placeholder' => $this->t('Plese enter') . " " . $location_levels[2],
+            'placeholder' => $this->t('Select') . " " . $location_levels[2],
             'disabled' => $readonly_level3,
           ],
         ];
@@ -334,7 +360,7 @@ class AddLocationForm extends FormBase {
             $readonly_level4 = FALSE;
           }
         }
-        $form['all_wrapper']['level4_wrapper']['level4'] = [
+        $form['top_wrapper']['all_wrapper']['level4_wrapper']['level4'] = [
           '#type' => 'textfield',
           '#title' => $location_levels[3],
           '#default_value' => $level_4_name,
@@ -343,13 +369,13 @@ class AddLocationForm extends FormBase {
             'class' => [
               'mycategory',
             ],
-            'placeholder' => $this->t('Plese enter') . " " . $location_levels[3],
+            'placeholder' => $this->t('Select') . " " . $location_levels[3],
             'disabled' => $readonly_level4,
           ],
         ];
       }
 
-      $form['all_wrapper']['save_draft'] = [
+      $form['top_wrapper']['submit_wrapper']['save_draft'] = [
         '#type' => 'submit',
         '#value' => $this->t('Save as Draft'),
         '#attributes' => [
@@ -361,16 +387,21 @@ class AddLocationForm extends FormBase {
           'callback' => '::sendMessageForm',
         ],
       ];
-      $form['all_wrapper']['button'] = [
+      $form['top_wrapper']['submit_wrapper']['button'] = [
         '#type' => 'submit',
         '#value' => $this->t('Publish'),
         '#ajax' => [
           'callback' => '::sendMessageForm',
         ],
       ];
+      // $form['top_wrapper'][] = $form['all_wrapper'];
+      // $form['top_wrapper'][] = $form['submit_wrapper'];
     }
+
+    $url = $this->urlGenerator->generateFromRoute('erpw_location.manage_location');
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    $form['#attached']['drupalSettings']['erpw_location']['manage_location'] = $url;
     return $form;
 
   }
@@ -379,28 +410,28 @@ class AddLocationForm extends FormBase {
    * Ajax callback to add location.
    */
   public function ajaxCallback(array &$form, FormStateInterface $form_state) {
-    unset($form['all_wrapper']['intro_text']);
+    unset($form['top_wrapper']['all_wrapper']['intro_text']);
 
-    $form['all_wrapper']['level1_wrapper']['level1']['#value'] = "";
-    $form['all_wrapper']['level2_wrapper']['level2']['#value'] = "";
-    $form['all_wrapper']['level3_wrapper']['level3']['#value'] = "";
-    $form['#disable_inline_form_errors_summary'] = TRUE;
+    $form['top_wrapper']['all_wrapper']['level1_wrapper']['level1']['#value'] = "";
+    $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#value'] = "";
+    $form['top_wrapper']['all_wrapper']['level3_wrapper']['level3']['#value'] = "";
+    $form['top_wrapper']['#disable_inline_form_errors_summary'] = TRUE;
 
-    return $form['all_wrapper'];
+    return $form['top_wrapper'];
   }
 
   /**
    * Ajax callback to add location.
    */
   public function deptFilterSelect(array &$form, FormStateInterface $form_state) {
-    return $form['all_wrapper']['level2_wrapper'];
+    return $form['top_wrapper']['all_wrapper']['level2_wrapper'];
   }
 
   /**
    * Ajax callback to add location.
    */
   public function ajaxCallback3(array &$form, FormStateInterface $form_state) {
-    return $form['all_wrapper']['level3_wrapper'];
+    return $form['top_wrapper']['all_wrapper']['level3_wrapper'];
   }
 
   /**
@@ -431,21 +462,21 @@ class AddLocationForm extends FormBase {
     }
     if (empty($form_state->getValue('level1'))) {
       $response->addCommand(new HtmlCommand('#error-text',
-      $form['all_wrapper']['level1_wrapper']['level1']['#title'] . "  " . $this->t('field is required.')));
+      $form['top_wrapper']['all_wrapper']['level1_wrapper']['level1']['#title'] . "  " . $this->t('field is required.')));
       $response->addCommand(new InvokeCommand('#error-text',
       'css', ["color", "red"]));
       return $response;
     }
     if (empty($form_state->getValue('level2'))) {
       $response->addCommand(new HtmlCommand('#error-text2',
-      $form['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('field is required.')));
+      $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('field is required.')));
       $response->addCommand(new InvokeCommand('#error-text2',
       'css', ["color", "red"]));
       return $response;
     }
     if (empty($form_state->getValue('level3'))) {
       $response->addCommand(new HtmlCommand('#error-text3',
-      $form['all_wrapper']['level3_wrapper']['level3']['#title'] . " " . $this->t('field is required.')));
+      $form['top_wrapper']['all_wrapper']['level3_wrapper']['level3']['#title'] . " " . $this->t('field is required.')));
       $response->addCommand(new InvokeCommand('#error-text3',
       'css', ["color", "red"]));
       return $response;
@@ -454,8 +485,8 @@ class AddLocationForm extends FormBase {
     // State.
     if ($form_state->getValue('level1')) {
       $level1_tid = $this->locationService->processTaxonomyData($form_state->getValue('level1'), $this->cid);
-
     }
+
     // City.
     if ($form_state->getValue('level2')) {
       $level2_tid = $this->locationService->processTaxonomyData($form_state->getValue('level2'), $level1_tid);
@@ -464,7 +495,7 @@ class AddLocationForm extends FormBase {
       if ($this->tid) {
         if ($this->tid == $last_level_tid) {
           $response->addCommand(new HtmlCommand('#error-text3',
-          $form['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('already exist.')));
+          $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('already exist.')));
           $response->addCommand(new InvokeCommand('#error-text3',
           'css', ["color", "red"]));
           return $response;
@@ -484,7 +515,7 @@ class AddLocationForm extends FormBase {
       if ($this->tid) {
         if ($this->tid == $last_level_tid || $last_level_tid == 0) {
           $response->addCommand(new HtmlCommand('#error-text3',
-          $form['all_wrapper']['level3_wrapper']['level3']['#title'] . $last_level_tid . $this->t('already exist.')));
+          $form['top_wrapper']['all_wrapper']['level3_wrapper']['level3']['#title'] . " " . $this->t('already exist.')));
           $response->addCommand(new InvokeCommand('#error-text3',
           'css', ["color", "red"]));
           return $response;
@@ -503,7 +534,7 @@ class AddLocationForm extends FormBase {
       if ($this->tid) {
         if ($this->tid == $last_level_tid || $last_level_tid == 0) {
           $response->addCommand(new HtmlCommand('#error-text3',
-          $form['all_wrapper']['level4_wrapper']['level4']['#title'] . " " . $this->t('already exist.')));
+          $form['top_wrapper']['all_wrapper']['level4_wrapper']['level4']['#title'] . " " . $this->t('already exist.')));
           $response->addCommand(new InvokeCommand('#error-text3',
           'css', ["color", "red"]));
           return $response;
@@ -513,7 +544,7 @@ class AddLocationForm extends FormBase {
 
     if (empty($this->tid) && $this->tid == "") {
       $this->locationService->addEprwLocation($last_level_tid, $this->cid);
-      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup', $this->t('Location added successfuly'), $this->t('The location has been added successfully. You can now access it in the application'));
+      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup', $this->t('Location added successfuly'), $this->t('The location has been added successfully. You can now access it in the application.'));
     }
     else {
       $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup', $this->t('Updated successfully'), $this->t('The details have been successfully updated.'));
