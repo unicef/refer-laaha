@@ -284,7 +284,7 @@
     margin-top: 24px;
 
   }
-.content-wrapper-main{
+  .layout-container{
  .global-sticky-region {
     top: inherit;
     right: 0;
@@ -308,6 +308,7 @@
     .global_sticky {
       flex-direction: row;
       justify-content: space-around;
+      align-items: center;
 
       .gethelp {
         margin: 0;
@@ -315,10 +316,6 @@
       }
 
       .chatbot {
-        img {
-          margin-top: 2px;
-        }
-
         span {
           margin-top: 8px;
         }
