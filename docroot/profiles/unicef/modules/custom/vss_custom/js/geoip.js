@@ -15,12 +15,10 @@
        var api_key = drupalSettings.api_key;
        var latitude = position.coords.latitude ;
        var longitude = position.coords.longitude;
-       console.log(api_key);
        if(latitude != null || longitude != null){
        var url = "https://api.opencagedata.com/geocode/v1/json?key="+api_key+"&q="+latitude+"+"+longitude+"&pretty=1&no_annotations=1"
         jQuery.ajax({url: url , success: function(result){
           var country_code = result['results'][0]['components']['country_code'];
-          console.log(country_code);
           jQuery('#country-dropdown option').each(function(){
               if(this.value != null){
                 const myArray = this.value.split("_");
