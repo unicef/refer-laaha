@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.body
     - field.storage.node.field_city
+    - field.storage.node.field_priority
     - field.storage.node.field_service_provider_name
     - field.storage.node.field_sub_category
     - field.storage.taxonomy_term.field_icon
@@ -90,6 +91,14 @@ field_settings:
         - field.storage.taxonomy_term.field_icon
       module:
         - taxonomy
+  field_priority:
+    label: Priority
+    datasource_id: 'entity:node'
+    property_path: field_priority
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_priority
   field_service_provider_name:
     label: 'Service Provider Name'
     datasource_id: 'entity:node'
