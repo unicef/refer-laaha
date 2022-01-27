@@ -16,13 +16,13 @@ plugin: recommended_related_content_bock
 settings:
   id: recommended_related_content_bock
   label: 'Recommended related content block'
-  provider: vss_custom
   label_display: '0'
+  provider: vss_custom
 visibility:
   'entity_bundle:node':
     id: 'entity_bundle:node'
-    bundles:
-      scorm: scorm
     negate: false
     context_mapping:
       node: '@node.node_route_context:node'
+    bundles:
+      scorm: scorm
