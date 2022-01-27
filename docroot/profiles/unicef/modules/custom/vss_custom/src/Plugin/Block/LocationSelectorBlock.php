@@ -84,9 +84,11 @@ class LocationSelectorBlock extends BlockBase implements ContainerFactoryPluginI
       $voiceId = 41;
       $build['#attached']['drupalSettings']['voiceId'] = $voiceId;
     }
-    $build['#attached']['drupalSettings']['location_landId'] = $lang_id;
-    $build['#attached']['drupalSettings']['location_narrate'] = $string;
-    $build['#attached']['drupalSettings']['location_selector'] = TRUE;
+    $build['#attached']['drupalSettings']['disclaimer_landId'] = $lang_id;
+    $build['#attached']['drupalSettings']['disclaimer_narrate'] = $string;
+    $build['#attached']['drupalSettings']['disclaimer'] = TRUE;
+    $build['#cache']['tags'] = $this->getCacheTags();
+    $build['#cache']['contexts'] = $this->getCacheContexts();
     $this->pageCacheKillSwitch->trigger();
     return $build;
   }
