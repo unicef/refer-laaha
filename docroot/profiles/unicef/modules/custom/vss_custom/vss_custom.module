@@ -907,3 +907,54 @@ function vss_custom_preprocess_views_view_field(&$variables) {
     }
   }
 }
+
+/**
+ * Taxonomy overview.
+ */
+function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['terms']['#header'] = array_merge(array_slice($form['terms']['#header'], 0, 1, TRUE),
+    [t('Original title'), t('Domain'), t('Language')],
+    array_slice($form['terms']['#header'], 1, NULL, TRUE));
+
+  foreach ($form['terms'] as &$term) {
+    if (is_array($term) && !empty($term['#term'])) {
+      $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+      $tid = $term['#term']->tid->value;
+      $domain_id = $term['#term']->field_domain->target_id;
+      $lang = $term['#term']->langcode->value;
+      $languages = \Drupal::languageManager()->getLanguages();
+      foreach ($languages as $key => $language) {
+        if ($key == $lang) {
+          $dis_lang = $language->getName();
+        }
+      }
+      $domain_id = $term['#term']->field_domain->target_id;
+      $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($domain_id);
+      $trm = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
+      if ($trm->langcode->value != $langcode && $trm->hasTranslation($langcode)) {
+        $title = $trm->name->value;
+      }
+      else {
+        $title = '-';
+      }
+      $status['title'] = [
+        '#markup' => $title,
+        '#type' => 'item',
+      ];
+
+      $status['domain'] = [
+        '#markup' => $domain->get('name'),
+        '#type' => 'item',
+      ];
+
+      $status['dis_lang'] = [
+        '#markup' => $dis_lang,
+        '#type' => 'item',
+      ];
+
+      $term = array_slice($term, 0, 1, TRUE) +
+        $status +
+        array_slice($term, 1, NULL, TRUE);
+    }
+  }
+}
