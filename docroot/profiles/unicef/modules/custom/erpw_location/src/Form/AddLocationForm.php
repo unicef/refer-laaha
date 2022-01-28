@@ -394,8 +394,6 @@ class AddLocationForm extends FormBase {
           'callback' => '::sendMessageForm',
         ],
       ];
-      // $form['top_wrapper'][] = $form['all_wrapper'];
-      // $form['top_wrapper'][] = $form['submit_wrapper'];
     }
 
     $url = $this->urlGenerator->generateFromRoute('erpw_location.manage_location');
