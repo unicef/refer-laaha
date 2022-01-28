@@ -12,16 +12,16 @@ field_name: field_video_file
 entity_type: paragraph
 bundle: video
 label: 'Video File'
-description: ''
+description: '<b>Upload file less the 2 MB</b>'
 required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
-  file_directory: '[date:custom:Y]-[date:custom:m]'
-  file_extensions: 'mp4 mov'
-  max_filesize: ''
-  description_field: true
   handler: 'default:file'
   handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'mp4 mov'
+  max_filesize: '2 MB'
+  description_field: true
 field_type: file
