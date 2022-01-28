@@ -19,6 +19,7 @@ use Drupal\file\Entity\File;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\node\Entity\Node;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_theme().
@@ -30,17 +31,15 @@ function vss_custom_theme() {
         'data' => [],
       ],
     ],
-    'disclaimer_pop_up_block' => [
+    '_pop_up_block' => [
       'variables' => [
         'content' => NULL,
       ],
       'render element' => 'children',
     ],
-    'location_selector_block' => [
-      'variables' => [
-        'content' => NULL,
-      ],
-      'render element' => 'children',
+    'location_selector_form' => [
+      'render element' => 'form',
+      'template' => 'location-selector-form',
     ],
     'social_icons' => [
       'variables' => [
@@ -598,10 +597,10 @@ function vss_custom_preprocess_block(&$variables) {
     $variables['elements']['#cache']['max-age'] = 0;
     $variables['#cache']['max-age'] = 0;
   }
-  if ($variables['elements']['#base_plugin_id'] == 'disclaimer_pop_up_block') {
+  if ($variables['elements']['#base_plugin_id'] == '_pop_up_block') {
     $variables['elements']['#cache']['max-age'] = 0;
     $variables['#cache']['max-age'] = 0;
-    $cookie_get = \Drupal::request()->cookies->get('disclaimer');
+    $cookie_get = \Drupal::request()->cookies->get('');
     if ($cookie_get) {
       unset($variables['label']);
       unset($variables['content']);
@@ -844,6 +843,20 @@ function vss_custom_entity_operation_alter(array &$operations, EntityInterface $
 function vss_custom_preprocess_page(&$variables) {
   if ($variables['is_front'] == TRUE) {
     \Drupal::service('page_cache_kill_switch')->trigger();
+  }
+
+  $current_path = \Drupal::service('path.current')->getPath();
+  $result = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  if ($result != '/user/login' || $result != '/country-selector') {
+    $current_user_role = \Drupal::currentUser()->getAccount()->getRoles(TRUE);
+    $request = \Drupal::request();
+    $country_selection_check = $request->cookies->get('country-selector');
+    if ($country_selection_check == NULL && $current_user_role == NULL && $result != '/country-selector') {
+      $url = Url::fromRoute('vss_custom.country_selector');
+      $response = new RedirectResponse($url->toString());
+      $response->send();
+      return;
+    }
   }
 }
 

@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - system
     - vss_custom
   theme:
     - vss
@@ -15,7 +16,11 @@ plugin: exit_website_block
 settings:
   id: exit_website_block
   label: 'Exit Website Block'
-  provider: vss_custom
   label_display: '0'
+  provider: vss_custom
   exit_website_settings: null
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /country-selector

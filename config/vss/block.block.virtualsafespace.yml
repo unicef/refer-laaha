@@ -6,6 +6,7 @@ dependencies:
     - 'block_content:footer_contact_information:190696af-e4d3-43aa-a303-d207fdcd7f76'
   module:
     - block_content
+    - system
   theme:
     - vss
 id: virtualsafespace
@@ -17,9 +18,13 @@ plugin: 'block_content:190696af-e4d3-43aa-a303-d207fdcd7f76'
 settings:
   id: 'block_content:190696af-e4d3-43aa-a303-d207fdcd7f76'
   label: 'Virtual Safe Space'
-  provider: block_content
   label_display: visible
+  provider: block_content
   status: true
   info: ''
   view_mode: default
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /country-selector
