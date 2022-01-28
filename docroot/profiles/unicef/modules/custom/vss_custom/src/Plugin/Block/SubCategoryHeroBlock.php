@@ -5,8 +5,6 @@ namespace Drupal\vss_custom\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Cache\Cache;
-use Drupal\taxonomy\Entity\Term;
 
 /**
  * Provides a 'SocialIconsFooterBlock' block.

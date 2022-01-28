@@ -897,4 +897,21 @@ function vss_custom_preprocess_views_view_field(&$variables) {
       $variables['output'] = Markup::create($string);
     }
   }
+
+  if ($variables['view']->storage->id() == 'content') {
+    if (isset($variables['view']->field) && (count($variables['view']->field) > 0)) {
+      if ($variables['field']->field == 'nothing') {
+        // Get tid.
+        $nid = $variables['row']->_entity->get('nid')->value;
+        $node_details = Node::load($nid);
+        $default_title = $node_details->title->value;
+        $alias = \Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $nid);
+        if ($variables['field']->field == 'nothing') {
+          $variables['output'] = [
+            '#markup' => "<a href= $alias>$default_title</a>",
+          ];
+        }
+      }
+    }
+  }
 }
