@@ -238,25 +238,25 @@ ul.block-menu-item-fieldsfooter-last-menu {
 .region-header #nav_wrap {
   margin-left: auto;
 }
-.region-header #block-iraqnavigationheadermenu,
+.region-header #block-vss-amp-iraqnavigationheadermenu,
 .region-header #block-vss-amp-navigationheadermenu {
   margin-left: auto;
 }
-.region-header #block-iraqnavigationheadermenu .discoverdd,
+.region-header #block-vss-amp-iraqnavigationheadermenu .discoverdd,
 .region-header #block-vss-amp-navigationheadermenu .discoverdd {
   min-width: 220px;
   top: 32px;
 }
-.region-header #block-iraqnavigationheadermenu .discoverdd li,
+.region-header #block-vss-amp-iraqnavigationheadermenu .discoverdd li,
 .region-header #block-vss-amp-navigationheadermenu .discoverdd li {
   margin: 24px 16px;
   line-height: 24px;
 }
-.region-header #block-iraqnavigationheadermenu .discoverdd li a,
+.region-header #block-vss-amp-iraqnavigationheadermenu .discoverdd li a,
 .region-header #block-vss-amp-navigationheadermenu .discoverdd li a {
   font-weight: 400;
 }
-.region-header #block-iraqnavigationheadermenu > ul,
+.region-header #block-vss-amp-iraqnavigationheadermenu > ul,
 .region-header #block-vss-amp-navigationheadermenu > ul {
   /*position: relative;*/
   display: -webkit-box;
@@ -272,21 +272,21 @@ ul.block-menu-item-fieldsfooter-last-menu {
   padding: 0;
   list-style: none;
 }
-.region-header #block-iraqnavigationheadermenu > ul li,
+.region-header #block-vss-amp-iraqnavigationheadermenu > ul li,
 .region-header #block-vss-amp-navigationheadermenu > ul li {
   margin-right: 25px;
 }
-.region-header #block-iraqnavigationheadermenu > ul li > div,
+.region-header #block-vss-amp-iraqnavigationheadermenu > ul li > div,
 .region-header #block-vss-amp-navigationheadermenu > ul li > div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
-.region-header #block-iraqnavigationheadermenu > ul li > div > div,
+.region-header #block-vss-amp-iraqnavigationheadermenu > ul li > div > div,
 .region-header #block-vss-amp-navigationheadermenu > ul li > div > div {
   padding-right: 12px;
 }
-.region-header #block-iraqnavigationheadermenu > ul li a,
+.region-header #block-vss-amp-iraqnavigationheadermenu > ul li a,
 .region-header #block-vss-amp-navigationheadermenu > ul li a {
   font-size: 1em;
   font-family: Roboto;
@@ -294,7 +294,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
   color: #000;
   line-height: 24px;
 }
-.region-header #block-iraqnavigationheadermenu > ul li span,
+.region-header #block-vss-amp-iraqnavigationheadermenu > ul li span,
 .region-header #block-vss-amp-navigationheadermenu > ul li span {
   font-size: 1em;
   font-family: Roboto;
@@ -303,7 +303,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
   line-height: 24px;
 }
 .region-header #block-settingsmenu,
-.region-header #block-iraqnavigationheadermenu,
+.region-header #block-vss-amp-iraqnavigationheadermenu,
 .region-header #block-vss-amp-navigationheadermenu {
   margin-top: 15px;
 }
@@ -1049,17 +1049,17 @@ body .absoluteclass {
 }
 
 /* global sticky*/
-.content-wrapper-main {
+.main-outer {
   position: relative;
 }
-.content-wrapper-main .global-sticky-region {
+.main-outer .global-sticky-region {
   position: absolute;
   top: 0;
   bottom: -10px;
   display: block;
   right: 2%;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky {
+.main-outer .global-sticky-region .region-global-sticky {
   z-index: 99;
   position: sticky;
   top: 33.3333333333vh;
@@ -1067,7 +1067,7 @@ body .absoluteclass {
   background: #CB9CA1;
   border-radius: 8px;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky {
+.main-outer .global-sticky-region .region-global-sticky .global_sticky {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1076,23 +1076,22 @@ body .absoluteclass {
       -ms-flex-direction: column;
           flex-direction: column;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .gethelp {
+.main-outer .global-sticky-region .region-global-sticky .global_sticky .gethelp {
   margin: 28px 0;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky a {
+.main-outer .global-sticky-region .region-global-sticky .global_sticky a {
   text-align: center;
   color: #000;
   font-size: 0.85em;
   cursor: pointer;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky a:hover {
+.main-outer .global-sticky-region .region-global-sticky .global_sticky a:hover {
   text-decoration: none;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky a img {
-  display: block;
-  margin: 0 auto 6px;
+.main-outer .global-sticky-region .region-global-sticky .global_sticky a img {
+  display: none;
 }
-.content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky a span {
+.main-outer .global-sticky-region .region-global-sticky .global_sticky a span {
   display: block;
   text-align: center;
   line-height: 16px;
@@ -1306,31 +1305,31 @@ article p {
     clear: both;
     margin-left: 10px;
   }
-  #nav_wrap #block-iraqnavigationheadermenu,
+  #nav_wrap #block-vss-amp-iraqnavigationheadermenu,
 #nav_wrap #block-vss-amp-navigationheadermenu {
     /* margin-left: 30px;*/
   }
-  #nav_wrap #block-iraqnavigationheadermenu #faq,
-#nav_wrap #block-iraqnavigationheadermenu #discover,
+  #nav_wrap #block-vss-amp-iraqnavigationheadermenu #faq,
+#nav_wrap #block-vss-amp-iraqnavigationheadermenu #discover,
 #nav_wrap #block-vss-amp-navigationheadermenu #faq,
 #nav_wrap #block-vss-amp-navigationheadermenu #discover {
     border-top: 1px solid rgba(33, 33, 33, 0.08);
   }
-  #nav_wrap #block-iraqnavigationheadermenu > ul,
+  #nav_wrap #block-vss-amp-iraqnavigationheadermenu > ul,
 #nav_wrap #block-vss-amp-navigationheadermenu > ul {
     margin: 0;
     border-top: 1px solid rgba(33, 33, 33, 0.08);
   }
-  #nav_wrap #block-iraqnavigationheadermenu > ul li,
+  #nav_wrap #block-vss-amp-iraqnavigationheadermenu > ul li,
 #nav_wrap #block-vss-amp-navigationheadermenu > ul li {
     margin: 0;
     width: 100%;
   }
-  #nav_wrap #block-iraqnavigationheadermenu > ul li > div,
+  #nav_wrap #block-vss-amp-iraqnavigationheadermenu > ul li > div,
 #nav_wrap #block-vss-amp-navigationheadermenu > ul li > div {
     margin: 12px 18px;
   }
-  #nav_wrap #block-iraqnavigationheadermenu > ul li li,
+  #nav_wrap #block-vss-amp-iraqnavigationheadermenu > ul li li,
 #nav_wrap #block-vss-amp-navigationheadermenu > ul li li {
     display: inline-block;
   }
@@ -1412,7 +1411,7 @@ article p {
     margin-top: 24px;
   }
 
-  .content-wrapper-main .global-sticky-region {
+  .main-outer .global-sticky-region {
     top: inherit;
     right: 0;
     bottom: 0;
@@ -1421,7 +1420,7 @@ article p {
     width: 100%;
     height: 72px;
   }
-  .content-wrapper-main .global-sticky-region .region-global-sticky {
+  .main-outer .global-sticky-region .region-global-sticky {
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     border-bottom-right-radius: 0px;
@@ -1431,24 +1430,24 @@ article p {
     position: inherit;
     top: inherit;
   }
-  .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky {
+  .main-outer .global-sticky-region .region-global-sticky .global_sticky {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
             flex-direction: row;
     -ms-flex-pack: distribute;
         justify-content: space-around;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
   }
-  .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .gethelp {
+  .main-outer .global-sticky-region .region-global-sticky .global_sticky .gethelp {
     margin: 0;
     -webkit-box-ordinal-group: 0;
         -ms-flex-order: -1;
             order: -1;
   }
-  .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .chatbot img {
-    margin-top: 2px;
-  }
-  .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .chatbot span {
+  .main-outer .global-sticky-region .region-global-sticky .global_sticky .chatbot span {
     margin-top: 8px;
   }
 
@@ -1619,33 +1618,33 @@ article p {
     background-color: unset;
   }
 }
-.main-outer {
+.main-inner {
   margin: 0 auto;
   padding: 0 15px;
 }
 @media screen and (min-width: 768px) {
-  .main-outer {
+  .main-inner {
     width: 750px;
   }
 }
 @media screen and (min-width: 992px) {
-  .main-outer {
+  .main-inner {
     width: 970px;
   }
 }
 @media screen and (min-width: 1200px) {
-  .main-outer {
+  .main-inner {
     width: 1170px;
   }
 }
 
 /*ipad portarait*/
 @media screen and (min-width: 768px) and (max-width: 991px) {
-  .region-header #block-iraqnavigationheadermenu > ul li,
+  .region-header #block-vss-amp-iraqnavigationheadermenu > ul li,
 .region-header #block-vss-amp-navigationheadermenu > ul li {
     margin-right: 7px;
   }
-  .region-header #block-iraqnavigationheadermenu > ul li > div > div,
+  .region-header #block-vss-amp-iraqnavigationheadermenu > ul li > div > div,
 .region-header #block-vss-amp-navigationheadermenu > ul li > div > div {
     padding-right: 8px;
   }
@@ -1773,10 +1772,10 @@ html[dir=rtl] .region-header #discover1 > div > div {
   padding-right: 0;
   padding-left: 20px;
 }
-html[dir=rtl] .region-header #block-iraqnavigationheadermenu > ul li > div > div {
+html[dir=rtl] .region-header #block-vss-amp-iraqnavigationheadermenu > ul li > div > div {
   padding-left: 12px;
 }
-html[dir=rtl] .region-header #block-iraqnavigationheadermenu .discoverdd {
+html[dir=rtl] .region-header #block-vss-amp-iraqnavigationheadermenu .discoverdd {
   right: 24px;
 }
 html[dir=rtl] .region-header #block-settingsmenu .search-box {
@@ -1960,12 +1959,12 @@ html[dir=rtl] .paragraph--type--wysiwyg-editor .about-us__top p {
 }
 /*rtl ipad portarait*/
 @media screen and (min-width: 768px) and (max-width: 991px) {
-  html[dir=rtl] .region-header #block-iraqnavigationheadermenu > ul li,
+  html[dir=rtl] .region-header #block-vss-amp-iraqnavigationheadermenu > ul li,
 html[dir=rtl] .region-header #block-vss-amp-navigationheadermenu > ul li {
     margin-right: 0px;
     margin-left: 7px;
   }
-  html[dir=rtl] .region-header #block-iraqnavigationheadermenu > ul li > div > div,
+  html[dir=rtl] .region-header #block-vss-amp-iraqnavigationheadermenu > ul li > div > div,
 html[dir=rtl] .region-header #block-vss-amp-navigationheadermenu > ul li > div > div {
     padding-right: 0px;
     padding-left: 8px;

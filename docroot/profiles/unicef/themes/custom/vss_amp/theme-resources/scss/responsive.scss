@@ -157,7 +157,7 @@
     left: 0;
     background:$base-white-color;
 
-    #block-iraqnavigationheadermenu,
+    #block-vss-amp-iraqnavigationheadermenu,
     #block-vss-amp-navigationheadermenu {
 
       #faq,
@@ -284,7 +284,7 @@
     margin-top: 24px;
 
   }
-.content-wrapper-main{
+  .main-outer{
  .global-sticky-region {
     top: inherit;
     right: 0;
@@ -308,6 +308,7 @@
     .global_sticky {
       flex-direction: row;
       justify-content: space-around;
+      align-items: center;
 
       .gethelp {
         margin: 0;
@@ -315,10 +316,6 @@
       }
 
       .chatbot {
-        img {
-          margin-top: 2px;
-        }
-
         span {
           margin-top: 8px;
         }
@@ -521,7 +518,7 @@
   }
 }
 
-.main-outer {
+.main-inner {
   margin: 0 auto;
   padding: 0 15px;
   @media screen and (min-width: 768px) {
@@ -540,7 +537,7 @@
 @media screen and (min-width:768px) and (max-width:991px) {
   .region-header {
 
-    #block-iraqnavigationheadermenu,
+    #block-vss-amp-iraqnavigationheadermenu,
     #block-vss-amp-navigationheadermenu {
       >ul {
         li {

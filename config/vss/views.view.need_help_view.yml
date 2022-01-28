@@ -876,7 +876,20 @@ display:
         type: none
         options: {  }
       empty: {  }
-      sorts: {  }
+      sorts:
+        field_priority:
+          id: field_priority
+          table: search_api_index_acquia_search_index
+          field: field_priority
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       arguments: {  }
       filters:
         search_api_language:
@@ -960,10 +973,10 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_city:
-          id: field_city
+        field_service_provider_name:
+          id: field_service_provider_name
           table: search_api_index_acquia_search_index
-          field: field_city
+          field: field_service_provider_name
           relationship: none
           group_type: group
           admin_label: ''
@@ -973,17 +986,17 @@ display:
             min: ''
             max: ''
             value: ''
-          group: 1
+          group: 2
           exposed: false
           expose:
-            operator_id: field_city_op
-            label: City
+            operator_id: field_service_provider_name_op
+            label: 'Service Provider Name'
             description: ''
             use_operator: false
-            operator: field_city_op
+            operator: field_service_provider_name_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: field_city
+            identifier: field_service_provider_name
             required: false
             remember: false
             multiple: false
@@ -1009,10 +1022,10 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_service_provider_name:
-          id: field_service_provider_name
+        field_city:
+          id: field_city
           table: search_api_index_acquia_search_index
-          field: field_service_provider_name
+          field: field_city
           relationship: none
           group_type: group
           admin_label: ''
@@ -1022,17 +1035,17 @@ display:
             min: ''
             max: ''
             value: ''
-          group: 1
+          group: 2
           exposed: false
           expose:
-            operator_id: field_service_provider_name_op
-            label: 'Service Provider Name'
+            operator_id: field_city_op
+            label: City
             description: ''
             use_operator: false
-            operator: field_service_provider_name_op
+            operator: field_city_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: field_service_provider_name
+            identifier: field_city
             required: false
             remember: false
             multiple: false
@@ -1071,7 +1084,7 @@ display:
             min: ''
             max: ''
             value: ''
-          group: 1
+          group: 2
           exposed: false
           expose:
             operator_id: ''
@@ -1106,6 +1119,7 @@ display:
         operator: AND
         groups:
           1: AND
+          2: OR
       style:
         type: table
         options:

@@ -45,8 +45,9 @@ class ImportNeedHelpData {
   public static function createData($item, &$context) {
     $item = array_map('trim', $item);
     $language = $context['master_results']['language_datas'];
-    $service_base_name = $item['Service Base Name'];
-    $service_provider_base_name = $item['Organisation Base Name'];
+    $service_base_name = $item['Service base name'];
+    $service_provider_base_name = $item['Organisation Base name'];
+    $hierarchy_4_base_name = $item['Base hierarchy level 4'];
     $service_name = $item['Service Name'];
     $service_provider_name = $item['Organisation Name'];
     $email = $item['Email ID'];
@@ -64,11 +65,11 @@ class ImportNeedHelpData {
     $country = $item['Country'];
     $description = $item['Description'];
 
-    if (!empty($service_base_name) && !empty($service_provider_base_name) && !empty($hierarchy_4)) {
+    if (!empty($service_base_name) && !empty($service_provider_base_name) && !empty($hierarchy_4_base_name)) {
       $node = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
         'title' => $service_base_name,
         'field_service_provider_name' => $service_provider_base_name,
-        'field_hierarchy_level_4' => $hierarchy_4,
+        'field_hierarchy_level_4' => $hierarchy_4_base_name,
       ]);
     }
     if ($node) {

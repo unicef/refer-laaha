@@ -1,0 +1,20 @@
+uuid: 7ab6f9d1-9370-4852-b660-ff66a3f2c85e
+langcode: en
+status: true
+dependencies:
+  module:
+    - vss_custom
+  theme:
+    - vss_amp
+id: amp_globalstickyblock
+theme: vss_amp
+region: global_sticky
+weight: 0
+provider: null
+plugin: global_sticky_block
+settings:
+  id: global_sticky_block
+  label: 'Global Sticky block'
+  label_display: '0'
+  provider: vss_custom
+visibility: {  }
