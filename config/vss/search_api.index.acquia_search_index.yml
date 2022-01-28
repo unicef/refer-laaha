@@ -111,7 +111,7 @@ field_settings:
     label: 'Sub Category » Taxonomy term » Term Parents » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_sub_category:entity:parent:entity:name'
-    type: 'solr_text_custom:edgestring'
+    type: 'solr_text_custom:ngramstring'
     dependencies:
       config:
         - field.storage.node.field_sub_category
@@ -121,7 +121,7 @@ field_settings:
     label: 'Tags » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_tags:entity:name'
-    type: 'solr_text_custom:edgestring'
+    type: 'solr_text_custom:ngramstring'
     dependencies:
       config:
         - field.storage.node.field_tags
@@ -131,7 +131,7 @@ field_settings:
     label: 'Sub Category » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_sub_category:entity:name'
-    type: 'solr_text_custom:edgestring'
+    type: 'solr_text_custom:ngramstring'
     dependencies:
       config:
         - field.storage.node.field_sub_category
@@ -158,7 +158,7 @@ field_settings:
     label: Title
     datasource_id: 'entity:node'
     property_path: title
-    type: 'solr_text_custom:edgestring'
+    type: 'solr_text_custom:ngramstring'
     dependencies:
       module:
         - node
