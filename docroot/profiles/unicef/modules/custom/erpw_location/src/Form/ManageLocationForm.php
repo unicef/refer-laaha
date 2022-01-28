@@ -194,7 +194,7 @@ class ManageLocationForm extends FormBase {
 
         $form['location_list']['location_' . $tid] = [
           '#type' => 'markup',
-          '#markup' => '<div class="location-card"><div class="title-with-icons"><div id="location-title" class="location-title">' . $location . '</div>
+          '#markup' => '<div class="location-card"><div class="title-with-icons"><a href="' . $view_url . '"><div id="location-title" class="location-title">' . $location . '</div></a>
           <div class="location-operations">' . $location_operations . '</div></div><a href="' . $view_url . '"><div class="location-details>' . $location_details . '</div></div></a> ',
         ];
       }
