@@ -111,7 +111,7 @@ class LanguageSelector extends FormBase {
    *   conjunction with the trait's config() method.
    */
   protected function getEditableConfigNames() {
-    return ['config.modal_form_example_modal_form'];
+    return ['config.language_selector_form'];
   }
 
 }
