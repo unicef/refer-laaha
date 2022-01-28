@@ -8,6 +8,8 @@ use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Routing\TrustedRedirectResponse;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * ModalForm class.
@@ -85,6 +87,7 @@ class LanguageSelector extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('SUBMIT'),
     ];
+    $form['#attached']['library'][] = 'erpw_custom/erpw_js';
 
     return $form;
   }
@@ -100,7 +103,9 @@ class LanguageSelector extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $value = $form_state->getValues();
     $redirect_url = Url::fromUri('base:/' . $value['language_selector']);
-    $form_state->setRedirectUrl($redirect_url);
+    $response = new TrustedRedirectResponse($redirect_url->toString());
+    $response->headers->setCookie(new Cookie('language-selector', 'TRUE', strtotime('+7 days'), '/', NULL, FALSE));
+    $form_state->setResponse($response);
   }
 
   /**
