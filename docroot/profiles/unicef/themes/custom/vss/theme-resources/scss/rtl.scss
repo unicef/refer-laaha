@@ -428,6 +428,23 @@ html[dir="rtl"] {
     margin-left: 0;
     margin-right: 14px;
   }
+
+  //disclaimer
+  .popup-wrapper h2 {
+    padding: 40px 0 16px 40px;
+  }
+  .heading-with-mike .buttons {
+    left: 0;
+    right: inherit;
+  }
+  .pop-up-btn.right-arrow {
+    &::after {
+      margin-left: 0;
+      margin-right: 15px;
+      vertical-align: text-bottom;
+      transform: rotate(180deg);
+    }
+  }
 }
 
 

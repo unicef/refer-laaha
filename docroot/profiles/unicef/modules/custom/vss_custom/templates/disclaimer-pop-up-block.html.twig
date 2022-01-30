@@ -14,33 +14,37 @@
 ] %}
 {{ attach_library('vss_custom/disclaimer') }}
 
-<div class="wrapper">
-  <div id="text"></div>
-    <div class="buttons">
-      <button id="play" class="play">Play</button>
-      <button id="pause" class="pause">Pause</button>
-      <button id="resume" class="resume">Resume</button>
-    </div>
-</div>
-
-<div{{ attributes.addClass(classes) }}>
-    {% if content is not empty %}
-        {% if content.disclaimer_title is not empty %}
-        <div>
-            {{content.disclaimer_title}}
-        </div>
-        {% endif %}
+<div class="overlay-popup">
+	<div class="popup-wrapper">
+		<div class="disclaimer-top-image"><img src="{{content.disclaimer_image}}"/></div>
+  	{# <div id="text"></div> #}
+    <div{{ attributes.addClass(classes) }}>
+			<div class="heading-with-mike">
+					{% if content is not empty %}
+						{% if content.disclaimer_title is not empty %}
+						<h2>
+								{{content.disclaimer_title}}
+								<div class="buttons">
+									<button id="play" class="play">Play</button>
+									<button id="pause" class="pause">Pause</button>
+									<button id="resume" class="resume">Resume</button>
+								</div>
+						</h2>
+					{% endif %}
+				</div>
         {% if content.disclaimer_description is not empty %}
-        <div>
+        <div class="popup-content">
             {{ content.disclaimer_description|raw }}
         </div>
         {% endif %}
         {% if content.disclaimer_image is not empty %}
-            <div>
-                <img src="{{content.disclaimer_image}}"/>
+            <div class="disclaimer-image">
+                <img src ="/{{ base_path ~ directory }}/images/disclaimer-2.jpg" alt="disclaimer" />
+								<img src ="/{{ base_path ~ directory }}/images/disclaimer-1.jpg" alt="disclaimer" />
             </div>
         {% endif %}
-    {% endif %}
+    	{% endif %}
+      <button type="button" class="pop-up pop-up-btn right-arrow">{{'OK'|t}}</button>
+    </div>
+	</div>
 </div>
-<button type="button" class="pop-up">{{'OK!'|t}}</button>
-
