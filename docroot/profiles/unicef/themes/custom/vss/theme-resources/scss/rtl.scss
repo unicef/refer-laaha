@@ -445,6 +445,21 @@ html[dir="rtl"] {
       transform: rotate(180deg);
     }
   }
+  //search result page
+  .search-content-image {
+    margin-right: 0;
+    margin-left: 20px;
+  }
+  .pager__item {
+		a::after {
+      margin-left: 0;
+      margin-right: 10px;
+    }
+  }
+  .search-content-cat .cat-title {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 
