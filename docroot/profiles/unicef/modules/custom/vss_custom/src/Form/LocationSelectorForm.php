@@ -22,10 +22,12 @@ class LocationSelectorForm extends FormBase {
    * Constructs a new VirtualSpace form.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+
     $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
     foreach ($all_domains as $domain) {
       $domain_status = $domain->get('status');
-      if ($domain_status == TRUE && $domain->get('name') != 'Virtualsafespace') {
+      if ($domain_status == TRUE) {
+        $domain_hostname = $domain->get('hostname');
         $domain_name = $domain->get('name');
         $domain_id = $domain->get('id');
         $domain_list[$domain_id] = $domain_name;
@@ -42,6 +44,7 @@ class LocationSelectorForm extends FormBase {
       '#description' => 'Select country',
       '#options' => ['' => t('Select country')] + $domain_list,
       '#required' => TRUE,
+      '#id' => 'country-dropdown',
       '#default_value' => '',
       '#ajax' => [
         'callback' => '::getLanguages',
@@ -55,7 +58,6 @@ class LocationSelectorForm extends FormBase {
     $lang_select = [];
     if (!empty($form_state->getValue('country'))) {
       $selected_domain = $form_state->getValue('country');
-
       // Get the active languages for the given domain.
       // Update form options.
       $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($selected_domain);
@@ -67,14 +69,20 @@ class LocationSelectorForm extends FormBase {
           $lang_select[$langcode] = $language->getName();
         }
       }
+      $default_lang = NULL;
+      if (array_key_exists('en', $lang_select)) {
+        $default_lang = 'en';
+      }
     }
+
     $form['domain']['language'] = [
       '#title' => t('Language'),
       '#type' => 'select',
       '#description' => 'Select language',
       '#options' => ['' => t('Select language')] + $lang_select ,
       '#required' => TRUE,
-      '#default_value' => '',
+      '#id' => 'language-dropdown',
+      '#default_value' => !empty($default_lang) ? $default_lang : '',
     ];
 
     $form['actions']['#type'] = 'actions';
@@ -82,7 +90,11 @@ class LocationSelectorForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Next'),
       '#button_type' => 'primary',
+      '#attributes' => ['class' => ['location-selector-btn']],
     ];
+
+    $form['#attached']['library'][] = 'vss_custom/geoip';
+    $form['#attached']['drupalSettings']['api_key'] = 'c6ea4bfd74d1403ab52e4bacf7478f36';
     return $form;
   }
 
