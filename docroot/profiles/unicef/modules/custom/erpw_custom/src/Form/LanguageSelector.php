@@ -87,8 +87,6 @@ class LanguageSelector extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('SUBMIT'),
     ];
-    $form['#attached']['library'][] = 'erpw_custom/erpw_js';
-
     return $form;
   }
 
