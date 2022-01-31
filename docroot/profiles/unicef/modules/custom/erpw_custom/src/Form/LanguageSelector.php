@@ -10,6 +10,7 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * ModalForm class.
@@ -87,6 +88,7 @@ class LanguageSelector extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('SUBMIT'),
     ];
+    $form['#cache']['max-age'] = 0;
     return $form;
   }
 
@@ -101,9 +103,9 @@ class LanguageSelector extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $value = $form_state->getValues();
     $redirect_url = Url::fromUri('base:/' . $value['language_selector']);
-    $response = new TrustedRedirectResponse($redirect_url->toString());
-    $response->headers->setCookie(new Cookie('language-selector', 'TRUE', strtotime('+7 days'), '/', NULL, FALSE));
-    $form_state->setResponse($response);
+    setcookie('userLanguageSelection', 'TRUE', strtotime('+7 days'), '/', NULL, FALSE);
+    setcookie('userLanguage', $value['language_selector'], strtotime('+7 days'), '/', NULL, FALSE);
+    $form_state->setRedirectUrl($redirect_url);
   }
 
   /**
