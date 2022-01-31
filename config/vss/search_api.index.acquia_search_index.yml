@@ -8,6 +8,7 @@ dependencies:
     - field.storage.node.field_priority
     - field.storage.node.field_service_provider_name
     - field.storage.node.field_sub_category
+    - field.storage.taxonomy_term.field_category_color
     - field.storage.taxonomy_term.field_icon
     - field.storage.node.field_tags
     - search_api.server.acquia_search_server
@@ -72,6 +73,17 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.body
+  field_category_color:
+    label: 'Sub Category » Taxonomy term » Term Parents » Taxonomy term » Category Color'
+    datasource_id: 'entity:node'
+    property_path: 'field_sub_category:entity:parent:entity:field_category_color'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_sub_category
+        - field.storage.taxonomy_term.field_category_color
+      module:
+        - taxonomy
   field_city:
     label: City
     datasource_id: 'entity:node'
@@ -228,6 +240,7 @@ processor_settings:
     all_fields: true
     fields:
       - body
+      - field_category_color
       - field_city
       - field_service_provider_name
       - name
