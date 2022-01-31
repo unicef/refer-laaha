@@ -854,20 +854,6 @@ function vss_custom_preprocess_page(&$variables) {
   if ($variables['is_front'] == TRUE) {
     \Drupal::service('page_cache_kill_switch')->trigger();
   }
-
-  $current_path = \Drupal::service('path.current')->getPath();
-  $result = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
-  if ($result != '/user/login' || $result != '/country-selector') {
-    $current_user_role = \Drupal::currentUser()->getAccount()->getRoles(TRUE);
-    $request = \Drupal::request();
-    $country_selection_check = $request->cookies->get('country-selector');
-    if ($country_selection_check == NULL && $current_user_role == NULL && $result != '/country-selector') {
-      $url = Url::fromRoute('vss_custom.country_selector');
-      $response = new RedirectResponse($url->toString());
-      $response->send();
-      return;
-    }
-  }
 }
 
 /**
@@ -946,8 +932,38 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
     [t('Original title'), t('Domain'), t('Language')],
     array_slice($form['terms']['#header'], 1, NULL, TRUE));
 
-  foreach ($form['terms'] as &$term) {
+    $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
+    foreach ($all_domains as $domain) {
+      $domain_status = $domain->get('status');
+      if ($domain_status == TRUE) {
+        $domain_hostname = $domain->get('hostname');
+        $domain_name = $domain->get('name');
+        $domain_id = $domain->get('id');
+        $domain_list[$domain_id] = $domain_name;
+      }
+    }
+
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $country = \Drupal::request()->query->get('country');
+    $form['domain']['country'] = [
+      '#title' => t('Country'),
+      '#type' => 'select',
+      '#options' => ['' => t('Select country')] + $domain_list,
+      '#weight' => 0,
+      '#default_value' => $country,
+    ];
+
+    $form['filter_submit'] = [
+      '#type' => 'submit',
+      '#value' => t('Apply'),
+      '#weight' => 1,
+      '#submit' => ['filter_submit'],
+    ];
+  foreach ($form['terms'] as $key => &$term) {
     if (is_array($term) && !empty($term['#term'])) {
+      if ($country != $term['#term']->field_domain->target_id && !empty($country)) {
+        unset($form['terms'][$key]);
+      }
       $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
       $tid = $term['#term']->tid->value;
       $domain_id = $term['#term']->field_domain->target_id;
@@ -987,4 +1003,13 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
         array_slice($term, 1, NULL, TRUE);
     }
   }
+}
+
+/**
+ * Submit Password.
+ */
+function filter_submit(&$form, FormStateInterface $form_state) {
+  $country = $form_state->getValue('country');
+  $response = new RedirectResponse("/admin/structure/taxonomy/manage/categories/overview?country=$country");
+  $response->send();
 }
