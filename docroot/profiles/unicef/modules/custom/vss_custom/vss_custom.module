@@ -709,8 +709,8 @@ function vss_custom_entity_insert(EntityInterface $entity) {
         $key = 'general_mail';
         $to = $user_email;
         $params['message'] = "Hi $user_name,
-        $editor_name has requested to $state an $type. Below is a link 
-        <a href = https://$url>https://$url</a> 
+        $editor_name has requested to $state an $type. Below is a link
+        <a href = https://$url>https://$url</a>
         Click on the link to view the content or go to your dashboard in the CMS";
         $params['subject'] = "Request for $state content by $editor_name";
         $send = TRUE;
@@ -756,7 +756,7 @@ function vss_custom_entity_update(EntityInterface $entity) {
         $key = 'general_mail';
         $to = $user_email;
         $params['message'] = "Hi $user_name,
-        $editor_name has requested to $state an $type. Below is a link 
+        $editor_name has requested to $state an $type. Below is a link
         <a href = https://$url>https://$url</a>
         Click on the link to view the content or go to your dashboard in the CMS";
         $params['subject'] = "Request for $state content by $editor_name";
@@ -853,6 +853,19 @@ function vss_custom_entity_operation_alter(array &$operations, EntityInterface $
 function vss_custom_preprocess_page(&$variables) {
   if ($variables['is_front'] == TRUE) {
     \Drupal::service('page_cache_kill_switch')->trigger();
+  }
+  $current_path = \Drupal::service('path.current')->getPath();
+  $result = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  if ($result != '/user/login' && $result != '/country-selector') {
+    $anonymous_user = \Drupal::currentUser()->isAnonymous();
+    $request = \Drupal::request();
+    $country_selection_check = $request->cookies->get('country-selector');
+    if ($country_selection_check == NULL && $anonymous_user && $result != '/country-selector') {
+      $url = Url::fromRoute('vss_custom.country_selector');
+      $response = new RedirectResponse($url->toString());
+      $response->send();
+      return;
+    }
   }
 }
 
