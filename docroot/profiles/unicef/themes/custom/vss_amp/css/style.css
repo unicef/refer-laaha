@@ -2015,11 +2015,6 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
     padding-top: 0;
   }
 }
-.homepage-category .spacer {
-  background: #fef4f6 url("../images/categorybg.png") no-repeat center;
-  background-size: 100%;
-  height: 29vw;
-}
 .homepage-category .lSSlideWrapper,
 .homepage-category .lSSlideOuter {
   overflow: visible !important;
@@ -2030,18 +2025,12 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  margin: 0 -15%;
   position: relative;
-}
-.homepage-hero-section--categories.lightSlider {
-  margin: 0;
 }
 .homepage-hero-section--categories .category-item {
   -webkit-box-align: center;
@@ -2104,6 +2093,8 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   border: 3px solid #ffcdd2;
   border-radius: 3px !important;
   outline: 0;
+  height: 23px;
+  width: 60%;
 }
 .block-views-exposed-filter-blocks-block input[name=search_api_fulltext]:focus {
   border: 3px solid #ffcdd2;
@@ -2299,22 +2290,6 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
     margin-top: 80px;
   }
 }
-.discover-section .discover-category-thumbnail {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  border: 5px solid #fff;
-  border-radius: 50%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 80px;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  overflow: hidden;
-  width: 80px;
-}
 .discover-section .discovery-articles {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2342,6 +2317,11 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
           flex-direction: column;
   margin: 5px;
   padding: 0;
+}
+@media screen and (min-width: 1024px) {
+  .discover-section .discover-content-link {
+    width: 50%;
+  }
 }
 .discover-section .discover-content-thumbnail {
   height: 130px;
@@ -2373,6 +2353,11 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   border-radius: 20px;
   margin: 2px;
   padding: 15px;
+}
+@media screen and (min-width: 1024px) {
+  .discover-section .discovery-category-wrapper {
+    width: 50%;
+  }
 }
 .discover-section .discover-category-description {
   padding: 5px;
