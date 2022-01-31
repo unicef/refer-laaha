@@ -1082,6 +1082,11 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
  */
 function filter_submit(&$form, FormStateInterface $form_state) {
   $country = $form_state->getValue('country');
-  $response = new RedirectResponse("/admin/structure/taxonomy/manage/categories/overview?country=$country");
+  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  if ($langcode == 'en') {
+    $response = new RedirectResponse("/admin/structure/taxonomy/manage/categories/overview?country=$country");
+  }else {
+    $response = new RedirectResponse("/$langcode/admin/structure/taxonomy/manage/categories/overview?country=$country");
+  }
   $response->send();
 }
