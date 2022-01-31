@@ -5,11 +5,46 @@ namespace Drupal\vss_custom\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Constructs a new LocationSelectorForm object.
  */
 class LocationSelectorForm extends FormBase {
+
+  /**
+   * Drupal\Core\Entity\EntityTypeManagerInterface definition.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * Drupal\Core\Language\LanguageManagerInterface.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
+   * Drupal\vss_common_config\VssCommonInterface.
+   *
+   * @var \Drupal\vss_common_config\VssCommonInterface
+   */
+  protected $vssCommonService;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->languageManager = $container->get('language_manager');
+    $instance->vssCommonService = $container->get('vss_common_config.default');
+    $instance->pageCacheKillSwitch = $container->get('page_cache_kill_switch');
+    return $instance;
+  }
 
   /**
    * Form ID function.
@@ -22,6 +57,36 @@ class LocationSelectorForm extends FormBase {
    * Constructs a new VirtualSpace form.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+
+    $lang_id = $this->languageManager->getCurrentLanguage()->getId();
+    $data = $this->vssCommonService->getLocationData();
+    $html = '';
+    if (isset($data['location_selection_title']) && !empty($data['location_selection_title'])) {
+      $html .= $data['location_selection_title'];
+    }
+    if (isset($data['location_selection_description']) && !empty($data['location_selection_description'])) {
+      $html .= ' ';
+      $html .= strip_tags($data['location_selection_description']);
+    }
+
+    $string = str_replace('&nbsp;', '', $html);
+    $form['#content'] = $data;
+    if ($lang_id == 'ar') {
+      $lang_id = 'ar-SA';
+    }
+    if ($lang_id == 'es') {
+      $lang_id = 'es-ES';
+      $voiceId = 30;
+      $form['#attached']['drupalSettings']['voiceId'] = $voiceId;
+    }
+    if ($lang_id == 'en') {
+      $lang_id = 'en-US';
+      $voiceId = 41;
+      $form['#attached']['drupalSettings']['voiceId'] = $voiceId;
+    }
+    $form['#attached']['drupalSettings']['location_selector_landId'] = $lang_id;
+    $form['#attached']['drupalSettings']['location_selector_narrate'] = $string;
+    $form['#attached']['drupalSettings']['location_selector'] = TRUE;
 
     $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
     foreach ($all_domains as $domain) {
@@ -95,6 +160,7 @@ class LocationSelectorForm extends FormBase {
 
     $form['#attached']['library'][] = 'vss_custom/geoip';
     $form['#attached']['drupalSettings']['api_key'] = 'c6ea4bfd74d1403ab52e4bacf7478f36';
+    $form['#theme'] = 'location_selector_form';
     return $form;
   }
 
@@ -123,7 +189,9 @@ class LocationSelectorForm extends FormBase {
     // Get selected domain's url.
     $url = $domain_path . $domain_lang . '/home';
     $response = new TrustedRedirectResponse($url);
+    $response->headers->setCookie(new Cookie('country-selector', 'TRUE', strtotime('+7 days'), '/', NULL, FALSE));
     $form_state->setResponse($response);
+
     return;
   }
 

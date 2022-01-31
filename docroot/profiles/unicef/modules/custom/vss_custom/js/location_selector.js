@@ -7,13 +7,6 @@
   'use strict';
       $(document).ready(function () {
 
-        // Add session storage for window
-        $('.location-selector-btn').click(function () {
-          if (!sessionStorage.getItem('location-selector-btn')) {
-            sessionStorage.setItem('location-selector-btn', '1');
-          }
-          $.cookie('location_selector', '1');
-        });
         if (!drupalSettings.location_selector_narrate) {
         return;
         }
@@ -60,6 +53,6 @@
           resume.hidden = true;
           pause.hidden = false;
         });
-      });
 
+      });
     })(jQuery, Drupal, drupalSettings);
