@@ -945,36 +945,38 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
     [t('Original title'), t('Domain'), t('Language')],
     array_slice($form['terms']['#header'], 1, NULL, TRUE));
 
-    $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
-    foreach ($all_domains as $domain) {
-      $domain_status = $domain->get('status');
-      if ($domain_status == TRUE) {
-        $domain_hostname = $domain->get('hostname');
-        $domain_name = $domain->get('name');
-        $domain_id = $domain->get('id');
-        $domain_list[$domain_id] = $domain_name;
-      }
+  \Drupal::messenger()->deleteByType('error');
+  $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
+  foreach ($all_domains as $domain) {
+    $domain_status = $domain->get('status');
+    if ($domain_status == TRUE) {
+      $domain_name = $domain->get('name');
+      $domain_id = $domain->get('id');
+      $domain_list[$domain_id] = $domain_name;
     }
+  }
 
-    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-    $country = \Drupal::request()->query->get('country');
-    $form['domain']['country'] = [
-      '#title' => t('Country'),
-      '#type' => 'select',
-      '#options' => ['' => t('Select country')] + $domain_list,
-      '#weight' => 0,
-      '#default_value' => $country,
-    ];
+  $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+  $country = \Drupal::request()->query->get('country');
+  $form['country'] = [
+    '#title' => t('Country'),
+    '#type' => 'select',
+    '#options' => $domain_list,
+    '#weight' => -10,
+    '#default_value' => $country ? $country : $active_domain,
+  ];
 
-    $form['filter_submit'] = [
-      '#type' => 'submit',
-      '#value' => t('Apply'),
-      '#weight' => 1,
-      '#submit' => ['filter_submit'],
-    ];
+  $form['filter_submit'] = [
+    '#type' => 'submit',
+    '#value' => t('Apply'),
+    '#weight' => -9,
+    '#button_type' => 'primary',
+    '#submit' => ['filter_submit'],
+  ];
+
   foreach ($form['terms'] as $key => &$term) {
     if (is_array($term) && !empty($term['#term'])) {
-      if ($country != $term['#term']->field_domain->target_id && !empty($country)) {
+      if (($country != $term['#term']->field_domain->target_id && !empty($country)) || (empty($country) && $active_domain != $term['#term']->field_domain->target_id)) {
         unset($form['terms'][$key]);
       }
       $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
