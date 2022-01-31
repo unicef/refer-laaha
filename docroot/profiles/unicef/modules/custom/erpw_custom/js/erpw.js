@@ -3,8 +3,7 @@
         attach: function (context, settings) {
 
             let langCookie = getCookie('userLanguageSelection');
-            console.log(langCookie);
-            if (langCookie !== "TRUE" &&window.location.pathname !== "/language-selector") {
+            if (langCookie !== "TRUE" && window.location.pathname !== "/language-selector") {
                 window.location.href = "/language-selector";
             }
 
@@ -13,7 +12,7 @@
                 var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
                 return match ? match[1] : null;
             }
-            
+
             var manage_service_type_url = drupalSettings.erpw_custom.manage_service_type_page;
             jQuery( ".help-text" ).hover(
                 function() {
