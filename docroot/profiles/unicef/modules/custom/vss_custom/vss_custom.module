@@ -941,83 +941,136 @@ function vss_custom_preprocess_views_view_field(&$variables) {
  * Taxonomy overview.
  */
 function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterface $form_state, $form_id) {
-  $form['terms']['#header'] = array_merge(array_slice($form['terms']['#header'], 0, 1, TRUE),
+
+  $path = \Drupal::request()->getpathInfo();
+  $arg = explode('/', $path);
+  if ($arg[5] == 'categories' || $arg[6] == 'categories') {
+    $form['terms']['#header'] = array_merge(array_slice($form['terms']['#header'], 0, 1, TRUE),
     [t('Original title'), t('Domain'), t('Language')],
     array_slice($form['terms']['#header'], 1, NULL, TRUE));
 
-  \Drupal::messenger()->deleteByType('error');
-  $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
-  foreach ($all_domains as $domain) {
-    $domain_status = $domain->get('status');
-    if ($domain_status == TRUE) {
-      $domain_name = $domain->get('name');
-      $domain_id = $domain->get('id');
-      $domain_list[$domain_id] = $domain_name;
-    }
-  }
-
-  $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-  $country = \Drupal::request()->query->get('country');
-  $form['country'] = [
-    '#title' => t('Country'),
-    '#type' => 'select',
-    '#options' => $domain_list,
-    '#weight' => -10,
-    '#default_value' => $country ? $country : $active_domain,
-  ];
-
-  $form['filter_submit'] = [
-    '#type' => 'submit',
-    '#value' => t('Apply'),
-    '#weight' => -9,
-    '#button_type' => 'primary',
-    '#submit' => ['filter_submit'],
-  ];
-
-  foreach ($form['terms'] as $key => &$term) {
-    if (is_array($term) && !empty($term['#term'])) {
-      if (($country != $term['#term']->field_domain->target_id && !empty($country)) || (empty($country) && $active_domain != $term['#term']->field_domain->target_id)) {
-        unset($form['terms'][$key]);
+    \Drupal::messenger()->deleteByType('error');
+    $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
+    foreach ($all_domains as $domain) {
+      $domain_status = $domain->get('status');
+      if ($domain_status == TRUE) {
+        $domain_name = $domain->get('name');
+        $domain_id = $domain->get('id');
+        $domain_list[$domain_id] = $domain_name;
       }
-      $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
-      $tid = $term['#term']->tid->value;
-      $domain_id = $term['#term']->field_domain->target_id;
-      $lang = $term['#term']->langcode->value;
-      $languages = \Drupal::languageManager()->getLanguages();
-      foreach ($languages as $key => $language) {
-        if ($key == $lang) {
-          $dis_lang = $language->getName();
+    }
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $country = \Drupal::request()->query->get('country');
+    $form['country'] = [
+      '#title' => t('Country'),
+      '#type' => 'select',
+      '#options' => $domain_list,
+      '#weight' => -10,
+      '#default_value' => $country ? $country : $active_domain,
+    ];
+
+    $form['filter_submit'] = [
+      '#type' => 'submit',
+      '#value' => t('Apply'),
+      '#weight' => -9,
+      '#button_type' => 'primary',
+      '#submit' => ['filter_submit'],
+    ];
+    foreach ($form['terms'] as $key => &$term) {
+      if (is_array($term) && !empty($term['#term'])) {
+        if (($country != $term['#term']->field_domain->target_id && !empty($country)) || (empty($country) && $active_domain != $term['#term']->field_domain->target_id)) {
+          unset($form['terms'][$key]);
         }
-      }
-      $domain_id = $term['#term']->field_domain->target_id;
-      $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($domain_id);
-      $trm = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
-      if ($trm->langcode->value != $langcode && $trm->hasTranslation($langcode)) {
-        $title = $trm->name->value;
-      }
-      else {
-        $title = '-';
-      }
-      $status['title'] = [
-        '#markup' => $title,
-        '#type' => 'item',
-      ];
+        $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        $tid = $term['#term']->tid->value;
+        $domain_id = $term['#term']->field_domain->target_id;
+        $lang = $term['#term']->langcode->value;
+        $languages = \Drupal::languageManager()->getLanguages();
+        foreach ($languages as $key => $language) {
+          if ($key == $lang) {
+            $dis_lang = $language->getName();
+          }
+        }
+        $domain_id = $term['#term']->field_domain->target_id;
+        $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($domain_id);
+        $trm = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
+        if ($trm->langcode->value != $langcode && $trm->hasTranslation($langcode)) {
+          $title = $trm->name->value;
+        }
+        else {
+          $title = '-';
+        }
+        $status['title'] = [
+          '#markup' => $title,
+          '#type' => 'item',
+        ];
 
-      $status['domain'] = [
-        '#markup' => $domain->get('name'),
-        '#type' => 'item',
-      ];
+        $status['domain'] = [
+          '#markup' => $domain->get('name'),
+          '#type' => 'item',
+        ];
 
-      $status['dis_lang'] = [
-        '#markup' => $dis_lang,
-        '#type' => 'item',
-      ];
+        $status['dis_lang'] = [
+          '#markup' => $dis_lang,
+          '#type' => 'item',
+        ];
 
-      $term = array_slice($term, 0, 1, TRUE) +
-        $status +
-        array_slice($term, 1, NULL, TRUE);
+        $term = array_slice($term, 0, 1, TRUE) +
+          $status +
+          array_slice($term, 1, NULL, TRUE);
+      }
     }
   }
+  elseif ($arg[5] == 'tags' || $arg[6] == 'tags') {
+    $form['terms']['#header'] = array_merge(array_slice($form['terms']['#header'], 0, 1, TRUE),
+    [t('Original title'), t('Language')],
+    array_slice($form['terms']['#header'], 1, NULL, TRUE));
+
+    \Drupal::messenger()->deleteByType('error');
+    $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
+    foreach ($all_domains as $domain) {
+      $domain_status = $domain->get('status');
+      if ($domain_status == TRUE) {
+        $domain_name = $domain->get('name');
+        $domain_id = $domain->get('id');
+        $domain_list[$domain_id] = $domain_name;
+      }
+    }
+    foreach ($form['terms'] as $key => &$term) {
+      if (is_array($term) && !empty($term['#term'])) {
+        $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        $tid = $term['#term']->tid->value;
+        $lang = $term['#term']->langcode->value;
+        $languages = \Drupal::languageManager()->getLanguages();
+        foreach ($languages as $key => $language) {
+          if ($key == $lang) {
+            $dis_lang = $language->getName();
+          }
+        }
+        $trm = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
+        if ($trm->langcode->value != $langcode && $trm->hasTranslation($langcode)) {
+          $title = $trm->name->value;
+        }
+        else {
+          $title = '-';
+        }
+        $status['title'] = [
+          '#markup' => $title,
+          '#type' => 'item',
+        ];
+
+        $status['dis_lang'] = [
+          '#markup' => $dis_lang,
+          '#type' => 'item',
+        ];
+
+        $term = array_slice($term, 0, 1, TRUE) +
+          $status +
+          array_slice($term, 1, NULL, TRUE);
+      }
+    }
+  }
+
 }
 
 /**
