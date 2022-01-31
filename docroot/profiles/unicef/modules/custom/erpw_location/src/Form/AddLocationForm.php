@@ -207,7 +207,7 @@ class AddLocationForm extends FormBase {
     } if (!empty($location_options) && $id !== "") {
       $form['top_wrapper']['all_wrapper']['location-container-heading'] = [
         '#type' => 'markup',
-        '#markup' => '<div class="location-container-heading">' . $this->t('Update location details') . '</div>',
+        '#markup' => '<div class="location-container-heading">' . $this->t('Location details') . '</div>',
       ];
     }
     $form['top_wrapper']['all_wrapper']['level1_wrapper'] = [
@@ -222,18 +222,7 @@ class AddLocationForm extends FormBase {
       '#type' => 'container',
       '#attributes' => ['id' => 'level3-wrapper', 'class' => 'location-level'],
     ];
-    $form['top_wrapper']['all_wrapper']['level2_wrapper']['error_text'] = [
-      '#type' => 'markup',
-      '#markup' => '<div id="error-text"></div>',
-    ];
-    $form['top_wrapper']['all_wrapper']['level3_wrapper']['error_text'] = [
-      '#type' => 'markup',
-      '#markup' => '<div id="error-text2"></div>',
-    ];
-    $form['top_wrapper']['all_wrapper']['level4_wrapper']['error_text'] = [
-      '#type' => 'markup',
-      '#markup' => '<div id="error-text3"></div>',
-    ];
+
     if ($form_state->getValue('location_options') != FALSE || !empty($id)) {
       if (empty($id)) {
         unset($form['top_wrapper']['all_wrapper']['intro_text']);
@@ -260,6 +249,7 @@ class AddLocationForm extends FormBase {
           '#title' => $location_levels[0],
           '#autocomplete_route_name' => 'erpw_location.autocomplete',
           '#default_value' => $level_1_name,
+          '#suffix' => '<div id="error-text"></div>',
         // '#required' => TRUE,
           '#autocomplete_route_parameters' => ['tid' => $this->cid],
           '#ajax' => [
@@ -299,6 +289,7 @@ class AddLocationForm extends FormBase {
           '#title' => $location_levels[1],
           '#autocomplete_route_name' => 'erpw_location.autocomplete',
           '#default_value' => $level_2_name,
+          '#suffix' => '<div id="error-text2"></div>',
           '#autocomplete_route_parameters' => ['tid' => $level1int],
         // '#required' => TRUE,
           '#ajax' => [
@@ -339,6 +330,7 @@ class AddLocationForm extends FormBase {
           '#title' => $location_levels[2],
           '#autocomplete_route_name' => 'erpw_location.autocomplete',
           '#default_value' => $level_3_name,
+          '#suffix' => '<div id="error-text3"></div>',
         // '#required' => TRUE,
           '#autocomplete_route_parameters' => ['tid' => $level2int],
           '#attributes' => [
@@ -364,6 +356,7 @@ class AddLocationForm extends FormBase {
           '#type' => 'textfield',
           '#title' => $location_levels[3],
           '#default_value' => $level_4_name,
+          '#suffix' => '<div id="error-text4"></div>',
         // '#required' => TRUE,
           '#attributes' => [
             'class' => [
@@ -413,6 +406,7 @@ class AddLocationForm extends FormBase {
     $form['top_wrapper']['all_wrapper']['level1_wrapper']['level1']['#value'] = "";
     $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#value'] = "";
     $form['top_wrapper']['all_wrapper']['level3_wrapper']['level3']['#value'] = "";
+    $form['top_wrapper']['all_wrapper']['level4_wrapper']['level4']['#value'] = "";
     $form['top_wrapper']['#disable_inline_form_errors_summary'] = TRUE;
 
     return $form['top_wrapper'];
@@ -466,6 +460,7 @@ class AddLocationForm extends FormBase {
       return $response;
     }
     if (empty($form_state->getValue('level2'))) {
+      $response->addCommand(new HtmlCommand('#error-text', ''));
       $response->addCommand(new HtmlCommand('#error-text2',
       $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('field is required.')));
       $response->addCommand(new InvokeCommand('#error-text2',
@@ -473,11 +468,26 @@ class AddLocationForm extends FormBase {
       return $response;
     }
     if (empty($form_state->getValue('level3'))) {
+      $response->addCommand(new HtmlCommand('#error-text', ''));
+      $response->addCommand(new HtmlCommand('#error-text2', ''));
       $response->addCommand(new HtmlCommand('#error-text3',
       $form['top_wrapper']['all_wrapper']['level3_wrapper']['level3']['#title'] . " " . $this->t('field is required.')));
       $response->addCommand(new InvokeCommand('#error-text3',
       'css', ["color", "red"]));
       return $response;
+    }
+    $level4 = $form_state->getValue('level4');
+    if (isset($level4)) {
+      if (empty($form_state->getValue('level4'))) {
+        $response->addCommand(new HtmlCommand('#error-text', ''));
+        $response->addCommand(new HtmlCommand('#error-text2', ''));
+        $response->addCommand(new HtmlCommand('#error-text3', ''));
+        $response->addCommand(new HtmlCommand('#error-text4',
+        $form['top_wrapper']['all_wrapper']['level4_wrapper']['level4']['#title'] . " " . $this->t('field is required.')));
+        $response->addCommand(new InvokeCommand('#error-text4',
+        'css', ["color", "red"]));
+        return $response;
+      }
     }
 
     // State.
@@ -531,9 +541,9 @@ class AddLocationForm extends FormBase {
       $last_level_tid = $level4_tid;
       if ($this->tid) {
         if ($this->tid == $last_level_tid || $last_level_tid == 0) {
-          $response->addCommand(new HtmlCommand('#error-text3',
-          $form['top_wrapper']['all_wrapper']['level4_wrapper']['level4']['#title'] . " " . $this->t('already exist.')));
-          $response->addCommand(new InvokeCommand('#error-text3',
+          $response->addCommand(new HtmlCommand('#error-text4',
+          $this->t('Location entity is created with the values filled, Please change the values and Publish it.')));
+          $response->addCommand(new InvokeCommand('#error-text4',
           'css', ["color", "red"]));
           return $response;
         }
