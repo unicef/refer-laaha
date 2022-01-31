@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - system
     - vss_custom
   theme:
     - vss
@@ -17,4 +18,8 @@ settings:
   label: 'Social icons footer block'
   label_display: '0'
   provider: vss_custom
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /country-selector

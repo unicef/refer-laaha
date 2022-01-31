@@ -8,13 +8,16 @@
 * @ingroup themeable
 */
 #}
+{{ form.form_build_id }}
+{{ form.form_token }}
+{{ form.form_id }}
+
 {% set classes = [
     'clear-both',
-    'pop-up-speech'
+    'pop-up-speech',
+    'location-selector-block'
 ] %}
-{{ attach_library('vss_custom/location_selector_block') }}
 {{ attach_library('vss_custom/location_selector') }}
-
 <div{{ attributes.addClass(classes) }}>
     <div class="wrapper">
     <div id="text"></div>
@@ -27,22 +30,21 @@
    <div class="virtual-main-title">{{ 'Virtual Safe Space'|t }}</div>
     <div class="virtual-image-wrapper"></div>
     <div class="virtual-content-wrapper">
-        {% if content is not empty %}
-            {% if content.location_selection_title is not empty %}
+        {% if form['#content'] is not empty %}
+            {% if form['#content']['location_selection_title'] is not empty %}
                 <div class="virtual-title">
-                    {{content.location_selection_title}}
+                    {{ form['#content']['location_selection_title'] }}
                 </div>
             {% endif %}
-            {% if content.location_selection_description is not empty %}
+            {% if form['#content']['location_selection_description'] is not empty %}
                 <div class="virtual-description">
-                    {{ content.location_selection_description|raw }}
+                    {{ form['#content']['location_selection_description']|raw }}
                 </div>
             {% endif %}
-            {% if content.location_selection_description is not empty %}
                 <div class="virtual-form">
-                    {{ content.location_selection_form }}
+                    {{ form['domain'] }}
+                    {{ form['actions']['submit'] }}
                 </div>
-            {% endif %}
         {% endif %}
     </div>
 </div>

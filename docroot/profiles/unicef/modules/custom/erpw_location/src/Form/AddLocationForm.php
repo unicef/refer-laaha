@@ -369,6 +369,7 @@ class AddLocationForm extends FormBase {
       }
 
       $form['top_wrapper']['submit_wrapper']['save_draft'] = [
+        '#prefix' => '<div class="form-actions">',
         '#type' => 'submit',
         '#value' => $this->t('Save as Draft'),
         '#attributes' => [
@@ -386,6 +387,7 @@ class AddLocationForm extends FormBase {
         '#ajax' => [
           'callback' => '::sendMessageForm',
         ],
+        '#suffix' => '</div>',
       ];
     }
 
@@ -456,7 +458,7 @@ class AddLocationForm extends FormBase {
       $response->addCommand(new HtmlCommand('#error-text',
       $form['top_wrapper']['all_wrapper']['level1_wrapper']['level1']['#title'] . "  " . $this->t('field is required.')));
       $response->addCommand(new InvokeCommand('#error-text',
-      'css', ["color", "red"]));
+      'css', ["color", "#A85766"]));
       return $response;
     }
     if (empty($form_state->getValue('level2'))) {
@@ -464,7 +466,7 @@ class AddLocationForm extends FormBase {
       $response->addCommand(new HtmlCommand('#error-text2',
       $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('field is required.')));
       $response->addCommand(new InvokeCommand('#error-text2',
-      'css', ["color", "red"]));
+      'css', ["color", "#A85766"]));
       return $response;
     }
     if (empty($form_state->getValue('level3'))) {
@@ -473,7 +475,7 @@ class AddLocationForm extends FormBase {
       $response->addCommand(new HtmlCommand('#error-text3',
       $form['top_wrapper']['all_wrapper']['level3_wrapper']['level3']['#title'] . " " . $this->t('field is required.')));
       $response->addCommand(new InvokeCommand('#error-text3',
-      'css', ["color", "red"]));
+      'css', ["color", "#A85766"]));
       return $response;
     }
     $level4 = $form_state->getValue('level4');
@@ -552,7 +554,7 @@ class AddLocationForm extends FormBase {
 
     if (empty($this->tid) && $this->tid == "") {
       $this->locationService->addEprwLocation($last_level_tid, $this->cid);
-      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup', $this->t('Location added successfuly'), $this->t('The location has been added successfully. You can now access it in the application.'));
+      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup', $this->t('Location added successfully'), $this->t('The location has been added successfully. You can now access it in the application.'));
     }
     else {
       $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup', $this->t('Updated successfully'), $this->t('The details have been successfully updated.'));

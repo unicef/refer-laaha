@@ -20,6 +20,7 @@ use Drupal\file\Entity\File;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\node\Entity\Node;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_theme().
@@ -37,11 +38,9 @@ function vss_custom_theme() {
       ],
       'render element' => 'children',
     ],
-    'location_selector_block' => [
-      'variables' => [
-        'content' => NULL,
-      ],
-      'render element' => 'children',
+    'location_selector_form' => [
+      'render element' => 'form',
+      'template' => 'location-selector-form',
     ],
     'social_icons' => [
       'variables' => [
@@ -701,8 +700,8 @@ function vss_custom_entity_insert(EntityInterface $entity) {
         $key = 'general_mail';
         $to = $user_email;
         $params['message'] = "Hi $user_name,
-        $editor_name has requested to $state an $type. Below is a link 
-        <a href = https://$url>https://$url</a> 
+        $editor_name has requested to $state an $type. Below is a link
+        <a href = https://$url>https://$url</a>
         Click on the link to view the content or go to your dashboard in the CMS";
         $params['subject'] = "Request for $state content by $editor_name";
         $send = TRUE;
@@ -748,7 +747,7 @@ function vss_custom_entity_update(EntityInterface $entity) {
         $key = 'general_mail';
         $to = $user_email;
         $params['message'] = "Hi $user_name,
-        $editor_name has requested to $state an $type. Below is a link 
+        $editor_name has requested to $state an $type. Below is a link
         <a href = https://$url>https://$url</a>
         Click on the link to view the content or go to your dashboard in the CMS";
         $params['subject'] = "Request for $state content by $editor_name";
@@ -846,6 +845,19 @@ function vss_custom_preprocess_page(&$variables) {
   if ($variables['is_front'] == TRUE) {
     \Drupal::service('page_cache_kill_switch')->trigger();
   }
+  $current_path = \Drupal::service('path.current')->getPath();
+  $result = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  if ($result != '/user/login' && $result != '/country-selector') {
+    $anonymous_user = \Drupal::currentUser()->isAnonymous();
+    $request = \Drupal::request();
+    $country_selection_check = $request->cookies->get('country-selector');
+    if ($country_selection_check == NULL && $anonymous_user && $result != '/country-selector') {
+      $url = Url::fromRoute('vss_custom.country_selector');
+      $response = new RedirectResponse($url->toString());
+      $response->send();
+      return;
+    }
+  }
 }
 
 /**
@@ -895,6 +907,23 @@ function vss_custom_preprocess_views_view_field(&$variables) {
     if ($variables['field']->field == 'field_icon') {
       $string = explode(",", $variables['output'])[0];
       $variables['output'] = Markup::create($string);
+    }
+  }
+
+  if ($variables['view']->storage->id() == 'content') {
+    if (isset($variables['view']->field) && (count($variables['view']->field) > 0)) {
+      if ($variables['field']->field == 'nothing') {
+        // Get tid.
+        $nid = $variables['row']->_entity->get('nid')->value;
+        $node_details = Node::load($nid);
+        $default_title = $node_details->title->value;
+        $alias = \Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $nid);
+        if ($variables['field']->field == 'nothing') {
+          $variables['output'] = [
+            '#markup' => "<a href= $alias>$default_title</a>",
+          ];
+        }
+      }
     }
   }
 }

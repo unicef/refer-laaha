@@ -6,6 +6,7 @@ dependencies:
     - system.menu.footer-last-menu
   module:
     - menu_item_fields
+    - system
   theme:
     - vss
 id: footerlastmenu
@@ -24,4 +25,8 @@ settings:
   depth: '0'
   expand_all_items: 0
   view_mode_override_field: _none
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /country-selector
