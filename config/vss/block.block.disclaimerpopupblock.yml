@@ -1,8 +1,9 @@
 uuid: 62c9745d-ce25-41d3-817d-8f57cd5798d8
 langcode: en
-status: false
+status: true
 dependencies:
   module:
+    - system
     - vss_custom
   theme:
     - vss
@@ -17,4 +18,8 @@ settings:
   label: 'Disclaimer pop up block'
   label_display: '0'
   provider: vss_custom
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /country-selector
