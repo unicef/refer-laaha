@@ -917,6 +917,10 @@ function vss_custom_preprocess_views_view_field(&$variables) {
       $string = explode(",", $variables['output'])[0];
       $variables['output'] = Markup::create($string);
     }
+    if ($variables['field']->field == 'nothing') {
+      $a = str_replace('cat-icon', 'cat-icon" style="background-color:', $variables['output']);
+      $variables['output'] = Markup::create($a);
+    }
   }
 
   if ($variables['view']->storage->id() == 'content') {
