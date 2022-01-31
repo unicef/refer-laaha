@@ -1,6 +1,18 @@
 (function ($, Drupal, drupalSettings) {
     Drupal.behaviors.catapult_img_preview = {
         attach: function (context, settings) {
+
+            let langCookie = getCookie('userLanguageSelection');
+            if (langCookie !== "TRUE" && window.location.pathname !== "/language-selector") {
+                window.location.href = "/language-selector";
+            }
+
+            function getCookie(name) {
+                function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
+                var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
+                return match ? match[1] : null;
+            }
+
             var manage_service_type_url = drupalSettings.erpw_custom.manage_service_type_page;
             
             jQuery( ".help-text" ).hover(
