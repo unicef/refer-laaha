@@ -44,3 +44,12 @@ vss_custom.need_help_form:
     _title: "Need Help CSV Upload"
   requirements:
     _role: "content_editor"
+
+
+vss_custom.country_selector:
+  path: "/country-selector"
+  defaults:
+    _form: '\Drupal\vss_custom\Form\LocationSelectorForm'
+    _title: "Country Selection"
+  requirements:
+    _permission: 'access content'

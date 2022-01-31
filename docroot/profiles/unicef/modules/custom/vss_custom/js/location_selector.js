@@ -1,40 +1,32 @@
 /**
  * @file
- * JavaScript for Exit Website.
+ * JavaScript for location selection speech Website.
  */
 
-(function ($, Drupal, drupalSettings) {
-  Drupal.behaviors.disclaimer = {
-    attach: function (context, settings) {
+ (function ($, Drupal, drupalSettings) {
+  'use strict';
       $(document).ready(function () {
-        // Add session storage for window
-        $('.pop-up').click(function () {
-          $('.overlay-popup').hide();
-          if (!sessionStorage.getItem('pop-up')) {
-            sessionStorage.setItem('pop-up', '1');
-          }
-          $.cookie('disclaimer', '1');
-        });
-        if (!drupalSettings.disclaimer_narrate) {
+
+        if (!drupalSettings.location_selector_narrate) {
         return;
         }
         window.speechSynthesis.cancel();
 
         // grab the UI elements to work with
-        const play = document.getElementById('play');
-        const pause = document.getElementById('pause');
-        const resume = document.getElementById('resume');
+        const play = document.getElementById('virtual-play');
+        const pause = document.getElementById('virtual-pause');
+        const resume = document.getElementById('virtual-resume');
         resume.hidden = true;
         pause.hidden = true;
         // add UI event handlers
         play.addEventListener("click", () => {
-          var utterance = new SpeechSynthesisUtterance(drupalSettings.disclaimer_narrate);
+          var utterance = new SpeechSynthesisUtterance(drupalSettings.location_selector_narrate);
           if (drupalSettings.voiceId) {
             var voices = speechSynthesis.getVoices();
             utterance.voice = voices[drupalSettings.voiceId];
           }
           else {
-            utterance.lang = drupalSettings.disclaimer_landId;
+            utterance.lang = drupalSettings.location_selector_landId;
           }
           play.hidden = true;
           resume.hidden = true;
@@ -56,14 +48,11 @@
         });
 
         resume.addEventListener("click", () => {
-          // data.innerText = "resume";
           speechSynthesis.resume();
           play.hidden = true;
           resume.hidden = true;
           pause.hidden = false;
         });
-      });
-    }
-  };
 
-})(jQuery, Drupal, drupalSettings);
+      });
+    })(jQuery, Drupal, drupalSettings);

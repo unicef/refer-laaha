@@ -22,6 +22,14 @@ geoip:
     - core/jquery
     - core/drupalSettings
     - core/drupal.ajax
+    
+location_selector:
+  js:
+    js/location_selector.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+    - core/jquery.cookie
 
 disclaimer:
   js:

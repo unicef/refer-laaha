@@ -7,6 +7,7 @@ dependencies:
   module:
     - language
     - menu_item_fields
+    - system
   theme:
     - vss
 id: navigationheadermenu
@@ -34,3 +35,7 @@ visibility:
     langcodes:
       en: en
       es: es
+  request_path:
+    id: request_path
+    negate: true
+    pages: /country-selector
