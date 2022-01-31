@@ -65,3 +65,23 @@
 .form-item-level4 {
 	margin: 0 15px;
 }
+
+.add-location {
+	.form-actions {
+		display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+	}
+	input[type=submit] {
+		padding: 10px 0 !important;
+    width: 134px
+	}
+	[id^='error-text'] {
+		color: #A85766;
+    font-size: 0.75em;
+    font-weight: 500;
+	}
+}
