@@ -198,13 +198,34 @@ function vss_custom_taxonomy_term_presave($term) {
       }
     }
     else {
+
+      $path = 'internal:#';
+      if (isset($term->get('path')->alias) && !empty($term->get('path')->alias)) {
+        $path = 'internal:' . $term->get('path')->alias;
+      }
+      else {
+        $path = 'internal:/' . str_replace(' ', '-', strtolower($term->get('name')->value));
+      }
+
+      if (isset($term->get('field_category_short_name')->value) && !empty($term->get('field_category_short_name')->value)) {
+        $name = $term->get('field_category_short_name')->value;
+      }
+      else {
+        $name = $term->get('name')->value;
+      }
+
       $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $term->original->get('name')->value]);
       if ($link = reset($links)) {
         if (!$link->hasTranslation($term->get('langcode')->value)) {
           $link->addTranslation($term->get('langcode')->value, ['title' => $term->get('name')->value])->save();
         }
         else {
-          $link->title->value = $term->get('name')->value;
+          // dump($path);
+          // dump($link);
+          // die;
+          $link->title->value = $name;
+          $link->expanded = TRUE;
+          $link->link->uri = $path;
           $link->langcode->value = $term->get('langcode')->value;
           $link->weight->value = $term->get('weight')->value;
           $link->field_icon->target_id = $term->get('field_icon')->target_id;
