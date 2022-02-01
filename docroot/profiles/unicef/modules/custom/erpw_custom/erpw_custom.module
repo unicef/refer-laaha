@@ -27,6 +27,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
   }
 
   if ($form_id == 'node_service_type_form') {
+    $form['content_translation']['#access'] = FALSE;
     $form['#title'] = t('Name of Service Type');
     $form['advanced']['#access'] = FALSE;
     $form['meta']['#access'] = FALSE;
@@ -44,6 +45,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#title'] = t('Add Service Type');
   }
   if ($form_id == 'node_service_type_edit_form') {
+    $form['content_translation']['#access'] = FALSE;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#prefix'] = '<div id="status-message"></div>';
     $form['#title'] = t('Name of Service Type');
@@ -61,6 +63,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['submit']['#attributes']['class'][] = 'use-ajax ok-btn';
     $form['#title'] = t('Update Service Type');
     $form['actions']['delete']['#access'] = FALSE;
+    $form['actions']['delete_translation']['#access'] = FALSE;
     $form['actions']['submit']['#cancel'][] = 'cancelhandler';
     $form['actions']['submit']['#ajax'] = [
       'callback' => 'update_service_type_handler',

@@ -85,20 +85,43 @@
 {{ attach_library('core/drupal.dialog.ajax') }}
 
 {% if not query %}
-    <div class="edit-delete-links margin-space"> 
-        <span class="clone-service-type"><a href="/clone/{{ nid }}/{{ 'quick_clone' | t }}">{{ 'clone' | t }}</a></span>
-        <span class="delete-link"><a href="/node/{{ nid }}?{{ 'action=delete' | t }}">{{ 'delete' | t }}</a></span>
-        <span class="edit-link"><a href="/node/{{ nid }}/{{ 'edit' | t }}">{{ 'edit' | t }}</a></span>
-    </div>
+  <div class="edit-delete-links margin-space">
+    <span class="clone-service-type">
+      <a href="{{ path('quick_node_clone.node.quick_clone', {'node': nid}) }}">{{ 'clone' | t }}</a>
+    </span>
+    <span class="delete-link">
+      <a href="{{ path('entity.node.delete_form', {'node': nid}) }}">{{ 'delete' | t }}</a>
+    </span>
+    <span class="edit-link">
+      <a href="{{ path('entity.node.edit_form', {'node': nid}) }}">{{ 'edit' | t }}</a>
+    </span>
+    <span class="translate-link">
+      <a href="{{ path('entity.node.content_translation_overview', {'node': nid}) }}">{{ 'translate' | t }}</a>
+    </span>
+  </div>
 {% endif %}
 
 <div class="delete-screen">
-<div class="detail-row"><label>{{ 'Service Type:' | t }} </label><span> {{ node.title.value }}</span> </div>
-<div class="detail-row"><label>{{ 'Icon:' | t }} </label> <i class="{{ node.field_service_type_icon.entity.field_service_type_icon.value }}"></i></div>
-<div class="detail-row color-label"><label>{{ 'Colour:' | t }} </label><span style="background-color:  {{ node.field_service_type_color.entity.field_service_type_color.color }}"></span></div>
-{% if query is not empty %}
+  <div class="detail-row">
+    <label>{{ 'Service Type:' | t }}
+    </label>
+    <span>
+      {{ node.title.value }}</span>
+  </div>
+  <div class="detail-row">
+    <label>{{ 'Icon:' | t }}
+    </label>
+    <i class="{{ node.field_service_type_icon.entity.field_service_type_icon.value }}"></i>
+  </div>
+  <div class="detail-row color-label">
+    <label>{{ 'Colour:' | t }}
+    </label>
+    <span style="background-color:  {{ node.field_service_type_color.entity.field_service_type_color.color }}"></span>
+  </div>
+  {% if query is not empty %}
     <a href="/node/{{ query }}/{{ nid }}" class="use-ajax modal-popup button-red">{{ 'DELETE SERVICE TYPE' | t }}</a>
-    <div class="msg-note">{{ 'This action cannot be reversed ! Please note that deleting a service type will remove any mapping it has with existing referral pathways and Organisation Services of application.' | t }}</div>
-{% endif %}
+    <div class="msg-note">
+      {{ 'This action cannot be reversed ! Please note that deleting a service type will remove any mapping it has with existing referral pathways and Organisation Services of application.' | t }}
+    </div>
+  {% endif %}
 </div>
-
