@@ -42,7 +42,7 @@ jobs:
 
       - name: Run phpcs with Drupal coding standards.
         run: >
-          ./vendor/bin/phpcs -p -s --config-set ignore_warnings_on_exit 0
+          ./vendor/bin/phpcs -p -s
       - name: Run phplint with Drupal coding standards.
         run: > 
            ./vendor/bin/phplint 
