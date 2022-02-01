@@ -262,7 +262,7 @@ class SignUpForm extends FormBase {
       ];
     }
     $form['location'] = [
-      '#prefix' => '<div id="edit-location-details">',
+      '#prefix' => '<div id="edit-location-details" class="card-shadow">',
       '#suffix' => '</div>',
     ];
     if (!empty($form_state->getValue('location_options'))) {
@@ -273,7 +273,7 @@ class SignUpForm extends FormBase {
     }
     $form['location']['intro_text'] = [
       '#type' => 'markup',
-      '#markup' => '<div id="intro-text">' . $this->t('Select the county first, to view the respective form') . '</div>',
+      '#markup' => '<div id="intro-text">' . $this->t('Select the country first, to view the respective form') . '</div>',
     ];
 
     if (!empty($form_state->getValue('location_options'))) {
@@ -411,7 +411,7 @@ class SignUpForm extends FormBase {
     $form['actions'] = [
       '#type' => 'actions',
     ];
-    $form['actions']['next'] = [
+    $form['location']['actions']['next'] = [
       '#type' => 'submit',
       '#button_type' => 'primary',
       '#value' => $this->t('Next'),

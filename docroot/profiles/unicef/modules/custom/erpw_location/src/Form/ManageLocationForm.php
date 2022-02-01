@@ -186,7 +186,7 @@ class ManageLocationForm extends FormBase {
         $view_url = $this->urlGenerator->generateFromRoute('erpw_location.view_location',
            ['tid' => $tid, 'mode' => 'view']
         );
-        $location_operations = '<div class="edit-delete-links margin-space"> 
+        $location_operations = '<div class="edit-delete-links"> 
         <span class="clone-service-type"><a href="' . $clone_url . '">' . $this->t('Clone') . '</a></span>
         <span class="delete-link"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>
         <span class="edit-link"><a href="' . $edit_url . '">' . $this->t('Edit') . '</a></span>
