@@ -539,7 +539,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: " <span class=\"{{ type|lower }}-play-icon\"></span>\r\n <span class=\"icon-{{ type|lower }} thumbnail-icon\"></span>\r\n <span class=\"video-time\">{{ field_video_time }}</span>\r\n</div>\r\n<div class=\"search-result-content\">\r\n<div class=\"search-content-title\">{{ title }} </div>\r\n<div class=\"search-content-cat\">\r\n<span class=\"cat-icon\" style=\"background-color:{{ field_category_color }}\">{{ field_icon }} </span>\r\n<span class=\"cat-title\">{{ name }} </span>\r\n</div>\r\n</div>"
+            text: " <span class=\"{{ type|lower }}-play-icon\"></span>\r\n <span class=\"icon-{{ type|lower }} thumbnail-icon\"></span>\r\n <span class=\"video-time\">{{ field_video_time }}</span>\r\n</div>\r\n<div class=\"search-result-content\">\r\n<div class=\"search-content-title\">{{ title }} </div>\r\n<div class=\"search-content-cat\">\r\n<span class=cat-icon{{ field_category_color }}>{{ field_icon }} </span>\r\n<span class=\"cat-title\">{{ name }} </span>\r\n</div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false

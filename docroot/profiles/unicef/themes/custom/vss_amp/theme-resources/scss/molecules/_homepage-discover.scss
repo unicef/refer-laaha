@@ -28,16 +28,6 @@
     }
   }
 
-  .discover-category-thumbnail {
-    align-items: center;
-    border: 5px solid #fff;
-    border-radius: 50%;
-    display: flex;
-    height: 80px;
-    justify-content: center;
-    overflow: hidden;
-    width: 80px;
-  }
 
   .discovery-articles {
     display: flex;
@@ -53,6 +43,9 @@
     flex-direction: column;
     margin: 5px;
     padding: 0;
+    @media screen and (min-width: 1024px) {
+      width: 50%;
+    }
   }
 
   .discover-content-thumbnail {
@@ -78,6 +71,9 @@
     border-radius: 20px;
     margin: 2px;
     padding: 15px;
+    @media screen and (min-width: 1024px) {
+      width: 50%;
+    }
   }
 
   .discover-category-description {
