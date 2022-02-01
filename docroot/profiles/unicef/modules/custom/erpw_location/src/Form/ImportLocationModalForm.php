@@ -366,10 +366,10 @@ class ImportLocationModalForm extends FormBase {
               ]);
               $query->values([
                 $country_term_id,
-                isset($ancestors[1]) ? $ancestors[1] : '',
-                isset($ancestors[2]) ? $ancestors[2] : '',
-                isset($ancestors[3]) ? $ancestors[3] : '',
-                isset($ancestors[4]) ? $ancestors[4] : '',
+                $ancestors[1] ?? '',
+                $ancestors[2] ?? '',
+                $ancestors[3] ?? '',
+                $ancestors[4] ?? '',
               ]);
               $query->execute();
             }
