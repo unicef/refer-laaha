@@ -244,6 +244,7 @@
 	}
 	.clone-service-type a {
 		background: url('../images/clone.svg') center center no-repeat;
+		margin-left: 0;
 	}
 	.edit-link a {
 		background: url('../images/edit.svg') center center no-repeat;
@@ -257,4 +258,8 @@ div.color_field__swatch input[type=checkbox]:checked + label span,
 div.color_field__swatch input[type=radio]:checked + label span {
     border: 0;
     transform: inherit;
+}
+
+.view-organisations {
+	@extend .service-list
 }

@@ -44,6 +44,6 @@ erpw_location.view_location:
   path: '/view-location/{tid}/{mode}'
   defaults:
     _form: '\Drupal\erpw_location\Form\DeleteLocationForm'
-    _title: 'View location'
+    _title: 'Location Details'
   requirements:
     _permission: 'access content'

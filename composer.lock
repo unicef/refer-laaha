@@ -7348,6 +7348,56 @@
             }
         },
         {
+            "name": "drupal/status_messages",
+            "version": "4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/status_messages.git",
+                "reference": "8.x-4.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/status_messages-8.x-4.2.zip",
+                "reference": "8.x-4.2",
+                "shasum": "7bac55393f7965e74c0798441cd1347f9bbdf084"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-4.2",
+                    "datestamp": "1597337084",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Neslee Canil Pinto",
+                    "homepage": "https://www.drupal.org/u/neslee-canil-pinto",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Provides a simple popup status messages.",
+            "homepage": "https://www.drupal.org/project/status_messages",
+            "keywords": [
+                "Drupal",
+                "Status Messages"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/status_messages",
+                "issues": "https://www.drupal.org/project/issues/status_messages"
+            }
+        },
+        {
             "name": "drupal/taxonomy_term_depth",
             "version": "2.5.0",
             "source": {
