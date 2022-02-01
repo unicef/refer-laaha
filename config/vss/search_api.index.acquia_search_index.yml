@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.body
     - field.storage.node.field_city
+    - field.storage.node.field_description
     - field.storage.node.field_priority
     - field.storage.node.field_service_provider_name
     - field.storage.node.field_sub_category
@@ -92,6 +93,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_city
+  field_description:
+    label: Description
+    datasource_id: 'entity:node'
+    property_path: field_description
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_description
   field_icon:
     label: 'Sub Category » Taxonomy term » Term Parents » Taxonomy term » Icon'
     datasource_id: 'entity:node'
@@ -242,6 +251,7 @@ processor_settings:
       - body
       - field_category_color
       - field_city
+      - field_description
       - field_service_provider_name
       - name
       - name_1
