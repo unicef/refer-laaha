@@ -39,6 +39,14 @@ class Dashboard extends FormBase {
       '#markup' => $link,
       '#suffix' => '</div>',
     ];
+    $url = Url::fromRoute('view.organisations.page_1');
+    $link = Link::fromTextAndUrl('Manage organisation', $url)->toString();
+    $form['manage_organization'] = [
+      '#type' => 'markup',
+      '#prefix' => '<div class="dashboard-link org-link">',
+      '#markup' => $link,
+      '#suffix' => '</div>',
+    ];
 
     return $form;
   }
