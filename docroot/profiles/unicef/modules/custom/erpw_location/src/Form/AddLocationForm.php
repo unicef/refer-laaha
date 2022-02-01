@@ -146,7 +146,6 @@ class AddLocationForm extends FormBase {
         '#type' => 'select',
         '#options' => $location_options,
         '#empty_option' => $this->t('Select Country'),
-        // '#required' => TRUE,
         '#title' => $this->t('Country name'),
         '#ajax' => [
           'callback' => '::ajaxCallback',
@@ -250,7 +249,6 @@ class AddLocationForm extends FormBase {
           '#autocomplete_route_name' => 'erpw_location.autocomplete',
           '#default_value' => $level_1_name,
           '#suffix' => '<div id="error-text"></div>',
-        // '#required' => TRUE,
           '#autocomplete_route_parameters' => ['tid' => $this->cid],
           '#ajax' => [
             'callback' => '::deptFilterSelect',
@@ -291,7 +289,6 @@ class AddLocationForm extends FormBase {
           '#default_value' => $level_2_name,
           '#suffix' => '<div id="error-text2"></div>',
           '#autocomplete_route_parameters' => ['tid' => $level1int],
-        // '#required' => TRUE,
           '#ajax' => [
             'callback' => '::ajaxCallback3',
             'event' => 'autocompleteclose',
@@ -331,7 +328,6 @@ class AddLocationForm extends FormBase {
           '#autocomplete_route_name' => 'erpw_location.autocomplete',
           '#default_value' => $level_3_name,
           '#suffix' => '<div id="error-text3"></div>',
-        // '#required' => TRUE,
           '#autocomplete_route_parameters' => ['tid' => $level2int],
           '#attributes' => [
             'class' => [
@@ -357,7 +353,6 @@ class AddLocationForm extends FormBase {
           '#title' => $location_levels[3],
           '#default_value' => $level_4_name,
           '#suffix' => '<div id="error-text4"></div>',
-        // '#required' => TRUE,
           '#attributes' => [
             'class' => [
               'mycategory',
