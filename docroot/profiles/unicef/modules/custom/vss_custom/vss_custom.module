@@ -161,9 +161,24 @@ function vss_custom_taxonomy_term_presave($term) {
       if ($link = reset($links)) {
         $uuid = $link->get('uuid')->value;
       }
+
+      $path = 'internal:#';
+      if (isset($term->get('path')->alias) && !empty($term->get('path')->alias)) {
+        $path = $term->get('path')->alias;
+      }
+      else {
+        $path = 'internal:/' . str_replace(' ', '-', strtolower($term->get('name')->value));
+      }
+      if (isset($term->get('field_category_short_name')->value) && !empty($term->get('field_category_short_name')->value)) {
+        $name = $term->get('field_category_short_name')->value;
+      }
+      else {
+        $name = $term->get('name')->value;
+      }
+
       $menu_link = MenuLinkContent::create([
-        'title' => $term->get('name')->value,
-        'link' => ['uri' => 'internal:#'],
+        'title' => $name,
+        'link' => ['uri' => $path],
         'menu_name' => strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu',
         'langcode' => strpos($term->get('field_domain')->target_id, "iq") ? 'ar' : 'en',
         'weight' => $term->get('weight')->value,

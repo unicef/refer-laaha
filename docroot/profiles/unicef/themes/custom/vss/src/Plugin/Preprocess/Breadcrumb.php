@@ -29,6 +29,7 @@ class Breadcrumb extends BootBreadcrumb {
       $request = \Drupal::request();
       $route_match = \Drupal::routeMatch();
       $page_title = \Drupal::service('title_resolver')->getTitle($request, $route_match->getRouteObject());
+
       // Determine if the current page is a node page.
       $node = $route_match->getParameter('node');
       $tax_term = $route_match->getParameter('taxonomy_term');
@@ -49,6 +50,10 @@ class Breadcrumb extends BootBreadcrumb {
         $parent = TRUE;
       }
       if ($tax_term) {
+        $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tax_term->id());
+        if (isset($term->field_category_short_name->value) && !empty($term->field_category_short_name->value)) {
+          $page_title = $term->field_category_short_name->value;
+        }
         $image = $this->loadThumbnailImage($tax_term, 'taxonomy_term', $parent);
       }
       $link_text = [

@@ -20,7 +20,12 @@ trait BreadcrumbHelperTrait {
       $title = $entity->getTitle();
     }
     else {
-      $title = $entity->getName();
+      if (isset($entity->get('field_category_short_name')->value) && !empty($entity->get('field_category_short_name')->value)) {
+        $title = $entity->get('field_category_short_name')->value;
+      }
+      else {
+        $title = $entity->getName();
+      }
     }
     $text = [
       '#type' => 'html_tag',
