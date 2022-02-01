@@ -38,7 +38,7 @@
         "drupal/config_split": "^1.7",
         "drupal/console": "^1.9",
         "drupal/content_lock": "^2.2",
-        "drupal/core": "^9.2.7",
+        "drupal/core": "^9",
         "drupal/core-composer-scaffold": "^9",
         "drupal/core-project-message": "^9",
         "drupal/core-recommended": "^9",
@@ -78,6 +78,7 @@
         "drupal/public_preview": "^1.0@beta",
         "drupal/pwa": "^1.5",
         "drupal/quick_node_clone": "^1.14",
+        "drupal/robotstxt":"^1.4",
         "drupal/search_api_autocomplete": "^1.5",
         "drupal/seckit": "^2.0",
         "drupal/shield": "^1.4",
@@ -191,7 +192,7 @@
                 "lang issue": "patches/active_lang.patch"
             },
             "drupal/paragraphs": {
-                "Fix for translation handler": "https://www.drupal.org/files/issues/2021-01-22/paragraph-entity-type-did-not-specify-translation-halder-3031598-45.patch",   
+                "Fix for translation handler": "https://www.drupal.org/files/issues/2021-01-22/paragraph-entity-type-did-not-specify-translation-halder-3031598-45.patch",
                 "No link canonical": "https://www.drupal.org/files/issues/2021-10-18/3238515-8-paragraphs-entity-toUrl-error.patch"
             },
             "drupal/tour_ui": {
