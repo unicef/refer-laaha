@@ -207,7 +207,7 @@ class AddLocationForm extends FormBase {
     } if (!empty($location_options) && $id !== "") {
       $form['top_wrapper']['all_wrapper']['location-container-heading'] = [
         '#type' => 'markup',
-        '#markup' => '<div class="location-container-heading">' . $this->t('Update location details') . '</div>',
+        '#markup' => '<div class="location-container-heading">' . $this->t('Location details') . '</div>',
       ];
     }
     $form['top_wrapper']['all_wrapper']['level1_wrapper'] = [
