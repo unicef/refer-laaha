@@ -4,9 +4,12 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_thumbnail_image
+    - field.storage.node.field_video_time
+    - field.storage.taxonomy_term.field_category_color
     - field.storage.taxonomy_term.field_icon
     - search_api.index.acquia_search_index
   module:
+    - color_field
     - image
     - search_api
     - views_infinite_scroll
@@ -382,6 +385,197 @@ display:
             display_methods:
               node_type:
                 display_method: label
+        field_video_time:
+          id: field_video_time
+          table: search_api_datasource_acquia_search_index_entity_node
+          field: field_video_time
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: search_api_field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+        field_category_color:
+          id: field_category_color
+          table: search_api_index_acquia_search_index
+          field: field_category_color
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: color
+          type: color_field_formatter_text
+          settings:
+            format: hex
+            opacity: true
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+        nothing:
+          id: nothing
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: custom
+          label: ''
+          exclude: true
+          alter:
+            alter_text: true
+            text: " <span class=\"{{ type|lower }}-play-icon\"></span>\r\n <span class=\"icon-{{ type|lower }} thumbnail-icon\"></span>\r\n <span class=\"video-time\">{{ field_video_time }}</span>\r\n</div>\r\n<div class=\"search-result-content\">\r\n<div class=\"search-content-title\">{{ title }} </div>\r\n<div class=\"search-content-cat\">\r\n<span class=cat-icon{{ field_category_color }}>{{ field_icon }} </span>\r\n<span class=\"cat-title\">{{ name }} </span>\r\n</div>\r\n</div>"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: div
+          element_wrapper_class: search-result-page
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
       pager:
         type: infinite_scroll
         options:
@@ -551,6 +745,8 @@ display:
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.field_thumbnail_image'
+        - 'config:field.storage.node.field_video_time'
+        - 'config:field.storage.taxonomy_term.field_category_color'
         - 'config:field.storage.taxonomy_term.field_icon'
         - 'config:search_api.index.acquia_search_index'
   page_1:
@@ -575,5 +771,7 @@ display:
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.field_thumbnail_image'
+        - 'config:field.storage.node.field_video_time'
+        - 'config:field.storage.taxonomy_term.field_category_color'
         - 'config:field.storage.taxonomy_term.field_icon'
         - 'config:search_api.index.acquia_search_index'
