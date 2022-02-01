@@ -234,7 +234,7 @@ class SignUpForm extends FormBase {
     ];
 
     $form['message-step'] = [
-      '#markup' => '<div class="step">' . $this->t('Step 2: Location details') . '</div>',
+      '#markup' => '<div class="step">' . $this->t('Step 2: Geographical coverage of your role') . '</div>',
     ];
     $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);

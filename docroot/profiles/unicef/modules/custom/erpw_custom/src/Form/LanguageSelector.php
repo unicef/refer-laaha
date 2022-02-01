@@ -102,10 +102,12 @@ class LanguageSelector extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $value = $form_state->getValues();
-    $redirect_url = Url::fromUri('base:/' . $value['language_selector']);
-    setcookie('userLanguageSelection', 'TRUE', strtotime('+7 days'), '/', NULL, FALSE);
-    setcookie('userLanguage', $value['language_selector'], strtotime('+7 days'), '/', NULL, FALSE);
-    $form_state->setRedirectUrl($redirect_url);
+    if(!empty($value)){
+        $redirect_url = Url::fromUri('base:/' . $value['language_selector']);
+        setcookie('userLanguageSelection', 'TRUE', strtotime('+7 days'), '/', NULL, FALSE);
+        setcookie('userLanguage', $value['language_selector'], strtotime('+7 days'), '/', NULL, FALSE);
+        $form_state->setRedirectUrl($redirect_url);
+    }
   }
 
   /**
