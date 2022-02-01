@@ -45,7 +45,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     'node_service_type_quick_node_clone_form',
   ];
   if (in_array($form_id, $common_form_ids)) {
-    $form['content_translation']['#access'] = FALSE;
     $form['advanced']['#access'] = FALSE;
     $form['meta']['#access'] = FALSE;
     $form['status']['#access'] = FALSE;
@@ -58,6 +57,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
 
   if ($form_id == 'node_service_type_form' || $form_id == 'node_service_type_edit_form') {
     $form['moderation_state']['#access'] = FALSE;
+    $form['content_translation']['#access'] = FALSE;
   }
 
   if ($form_id == 'node_service_type_form' || $form_id == 'node_service_type_quick_node_clone_form') {
@@ -79,7 +79,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#title'] = t('Update Service Type');
     $form['actions']['delete']['#access'] = FALSE;
     $form['actions']['delete_translation']['#access'] = FALSE;
-    $form['actions']['submit']['#cancel'][] = 'cancelhandler';
     $form['actions']['submit']['#cancel'][] = '_erpw_custom_service_handler';
     $form['actions']['submit']['#ajax'] = [
       'callback' => '_erpw_custom_update_service_type',

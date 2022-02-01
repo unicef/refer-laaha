@@ -103,19 +103,15 @@
 
 <div class="delete-screen">
   <div class="detail-row">
-    <label>{{ 'Service Type:' | t }}
-    </label>
-    <span>
-      {{ node.title.value }}</span>
+    <label>{{ 'Service Type:' | t }}</label>
+    <span>{{ node.title.value }}</span>
   </div>
   <div class="detail-row">
-    <label>{{ 'Icon:' | t }}
-    </label>
+    <label>{{ 'Icon:' | t }}</label>
     <i class="{{ node.field_service_type_icon.entity.field_service_type_icon.value }}"></i>
   </div>
   <div class="detail-row color-label">
-    <label>{{ 'Colour:' | t }}
-    </label>
+    <label>{{ 'Colour:' | t }}</label>
     <span style="background-color:  {{ node.field_service_type_color.entity.field_service_type_color.color }}"></span>
   </div>
   {% if query is not empty %}
