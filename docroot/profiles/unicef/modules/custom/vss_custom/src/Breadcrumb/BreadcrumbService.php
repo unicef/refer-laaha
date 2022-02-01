@@ -94,7 +94,6 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
         $parent_path = $tax_parent->toUrl()->getRouteName();
         $parent_link = $this->generateBreadcrumbLink($tax_parent, 'taxonomy_term', $parent_path, TRUE);
         $breadcrumb->addLink($parent_link);
-
       }
     }
     // Special handling based on node type aka bundle.
@@ -146,11 +145,13 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
         }
       }
     }
+
     // $breadcrumb->addLink(Link::createFromRoute($title, ''));
     // Don't forget to add cache control by a route.
     // Otherwise all pages will have the same breadcrumb.
     $breadcrumb->addCacheContexts(['route']);
     $breadcrumb->addCacheContexts(['url']);
+
     // Return object of type breadcrumb.
     return $breadcrumb;
   }

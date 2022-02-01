@@ -1,7 +1,21 @@
 uuid: 40dfec19-23a6-42f0-8b00-9b3c9c9bc8b5
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - filter.format.basic_html
+    - node.type.organisation
+    - node.type.service_type
+  module:
+    - comment
+    - contact
+    - content_translation
+    - filter
+    - node
+    - quick_node_clone
+    - search
+    - shortcut
+    - system
 _core:
   default_config_hash: btW6TFHajhy7Eo6YUvdFiPh4TcPggo8GBXYctjV6zag
 id: authenticated
@@ -14,6 +28,7 @@ permissions:
   - 'access shortcuts'
   - 'access site-wide contact form'
   - 'clone service_type content'
+  - 'create organisation content'
   - 'create service_type content'
   - 'delete any service_type content'
   - 'delete own service_type content'

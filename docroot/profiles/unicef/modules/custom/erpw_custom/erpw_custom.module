@@ -15,6 +15,19 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  * Implements hook_form_FORM_ID_alter().
  */
 function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'node_organisation_form') {
+    $form['revision_information']['#access'] = FALSE;
+    $form['actions']['submit']['#value'] = t('Publish');
+    $form['actions']['preview']['#access'] = FALSE;
+    $form['actions']['cancel'] = [
+      '#type' => 'submit',
+      '#value' => t('CANCEL'),
+      '#submit' => ['cancelorganisation'],
+      '#weight' => 30,
+      '#limit_validation_errors' => [],
+    ];
+  }
+
   if ($form_id == 'user_login_form') {
     // Code to modify your form input.
     $form['name']['#placeholder'][] = t('jane@example.com');
@@ -52,7 +65,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#validate'][] = '_erpw_custom_check_title_exist';
     $form['#title'] = t('Add Service Type');
   }
-
   if ($form_id == 'node_service_type_form') {
     $form['actions']['submit']['#submit'][] = '_erpw_custom_service_handler';
   }
@@ -95,6 +107,16 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
 /**
  * {@inheritdoc}
  */
+function cancelorganisation(array &$form, FormStateInterface $form_state) {
+  $url = Url::fromRoute('view.organisations.page_1');
+  $response = new RedirectResponse($url->toString());
+  $response->send();
+  return $response;
+}
+
+/**
+ * {@inheritdoc}
+ */
 function _erpw_custom_delete_content(array &$form, FormStateInterface $form_state) {
   return _erpw_custom_redirect('erpw_custom.dashboard');
 }
@@ -113,7 +135,6 @@ function _erpw_custom_redirect($route_name) {
   $url = Url::fromRoute($route_name);
   $response = new RedirectResponse($url->toString());
   $response->send();
-
   return $response;
 }
 
@@ -182,4 +203,24 @@ function erpw_custom_user_logout() {
   $response = new RedirectResponse('/');
   $response->send();
   return $response;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function erpw_custom_preprocess_status_messages(&$variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name == 'node.add') {
+    $type = \Drupal::routeMatch()->getParameter('node_type')->get('type');
+    if ($type == 'organisation') {
+      if (isset($variables['message_list']['error'])) {
+        $status_messages = $variables['message_list']['error'];
+        foreach ($status_messages as $delta => $message) {
+          if (strpos((string) $message, 'The title must be unique.') !== FALSE) {
+            $variables['message_list']['error'][$delta] = t("Organisation already exists, kindly update the organisation name and save it again.");
+          }
+        }
+      }
+    }
+  }
 }
