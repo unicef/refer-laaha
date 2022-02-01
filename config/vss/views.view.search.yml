@@ -39,7 +39,7 @@ display:
           entity_type: node
           plugin_id: search_api_field
           label: ''
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -110,7 +110,7 @@ display:
           admin_label: ''
           plugin_id: search_api_field
           label: ''
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -180,7 +180,7 @@ display:
           admin_label: ''
           plugin_id: search_api_field
           label: ''
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -251,7 +251,7 @@ display:
           admin_label: ''
           plugin_id: search_api_field
           label: ''
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -321,7 +321,7 @@ display:
           admin_label: ''
           plugin_id: search_api_field
           label: ''
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -395,7 +395,7 @@ display:
           entity_type: node
           plugin_id: search_api_field
           label: ''
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -465,7 +465,7 @@ display:
           admin_label: ''
           plugin_id: search_api_field
           label: ''
-          exclude: true
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -536,7 +536,7 @@ display:
           admin_label: ''
           plugin_id: custom
           label: ''
-          exclude: false
+          exclude: true
           alter:
             alter_text: true
             text: " <span class=\"{{ type|lower }}-play-icon\"></span>\r\n <span class=\"icon-{{ type|lower }} thumbnail-icon\"></span>\r\n <span class=\"video-time\">{{ field_video_time }}</span>\r\n</div>\r\n<div class=\"search-result-content\">\r\n<div class=\"search-content-title\">{{ title }} </div>\r\n<div class=\"search-content-cat\">\r\n<span class=cat-icon{{ field_category_color }}>{{ field_icon }} </span>\r\n<span class=\"cat-title\">{{ name }} </span>\r\n</div>\r\n</div>"
