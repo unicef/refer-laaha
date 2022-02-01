@@ -12,7 +12,71 @@
 
 {% if content %}
 <div class="discover-section container">
+  {% if is_amp %}
   <h2 class="discover-section-title text-center">{{ 'Discover'|t }}</h2>
+    {% for key,item in content|slice(0, 4)|batch(2) %}
+      <div class="discover-section-row col-12">
+        {% for key_1,item_1 in item %}
+        {% set item_1 = item_1[0]%}
+        <div class="discovery-category-wrapper col-sm-6" style="background-color: {{ '#'~ item_1.color }}">
+          <div class="discover-category-item ">
+            <div class="discover-category-thumbnail category-thumbnail" style="background-color: {{ '#'~ item_1.color }}"></div>
+            <div class="discover-category-name"><a href="{{ item_1.cat_uri }}">{{ item_1.name }} > </a></div>
+            <div class="discover-category-description">{{ item_1.description|raw }}</div>
+            {% if content_node is not empty %}
+            <div class="discovery-articles">
+              {% for key_2,item_2 in content_node %}
+                {% if item_1['id'] == item_2['term_id'] %}
+                    {% if lang_code != 'en' %}
+                      <a href="/{{lang_code}}/{{ item_2.node_url }}" target='_blank' class="discover-content-link col-md-6">
+                        <div class="discover-content-thumbnail">
+                          <span class="thumbnail-icon icon-{{ item_2.node_type|lower }}"></span>
+                          <img src="{{ file_url(item_2.thumbnail_img) }}"/>
+                          {% if item_2.node_type == 'video' %}
+                            <span class="video-play-icon"></span>
+                            {% if item_2.paragraph_video_time is not null %}
+                              <span class="video-time"> {{ item_2.paragraph_video_time }} </span>
+                            {% endif %}
+                          {% elseif item_2.node_type == 'podcast' %}
+                            <span class="podcast-play-icon"></span>
+                            {% if item_2.paragraph_audio_time is not null %}
+                            <span class="video-time"> {{ item_2.paragraph_audio_time }} </span>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                        <span class="discover-article-name">{{ item_2.node_name }} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }}</span>
+                      </a>
+                    {% else %}
+                      <a href="{{ item_2.node_url }}" target='_blank' class="discover-content-link col-md-6">
+                        <div class="discover-content-thumbnail">
+                          <span class="thumbnail-icon icon-{{ item_2.node_type|lower }}"></span>
+                          <img src="{{ file_url(item_2.thumbnail_img) }}"/>
+                          {% if item_2.node_type|lower == 'video' %}
+                            <span class="video-play-icon"></span>
+                            {% if item_2.paragraph_video_time is not null %}
+                              <span class="video-time"> {{ item_2.paragraph_video_time }} </span>
+                            {% endif %}
+                          {% elseif item_2.node_type|lower == 'podcast' %}
+                            <span class="podcast-play-icon"></span>
+                            {% if item_2.paragraph_audio_time is not null %}
+                            <span class="video-time"> {{ item_2.paragraph_audio_time }} </span>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                        <span class="discover-article-name">{{ item_2.node_name }} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }}</span>
+                      </a>
+                    {% endif %}
+                {% endif %}
+              {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  {% else %}
+    <h2 class="discover-section-title text-center">{{ 'Discover'|t }}</h2>
     {% for key,item in content|batch(2) %}
       <div class="discover-section-row col-12">
         {% for key_1,item_1 in item %}
@@ -74,5 +138,6 @@
         {% endfor %}
       </div>
     {% endfor %}
+  {% endif %}
 </div>
 {% endif %}
