@@ -189,7 +189,10 @@ class LocationSelectorForm extends FormBase {
     // Get selected domain's url.
     $url = $domain_path . $domain_lang . '/home';
     $response = new TrustedRedirectResponse($url);
-    $response->headers->setCookie(new Cookie('country-selector', 'TRUE', strtotime('+7 days'), '/', NULL, FALSE));
+    $domain_current_url = explode(".", $_SERVER['HTTP_HOST']);
+    $domain_slice = array_slice($domain_current_url, -2, 2, TRUE);
+    $domain_site = '.' . $domain_slice[1] . '.' . $domain_slice[2];
+    $response->headers->setCookie(new Cookie('country-selector', 'TRUE', strtotime('+7 days'), '/', $domain_site, NULL, FALSE));
     $form_state->setResponse($response);
 
     return;
