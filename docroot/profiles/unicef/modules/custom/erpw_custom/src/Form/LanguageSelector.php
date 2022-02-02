@@ -80,6 +80,7 @@ class LanguageSelector extends FormBase {
     $form['language_selector'] = [
       '#type' => 'radios',
       '#options' => $languages,
+      '#default_value' => t('en'),
     ];
     $form['actions']['lang_selector'] = [
       '#type' => 'submit',
@@ -101,8 +102,8 @@ class LanguageSelector extends FormBase {
     $value = $form_state->getValues();
     if (!empty($value)) {
       $redirect_url = Url::fromUri('base:/' . $value['language_selector']);
-      setcookie('userLanguageSelection', 'TRUE', strtotime('+7 days'), '/', NULL, FALSE);
-      setcookie('userLanguage', $value['language_selector'], strtotime('+7 days'), '/', NULL, FALSE);
+      setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', NULL, FALSE);
+      setcookie('userLanguage', $value['language_selector'], strtotime('+1 year'), '/', NULL, FALSE);
       $form_state->setRedirectUrl($redirect_url);
     }
   }
