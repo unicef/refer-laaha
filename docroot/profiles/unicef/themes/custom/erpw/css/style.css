@@ -1025,7 +1025,7 @@ header {
 .node-service-type-quick-node-clone-form .icons-selector.fip-grey .selector-footer,
 .node-service-type-edit-form .icons-selector.fip-grey .selector-footer {
   color: #A85766;
-  padding: 10px 15px 0;
+  padding: 10px 15px;
 }
 .node-service-type-form .icons-selector .uf::before,
 .node-service-type-quick-node-clone-form .icons-selector .uf::before,
@@ -1063,6 +1063,46 @@ header {
   left: inherit !important;
   z-index: inherit !important;
   height: inherit !important;
+}
+.node-service-type-form .selector-popup-wrap .selector-popup .selector-search,
+.node-service-type-quick-node-clone-form .selector-popup-wrap .selector-popup .selector-search,
+.node-service-type-edit-form .selector-popup-wrap .selector-popup .selector-search {
+  margin: 0 auto;
+  width: 90%;
+}
+.node-service-type-form .selector-popup-wrap .selector-popup .selector-search input[type=text],
+.node-service-type-quick-node-clone-form .selector-popup-wrap .selector-popup .selector-search input[type=text],
+.node-service-type-edit-form .selector-popup-wrap .selector-popup .selector-search input[type=text] {
+  border: 1px solid #F3C1BF;
+}
+.node-service-type-form .selector-popup-wrap .selector-popup .selector-search input[type=text]::-webkit-input-placeholder,
+.node-service-type-quick-node-clone-form .selector-popup-wrap .selector-popup .selector-search input[type=text]::-webkit-input-placeholder,
+.node-service-type-edit-form .selector-popup-wrap .selector-popup .selector-search input[type=text]::-webkit-input-placeholder {
+  color: #E0D7D7;
+  font-size: 14px;
+}
+.node-service-type-form .selector-popup-wrap .selector-popup .selector-search input[type=text]:-moz-placeholder,
+.node-service-type-quick-node-clone-form .selector-popup-wrap .selector-popup .selector-search input[type=text]:-moz-placeholder,
+.node-service-type-edit-form .selector-popup-wrap .selector-popup .selector-search input[type=text]:-moz-placeholder {
+  color: #E0D7D7;
+  font-size: 14px;
+}
+.node-service-type-form .selector-popup-wrap .selector-popup .selector-search input[type=text]::-moz-placeholder,
+.node-service-type-quick-node-clone-form .selector-popup-wrap .selector-popup .selector-search input[type=text]::-moz-placeholder,
+.node-service-type-edit-form .selector-popup-wrap .selector-popup .selector-search input[type=text]::-moz-placeholder {
+  color: #E0D7D7;
+  font-size: 14px;
+}
+.node-service-type-form .selector-popup-wrap .selector-popup .selector-search input[type=text]:-ms-input-placeholder,
+.node-service-type-quick-node-clone-form .selector-popup-wrap .selector-popup .selector-search input[type=text]:-ms-input-placeholder,
+.node-service-type-edit-form .selector-popup-wrap .selector-popup .selector-search input[type=text]:-ms-input-placeholder {
+  color: #E0D7D7;
+  font-size: 14px;
+}
+.node-service-type-form .selector-popup-wrap .selector-popup .selector-search .fip-icon-search,
+.node-service-type-quick-node-clone-form .selector-popup-wrap .selector-popup .selector-search .fip-icon-search,
+.node-service-type-edit-form .selector-popup-wrap .selector-popup .selector-search .fip-icon-search {
+  top: 10px;
 }
 .node-service-type-form .color-field-widget-box-form,
 .node-service-type-quick-node-clone-form .color-field-widget-box-form,
@@ -1196,15 +1236,22 @@ header {
   padding: 0 10px;
   vertical-align: top;
 }
-.service-list .service-title, .view-organisations .service-title {
+.service-list .service-title, .view-organisations .service-title,
+.service-list .views-field-title,
+.view-organisations .views-field-title {
   display: inline-block;
   padding: 5px 0;
   width: 77%;
 }
-.service-list .service-title a, .view-organisations .service-title a {
+.service-list .service-title span, .view-organisations .service-title span, .service-list .service-title a, .view-organisations .service-title a,
+.service-list .views-field-title span,
+.view-organisations .views-field-title span,
+.service-list .views-field-title a,
+.view-organisations .views-field-title a {
   color: #444;
   font-size: 15px;
   font-weight: 500;
+  text-transform: capitalize;
   word-break: break-all;
 }
 .service-list .service-count, .view-organisations .service-count {
@@ -1256,6 +1303,14 @@ div.color_field__swatch input[type=radio]:checked + label span {
   border: 0;
   -webkit-transform: inherit;
           transform: inherit;
+}
+
+.selector-arrows i::before {
+  font-size: 18px;
+}
+
+.view-organisations .views-field-title {
+  padding: 5px 10px;
 }
 
 body.path-user {
