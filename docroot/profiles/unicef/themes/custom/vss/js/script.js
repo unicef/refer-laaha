@@ -13,8 +13,14 @@
       }
        $('.paragraph--type--wysiwyg-editor table').addClass('table table-bordered') ;
 
-
-      //search popup global 
+      var languageLinks = $(".language-link");
+      if (languageLinks) {
+        $.each(languageLinks, function(index, language ) {
+          language.href= language.href.replace("?_wrapper_format=html", "");
+          language.href= language.href.replace("&_wrapper_format=html", "");
+        });
+      }
+      //search popup global
       $( ".searchbox-icon" ).on( "click", function() {
         $('.global-sticky-region').css('z-index', 102);
       });
