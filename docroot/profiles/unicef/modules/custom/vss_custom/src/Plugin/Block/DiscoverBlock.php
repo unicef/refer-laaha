@@ -58,6 +58,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
    */
   public function build() {
     $build = [];
+    $is_amp = ($_SERVER['QUERY_STRING'] == 'amp') ? TRUE : FALSE;
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $content = $this->vssCommonConfigDefault->getCategories();
     $count = 0;
@@ -164,6 +165,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     $build['#content'] = $discover;
     $build['#content_node'] = $discover_article;
     $build['#lang_code'] = $langcode;
+    $build['#is_amp'] = $is_amp;
     $build['#cache']['tags'] = $this->getCacheTags();
     $build['#cache']['contexts'] = $this->getCacheContexts();
 

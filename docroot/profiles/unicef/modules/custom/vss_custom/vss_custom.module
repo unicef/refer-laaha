@@ -89,6 +89,7 @@ function vss_custom_theme() {
         'content' => NULL,
         'lang_code' => '',
         'content_node' => NULL,
+        'is_amp' => NULL,
       ],
       'render element' => 'children',
     ],
@@ -153,6 +154,21 @@ function vss_custom_preprocess_links__language_block(&$variables) {
  */
 function vss_custom_taxonomy_term_presave($term) {
   if ($term->get('vid')->target_id == 'categories' && empty($term->get('field_sub_category')->value)) {
+
+    if (isset($term->get('path')->alias) && !empty($term->get('path')->alias)) {
+      $path = 'internal:' . $term->get('path')->alias;
+    }
+    else {
+      $path = 'internal:/' . str_replace(' ', '-', strtolower($term->get('name')->value));
+    }
+
+    if (isset($term->get('field_category_short_name')->value) && !empty($term->get('field_category_short_name')->value)) {
+      $name = $term->get('field_category_short_name')->value;
+    }
+    else {
+      $name = $term->get('name')->value;
+    }
+
     if ($term->isNew()) {
       $menu_name = strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu';
       $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(
@@ -160,9 +176,10 @@ function vss_custom_taxonomy_term_presave($term) {
       if ($link = reset($links)) {
         $uuid = $link->get('uuid')->value;
       }
+
       $menu_link = MenuLinkContent::create([
-        'title' => $term->get('name')->value,
-        'link' => ['uri' => 'internal:#'],
+        'title' => $name,
+        'link' => ['uri' => $path],
         'menu_name' => strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu',
         'langcode' => strpos($term->get('field_domain')->target_id, "iq") ? 'ar' : 'en',
         'weight' => $term->get('weight')->value,
@@ -185,10 +202,12 @@ function vss_custom_taxonomy_term_presave($term) {
       $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $term->original->get('name')->value]);
       if ($link = reset($links)) {
         if (!$link->hasTranslation($term->get('langcode')->value)) {
-          $link->addTranslation($term->get('langcode')->value, ['title' => $term->get('name')->value])->save();
+          $link->addTranslation($term->get('langcode')->value, ['title' => $name])->save();
         }
         else {
-          $link->title->value = $term->get('name')->value;
+          $link->title->value = $name;
+          $link->expanded = TRUE;
+          $link->link->uri = $path;
           $link->langcode->value = $term->get('langcode')->value;
           $link->weight->value = $term->get('weight')->value;
           $link->field_icon->target_id = $term->get('field_icon')->target_id;
@@ -240,7 +259,8 @@ function vss_custom_send_invite(&$form, FormStateInterface $form_state) {
 function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id) {
   if ($form_id == 'taxonomy_term_categories_form') {
     $form['description']['widget'][0]['#required'] = 'true';
-    $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories();
+    $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories($langcode);
     $form['#validate'][] = 'validate_category';
     $form['relations']['#access'] = FALSE;
   }
@@ -551,15 +571,23 @@ function vss_custom_parse_vtt($vtt_file) {
 /**
  * Get all categories.
  */
-function get_all_parent_categories() {
+function get_all_parent_categories($langcode) {
   $query = \Drupal::database()->select('taxonomy_term_field_data', 't');
   $query->join('taxonomy_term__field_domain', 'fd', 'fd.entity_id = t.tid');
   $query->leftjoin('taxonomy_term__field_sub_category', 'sc', 'sc.entity_id = t.tid');
   $query->condition('fd.bundle', 'categories');
   $query->condition('sc.field_sub_category_value', 1, '!=');
+  $query->condition('t.langcode', $langcode, '=');
+  $query->condition('fd.field_domain_target_id', \Drupal::service('domain.negotiator')->getActiveDomain()->id());
   $query->fields('t', ['tid']);
   $query->fields('t', ['name']);
   $terms = $query->execute()->fetchAllKeyed(0, 1);
+  foreach ($terms as $key => $val) {
+    $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($key);
+    if ($term->langcode->value != $langcode) {
+      $terms[$key] = $val . ' (' . $term->name->value . ')';
+    }
+  }
   return $terms;
 }
 
@@ -845,13 +873,14 @@ function vss_custom_preprocess_page(&$variables) {
   if ($variables['is_front'] == TRUE) {
     \Drupal::service('page_cache_kill_switch')->trigger();
   }
+
   $current_path = \Drupal::service('path.current')->getPath();
   $result = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
   if ($result != '/user/login' && $result != '/country-selector') {
     $anonymous_user = \Drupal::currentUser()->isAnonymous();
     $request = \Drupal::request();
     $country_selection_check = $request->cookies->get('country-selector');
-    if ($country_selection_check == NULL && $anonymous_user && $result != '/country-selector') {
+    if (empty($country_selection_check) && $anonymous_user && $result != '/country-selector') {
       $url = Url::fromRoute('vss_custom.country_selector');
       $response = new RedirectResponse($url->toString());
       $response->send();
@@ -908,6 +937,10 @@ function vss_custom_preprocess_views_view_field(&$variables) {
       $string = explode(",", $variables['output'])[0];
       $variables['output'] = Markup::create($string);
     }
+    if ($variables['field']->field == 'field_category_color') {
+      $string = explode(",", $variables['output'])[0];
+      $variables['output'] = Markup::create($string);
+    }
   }
 
   if ($variables['view']->storage->id() == 'content') {
@@ -926,4 +959,155 @@ function vss_custom_preprocess_views_view_field(&$variables) {
       }
     }
   }
+}
+
+/**
+ * Taxonomy overview.
+ */
+function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  $path = \Drupal::request()->getpathInfo();
+  $arg = explode('/', $path);
+  if ($arg[5] == 'categories' || $arg[6] == 'categories') {
+    $form['terms']['#header'] = array_merge(array_slice($form['terms']['#header'], 0, 1, TRUE),
+    [t('Original title'), t('Domain'), t('Language')],
+    array_slice($form['terms']['#header'], 1, NULL, TRUE));
+
+    \Drupal::messenger()->deleteByType('error');
+    $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
+    foreach ($all_domains as $domain) {
+      $domain_status = $domain->get('status');
+      if ($domain_status == TRUE) {
+        $domain_name = $domain->get('name');
+        $domain_id = $domain->get('id');
+        $domain_list[$domain_id] = $domain_name;
+      }
+    }
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $country = \Drupal::request()->query->get('country');
+    $form['country'] = [
+      '#title' => t('Country'),
+      '#type' => 'select',
+      '#options' => $domain_list,
+      '#weight' => -10,
+      '#default_value' => $country ? $country : $active_domain,
+    ];
+
+    $form['filter_submit'] = [
+      '#type' => 'submit',
+      '#value' => t('Apply'),
+      '#weight' => -9,
+      '#button_type' => 'primary',
+      '#submit' => ['filter_submit'],
+    ];
+    foreach ($form['terms'] as $key => &$term) {
+      if (is_array($term) && !empty($term['#term'])) {
+        if (($country != $term['#term']->field_domain->target_id && !empty($country)) || (empty($country) && $active_domain != $term['#term']->field_domain->target_id)) {
+          unset($form['terms'][$key]);
+        }
+        $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        $tid = $term['#term']->tid->value;
+        $domain_id = $term['#term']->field_domain->target_id;
+        $lang = $term['#term']->langcode->value;
+        $languages = \Drupal::languageManager()->getLanguages();
+        foreach ($languages as $key => $language) {
+          if ($key == $lang) {
+            $dis_lang = $language->getName();
+          }
+        }
+        $domain_id = $term['#term']->field_domain->target_id;
+        $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($domain_id);
+        $trm = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
+        if ($trm->langcode->value != $langcode && $trm->hasTranslation($langcode)) {
+          $title = $trm->name->value;
+        }
+        else {
+          $title = '-';
+        }
+        $status['title'] = [
+          '#markup' => $title,
+          '#type' => 'item',
+        ];
+
+        $status['domain'] = [
+          '#markup' => $domain->get('name'),
+          '#type' => 'item',
+        ];
+
+        $status['dis_lang'] = [
+          '#markup' => $dis_lang,
+          '#type' => 'item',
+        ];
+
+        $term = array_slice($term, 0, 1, TRUE) +
+          $status +
+          array_slice($term, 1, NULL, TRUE);
+      }
+    }
+  }
+  elseif ($arg[5] == 'tags' || $arg[6] == 'tags') {
+    $form['terms']['#header'] = array_merge(array_slice($form['terms']['#header'], 0, 1, TRUE),
+    [t('Original title'), t('Language')],
+    array_slice($form['terms']['#header'], 1, NULL, TRUE));
+
+    \Drupal::messenger()->deleteByType('error');
+    $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
+    foreach ($all_domains as $domain) {
+      $domain_status = $domain->get('status');
+      if ($domain_status == TRUE) {
+        $domain_name = $domain->get('name');
+        $domain_id = $domain->get('id');
+        $domain_list[$domain_id] = $domain_name;
+      }
+    }
+    foreach ($form['terms'] as $key => &$term) {
+      if (is_array($term) && !empty($term['#term'])) {
+        $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        $tid = $term['#term']->tid->value;
+        $lang = $term['#term']->langcode->value;
+        $languages = \Drupal::languageManager()->getLanguages();
+        foreach ($languages as $key => $language) {
+          if ($key == $lang) {
+            $dis_lang = $language->getName();
+          }
+        }
+        $trm = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
+        if ($trm->langcode->value != $langcode && $trm->hasTranslation($langcode)) {
+          $title = $trm->name->value;
+        }
+        else {
+          $title = '-';
+        }
+        $status['title'] = [
+          '#markup' => $title,
+          '#type' => 'item',
+        ];
+
+        $status['dis_lang'] = [
+          '#markup' => $dis_lang,
+          '#type' => 'item',
+        ];
+
+        $term = array_slice($term, 0, 1, TRUE) +
+          $status +
+          array_slice($term, 1, NULL, TRUE);
+      }
+    }
+  }
+
+}
+
+/**
+ * Submit Password.
+ */
+function filter_submit(&$form, FormStateInterface $form_state) {
+  $country = $form_state->getValue('country');
+  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  if ($langcode == 'en') {
+    $response = new RedirectResponse("/admin/structure/taxonomy/manage/categories/overview?country=$country");
+  }
+  else {
+    $response = new RedirectResponse("/$langcode/admin/structure/taxonomy/manage/categories/overview?country=$country");
+  }
+  $response->send();
 }
