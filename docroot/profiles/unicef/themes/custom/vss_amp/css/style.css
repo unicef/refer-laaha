@@ -1096,6 +1096,9 @@ body .absoluteclass {
   text-align: center;
   line-height: 16px;
 }
+.main-outer .global-sticky-region .region-global-sticky .global_sticky .exit a {
+  color: #CD0000;
+}
 
 .search-parent .home-search {
   width: 840px;
@@ -2928,7 +2931,6 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
 
 .overlay-popup {
   background: rgba(0, 0, 0, 0.7);
-  display: none;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -3054,6 +3056,11 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   height: 25px;
   width: 25px;
 }
+.heading-with-mike #pause,
+.heading-with-mike #resume {
+  display: none;
+}
+
 .view-search .form-type-search-api-autocomplete,
 .view-search .input-group {
   width: 100%;
