@@ -1,0 +1,18 @@
+uuid: 59494f25-e25e-4c4f-9a60-82160509006f
+langcode: sn
+status: true
+dependencies:
+  config:
+    - node.type.referral_path_way
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: node.referral_path_way
+target_entity_type_id: node
+target_bundle: referral_path_way
+default_langcode: current_interface
+language_alterable: true

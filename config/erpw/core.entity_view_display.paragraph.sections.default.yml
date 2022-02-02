@@ -1,0 +1,30 @@
+uuid: 38019ff2-b0c2-4be1-ab4a-66c5d4d25644
+langcode: sn
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.sections.field_section_name
+    - field.field.paragraph.sections.field_service_type
+    - paragraphs.paragraphs_type.sections
+id: paragraph.sections.default
+targetEntityType: paragraph
+bundle: sections
+mode: default
+content:
+  field_section_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_service_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }
