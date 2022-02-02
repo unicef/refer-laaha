@@ -9,6 +9,7 @@
       $(document).ready(function () {
         // Add session storage for window
         $('.pop-up').click(function () {
+          window.speechSynthesis.cancel();
           $('.overlay-popup').hide();
           if (!sessionStorage.getItem('pop-up')) {
             sessionStorage.setItem('pop-up', '1');

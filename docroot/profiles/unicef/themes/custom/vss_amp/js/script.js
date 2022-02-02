@@ -13,6 +13,7 @@
     if (!window.localStorage.getItem("key", "pop-up" )) {
       window.localStorage.setItem("key", "pop-up" );
       targetDiv.style.display = 'none';
+      window.speechSynthesis.cancel();
     }
   });
 
@@ -43,14 +44,18 @@ play.addEventListener("click", () => {
 let player_cookies = getCookie("player");
 console.log(player_cookies);
 let voiceId = getCookie("voice");
-let landId = getCookie("langid");
+let langId = getCookie("langid");
   var utterance = new SpeechSynthesisUtterance(player_cookies);
+  if (langId == 'en-US') {
+    langId = 'en-US';
+    voiceId = 41;
+  }
   if (voiceId) {
     var voices = speechSynthesis.getVoices();
     utterance.voice = voices[voiceId];
   }
   else {
-    utterance.lang = landId;
+    utterance.lang = langId;
   }
   play.hidden = true;
   resume.hidden = true;
