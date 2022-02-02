@@ -203,11 +203,6 @@ class AddLocationForm extends FormBase {
         '#type' => 'markup',
         '#markup' => '<div class="location-container-heading">' . $this->t('Add the new location details') . '</div>',
       ];
-    } if (!empty($location_options) && $id !== "") {
-      $form['top_wrapper']['all_wrapper']['location-container-heading'] = [
-        '#type' => 'markup',
-        '#markup' => '<div class="location-container-heading">' . $this->t('Location details') . '</div>',
-      ];
     }
     $form['top_wrapper']['all_wrapper']['level1_wrapper'] = [
       '#type' => 'container',
@@ -520,7 +515,7 @@ class AddLocationForm extends FormBase {
       if ($this->tid) {
         if ($this->tid == $last_level_tid || $last_level_tid == 0) {
           $response->addCommand(new HtmlCommand('#error-text3',
-          $form['top_wrapper']['all_wrapper']['level3_wrapper']['level3']['#title'] . " " . $this->t('already exist.')));
+          $this->t('Location entity is created with the values filled, Please change the values and Publish it.')));
           $response->addCommand(new InvokeCommand('#error-text3',
           'css', ["color", "red"]));
           return $response;
