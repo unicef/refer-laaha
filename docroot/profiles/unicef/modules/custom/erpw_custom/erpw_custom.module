@@ -57,6 +57,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
 
   if ($form_id == 'node_service_type_form' || $form_id == 'node_service_type_edit_form') {
     $form['moderation_state']['#access'] = FALSE;
+    $form['content_translation']['#access'] = FALSE;
   }
 
   if ($form_id == 'node_service_type_form' || $form_id == 'node_service_type_quick_node_clone_form') {
@@ -77,6 +78,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['submit']['#attributes']['class'][] = 'use-ajax ok-btn';
     $form['#title'] = t('Update Service Type');
     $form['actions']['delete']['#access'] = FALSE;
+    $form['actions']['delete_translation']['#access'] = FALSE;
     $form['actions']['submit']['#cancel'][] = '_erpw_custom_service_handler';
     $form['actions']['submit']['#ajax'] = [
       'callback' => '_erpw_custom_update_service_type',
