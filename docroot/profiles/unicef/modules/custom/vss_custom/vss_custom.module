@@ -154,26 +154,27 @@ function vss_custom_preprocess_links__language_block(&$variables) {
  */
 function vss_custom_taxonomy_term_presave($term) {
   if ($term->get('vid')->target_id == 'categories' && empty($term->get('field_sub_category')->value)) {
+
+    if (isset($term->get('path')->alias) && !empty($term->get('path')->alias)) {
+      $path = 'internal:' . $term->get('path')->alias;
+    }
+    else {
+      $path = 'internal:/' . str_replace(' ', '-', strtolower($term->get('name')->value));
+    }
+
+    if (isset($term->get('field_category_short_name')->value) && !empty($term->get('field_category_short_name')->value)) {
+      $name = $term->get('field_category_short_name')->value;
+    }
+    else {
+      $name = $term->get('name')->value;
+    }
+
     if ($term->isNew()) {
       $menu_name = strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu';
       $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(
       ['field_discover_dropdown' => 1, 'menu_name' => $menu_name]);
       if ($link = reset($links)) {
         $uuid = $link->get('uuid')->value;
-      }
-
-      $path = 'internal:#';
-      if (isset($term->get('path')->alias) && !empty($term->get('path')->alias)) {
-        $path = $term->get('path')->alias;
-      }
-      else {
-        $path = 'internal:/' . str_replace(' ', '-', strtolower($term->get('name')->value));
-      }
-      if (isset($term->get('field_category_short_name')->value) && !empty($term->get('field_category_short_name')->value)) {
-        $name = $term->get('field_category_short_name')->value;
-      }
-      else {
-        $name = $term->get('name')->value;
       }
 
       $menu_link = MenuLinkContent::create([
@@ -198,31 +199,12 @@ function vss_custom_taxonomy_term_presave($term) {
       }
     }
     else {
-
-      $path = 'internal:#';
-      if (isset($term->get('path')->alias) && !empty($term->get('path')->alias)) {
-        $path = 'internal:' . $term->get('path')->alias;
-      }
-      else {
-        $path = 'internal:/' . str_replace(' ', '-', strtolower($term->get('name')->value));
-      }
-
-      if (isset($term->get('field_category_short_name')->value) && !empty($term->get('field_category_short_name')->value)) {
-        $name = $term->get('field_category_short_name')->value;
-      }
-      else {
-        $name = $term->get('name')->value;
-      }
-
       $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $term->original->get('name')->value]);
       if ($link = reset($links)) {
         if (!$link->hasTranslation($term->get('langcode')->value)) {
-          $link->addTranslation($term->get('langcode')->value, ['title' => $term->get('name')->value])->save();
+          $link->addTranslation($term->get('langcode')->value, ['title' => $name])->save();
         }
         else {
-          // dump($path);
-          // dump($link);
-          // die;
           $link->title->value = $name;
           $link->expanded = TRUE;
           $link->link->uri = $path;
@@ -897,7 +879,7 @@ function vss_custom_preprocess_page(&$variables) {
     $anonymous_user = \Drupal::currentUser()->isAnonymous();
     $request = \Drupal::request();
     $country_selection_check = $request->cookies->get('country-selector');
-    if ($country_selection_check == NULL && $anonymous_user && $result != '/country-selector') {
+    if (empty($country_selection_check) && $anonymous_user && $result != '/country-selector') {
       $url = Url::fromRoute('vss_custom.country_selector');
       $response = new RedirectResponse($url->toString());
       $response->send();
