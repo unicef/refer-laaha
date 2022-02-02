@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ec88fc742d9fabef536233111d98d7e",
+    "content-hash": "a3267eb5bcc09bc337cc3067491718ac",
     "packages": [
         {
             "name": "acquia/blt",
@@ -3037,6 +3037,58 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/blazy",
                 "issues": "https://drupal.org/project/issues/blazy"
+            }
+        },
+        {
+            "name": "drupal/block_inactive_users",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/block_inactive_users.git",
+                "reference": "8.x-1.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/block_inactive_users-8.x-1.6.zip",
+                "reference": "8.x-1.6",
+                "shasum": "fe6dc32a425d3b9537c098c36e6af09fceb1a312"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.6",
+                    "datestamp": "1635587694",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "aluwani",
+                    "homepage": "https://www.drupal.org/user/2935989"
+                },
+                {
+                    "name": "kobusvw",
+                    "homepage": "https://www.drupal.org/user/2580190"
+                },
+                {
+                    "name": "rawdreeg",
+                    "homepage": "https://www.drupal.org/user/3518125"
+                }
+            ],
+            "description": "Automatically blocks users who haven't been active for a designated amount of time.",
+            "homepage": "https://www.drupal.org/project/block_inactive_users",
+            "support": {
+                "source": "https://git.drupalcode.org/project/block_inactive_users"
             }
         },
         {
@@ -18262,5 +18314,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

@@ -925,6 +925,8 @@ body .absoluteclass {
             display: block;
             text-align: center;
             line-height: 16px; }
+        .content-wrapper-main .global-sticky-region .region-global-sticky .global_sticky .exit a {
+          color: #CD0000; }
 
 .search-parent .home-search {
   width: 840px;
@@ -2697,7 +2699,8 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
       border: 0;
       font-size: 0;
       height: 25px;
-      width: 25px; }
+      width: 25px;
+      z-index: 1; }
 
 .view-search .form-type-search-api-autocomplete,
 .view-search .input-group {
