@@ -1,0 +1,29 @@
+uuid: c1fcc412-35f2-46d9-bd8f-eb5eb6d60a1f
+langcode: sn
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_service_type
+    - node.type.service_type
+    - paragraphs.paragraphs_type.sections
+id: paragraph.sections.field_service_type
+field_name: field_service_type
+entity_type: paragraph
+bundle: sections
+label: 'Service Type'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      service_type: service_type
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
