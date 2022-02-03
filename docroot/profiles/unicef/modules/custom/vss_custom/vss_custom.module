@@ -988,7 +988,7 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
     }
 
     $lang_def = \Drupal::request()->query->get('language_content_entity');
-    $default_lang  = $lang_def ? $lang_def : $lang_default;
+    $default_lang = $lang_def ? $lang_def : $lang_default;
     $form['language'] = [
       '#title' => t('Language'),
       '#type' => 'select',
