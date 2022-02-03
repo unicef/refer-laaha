@@ -145,8 +145,8 @@ display:
           type: color_field_formatter_swatch_options
           settings:
             shape: circle
-            width: '40'
-            height: '40'
+            width: '50'
+            height: '50'
             opacity: false
             data_attribute: false
           group_column: ''
@@ -565,7 +565,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "    <div class=\"edit-delete-links\"> \r\n        <span class=\"clone-service-type\">{{ clone_link }}</span>\r\n        <span class=\"delete-link\">{{ delete_node }}</span>\r\n        <span class=\"edit-link\">{{ edit_node_1 }}</span>\r\n        <span class=\"translate-link\">{{ translation_link }}</span>\r\n    </div>\r\n"
+            text: "    <div class=\"edit-delete-links\"> \r\n        <span class=\"clone-service-type\">{{ clone_link }}</span>\r\n        <span class=\"delete-link\"><a href=\"/node/{{ nid }}?action=delete\">delete</a></span>\r\n        <span class=\"edit-link\">{{ edit_node_1 }}</span>\r\n        <span class=\"translate-link\">{{ translation_link }}</span>\r\n    </div>\r\n"
             make_link: false
             path: ''
             absolute: false

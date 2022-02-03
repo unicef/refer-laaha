@@ -4,6 +4,14 @@
 (function ($, Drupal, drupalSettings) {
   Drupal.behaviors.catapult_img_preview = {
     attach: function (context, settings) {
+        // Redirect user to Manage service type listing page.
+        var manage_service_type_url = drupalSettings.erpw_custom.manage_service_type_page;
+        $(document).ready(function() {
+            $(".page-node-type-service-type .ui-icon-closethick").on("click", function(event){
+                event.preventDefault();
+                window.location.href = manage_service_type_url;
+            });
+        });
 
       // Redirect user to Language selector screen.
       let langCookieSelector = getCookie('userLanguageSelection');

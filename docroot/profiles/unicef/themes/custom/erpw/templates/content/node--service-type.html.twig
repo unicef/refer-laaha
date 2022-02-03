@@ -90,7 +90,7 @@
       <a href="{{ path('quick_node_clone.node.quick_clone', {'node': nid}) }}">{{ 'clone' | t }}</a>
     </span>
     <span class="delete-link">
-      <a href="{{ path('entity.node.delete_form', {'node': nid}) }}">{{ 'delete' | t }}</a>
+      <a href="/node/{{ nid }}?action=delete">{{ 'delete' | t }}</a>
     </span>
     <span class="edit-link">
       <a href="{{ path('entity.node.edit_form', {'node': nid}) }}">{{ 'edit' | t }}</a>
