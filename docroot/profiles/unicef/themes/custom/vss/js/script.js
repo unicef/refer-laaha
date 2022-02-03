@@ -13,8 +13,7 @@
       }
        $('.paragraph--type--wysiwyg-editor table').addClass('table table-bordered') ;
 
-
-      //search popup global 
+      //search popup global
       $( ".searchbox-icon" ).on( "click", function() {
         $('.global-sticky-region').css('z-index', 102);
       });
@@ -45,7 +44,22 @@
         }
       });
     });
+    
+    // location selector page redirection
+      /**
+       * Get cookie value.
+       */
+      function getCookie(name) {
+        function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
+        var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
+        return match ? match[1] : null;
+      }
 
+      // Redirect user to Language selector screen.
+      let countryLocationCookie = getCookie('country-selector');
+      if (countryLocationCookie !== "TRUE" && window.location.pathname !== "/country-selector" && window.location.pathname !== "/user/login") {
+        window.location.href = "/country-selector";
+      }
   });
 
 })(jQuery, Drupal, drupalSettings);

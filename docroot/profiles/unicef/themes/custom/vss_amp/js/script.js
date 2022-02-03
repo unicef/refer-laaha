@@ -13,6 +13,7 @@
     if (!window.localStorage.getItem("key", "pop-up" )) {
       window.localStorage.setItem("key", "pop-up" );
       targetDiv.style.display = 'none';
+      window.speechSynthesis.cancel();
     }
   });
 
@@ -43,14 +44,18 @@ play.addEventListener("click", () => {
 let player_cookies = getCookie("player");
 console.log(player_cookies);
 let voiceId = getCookie("voice");
-let landId = getCookie("langid");
+let langId = getCookie("langid");
   var utterance = new SpeechSynthesisUtterance(player_cookies);
+  if (langId == 'en-US') {
+    langId = 'en-US';
+    voiceId = 41;
+  }
   if (voiceId) {
     var voices = speechSynthesis.getVoices();
     utterance.voice = voices[voiceId];
   }
   else {
-    utterance.lang = landId;
+    utterance.lang = langId;
   }
   play.hidden = true;
   resume.hidden = true;
@@ -78,3 +83,19 @@ resume.addEventListener("click", () => {
   resume.hidden = true;
   pause.hidden = false;
 });
+
+ // location selector page redirection
+  /**
+   * Get cookie value.
+   */
+    function getCookie(name) {
+    function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
+    var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
+    return match ? match[1] : null;
+  }
+
+  // Redirect user to Language selector screen.
+  let countryLocationCookie = getCookie('country-selector');
+  if (countryLocationCookie !== "TRUE" && window.location.pathname !== "/country-selector" && window.location.pathname !== "/user/login") {
+    window.location.href = "/country-selector";
+  }

@@ -115,7 +115,7 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
         $file = $this->entityTypeManager->getStorage('file')->load($thumbnail);
         if ($file) {
           $thumbnail_final = $file->getFileUri();
-          $content[$k]['thumbnail'] = str_replace('public://', 'sites/default/files/', $thumbnail_final);
+          $content[$k]['thumbnail'] = $thumbnail_final;
         }
         $content[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/node/' . $v->nft_entity_id), '/');
         $content[$k]['type'] = $v->type;
