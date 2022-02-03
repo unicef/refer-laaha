@@ -15,6 +15,8 @@
        var api_key = drupalSettings.api_key;
        var latitude = position.coords.latitude ;
        var longitude = position.coords.longitude;
+
+
        if(latitude != null || longitude != null){
        var url = "https://api.opencagedata.com/geocode/v1/json?key="+api_key+"&q="+latitude+"+"+longitude+"&pretty=1&no_annotations=1"
         jQuery.ajax({url: url , success: function(result){
@@ -34,7 +36,7 @@
                     jQuery('#language-dropdown').val('en');
                   }
               });
-            }, 5000);
+            }, 1000);
           
         }});
       }

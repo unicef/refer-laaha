@@ -873,20 +873,6 @@ function vss_custom_preprocess_page(&$variables) {
   if ($variables['is_front'] == TRUE) {
     \Drupal::service('page_cache_kill_switch')->trigger();
   }
-
-  $current_path = \Drupal::service('path.current')->getPath();
-  $result = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
-  if ($result != '/user/login' && $result != '/country-selector') {
-    $anonymous_user = \Drupal::currentUser()->isAnonymous();
-    $request = \Drupal::request();
-    $country_selection_check = $request->cookies->get('country-selector');
-    if (empty($country_selection_check) && $anonymous_user && $result != '/country-selector') {
-      $url = Url::fromRoute('vss_custom.country_selector');
-      $response = new RedirectResponse($url->toString());
-      $response->send();
-      return;
-    }
-  }
 }
 
 /**
