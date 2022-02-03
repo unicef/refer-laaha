@@ -15,7 +15,9 @@ class ExampleNegotiator implements ThemeNegotiatorInterface {
    */
   public function applies(RouteMatchInterface $route_match) {
     // Use this theme on a certain route.
-    $routes = ['entity.taxonomy_term.canonical', 'vss_custom.country_selector'];
+    $routes = [
+      'entity.taxonomy_term.canonical', 'vss_custom.country_selector', 'view.need_help_view.page_1',
+    ];
     if (in_array($route_match->getRouteName(), $routes)) {
       return $route_match->getRouteName();
     }
