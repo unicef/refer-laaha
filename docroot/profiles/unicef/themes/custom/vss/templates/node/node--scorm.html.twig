@@ -5,16 +5,9 @@
  *
  * Available variables:
  * - node: The node entity with limited access to object properties and methods.
- *   Only method names starting with "get", "has", or "is" and a few common
- *   methods such as "id", "label", and "bundle" are available. For example:
- *   - node.getCreatedTime() will return the node creation timestamp.
- *   - node.hasField('field_example') returns TRUE if the node bundle includes
- *     field_example. (This does not indicate the presence of a value in this
- *     field.)
- *   - node.isPublished() will return whether the node is published or not.
- *   Calling other methods, such as node.delete(), will result in an exception.
- *   See \Drupal\node\Entity\Node for a full list of public properties and
- *   methods for the node object.
+     Only "getter" methods (method names starting with "get", "has", or "is")
+     and a few common methods such as "id" and "label" are available. Calling
+     other methods (such as node.delete) will result in an exception.
  * - label: (optional) The title of the node.
  * - content: All node items. Use {{ content }} to print them all,
  *   or print a subset such as {{ content.field_example }}. Use
@@ -63,6 +56,8 @@
  * - is_admin: Flag for admin user status. Will be true when the current user
  *   is an administrator.
  *
+ * @ingroup templates
+ *
  * @see template_preprocess_node()
  *
  * @todo Remove the id attribute (or make it a class), because if that gets
@@ -72,52 +67,24 @@
 #}
 {%
   set classes = [
-    'node',
-    'node--type-' ~ node.bundle|clean_class,
-    node.isPromoted() ? 'node--promoted',
-    node.isSticky() ? 'node--sticky',
-    not node.isPublished() ? 'node--unpublished',
-    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    node.bundle|clean_class,
+    node.isPromoted() ? 'is-promoted',
+    node.isSticky() ? 'is-sticky',
+    not node.isPublished() ? 'is-unpublished',
+    view_mode ? view_mode|clean_class,
+    'clearfix',
   ]
 %}
 
-{{ attach_library('unicef_iconpicker/unicef-icons')}}
-{{ attach_library('core/drupal.dialog.ajax') }}
-
-{% if not query %}
-  <div class="edit-delete-links margin-space">
-    <span class="clone-service-type">
-      <a href="{{ path('quick_node_clone.node.quick_clone', {'node': nid}) }}">{{ 'clone' | t }}</a>
-    </span>
-    <span class="delete-link">
-      <a href="{{ path('entity.node.canonical', {'node': nid }) }}?action=delete">{{ 'delete' | t }}</a>
-    </span>
-    <span class="edit-link">
-      <a href="{{ path('entity.node.edit_form', {'node': nid}) }}">{{ 'edit' | t }}</a>
-    </span>
-    <span class="translate-link">
-      <a href="{{ path('entity.node.content_translation_overview', {'node': nid}) }}">{{ 'translate' | t }}</a>
-    </span>
-  </div>
-{% endif %}
-
-<div class="delete-screen">
-  <div class="detail-row">
-    <label>{{ 'Service Type:' | t }}</label>
-    <span>{{ node.title.value }}</span>
-  </div>
-  <div class="detail-row">
-    <label>{{ 'Icon:' | t }}</label>
-    <i class="{{ node.field_service_type_icon.entity.field_service_type_icon.value }}"></i>
-  </div>
-  <div class="detail-row color-label">
-    <label>{{ 'Colour:' | t }}</label>
-    <span style="background-color:  {{ node.field_service_type_color.entity.field_service_type_color.color }}"></span>
-  </div>
-  {% if query is not empty %}
-    <a href="/node/{{ query }}/{{ nid }}" class="use-ajax modal-popup button-red">{{ 'DELETE SERVICE TYPE' | t }}</a>
-    <div class="msg-note">
-      {{ 'This action cannot be reversed ! Please note that deleting a service type will remove any mapping it has with existing referral pathways and Organisation Services of application.' | t }}
+<article{{attributes.addClass(classes)}}>
+	{{ content.field_content }}
+   {% if content.field_tags['#items'] is not empty %}
+    <div class="field--name-field-tags">
+      <div class="field-label"><span class="tag-label">{{ 'Tags'|t }}:</span>
+        {{ content.field_tags }}</div>
     </div>
-  {% endif %}
-</div>
+   {% endif %}
+  <div{{content_attributes.addClass('content')}}>
+		{{ content|without('field_tags', 'field_content') }}
+	</div>
+</article>

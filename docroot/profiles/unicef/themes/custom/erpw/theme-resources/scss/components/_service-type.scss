@@ -248,8 +248,8 @@
 		}
 	}
 	.service-count {
-		color: $grey-txt-color;
-		font-size: 16px;
+		color: #9B9B9B;
+		font-size: 14px;
 		font-weight: 400;
 		position: absolute;
 		right: 0;
@@ -283,6 +283,11 @@
 	}
 	.delete-link a {
 		background: url('../images/delete-button.svg') center center no-repeat;
+	}
+	.translate-link a {
+		background: url('../images/language-translate.png') center center no-repeat;
+		width: 24px;
+    height: 24px;
 	}
 }
 div.color_field__swatch label:hover span,
