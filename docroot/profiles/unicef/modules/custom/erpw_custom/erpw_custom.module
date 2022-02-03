@@ -19,6 +19,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['revision_information']['#access'] = FALSE;
     $form['actions']['submit']['#value'] = t('Publish');
     $form['actions']['preview']['#access'] = FALSE;
+    $form['title']['widget'][0]['value']['#attributes']['placeholder'] = t('Enter organisation name');
     $form['actions']['cancel'] = [
       '#type' => 'submit',
       '#value' => t('CANCEL'),
@@ -188,12 +189,17 @@ function _erpw_custom_form_user_email_validate(array &$form, FormStateInterface 
  * Implements hook_preprocess_HOOK().
  */
 function erpw_custom_preprocess_page_title(&$variables) {
-  $request = \Drupal::request();
-  // Get current path.
-  $path = $request->getRequestUri();
-  // Check current path is user profile page.
-  if (strpos($path, 'user')) {
-    $variables['title'] = 'Sign In';
+  $uid = \Drupal::currentUser()->id();
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
+  if (!$uid && $route_name == 'erpw_custom.sign_up_form') {
+    $variables['title'] = t('Sign up');
+  }
+  if ($route_name == 'node.add') {
+    $type = \Drupal::routeMatch()->getParameter('node_type')->get('type');
+    if ($type == 'organisation') {
+      $variables['title'] = t('Add Organisation');
+    }
   }
 }
 
