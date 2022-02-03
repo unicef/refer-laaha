@@ -505,7 +505,7 @@ header {
   mask: url("../images/service.svg") center center no-repeat;
 }
 .dashboard .dashboard-link.org-link a::before {
-  background-color: #A85766;
+  background-color: #282C7B;
   content: "";
   -webkit-mask: url("../images/org.svg") center center no-repeat;
   mask: url("../images/org.svg") center center no-repeat;
@@ -653,10 +653,10 @@ header {
   top: 40px;
 }
 
-.view-empty {
+.view-frontpage .view-empty {
   display: none;
 }
-.view-empty + .feed-icons {
+.view-frontpage .view-empty + .feed-icons {
   display: none;
 }
 
@@ -1255,8 +1255,8 @@ header {
   word-break: break-all;
 }
 .service-list .service-count, .view-organisations .service-count {
-  color: #444;
-  font-size: 16px;
+  color: #9B9B9B;
+  font-size: 14px;
   font-weight: 400;
   position: absolute;
   right: 0;
@@ -1295,6 +1295,11 @@ header {
 }
 .edit-delete-links .delete-link a {
   background: url("../images/delete-button.svg") center center no-repeat;
+}
+.edit-delete-links .translate-link a {
+  background: url("../images/language-translate.png") center center no-repeat;
+  width: 24px;
+  height: 24px;
 }
 
 div.color_field__swatch label:hover span,
