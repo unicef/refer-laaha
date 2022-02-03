@@ -1022,7 +1022,7 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
         $domain_id = $term['#term']->field_domain->target_id;
         $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($active_domain);
         $trm = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
-        if ($trm->langcode->value != $default_lang && $trm->hasTranslation($langcode)) {
+        if ($trm->langcode->value != $default_lang && $trm->hasTranslation($default_lang)) {
           $title = $trm->name->value;
         }
         else {
