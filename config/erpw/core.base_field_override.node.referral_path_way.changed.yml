@@ -1,0 +1,18 @@
+uuid: fbc82cb7-1bb3-4be6-a3b4-a532f1285bf5
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.referral_path_way
+id: node.referral_path_way.changed
+field_name: changed
+entity_type: node
+bundle: referral_path_way
+label: Changed
+description: 'The time that the node was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

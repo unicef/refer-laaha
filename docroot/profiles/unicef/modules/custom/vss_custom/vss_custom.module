@@ -199,7 +199,7 @@ function vss_custom_taxonomy_term_presave($term) {
       }
     }
     else {
-      $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $term->original->get('name')->value]);
+      $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $name]);
       if ($link = reset($links)) {
         if (!$link->hasTranslation($term->get('langcode')->value)) {
           $link->addTranslation($term->get('langcode')->value, ['title' => $name])->save();
