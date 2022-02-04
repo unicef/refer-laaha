@@ -18,7 +18,7 @@ erpw_location.autocomplete:
     _controller: '\Drupal\erpw_location\Controller\AutocompleteController::handleAutocomplete'
     _format: json
   requirements:
-    _access: 'TRUE'
+   _access: 'TRUE'
 erpw_location.add_location:
   path: '/add-location'
   defaults:
@@ -26,10 +26,24 @@ erpw_location.add_location:
     _title: 'Add Location'
   requirements:
     _permission: 'access content'
+erpw_location.edit_location:
+  path: '/update-location/{id}'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\AddLocationForm'
+    _title: 'Update Location'
+  requirements:
+    _permission: 'access content'
 erpw_location.delete_location:
   path: '/delete-location/{tid}'
   defaults:
     _form: '\Drupal\erpw_location\Form\DeleteLocationForm'
     _title: 'Delete location'
+  requirements:
+    _permission: 'access content'
+erpw_location.view_location:
+  path: '/view-location/{tid}/{mode}'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\DeleteLocationForm'
+    _title: 'Location Details'
   requirements:
     _permission: 'access content'

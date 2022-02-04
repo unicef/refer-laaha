@@ -2,7 +2,7 @@ erpw_custom.sign_up_form:
   path: '/sign-up'
   defaults:
     _form: '\Drupal\erpw_custom\Form\SignUpForm'
-    _title: 'Sign up'
+    _title: 'Add user'
   requirements:
     _permission: 'access content'
     
@@ -42,3 +42,7 @@ erpw_custom.node_delete:
     _controller: '\Drupal\erpw_custom\Controller\ModalController::deleteServiceTypeNode'
   requirements:
     _permission: 'access content'
+erpw_custom.language_selector:
+  path: '/select-language'
+  defaults:
+    _form: '\Drupal\erpw_custom\Form\LanguageSelector'

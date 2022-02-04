@@ -9,17 +9,18 @@ label: 'Content Pattern'
 type: 'canonical_entities:node'
 pattern: '[node:title]'
 selection_criteria:
-  19471d44-ce27-4b7d-a02d-990d37ac21f8:
+  316b314e-4caf-4a48-9a51-5e506db4f636:
     id: node_type
+    negate: false
+    uuid: 316b314e-4caf-4a48-9a51-5e506db4f636
+    context_mapping:
+      node: node
     bundles:
       article: article
       page: page
       podcast: podcast
+      scorm: scorm
       video: video
-    negate: false
-    context_mapping:
-      node: node
-    uuid: 19471d44-ce27-4b7d-a02d-990d37ac21f8
 selection_logic: and
 weight: -5
 relationships: {  }

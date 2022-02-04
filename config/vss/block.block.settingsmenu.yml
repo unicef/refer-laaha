@@ -17,9 +17,13 @@ plugin: 'system_menu_block:settings-menu'
 settings:
   id: 'system_menu_block:settings-menu'
   label: 'Settings Menu'
-  provider: system
   label_display: '0'
+  provider: system
   level: 1
   depth: 2
   expand_all_items: false
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /country-selector

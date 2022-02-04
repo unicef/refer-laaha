@@ -538,7 +538,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"popular-search-thumbnail\">\r\n <span class=\"{{ type|lower }}-play-icon\"></span>\r\n <span class=\"icon-{{ type|lower }} thumbnail-icon\"></span>\r\n {{ field_thumbnail_image }} \r\n <span class=\"video-time\">{{ field_video_time }}</span>\r\n <span class=\"podcast-time\">{{ field_podcast_time }}</span>\r\n</div>\r\n{{ title }}"
+            text: "<div class=\"popular-search-thumbnail\">\r\n <span class=\"{{ type|lower }}-play-icon\"></span>\r\n <span class=\"icon-{{ type|lower }} thumbnail-icon\"></span>\r\n<div class=\"popular-picture\"> {{ field_thumbnail_image }} </div>\r\n <span class=\"video-time\">{{ field_video_time }}</span>\r\n <span class=\"podcast-time\">{{ field_podcast_time }}</span>\r\n</div>\r\n{{ title }}"
             make_link: false
             path: ''
             absolute: false

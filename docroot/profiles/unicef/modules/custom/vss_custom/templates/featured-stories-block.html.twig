@@ -9,7 +9,7 @@
 								<div class="col-sm-6 two-slice {{value.type}}">
                   {% if lang_code != 'en' %}
 										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'>
-										<img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/>
+										<img class="two-slice-img" src="{{ file_url(value.thumbnail| image_style('featured_categories_big')) }}" alt=""/>
 										{% if (value.type == 'video') and (value.video_time is not empty) %}
 										<span class="video-time-wrapper">{{ value.video_time }}</span>
 										{% elseif (value.type == 'podcast') and (value.podcast_time is not empty) %}
@@ -24,7 +24,7 @@
 										</a>
 									{% else %}
 										<a class={{value.type}} href="/{{value.url}}" target='_blank'>
-										<img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/>
+										<img class="two-slice-img" src="{{ file_url(value.thumbnail|image_style('featured_categories_big')) }}" alt=""/>
 										{% if (value.type == 'video') and (value.video_time is not empty) %}
 										<span class="video-time-wrapper">{{ value.video_time }}</span>
 										{% elseif (value.type == 'podcast') and (value.podcast_time is not empty) %}
@@ -45,7 +45,7 @@
 							{% for key,value in content|slice(2, 6) %}
 								<div class="col-sm-3 four-slice {{value.type}}">
 									{% if lang_code != 'en' %}
-										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'><img class="four-slice-img" src="/{{value.thumbnail}}" alt=""/>
+										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'><img class="four-slice-img" src="{{ file_url(value.thumbnail | image_style('featured_categories_small')) }}" alt=""/>
 										{% if (value.type == 'video') and (value.video_time is not empty) %}
 										<span class="video-time-wrapper">{{ value.video_time }}</span>
 										{% elseif (value.type == 'podcast') and (value.podcast_time is not empty) %}
@@ -59,7 +59,7 @@
                     {% endif %} 
                     </a>
 									{% else %}
-										<a class={{value.type}} href="/{{value.url}}" target='_blank'><img  class="four-slice-img" src="/{{value.thumbnail}}" alt=""/>
+										<a class={{value.type}} href="/{{value.url}}" target='_blank'><img  class="four-slice-img" src="{{ file_url(value.thumbnail | image_style('featured_categories_small') ) }}" alt=""/>
 										{% if (value.type == 'video') and (value.video_time is not empty) %}
 										<span class="video-time-wrapper">{{ value.video_time }}</span>
 										{% elseif (value.type == 'podcast') and (value.podcast_time is not empty) %}

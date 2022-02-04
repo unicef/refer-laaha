@@ -42,6 +42,9 @@
 <div class="layout-container">
 
   <header role="banner">
+    <div class="navbar">
+     {{ page.navigation }}
+    </div>
     {{ page.header }}
   </header>
 
@@ -76,6 +79,11 @@
       <aside class="layout-sidebar-second" role="complementary">
         {{ page.sidebar_second }}
       </aside>
+    {% endif %}
+    {% if page.global_sticky %}
+      <div class="global-sticky-region">
+        {{ page.global_sticky }}
+      </div>
     {% endif %}
     </div>
     </div>

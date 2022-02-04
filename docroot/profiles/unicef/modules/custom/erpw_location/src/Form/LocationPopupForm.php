@@ -32,7 +32,7 @@ class LocationPopupForm extends FormBase {
     $form['modal_description_2'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="email-notify">',
-      '#markup' => $this->t('The details has been sucessfully deleted.'),
+      '#markup' => $this->t('The details has been successfully deleted.'),
       '#suffix' => '</div>',
     ];
     $link_options = [

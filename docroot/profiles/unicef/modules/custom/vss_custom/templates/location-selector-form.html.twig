@@ -1,0 +1,51 @@
+{#
+/**
+* @file
+* Default theme implementation to display a block.
+*
+* @see template_preprocess_block()
+*
+* @ingroup themeable
+*/
+#}
+{{ form.form_build_id }}
+{{ form.form_token }}
+{{ form.form_id }}
+
+{% set classes = [
+    'clear-both',
+    'pop-up-speech',
+    'location-selector-block'
+] %}
+{{ attach_library('vss_custom/location_selector') }}
+<div{{ attributes.addClass(classes) }}>
+    <div class="wrapper">
+    <div id="text"></div>
+        <div class="buttons">
+        <button id="virtual-play" class="play">{{ 'Play'|t }}</button>
+        <button id="virtual-pause" class="pause">{{ 'Pause'|t }}</button>
+        <button id="virtual-resume" class="resume">{{ 'Resume'|t }}</button>
+        </div>
+    </div>
+   <div class="virtual-main-title">{{ 'Virtual Safe Space'|t }}</div>
+    <div class="virtual-image-wrapper"></div>
+    <div class="virtual-content-wrapper">
+        {% if form['#content'] is not empty %}
+            {% if form['#content']['location_selection_title'] is not empty %}
+                <div class="virtual-title">
+                    {{ form['#content']['location_selection_title'] }}
+                </div>
+            {% endif %}
+            {% if form['#content']['location_selection_description'] is not empty %}
+                <div class="virtual-description">
+                    {{ form['#content']['location_selection_description']|raw }}
+                </div>
+            {% endif %}
+                <div class="virtual-form">
+                    {{ form['domain'] }}
+                    {{ form['actions']['submit'] }}
+                </div>
+        {% endif %}
+    </div>
+</div>
+

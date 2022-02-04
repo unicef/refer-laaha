@@ -1213,6 +1213,11 @@ body {
             line-height: 16px;
           }
         }
+        .exit {
+          a {
+            color: #CD0000;
+          }
+        }
       }
 
     }
@@ -1240,20 +1245,4 @@ img.home-search-mic {
   margin-top: 1.2%;
   position: absolute;
 }
-}
-
-.common-btn {
-  text-align: center;
-  a {
-    background-color: $base-primary-bgcolor;
-    border-radius: 4px;
-    color: $base-black-color;
-    font-weight: $base-footer-font-weight-medium;
-    font-size: 16px;
-    line-height: 36px;
-    padding: 12px 18px 12px 16px;
-    letter-spacing: 1.25px;
-    text-transform: uppercase;
-    text-decoration: none;
-  }
 }

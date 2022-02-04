@@ -8,13 +8,17 @@ dependencies:
   module:
     - views
     - search_api_autocomplete
-    - search_api_solr
 id: search
 label: Search
 index_id: acquia_search_index
 suggester_settings:
   live_results:
-    fields: {  }
+    fields:
+      - body
+      - title
+    highlight:
+      enabled: false
+      field: ''
     view_modes:
       'entity:node':
         article: ''
@@ -22,17 +26,14 @@ suggester_settings:
         page: ''
         podcast: ''
         scorm: ''
+        service_provider: ''
         video: ''
-    highlight:
-      enabled: false
-      field: ''
-  search_api_solr_suggester:
-    search_api_solr/site_hash: 1
-    search_api/index: acquia_search_index
-    drupal/langcode: any
+      'entity:taxonomy_term':
+        categories: ''
+        sub_category: ''
+        tags: ''
 suggester_weights:
   live_results: 0
-  search_api_solr_suggester: 0
 suggester_limits: {  }
 search_settings:
   'views:search':
@@ -43,6 +44,6 @@ options:
   limit: 10
   min_length: 3
   show_count: false
-  autosubmit: false
-  submit_button_selector: ':submit'
   delay: null
+  submit_button_selector: ':submit'
+  autosubmit: false

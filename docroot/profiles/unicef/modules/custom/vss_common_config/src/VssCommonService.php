@@ -142,6 +142,23 @@ class VssCommonService implements VssCommonInterface {
   }
 
   /**
+   * Function to get location selection data.
+   */
+  public function getLocationData(): array {
+    $keys = [
+      'location_selection_title',
+      'location_selection_description',
+    ];
+    $data = $this->checkConfiguration($keys);
+    $location_data = [];
+    if (isset($data['vss_common_config'])) {
+      $location_data['location_selection_title'] = $data['vss_common_config']['location_selection_title'];
+      $location_data['location_selection_description'] = $data['vss_common_config']['location_selection_description']['value'];
+    }
+    return $location_data;
+  }
+
+  /**
    * Function to get disclaimer data.
    */
   public function getHeaderPhone(): array {

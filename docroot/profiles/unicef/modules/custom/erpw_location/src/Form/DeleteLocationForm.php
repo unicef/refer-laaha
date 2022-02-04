@@ -15,6 +15,7 @@ use Drupal\Core\Path\CurrentPathStack;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\erpw_location\LocationService;
+use Drupal\Core\Routing\UrlGeneratorInterface;
 
 /**
  * ModalForm class.
@@ -58,6 +59,13 @@ class DeleteLocationForm extends FormBase {
   protected $locationService;
 
   /**
+   * A UrlService instance.
+   *
+   * @var Drupal\Core\Routing\UrlGeneratorInterface
+   */
+  protected $urlGenerator;
+
+  /**
    * {@inheritdoc}
    */
   public function getFormId() {
@@ -81,6 +89,8 @@ class DeleteLocationForm extends FormBase {
    *   The location service.
    * @param \Drupal\erpw_location\LocationService $location_service
    *   The location service.
+   * @param \Drupal\Core\Routing\UrlGeneratorInterface $url_generator
+   *   The url generator.
    */
   public function __construct(LoggerChannelFactory $logger,
     Connection $connection,
@@ -88,7 +98,8 @@ class DeleteLocationForm extends FormBase {
     MessengerInterface $messenger,
     FormBuilderInterface $form_builder,
     CurrentPathStack $currentPathStack,
-    LocationService $location_service) {
+    LocationService $location_service,
+    UrlGeneratorInterface $url_generator) {
     $this->logger = $logger;
     $this->connection = $connection;
     $this->entityTypeManager = $entityTypeManager;
@@ -96,6 +107,7 @@ class DeleteLocationForm extends FormBase {
     $this->formBuilder = $form_builder;
     $this->currentPathStack = $currentPathStack;
     $this->locationService = $location_service;
+    $this->urlGenerator = $url_generator;
   }
 
   /**
@@ -110,13 +122,14 @@ class DeleteLocationForm extends FormBase {
       $container->get('form_builder'),
       $container->get('path.current'),
       $container->get('erpw_location.location_services'),
+      $container->get('url_generator')
     );
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, $options = NULL, $mode = '') {
     $country_name = NULL;
     $current_path = $this->currentPathStack->getPath();
     $curr_path = explode("/", $current_path);
@@ -146,6 +159,27 @@ class DeleteLocationForm extends FormBase {
       '#type' => 'hidden',
       '#value' => $curr_path[2],
     ];
+    if ($mode == 'view') {
+      // @todo url routes to be updated.
+      $clone_url = $this->urlGenerator->generateFromRoute('erpw_location.manage_location');
+      $delete_url = $this->urlGenerator->generateFromRoute('erpw_location.delete_location',
+          ['tid' => $curr_path[2]]
+      );
+      $edit_url = $this->urlGenerator->generateFromRoute('erpw_location.edit_location',
+        ['id' => $curr_path[2], 'mode' => 'view']
+      );
+
+      $location_operations = '<div class="edit-delete-links margin-space"> 
+      <span class="clone-service-type"><a href="' . $clone_url . '">' . $this->t('Clone') . '</a></span>
+      <span class="delete-link"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>
+      <span class="edit-link"><a href="' . $edit_url . '">' . $this->t('Edit') . '</a></span>
+      </div>';
+      $form['location_list']['location_' . $curr_path[2]] = [
+        '#type' => 'markup',
+        '#markup' => '<div class="location-card"><div class="title-with-icons">
+        <div class="location-operations">' . $location_operations . '</div></div></div> ',
+      ];
+    }
     $form['location_values1'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="delete-screen">',
@@ -158,25 +192,26 @@ class DeleteLocationForm extends FormBase {
       '#markup' => $location_details,
       '#suffix' => '</div>',
     ];
-    $form['actions']['delete_location'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('DELETE LOCATION'),
-      '#attributes' => [
-        'class' => [
-          'use-ajax',
-          'ok-btn',
+    if ($mode != 'view') {
+      $form['actions']['delete_location'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('DELETE LOCATION'),
+        '#attributes' => [
+          'class' => [
+            'use-ajax',
+            'ok-btn',
+          ],
         ],
-      ],
-      '#ajax' => [
-        'callback' => [$this, 'deleteLocation'],
-        'event' => 'click',
-      ],
-    ];
-    $form['msg_note'] = [
-      '#type' => 'markup',
-      '#markup' => '<div class="msg-note">' . $this->t('This action cannot be reversed ! Please note that deleting a location will remove any mapping it has with existing referral pathways and Service providers of application ') . '</div>',
-    ];
-
+        '#ajax' => [
+          'callback' => [$this, 'deleteLocation'],
+          'event' => 'click',
+        ],
+      ];
+      $form['msg_note'] = [
+        '#type' => 'markup',
+        '#markup' => '<div class="msg-note">' . $this->t('This action cannot be reversed ! Please note that deleting a location will remove any mapping it has with existing referral pathways and Service providers of application ') . '</div>',
+      ];
+    }
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'erpw_location/erpw_location_js';
     return $form;
@@ -187,10 +222,12 @@ class DeleteLocationForm extends FormBase {
    */
   public function deleteLocation(array $form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
-    $response = new AjaxResponse();
-    $term = Term::load($values['tid']);
-    if (!empty($term)) {
-      $term->delete();
+    if (!empty($values)) {
+      $response = new AjaxResponse();
+      $term = Term::load($values['tid']);
+      if (!empty($term)) {
+        $term->delete();
+      }
     }
     // Get the modal form using the form builder.
     $location_popup_form = $this->formBuilder->getForm('Drupal\erpw_location\Form\LocationPopupForm');

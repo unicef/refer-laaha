@@ -46,6 +46,7 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->languageManager = $container->get('language_manager');
     $instance->vssCommonService = $container->get('vss_common_config.default');
+    $instance->pageCacheKillSwitch = $container->get('page_cache_kill_switch');
     return $instance;
   }
 
@@ -65,6 +66,7 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
       $html .= strip_tags($data['disclaimer_description']);
     }
     $string = str_replace('&nbsp;', '', $html);
+
     $build['#theme'] = 'disclaimer_pop_up_block';
     $build['#content'] = $data;
     if ($lang_id == 'ar') {
@@ -83,8 +85,14 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
     $build['#attached']['drupalSettings']['disclaimer_landId'] = $lang_id;
     $build['#attached']['drupalSettings']['disclaimer_narrate'] = $string;
     $build['#attached']['drupalSettings']['disclaimer'] = TRUE;
-    $build['#cache']['tags'] = $this->getCacheTags();
-    $build['#cache']['contexts'] = $this->getCacheContexts();
+    $cookie_name = "player";
+    $cookie_langid = $lang_id;
+    $cookie_value = $string;
+    $cookie_voice = $voiceId;
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+    setcookie("voice", $cookie_voice, time() + (86400 * 30), "/");
+    setcookie("langid", $lang_id, time() + (86400 * 30), "/");
+    $this->pageCacheKillSwitch->trigger();
     return $build;
   }
 

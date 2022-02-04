@@ -1,0 +1,22 @@
+uuid: 5c95f75f-ba63-42c6-a505-8ad02219fefd
+langcode: sn
+status: true
+dependencies:
+  config:
+    - node.type.referral_path_way
+id: node.referral_path_way.promote
+field_name: promote
+entity_type: node
+bundle: referral_path_way
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

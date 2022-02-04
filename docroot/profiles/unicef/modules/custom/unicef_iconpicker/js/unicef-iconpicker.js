@@ -17,7 +17,7 @@
         $(this).fontIconPicker({
           source: unicef_icon,
           emptyIcon: false,
-          hasSearch: false,
+          hasSearch: true,
           useAttribute: true,
           attributeName: 'class',
           convertToHex: false

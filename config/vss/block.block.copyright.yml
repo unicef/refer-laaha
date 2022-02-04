@@ -6,6 +6,7 @@ dependencies:
     - 'block_content:basic:dbcfd0a8-aed6-4faf-a1c4-a2e52e37cbe7'
   module:
     - block_content
+    - system
   theme:
     - vss
 id: copyright
@@ -17,9 +18,13 @@ plugin: 'block_content:dbcfd0a8-aed6-4faf-a1c4-a2e52e37cbe7'
 settings:
   id: 'block_content:dbcfd0a8-aed6-4faf-a1c4-a2e52e37cbe7'
   label: Copyright
-  provider: block_content
   label_display: '0'
+  provider: block_content
   status: true
   info: ''
   view_mode: full
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /country-selector

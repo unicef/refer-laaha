@@ -33,5 +33,13 @@
 				mask: url('../images/service.svg') center center no-repeat;
 			}
 		}
+		&.org-link a {
+			&::before {
+				background-color: #282C7B;
+				content: '';
+				-webkit-mask: url('../images/org.svg') center center no-repeat;
+				mask: url('../images/org.svg') center center no-repeat;
+			}
+		}
 	}
 }

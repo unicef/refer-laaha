@@ -1,0 +1,19 @@
+uuid: e18ad552-ff06-434c-80c9-c488d37211e0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hierarchy_level_3
+    - node.type.service_provider
+id: node.service_provider.field_hierarchy_level_3
+field_name: field_hierarchy_level_3
+entity_type: node
+bundle: service_provider
+label: 'Hierarchy level 3'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

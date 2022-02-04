@@ -94,7 +94,6 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
         $parent_path = $tax_parent->toUrl()->getRouteName();
         $parent_link = $this->generateBreadcrumbLink($tax_parent, 'taxonomy_term', $parent_path, TRUE);
         $breadcrumb->addLink($parent_link);
-
       }
     }
     // Special handling based on node type aka bundle.
@@ -103,7 +102,8 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
       if ($node->hasField('field_sub_category')) {
         $path = parse_url($_SERVER['HTTP_REFERER'])['path'];
         $url_object = \Drupal::service('path.validator')->getUrlIfValid($path);
-        if ($url_object->getRouteName() == 'entity.taxonomy_term.canonical') {
+        $route_name = $url_object ? $url_object->getRouteName() : '';
+        if ($route_name == 'entity.taxonomy_term.canonical') {
           $term_id = $url_object->getrouteParameters()['taxonomy_term'];
           $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($term_id);
           $subcat = $term->get('field_sub_category')->value;
@@ -146,11 +146,13 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
         }
       }
     }
+
     // $breadcrumb->addLink(Link::createFromRoute($title, ''));
     // Don't forget to add cache control by a route.
     // Otherwise all pages will have the same breadcrumb.
     $breadcrumb->addCacheContexts(['route']);
     $breadcrumb->addCacheContexts(['url']);
+
     // Return object of type breadcrumb.
     return $breadcrumb;
   }

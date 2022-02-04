@@ -1,0 +1,48 @@
+.button-defult-exit {
+  font-family: $base-font-family;
+  font-weight: $base-font-weight;
+  font-size: $base-font-size;
+  padding: $top-padding-button $left-padding-button;
+  line-height: $line-height-button;
+  border: $no-border;
+  border-radius: $border-radius-button;
+  letter-spacing: $letter-spacing-button;
+}
+.button-defult{
+  border: $no-border;
+  border-radius: $border-radius-button;
+  color: $base-black-color;
+  letter-spacing: $letter-spacing-button;
+  background: $base-primary-bgcolor;
+  font-weight: $font-weight-normal;
+  font-size: $base-font-size;
+  padding: 10px 15px;
+}
+h1{
+  @include h1-tag ;
+}
+h2{
+  @include h2-tag ;
+}
+h3{
+  @include h3-tag ;
+}
+article{
+  p{
+  @include p-tag;
+}
+}
+.right-arrow {
+  &::after {
+    background: url('../images/button-arrow.svg') no-repeat center;
+    content: '';
+    display: inline-block;
+    height: 20px;
+    margin-left: 10px;
+    vertical-align: middle;
+    width: 10px;
+  }
+}
+button {
+  cursor: pointer;
+}
