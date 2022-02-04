@@ -41,6 +41,21 @@
             $(".ok-btn").click(function(){
                 $("span.ui-icon-closethick").click();
             });
+            // set Localstorage and remove Localstorage when browser close.
+            if(localStorage.getItem('signinPopup')){
+                $('.sign-in-popup, .overlay').hide();
+            }
+            $(".path-frontpage .skip").on('click', function(){
+                window.localStorage.signinPopup = "true";
+            });
+            $(".path-frontpage .sign-in").on('click', function(){
+                window.localStorage.signinPopup = "true";
+            });
+            $(window).on("beforeunload", function() { 
+                if(window.location.pathname == '/user/login'){
+                    window.localStorage.removeItem('signinPopup');
+                }
+            })
         }
     };
 }(jQuery, Drupal, drupalSettings));
