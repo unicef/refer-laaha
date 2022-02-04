@@ -81,13 +81,13 @@ function erpw_location_entity_predelete(EntityInterface $entity) {
 /**
  * Implements hook_taxonomy_term_delete().
  */
-function erpw_location_taxonomy_term_delete($term) {
-  $tid = $term->id();
-  $delete_query = 'DELETE from erpw_location WHERE country_tid = ' . $tid .
-    ' OR level1 =' . $tid .
-    ' OR level2 =' . $tid .
-    ' OR level3 =' . $tid .
-    ' OR level4 =' . $tid;
-  $query = \Drupal::database()->query($delete_query);
-  $query->execute();
-}
+// function erpw_location_taxonomy_term_delete($term) {
+//   $tid = $term->id();
+//   $delete_query = 'DELETE from erpw_location WHERE country_tid = ' . $tid .
+//     ' OR level1 =' . $tid .
+//     ' OR level2 =' . $tid .
+//     ' OR level3 =' . $tid .
+//     ' OR level4 =' . $tid;
+//   $query = \Drupal::database()->query($delete_query);
+//   $query->execute();
+// }

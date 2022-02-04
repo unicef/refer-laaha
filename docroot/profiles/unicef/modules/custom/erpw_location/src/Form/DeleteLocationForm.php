@@ -222,10 +222,12 @@ class DeleteLocationForm extends FormBase {
    */
   public function deleteLocation(array $form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
-    $response = new AjaxResponse();
-    $term = Term::load($values['tid']);
-    if (!empty($term)) {
-      $term->delete();
+    if(!empty($values)){
+      $response = new AjaxResponse();
+      $term = Term::load($values['tid']);
+      if (!empty($term)) {
+        $term->delete();
+      }
     }
     // Get the modal form using the form builder.
     $location_popup_form = $this->formBuilder->getForm('Drupal\erpw_location\Form\LocationPopupForm');
