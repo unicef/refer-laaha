@@ -45,10 +45,7 @@
             if(localStorage.getItem('signinPopup')){
                 $('.sign-in-popup, .overlay').hide();
             }
-            $(".path-frontpage .skip").on('click', function(){
-                window.localStorage.signinPopup = "true";
-            });
-            $(".path-frontpage .sign-in").on('click', function(){
+            $(".path-frontpage, .skip, .sign-in").on('click', function(){
                 window.localStorage.signinPopup = "true";
             });
             $(window).on("beforeunload", function() { 
