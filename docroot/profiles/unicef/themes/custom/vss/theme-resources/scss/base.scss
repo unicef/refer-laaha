@@ -281,6 +281,13 @@ ul.block-menu-item-fieldsfooter-last-menu {
       cursor: pointer;
     }
 
+    .audio-info-icon {
+      cursor: pointer;
+      position: absolute;
+      top: 22px;
+      z-index: 1000;
+    }
+
     .navbar-text {
       font-size: $base-font-size;
       font-weight: $base-footer-font-weight;
@@ -1248,4 +1255,27 @@ img.home-search-mic {
   margin-top: 1.2%;
   position: absolute;
 }
+}
+
+// audio settings info pop up
+
+.audio-info-pop-up {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  // font-weight: 600;
+  padding: 20px;
+  position: absolute;
+  right: 10%;
+  top: 200px;
+  width: 300px;
+  z-index: 1001;
+
+  .close-icon {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+  }
 }
