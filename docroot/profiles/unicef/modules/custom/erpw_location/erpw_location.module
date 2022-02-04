@@ -81,7 +81,7 @@ function erpw_location_entity_predelete(EntityInterface $entity) {
 /**
  * Implements hook_taxonomy_term_delete().
  */
-// function erpw_location_taxonomy_term_delete($term) {
+// Function erpw_location_taxonomy_term_delete($term) {
 //   $tid = $term->id();
 //   $delete_query = 'DELETE from erpw_location WHERE country_tid = ' . $tid .
 //     ' OR level1 =' . $tid .
