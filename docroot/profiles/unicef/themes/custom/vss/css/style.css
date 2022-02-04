@@ -746,6 +746,13 @@ body .absoluteclass {
       padding-right: 9px; }
   .featured-stories .featured_stories_block {
     margin-bottom: 95px; }
+    .featured-stories .featured_stories_block .two-slice a {
+      max-width: 508px;
+      height: auto;
+      display: block; }
+    .featured-stories .featured_stories_block .four-slice a {
+      max-width: 242px;
+      height: auto; }
     .featured-stories .featured_stories_block a {
       color: #030303; }
       .featured-stories .featured_stories_block a:hover {
@@ -779,7 +786,7 @@ body .absoluteclass {
         margin-top: 12px; }
       .featured-stories .featured_stories_block .two-slice .two-slice-img {
         width: 100%;
-        height: 286px;
+        height: 332px;
         border-radius: 20px; }
       .featured-stories .featured_stories_block .two-slice .play-circle {
         position: absolute;
@@ -801,7 +808,7 @@ body .absoluteclass {
         margin-left: 27px;
         margin-top: 12px; }
       .featured-stories .featured_stories_block .four-slice .four-slice-img {
-        height: 136px;
+        height: 158px;
         width: 100%;
         border-radius: 20px; }
       .featured-stories .featured_stories_block .four-slice .play-circle {
@@ -945,6 +952,13 @@ body .absoluteclass {
   margin-left: 11%;
   margin-top: 1.2%;
   position: absolute; }
+
+.ui-dialog {
+  width: 50% !important; }
+  .ui-dialog .ui-dialog-buttonpane {
+    display: block !important; }
+  .ui-dialog .ui-dialog-content {
+    padding: 15px !important; }
 
 .button-defult-exit {
   font-family: Roboto;
