@@ -318,18 +318,19 @@ class ImportLocationModalForm extends FormBase {
         $lang_code = $csv_langcodes[$k];
         // Check if term exists at level $i+1.
         if (isset($location[$j + $k])) {
-          $term = taxonomy_term_load_multiple_by_name($location[$j + $k], 'country');
-          if (!empty($term)) {
-            $term = reset($term);
-            $tid = $term->id();
-            $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
-            $ancestors = array_reverse(array_keys($ancestors));
-            $term_depth = taxonomy_term_depth_get_by_tid($tid);
-            $current_level = ($j / count($csv_langcodes)) + 1;
-            // Check if term exists at the same depth.
-            if (($term_depth - 1 == $i + 1) && $term_depth - 1 == $current_level && $ancestors[0] == $country_term_id) {
-              $term_exists = TRUE;
-              $parent_term_id = $tid;
+          $terms = taxonomy_term_load_multiple_by_name($location[$j + $k], 'country');
+          if (!empty($terms)) {
+            foreach ($terms as $term) {
+              $tid = $term->id();
+              $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
+              $ancestors = array_reverse(array_keys($ancestors));
+              $term_depth = taxonomy_term_depth_get_by_tid($tid);
+              $current_level = ($j / count($csv_langcodes)) + 1;
+              // Check if term exists at the same depth.
+              if (($term_depth - 1 == $i + 1) && $term_depth - 1 == $current_level && $ancestors[0] == $country_term_id) {
+                $term_exists = TRUE;
+                $parent_term_id = $tid;
+              }
             }
           }
           if ($term_exists || $k > 0) {

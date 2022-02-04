@@ -1,11 +1,11 @@
 {#
 /**
  * @file
- * Theme override for main view template.
+ * Default theme implementation for main view template.
  *
  * Available variables:
  * - attributes: Remaining HTML attributes for the element.
- * - css_name: A CSS-safe version of the view name.
+ * - css_name: A css-safe version of the view name.
  * - css_class: The user-specified classes names, if any.
  * - header: The optional header.
  * - footer: The optional footer.
@@ -25,48 +25,32 @@
  * - attachment_after: An optional attachment view to be displayed after the
  *   view content.
  * - dom_id: Unique id for every view being printed to give unique class for
- *   JavaScript.
+ *   Javascript.
  *
  * @see template_preprocess_views_view()
+ *
+ * @ingroup themeable
  */
 #}
-{%
-  set classes = [
-    "view-search",
-    dom_id ? 'js-view-dom-id-' ~ dom_id,
-  ]
-%}
-<div{{ attributes.addClass(classes) }}>
-  {{ title_prefix }}
-  {{ title }}
-  {{ title_suffix }}
 
+{% set row_classes = [
+    default_row_class ? 'subcategory-row-item',
+  ] %}
 
-
-  {{ exposed }}
-  {{ attachment_before }}
-
-  {% if header %}
-    <header class="all-result-text">
-      <span>{{ header }}</span>
-    </header>
-  {% endif %}
-
-  {% if rows -%}
-    {{ rows }}
-  {% elseif empty -%}
-    {{ empty }}
-  {% endif %}
-  {{ pager }}
-
-  {{ attachment_after }}
-  {{ more }}
-
-  {% if footer %}
-    <footer>
-      {{ footer }}
-    </footer>
-  {% endif %}
-
-  {{ feed_icons }}
+<div class="subcategory-content-listing">
+  {% for row in rows %}
+    {% if loop.index <= 2  and view.pager.current_page == 0 %}
+      <div class="col-sm-6">
+        <div{{ row.attributes.addClass(row_classes) }}">
+          {{- row.content -}}
+        </div>
+      </div>
+    {% else %}
+     <div class="item-small col-sm-6 col-lg-3">
+        <div{{ row.attributes.addClass(row_classes) }}" >
+          {{- row.content -}}
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
 </div>
