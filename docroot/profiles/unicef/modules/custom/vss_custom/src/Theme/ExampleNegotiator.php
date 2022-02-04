@@ -17,6 +17,7 @@ class ExampleNegotiator implements ThemeNegotiatorInterface {
     // Use this theme on a certain route.
     $routes = [
       'entity.taxonomy_term.canonical', 'vss_custom.country_selector', 'view.need_help_view.page_1',
+      'view.search.page_1',
     ];
     if (in_array($route_match->getRouteName(), $routes)) {
       return $route_match->getRouteName();
@@ -27,7 +28,7 @@ class ExampleNegotiator implements ThemeNegotiatorInterface {
    * {@inheritdoc}
    */
   public function determineActiveTheme(RouteMatchInterface $route_match) {
-    if ($_SERVER['QUERY_STRING'] == 'amp') {
+    if ($_SERVER['QUERY_STRING'] == 'amp' || strpos($_SERVER['QUERY_STRING'], 'amp')) {
       $route_match->getRouteObject()->setOption('_no_big_pipe', TRUE);
       return 'vss_amp';
     }
