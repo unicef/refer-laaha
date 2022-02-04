@@ -222,7 +222,7 @@ class DeleteLocationForm extends FormBase {
    */
   public function deleteLocation(array $form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
-    if(!empty($values)){
+    if (!empty($values)) {
       $response = new AjaxResponse();
       $term = Term::load($values['tid']);
       if (!empty($term)) {
