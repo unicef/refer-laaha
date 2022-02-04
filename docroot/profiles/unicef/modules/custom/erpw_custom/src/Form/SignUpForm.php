@@ -495,9 +495,9 @@ class SignUpForm extends FormBase {
     $response = new AjaxResponse();
 
     $parent_level2_tid = $form_state->getValue('level_2');
+    $location_country_id = $form_state->getValue('location_options');
     $location_levels = $this->locationService->getLocationLevels($location_country_id);
     $level_2_options = $this->locationService->getChildrenByTid($parent_level2_tid);
-    $location_country_id = $form_state->getValue('location_options');
     if (!empty($level_2_options)) {
       $i = 1;
       foreach ($level_2_options as $key => $value) {
