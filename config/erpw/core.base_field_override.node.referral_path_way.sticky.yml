@@ -1,0 +1,22 @@
+uuid: 41b0bb45-d142-47b6-951a-1f0b44a17233
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.referral_path_way
+id: node.referral_path_way.sticky
+field_name: sticky
+entity_type: node
+bundle: referral_path_way
+label: 'Sticky at top of lists'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -12,17 +12,24 @@
 	.input-group-addon {
 		display: none;
 	}
-
+	.all-result-text {
+		font-size: $base-footer-font-size;
+		line-height: 16px;
+		font-weight: $base-footer-font-weight-medium;
+		margin: 20px 0 60px;
+		span {
+			border-bottom: 1px solid #C36657;
+			padding: 16px;
+		}
+	}
 	.views-row {
 		box-shadow: 0px 0.8px 1.5px rgba(0, 0, 0, 0.1), 0px 8px 12px rgba(0, 0, 0, 0.2);
 		padding: 18px;
     margin-bottom: 24px;
 	}
 	.search-result-page {
-		.field-content {
-			@media screen and (min-width: 667px) {
-				display: flex;
-			}
+		@media screen and (min-width: 667px) {
+			display: flex;
 		}
 	}
 	.search-content-image {
@@ -30,12 +37,16 @@
 		margin-bottom: 15px;
 		@media screen and (min-width: 667px) {
 			margin: 0 20px 0 0;
+			max-width: 296px;
+			width: 100%;
+		}
+		.popular-picture {
+			position: relative;
 		}
 		img {
 			border-radius: 20px;
 			width: 100%;
 			@media screen and (min-width: 667px) {
-				max-width: 296px;
 			}
 		}
 	}
@@ -49,8 +60,15 @@
 		a {
 			color: $base-black-color;
 		}
+		.cat-icon {
+			border-radius: 50%;
+			display: inline-flex;
+			height: 24px;
+			padding: 2px;
+			width: 24px;
+		}
 		span.cat-title {
-				padding-left: 8px;
+			padding-left: 8px;
 		}
 	}
 	.search-content-cat {

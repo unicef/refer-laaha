@@ -19,6 +19,8 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['revision_information']['#access'] = FALSE;
     $form['actions']['submit']['#value'] = t('Publish');
     $form['actions']['preview']['#access'] = FALSE;
+    $form['#validate'][] = '_erpw_custom_organisation_node_form_validate';
+    $form['title']['widget'][0]['value']['#attributes']['placeholder'] = t('Enter organisation name');
     $form['actions']['cancel'] = [
       '#type' => 'submit',
       '#value' => t('CANCEL'),
@@ -43,6 +45,8 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     'node_service_type_form',
     'node_service_type_edit_form',
     'node_service_type_quick_node_clone_form',
+    'node_referral_path_way_form',
+    'node_referral_path_way_edit_form',
   ];
   if (in_array($form_id, $common_form_ids)) {
     $form['advanced']['#access'] = FALSE;
@@ -51,51 +55,38 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['revision_information']['#access'] = FALSE;
     $form['options']['#access'] = FALSE;
     $form['author']['#access'] = FALSE;
-    $form['title']['widget'][0]['value']['#title'] = t('Name of Service Type');
-    $form['title']['widget'][0]['value']['#placeholder'] = t('Enter service type name. eg:  Health care');
-  }
-
-  if ($form_id == 'node_service_type_form' || $form_id == 'node_service_type_edit_form') {
     $form['moderation_state']['#access'] = FALSE;
     $form['content_translation']['#access'] = FALSE;
   }
 
   if ($form_id == 'node_service_type_form' || $form_id == 'node_service_type_quick_node_clone_form') {
-    $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
-    $form['actions']['submit']['#value'] = t('PUBLISH');
     $form['#validate'][] = '_erpw_custom_check_title_exist';
     $form['#title'] = t('Add Service Type');
   }
-  if ($form_id == 'node_service_type_form') {
+
+  if (in_array($form_id,
+    [
+      'node_service_type_form',
+      'node_service_type_quick_node_clone_form',
+    ])) {
     $form['actions']['submit']['#submit'][] = '_erpw_custom_service_handler';
   }
 
   if ($form_id == 'node_service_type_edit_form') {
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#prefix'] = '<div id="status-message"></div>';
-    $form['actions']['preview']['#access'] = FALSE;
-    $form['actions']['submit']['#value'] = t('UPDATE');
     $form['actions']['submit']['#attributes']['class'][] = 'use-ajax ok-btn';
     $form['#title'] = t('Update Service Type');
-    $form['actions']['delete']['#access'] = FALSE;
-    $form['actions']['delete_translation']['#access'] = FALSE;
     $form['actions']['submit']['#cancel'][] = '_erpw_custom_service_handler';
     $form['actions']['submit']['#ajax'] = [
       'callback' => '_erpw_custom_update_service_type',
       'event' => 'click',
       'wrapper' => 'service_update_form',
     ];
-    $form['actions']['cancel'] = [
-      '#type' => 'submit',
-      '#value' => t('CANCEL'),
-    ];
-    $form['actions']['submit']['#weight'] = 5;
-    $form['actions']['cancel']['#weight'] = 10;
   }
 
   if ($form_id == 'node_service_type_quick_node_clone_form') {
     $form['additional_settings']['#access'] = FALSE;
-    $form['actions']['submit']['#submit'][] = '_erpw_custom_service_handler';
   }
 
   if ($form_id == 'node_service_type_delete_form') {
@@ -103,6 +94,53 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['submit']['#submit'][] = '_erpw_custom_delete_content';
     $form['actions']['cancel']['#access'] = FALSE;
     $form['actions']['submit']['#value'] = t('BACK TO DASHBOARD');
+  }
+
+  // To alter buttons text for Add forms.
+  if (in_array($form_id,
+    [
+      'node_service_type_form',
+      'node_referral_path_way_form',
+      'node_service_type_quick_node_clone_form',
+    ])) {
+    $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
+    $form['actions']['submit']['#value'] = t('PUBLISH');
+  }
+  // To alter buttons text for Edit forms.
+  if (in_array($form_id,
+    [
+      'node_service_type_edit_form',
+      'node_referral_path_way_edit_form',
+    ])) {
+    $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
+    $form['actions']['submit']['#value'] = t('UPDATE');
+    $form['actions']['delete']['#access'] = FALSE;
+    $form['actions']['preview']['#access'] = FALSE;
+    $form['actions']['delete_translation']['#access'] = FALSE;
+
+    $form['actions']['cancel'] = [
+      '#type' => 'submit',
+      '#value' => t('CANCEL'),
+    ];
+    $form['actions']['submit']['#weight'] = 5;
+    $form['actions']['cancel']['#weight'] = 10;
+  }
+  // Content type RPW.
+  if ($form_id == 'node_referral_path_way_form') {
+    $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = t('Add New Section');
+  }
+  if ($form_id == 'node_referral_path_way_edit_form') {
+    $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = t('Add New Section');
+    $form['actions']['submit']['#cancel'][] = '_erpw_custom_rpw_handler';
+  }
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ */
+function erpw_custom_field_widget_entity_reference_paragraphs_form_alter(&$element, &$form_state, $context) {
+  if ($element['#paragraph_type'] == 'sections') {
+    $element['subform']['field_service_type']['widget']['add_more']['#value'] = t('Add New Service Type');
   }
 }
 
@@ -127,6 +165,14 @@ function _erpw_custom_delete_content(array &$form, FormStateInterface $form_stat
  * {@inheritdoc}
  */
 function _erpw_custom_service_handler(array &$form, FormStateInterface $form_state) {
+  return _erpw_custom_redirect('view.manage_service_types.page_1');
+}
+
+/**
+ * {@inheritdoc}
+ */
+function _erpw_custom_rpw_handler(array &$form, FormStateInterface $form_state) {
+  // @todo Replace route name when RPW view list is done.
   return _erpw_custom_redirect('view.manage_service_types.page_1');
 }
 
@@ -173,6 +219,23 @@ function _erpw_custom_check_title_exist(&$form, &$form_state) {
 /**
  * A custom validation handler for the user login form.
  */
+function _erpw_custom_organisation_node_form_validate(array &$form, FormStateInterface $form_state) {
+  $title = $form_state->getValue('title');
+  if ($title) {
+    $update_title = trim($title[0]['value']);
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'organisation')
+      ->condition('title', $update_title);
+    $nids = $query->execute();
+    if ($nids) {
+      $form_state->setErrorByName('title', t('Organisation already exists, kindly update the organisation name and save it again.'));
+    }
+  }
+}
+
+/**
+ * A custom validation handler for the user login form.
+ */
 function _erpw_custom_form_user_email_validate(array &$form, FormStateInterface $form_state) {
   $errors = $form_state->getErrors();
   if (!empty($errors)) {
@@ -188,12 +251,17 @@ function _erpw_custom_form_user_email_validate(array &$form, FormStateInterface 
  * Implements hook_preprocess_HOOK().
  */
 function erpw_custom_preprocess_page_title(&$variables) {
-  $request = \Drupal::request();
-  // Get current path.
-  $path = $request->getRequestUri();
-  // Check current path is user profile page.
-  if (strpos($path, 'user')) {
-    $variables['title'] = 'Sign In';
+  $uid = \Drupal::currentUser()->id();
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
+  if (!$uid && $route_name == 'erpw_custom.sign_up_form') {
+    $variables['title'] = t('Sign up');
+  }
+  if ($route_name == 'node.add') {
+    $type = \Drupal::routeMatch()->getParameter('node_type')->get('type');
+    if ($type == 'organisation') {
+      $variables['title'] = t('Add Organisation');
+    }
   }
 }
 

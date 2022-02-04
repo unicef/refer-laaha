@@ -217,6 +217,14 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   margin: 13px 0 15px;
 }
 
+.simple-status-messages .status-message-close span {
+  color: #A85766;
+  font-size: 28px;
+  right: 7px;
+  top: -3px;
+  opacity: 1;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
@@ -505,7 +513,7 @@ header {
   mask: url("../images/service.svg") center center no-repeat;
 }
 .dashboard .dashboard-link.org-link a::before {
-  background-color: #A85766;
+  background-color: #282C7B;
   content: "";
   -webkit-mask: url("../images/org.svg") center center no-repeat;
   mask: url("../images/org.svg") center center no-repeat;
@@ -653,10 +661,10 @@ header {
   top: 40px;
 }
 
-.view-empty {
+.view-frontpage .view-empty {
   display: none;
 }
-.view-empty + .feed-icons {
+.view-frontpage .view-empty + .feed-icons {
   display: none;
 }
 
@@ -1228,8 +1236,10 @@ header {
 }
 .service-list .views-field-field-service-type-icon, .view-organisations .views-field-field-service-type-icon {
   position: absolute;
-  top: 20px;
-  left: 22px;
+  top: 24px;
+  left: 10px;
+  width: 50px;
+  text-align: center;
 }
 .service-list .views-field-field-service-type-color, .view-organisations .views-field-field-service-type-color {
   display: inline-block;
@@ -1255,8 +1265,8 @@ header {
   word-break: break-all;
 }
 .service-list .service-count, .view-organisations .service-count {
-  color: #444;
-  font-size: 16px;
+  color: #9B9B9B;
+  font-size: 14px;
   font-weight: 400;
   position: absolute;
   right: 0;
@@ -1295,6 +1305,11 @@ header {
 }
 .edit-delete-links .delete-link a {
   background: url("../images/delete-button.svg") center center no-repeat;
+}
+.edit-delete-links .translate-link a {
+  background: url("../images/language-translate.png") center center no-repeat;
+  width: 24px;
+  height: 24px;
 }
 
 div.color_field__swatch label:hover span,

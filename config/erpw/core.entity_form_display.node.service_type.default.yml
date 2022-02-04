@@ -25,26 +25,26 @@ content:
       default_colors: '#f9d14a,#f4cbca,#62489b,#7fbc72'
     third_party_settings: {  }
   field_service_type_icon:
+    type: unicef_iconpicker
     weight: 1
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: unicef_iconpicker
-    region: content
   title:
     type: string_textfield
     weight: 0
     region: content
     settings:
       size: 60
-      placeholder: ''
+      placeholder: 'Enter service type name. eg:  Health care'
     third_party_settings: {  }
   translation:
     weight: 10
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   created: true
   field_domain_access: true
