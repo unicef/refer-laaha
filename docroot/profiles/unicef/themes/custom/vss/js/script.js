@@ -20,6 +20,62 @@
       });
       $(".form-type-search-api-autocomplete input").attr("placeholder", "Type here to search");
 
+      // Audio support info modal
+      $("#audioInfo i").click(function () {
+        $(".audio-info-pop-up").removeClass('hidden');
+      });
+      $(".audio-info-pop-up .close-icon").on("click", function (e) {
+        $(".audio-info-pop-up").addClass('hidden');
+        e.stopPropagation();
+      });
+      let language = $('html')[0].lang;
+      let key = "show_subtitle_" + language;
+      console.log(key);
+      if (localStorage.getItem(key) === 'true') {
+        $(".settings-wrapper .last input").prop('checked', true);
+          processSubtitle(true);
+      } else {
+        processSubtitle(false);
+      }
+
+    // enable disable subtitle settings
+      $(".settings-wrapper .last input").change(function() {
+        localStorage.setItem(key,
+                  $(this).is(":checked"),
+                  {expires: 30, path:'/'},
+        );
+        processSubtitle($(this).is(":checked"));
+      });
+
+      function processSubtitle(b) {
+        const video = document.querySelectorAll("video");
+        let language_matched = 0;
+        let indexOfEnglish = 0;
+        if( video.length ) {
+          for (let item of video) {
+            if (b === true) {
+              for (let i = 0; i<item.textTracks.length; i++) {
+                item.textTracks[i].mode = "disabled";
+                if (item.textTracks[i].language === language ) {
+                  language_matched = 1;
+                  item.textTracks[i].mode = "showing"
+                }
+                if (item.textTracks[i].language === 'en') {
+                  indexOfEnglish = i;
+                }
+              }
+
+              if (language_matched !== 1) {
+                item.textTracks[indexOfEnglish].mode = "showing";
+              }
+            } else {
+              for (let vtt of item.textTracks) {
+                vtt.mode = "disabled"
+              }
+            }
+          }
+        }
+      }
     }
   };
 
