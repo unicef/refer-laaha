@@ -47,6 +47,14 @@ class Dashboard extends FormBase {
       '#markup' => $link,
       '#suffix' => '</div>',
     ];
+    $url = Url::fromRoute('view.user_lists.page_1');
+    $link = Link::fromTextAndUrl($this->t('Manage Application Users'), $url)->toString();
+    $form['manage_users'] = [
+      '#type' => 'markup',
+      '#prefix' => '<div class="dashboard-link user-link">',
+      '#markup' => $link,
+      '#suffix' => '</div>',
+    ];
 
     return $form;
   }

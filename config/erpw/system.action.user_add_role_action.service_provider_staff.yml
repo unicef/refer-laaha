@@ -1,0 +1,14 @@
+uuid: 08b49a47-5094-4338-a32c-bdaa41b50f52
+langcode: sn
+status: true
+dependencies:
+  config:
+    - user.role.service_provider_staff
+  module:
+    - user
+id: user_add_role_action.service_provider_staff
+label: 'Add the Service Provider/ Staff role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: service_provider_staff

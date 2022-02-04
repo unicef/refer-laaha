@@ -1,0 +1,14 @@
+uuid: e0a48e18-3b25-4886-b78b-8c2641c3b3aa
+langcode: sn
+status: true
+dependencies:
+  config:
+    - user.role.country_admin
+  module:
+    - user
+id: user_remove_role_action.country_admin
+label: 'Remove the Country Admin role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: country_admin
