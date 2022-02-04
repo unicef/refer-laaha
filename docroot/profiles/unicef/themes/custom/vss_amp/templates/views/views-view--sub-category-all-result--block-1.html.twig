@@ -1,11 +1,11 @@
 {#
 /**
  * @file
- * Theme override for main view template.
+ * Default theme implementation for main view template.
  *
  * Available variables:
  * - attributes: Remaining HTML attributes for the element.
- * - css_name: A CSS-safe version of the view name.
+ * - css_name: A css-safe version of the view name.
  * - css_class: The user-specified classes names, if any.
  * - header: The optional header.
  * - footer: The optional footer.
@@ -27,46 +27,72 @@
  * - dom_id: Unique id for every view being printed to give unique class for
  *   JavaScript.
  *
+ * @ingroup templates
+ *
  * @see template_preprocess_views_view()
  */
 #}
 {%
   set classes = [
-    "view-search",
+    'view',
+    'view-' ~ id|clean_class,
+    'view-id-' ~ id,
+    'view-display-id-' ~ display_id,
     dom_id ? 'js-view-dom-id-' ~ dom_id,
+    'container'
   ]
 %}
 <div{{ attributes.addClass(classes) }}>
   {{ title_prefix }}
-  {{ title }}
+  {% if title %}
+    {{ title }}
+  {% endif %}
   {{ title_suffix }}
-
-
-
-  {{ exposed }}
-  {{ attachment_before }}
-
   {% if header %}
-    <header class="all-result-text">
-      <span>{{ header }}</span>
-    </header>
+    <div class="view-header">
+      {{ header }}
+    </div>
+  {% endif %}
+  {% if exposed %}
+    <div class="view-filters form-group">
+      {{ exposed }}
+    </div>
+  {% endif %}
+  {% if attachment_before %}
+    <div class="attachment attachment-before">
+      {{ attachment_before }}
+    </div>
   {% endif %}
 
-  {% if rows -%}
-    {{ rows }}
-  {% elseif empty -%}
-    {{ empty }}
+  {% if rows %}
+    <div class="view-content">
+      {{ rows }}
+    </div>
+  {% elseif empty %}
+    <div class="view-empty">
+      {{ empty }}
+    </div>
   {% endif %}
-  {{ pager }}
 
-  {{ attachment_after }}
-  {{ more }}
-
+  {% if pager %}
+    {{ pager }}
+  {% endif %}
+  {% if attachment_after %}
+    <div class="attachment attachment-after">
+      {{ attachment_after }}
+    </div>
+  {% endif %}
+  {% if more %}
+    {{ more }}
+  {% endif %}
   {% if footer %}
-    <footer>
+    <div class="view-footer">
       {{ footer }}
-    </footer>
+    </div>
   {% endif %}
-
-  {{ feed_icons }}
+  {% if feed_icons %}
+    <div class="feed-icons">
+      {{ feed_icons }}
+    </div>
+  {% endif %}
 </div>

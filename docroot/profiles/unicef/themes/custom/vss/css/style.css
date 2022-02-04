@@ -2716,6 +2716,15 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
 .view-search .input-group-addon {
   display: none; }
 
+.view-search .all-result-text {
+  font-size: 1em;
+  line-height: 16px;
+  font-weight: 500;
+  margin: 20px 0 60px; }
+  .view-search .all-result-text span {
+    border-bottom: 1px solid #C36657;
+    padding: 16px; }
+
 .view-search .views-row {
   -webkit-box-shadow: 0px 0.8px 1.5px rgba(0, 0, 0, 0.1), 0px 8px 12px rgba(0, 0, 0, 0.2);
           box-shadow: 0px 0.8px 1.5px rgba(0, 0, 0, 0.1), 0px 8px 12px rgba(0, 0, 0, 0.2);
@@ -2723,7 +2732,7 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   margin-bottom: 24px; }
 
 @media screen and (min-width: 667px) {
-  .view-search .search-result-page .field-content {
+  .view-search .search-result-page {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex; } }
@@ -2733,13 +2742,14 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   margin-bottom: 15px; }
   @media screen and (min-width: 667px) {
     .view-search .search-content-image {
-      margin: 0 20px 0 0; } }
+      margin: 0 20px 0 0;
+      max-width: 296px;
+      width: 100%; } }
+  .view-search .search-content-image .popular-picture {
+    position: relative; }
   .view-search .search-content-image img {
     border-radius: 20px;
     width: 100%; }
-    @media screen and (min-width: 667px) {
-      .view-search .search-content-image img {
-        max-width: 296px; } }
 
 .view-search .search-content-title,
 .view-search .search-content-cat {
@@ -2751,6 +2761,15 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   .view-search .search-content-title a,
   .view-search .search-content-cat a {
     color: #000; }
+  .view-search .search-content-title .cat-icon,
+  .view-search .search-content-cat .cat-icon {
+    border-radius: 50%;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    height: 24px;
+    padding: 2px;
+    width: 24px; }
   .view-search .search-content-title span.cat-title,
   .view-search .search-content-cat span.cat-title {
     padding-left: 8px; }
