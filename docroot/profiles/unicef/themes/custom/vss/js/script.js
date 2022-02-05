@@ -29,7 +29,6 @@
       });
       let language = $('html')[0].lang;
       let key = "show_subtitle_" + language;
-      console.log(key);
       if (localStorage.getItem(key) === 'true') {
         $(".settings-wrapper .last input").prop('checked', true);
           processSubtitle(true);
