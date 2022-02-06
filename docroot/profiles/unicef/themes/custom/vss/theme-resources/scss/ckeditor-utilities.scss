@@ -8,15 +8,6 @@
     }
   }
 
-  .full-width {
-    left: 50%;
-    margin: 0 -50vw;
-    max-width: 100vw;
-    position: relative;
-    right: 50%;
-    width: 100vw;
-  }
-
   .bg-pink {
     background-color: #fdf3f6;
   }
@@ -63,4 +54,13 @@
       width: 0;
     }
   }
+}
+
+.full-width {
+  left: 50%;
+  margin: 0 -50vw;
+  max-width: 100vw;
+  position: relative;
+  right: 50%;
+  width: 100vw;
 }
