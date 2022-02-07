@@ -710,8 +710,10 @@ class SignUpForm extends FormBase {
         $form_state->setErrorByName('password', $this->t('The specified passwords do not match.'));
       }
     }
-    if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,64}$/", $password)) {
-      $form_state->setErrorByName('password', $this->t('Password should contain at least one Number, one Symbol and one alphabet'));
+    if ($password) {
+      if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,64}$/", $password)) {
+        $form_state->setErrorByName('password', $this->t('Password should contain at least one Number, one Symbol and one alphabet'));
+      }
     }
   }
 
