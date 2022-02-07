@@ -19,7 +19,7 @@
 
   // grab the UI elements to work with
 
-  function getCookie(cname) {
+  function getCookieWelcome(cname) {
   let name = cname + "=";
   let decodedCookie = decodeURIComponent(document.cookie);
   let ca = decodedCookie.split(';');
@@ -41,10 +41,10 @@ resume.hidden = true;
 pause.hidden = true;
 // add UI event handlers
 play.addEventListener("click", () => {
-let player_cookies = getCookie("player");
+let player_cookies = getCookieWelcome("player");
 console.log(player_cookies);
-let voiceId = getCookie("voice");
-let langId = getCookie("langid");
+let voiceId = getCookieWelcome("voice");
+let langId = getCookieWelcome("langid");
   var utterance = new SpeechSynthesisUtterance(player_cookies);
   if (langId == 'en-US') {
     langId = 'en-US';
