@@ -3226,14 +3226,6 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
 .paragraph--type--wysiwyg-editor .about-us__top p {
   text-align: center;
 }
-.paragraph--type--wysiwyg-editor .full-width {
-  left: 50%;
-  margin: 0 -50vw;
-  max-width: 100vw;
-  position: relative;
-  right: 50%;
-  width: 100vw;
-}
 .paragraph--type--wysiwyg-editor .bg-pink {
   background-color: #fdf3f6;
 }
@@ -3290,5 +3282,14 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   position: absolute;
   right: auto;
   width: 0;
+}
+
+.full-width {
+  left: 50%;
+  margin: 0 -50vw;
+  max-width: 100vw;
+  position: relative;
+  right: 50%;
+  width: 100vw;
 }
 /*# sourceMappingURL=style.css.map */

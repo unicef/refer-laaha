@@ -1,6 +1,7 @@
 
 {% if content is not empty %}
  <div class="wrapper">
+ <span class="view-icon"><img src="/{{ base_path ~ directory }}/images/view-icon.png" alt="view icon"/></span>
  <div class="text">{{content}} {{ 'views'|t }}</div>
  </div>
 {% endif %}
