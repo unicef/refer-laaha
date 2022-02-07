@@ -12,7 +12,7 @@
 .field--type-color-field-type .form-wrapper {
 		box-shadow: 0px 4px 12px rgb(103 97 97 / 15%);
 		@include border-radius(10px);
-		margin: 45px 0;
+		margin: 45px 0 0;
 		label {
 			font-weight: 400;
 		}
@@ -150,31 +150,6 @@
 	.button--primary {
 		@extend .button-border;
 	}
-	.form-actions {
-		display: flex;
-		justify-content: space-between;
-		[id^='edit-submit'] {
-			order: 2;
-		}
-		[id^='edit-preview'],
-		[id^='edit-cancel'] {
-			background: none;
-			border: 1px solid $base-secondary-bgcolor;
-			@include border-radius(4px);
-			color: $base-secondary-bgcolor;
-			display: inline-block;
-			font-size: 0.875em;
-			margin: 0 15px 1em 0;
-			padding: 10px 24px;
-			order: 1;
-			text-transform: uppercase;
-		}
-		input[type=submit] {
-			text-align: center;
-    	padding: 10px 0;
-			width: 134px;
-		}
-	}
 	.color_field_widget_box__color {
 		border: 1px solid transparent !important;
 		font-size: 0;
@@ -302,6 +277,39 @@ div.color_field__swatch input[type=radio]:checked + label span {
 	font-size: 18px;
 }
 
+//form actions
+.node-service-type-form,
+.node-service-type-quick-node-clone-form,
+.node-service-type-edit-form,
+.node-organisation-form {
+	.form-actions {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 45px;
+		[id^='edit-submit'] {
+			order: 2;
+		}
+		[id^='edit-preview'],
+		[id^='edit-cancel'] {
+			background: none;
+			border: 1px solid $base-secondary-bgcolor;
+			@include border-radius(4px);
+			color: $base-secondary-bgcolor;
+			display: inline-block;
+			font-size: 0.875em;
+			margin: 0 15px 1em 0;
+			padding: 10px 24px;
+			order: 1;
+			text-transform: uppercase;
+		}
+		input[type=submit] {
+			text-align: center;
+    	padding: 10px 0;
+			width: 134px;
+		}
+	}
+}
+
 //Manage org
 .view-organisations {
 
@@ -311,3 +319,4 @@ div.color_field__swatch input[type=radio]:checked + label span {
 		padding: 5px 10px;
 	}
 }
+

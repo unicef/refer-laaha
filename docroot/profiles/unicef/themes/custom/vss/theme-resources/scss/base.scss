@@ -281,6 +281,13 @@ ul.block-menu-item-fieldsfooter-last-menu {
       cursor: pointer;
     }
 
+    .audio-info-icon {
+      cursor: pointer;
+      position: absolute;
+      top: 22px;
+      z-index: 1000;
+    }
+
     .navbar-text {
       font-size: $base-font-size;
       font-weight: $base-footer-font-weight;
@@ -952,7 +959,19 @@ body {
 
   .featured_stories_block {
     margin-bottom: 95px;
-
+    .two-slice{
+      a{
+        max-width: 508px;
+        height: auto;
+        display: block;
+        }
+      }
+    .four-slice{
+      a{
+        max-width: 242px;
+        height: auto;
+        }
+      }
     a {
       color: #030303;
 
@@ -1017,7 +1036,7 @@ body {
 
       .two-slice-img {
         width: 100%;
-        height: 286px;
+        height: 332px;
         border-radius: 20px;
       }
 
@@ -1050,7 +1069,7 @@ body {
       }
 
       .four-slice-img {
-        height: 136px;
+        height: 158px;
         width: 100%;
         border-radius: 20px;
       }
@@ -1245,4 +1264,37 @@ img.home-search-mic {
   margin-top: 1.2%;
   position: absolute;
 }
+}
+
+.ui-dialog {
+  width: 50% !important;
+
+  .ui-dialog-buttonpane {
+    display: block !important;
+  }
+  .ui-dialog-content {
+    padding: 15px !important;
+  }
+}
+
+// audio settings info pop up
+.audio-info-pop-up {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  // font-weight: 600;
+  padding: 20px;
+  position: absolute;
+  right: 10%;
+  top: 200px;
+  width: 300px;
+  z-index: 1001;
+
+  .close-icon {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+  }
 }
