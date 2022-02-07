@@ -1,9 +1,19 @@
 uuid: 1958e3d8-af4a-4072-9425-84f90c704a7d
 langcode: sn
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - node.type.service_type
+  module:
+    - node
+    - node_view_permissions
 id: super_admin
 label: 'Super Admin'
 weight: -10
 is_admin: null
-permissions: {  }
+permissions:
+  - 'create service_type content'
+  - 'edit any service_type content'
+  - 'edit own service_type content'
+  - 'view any service_type content'
+  - 'view own service_type content'
