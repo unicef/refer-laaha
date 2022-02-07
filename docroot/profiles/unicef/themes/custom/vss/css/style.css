@@ -758,6 +758,9 @@ body .absoluteclass {
     .featured-stories .featured_stories_block .four-slice a {
       max-width: 242px;
       height: auto; }
+    @media screen and (min-width: 1024px) {
+      .featured-stories .featured_stories_block .four-slice {
+        display: block; } }
     .featured-stories .featured_stories_block a {
       color: #030303; }
       .featured-stories .featured_stories_block a:hover {
