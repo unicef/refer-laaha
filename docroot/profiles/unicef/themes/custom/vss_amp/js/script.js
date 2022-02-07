@@ -99,3 +99,10 @@ resume.addEventListener("click", () => {
   if (countryLocationCookie !== "TRUE" && window.location.pathname !== "/country-selector" && window.location.pathname !== "/user/login") {
     window.location.href = "/country-selector";
   }
+
+  $('.region-header a').each(function(){ 
+    var oldUrl = $(this).attr("href"); // Get current url
+    var newUrl = oldUrl + "?amp"; // Create new url
+    console.log(newUrl);
+    $(this).attr("href", newUrl); // Set herf value
+  });
