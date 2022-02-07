@@ -33,12 +33,12 @@ class TermReferenceTree extends WidgetBase {
    */
   public static function defaultSettings() {
     return [
-        'start_minimized' => TRUE,
-        'leaves_only' => FALSE,
-        'select_parents' => FALSE,
-        'cascading_selection' => self::CASCADING_SELECTION_NONE,
-        'max_depth' => 0,
-      ] + parent::defaultSettings();
+      'start_minimized' => TRUE,
+      'leaves_only' => FALSE,
+      'select_parents' => FALSE,
+      'cascading_selection' => self::CASCADING_SELECTION_NONE,
+      'max_depth' => 0,
+    ] + parent::defaultSettings();
   }
 
   /**
@@ -84,7 +84,7 @@ class TermReferenceTree extends WidgetBase {
     ];
 
     if ($this->fieldDefinition->getFieldStorageDefinition()
-        ->getCardinality() !== FieldStorageConfig::CARDINALITY_UNLIMITED) {
+      ->getCardinality() !== FieldStorageConfig::CARDINALITY_UNLIMITED) {
       $form['select_parents']['#disabled'] = TRUE;
       $form['select_parents']['#default_value'] = FALSE;
       $form['select_parents']['#description'] .= ' <em>' . $this->t("This option is only valid if an unlimited number of values can be selected.") . '</em>';

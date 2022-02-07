@@ -26,4 +26,3 @@ This widget has the following features:
     below the tree.
 - You can use tokens to alter the widget label (good for adding icons, turning 
     the options into links, etc).
-  

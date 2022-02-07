@@ -1,10 +1,14 @@
 <?php
 
+/**
+ * @file
+ */
+
 use Drupal\term_reference_tree\Plugin\Field\FieldWidget\TermReferenceTree;
 use Drupal\Core\Template\Attribute;
 use Drupal\Component\Utility\Html;
 use Drupal\taxonomy\Entity\Term;
-use \Drupal\Core\Render\Element;
+use Drupal\Core\Render\Element;
 
 /**
  * Implements hook_theme().
@@ -209,7 +213,6 @@ function template_preprocess_checkbox_tree_label(&$variables) {
  */
 function _term_reference_tree_get_term_hierarchy($tid, $vid, &$allowed, $filter, $label, $default = []) {
   // \Drupal::logger('Tree_reference')->info("_term_reference_tree_get_term_hierarchy");
-
   $terms = _term_reference_tree_get_children($tid, $vid);
   $result = [];
 
@@ -262,20 +265,19 @@ function _term_reference_tree_get_term_hierarchy($tid, $vid, &$allowed, $filter,
  *   Taxonomy terms, each in the form ['tid' => $tid, 'name' => $name].
  */
 function _term_reference_tree_get_children($tid, $vid) {
-  
+
   // DO NOT LOAD TAXONOMY TERMS HERE.
   // Taxonomy terms take a lot of time and memory to load, and this can be
   // very bad on large vocabularies.  Instead, we load the term as necessary
   // in cases where it's needed (such as using tokens or when the locale
   // module is enabled).
-
   $table = 'taxonomy_term_field_data';
   $alias = 't';
 
   $query = \Drupal::database()
     ->select($table, $alias);
   $query->join('taxonomy_term__parent', 'p', 't.tid = p.entity_id');
-  $query->fields('t', ['tid', 'name','langcode']);
+  $query->fields('t', ['tid', 'name', 'langcode']);
   $query->addField('t', 'vid', 'vocabulary_machine_name');
   $query
     ->condition('t.vid', $vid)
@@ -294,6 +296,9 @@ function _term_reference_tree_get_children($tid, $vid) {
   return $terms;
 }
 
+/**
+ *
+ */
 function _term_reference_tree_children_selected($terms, $default) {
   foreach ($terms->children as $term) {
     if (isset($default[$term->tid]) || $term->children_selected) {
@@ -380,83 +385,82 @@ function _term_reference_tree_build_item($element, $term, $form_state, $value, $
   $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
   $t = NULL;
   if (\Drupal::moduleHandler()->moduleExists('locale') && !empty($term->tid)) {
-      $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
 
-      $active_domain_id = $active_domain->id();
-      // $active_domain_id = "vss_ec_lndo_site";
-      // $active_domain_id = "dev_ec_virtualsafespace_net";
-
-      $t = \Drupal::entityTypeManager()->getStorage('taxonomy_term')
-        ->loadByProperties(['vid' => 'categories','tid' => $term->tid ,'field_domain' => $active_domain_id ]);
-      $t = reset($t);
-      if(!empty($t))
-      {
+    $active_domain_id = $active_domain->id();
+    // $active_domain_id = "vss_ec_lndo_site";
+    // $active_domain_id = "dev_ec_virtualsafespace_net";
+    $t = \Drupal::entityTypeManager()->getStorage('taxonomy_term')
+      ->loadByProperties(['vid' => 'categories', 'tid' => $term->tid, 'field_domain' => $active_domain_id]);
+    $t = reset($t);
+    if (!empty($t)) {
       $original_title = $t->getname();
 
       $domain_name = $t->get('field_domain')->getValue()[0]['target_id'];
       $langcode = $t->get('langcode')->getValue()[0]['value'];
-      
-    if ($t && $t->hasTranslation($langcode)) {
-      $term_name = $t->getTranslation($langcode)->label();
-    }
-  
-  if (empty($term_name)) {
-    $term_name = $term->name;
-  }
-  
-$term_name = $term_name." ( $original_title / $langcode / $domain_name)";
-      
-  $container = [
-    '#type' => 'checkbox_tree_item',
-    '#max_choices' => $max_choices,
-    '#leaves_only' => $leaves_only,
-    '#term_name' => $term_name,
-    '#level_start_minimized' => FALSE,
-    '#select_parents' => $element['#select_parents'],
-    '#depth' => $depth,
-  ];
 
-  if (!$element['#leaves_only'] || count($term->children) == 0) {
-    $e = [
-      '#type' => ($max_choices == 1) ? 'radio' : 'checkbox',
-      '#title' => $term_name,
-      '#on_value' => $term->tid,
-      '#off_value' => 0,
-      '#return_value' => $term->tid,
-      '#parent_values' => $parent_tids,
-      '#default_value' => isset($value[$term->tid]) ? $term->tid : NULL,
-      '#attributes' => isset($element['#attributes']) ? $element['#attributes'] : NULL,
-      '#ajax' => isset($element['#ajax']) ? $element['#ajax'] : NULL,
-    ];
-
-    if (is_array($e)) {
-      if ($e['#type'] == 'radio') {
-        $parents_for_id = array_merge($element['#parents'], [$term->tid]);
-        $e['#id'] = Html::getId('edit-' . implode('-', $parents_for_id));
-        $e['#parents'] = array_merge($element['#parents'], ['wiget']);
+      if ($t && $t->hasTranslation($langcode)) {
+        $term_name = $t->getTranslation($langcode)->label();
       }
+
+      if (empty($term_name)) {
+        $term_name = $term->name;
+      }
+
+      $term_name = $term_name . " ( $original_title / $langcode / $domain_name)";
+
+      $container = [
+        '#type' => 'checkbox_tree_item',
+        '#max_choices' => $max_choices,
+        '#leaves_only' => $leaves_only,
+        '#term_name' => $term_name,
+        '#level_start_minimized' => FALSE,
+        '#select_parents' => $element['#select_parents'],
+        '#depth' => $depth,
+      ];
+
+      if (!$element['#leaves_only'] || count($term->children) == 0) {
+        $e = [
+          '#type' => ($max_choices == 1) ? 'radio' : 'checkbox',
+          '#title' => $term_name,
+          '#on_value' => $term->tid,
+          '#off_value' => 0,
+          '#return_value' => $term->tid,
+          '#parent_values' => $parent_tids,
+          '#default_value' => isset($value[$term->tid]) ? $term->tid : NULL,
+          '#attributes' => isset($element['#attributes']) ? $element['#attributes'] : NULL,
+          '#ajax' => isset($element['#ajax']) ? $element['#ajax'] : NULL,
+        ];
+
+        if (is_array($e)) {
+          if ($e['#type'] == 'radio') {
+            $parents_for_id = array_merge($element['#parents'], [$term->tid]);
+            $e['#id'] = Html::getId('edit-' . implode('-', $parents_for_id));
+            $e['#parents'] = array_merge($element['#parents'], ['wiget']);
+          }
+        }
+      }
+      else {
+        $e = [
+          '#type' => 'checkbox_tree_label',
+          '#value' => $term_name,
+        ];
+      }
+
+      $container[$term->tid] = $e;
+
+      if (($depth + 1 <= $element['#max_depth'] || !$element['#max_depth']) && property_exists($term, 'children') && count($term->children) > 0) {
+        $parents = $parent_tids;
+        $parents[] = $term->tid;
+        $container[$term->tid . '-children'] = _term_reference_tree_build_level($element, $term, $form_state, $value, $max_choices, $parents, $depth + 1);
+        $container['#level_start_minimized'] = $container[$term->tid . '-children']['#level_start_minimized'];
+      }
+
+      return $container;
     }
   }
-  else {
-    $e = [
-      '#type' => 'checkbox_tree_label',
-      '#value' => $term_name,
-    ];
-  }
-
-  $container[$term->tid] = $e;
-
-  if (($depth + 1 <= $element['#max_depth'] || !$element['#max_depth']) && property_exists($term, 'children') && count($term->children) > 0) {
-    $parents = $parent_tids;
-    $parents[] = $term->tid;
-    $container[$term->tid . '-children'] = _term_reference_tree_build_level($element, $term, $form_state, $value, $max_choices, $parents, $depth + 1);
-    $container['#level_start_minimized'] = $container[$term->tid . '-children']['#level_start_minimized'];
-  }
-
-  return $container;
 }
-}
-}
+
 /**
  * Themes the term tree display (as opposed to the select widget).
  * Prepares variables for the term_tree_list template.
@@ -520,7 +524,7 @@ function template_preprocess_term_tree_list(&$variables) {
  *   Parent term id or 0.
  */
 function _term_reference_tree_get_parent($tid) {
-  
+
   $query = "SELECT p.parent_target_id FROM {taxonomy_term__parent} p WHERE p.entity_id = :tid";
   $from = 0;
   $count = 1;
@@ -558,7 +562,7 @@ function _term_reference_tree_output_list_level(&$element, &$tree) {
         $t = NULL;
         $term_name = '';
         if (\Drupal::moduleHandler()
-            ->moduleExists('locale') && !empty($term->tid)) {
+          ->moduleExists('locale') && !empty($term->tid)) {
           $t = $term;
           if ($t && $t->hasTranslation($langcode)) {
             $term_name = $t->getTranslation($langcode)->label();

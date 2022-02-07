@@ -15,10 +15,10 @@ class CheckboxTreeItem extends FormElement {
    * {@inheritdoc}
    */
   public function getInfo() {
-    return array(
+    return [
       '#input' => FALSE,
       '#theme' => 'checkbox_tree_item',
-    );
+    ];
   }
 
 }
