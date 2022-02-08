@@ -90,8 +90,6 @@ class UserLocationForm extends LocationListForm {
 
   /**
    * {@inheritdoc}
-   * {@todo}
-   * Fields to show on User Location Page 
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $levels = $form_state->getValues();
