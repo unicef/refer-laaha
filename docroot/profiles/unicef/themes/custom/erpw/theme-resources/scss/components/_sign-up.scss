@@ -87,3 +87,18 @@
 .form-item input.error {
 	border: 2px solid red;
 }
+//password creation
+.password-creation {
+  margin: 80px auto;
+	padding: 0 70px;
+	max-width: 240px;
+	width: 100%;
+  .notify-messsage {
+    color: $grey-txt-color;
+    font-size: $base-font-size;
+    line-height: 22px;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+}
+
