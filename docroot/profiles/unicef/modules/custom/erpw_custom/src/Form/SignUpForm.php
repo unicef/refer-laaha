@@ -710,8 +710,10 @@ class SignUpForm extends FormBase {
         $form_state->setErrorByName('password', $this->t('The specified passwords do not match.'));
       }
     }
-    if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,64}$/", $password)) {
-      $form_state->setErrorByName('password', $this->t('Password should contain at least one Number, one Symbol and one alphabet'));
+    if ($password) {
+      if (!preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,64}$/", $password)) {
+        $form_state->setErrorByName('password', $this->t('Password should contain at least one Number, one Symbol and one alphabet'));
+      }
     }
   }
 
@@ -787,6 +789,7 @@ class SignUpForm extends FormBase {
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
       $user->save();
+      _user_mail_notify('register_admin_created', $user);
       _user_mail_notify('register_pending_approval', $user);
       $response = new AjaxResponse();
       $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\ModalForm');

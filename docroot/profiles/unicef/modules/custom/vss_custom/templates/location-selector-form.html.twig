@@ -18,18 +18,22 @@
     'location-selector-block'
 ] %}
 {{ attach_library('vss_custom/location_selector') }}
+
 <div{{ attributes.addClass(classes) }}>
-    <div class="wrapper">
-    <div id="text"></div>
-        <div class="buttons">
-        <button id="virtual-play" class="play">{{ 'Play'|t }}</button>
-        <button id="virtual-pause" class="pause">{{ 'Pause'|t }}</button>
-        <button id="virtual-resume" class="resume">{{ 'Resume'|t }}</button>
-        </div>
-    </div>
-   <div class="virtual-main-title">{{ 'Virtual Safe Space'|t }}</div>
-    <div class="virtual-image-wrapper"></div>
+<div class="virtual-main-title">{{ 'Virtual Safe Space'|t }}</div>
+<div class="country-selector-image">
+<img src="/{{ base_path ~ directory }}/images/country-selector.png" alt='Country selector' /></div>
+    <div class="country-selector-wrapper">
+			<div class="heading-with-mike">
+    		<h3>{{ 'Select Your Location & Language'|t }}</h3>
+					<div class="buttons">
+						<button id="virtual-play" class="play">{{ 'Play'|t }}</button>
+						<button id="virtual-pause" class="pause">{{ 'Pause'|t }}</button>
+						<button id="virtual-resume" class="resume">{{ 'Resume'|t }}</button>
+					</div>
+				</div>
     <div class="virtual-content-wrapper">
+    	<div id="text">
         {% if form['#content'] is not empty %}
             {% if form['#content']['location_selection_title'] is not empty %}
                 <div class="virtual-title">
@@ -41,11 +45,13 @@
                     {{ form['#content']['location_selection_description']|raw }}
                 </div>
             {% endif %}
-                <div class="virtual-form">
-                    {{ form['domain'] }}
-                    {{ form['actions']['submit'] }}
-                </div>
+        </div>
+				<div class="virtual-form">
+						{{ form['domain'] }}
+						{{ form['actions']['submit'] }}
+				</div>
         {% endif %}
     </div>
+		</div>
 </div>
 
