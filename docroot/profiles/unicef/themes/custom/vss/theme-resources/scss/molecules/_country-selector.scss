@@ -10,23 +10,30 @@ form.location-form {
 	position: relative;
 	.heading-with-mike {
 		text-align: left;
+		display: flex;
 		h3 {
 			font-size: $base-font-big-size;
 			line-height: 28px;
 			font-weight: $base-footer-font-weight;
 			color: $base-black-color;
+			margin: 0;
 			opacity: .8;
-			@media screen and (min-width: 992px) {
+			@media screen and (min-width: 768px) {
 				font-size: 2.40em;
 				line-height: 48px;
 			}
 		}
 		.buttons {
-			bottom: 0;
-			right: 20px;
+			position: inherit;
+			margin: 5px 0 0 18px;
+			bottom: inherit;
+			right: inherit;
+			left: inherit;
+			@media screen and (min-width: 768px) {
+				margin: 16px 0 0 18px;
+			}
 			@media screen and (min-width: 992px) {
-				bottom: 5px;
-				right: 0;
+				margin: 10px 0 0 18px;
 			}
 		}
 		button {
@@ -120,5 +127,6 @@ form.location-form {
 .virtual-content-wrapper {
 	@media screen and (min-width: 992px) {
 		padding: 0 40px;
+		right: 8px;
 	}
 }

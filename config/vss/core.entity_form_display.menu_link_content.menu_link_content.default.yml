@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.menu_link_content.menu_link_content.field_discover_dropdown
     - field.field.menu_link_content.menu_link_content.field_icon
+    - field.field.menu_link_content.menu_link_content.field_taxonomy_term_id
     - image.style.thumbnail
   module:
     - image
@@ -17,20 +18,28 @@ bundle: menu_link_content
 mode: default
 content:
   field_discover_dropdown:
-    weight: 21
+    type: boolean_checkbox
+    weight: 5
+    region: content
     settings:
       display_label: true
     third_party_settings: {  }
-    type: boolean_checkbox
-    region: content
   field_icon:
+    type: image_image
     weight: 1
+    region: content
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-    type: image_image
+  field_taxonomy_term_id:
+    type: string_textfield
+    weight: 4
     region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   langcode:
     type: language_select
     weight: 2
@@ -47,8 +56,8 @@ content:
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 10
+    weight: 3
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden: {  }
