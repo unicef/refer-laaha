@@ -518,6 +518,12 @@ header {
   -webkit-mask: url("../images/org.svg") center center no-repeat;
   mask: url("../images/org.svg") center center no-repeat;
 }
+.dashboard .dashboard-link.user-link a::before {
+  background-color: #B49700;
+  content: "";
+  -webkit-mask: url("../images/user.svg") center center no-repeat;
+  mask: url("../images/user.svg") center center no-repeat;
+}
 
 .delete-screen .detail-row {
   display: -webkit-box;
@@ -929,6 +935,20 @@ header {
   border: 2px solid red;
 }
 
+.password-creation {
+  margin: 80px auto;
+  padding: 0 70px;
+  max-width: 240px;
+  width: 100%;
+}
+.password-creation .notify-messsage {
+  color: #444;
+  font-size: 1em;
+  line-height: 22px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
 .node-service-type-form label,
 .node-service-type-quick-node-clone-form label,
 .node-service-type-edit-form label {
@@ -1333,6 +1353,10 @@ div.color_field__swatch input[type=radio]:checked + label span {
 
 .view-organisations .views-field-title {
   padding: 5px 10px;
+}
+
+.icons-search-input {
+  border: 1px solid #F3C1BF !important;
 }
 
 body.path-user {
