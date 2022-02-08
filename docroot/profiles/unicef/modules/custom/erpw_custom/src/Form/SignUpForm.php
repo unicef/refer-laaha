@@ -278,7 +278,7 @@ class SignUpForm extends FormBase {
           ],
         ],
       ];
-    } 
+    }
     $form['location'] = [
       '#prefix' => '<div id="edit-location-details" class="card-shadow">',
       '#suffix' => '</div>',
@@ -620,7 +620,7 @@ class SignUpForm extends FormBase {
       $form_state->setErrorByName('location_options', $this->t('Please fill the required fileds'));
     }
   }
-  
+
   /**
    * @param array $form
    *   An associative array containing the structure of the form.
@@ -629,10 +629,10 @@ class SignUpForm extends FormBase {
    */
   public function pageOneBack(array &$form, FormStateInterface $form_state) {
     $form_state
-    ->setValues($form_state->get('page_values'))
-    ->set('page', 1)
-    ->setRebuild(TRUE);
-      
+      ->setValues($form_state->get('page_values'))
+      ->set('page', 1)
+      ->setRebuild(TRUE);
+
   }
 
   /**
@@ -771,9 +771,9 @@ class SignUpForm extends FormBase {
    */
   public function pageTwoBack(array &$form, FormStateInterface $form_state) {
     $form_state
-    ->setValues($form_state->get('page_two_values'))
-    ->set('page', 2)
-    ->setRebuild(TRUE);
+      ->setValues($form_state->get('page_two_values'))
+      ->set('page', 2)
+      ->setRebuild(TRUE);
   }
 
   /**
