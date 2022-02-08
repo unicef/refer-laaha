@@ -1,4 +1,4 @@
-uuid: 17e4560e-e5a2-4590-9592-a878a7792260
+uuid: e35fc4ea-68f4-4e47-a75d-fc0a39e55760
 langcode: en
 status: true
 dependencies:
@@ -7,15 +7,15 @@ dependencies:
     - system
   theme:
     - erpw
-id: userhomeblock
+id: selectuserlocation
 theme: erpw
 region: content
 weight: -5
 provider: null
-plugin: user_home_block
+plugin: select_user_location
 settings:
-  id: user_home_block
-  label: 'User Home Block'
+  id: select_user_location
+  label: 'Select User Location'
   label_display: '0'
   provider: erpw_location
 visibility:

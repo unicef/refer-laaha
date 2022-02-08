@@ -13,8 +13,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
  * Provides a block with a simple text.
  *
  * @Block(
- *   id = "user_home_block",
- *   admin_label = @Translation("User Home Block"),
+ *   id = "select_user_location",
+ *   admin_label = @Translation("Select User Location"),
  * )
  */
 class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface {
