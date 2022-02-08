@@ -34,9 +34,9 @@
   }
   return "";
 }
-const play = document.getElementById('play');
-const pause = document.getElementById('pause');
-const resume = document.getElementById('resume');
+const play = document.querySelector('.play');
+const pause = document.querySelector('.pause');
+const resume = document.querySelector('.resume');
 resume.hidden = true;
 pause.hidden = true;
 // add UI event handlers

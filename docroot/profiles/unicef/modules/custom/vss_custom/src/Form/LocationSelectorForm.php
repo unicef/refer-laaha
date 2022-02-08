@@ -87,6 +87,13 @@ class LocationSelectorForm extends FormBase {
     $form['#attached']['drupalSettings']['location_selector_landId'] = $lang_id;
     $form['#attached']['drupalSettings']['location_selector_narrate'] = $string;
     $form['#attached']['drupalSettings']['location_selector'] = TRUE;
+    $cookie_name = "player";
+    $cookie_langid = $lang_id;
+    $cookie_value = $string;
+    $cookie_voice = $voiceId;
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+    setcookie("voice", $cookie_voice, time() + (86400 * 30), "/");
+    setcookie("langid", $lang_id, time() + (86400 * 30), "/");
 
     $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
     foreach ($all_domains as $domain) {
@@ -155,7 +162,7 @@ class LocationSelectorForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Next'),
       '#button_type' => 'primary',
-      '#attributes' => ['class' => ['location-selector-btn']],
+      '#attributes' => ['class' => ['location-selector-btn pink-btn']],
     ];
 
     $form['#attached']['library'][] = 'vss_custom/geoip';
