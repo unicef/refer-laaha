@@ -675,6 +675,7 @@ class SignUpForm extends FormBase {
 
     if ($this->currentUser->id()) {
       $form['message-info'] = [
+        '#prefix' => '<div class="password-creation">',
         '#markup' => '<div class="notify-messsage">' . $this->t('How would you like to send the password creation link to the new user?') . '</div>',
       ];
       $form['submit'] = [
@@ -690,6 +691,7 @@ class SignUpForm extends FormBase {
           "wrapper" => "requestActivationMail",
           'event' => 'click',
         ],
+        '#suffix' => '</div>',
       ];
     }
     else {
