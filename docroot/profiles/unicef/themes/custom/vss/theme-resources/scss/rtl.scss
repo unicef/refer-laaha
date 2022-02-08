@@ -466,6 +466,7 @@ html[dir="rtl"] {
   form.location-form .select-wrapper:after {
     left: 0;
     right: inherit;
+    transform: rotate(180deg);
   }
   //search result page
   .search-content-image {
