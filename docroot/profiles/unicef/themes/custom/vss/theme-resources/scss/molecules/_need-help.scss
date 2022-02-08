@@ -36,47 +36,34 @@
 }
 
 .view-need-help-view {
-  .table {
-    th {
-      &::before {
-        background: url(/profiles/unicef/themes/custom/vss/images/minus.png) no-repeat center center;
-        content: "";
-        display: inline-block;
-        height: 20px;
-        margin-right: 4px;
-        vertical-align: text-bottom;
-        width: 20px;
+  .view-header {
+    margin-bottom: 20px;
+  }
+
+  .pagination {
+    >.active {
+      >a {
+        background-color: $base-primary-bgcolor;
+        border-color: $base-primary-bgcolor;
       }
     }
 
-    .views-field-field-service-provider-name {
-      &::before {
-        background: url('../images/organisation.png') no-repeat center 2px;
-      }
-
-      &+ .views-field-nothing {
-        &::before {
-          background: url('../images/address.png') no-repeat center 2px;
-        }
-      }
-    }
-
-    .views-field-field-email-id {
-      &::before {
-        background: url('../images/email.png') no-repeat center 2px;
-      }
-    }
-
-    .views-field-field-telephone-number {
-      &::before {
-        background: url('../images/telephone.png') no-repeat center 2px;
-      }
-
-      &+ .views-field-nothing {
-        &::before {
-          background: url('../images/social-media.png') no-repeat center 2px;
-        }
+    >li {
+      >a {
+        color: $base-black-color;
       }
     }
   }
+
+  .table {
+    caption {
+      font-size: 18px;
+    }
+  }
+}
+
+#block-needhelptitle {
+  margin-bottom: 32px;
+  padding: 15px;
+  text-align: center;
 }
