@@ -19,7 +19,7 @@
 
   // grab the UI elements to work with
 
-  function getCookie(cname) {
+  function getCookieValue(cname) {
   let name = cname + "=";
   let decodedCookie = decodeURIComponent(document.cookie);
   let ca = decodedCookie.split(';');
@@ -34,18 +34,18 @@
   }
   return "";
 }
-const play = document.getElementById('play');
-const pause = document.getElementById('pause');
-const resume = document.getElementById('resume');
+const play = document.querySelector('.play');
+const pause = document.querySelector('.pause');
+const resume = document.querySelector('.resume');
 resume.hidden = true;
 pause.hidden = true;
 // add UI event handlers
 play.addEventListener("click", () => {
-let player_cookies = getCookie("player");
-console.log(player_cookies);
-let voiceId = getCookie("voice");
-let langId = getCookie("langid");
-  var utterance = new SpeechSynthesisUtterance(player_cookies);
+let player_cookies = getCookieValue("player");
+let country_cookies = getCookieValue("country-selector");
+let voiceId = getCookieValue("voice");
+let langId = getCookieValue("langid");
+  var utterance = new SpeechSynthesisUtterance(player_cookies, country_cookies);
   if (langId == 'en-US') {
     langId = 'en-US';
     voiceId = 41;

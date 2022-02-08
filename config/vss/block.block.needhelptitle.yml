@@ -1,0 +1,30 @@
+uuid: 998f7bc3-6388-44bb-97a9-308f2f45e045
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:0b1ba97b-332f-4c68-b979-8bfab8952f16'
+  module:
+    - block_content
+    - system
+  theme:
+    - vss
+id: needhelptitle
+theme: vss
+region: breadcrumb
+weight: 0
+provider: null
+plugin: 'block_content:0b1ba97b-332f-4c68-b979-8bfab8952f16'
+settings:
+  id: 'block_content:0b1ba97b-332f-4c68-b979-8bfab8952f16'
+  label: 'Need Help title'
+  label_display: visible
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /need-help

@@ -518,6 +518,12 @@ header {
   -webkit-mask: url("../images/org.svg") center center no-repeat;
   mask: url("../images/org.svg") center center no-repeat;
 }
+.dashboard .dashboard-link.user-link a::before {
+  background-color: #B49700;
+  content: "";
+  -webkit-mask: url("../images/user.svg") center center no-repeat;
+  mask: url("../images/user.svg") center center no-repeat;
+}
 
 .delete-screen .detail-row {
   display: -webkit-box;
@@ -929,6 +935,20 @@ header {
   border: 2px solid red;
 }
 
+.password-creation {
+  margin: 80px auto;
+  padding: 0 70px;
+  max-width: 240px;
+  width: 100%;
+}
+.password-creation .notify-messsage {
+  color: #444;
+  font-size: 1em;
+  line-height: 22px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
 .node-service-type-form label,
 .node-service-type-quick-node-clone-form label,
 .node-service-type-edit-form label {
@@ -949,7 +969,7 @@ header {
   -webkit-box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
           box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
   border-radius: 10px;
-  margin: 45px 0;
+  margin: 45px 0 0;
 }
 .node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield label,
 .node-service-type-form .field--type-color-field-type .form-wrapper label,
@@ -1136,49 +1156,6 @@ header {
 .node-service-type-edit-form .color-field-widget-box-form .color_field_widget_box__square.active {
   border: 1px solid #A85766 !important;
 }
-.node-service-type-form .form-actions,
-.node-service-type-quick-node-clone-form .form-actions,
-.node-service-type-edit-form .form-actions {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-.node-service-type-form .form-actions [id^=edit-submit],
-.node-service-type-quick-node-clone-form .form-actions [id^=edit-submit],
-.node-service-type-edit-form .form-actions [id^=edit-submit] {
-  -webkit-box-ordinal-group: 3;
-      -ms-flex-order: 2;
-          order: 2;
-}
-.node-service-type-form .form-actions [id^=edit-preview],
-.node-service-type-form .form-actions [id^=edit-cancel],
-.node-service-type-quick-node-clone-form .form-actions [id^=edit-preview],
-.node-service-type-quick-node-clone-form .form-actions [id^=edit-cancel],
-.node-service-type-edit-form .form-actions [id^=edit-preview],
-.node-service-type-edit-form .form-actions [id^=edit-cancel] {
-  background: none;
-  border: 1px solid #A85766;
-  border-radius: 4px;
-  color: #A85766;
-  display: inline-block;
-  font-size: 0.875em;
-  margin: 0 15px 1em 0;
-  padding: 10px 24px;
-  -webkit-box-ordinal-group: 2;
-      -ms-flex-order: 1;
-          order: 1;
-  text-transform: uppercase;
-}
-.node-service-type-form .form-actions input[type=submit],
-.node-service-type-quick-node-clone-form .form-actions input[type=submit],
-.node-service-type-edit-form .form-actions input[type=submit] {
-  text-align: center;
-  padding: 10px 0;
-  width: 134px;
-}
 .node-service-type-form .color_field_widget_box__color,
 .node-service-type-quick-node-clone-form .color_field_widget_box__color,
 .node-service-type-edit-form .color_field_widget_box__color {
@@ -1324,8 +1301,62 @@ div.color_field__swatch input[type=radio]:checked + label span {
   font-size: 18px;
 }
 
+.node-service-type-form .form-actions,
+.node-service-type-quick-node-clone-form .form-actions,
+.node-service-type-edit-form .form-actions,
+.node-organisation-form .form-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 45px;
+}
+.node-service-type-form .form-actions [id^=edit-submit],
+.node-service-type-quick-node-clone-form .form-actions [id^=edit-submit],
+.node-service-type-edit-form .form-actions [id^=edit-submit],
+.node-organisation-form .form-actions [id^=edit-submit] {
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
+}
+.node-service-type-form .form-actions [id^=edit-preview],
+.node-service-type-form .form-actions [id^=edit-cancel],
+.node-service-type-quick-node-clone-form .form-actions [id^=edit-preview],
+.node-service-type-quick-node-clone-form .form-actions [id^=edit-cancel],
+.node-service-type-edit-form .form-actions [id^=edit-preview],
+.node-service-type-edit-form .form-actions [id^=edit-cancel],
+.node-organisation-form .form-actions [id^=edit-preview],
+.node-organisation-form .form-actions [id^=edit-cancel] {
+  background: none;
+  border: 1px solid #A85766;
+  border-radius: 4px;
+  color: #A85766;
+  display: inline-block;
+  font-size: 0.875em;
+  margin: 0 15px 1em 0;
+  padding: 10px 24px;
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
+  text-transform: uppercase;
+}
+.node-service-type-form .form-actions input[type=submit],
+.node-service-type-quick-node-clone-form .form-actions input[type=submit],
+.node-service-type-edit-form .form-actions input[type=submit],
+.node-organisation-form .form-actions input[type=submit] {
+  text-align: center;
+  padding: 10px 0;
+  width: 134px;
+}
+
 .view-organisations .views-field-title {
   padding: 5px 10px;
+}
+
+.icons-search-input {
+  border: 1px solid #F3C1BF !important;
 }
 
 body.path-user {

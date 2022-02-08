@@ -59,7 +59,8 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
    */
   public function build() {
     $build = [];
-    $is_amp = ($_SERVER['QUERY_STRING'] == 'amp') ? TRUE : FALSE;
+    $query_params = \Drupal::request()->query->all();
+    $is_amp = array_key_exists('amp', $query_params);
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $content = $this->vssCommonConfigDefault->getCategories();
     $count = 0;

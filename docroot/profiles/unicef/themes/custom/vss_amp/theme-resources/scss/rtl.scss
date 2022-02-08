@@ -208,7 +208,7 @@ html[dir="rtl"] {
       }
     }
 
-    #block-vss-amp-iraqnavigationheadermenu {
+    #block-iraqnavigationheadermenu {
       >ul {
         li {
           >div {
@@ -407,6 +407,78 @@ html[dir="rtl"] {
       }
     }
   }
+
+  //faq page and popular search
+  .subcat-name.right-arrow {
+    text-align: right;
+
+    &::after {
+      margin-left: 0;
+      margin-right: 15px;
+      transform: rotate(180deg);
+    }
+  }
+  .ques,
+  .ans {
+    margin-left: 10px;
+    margin-right: 0
+  }
+  .faq-item .faq-answer-wrapper .button-defult::after {
+    margin-left: 0;
+    margin-right: 14px;
+  }
+
+  //disclaimer
+  .popup-wrapper h2 {
+    padding: 40px 0 16px 40px;
+  }
+  .heading-with-mike .buttons {
+    left: 20px;
+    right: inherit;
+  }
+  .pop-up-btn.right-arrow {
+    &::after {
+      margin-left: 0;
+      margin-right: 15px;
+      vertical-align: text-bottom;
+      transform: rotate(180deg);
+    }
+  }
+  //country selector 
+  .pink-btn  {
+    &::after {
+      margin-left: 0;
+      margin-right: 15px;
+      vertical-align: text-bottom;
+      transform: rotate(180deg);
+    }
+  }
+  .path-country-selector .heading-with-mike {
+    text-align: right;
+  }
+  .virtual-main-title::before {
+    margin-right: 0;
+    margin-left: 12px;
+  }
+  form.location-form .select-wrapper:after {
+    left: 0;
+    right: inherit;
+  }
+  //search result page
+  .search-content-image {
+    margin-right: 0;
+    margin-left: 20px;
+  }
+  .pager__item {
+		a::after {
+      margin-left: 0;
+      margin-right: 10px;
+    }
+  }
+  .search-content-cat .cat-title {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 
@@ -525,8 +597,8 @@ html[dir="rtl"] {
   html[dir="rtl"] {
     .region-header {
 
-      #block-vss-amp-iraqnavigationheadermenu,
-      #block-vss-amp-navigationheadermenu {
+      #block-iraqnavigationheadermenu,
+      #block-navigationheadermenu {
         >ul {
           li {
             margin-right: 0px;
