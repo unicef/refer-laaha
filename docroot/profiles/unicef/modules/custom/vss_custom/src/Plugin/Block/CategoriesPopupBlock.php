@@ -40,6 +40,7 @@ class CategoriesPopupBlock extends BlockBase implements ContainerFactoryPluginIn
     $instance->languageManager = $container->get('language_manager');
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->aliaspath = $container->get('path_alias.manager');
+    $instance->domain = $container->get('domain.negotiator');
     return $instance;
   }
 
@@ -52,8 +53,12 @@ class CategoriesPopupBlock extends BlockBase implements ContainerFactoryPluginIn
     $content = $this->vssCommonConfigDefault->getCategories()['homepage_hero'];
     foreach ($content as $k => $v) {
       if ($v != 0) {
-        $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($k);
-        if ($term->hasTranslation($langcode)) {
+        $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+          'tid' => $k,
+          'field_domain' => $this->domain->getActiveDomain()->id(),
+        ]);
+        $term = !empty($terms) ? reset($terms) : FALSE;
+        if ($term->hasTranslation($langcode) || $term->get('langcode')->value == $langcode) {
           $term = $term->getTranslation($langcode);
         }
         $name = $term->label();

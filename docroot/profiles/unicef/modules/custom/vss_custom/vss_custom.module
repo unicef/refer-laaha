@@ -154,6 +154,7 @@ function vss_custom_preprocess_links__language_block(&$variables) {
  */
 function vss_custom_taxonomy_term_presave($term) {
   if ($term->get('vid')->target_id == 'categories' && empty($term->get('field_sub_category')->value)) {
+    $term->get('domain_access')->target_id = $term->get('field_domain')->target_id;
 
     if (isset($term->get('path')->alias) && !empty($term->get('path')->alias)) {
       $path = 'internal:' . $term->get('path')->alias;
@@ -181,7 +182,7 @@ function vss_custom_taxonomy_term_presave($term) {
         'title' => $name,
         'link' => ['uri' => $path],
         'menu_name' => strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu',
-        'langcode' => strpos($term->get('field_domain')->target_id, "iq") ? 'ar' : 'en',
+        'langcode' => 'en',
         'weight' => $term->get('weight')->value,
         'expanded' => FALSE,
         'field_icon' => [
@@ -191,12 +192,6 @@ function vss_custom_taxonomy_term_presave($term) {
         'parent' => 'menu_link_content:' . $uuid,
       ]);
       $menu_link->save();
-
-      if (strpos($term->get('field_domain')->target_id, "iq")) {
-        if (!$term->hasTranslation('ar')) {
-          $term->langcode->value = 'ar';
-        }
-      }
     }
     else {
       $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $name]);
@@ -219,12 +214,8 @@ function vss_custom_taxonomy_term_presave($term) {
     }
   }
   if ($term->get('vid')->target_id == 'categories' && $term->get('field_sub_category')->value == 1) {
-    if (strpos($term->get('field_domain')->target_id, "iq")) {
-      if (!$term->hasTranslation('ar')) {
-        $term->langcode->value = 'ar';
-      }
-    }
     $term->get('parent')->target_id = $term->get('field_category_reference')->target_id;
+    $term->get('domain_access')->target_id = $term->get('field_domain')->target_id;
   }
 }
 
@@ -972,9 +963,9 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
         $lang_select[$langcode] = $language->getName();
       }
     }
-
+    $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $lang_def = \Drupal::request()->query->get('language_content_entity');
-    $default_lang = $lang_def ? $lang_def : $lang_default;
+    $default_lang = $lang_def ? $lang_def : $langcode;
     $form['language'] = [
       '#title' => t('Language'),
       '#type' => 'select',
@@ -992,10 +983,9 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
     ];
     foreach ($form['terms'] as $key => &$term) {
       if (is_array($term) && !empty($term['#term'])) {
-        if (($active_domain != $term['#term']->field_domain->target_id)) {
+        if (($active_domain != $term['#term']->field_domain->target_id) || ($term['#term']->langcode->value != $default_lang && !$term['#term']->hasTranslation($default_lang))) {
           unset($form['terms'][$key]);
         }
-        $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
         $tid = $term['#term']->tid->value;
         $domain_id = $term['#term']->field_domain->target_id;
         $lang = $term['#term']->langcode->value;
