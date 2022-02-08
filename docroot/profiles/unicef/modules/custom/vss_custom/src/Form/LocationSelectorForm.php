@@ -155,7 +155,7 @@ class LocationSelectorForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Next'),
       '#button_type' => 'primary',
-      '#attributes' => ['class' => ['location-selector-btn']],
+      '#attributes' => ['class' => ['location-selector-btn pink-btn']],
     ];
 
     $form['#attached']['library'][] = 'vss_custom/geoip';

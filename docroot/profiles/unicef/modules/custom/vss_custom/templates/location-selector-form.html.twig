@@ -18,17 +18,21 @@
     'location-selector-block'
 ] %}
 {{ attach_library('vss_custom/location_selector') }}
+
 <div{{ attributes.addClass(classes) }}>
-    <div class="wrapper">
-    <div id="text"></div>
-        <div class="buttons">
-        <button id="virtual-play" class="play">{{ 'Play'|t }}</button>
-        <button id="virtual-pause" class="pause">{{ 'Pause'|t }}</button>
-        <button id="virtual-resume" class="resume">{{ 'Resume'|t }}</button>
-        </div>
-    </div>
-   <div class="virtual-main-title">{{ 'Virtual Safe Space'|t }}</div>
-    <div class="virtual-image-wrapper"></div>
+<div class="virtual-main-title">{{ 'Virtual Safe Space'|t }}</div>
+<div class="country-selector-image">
+<img src="/{{ base_path ~ directory }}/images/country-selector.png" alt='Country selector' /></div>
+    <div class="country-selector-wrapper">
+			<div class="heading-with-mike">
+    		<h3>{{ 'Select Your Location & Language'|t }}</h3>
+					<div class="buttons">
+						<button id="virtual-play" class="play">{{ 'Play'|t }}</button>
+						<button id="virtual-pause" class="pause">{{ 'Pause'|t }}</button>
+						<button id="virtual-resume" class="resume">{{ 'Resume'|t }}</button>
+					</div>
+				</div>
+    <div id="text">{{ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Commodo aliquet mauris mattis praesent egestas nibh ac ut. Molestie tellus auctor ipsum pulvinar cras'|t }} </div>
     <div class="virtual-content-wrapper">
         {% if form['#content'] is not empty %}
             {% if form['#content']['location_selection_title'] is not empty %}
@@ -47,5 +51,6 @@
                 </div>
         {% endif %}
     </div>
+		</div>
 </div>
 

@@ -418,7 +418,6 @@ html[dir="rtl"] {
       transform: rotate(180deg);
     }
   }
-  
   .ques,
   .ans {
     margin-left: 10px;
@@ -434,7 +433,7 @@ html[dir="rtl"] {
     padding: 40px 0 16px 40px;
   }
   .heading-with-mike .buttons {
-    left: 0;
+    left: 20px;
     right: inherit;
   }
   .pop-up-btn.right-arrow {
@@ -444,6 +443,26 @@ html[dir="rtl"] {
       vertical-align: text-bottom;
       transform: rotate(180deg);
     }
+  }
+  //country selector 
+  .pink-btn  {
+    &::after {
+      margin-left: 0;
+      margin-right: 15px;
+      vertical-align: text-bottom;
+      transform: rotate(180deg);
+    }
+  }
+  .path-country-selector .heading-with-mike {
+    text-align: right;
+  }
+  .virtual-main-title::before {
+    margin-right: 0;
+    margin-left: 12px;
+  }
+  form.location-form .select-wrapper:after {
+    left: 0;
+    right: inherit;
   }
   //search result page
   .search-content-image {
