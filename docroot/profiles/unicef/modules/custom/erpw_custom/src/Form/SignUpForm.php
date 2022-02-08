@@ -622,10 +622,7 @@ class SignUpForm extends FormBase {
   }
 
   /**
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
+   * {@inheritdoc}
    */
   public function pageOneBack(array &$form, FormStateInterface $form_state) {
     $form_state
@@ -764,10 +761,7 @@ class SignUpForm extends FormBase {
   }
 
   /**
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
+   * {@inheritdoc}
    */
   public function pageTwoBack(array &$form, FormStateInterface $form_state) {
     $form_state
