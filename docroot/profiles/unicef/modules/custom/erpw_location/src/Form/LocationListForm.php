@@ -12,6 +12,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\erpw_location\LocationService;
 
 /**
  * Class LocationListForm.
@@ -40,6 +41,13 @@ class LocationListForm extends FormBase {
   protected $formBuilder;
 
   /**
+   * A LocationService instance.
+   *
+   * @var Drupal\erpw_location\LocationService
+   */
+  protected $locationService;
+
+  /**
    * {@inheritdoc}
    */
   public function getFormId() {
@@ -49,12 +57,18 @@ class LocationListForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(Connection $database, EntityTypeManagerInterface $entityTypeManager, AccountProxyInterface $current_user, MessengerInterface $messenger, FormBuilderInterface $form_builder) {
+  public function __construct(Connection $database,
+  EntityTypeManagerInterface $entityTypeManager,
+  AccountProxyInterface $current_user,
+  MessengerInterface $messenger,
+  FormBuilderInterface $form_builder,
+  LocationService $location_service) {
     $this->database = $database;
     $this->entityTypeManager = $entityTypeManager;
     $this->currentUser = $current_user;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
+    $this->locationService = $location_service;
   }
 
   /**
@@ -66,27 +80,29 @@ class LocationListForm extends FormBase {
       $container->get('entity_type.manager'),
       $container->get('current_user'),
       $container->get('messenger'),
-      $container->get('form_builder')
+      $container->get('form_builder'),
+      $container->get('erpw_location.location_services')
     );
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
     $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
     $location_options = [];
     foreach ($location_entities as $location) {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
     }
-
+    asort($location_options);
     if (!empty($location_entities)) {
       $form['location_options'] = [
         '#type' => 'select',
         '#options' => $location_options,
         '#empty_option' => t('Select Country'),
         '#title' => $this->t('Country'),
+        '#default_value' => $id,
         '#required' => TRUE,
         '#weight' => -109,
         '#ajax' => [

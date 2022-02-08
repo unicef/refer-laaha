@@ -1,0 +1,30 @@
+uuid: b4b728a0-3c13-49ba-87af-a23c4fc0e1cf
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:user_home_content:c887bae4-151c-4f6e-8f18-221afd91fcdf'
+  module:
+    - block_content
+    - system
+  theme:
+    - erpw
+id: thisisforfrontpagecontent
+theme: erpw
+region: content
+weight: -6
+provider: null
+plugin: 'block_content:c887bae4-151c-4f6e-8f18-221afd91fcdf'
+settings:
+  id: 'block_content:c887bae4-151c-4f6e-8f18-221afd91fcdf'
+  label: 'This is For Front Page Content'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

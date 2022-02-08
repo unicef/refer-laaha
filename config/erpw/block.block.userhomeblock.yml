@@ -1,0 +1,25 @@
+uuid: 17e4560e-e5a2-4590-9592-a878a7792260
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_location
+    - system
+  theme:
+    - erpw
+id: userhomeblock
+theme: erpw
+region: content
+weight: -5
+provider: null
+plugin: user_home_block
+settings:
+  id: user_home_block
+  label: 'User Home Block'
+  label_display: '0'
+  provider: erpw_location
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'
