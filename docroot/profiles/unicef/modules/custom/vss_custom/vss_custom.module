@@ -192,11 +192,6 @@ if (!$link->hasTranslation($term->get('langcode')->value)) {
   $link->addTranslation($term->get('langcode')->value, ['title' => $name])->save();
 }
 else {
-<< << <<< HEAD
-
-=======
-          
->>>>>>> aa36dfa4e7317ed79c4b9c0f20eabe212e34a191
           $link->title->value = $name;
           $link->expanded = TRUE;
           $link->field_taxonomy_term_id = $term->id();
