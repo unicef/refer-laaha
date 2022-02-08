@@ -2600,37 +2600,37 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   right: 8px; }
 
 .path-country-selector {
-  background: url("../images/container.png") top 15px left 0 no-repeat, url("../images/container-2.png") bottom 400px center no-repeat #FFF5F6; }
+  background: url("../images/container.png") top left 0 no-repeat, url("../images/container-2.png") bottom -50px left no-repeat #FFF5F6; }
   @media (min-width: 1200px) {
     .path-country-selector .container {
       width: 1273px; } }
-  .path-country-selector .heading-with-mike {
+
+form.location-form {
+  position: relative; }
+  form.location-form .heading-with-mike {
     text-align: left; }
-    .path-country-selector .heading-with-mike h3 {
+    form.location-form .heading-with-mike h3 {
       font-size: 1.28em;
       line-height: 28px;
       font-weight: 400;
       color: #000;
       opacity: .8; }
       @media screen and (min-width: 992px) {
-        .path-country-selector .heading-with-mike h3 {
+        form.location-form .heading-with-mike h3 {
           font-size: 2.40em;
           line-height: 48px; } }
-    .path-country-selector .heading-with-mike .buttons {
+    form.location-form .heading-with-mike .buttons {
       bottom: 0;
       right: 20px; }
       @media screen and (min-width: 992px) {
-        .path-country-selector .heading-with-mike .buttons {
+        form.location-form .heading-with-mike .buttons {
           bottom: 5px;
           right: 0; } }
     @media screen and (min-width: 992px) {
-      .path-country-selector .heading-with-mike button {
+      form.location-form .heading-with-mike button {
         background: url("../images/sound-icon.svg") 0 0 no-repeat !important;
         height: 35px !important;
         width: 35px !important; } }
-
-form.location-form {
-  position: relative; }
   form.location-form .location-selector-block {
     padding: 180px 0 160px; }
     @media screen and (min-width: 992px) {
