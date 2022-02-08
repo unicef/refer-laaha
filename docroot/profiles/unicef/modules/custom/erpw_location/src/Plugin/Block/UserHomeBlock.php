@@ -87,8 +87,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
    * {@inheritdoc}
    */
   public function build() {
-    $current_user = $this->currentUser->id();
-    $user = $this->entityManager->getStorage('user')->load($current_user);
+    $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
     $tid = $user->field_location_details->value;
     $tid_array = explode(",", $tid);
     $location = '';
@@ -111,5 +110,4 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
       '#cache' => ['max-age' => 0],
     ];
   }
-
 }
