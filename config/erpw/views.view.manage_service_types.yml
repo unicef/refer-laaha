@@ -6,7 +6,8 @@ dependencies:
     - field.storage.node.field_service_type_color
     - field.storage.node.field_service_type_icon
     - node.type.service_type
-    - user.role.authenticated
+    - user.role.administrator
+    - user.role.super_admin
   module:
     - color_field
     - content_translation
@@ -581,7 +582,8 @@ display:
         type: role
         options:
           role:
-            authenticated: authenticated
+            super_admin: super_admin
+            administrator: administrator
       cache:
         type: tag
         options: {  }

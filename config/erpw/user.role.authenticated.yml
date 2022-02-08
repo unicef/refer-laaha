@@ -4,15 +4,10 @@ status: true
 dependencies:
   config:
     - filter.format.basic_html
-    - node.type.organisation
-    - node.type.service_type
   module:
     - comment
     - contact
-    - content_translation
     - filter
-    - node
-    - quick_node_clone
     - search
     - shortcut
     - system
@@ -27,15 +22,7 @@ permissions:
   - 'access content'
   - 'access shortcuts'
   - 'access site-wide contact form'
-  - 'clone service_type content'
-  - 'create organisation content'
-  - 'create service_type content'
-  - 'delete any service_type content'
-  - 'delete own service_type content'
-  - 'edit any service_type content'
-  - 'edit own service_type content'
   - 'post comments'
   - 'search content'
   - 'skip comment approval'
-  - 'translate service_type node'
   - 'use text format basic_html'
