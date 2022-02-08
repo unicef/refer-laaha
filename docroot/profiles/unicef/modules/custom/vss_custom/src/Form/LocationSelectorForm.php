@@ -87,7 +87,7 @@ class LocationSelectorForm extends FormBase {
     $form['#attached']['drupalSettings']['location_selector_landId'] = $lang_id;
     $form['#attached']['drupalSettings']['location_selector_narrate'] = $string;
     $form['#attached']['drupalSettings']['location_selector'] = TRUE;
-    $cookie_name = "player";
+    $cookie_name = "select_language";
     $cookie_langid = $lang_id;
     $cookie_value = $string;
     $cookie_voice = $voiceId;
