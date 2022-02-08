@@ -15,7 +15,6 @@ dependencies:
     - field.storage.node.field_telephone_number
     - field.storage.node.field_twitter
     - search_api.index.acquia_search_index
-    - views.view.need_help_title
   module:
     - search_api
     - text
@@ -944,7 +943,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{% if field_facebook %}\r\n<a href =\"{{ field_facebook }}\">FB</a>\r\n{% endif %}\r\n&nbsp;\r\n{% if field_twitter %}\r\n<a href =\"{{ field_twitter }}\">TW</a>\r\n{% endif %}\r\n&nbsp;\r\n{% if field_linkedin %}\r\n<a href =\"{{ field_linkedin }}\">LI</a>\r\n{% endif %}"
+            text: "{% if field_facebook %}\r\n<a href =\"{{ field_facebook }}\"><i class=\"fab fa-facebook-square\"></i></a>\r\n{% endif %}\r\n&nbsp;\r\n{% if field_twitter %}\r\n<a href =\"{{ field_twitter }}\"><i class=\"fab fa-twitter\"></i></a>\r\n{% endif %}\r\n&nbsp;\r\n{% if field_linkedin %}\r\n<a href =\"{{ field_linkedin }}\"><i class=\"fab fa-linkedin\"></i></a>\r\n{% endif %}"
             make_link: false
             path: ''
             absolute: false
@@ -1370,17 +1369,6 @@ display:
       use_more_always: false
       use_more_text: 'Load More'
       header:
-        view:
-          id: view
-          table: views
-          field: view
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: view
-          empty: false
-          view_to_insert: 'need_help_title:block_1'
-          inherit_arguments: false
         area_text_custom:
           id: area_text_custom
           table: views

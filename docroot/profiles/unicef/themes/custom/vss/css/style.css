@@ -3656,29 +3656,23 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   .block-facet-blocktitle1 li label {
     margin-bottom: 0; }
 
-.view-need-help-view .table th::before {
-  background: url(/profiles/unicef/themes/custom/vss/images/minus.png) no-repeat center center;
-  content: "";
-  display: inline-block;
-  height: 20px;
-  margin-right: 4px;
-  vertical-align: text-bottom;
-  width: 20px; }
+.view-need-help-view .view-header {
+  margin-bottom: 20px; }
 
-.view-need-help-view .table .views-field-field-service-provider-name::before {
-  background: url("../images/organisation.png") no-repeat center 2px; }
+.view-need-help-view .pagination > .active > a {
+  background-color: #FFCDD2;
+  border-color: #FFCDD2; }
 
-.view-need-help-view .table .views-field-field-service-provider-name + .views-field-nothing::before {
-  background: url("../images/address.png") no-repeat center 2px; }
+.view-need-help-view .pagination > li > a {
+  color: #000; }
 
-.view-need-help-view .table .views-field-field-email-id::before {
-  background: url("../images/email.png") no-repeat center 2px; }
+.view-need-help-view .table caption {
+  font-size: 18px; }
 
-.view-need-help-view .table .views-field-field-telephone-number::before {
-  background: url("../images/telephone.png") no-repeat center 2px; }
-
-.view-need-help-view .table .views-field-field-telephone-number + .views-field-nothing::before {
-  background: url("../images/social-media.png") no-repeat center 2px; }
+#block-needhelptitle {
+  margin-bottom: 32px;
+  padding: 15px;
+  text-align: center; }
 
 .paragraph--type--wysiwyg-editor .about-us__top body,
 .paragraph--type--wysiwyg-editor .about-us__top h2,
