@@ -32,8 +32,8 @@
 						<button id="virtual-resume" class="resume">{{ 'Resume'|t }}</button>
 					</div>
 				</div>
-    <div id="text">{{ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Commodo aliquet mauris mattis praesent egestas nibh ac ut. Molestie tellus auctor ipsum pulvinar cras'|t }} </div>
     <div class="virtual-content-wrapper">
+    	<div id="text">
         {% if form['#content'] is not empty %}
             {% if form['#content']['location_selection_title'] is not empty %}
                 <div class="virtual-title">
@@ -45,10 +45,11 @@
                     {{ form['#content']['location_selection_description']|raw }}
                 </div>
             {% endif %}
-                <div class="virtual-form">
-                    {{ form['domain'] }}
-                    {{ form['actions']['submit'] }}
-                </div>
+        </div>
+				<div class="virtual-form">
+						{{ form['domain'] }}
+						{{ form['actions']['submit'] }}
+				</div>
         {% endif %}
     </div>
 		</div>
