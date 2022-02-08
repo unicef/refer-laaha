@@ -5,21 +5,21 @@
  * Contains vss_custom.module.
  */
 
+use Drupal\Core\Url;
+use Drupal\Core\Link;
+use Drupal\file\Entity\File;
+use Drupal\node\Entity\Node;
+use Drupal\user\Entity\User;
 use Drupal\Core\Render\Markup;
 use Drupal\node\NodeInterface;
-use Drupal\menu_link_content\Entity\MenuLinkContent;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\paragraphs\Entity\Paragraph;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
-use Drupal\Core\Entity\EntityInterface;
+use Drupal\views\ViewExecutable;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\AlertCommand;
-use Drupal\user\Entity\User;
-use Drupal\file\Entity\File;
-use Drupal\views\ViewExecutable;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
-use Drupal\node\Entity\Node;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -257,6 +257,12 @@ function vss_custom_send_invite(&$form, FormStateInterface $form_state) {
  * Use form alter.
  */
 function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id) {
+  // Turn off autocomplete on user the forms.
+  if ($form_id == 'user_login_form') {
+    $form['name']['#attributes']['autocomplete'] = 'off';
+    $form['pass']['#attributes']['autocomplete'] = 'off';
+  }
+
   if ($form_id == 'taxonomy_term_categories_form') {
     $form['description']['widget'][0]['#required'] = 'true';
     $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
