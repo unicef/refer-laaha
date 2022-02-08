@@ -538,7 +538,7 @@ class SignUpForm extends FormBase {
       }
     }
     else {
-      $level_2_options_final = $childs;
+      $level_2_options_final = $level_2_options;
     }
     $form['location']['all_wrapper']['location_level']['level_3']['#empty_option'] = $this->t("Select Level 3 Label");
     $form['location']['all_wrapper']['location_level']['level_4']['#options'] = [];
