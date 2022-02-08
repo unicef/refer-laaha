@@ -110,4 +110,5 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
       '#cache' => ['max-age' => 0],
     ];
   }
+
 }
