@@ -5,22 +5,7 @@
  * Contains vss_custom.module.
  */
 
-use Drupal\Core\Url;
-use Drupal\Core\Link;
-use Drupal\file\Entity\File;
-use Drupal\node\Entity\Node;
-use Drupal\user\Entity\User;
-use Drupal\Core\Render\Markup;
-use Drupal\node\NodeInterface;
-use Drupal\views\ViewExecutable;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\AlertCommand;
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\paragraphs\Entity\Paragraph;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
-use Drupal\views\Plugin\views\query\QueryPluginBase;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_theme().
@@ -153,60 +138,61 @@ function vss_custom_preprocess_links__language_block(&$variables) {
  * Use taxonomy presave to create new menu.
  */
 function vss_custom_taxonomy_term_presave($term) {
-  if ($term->get('vid')->target_id == 'categories' && empty($term->get('field_sub_category')->value)) {
+if ($term->get('vid')->target_id == 'categories' && empty($term->get('field_sub_category')->value)) {
 
-    if (isset($term->get('path')->alias) && !empty($term->get('path')->alias)) {
-      $path = 'internal:' . $term->get('path')->alias;
-    }
-    else {
-      $path = 'internal:/' . str_replace(' ', '-', strtolower($term->get('name')->value));
-    }
+if (isset($term->get('path')->alias) && !empty($term->get('path')->alias)) {
+  $path = 'internal:' . $term->get('path')->alias;
 
-    if (isset($term->get('field_category_short_name')->value) && !empty($term->get('field_category_short_name')->value)) {
-      $name = $term->get('field_category_short_name')->value;
-    }
-    else {
-      $name = $term->get('name')->value;
-    }
+}
+else {
+  $path = 'internal:/' . str_replace(' ', '-', strtolower($term->get('name')->value));
+}
 
-    if ($term->isNew()) {
-      $menu_name = strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu';
-      $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(
-      ['field_discover_dropdown' => 1, 'menu_name' => $menu_name]);
-      if ($link = reset($links)) {
-        $uuid = $link->get('uuid')->value;
-      }
+if (isset($term->get('field_category_short_name')->value) && !empty($term->get('field_category_short_name')->value)) {
+  $name = $term->get('field_category_short_name')->value;
+}
+else {
+  $name = $term->get('name')->value;
+}
 
-      $menu_link = MenuLinkContent::create([
-        'title' => $name,
-        'link' => ['uri' => $path],
-        'menu_name' => strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu',
-        'langcode' => strpos($term->get('field_domain')->target_id, "iq") ? 'ar' : 'en',
-        'weight' => $term->get('weight')->value,
-        'expanded' => FALSE,
-        'field_taxonomy_term_id' => $term->id(),
-        'field_icon' => [
-          'target_id' => $term->get('field_icon')->target_id,
-          'alt' => $term->get('field_icon')->alt,
-        ],
-        'parent' => 'menu_link_content:' . $uuid,
-      ]);
-      $menu_link->save();
+if ($term->isNew()) {
+  $menu_name = strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu';
+  $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(
+  ['field_discover_dropdown' => 1, 'menu_name' => $menu_name]);
+  if ($link = reset($links)) {
+    $uuid = $link->get('uuid')->value;
+  }
 
-      if (strpos($term->get('field_domain')->target_id, "iq")) {
-        if (!$term->hasTranslation('ar')) {
-          $term->langcode->value = 'ar';
-        }
-      }
+  $menu_link = MenuLinkContent::create([
+    'title' => $name,
+    'link' => ['uri' => $path],
+    'menu_name' => strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu',
+    'langcode' => strpos($term->get('field_domain')->target_id, "iq") ? 'ar' : 'en',
+    'weight' => $term->get('weight')->value,
+    'expanded' => FALSE,
+    'field_taxonomy_term_id' => $term->id(),
+    'field_icon' => [
+      'target_id' => $term->get('field_icon')->target_id,
+      'alt' => $term->get('field_icon')->alt,
+    ],
+    'parent' => 'menu_link_content:' . $uuid,
+  ]);
+  $menu_link->save();
+
+  if (strpos($term->get('field_domain')->target_id, "iq")) {
+    if (!$term->hasTranslation('ar')) {
+      $term->langcode->value = 'ar';
     }
-    else {
-      $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['field_taxonomy_term_id' => $term->id()]);
-      if ($link = reset($links)) {
-        if (!$link->hasTranslation($term->get('langcode')->value)) {
-          $link->addTranslation($term->get('langcode')->value, ['title' => $name])->save();
-        }
-        else {
-<<<<<<< HEAD
+  }
+}
+else {
+$links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['field_taxonomy_term_id' => $term->id()]);
+if ($link = reset($links)) {
+if (!$link->hasTranslation($term->get('langcode')->value)) {
+  $link->addTranslation($term->get('langcode')->value, ['title' => $name])->save();
+}
+else {
+<< << <<< HEAD
 
 =======
           
