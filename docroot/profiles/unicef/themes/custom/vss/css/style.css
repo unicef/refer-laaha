@@ -1676,7 +1676,9 @@ html[dir="rtl"] .virtual-main-title::before {
 
 html[dir="rtl"] form.location-form .select-wrapper:after {
   left: 0;
-  right: inherit; }
+  right: inherit;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg); }
 
 html[dir="rtl"] .search-content-image {
   margin-right: 0;
@@ -2722,7 +2724,8 @@ form.location-form {
 
 @media screen and (min-width: 992px) {
   .virtual-content-wrapper {
-    padding: 0 40px; } }
+    padding: 0 40px;
+    right: 8px; } }
 
 .faq-item {
   -webkit-box-shadow: 0px 0.8px 1.5px rgba(0, 0, 0, 0.2), 0px 6px 12px rgba(0, 0, 0, 0.1);
@@ -3021,37 +3024,65 @@ form.location-form {
 
 .block-facet-blockcity,
 .block-facet-blockservice-provider-name,
-.block-facet-blockservice-provider-name {
+.block-facet-blocktitle1 {
   background-color: #FFCDD2;
-  margin-bottom: 48px; }
+  margin-bottom: 48px;
+  padding: 5px 10px; }
   .block-facet-blockcity .block-title,
   .block-facet-blockservice-provider-name .block-title,
-  .block-facet-blockservice-provider-name .block-title {
+  .block-facet-blocktitle1 .block-title {
     font-size: 16px;
     font-weight: 500;
     line-height: 1.3;
-    margin: 10px 0; }
+    margin: 0 0 10px; }
   .block-facet-blockcity ul,
   .block-facet-blockservice-provider-name ul,
-  .block-facet-blockservice-provider-name ul {
+  .block-facet-blocktitle1 ul {
     list-style: none;
     padding-left: 0; }
   .block-facet-blockcity li.facet-item,
   .block-facet-blockservice-provider-name li.facet-item,
-  .block-facet-blockservice-provider-name li.facet-item {
+  .block-facet-blocktitle1 li.facet-item {
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     margin-bottom: 5px; }
   .block-facet-blockcity li input[type=checkbox],
   .block-facet-blockservice-provider-name li input[type=checkbox],
-  .block-facet-blockservice-provider-name li input[type=checkbox] {
+  .block-facet-blocktitle1 li input[type=checkbox] {
     margin-right: 6px;
     margin-top: 0; }
-  .block-facet-blockcity li .label,
-  .block-facet-blockservice-provider-name li .label,
-  .block-facet-blockservice-provider-name li .label {
+  .block-facet-blockcity li label,
+  .block-facet-blockservice-provider-name li label,
+  .block-facet-blocktitle1 li label {
     margin-bottom: 0; }
+
+.view-need-help-view .table th::before {
+  background: url(/profiles/unicef/themes/custom/vss/images/minus.png) no-repeat center center;
+  content: "";
+  display: inline-block;
+  height: 20px;
+  margin-right: 4px;
+  vertical-align: text-bottom;
+  width: 20px; }
+
+.view-need-help-view .table .views-field-field-service-provider-name::before {
+  background: url("../images/organisation.png") no-repeat center 2px; }
+
+.view-need-help-view .table .views-field-field-service-provider-name + .views-field-nothing::before {
+  background: url("../images/address.png") no-repeat center 2px; }
+
+.view-need-help-view .table .views-field-field-email-id::before {
+  background: url("../images/email.png") no-repeat center 2px; }
+
+.view-need-help-view .table .views-field-field-telephone-number::before {
+  background: url("../images/telephone.png") no-repeat center 2px; }
+
+.view-need-help-view .table .views-field-field-telephone-number + .views-field-nothing::before {
+  background: url("../images/social-media.png") no-repeat center 2px; }
 
 .paragraph--type--wysiwyg-editor .about-us__top body,
 .paragraph--type--wysiwyg-editor .about-us__top h2,

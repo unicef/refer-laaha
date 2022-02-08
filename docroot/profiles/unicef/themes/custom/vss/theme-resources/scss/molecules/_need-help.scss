@@ -1,14 +1,15 @@
 .block-facet-blockcity,
 .block-facet-blockservice-provider-name,
-.block-facet-blockservice-provider-name {
+.block-facet-blocktitle1  {
   background-color: $base-primary-bgcolor;
   margin-bottom: 48px;
+  padding: 5px 10px;
 
   .block-title {
     font-size: 16px;
     font-weight: 500;
     line-height: 1.3;
-    margin: 10px 0;
+    margin: 0 0 10px;
   }
 
   ul {
@@ -18,6 +19,7 @@
 
   li {
     &.facet-item {
+      align-items: center;
       display: flex;
       margin-bottom: 5px;
     }
@@ -27,8 +29,54 @@
       margin-top: 0;
     }
 
-    .label {
+    label {
       margin-bottom: 0;
+    }
+  }
+}
+
+.view-need-help-view {
+  .table {
+    th {
+      &::before {
+        background: url(/profiles/unicef/themes/custom/vss/images/minus.png) no-repeat center center;
+        content: "";
+        display: inline-block;
+        height: 20px;
+        margin-right: 4px;
+        vertical-align: text-bottom;
+        width: 20px;
+      }
+    }
+
+    .views-field-field-service-provider-name {
+      &::before {
+        background: url('../images/organisation.png') no-repeat center 2px;
+      }
+
+      &+ .views-field-nothing {
+        &::before {
+          background: url('../images/address.png') no-repeat center 2px;
+        }
+      }
+    }
+
+    .views-field-field-email-id {
+      &::before {
+        background: url('../images/email.png') no-repeat center 2px;
+      }
+    }
+
+    .views-field-field-telephone-number {
+      &::before {
+        background: url('../images/telephone.png') no-repeat center 2px;
+      }
+
+      &+ .views-field-nothing {
+        &::before {
+          background: url('../images/social-media.png') no-repeat center 2px;
+        }
+      }
     }
   }
 }

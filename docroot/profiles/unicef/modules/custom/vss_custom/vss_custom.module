@@ -184,6 +184,7 @@ function vss_custom_taxonomy_term_presave($term) {
         'langcode' => strpos($term->get('field_domain')->target_id, "iq") ? 'ar' : 'en',
         'weight' => $term->get('weight')->value,
         'expanded' => FALSE,
+        'field_taxonomy_term_id' => $term->id(),
         'field_icon' => [
           'target_id' => $term->get('field_icon')->target_id,
           'alt' => $term->get('field_icon')->alt,
@@ -199,7 +200,7 @@ function vss_custom_taxonomy_term_presave($term) {
       }
     }
     else {
-      $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $name]);
+      $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['field_taxonomy_term_id' => $term->id()]);
       if ($link = reset($links)) {
         if (!$link->hasTranslation($term->get('langcode')->value)) {
           $link->addTranslation($term->get('langcode')->value, ['title' => $name])->save();
@@ -207,6 +208,7 @@ function vss_custom_taxonomy_term_presave($term) {
         else {
           $link->title->value = $name;
           $link->expanded = TRUE;
+          $link->field_taxonomy_term_id = $term->id();
           $link->link->uri = $path;
           $link->langcode->value = $term->get('langcode')->value;
           $link->weight->value = $term->get('weight')->value;
@@ -233,7 +235,7 @@ function vss_custom_taxonomy_term_presave($term) {
  */
 function vss_custom_taxonomy_term_delete($term) {
   if ($term->get('vid')->target_id == 'categories') {
-    $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $term->get('name')->value]);
+    $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['field_taxonomy_term_id' => $term->id()]);
     if ($link = reset($links)) {
       $link->delete();
     }
