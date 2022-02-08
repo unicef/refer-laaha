@@ -453,8 +453,11 @@ html[dir="rtl"] {
       transform: rotate(180deg);
     }
   }
-  .path-country-selector .heading-with-mike {
+  form.location-form .heading-with-mike {
     text-align: right;
+    .buttons {
+      margin: 10px 18px 0 0;
+    }
   }
   .virtual-main-title::before {
     margin-right: 0;

@@ -42,9 +42,10 @@ pause.hidden = true;
 // add UI event handlers
 play.addEventListener("click", () => {
 let player_cookies = getCookieValue("player");
+let country_cookies = getCookieValue("country-selector");
 let voiceId = getCookieValue("voice");
 let langId = getCookieValue("langid");
-  var utterance = new SpeechSynthesisUtterance(player_cookies);
+  var utterance = new SpeechSynthesisUtterance(player_cookies, country_cookies);
   if (langId == 'en-US') {
     langId = 'en-US';
     voiceId = 41;
