@@ -134,6 +134,10 @@ class LocationSelectorForm extends FormBase {
           $lang_select[$langcode] = $language->getName();
         }
       }
+      $default_lang = NULL;
+      if (array_key_exists('en', $lang_select)) {
+        $default_lang = 'en';
+      }
     }
 
     $form['domain']['language'] = [
