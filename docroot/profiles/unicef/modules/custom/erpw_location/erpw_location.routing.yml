@@ -47,3 +47,10 @@ erpw_location.view_location:
     _title: 'Location Details'
   requirements:
     _permission: 'access content'
+erpw_location.user_location:
+  path: '/user-location/{id}'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\UserLocationForm'
+    _title: 'Location'
+  requirements:
+    _permission: 'access content'
