@@ -40,6 +40,7 @@ class SubCategoryHeroBlock extends BlockBase implements ContainerFactoryPluginIn
     $instance->routeMatch = $container->get('current_route_match');
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->aliaspath = $container->get('path_alias.manager');
+    $instance->domain = $container->get('domain.negotiator');
     return $instance;
   }
 
@@ -51,9 +52,13 @@ class SubCategoryHeroBlock extends BlockBase implements ContainerFactoryPluginIn
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     if ($this->routeMatch->getRouteName() == 'entity.taxonomy_term.canonical') {
       $term_id = $this->routeMatch->getRawParameter('taxonomy_term');
-      $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($term_id);
+      $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+        'tid' => $term_id,
+        'field_domain' => $this->domain->getActiveDomain()->id(),
+      ]);
+      $term = !empty($terms) ? reset($terms) : FALSE;
       if ($term->get('field_sub_category')->value == 1) {
-        if ($term->hasTranslation($langcode)) {
+        if ($term->hasTranslation($langcode) || $term->get('langcode')->value == $langcode) {
           $term = $term->getTranslation($langcode);
         }
         $nid = $term->get('field_hero_content')->target_id;

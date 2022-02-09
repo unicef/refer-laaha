@@ -154,6 +154,7 @@ function vss_custom_preprocess_links__language_block(&$variables) {
  */
 function vss_custom_taxonomy_term_presave($term) {
   if ($term->get('vid')->target_id == 'categories' && empty($term->get('field_sub_category')->value)) {
+    $term->get('domain_access')->target_id = $term->get('field_domain')->target_id;
 
     if (isset($term->get('path')->alias) && !empty($term->get('path')->alias)) {
       $path = 'internal:' . $term->get('path')->alias;
@@ -181,7 +182,7 @@ function vss_custom_taxonomy_term_presave($term) {
         'title' => $name,
         'link' => ['uri' => $path],
         'menu_name' => strpos($term->get('field_domain')->target_id, "iq") ? 'iraq-navigation-header-menu' : 'navigation-header-menu',
-        'langcode' => strpos($term->get('field_domain')->target_id, "iq") ? 'ar' : 'en',
+        'langcode' => 'en',
         'weight' => $term->get('weight')->value,
         'expanded' => FALSE,
         'field_taxonomy_term_id' => $term->id(),
@@ -192,12 +193,6 @@ function vss_custom_taxonomy_term_presave($term) {
         'parent' => 'menu_link_content:' . $uuid,
       ]);
       $menu_link->save();
-
-      if (strpos($term->get('field_domain')->target_id, "iq")) {
-        if (!$term->hasTranslation('ar')) {
-          $term->langcode->value = 'ar';
-        }
-      }
     }
     else {
       $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['field_taxonomy_term_id' => $term->id()]);
@@ -221,12 +216,8 @@ function vss_custom_taxonomy_term_presave($term) {
     }
   }
   if ($term->get('vid')->target_id == 'categories' && $term->get('field_sub_category')->value == 1) {
-    if (strpos($term->get('field_domain')->target_id, "iq")) {
-      if (!$term->hasTranslation('ar')) {
-        $term->langcode->value = 'ar';
-      }
-    }
     $term->get('parent')->target_id = $term->get('field_category_reference')->target_id;
+    $term->get('domain_access')->target_id = $term->get('field_domain')->target_id;
   }
 }
 
@@ -980,9 +971,9 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
         $lang_select[$langcode] = $language->getName();
       }
     }
-
+    $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $lang_def = \Drupal::request()->query->get('language_content_entity');
-    $default_lang = $lang_def ? $lang_def : $lang_default;
+    $default_lang = $lang_def ? $lang_def : $langcode;
     $form['language'] = [
       '#title' => t('Language'),
       '#type' => 'select',
@@ -1000,10 +991,9 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
     ];
     foreach ($form['terms'] as $key => &$term) {
       if (is_array($term) && !empty($term['#term'])) {
-        if (($active_domain != $term['#term']->field_domain->target_id)) {
+        if (($active_domain != $term['#term']->field_domain->target_id) || ($term['#term']->langcode->value != $default_lang && !$term['#term']->hasTranslation($default_lang))) {
           unset($form['terms'][$key]);
         }
-        $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
         $tid = $term['#term']->tid->value;
         $domain_id = $term['#term']->field_domain->target_id;
         $lang = $term['#term']->langcode->value;
@@ -1049,6 +1039,31 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
     array_slice($form['terms']['#header'], 1, NULL, TRUE));
 
     \Drupal::messenger()->deleteByType('error');
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($active_domain);
+    $lang = \Drupal::configFactory()->get('domain.language.' . $domain->id() . '.language.negotiation');
+    $languages = \Drupal::languageManager()->getLanguages();
+    foreach ($languages as $langcode => $language) {
+      $lang_select[$langcode] = $language->getName();
+    }
+    $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $lang_def = \Drupal::request()->query->get('language_content_entity');
+    $default_lang = $lang_def ? $lang_def : $langcode;
+    $form['language'] = [
+      '#title' => t('Language'),
+      '#type' => 'select',
+      '#weight' => -10,
+      '#options' => $lang_select,
+      '#default_value' => $default_lang,
+    ];
+
+    $form['filter_submit'] = [
+      '#type' => 'submit',
+      '#value' => t('Apply'),
+      '#weight' => -9,
+      '#button_type' => 'primary',
+      '#submit' => ['filter_tags_submit'],
+    ];
     $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
     foreach ($all_domains as $domain) {
       $domain_status = $domain->get('status');
@@ -1060,6 +1075,9 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
     }
     foreach ($form['terms'] as $key => &$term) {
       if (is_array($term) && !empty($term['#term'])) {
+        if (($term['#term']->langcode->value != $default_lang && !$term['#term']->hasTranslation($default_lang))) {
+          unset($form['terms'][$key]);
+        }
         $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
         $tid = $term['#term']->tid->value;
         $lang = $term['#term']->langcode->value;
@@ -1070,7 +1088,7 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
           }
         }
         $trm = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
-        if ($trm->langcode->value != $langcode && $trm->hasTranslation($langcode)) {
+        if ($trm->langcode->value != $default_lang && $trm->hasTranslation($default_lang)) {
           $title = $trm->name->value;
         }
         else {
@@ -1096,10 +1114,19 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
 }
 
 /**
- * Submit Password.
+ * Submit categories.
  */
 function filter_submit(&$form, FormStateInterface $form_state) {
   $country = $form_state->getValue('language');
   $response = new RedirectResponse("/admin/structure/taxonomy/manage/categories/overview?language_content_entity=$country");
+  $response->send();
+}
+
+/**
+ * Submit tags.
+ */
+function filter_tags_submit(&$form, FormStateInterface $form_state) {
+  $country = $form_state->getValue('language');
+  $response = new RedirectResponse("/admin/structure/taxonomy/manage/tags/overview?language_content_entity=$country");
   $response->send();
 }
