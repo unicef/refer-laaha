@@ -450,14 +450,23 @@ class SignUpForm extends FormBase {
     $form['actions'] = [
       '#type' => 'actions',
     ];
+    $form['action-wrapper'] = [
+      '#prefix' => '<div id="form-actions">',
+      '#suffix' => '</div>',
+    ];
     if (!empty($form_state->getValue('location_options'))) {
-      $form['location']['all_wrapper']['actions']['back'] = [
+      $form['action-wrapper']['actions']['back'] = [
         '#type' => 'submit',
         '#value' => $this->t('Back'),
+        '#attributes' => [
+          'class' => [
+            'button-border',
+          ],
+        ],
         '#submit' => ['::pageOneBack'],
         '#limit_validation_errors' => [],
       ];
-      $form['location']['all_wrapper']['actions']['next'] = [
+      $form['action-wrapper']['actions']['next'] = [
         '#type' => 'submit',
         '#button_type' => 'primary',
         '#value' => $this->t('Next'),
@@ -608,6 +617,7 @@ class SignUpForm extends FormBase {
     unset($form['location']['all_wrapper']['location_level']['level_3']);
     unset($form['location']['all_wrapper']['location_level']['level_4']);
     $response->addCommand(new HtmlCommand('#edit-location-details', $form['location']['all_wrapper']));
+    $response->addCommand(new HtmlCommand('#form-actions', $form['action-wrapper']['actions']));
     return $response;
 
   }
@@ -636,7 +646,6 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitPageTwo(array &$form, FormStateInterface $form_state) {
-    // kint($form_state);exit;
     $location_tid = '';
     if (!empty($form_state->getValue('level_4'))) {
       $location_tid = $form_state->getValue('level_4');
