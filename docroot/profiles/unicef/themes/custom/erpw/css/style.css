@@ -225,6 +225,33 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   opacity: 1;
 }
 
+.table-format {
+  overflow-x: scroll;
+}
+.table-format table {
+  border: 1px solid #F3C1BF;
+  border-radius: 5px;
+  border-collapse: collapse;
+  width: 100%;
+}
+.table-format table thead {
+  color: #A85766;
+  text-align: left;
+}
+.table-format table thead th {
+  border-bottom: 1px solid #F3C1BF;
+}
+.table-format table td,
+.table-format table th {
+  padding: 10px;
+}
+.table-format table .dropbutton-widget {
+  border: 0 !important;
+}
+.table-format table a {
+  color: #A85766;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
@@ -937,9 +964,7 @@ header {
 
 .password-creation {
   margin: 80px auto;
-  padding: 0 70px;
   max-width: 240px;
-  width: 100%;
 }
 .password-creation .notify-messsage {
   color: #444;
