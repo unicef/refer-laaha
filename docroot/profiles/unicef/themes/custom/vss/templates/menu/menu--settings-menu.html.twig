@@ -23,7 +23,7 @@
 
 <div class="search-box">
   {% if lang != 'en' %}
-    <img class="searchbox-icon use-ajax" data-dialog-type="modal" href="{{lang}}/search-modal/modal" src="/{{ base_path ~ directory }}/images/search.png" />
+    <img class="searchbox-icon use-ajax" data-dialog-type="modal" href="/{{lang}}/search-modal/modal" src="/{{ base_path ~ directory }}/images/search.png" />
   {% else %}
   <img class="searchbox-icon use-ajax" data-dialog-type="modal" href="/search-modal/modal" src="/{{ base_path ~ directory }}/images/search.png" />
 {% endif %}
