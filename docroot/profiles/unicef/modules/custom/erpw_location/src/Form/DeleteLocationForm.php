@@ -3,19 +3,19 @@
 namespace Drupal\erpw_location\Form;
 
 use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Logger\LoggerChannelFactory;
-use Drupal\Core\Database\Connection;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Path\CurrentPathStack;
 use Drupal\taxonomy\Entity\Term;
-use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Path\CurrentPathStack;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\erpw_location\LocationService;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * ModalForm class.
@@ -79,13 +79,13 @@ class DeleteLocationForm extends FormBase {
    *   Logger object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   EntityManager object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
    *   The form_builder service.
-   * @param Drupal\Core\Path\CurrentPathStack $currentPathStack
+   * @param Drupal\Core\Path\CurrentPathStack $current_path_stack
    *   The location service.
    * @param \Drupal\erpw_location\LocationService $location_service
    *   The location service.
@@ -94,18 +94,19 @@ class DeleteLocationForm extends FormBase {
    */
   public function __construct(LoggerChannelFactory $logger,
     Connection $connection,
-    EntityTypeManagerInterface $entityTypeManager,
+    EntityTypeManagerInterface $entity_type_manager,
     MessengerInterface $messenger,
     FormBuilderInterface $form_builder,
-    CurrentPathStack $currentPathStack,
+    CurrentPathStack $current_path_stack,
     LocationService $location_service,
     UrlGeneratorInterface $url_generator) {
+
     $this->logger = $logger;
     $this->connection = $connection;
-    $this->entityTypeManager = $entityTypeManager;
+    $this->entityTypeManager = $entity_type_manager;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
-    $this->currentPathStack = $currentPathStack;
+    $this->currentPathStack = $current_path_stack;
     $this->locationService = $location_service;
     $this->urlGenerator = $url_generator;
   }
@@ -137,7 +138,10 @@ class DeleteLocationForm extends FormBase {
     $ancestors = array_reverse(array_keys($ancestors));
     $country_term_name = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[0])->get('name')->value;
     $country_label = $this->t('Country name');
-    $country_name .= '<div class="detail-row"><div class="label-text">' . $country_label . " *: " . '</div>' . '<span>' . $country_term_name . '</span></div>';
+    $country_name .= '<div class="detail-row">
+      <div class="label-text">' . $country_label . " *: " . '</div>' . '<span>' . $country_term_name . '</span>
+    </div>';
+
     // Get location entity id.
     $query = $this->entityTypeManager->getStorage('location')->getQuery();
     $query->condition('status', 1);
@@ -153,7 +157,9 @@ class DeleteLocationForm extends FormBase {
     foreach ($location_levels as $key => $level) {
       $level_term = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
       $level_data_name = $level_term->get('name')->value;
-      $location_details .= '<div class="detail-row"><div class="label-text">' . $level . " *: " . '</div>' . '<span>' . $level_data_name . '</span></div>';
+      $location_details .= '<div class="detail-row">
+        <div class="label-text">' . $level . " *: " . '</div>' . '<span>' . $level_data_name . '</span>
+      </div>';
     }
     $form['tid'] = [
       '#type' => 'hidden',
@@ -173,15 +179,16 @@ class DeleteLocationForm extends FormBase {
         ['id' => $curr_path[2], 'mode' => 'view']
       );
 
-      $location_operations = '<div class="edit-delete-links margin-space"> 
-      <span class="clone-service-type"><a href="' . $clone_url . '">' . $this->t('Clone') . '</a></span>
-      <span class="delete-link"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>
-      <span class="edit-link"><a href="' . $edit_url . '">' . $this->t('Edit') . '</a></span>
+      $location_operations = '<div class="edit-delete-links margin-space">
+        <span class="clone-service-type"><a href="' . $clone_url . '">' . $this->t('Clone') . '</a></span>
+        <span class="delete-link"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>
+        <span class="edit-link"><a href="' . $edit_url . '">' . $this->t('Edit') . '</a></span>
       </div>';
       $form['location_list']['location_' . $curr_path[2]] = [
         '#type' => 'markup',
         '#markup' => '<div class="location-card"><div class="title-with-icons">
-        <div class="location-operations">' . $location_operations . '</div></div></div> ',
+          <div class="location-operations">' . $location_operations .
+        '</div></div></div> ',
       ];
     }
     $form['location_values1'] = [
@@ -211,9 +218,12 @@ class DeleteLocationForm extends FormBase {
           'event' => 'click',
         ],
       ];
+      $msg_note = $this->t('This action cannot be reversed !
+        Please note that deleting a location will remove any mapping it
+        has with existing referral pathways and Service providers of application');
       $form['msg_note'] = [
         '#type' => 'markup',
-        '#markup' => '<div class="msg-note">' . $this->t('This action cannot be reversed ! Please note that deleting a location will remove any mapping it has with existing referral pathways and Service providers of application ') . '</div>',
+        '#markup' => '<div class="msg-note">' . $msg_note . '</div>',
       ];
     }
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';

@@ -78,7 +78,9 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
           }
         }
         foreach ($child_terms as $k => $child) {
-          if ($child->get('field_domain')->target_id == $this->domain->getActiveDomain()->id() && ($child->hasTranslation($langcode) || $child->get('langcode')->value == $langcode)) {
+          if ($child->get('field_domain')->target_id == $this->domain->getActiveDomain()->id() &&
+            ($child->hasTranslation($langcode) || $child->get('langcode')->value == $langcode)
+          ) {
             if ($child->hasTranslation($langcode)) {
               $child = $child->getTranslation($langcode);
             }
@@ -123,7 +125,9 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
         $cat_details['cat_name'] = '';
         $cat_details['cat_icon'] = '';
         foreach ($child_terms1 as $child) {
-          if ($child->get('field_domain')->target_id == $this->domain->getActiveDomain()->id() && ($child->hasTranslation($langcode) || $child->get('langcode')->value == $langcode)) {
+          if ($child->get('field_domain')->target_id == $this->domain->getActiveDomain()->id() &&
+            ($child->hasTranslation($langcode) || $child->get('langcode')->value == $langcode)
+          ) {
             if ($child->hasTranslation($langcode)) {
               $child = $child->getTranslation($langcode);
             }
@@ -135,7 +139,9 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
                 $file_url = $file->getFileUri();
                 $subcat_details[$subcat_tid]['sub_category_thumbnail'] = str_replace('public://', 'sites/default/files/', $file_url);
               }
-              $subcat_details[$subcat_tid]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $child->get('tid')->value), '/');
+              $subcat_details[$subcat_tid]['url'] = ltrim(
+                $this->aliaspath->getAliasByPath('/taxonomy/term/' . $child->get('tid')->value), '/'
+              );
             }
           }
         }

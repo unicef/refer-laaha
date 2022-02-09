@@ -2,9 +2,9 @@
 
 namespace Drupal\unicef_iconpicker\Plugin\Field\FieldWidget;
 
-use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 
 /**
  * Plugin implementation of the 'unicef_iconpicker' widget.
@@ -49,7 +49,8 @@ class UnicefIconpicker extends WidgetBase {
       '#type' => 'textfield',
       '#title' => $this->t('Placeholder'),
       '#default_value' => $this->getSetting('placeholder'),
-      '#description' => $this->t('Text that will be shown inside the field until a value is entered. This hint is usually a sample value or a brief description of the expected format.'),
+      '#description' => $this->t('Text that will be shown inside the field until a value is entered.
+        This hint is usually a sample value or a brief description of the expected format.'),
     ];
 
     return $elements;

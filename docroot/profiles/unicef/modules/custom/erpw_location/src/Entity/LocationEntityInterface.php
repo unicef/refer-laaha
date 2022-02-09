@@ -2,18 +2,23 @@
 
 namespace Drupal\erpw_location\Entity;
 
-use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\user\EntityOwnerInterface;
 use Drupal\Core\Entity\RevisionLogInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\Core\Entity\EntityPublishedInterface;
-use Drupal\user\EntityOwnerInterface;
 
 /**
  * Provides an interface for defining Location Entity entities.
  *
  * @ingroup erpw_location
  */
-interface LocationEntityInterface extends ContentEntityInterface, RevisionLogInterface, EntityChangedInterface, EntityPublishedInterface, EntityOwnerInterface {
+interface LocationEntityInterface extends
+    ContentEntityInterface,
+    RevisionLogInterface,
+    EntityChangedInterface,
+    EntityPublishedInterface,
+    EntityOwnerInterface {
 
   /**
    * Add get/set methods for your configuration properties here.

@@ -2,14 +2,14 @@
 
 namespace Drupal\erpw_location\Form;
 
-use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Url;
 
 /**
  * Class LocationListForm.
@@ -40,9 +40,15 @@ class UserLocationForm extends LocationListForm {
   /**
    * {@inheritdoc}
    */
-  public function __construct(Connection $database, EntityTypeManagerInterface $entityTypeManager, AccountInterface $current_user, MessengerInterface $messenger, FormBuilderInterface $form_builder) {
+  public function __construct(
+    Connection $database,
+    EntityTypeManagerInterface $entity_type_manager,
+    AccountInterface $current_user,
+    MessengerInterface $messenger,
+    FormBuilderInterface $form_builder) {
+
     $this->database = $database;
-    $this->entityTypeManager = $entityTypeManager;
+    $this->entityTypeManager = $entity_type_manager;
     $this->currentUser = $current_user;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
@@ -73,7 +79,9 @@ class UserLocationForm extends LocationListForm {
    */
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
     if (!empty($id)) {
-      $location_entity = $this->entityTypeManager->getStorage('location')->loadByProperties(['field_location_taxonomy_term' => $id]);
+      $location_entity = $this->entityTypeManager->getStorage('location')->loadByProperties(
+        ['field_location_taxonomy_term' => $id]
+      );
       foreach ($location_entity as $location) {
         $id = $location->Id();
       }

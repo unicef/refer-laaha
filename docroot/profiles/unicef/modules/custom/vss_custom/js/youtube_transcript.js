@@ -1,7 +1,7 @@
 
-this.vss=this.vss||{};
+var vss = this.vss||{};
 
-this.vss.youtube = function() {
+vss.youtube = function() {
 	var hrefPrefix = "https://video.google.com/timedtext?v=";
 	var transcriptIdPrefix = "videoTranscript";
 	var transcriptArr = [];
@@ -9,9 +9,9 @@ this.vss.youtube = function() {
 
 	function transcript(transcriptId, language = "en", name)
 	{
-		var transcriptId = transcriptId;
+		let transcriptId = transcriptId;
 		var videoId = transcriptId.split(transcriptIdPrefix)[1];
-		
+
 		var href = hrefPrefix + videoId;
 		if(language != "")
 		{
@@ -23,7 +23,7 @@ this.vss.youtube = function() {
 
 		//Timeout for next caption
 		var captionTimeout = null;
-		
+
 		var captions = null;
 
 		//Keep track of which captions we are showing
@@ -36,8 +36,8 @@ this.vss.youtube = function() {
 			'onReady': onPlayerReady,
 			'onStateChange': onPlayerStateChange
 		  }
-  	    });	
-		
+  	    });
+
 		var findCaptionIndexFromTimestamp = function(timeStamp)
 		{
 			var start = 0;
@@ -45,18 +45,18 @@ this.vss.youtube = function() {
 			for (var i = 0, il = captions.length; i < il; i++) {
 				start = Number(getStartTimeFromCaption(i));
 				duration = Number(getDurationFromCaption(i));
-	
+
 				//Return the first caption if the timeStamp is smaller than the first caption start time.
 				if(timeStamp < start)
 				{
 					break;
 				}
-	
+
 				//Check if the timestamp is in the interval of this caption.
 				if((timeStamp >= start) && (timeStamp < (start + duration)))
 				{
 					break;
-				}        
+				}
 			}
 			return i;
 		}
@@ -88,11 +88,11 @@ this.vss.youtube = function() {
 			{
 				return;
 			}
-			
+
 			clearTimeout(captionTimeout);
-			
+
 			var transcript = this;
-			
+
 			captionTimeout = setTimeout(function() {
 				transcript.highlightCaptionAndPrepareForNext();
 			}, timeoutValue*1000)
@@ -106,7 +106,7 @@ this.vss.youtube = function() {
 			}
 			return captions[i].getAttribute('start');
 		}
-		var getDurationFromCaption = function(i) 
+		var getDurationFromCaption = function(i)
 		{
 			if(i >= captions.length)
 			{
@@ -137,13 +137,13 @@ this.vss.youtube = function() {
 
 			var currentTime = this.player.getCurrentTime();
 			var timeoutValue = calculateTimeout(currentTime);
-		
-			if(nextCaptionIndex <= captions.length)			
+
+			if(nextCaptionIndex <= captions.length)
 			{
 				this.setCaptionTimeout(timeoutValue);
 			}
 		}
-		
+
 		//Called if the user has dragged the slider to somewhere in the video.
 		this.highlightCaptionFromTimestamp = function(timeStamp)
 		{
@@ -153,7 +153,7 @@ this.vss.youtube = function() {
 
 			var startTime = Number(getStartTimeFromCaption(currentCaptionIndex));
 
-			var timeoutValue = -1;		
+			var timeoutValue = -1;
 			if(timeStamp < startTime)
 			{
 				timeoutValue = startTime - currentTime;
@@ -164,21 +164,21 @@ this.vss.youtube = function() {
 				timeoutValue = calculateTimeout(currentTime);
 			}
 			this.setCaptionTimeout(timeoutValue);
-		}   
+		}
 
-		this.transcriptLoaded = function(transcript) {
+	this.transcriptLoaded = function(transcript) {
 			var start = 0;
 			captions = transcript.getElementsByTagName('text');
 			var srt_output = "";//"<div class='btnSeek' id='btnSeek' data-seek='0'>0:00</div>";
 
 			for (var i = 0, il = captions.length; i < il; i++) {
-				start =+ getStartTimeFromCaption(i);
+				start += getStartTimeFromCaption(i);
 				var totalTimeInSeconds = start * 60;
 				let result = new Date(null, null, null, null, null, totalTimeInSeconds);
-			
+
 				var timeInMMSS = result.toTimeString().split(' ')[0];//.substring(3);
 
-				captionText = captions[i].textContent.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+				let captionText = captions[i].textContent.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 				var timestampId = getTimeIdFromTimestampIndex(i);
 				srt_output += "<div class='btnSeek' data-seek='" + start + "' id='" + timestampId + "'><span>" + timeInMMSS + "</span> " + captionText + "</div>";
 			};
@@ -186,7 +186,7 @@ this.vss.youtube = function() {
 			jQuery("#videoTranscript" + videoId).append(srt_output);
 			captionsLoaded = true;
 		}
-		
+
 		this.getTranscriptId = function()
 		{
 			return transcriptId;
@@ -195,7 +195,7 @@ this.vss.youtube = function() {
 		{
 			return videoId;
 		}
-		
+
 		this.getTranscript = function()
 		{
 			var oTranscript = this;
@@ -210,17 +210,17 @@ this.vss.youtube = function() {
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					console.log("Error during GET");
 				}
-			});           
+			});
 		}
-		
+
 		this.playerPlaying = function()
 		{
 			if(!captionsLoaded)
 			{
 				return;
-			}	
-			
-		    currentTime = this.player.getCurrentTime();
+			}
+
+		  let currentTime = this.player.getCurrentTime();
 			console.log(this.player.getOptions('captions'));
 			this.player.setOption('captions', 'track', { 'languageCode' : language });
 		    this.highlightCaptionFromTimestamp(currentTime);
@@ -230,7 +230,7 @@ this.vss.youtube = function() {
 			if(!captionsLoaded)
 			{
 				return;
-			}	
+			}
 			clearTimeout(captionTimeout);
 		}
 	}
@@ -245,8 +245,8 @@ this.vss.youtube = function() {
 		});
 	});
 
-	//These functions must be global as YouTube API will call them. 
-	var previousOnYouTubePlayerAPIReady = window.onYouTubePlayerAPIReady; 
+	//These functions must be global as YouTube API will call them.
+	var previousOnYouTubePlayerAPIReady = window.onYouTubePlayerAPIReady;
 	window.onYouTubePlayerAPIReady = function() {
 		if(previousOnYouTubePlayerAPIReady)
 		{
@@ -278,7 +278,7 @@ this.vss.youtube = function() {
 	return {
 		getTranscriptFromTranscriptId(transcriptId)
 		{
-			for (index = 0; index < transcriptArr.length; ++index) {
+			for (let index = 0; index < transcriptArr.length; ++index) {
 				if(transcriptArr[index].getTranscriptId() == transcriptId)
 				{
 					return transcriptArr[index];
@@ -296,7 +296,7 @@ this.vss.youtube = function() {
 			}
 			return null;
 	    },
-	    
+
 		APIReady : function ()
 		{
 			if(!initialized)
@@ -314,7 +314,7 @@ this.vss.youtube = function() {
 		init : function ()
 		{
 			this.APIReady();
-		}		
+		}
 	}
 
 }();
