@@ -758,8 +758,8 @@ body .absoluteclass {
     .featured-stories .featured_stories_block .four-slice a {
       max-width: 242px;
       height: auto; }
-    @media screen and (min-width: 1024px) {
-      .featured-stories .featured_stories_block .four-slice {
+    @media only screen and (min-width: 786px) {
+      .featured-stories .featured_stories_block .four-slice a {
         display: block; } }
     .featured-stories .featured_stories_block a {
       color: #030303; }
