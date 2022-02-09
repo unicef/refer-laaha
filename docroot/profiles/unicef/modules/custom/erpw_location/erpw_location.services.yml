@@ -5,4 +5,4 @@ services:
 
   erpw_location.location_build_form:
     class: Drupal\erpw_location\Form\LocationListForm
-    arguments: ['@database', '@entity_type.manager','@current_user', '@messenger', '@form_builder']
+    arguments: ['@database', '@entity_type.manager','@current_user', '@messenger', '@form_builder', '@erpw_location.location_services']
