@@ -7,7 +7,6 @@ dependencies:
     - field.field.menu_link_content.menu_link_content.field_icon
     - field.field.menu_link_content.menu_link_content.field_taxonomy_term_id
   module:
-    - amp
     - image
     - link
     - menu_link_content
@@ -26,13 +25,6 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  field_taxonomy_term_id:
-    type: amp_iframe
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 8
-    region: content
   link:
     type: link
     label: hidden
@@ -50,6 +42,7 @@ hidden:
   enabled: true
   expanded: true
   field_discover_dropdown: true
+  field_taxonomy_term_id: true
   langcode: true
   search_api_excerpt: true
   title: true

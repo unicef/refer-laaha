@@ -111,7 +111,7 @@
       }
 
       // Redirect user to Language selector screen.
-      let countryLocationCookie = getCookie('country-selector');
+      let countryLocationCookie = getCookie('country-location-selector');
       if (countryLocationCookie !== "TRUE" && window.location.pathname !== "/country-selector" && window.location.pathname !== "/user/login") {
         window.location.href = "/country-selector";
       }
