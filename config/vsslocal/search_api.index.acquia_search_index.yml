@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.body
     - field.storage.node.field_city
     - field.storage.node.field_description
+    - field.storage.node.field_domain_access
     - field.storage.node.field_priority
     - field.storage.node.field_service_provider_name
     - field.storage.node.field_sub_category
@@ -101,6 +102,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_description
+  field_domain_access:
+    label: 'Domain Access'
+    datasource_id: 'entity:node'
+    property_path: field_domain_access
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_domain_access
   field_icon:
     label: 'Sub Category » Taxonomy term » Term Parents » Taxonomy term » Icon'
     datasource_id: 'entity:node'
@@ -231,12 +240,14 @@ processor_settings:
     weights:
       preprocess_query: -30
   entity_status: {  }
+  entity_type: {  }
   highlight:
     weights:
       postprocess_query: 0
     prefix: '<strong>'
     suffix: '</strong>'
     excerpt: true
+    excerpt_always: false
     excerpt_length: 400
     exclude_fields:
       - title
@@ -252,6 +263,7 @@ processor_settings:
       - field_category_color
       - field_city
       - field_description
+      - field_domain_access
       - field_service_provider_name
       - name
       - name_1
