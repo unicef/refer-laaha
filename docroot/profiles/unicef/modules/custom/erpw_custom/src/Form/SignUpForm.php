@@ -538,7 +538,7 @@ class SignUpForm extends FormBase {
       }
     }
     else {
-      $level_2_options_final = $childs;
+      $level_2_options_final = $level_2_options;
     }
     $form['location']['all_wrapper']['location_level']['level_3']['#empty_option'] = $this->t("Select Level 3 Label");
     $form['location']['all_wrapper']['location_level']['level_4']['#options'] = [];
@@ -675,6 +675,7 @@ class SignUpForm extends FormBase {
 
     if ($this->currentUser->id()) {
       $form['message-info'] = [
+        '#prefix' => '<div class="password-creation">',
         '#markup' => '<div class="notify-messsage">' . $this->t('How would you like to send the password creation link to the new user?') . '</div>',
       ];
       $form['submit'] = [
@@ -690,6 +691,7 @@ class SignUpForm extends FormBase {
           "wrapper" => "requestActivationMail",
           'event' => 'click',
         ],
+        '#suffix' => '</div>',
       ];
     }
     else {

@@ -33,13 +33,15 @@
 
         $('#edit-submit-search').hide();
         $('.ui-dialog-buttonpane').hide();
+        $('.ui-dialog-buttonset').hide();
 
           var end = new Date(); 
           var difference = (end - start) / 1000; 
           if (difference >= 10) {
             $("html").hide();
             var url = window.location.href+"?amp";
-            $('body').html("<div style='text-align:center;font-size: 25px;padding-top: 50px;'><a href = "+url+">Switch to lighter version</a></div>");
+            var sw_ver = Drupal.t('Switch to lighter version');
+            $('body').html("<div style='text-align:center;font-size: 25px;padding-top: 50px;'><a href = "+url+">"+sw_ver+"</a></div>");
             $("html").show();
           }
       });

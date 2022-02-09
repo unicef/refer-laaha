@@ -50,6 +50,7 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
     $instance->connection = $container->get('database');
     $instance->pageCacheKillSwitch = $container->get('page_cache_kill_switch');
     $instance->aliaspath = $container->get('path_alias.manager');
+    $instance->domain = $container->get('domain.negotiator');
     return $instance;
   }
 
@@ -62,8 +63,8 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
       $term_id = $this->routeMatch->getRawParameter('taxonomy_term');
     }
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
-
-    $featured_stories = $this->getContentfromTags($term_id, $langcode);
+    $domain = $this->domain->getActiveDomain()->id();
+    $featured_stories = $this->getContentfromTags($term_id, $langcode, $domain);
     shuffle($featured_stories);
     $featured_stories = array_intersect_key($featured_stories, array_flip(array_slice(array_keys($featured_stories), 0, 6)));
     $count = count($featured_stories);
@@ -141,10 +142,11 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
   /**
    * {@inheritdoc}
    */
-  public function getContentfromTags($term_id, $langcode) {
+  public function getContentfromTags($term_id, $langcode, $domain) {
     $query = $this->connection->select('taxonomy_term_field_data', 't');
     $query->leftjoin('taxonomy_term__field_sub_category', 'sc', 'sc.entity_id = t.tid');
     $query->join('taxonomy_term__field_tags', 'ft', 'ft.entity_id = t.tid');
+    $query->join('taxonomy_term__field_domain', 'dm', 'dm.entity_id = t.tid');
     $query->join('node__field_tags', 'nft', 'ft.field_tags_target_id = nft.field_tags_target_id');
     $query->join('node__field_thumbnail_image', 'tmb', 'nft.entity_id = tmb.entity_id');
     $query->join('node__field_sub_category', 'nscat', 'nscat.entity_id = nft.entity_id');
@@ -154,6 +156,7 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
     $query->condition('t.vid', 'categories');
     $query->condition('n.langcode', $langcode);
     $query->condition('t.tid', $term_id);
+    $query->condition('dm.field_domain_target_id', $domain);
     $query->condition('sc.field_sub_category_value', 1, '!=');
     $query->fields('nft', ['entity_id']);
     $query->fields('nft', ['entity_id']);

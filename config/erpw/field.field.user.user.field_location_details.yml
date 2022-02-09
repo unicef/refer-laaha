@@ -1,0 +1,20 @@
+uuid: 0488b914-099f-42a4-9eb3-15586bef3eab
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_location_details
+  module:
+    - user
+id: user.user.field_location_details
+field_name: field_location_details
+entity_type: user
+bundle: user
+label: 'Location Details'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

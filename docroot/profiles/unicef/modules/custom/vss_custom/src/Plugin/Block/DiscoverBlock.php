@@ -49,6 +49,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     $instance->vssCommonConfigDefault = $container->get('vss_common_config.default');
     $instance->languageManager = $container->get('language_manager');
     $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->domain = $container->get('domain.negotiator');
 
     return $instance;
   }
@@ -69,7 +70,10 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     foreach ($content['homepage_hero'] as $term_id => $val) {
       $term_obj = Term::load($term_id);
       if ($term_obj) {
-        if (isset($term_obj) && !$term_obj->get('field_related_content')->isEmpty()) {
+        if (isset($term_obj) && !$term_obj->get('field_related_content')->isEmpty() && ($term_obj->get('field_domain')->target_id == $this->domain->getActiveDomain()->id())) {
+          if ($term_obj->hasTranslation($langcode) || $term_obj->get('langcode')->value == $langcode) {
+            $term_obj = $term_obj->getTranslation($langcode);
+          }
           foreach ($term_obj->get('field_related_content')->getValue() as $target_id) {
             $node = $this->entityTypeManager->getStorage('node')->load($target_id['target_id']);
             if (isset($node)) {

@@ -971,10 +971,15 @@ body {
         max-width: 242px;
         height: auto;
         }
-        @media screen and (min-width: 1024px) {
-          display: block;
+      }
+      @media only screen and (min-width: 786px) {
+        .four-slice{
+          a{
+           display: block;
+          }
         }
       }
+
     a {
       color: #030303;
 
