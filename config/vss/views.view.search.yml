@@ -10,6 +10,7 @@ dependencies:
     - search_api.index.acquia_search_index
   module:
     - color_field
+    - domain_access_search_api
     - image
     - search_api
     - views_infinite_scroll
@@ -751,6 +752,44 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        current_all:
+          id: current_all
+          table: search_api_index_acquia_search_index
+          field: current_all
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: domain_access_search_api_current_all_filter
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       style:
         type: default
       row:
@@ -786,6 +825,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - url.site
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.field_thumbnail_image'
@@ -812,6 +852,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - url.site
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.field_thumbnail_image'
