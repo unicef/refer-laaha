@@ -33,6 +33,7 @@
 
         $('#edit-submit-search').hide();
         $('.ui-dialog-buttonpane').hide();
+        $('.ui-dialog-buttonset').hide();
 
           var end = new Date(); 
           var difference = (end - start) / 1000; 
