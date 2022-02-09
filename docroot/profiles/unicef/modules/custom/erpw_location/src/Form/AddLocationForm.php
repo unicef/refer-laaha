@@ -3,19 +3,19 @@
 namespace Drupal\erpw_location\Form;
 
 use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Logger\LoggerChannelFactory;
-use Drupal\Core\Database\Connection;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\erpw_location\LocationService;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\erpw_location\LocationService;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class for add location.
@@ -96,6 +96,7 @@ class AddLocationForm extends FormBase {
     FormBuilderInterface $form_builder,
     LocationService $location_service,
     UrlGeneratorInterface $url_generator) {
+
     $this->logger = $logger;
     $this->connection = $connection;
     $this->entityManager = $entity_type_manager->getStorage('location');
@@ -550,10 +551,18 @@ class AddLocationForm extends FormBase {
 
     if (empty($this->tid) && $this->tid == "") {
       $this->locationService->addEprwLocation($last_level_tid, $this->cid);
-      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup', $this->t('Location added successfully'), $this->t('The location has been added successfully. You can now access it in the application.'));
+      $modal_form = $this->formBuilder->getForm(
+        'Drupal\erpw_custom\Form\AddLocationPopup',
+        $this->t('Location added successfully'),
+        $this->t('The location has been added successfully. You can now access it in the application.')
+      );
     }
     else {
-      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup', $this->t('Updated successfully'), $this->t('The details have been successfully updated.'));
+      $modal_form = $this->formBuilder->getForm(
+        'Drupal\erpw_custom\Form\AddLocationPopup',
+        $this->t('Updated successfully'),
+        $this->t('The details have been successfully updated.')
+      );
     }
 
     $response->addCommand(new OpenModalDialogCommand('', $modal_form, ['width' => '400']));

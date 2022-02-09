@@ -2,9 +2,9 @@
 
 namespace Drupal\erpw_location\Form;
 
+use Drupal\Core\Url;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -103,7 +103,8 @@ class LocationEntityRevisionDeleteForm extends ConfirmFormBase {
       'entity.location.canonical',
        ['location' => $this->revision->id()]
     );
-    if ($this->connection->query('SELECT COUNT(DISTINCT vid) FROM {location_field_revision} WHERE id = :id', [':id' => $this->revision->id()])->fetchField() > 1) {
+    if ($this->connection->query('SELECT COUNT(DISTINCT vid) FROM {location_field_revision}
+      WHERE id = :id', [':id' => $this->revision->id()])->fetchField() > 1) {
       $form_state->setRedirect(
         'entity.location.version_history',
          ['location' => $this->revision->id()]

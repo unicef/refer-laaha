@@ -2,11 +2,11 @@
 
 namespace Drupal\vss_custom\Plugin\Block;
 
-use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Block\BlockBase;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Cache\Cache;
 
 /**
  * Provides a 'SocialIconsFooterBlock' block.
@@ -61,7 +61,6 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     $query_params = \Drupal::request()->query->all();
     $is_amp = array_key_exists('amp', $query_params);
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
-    $content = $this->vssCommonConfigDefault->getCategories();
     $count = 0;
     $discover = NULL;
     $discover_article = NULL;

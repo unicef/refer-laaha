@@ -3,16 +3,16 @@
 namespace Drupal\erpw_location\Form;
 
 use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\erpw_location\LocationService;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\HtmlCommand;
-use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\erpw_location\LocationService;
 
 /**
  * Class LocationListForm.
@@ -58,13 +58,13 @@ class LocationListForm extends FormBase {
    * {@inheritdoc}
    */
   public function __construct(Connection $database,
-  EntityTypeManagerInterface $entityTypeManager,
+  EntityTypeManagerInterface $entity_type_manager,
   AccountProxyInterface $current_user,
   MessengerInterface $messenger,
   FormBuilderInterface $form_builder,
   LocationService $location_service) {
     $this->database = $database;
-    $this->entityTypeManager = $entityTypeManager;
+    $this->entityTypeManager = $entity_type_manager;
     $this->currentUser = $current_user;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;

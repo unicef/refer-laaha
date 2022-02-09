@@ -13,15 +13,13 @@
         if (options) {
             options = $.extend(defaults, options)
         }
-        ;
 
         var limite = new Array();
         var fontsize_pattern = new Array();
         var percentage =100;
-       
+
         $(this).each(function (i) {
             limite[i] = 0;
-            fontsize_pattern[i];
         });
 
         $(options.btnMinusId + ', ' + options.btnDefaultId + ', ' + options.btnPlusId).removeAttr('href');
@@ -36,7 +34,7 @@
                     $('#zoom-percent').text(percentage);
                     fontsize_pattern[i] = $(this).css('font-size');
                     fontsize_pattern[i] = fontsize_pattern[i].replace('px', '');
-                    fontsize = $(this).css('font-size');
+                    let fontsize = $(this).css('font-size');
                     fontsize = parseInt(fontsize.replace('px', ''));
                     fontsize = fontsize - (options.sizeChange);
                     fontsize_pattern[i] = fontsize_pattern[i] - (limite[i] * options.sizeChange);
@@ -68,7 +66,7 @@
                     $('#zoom-percent').text(percentage);
                     fontsize_pattern[i] = $(this).css('font-size');
                     fontsize_pattern[i] = fontsize_pattern[i].replace('px', '');
-                    fontsize = $(this).css('font-size');
+                    let fontsize = $(this).css('font-size');
                     fontsize = parseInt(fontsize.replace('px', ''));
                     fontsize = fontsize + options.sizeChange;
                     fontsize_pattern[i] = fontsize_pattern[i] - (limite[i] * options.sizeChange);

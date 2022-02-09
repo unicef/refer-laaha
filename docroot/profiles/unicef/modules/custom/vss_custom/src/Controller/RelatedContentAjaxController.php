@@ -2,12 +2,12 @@
 
 namespace Drupal\vss_custom\Controller;
 
+use Drupal\node\NodeInterface;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\node\NodeInterface;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\HtmlCommand;
 
 /**
  * Class RelatedContentAjaxController.
@@ -96,26 +96,26 @@ class RelatedContentAjaxController extends ControllerBase {
       $nodes = $this->entityTypeManager->getStorage('node')->loadMultiple($result);
       $data = [];
       $langcode = $this->languageManager->getCurrentLanguage()->getId();
-      foreach ($nodes as $viewNode) {
-        if ($viewNode->hasTranslation($langcode)) {
-          $viewNode = $viewNode->getTranslation($langcode);
+      foreach ($nodes as $view_node) {
+        if ($view_node->hasTranslation($langcode)) {
+          $view_node = $view_node->getTranslation($langcode);
         }
-        $data[$viewNode->id()]['title'] = $viewNode->getTitle();
-        if ($viewNode->hasField('field_thumbnail_image') && !empty($viewNode->get('field_thumbnail_image')->first())) {
-          $fid = $viewNode->get('field_thumbnail_image')->target_id;
+        $data[$view_node->id()]['title'] = $view_node->getTitle();
+        if ($view_node->hasField('field_thumbnail_image') && !empty($view_node->get('field_thumbnail_image')->first())) {
+          $fid = $view_node->get('field_thumbnail_image')->target_id;
           $file = $this->entityTypeManager->getStorage('file')->load($fid);
           if ($file) {
-            $data[$viewNode->id()]['uri'] = $file->get('uri')->value;
+            $data[$view_node->id()]['uri'] = $file->get('uri')->value;
           }
-          $data[$viewNode->id()]['alt'] = $viewNode->get('field_thumbnail_image')->alt;
+          $data[$view_node->id()]['alt'] = $view_node->get('field_thumbnail_image')->alt;
         }
-        if ($viewNode->hasField('field_read_time') && !empty($viewNode->get('field_read_time')->first())) {
-          $data[$viewNode->id()]['read_time'] = $viewNode->get('field_read_time')->value;
+        if ($view_node->hasField('field_read_time') && !empty($view_node->get('field_read_time')->first())) {
+          $data[$view_node->id()]['read_time'] = $view_node->get('field_read_time')->value;
         }
         $paragraph_video_time = NULL;
-        if ($viewNode->bundle() == 'video') {
-          if ($viewNode->hasField('field_content') && !empty($viewNode->get('field_content')->first())) {
-            $paragraph_id = $viewNode->get('field_content')->getValue();
+        if ($view_node->bundle() == 'video') {
+          if ($view_node->hasField('field_content') && !empty($view_node->get('field_content')->first())) {
+            $paragraph_id = $view_node->get('field_content')->getValue();
             foreach ($paragraph_id as $content_id) {
               $paragraph_obj = Paragraph::load($content_id['target_id']);
               $paragraph_type = $paragraph_obj->get('type')->getValue()['0']['target_id'];
@@ -130,9 +130,9 @@ class RelatedContentAjaxController extends ControllerBase {
         }
 
         $paragraph_podcast_time = NULL;
-        if ($viewNode->bundle() == 'podcast') {
-          if ($viewNode->hasField('field_content') && !empty($viewNode->get('field_content')->first())) {
-            $paragraph_podcast = $viewNode->get('field_content')->getValue();
+        if ($view_node->bundle() == 'podcast') {
+          if ($view_node->hasField('field_content') && !empty($view_node->get('field_content')->first())) {
+            $paragraph_podcast = $view_node->get('field_content')->getValue();
             foreach ($paragraph_podcast as $content_pod_id) {
               $paragraph_pod_obj = Paragraph::load($content_pod_id['target_id']);
               $paragraph_pod_type = $paragraph_pod_obj->get('type')->getValue()['0']['target_id'];
@@ -146,10 +146,10 @@ class RelatedContentAjaxController extends ControllerBase {
           }
         }
 
-        $data[$viewNode->id()]['link'] = $viewNode->toUrl()->toString();
-        $data[$viewNode->id()]['type'] = $viewNode->bundle();
-        $data[$viewNode->id()]['video_time'] = $paragraph_video_time;
-        $data[$viewNode->id()]['audio_time'] = $paragraph_podcast_time;
+        $data[$view_node->id()]['link'] = $view_node->toUrl()->toString();
+        $data[$view_node->id()]['type'] = $view_node->bundle();
+        $data[$view_node->id()]['video_time'] = $paragraph_video_time;
+        $data[$view_node->id()]['audio_time'] = $paragraph_podcast_time;
         $output = $data;
       }
     }

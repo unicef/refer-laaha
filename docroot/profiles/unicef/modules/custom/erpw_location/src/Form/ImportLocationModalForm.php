@@ -2,22 +2,22 @@
 
 namespace Drupal\erpw_location\Form;
 
-use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Url;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Ajax\HtmlCommand;
-use Drupal\Core\Ajax\InvokeCommand;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Logger\LoggerChannelFactory;
-use Drupal\Core\Database\Connection;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\erpw_location\Entity\LocationEntity;
 use Drupal\file\Entity\File;
+use Drupal\Core\Form\FormBase;
 use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Ajax\RedirectCommand;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\erpw_location\Entity\LocationEntity;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * ImportLocationModalForm class.
@@ -61,6 +61,7 @@ class ImportLocationModalForm extends FormBase {
     Connection $connection,
     EntityTypeManagerInterface $entity_manager,
     MessengerInterface $messenger) {
+
     $this->logger = $logger;
     $this->connection = $connection;
     $this->entityManager = $entity_manager;
@@ -189,27 +190,27 @@ class ImportLocationModalForm extends FormBase {
     }
 
     // Read the csv data.
-    $headerData = [];
-    $csvData = [];
+    $header_data = [];
+    $csv_data = [];
     while (($data = fgetcsv($handle)) !== FALSE) {
-      if (empty($headerData)) {
-        $headerData = $data;
+      if (empty($header_data)) {
+        $header_data = $data;
       }
       else {
-        $csvData[] = $data;
+        $csv_data[] = $data;
       }
     }
     fclose($handle);
-    $header_count = count($headerData);
+    $header_count = count($header_data);
     $levels = [];
-    foreach ($headerData as $header) {
+    foreach ($header_data as $header) {
       $levels[] = explode("_", $header)[0] . explode("_", $header)[1];
     }
     $level_count = count(array_unique($levels));
     $langcode_count = $header_count / $level_count;
     $csv_langcodes = [];
     for ($i = 0; $i < $langcode_count; $i++) {
-      $csv_langcodes[$i] = explode("_", $headerData[$i])[2];
+      $csv_langcodes[$i] = explode("_", $header_data[$i])[2];
     }
     // Check if the language in the csv is an active language.
     $active_languages = \Drupal::languageManager()->getLanguages();
@@ -222,7 +223,7 @@ class ImportLocationModalForm extends FormBase {
         return FALSE;
       }
     }
-    if (count($csvData) == 0) {
+    if (count($csv_data) == 0) {
       $this->messenger->addError($this->t('Please import the CSV with valid hierarchy data.'));
       $response = new AjaxResponse();
       $content = $this->t('Please upload the Location CSV file to start the import process.');
@@ -239,7 +240,7 @@ class ImportLocationModalForm extends FormBase {
       $l = $k;
       $langcode = $csv_langcodes[$k];
       for ($i = 1; $i <= $level_count; $i++) {
-        $hierarchy_level['level_' . $i] = $csvData[0][$j];
+        $hierarchy_level['level_' . $i] = $csv_data[0][$j];
         $j += $langcode_count;
       }
       $location_hierarchy = array_merge(
@@ -259,7 +260,7 @@ class ImportLocationModalForm extends FormBase {
         if ($location_entity->hasTranslation($langcode)) {
           $location_entity = $location_entity->getTranslation($langcode);
           for ($i = 1; $i <= $level_count; $i++) {
-            $location_entity->set('level_' . $i, $csvData[0][$l]);
+            $location_entity->set('level_' . $i, $csv_data[0][$l]);
             $l += $langcode_count;
           }
           $location_entity->save();
@@ -300,8 +301,8 @@ class ImportLocationModalForm extends FormBase {
     $location_entity->save();
 
     // Import locations from CSV.
-    for ($i = 1; $i < count($csvData); $i++) {
-      $this->importLocationData($csvData[$i], $csv_langcodes, $country_term_id, $level_count);
+    for ($i = 1; $i < count($csv_data); $i++) {
+      $this->importLocationData($csv_data[$i], $csv_langcodes, $country_term_id, $level_count);
     }
     return TRUE;
   }
