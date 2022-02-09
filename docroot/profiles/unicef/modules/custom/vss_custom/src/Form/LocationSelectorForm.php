@@ -134,10 +134,6 @@ class LocationSelectorForm extends FormBase {
           $lang_select[$langcode] = $language->getName();
         }
       }
-      $default_lang = NULL;
-      if (array_key_exists('en', $lang_select)) {
-        $default_lang = 'en';
-      }
     }
 
     $form['domain']['language'] = [
@@ -187,7 +183,7 @@ class LocationSelectorForm extends FormBase {
     // Get domain path from dropdown.
     $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($form_state->getValue('country'));
     $default_lang = \Drupal::configFactory()->get('domain.config.' . $domain->id() . '.system.site');
-
+    $domain_lang = $form_state->getValue('language');
     $domain_path = $domain->get('path');
 
     // Get selected domain's url.
