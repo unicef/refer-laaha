@@ -34,7 +34,6 @@
         // close modal on ouside click
         $("body").click(function() {
           if (audioInfoModal.is(":visible")) {
-            console.log('yes');
             audioInfoModal.addClass('hidden');
           }
         });
