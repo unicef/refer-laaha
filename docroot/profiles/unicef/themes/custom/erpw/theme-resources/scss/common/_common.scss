@@ -179,3 +179,31 @@ form input[type=submit] {
 	top: -3px;
 	opacity: 1;
 }
+
+//Table format
+.table-format {
+	overflow-x: scroll;
+	table {
+		border: 1px solid #F3C1BF;
+		border-radius: 5px;
+		border-collapse: collapse; 
+		width: 100%;
+		thead {
+			color: #A85766;
+			text-align: left;
+			th {
+				border-bottom: 1px solid #F3C1BF;
+			}
+		}
+		td,
+		th {
+			padding: 10px;
+		}
+		.dropbutton-widget {
+			border: 0 !important;
+		}
+		a {
+			color: #A85766;
+		}
+	}
+}
