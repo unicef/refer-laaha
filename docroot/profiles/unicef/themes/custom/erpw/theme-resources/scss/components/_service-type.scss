@@ -323,3 +323,24 @@ div.color_field__swatch input[type=radio]:checked + label span {
 .icons-search-input {
 	border: 1px solid #F3C1BF !important;
 }
+
+//Manage user
+.view-user-lists {
+	.view-header {
+		border-bottom: 2px solid rgba(243, 193, 191, 0.53);
+		margin-bottom: 20px;
+		padding-bottom: 10px;
+		position: relative;
+	}
+	.service-count {
+		color: #9B9B9B;
+		font-size: 14px;
+		font-weight: 400;
+		position: absolute;
+		right: 0;
+		bottom: -30px;
+	}
+	.view-content {
+    margin-top: 40px;
+	}
+}

@@ -7,8 +7,7 @@ dependencies:
     - field.storage.user.field_last_name
     - field.storage.user.field_organisation
     - field.storage.user.field_phone
-    - user.role.administrator
-    - user.role.super_admin
+    - user.role.authenticated
   module:
     - user
 id: user_lists
@@ -479,8 +478,7 @@ display:
         type: role
         options:
           role:
-            super_admin: super_admin
-            administrator: administrator
+            authenticated: authenticated
       cache:
         type: tag
         options: {  }
@@ -540,7 +538,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<div class=\"manage-list\">\r\n<div class=\"plus-icon button-with-icon\"><a href=\"/sign-up?destination=/user-list\">Add new user</a></div>\r\n</div>"
+            value: '<div class="plus-icon button-with-icon"><a href="/sign-up?destination=/user-list">Add new user</a></div>'
             format: full_html
           tokenize: false
         result:
