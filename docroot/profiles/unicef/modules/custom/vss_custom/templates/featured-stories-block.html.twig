@@ -15,7 +15,7 @@
 										{% elseif (value.type == 'podcast') and (value.podcast_time is not empty) %}
 										<span class="podcast-time-wrapper">{{ value.podcast_time }}</span>
 										{% endif %}
-										<span>{{ value.title }} {% if value.read_time %}{{'[ '~ value.read_time ~' ]'}}{% endif %}</span>
+										<span>{{ value.title }} {% if value.read_time %}{{'[ '}} {{ value.read_time }} {{'mins ]'|t }}{% endif %}</span>
 										{% if value.type == 'video' %}
 										<img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
 										{% elseif value.type == 'podcast' %}
@@ -30,7 +30,7 @@
 										{% elseif (value.type == 'podcast') and (value.podcast_time is not empty) %}
 										<span class="podcast-time-wrapper">{{ value.podcast_time }}</span>
 										{% endif %}
-										<span>{{ value.title }} {% if value.read_time %}{{'[ '~ value.read_time ~' ]'}}{% endif %}</span>
+										<span>{{ value.title }} {% if value.read_time %}{{ '[ ' }} {{ value.read_time }} {{ 'mins ]'|t }}{% endif %}</span>
 										{% if value.type == 'video' %}
                       <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
                     {% elseif value.type == 'podcast' %}
@@ -51,7 +51,7 @@
 										{% elseif (value.type == 'podcast') and (value.podcast_time is not empty) %}
 										<span class="podcast-time-wrapper">{{ value.podcast_time }}</span>
 										{% endif %}
-										<span>{{ value.title }} {% if value.read_time %}{{'[ '~ value.read_time ~' ]'}}{% endif %}</span>
+										<span>{{ value.title }} {% if value.read_time %}{{'[ ' }} {{ value.read_timen }} {{'mins ]'|t }}{% endif %}</span>
 										{% if value.type == 'video' %}
                       <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
                     {% elseif value.type == 'podcast' %}
@@ -65,7 +65,7 @@
 										{% elseif (value.type == 'podcast') and (value.podcast_time is not empty) %}
 										<span class="podcast-time-wrapper">{{ value.podcast_time }}</span>
 										{% endif %}
-										<span>{{ value.title }} {% if value.read_time %}{{'[ '~ value.read_time ~' ]'}}{% endif %}</span>
+										<span>{{ value.title }} {% if value.read_time %}{{'[ ' }}{{ value.read_time }} {{ 'mins ]'|t }}{% endif %}</span>
 										{% if value.type == 'video' %}
                       <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
                     {% elseif value.type == 'podcast' %}

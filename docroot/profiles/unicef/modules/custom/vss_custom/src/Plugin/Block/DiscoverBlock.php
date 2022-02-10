@@ -50,6 +50,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     $instance->languageManager = $container->get('language_manager');
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->domain = $container->get('domain.negotiator');
+    $instance->aliaspath = $container->get('path_alias.manager');
 
     return $instance;
   }
@@ -79,7 +80,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
             $node = $this->entityTypeManager->getStorage('node')->load($target_id['target_id']);
             if (isset($node)) {
               $node_url = Url::fromRoute('entity.node.canonical', ['node' => $target_id['target_id']]);
-              $node_url = $node_url->toString();
+              $node_url = ltrim($this->aliaspath->getAliasByPath('/node/' . $target_id['target_id']), '/');
 
               $node_type = NULL;
               if ($node->getType() != NULL) {

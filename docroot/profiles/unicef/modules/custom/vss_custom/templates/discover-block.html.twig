@@ -43,7 +43,7 @@
                             {% endif %}
                           {% endif %}
                         </div>
-                        <span class="discover-article-name">{{ item_2.node_name }} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }}</span>
+                        <span class="discover-article-name">{{ item_2.node_name }} {{ '[ ' }} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }} {{ 'mins ]'|t }}</span>
                       </a>
                 {% endif %}
               {% endfor %}
@@ -85,7 +85,7 @@
                             {% endif %}
                           {% endif %}
                         </div>
-                        <span class="discover-article-name">{{ item_2.node_name }} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }}</span>
+                        <span class="discover-article-name">{{ item_2.node_name }} {{'[ '}} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }} {{ 'mins ]'|t }}</span>
                       </a>
                 {% endif %}
               {% endfor %}

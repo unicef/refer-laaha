@@ -281,8 +281,10 @@ div.color_field__swatch input[type=radio]:checked + label span {
 .node-service-type-form,
 .node-service-type-quick-node-clone-form,
 .node-service-type-edit-form,
-.node-organisation-form {
-	.form-actions {
+.node-organisation-form,
+.path-sign-up {
+	.form-actions,
+	#form-actions {
 		display: flex;
 		justify-content: space-between;
 		margin-top: 45px;

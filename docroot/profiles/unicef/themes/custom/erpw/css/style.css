@@ -1327,9 +1327,15 @@ div.color_field__swatch input[type=radio]:checked + label span {
 }
 
 .node-service-type-form .form-actions,
+.node-service-type-form #form-actions,
 .node-service-type-quick-node-clone-form .form-actions,
+.node-service-type-quick-node-clone-form #form-actions,
 .node-service-type-edit-form .form-actions,
-.node-organisation-form .form-actions {
+.node-service-type-edit-form #form-actions,
+.node-organisation-form .form-actions,
+.node-organisation-form #form-actions,
+.path-sign-up .form-actions,
+.path-sign-up #form-actions {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1339,21 +1345,39 @@ div.color_field__swatch input[type=radio]:checked + label span {
   margin-top: 45px;
 }
 .node-service-type-form .form-actions [id^=edit-submit],
+.node-service-type-form #form-actions [id^=edit-submit],
 .node-service-type-quick-node-clone-form .form-actions [id^=edit-submit],
+.node-service-type-quick-node-clone-form #form-actions [id^=edit-submit],
 .node-service-type-edit-form .form-actions [id^=edit-submit],
-.node-organisation-form .form-actions [id^=edit-submit] {
+.node-service-type-edit-form #form-actions [id^=edit-submit],
+.node-organisation-form .form-actions [id^=edit-submit],
+.node-organisation-form #form-actions [id^=edit-submit],
+.path-sign-up .form-actions [id^=edit-submit],
+.path-sign-up #form-actions [id^=edit-submit] {
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
           order: 2;
 }
 .node-service-type-form .form-actions [id^=edit-preview],
 .node-service-type-form .form-actions [id^=edit-cancel],
+.node-service-type-form #form-actions [id^=edit-preview],
+.node-service-type-form #form-actions [id^=edit-cancel],
 .node-service-type-quick-node-clone-form .form-actions [id^=edit-preview],
 .node-service-type-quick-node-clone-form .form-actions [id^=edit-cancel],
+.node-service-type-quick-node-clone-form #form-actions [id^=edit-preview],
+.node-service-type-quick-node-clone-form #form-actions [id^=edit-cancel],
 .node-service-type-edit-form .form-actions [id^=edit-preview],
 .node-service-type-edit-form .form-actions [id^=edit-cancel],
+.node-service-type-edit-form #form-actions [id^=edit-preview],
+.node-service-type-edit-form #form-actions [id^=edit-cancel],
 .node-organisation-form .form-actions [id^=edit-preview],
-.node-organisation-form .form-actions [id^=edit-cancel] {
+.node-organisation-form .form-actions [id^=edit-cancel],
+.node-organisation-form #form-actions [id^=edit-preview],
+.node-organisation-form #form-actions [id^=edit-cancel],
+.path-sign-up .form-actions [id^=edit-preview],
+.path-sign-up .form-actions [id^=edit-cancel],
+.path-sign-up #form-actions [id^=edit-preview],
+.path-sign-up #form-actions [id^=edit-cancel] {
   background: none;
   border: 1px solid #A85766;
   border-radius: 4px;
@@ -1368,9 +1392,15 @@ div.color_field__swatch input[type=radio]:checked + label span {
   text-transform: uppercase;
 }
 .node-service-type-form .form-actions input[type=submit],
+.node-service-type-form #form-actions input[type=submit],
 .node-service-type-quick-node-clone-form .form-actions input[type=submit],
+.node-service-type-quick-node-clone-form #form-actions input[type=submit],
 .node-service-type-edit-form .form-actions input[type=submit],
-.node-organisation-form .form-actions input[type=submit] {
+.node-service-type-edit-form #form-actions input[type=submit],
+.node-organisation-form .form-actions input[type=submit],
+.node-organisation-form #form-actions input[type=submit],
+.path-sign-up .form-actions input[type=submit],
+.path-sign-up #form-actions input[type=submit] {
   text-align: center;
   padding: 10px 0;
   width: 134px;
