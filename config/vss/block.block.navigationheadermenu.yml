@@ -5,6 +5,7 @@ dependencies:
   config:
     - system.menu.navigation-header-menu
   module:
+    - domain
     - language
     - menu_item_fields
     - system
@@ -27,6 +28,18 @@ settings:
   expand_all_items: 0
   view_mode_override_field: _none
 visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /country-selector
+  domain:
+    id: domain
+    negate: false
+    context_mapping:
+      domain: '@domain.current_domain_context:domain'
+    domains:
+      vss_lndo_site: vss_lndo_site
+      vss_ec_lndo_site: vss_ec_lndo_site
   language:
     id: language
     negate: false
@@ -35,7 +48,3 @@ visibility:
     langcodes:
       en: en
       es: es
-  request_path:
-    id: request_path
-    negate: true
-    pages: /country-selector
