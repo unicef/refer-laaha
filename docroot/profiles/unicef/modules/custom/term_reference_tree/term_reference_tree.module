@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Contains term_reference_tree.module.
  */
 
 use Drupal\term_reference_tree\Plugin\Field\FieldWidget\TermReferenceTree;
@@ -39,7 +40,7 @@ function term_reference_tree_theme() {
  * @param array &$element
  *   The element that needs to be cleaned up.
  */
-function _term_reference_tree_clean_errors(&$element) {
+function _term_reference_tree_clean_errors(array &$element) {
   foreach (Element::children($element) as $key) {
     if (isset($element[$key]['#errors'])) {
       unset($element[$key]['#errors']);
@@ -59,7 +60,7 @@ function _term_reference_tree_clean_errors(&$element) {
  *   An associative array containing:
  *   - element: An array of elements to display.
  */
-function template_preprocess_checkbox_tree(&$variables) {
+function template_preprocess_checkbox_tree(array &$variables) {
 
   $element = $variables['element'];
 
@@ -117,8 +118,8 @@ function template_preprocess_checkbox_tree(&$variables) {
 }
 
 /**
- * This function prints a list item with a checkbox and an unordered list
- * of all the elements inside it.
+ * This function prints a list item with a checkbox and an unordered list.
+ *
  * Prepares variables for the checkbox_tree_level template.
  *
  * Prints a list item with a checkbox and an unordered list of all the elements
@@ -130,7 +131,7 @@ function template_preprocess_checkbox_tree(&$variables) {
  *   An associative array containing:
  *   - element: An array of elements to display.
  */
-function template_preprocess_checkbox_tree_level(&$variables) {
+function template_preprocess_checkbox_tree_level(array &$variables) {
   $element = $variables['element'];
 
   if (array_key_exists('#level_start_minimized', $element) && $element['#level_start_minimized']) {
@@ -148,8 +149,8 @@ function template_preprocess_checkbox_tree_level(&$variables) {
 }
 
 /**
- * This function prints a single item in the tree, followed by that item's
- * children (which may be another checkbox_tree_level).
+ * This function prints a single item in the tree, followed by that item's.
+ *
  * Prepares variables for the checkbox_tree_item template.
  *
  * Prints a single item in the tree, followed by that item's children (which may
@@ -161,7 +162,7 @@ function template_preprocess_checkbox_tree_level(&$variables) {
  *   An associative array containing:
  *   - element: An array of elements to display.
  */
-function template_preprocess_checkbox_tree_item(&$variables) {
+function template_preprocess_checkbox_tree_item(array &$variables) {
   $element = $variables['element'];
   $children = Element::children($element);
 
@@ -185,6 +186,7 @@ function template_preprocess_checkbox_tree_item(&$variables) {
 
 /**
  * This function prints a label that cannot be selected.
+ *
  * Prepares variables for the checkbox_tree_label template.
  *
  * Prints a label that cannot be selected.
@@ -195,24 +197,15 @@ function template_preprocess_checkbox_tree_item(&$variables) {
  *   An associative array containing:
  *   - element: An array of elements to display.
  */
-function template_preprocess_checkbox_tree_label(&$variables) {
+function template_preprocess_checkbox_tree_label(array &$variables) {
   $element = $variables['element'];
   $variables['label'] = $element['#value'];
 }
 
 /**
  * This function returns a taxonomy term hierarchy in a nested array.
- *
- * @param $tid
- *   The ID of the root term.
- * @param $vid
- *   The vocabulary ID to restrict the child search.
- *
- * @return
- *   A nested array of the term's child objects.
  */
 function _term_reference_tree_get_term_hierarchy($tid, $vid, &$allowed, $filter, $label, $default = []) {
-  // \Drupal::logger('Tree_reference')->info("_term_reference_tree_get_term_hierarchy");
   $terms = _term_reference_tree_get_children($tid, $vid);
   $result = [];
 
@@ -253,8 +246,7 @@ function _term_reference_tree_get_term_hierarchy($tid, $vid, &$allowed, $filter,
 }
 
 /**
- * This function is like taxonomy_get_children, except it doesn't load the
- * entire term.
+ * This function is like taxonomy_get_children, except it doesn't load.
  *
  * @param int $tid
  *   The ID of the term whose children you want to get.
@@ -329,8 +321,7 @@ function _term_reference_tree_flatten($element, &$form_state) {
 /**
  * Return an array of options.
  *
- * This function converts a list of taxonomy terms to a key/value list of
- * options.
+ * This function converts a list of taxonomy terms to a key/value list.
  */
 function _term_reference_tree_get_options(&$terms, &$allowed, $filter) {
   $options = [];
@@ -388,8 +379,6 @@ function _term_reference_tree_build_item($element, $term, $form_state, $value, $
     $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
 
     $active_domain_id = $active_domain->id();
-    // $active_domain_id = "vss_ec_lndo_site";
-    // $active_domain_id = "dev_ec_virtualsafespace_net";
     $t = \Drupal::entityTypeManager()->getStorage('taxonomy_term')
       ->loadByProperties(['vid' => 'categories', 'tid' => $term->tid, 'field_domain' => $active_domain_id]);
     $t = reset($t);
@@ -463,6 +452,7 @@ function _term_reference_tree_build_item($element, $term, $form_state, $value, $
 
 /**
  * Themes the term tree display (as opposed to the select widget).
+ *
  * Prepares variables for the term_tree_list template.
  *
  * Themes the term tree display (as opposed to the select widget).
@@ -473,7 +463,7 @@ function _term_reference_tree_build_item($element, $term, $form_state, $value, $
  *   An associative array containing:
  *   - element: An array of elements to display.
  */
-function template_preprocess_term_tree_list(&$variables) {
+function template_preprocess_term_tree_list(array &$variables) {
   $element = &$variables['element'];
   $data = &$element['#data'];
 
