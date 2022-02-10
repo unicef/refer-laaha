@@ -70,7 +70,8 @@
 
 // @todo move this to a common file as this is going to be reused in multiple places.
 .thumbnail-icon {
-  background-size: 100% !important;
+  background-size: 25px !important;
+  border-radius: 50%;
   height: 32px;
   left: 8px;
   position: absolute;
@@ -79,17 +80,17 @@
 }
 
 .icon-video {
-  background: url('../images/video-icon.png') no-repeat;
+  background: $base-black-color url('../images/video-icon.png') no-repeat center;
 }
 
 .icon-podcast {
-  background: url('../images/podcast-icon.png') no-repeat;
+  background: $base-black-color url('../images/podcast-icon.png') no-repeat center;
 }
 
 .icon-article {
-  background: url('../images/article-icon.png') no-repeat;
+  background: $base-black-color url('../images/article-icon.png') no-repeat center;
 }
 
 .icon-scorm {
-  background: url('../images/cources-icon.png') no-repeat;
+  background: $base-black-color url('../images/cources-icon.png') no-repeat center;
 }

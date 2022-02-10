@@ -1,14 +1,14 @@
-uuid: 7885a652-4004-4491-af69-b7505bbe1328
+uuid: 73c1bf15-c60d-4b5d-9137-21d98a667ed2
 langcode: en
 status: true
 dependencies:
   config:
-    - block_content.type.user_home_content
+    - block_content.type.user_frontpage_content
     - field.storage.block_content.field_title
-id: block_content.user_home_content.field_title
+id: block_content.user_frontpage_content.field_title
 field_name: field_title
 entity_type: block_content
-bundle: user_home_content
+bundle: user_frontpage_content
 label: Title
 description: ''
 required: false

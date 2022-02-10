@@ -1,16 +1,16 @@
-uuid: f602e05e-c57c-4121-a983-6033539f3069
+uuid: 5849b382-33ad-49b0-ae0d-fc1e1bf2250f
 langcode: en
 status: true
 dependencies:
   config:
-    - block_content.type.user_home_content
-    - field.field.block_content.user_home_content.body
-    - field.field.block_content.user_home_content.field_title
+    - block_content.type.user_frontpage_content
+    - field.field.block_content.user_frontpage_content.body
+    - field.field.block_content.user_frontpage_content.field_title
   module:
     - text
-id: block_content.user_home_content.default
+id: block_content.user_frontpage_content.default
 targetEntityType: block_content
-bundle: user_home_content
+bundle: user_frontpage_content
 mode: default
 content:
   body:
