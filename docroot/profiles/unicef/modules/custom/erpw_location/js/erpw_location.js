@@ -8,14 +8,16 @@
                 });
             });
 
+            // Adding class to hide the elements for location dropdown on forms.
             $(".loc-dropdown").on('change', function() {
-              var level = drupalSettings.leveldetails.level;
+              var level = $(this).attr("data-level");
               var levelcount = drupalSettings.leveldetails.levelcount;
-              for (i = level; i < levelcount; i++) {
+              for (i = level; i <= levelcount; i++) {
                 $("#edit-level-" + i).addClass('hidden');
                 $("#edit-level-" + i).find('option:not(:first)').remove();
               }
-              jQuery(".add_multiple").prop("multiple", 'true');
+              // Make last dropdown as multi select element.
+              $(".add_multiple").prop("multiple", 'true');
           });
         }
     };

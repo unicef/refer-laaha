@@ -20,13 +20,25 @@
       $(".form-type-search-api-autocomplete input").attr("placeholder", "Type here to search");
 
       // Audio support info modal
-      $("#audioInfo i").click(function () {
-        $(".audio-info-pop-up").removeClass('hidden');
-      });
-      $(".audio-info-pop-up .close-icon").on("click", function (e) {
-        $(".audio-info-pop-up").addClass('hidden');
-        e.stopPropagation();
-      });
+      const audioInfoModal = $(".audio-info-pop-up");
+      if (audioInfoModal.length) {
+        $("#audioInfo i").click(function () {
+          audioInfoModal.removeClass('hidden');
+        });
+        $(".audio-info-pop-up .close-icon").on("click", function (e) {
+          audioInfoModal.addClass('hidden');
+        });
+        audioInfoModal.on("click", function (e) {
+          e.stopPropagation();
+        });
+        // close modal on ouside click
+        $("body").click(function() {
+          if (audioInfoModal.is(":visible")) {
+            audioInfoModal.addClass('hidden');
+          }
+        });
+      }
+
       let language = $('html')[0].lang;
       let key = "show_subtitle_" + language;
       if (localStorage.getItem(key) === 'true') {
@@ -115,6 +127,10 @@
       if (countryLocationCookie !== "TRUE" && window.location.pathname !== "/country-selector" && window.location.pathname !== "/user/login") {
         window.location.href = "/country-selector";
       }
+  });
+
+  $(document).ready(function() {
+    jQuery('form').get(0).reset(); //clear form data on page load
   });
 
 })(jQuery, Drupal, drupalSettings);

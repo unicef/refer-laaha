@@ -17,6 +17,7 @@
 }
 
 .discover-section {
+  margin-bottom: 80px;
   padding: 0 30px;
 
   .discover-section-title  {
@@ -45,6 +46,11 @@
 
     @media screen and (min-width: 1024px) {
       flex-direction: row;
+    }
+    @media screen and (max-width:767px) {
+      a:not(:first-child) {
+        display: none;
+      }
     }
   }
 

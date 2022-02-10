@@ -57,31 +57,33 @@ class SubCategoryHeroBlock extends BlockBase implements ContainerFactoryPluginIn
         'field_domain' => $this->domain->getActiveDomain()->id(),
       ]);
       $term = !empty($terms) ? reset($terms) : FALSE;
-      if ($term->get('field_sub_category')->value == 1) {
-        if ($term->hasTranslation($langcode) || $term->get('langcode')->value == $langcode) {
-          $term = $term->getTranslation($langcode);
-        }
-        $nid = $term->get('field_hero_content')->target_id;
-        if ($nid) {
-          $node = $this->entityTypeManager->getStorage('node')->load($nid);
-          $hero = [];
-          if ($node) {
-            if ($node->hasTranslation($langcode)) {
-              $node = $node->getTranslation($langcode);
-            }
-            $title = $node->title->value;
-            $hero['title'] = $title;
-            $thumbnail = $node->field_thumbnail_image->target_id;
-            $file = $this->entityTypeManager->getStorage('file')->load($thumbnail);
-            if ($file) {
-              $hero['thumbnail'] = $file->getFileUri();
-            }
-            $hero['url'] = ltrim($this->aliaspath->getAliasByPath('/node/' . $nid), '/');
-            $hero['type'] = $node->getType();
+      if ($term) {
+        if ($term->get('field_sub_category')->value == 1) {
+          if ($term->hasTranslation($langcode) || $term->get('langcode')->value == $langcode) {
+            $term = $term->getTranslation($langcode);
           }
-          $build['#theme'] = 'subcategory_hero_block';
-          $build['#content'] = $hero;
-          $build['#lang_code'] = $langcode;
+          $nid = $term->get('field_hero_content')->target_id;
+          if ($nid) {
+            $node = $this->entityTypeManager->getStorage('node')->load($nid);
+            $hero = [];
+            if ($node) {
+              if ($node->hasTranslation($langcode)) {
+                $node = $node->getTranslation($langcode);
+              }
+              $title = $node->title->value;
+              $hero['title'] = $title;
+              $thumbnail = $node->field_thumbnail_image->target_id;
+              $file = $this->entityTypeManager->getStorage('file')->load($thumbnail);
+              if ($file) {
+                $hero['thumbnail'] = $file->getFileUri();
+              }
+              $hero['url'] = ltrim($this->aliaspath->getAliasByPath('/node/' . $nid), '/');
+              $hero['type'] = $node->getType();
+            }
+            $build['#theme'] = 'subcategory_hero_block';
+            $build['#content'] = $hero;
+            $build['#lang_code'] = $langcode;
+          }
         }
       }
     }

@@ -2,12 +2,11 @@
 
 namespace Drupal\erpw_custom\EventSubscriber;
 
-use Drupal\Core\Database\Connection;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
-use Drupal\core_event_dispatcher\Event\Form\FormBaseAlterEvent;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\node\NodeInterface;
@@ -28,30 +27,9 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   /**
    * The Messenger service.
    *
-   * @var \Drupal\Core\Database\Connection
-   */
-  protected $database;
-
-  /**
-   * The Messenger service.
-   *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
-
-  /**
-   * The Messenger service.
-   *
-   * @var \Drupal\Core\Messenger\MessengerInterface
-   */
-  protected $messenger;
-
-  /**
-   * A LocationService instance.
-   *
-   * @var Drupal\erpw_location\LocationService
-   */
-  protected $locationService;
 
   /**
    * Array of levels.
@@ -61,6 +39,13 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   protected $levelLabel = [];
 
   /**
+   * A LocationService instance.
+   *
+   * @var Drupal\erpw_location\LocationService
+   */
+  protected $locationService;
+
+  /**
    * Max level.
    *
    * @var maxLevel
@@ -68,16 +53,30 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   protected $maxLevel = 4;
 
   /**
+   * The Messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
+   * The current route match.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(Connection $database,
-    EntityTypeManagerInterface $entityTypeManager,
+  public function __construct(EntityTypeManagerInterface $entityTypeManager,
     MessengerInterface $messenger,
-    LocationService $location_service) {
-    $this->database = $database;
+    LocationService $location_service,
+    RouteMatchInterface $route_match) {
     $this->entityTypeManager = $entityTypeManager;
     $this->messenger = $messenger;
     $this->locationService = $location_service;
+    $this->routeMatch = $route_match;
   }
 
   /**
@@ -102,12 +101,10 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       $location_options = [];
       $form_state->setRebuild(TRUE);
 
-      $node = \Drupal::routeMatch()->getParameter('node');
       if (!empty($location_entities)) {
         $parent_list = [];
-
-        if (!isset($form_state->getTriggeringElement()['#level'])
-        && $node instanceof NodeInterface) {
+        $node = $this->routeMatch->getParameter('node');
+        if (empty($form_state->getTriggeringElement()['#level']) && $node instanceof NodeInterface) {
           $parent_list = $this->getTermParents($node);
         }
 
@@ -120,7 +117,6 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
         if ($country_id = $form_state->getValue('level_0')) {
           $level_count = count($this->levelLabel[$country_id]);
           unset($child_location['level_' . $level_count]['#ajax']);
-
           $child_location['level_' . $level_count]['#attributes']['class'][] = 'add_multiple';
         }
         $form['location']['level_0'] = [
@@ -130,7 +126,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
           '#title' => $this->t('Country'),
           '#required' => TRUE,
           '#level' => 1,
-          '#attributes' => ['class' => ['loc-dropdown']],
+          '#attributes' => ['class' => ['loc-dropdown'], 'data-level' => 1],
           '#default_value' => isset($parent_list[0]) ? $parent_list[0] : '',
           '#ajax' => [
             'callback' => [$this, 'getLocationDetail'],
@@ -157,7 +153,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       $form['#attached']['library'][] = 'erpw_location/erpw_location_js';
 
       // Change button name of section.
-      $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = $this->t('Add New Section');
+      $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = $this->t('Add a new section');
 
       // Form submit handler.
       $form['actions']['submit']['#submit'][] = [$this, 'eprwSubmitHandler'];
@@ -169,31 +165,37 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * {@inheritdoc}
+   * Get the list of parents of the child.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   Node instance.
+   *
+   * @return array
+   *   Return the list of parents.
    */
-  public function getTermParents($node) {
+  public function getTermParents(NodeInterface $node) {
     $referenced_entities = $node->get('field_location')->referencedEntities();
     $parents = [];
+    $loc_tid = [];
     foreach ($referenced_entities as $loc) {
       $loc_tid[] = $loc->id();
       $parents = $this->locationService->getAllAncestors($loc->id());
     }
-
     $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties([
       'type' => 'country',
       'status' => 1,
       'field_location_taxonomy_term' => $parents[0],
     ]);
-
-    for ($i = $this->maxLevel; $i > 0; $i--) {
+    $count = 0;
+    for ($i = $this->maxLevel; $i >= 0; $i--) {
       $level_id = 'level_' . $i;
       if (isset($location_entities[$parents[0]]->get($level_id)->getValue()[0])) {
-        if (count($parents) == $i) {
-          $index = count($parents) - 1;
-          $parents[$index] = $loc_tid;
-          break;
-        }
+        break;
       }
+    }
+    if (count($parents) == $i+1) {
+      $index = count($parents) - 1;
+      $parents[$index] = $loc_tid;
     }
 
     return $parents;
@@ -245,11 +247,10 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
 
     for ($i = 1; $i <= $this->maxLevel; $i++) {
       $level_id = 'level_' . $i;
-      $childs = [];
-      $childs[] = $this->t("Select") . ' ' . $i . ' ' . $this->t("Label");
+      $childs = ['0' => $this->t("Select") . ' ' . $i . ' ' . $this->t("Label")];
       $class = '';
       if (isset($location->get($level_id)->getValue()[0])) {
-        $this->levelLabel[$id][$i] = $location->get($level_id)->getValue()[0]['value'];
+        $this->levelLabel[$id][$i] = isset($this->levelLabel[$id][$i]) ? $this->levelLabel[$id][$i] : $location->get($level_id)->getValue()[0]['value'];
         $location_tid = !empty($parent_list[$i - 1]) ? $parent_list[$i - 1] : $form_state->getValue('level_' . ($i - 1));
 
         $childs += $this->locationService->getChildrenByTid($location_tid);
@@ -263,7 +264,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
         '#options' => $childs,
         '#type' => 'select',
         '#title' => $this->levelLabel[$id][$i],
-        '#attributes' => ['class' => ['loc-dropdown']],
+        '#attributes' => ['class' => ['loc-dropdown'], 'data-level' => ($i + 1)],
         '#multiple' => ($i == $this->maxLevel) ? TRUE : FALSE,
         '#level' => ($i + 1),
         '#default_value' => isset($parent_list[$i]) ? $parent_list[$i] : '',
@@ -294,33 +295,36 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public function eprwSubmitHandler(&$form, $form_state) {
-    $node = \Drupal::routeMatch()->getParameter('node');
-    $locaton_level = '';
-    for ($i = $this->maxLevel; $i > 0; $i--) {
-      $locaton_level = $form_state->getValues()['level_' . $i];
-      if (!empty($locaton_level)) {
+    for ($i = $this->maxLevel; $i >= 0; $i--) {
+      $location_level = $form_state->getValue('level_' . $i);
+      if (!empty($location_level)) {
         break;
       }
     }
-
     // Saving the location data.
+    $node = $this->routeMatch->getParameter('node');
     if ($node instanceof NodeInterface) {
-      $this->saveLocationField($node, $locaton_level);
+      $this->saveLocationField($node, $location_level);
     }
     else {
       $form_object = $form_state->getFormObject();
       if ($form_object instanceof EntityForm) {
         $entity = $form_object->getEntity();
-        $this->saveLocationField($entity, $locaton_level);
+        $this->saveLocationField($entity, $location_level);
       }
     }
 
   }
 
   /**
-   * Save erpw location reference field.
+   * Save eRPW location field.
+   *
+   * @param object $entity
+   *   Entity instance.
+   * @param array|string $location
+   *   Location data.
    */
-  public function saveLocationField($entity, $location) {
+  protected function saveLocationField($entity, $location) {
     if (is_array($location)) {
       foreach ($location as $key => $value) {
         $entity->field_location[] = ['target_id' => $value];
@@ -341,23 +345,11 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Alter node form.
-   *
-   * @param \Drupal\core_event_dispatcher\Event\Form\FormBaseAlterEvent $event
-   *   The event.
-   */
-  public function alterNodeForm(FormBaseAlterEvent $event): void {
-    $form = &$event->getForm();
-  }
-
-  /**
    * {@inheritdoc}
    */
   public static function getSubscribedEvents(): array {
     return [
       HookEventDispatcherInterface::FORM_ALTER => 'alterForm',
-      // React on all forms with base id "node_form".
-      'hook_event_dispatcher.form_base_node_form.alter' => 'alterNodeForm',
     ];
   }
 

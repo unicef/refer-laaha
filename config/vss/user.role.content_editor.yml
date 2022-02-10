@@ -33,6 +33,7 @@ dependencies:
     - system
     - taxonomy
     - toolbar
+    - vss_custom
 id: content_editor
 label: 'Content Editor'
 weight: 4
@@ -89,6 +90,7 @@ permissions:
   - 'edit terms in categories'
   - 'edit terms in sub_category'
   - 'edit terms in tags'
+  - 'need help csv upload'
   - 'publish to any assigned domain'
   - 'publish to any domain'
   - 'revert article revisions'
