@@ -21,13 +21,13 @@
         <div class="discovery-category-wrapper col-sm-6" style="background-color: {{ '#'~ item_1.color }}">
           <div class="discover-category-item ">
             <div class="discover-category-thumbnail category-thumbnail" style="background-color: {{ '#'~ item_1.color }}"></div>
-            <div class="discover-category-name"><a href="{{ item_1.cat_uri }}">{{ item_1.name }} > </a></div>
+            <div class="discover-category-name"><a href="/{{lang_code}}{{ item_1.cat_uri }}">{{ item_1.name }} > </a></div>
             <div class="discover-category-description">{{ item_1.description|raw }}</div>
             {% if content_node is not empty %}
             <div class="discovery-articles">
               {% for key_2,item_2 in content_node %}
                 {% if item_1['id'] == item_2['term_id'] %}
-                      <a href="{{ item_2.node_url }}" target='_blank' class="discover-content-link col-md-6">
+                      <a href="/{{lang_code}}/{{ item_2.node_url }}" target='_blank' class="discover-content-link col-md-6">
                         <div class="discover-content-thumbnail">
                           <span class="thumbnail-icon icon-{{ item_2.node_type|lower }}"></span>
                           <img src="{{ file_url(item_2.thumbnail_img) }}"/>
@@ -63,13 +63,13 @@
         <div class="discovery-category-wrapper col-sm-6" style="background-color: {{ '#'~ item_1.color }}">
           <div class="discover-category-item ">
             <div class="discover-category-thumbnail category-thumbnail" style="background-color: {{ '#'~ item_1.color }}"><img src="{{ file_url( item_1.icon | image_style('thumbnail')) }}"/></div>
-            <div class="discover-category-name"><a href="/{{lang_code}}/{{ item_1.cat_uri }}">{{ item_1.name }} > </a></div>
+            <div class="discover-category-name"><a href="/{{lang_code}}{{ item_1.cat_uri }}">{{ item_1.name }} > </a></div>
             <div class="discover-category-description">{{ item_1.description|raw }}</div>
             {% if content_node is not empty %}
             <div class="discovery-articles">
               {% for key_2,item_2 in content_node %}
                 {% if item_1['id'] == item_2['term_id'] %}
-                      <a href="{{ item_2.node_url }}" target='_blank' class="discover-content-link col-md-6">
+                      <a href="/{{lang_code}}/{{ item_2.node_url }}" target='_blank' class="discover-content-link col-md-6">
                         <div class="discover-content-thumbnail">
                           <span class="thumbnail-icon icon-{{ item_2.node_type|lower }}"></span>
                           <img src="{{ file_url(item_2.thumbnail_img) }}"/>
