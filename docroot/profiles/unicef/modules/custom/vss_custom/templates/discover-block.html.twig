@@ -44,7 +44,7 @@
                             {% endif %}
                           {% endif %}
                         </div>
-                        <span class="discover-article-name">{{ item_2.node_name }} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }}</span>
+                        <span class="discover-article-name">{{ item_2.node_name }} {{ '[ ' }} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }} {{'mins ]'|t }}</span>
                       </a>
                     {% else %}
                       <a href="{{ item_2.node_url }}" target='_blank' class="discover-content-link col-md-6">
@@ -63,7 +63,7 @@
                             {% endif %}
                           {% endif %}
                         </div>
-                        <span class="discover-article-name">{{ item_2.node_name }} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }}</span>
+                        <span class="discover-article-name">{{ item_2.node_name }} {{ '[ ' }} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }} {{ 'mins ]'|t }}</span>
                       </a>
                     {% endif %}
                 {% endif %}
@@ -107,7 +107,7 @@
                             {% endif %}
                           {% endif %}
                         </div>
-                        <span class="discover-article-name">{{ item_2.node_name }} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }}</span>
+                        <span class="discover-article-name">{{ item_2.node_name }} {{'[ '}} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }} {{ 'mins ]'|t }}</span>
                       </a>
                     {% else %}
                       <a href="{{ item_2.node_url }}" target='_blank' class="discover-content-link col-md-6">
@@ -126,7 +126,7 @@
                             {% endif %}
                           {% endif %}
                         </div>
-                        <span class="discover-article-name">{{ item_2.node_name }} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }}</span>
+                        <span class="discover-article-name">{{ item_2.node_name }} {{'[ '}} {{ item_2.node_read_time is not null ? item_2.node_read_time : '' }} {{ 'mins ]'|t }}</span>
                       </a>
                     {% endif %}
                 {% endif %}

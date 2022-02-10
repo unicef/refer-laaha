@@ -235,7 +235,7 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '{{ ''[ '' ~ field_read_time__value  ~ '' ]'' }}'
+            text: '{{ ''[ '' }} {{ field_read_time__value }}{{ '' mins ]''|t }}'
             make_link: false
             path: ''
             absolute: false
