@@ -34,17 +34,18 @@
   }
   return "";
 }
-const play = document.getElementById('play');
-const pause = document.getElementById('pause');
-const resume = document.getElementById('resume');
+const play = document.querySelector('.play');
+const pause = document.querySelector('.pause');
+const resume = document.querySelector('.resume');
 resume.hidden = true;
 pause.hidden = true;
 // add UI event handlers
 play.addEventListener("click", () => {
 let player_cookies = getCookieValue("player");
+let country_cookies = getCookieValue("country-selector");
 let voiceId = getCookieValue("voice");
 let langId = getCookieValue("langid");
-  var utterance = new SpeechSynthesisUtterance(player_cookies);
+  var utterance = new SpeechSynthesisUtterance(player_cookies, country_cookies);
   if (langId == 'en-US') {
     langId = 'en-US';
     voiceId = 41;
@@ -94,7 +95,17 @@ resume.addEventListener("click", () => {
   }
 
   // Redirect user to Language selector screen.
-  let countryLocationCookie = getCookie('country-selector');
+  let countryLocationCookie = getCookie('country-location-selector');
   if (countryLocationCookie !== "TRUE" && window.location.pathname !== "/country-selector" && window.location.pathname !== "/user/login") {
     window.location.href = "/country-selector";
   }
+
+  $('.region-header a').each(function(){ 
+    var oldUrl = $(this).attr("href"); // Get current url
+    var newUrl = oldUrl + "?amp"; // Create new url
+    $(this).attr("href", newUrl); // Set herf value
+  });
+
+  $(document).ready(function() {
+    jQuery('form').get(0).reset(); //clear form data on page load
+  });

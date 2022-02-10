@@ -40,6 +40,7 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->routeMatch = $container->get('current_route_match');
     $instance->aliaspath = $container->get('path_alias.manager');
+    $instance->domain = $container->get('domain.negotiator');
     return $instance;
   }
 
@@ -60,32 +61,38 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $cat_details = [];
 
       if ($child_terms) {
-        $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($term_id);
-        if ($term->hasTranslation($langcode)) {
+        $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+          'tid' => $term_id,
+          'field_domain' => $this->domain->getActiveDomain()->id(),
+        ]);
+        $term = !empty($terms) ? reset($terms) : FALSE;
+        if ($term->hasTranslation($langcode) || $term->get('langcode')->value == $langcode) {
           $term = $term->getTranslation($langcode);
-        }
-        $name = $term->label();
-        $cat_color = $term->get('field_category_color')->color;
-        $cat_icon = $term->get('field_icon')->target_id;
-        $file = $this->entityTypeManager->getStorage('file')->load($cat_icon);
-        if ($file) {
-          $cat_ic = $file->getFileUri();
-          $cat_ic = str_replace('public://', 'sites/default/files/', $cat_ic);
+          $name = $term->label();
+          $cat_color = $term->get('field_category_color')->color;
+          $cat_icon = $term->get('field_icon')->target_id;
+          $file = $this->entityTypeManager->getStorage('file')->load($cat_icon);
+          if ($file) {
+            $cat_ic = $file->getFileUri();
+            $cat_ic = str_replace('public://', 'sites/default/files/', $cat_ic);
+          }
         }
         foreach ($child_terms as $k => $child) {
-          if ($child->hasTranslation($langcode)) {
-            $child = $child->getTranslation($langcode);
+          if ($child->get('field_domain')->target_id == $this->domain->getActiveDomain()->id() && ($child->hasTranslation($langcode) || $child->get('langcode')->value == $langcode)) {
+            if ($child->hasTranslation($langcode)) {
+              $child = $child->getTranslation($langcode);
+            }
+            $cat_details['cat_name'] = $name;
+            $cat_details['cat_icon'] = $cat_ic;
+            $cat_details['cat_color'] = $cat_color;
+            $subcat_details[$k]['subcat_name'] = $child->get('name')->value;
+            $file = $this->entityTypeManager->getStorage('file')->load($child->get('field_sub_category_thumbnail')->target_id);
+            if ($file) {
+              $file_url = $file->getFileUri();
+              $subcat_details[$k]['sub_category_thumbnail'] = str_replace('public://', 'sites/default/files/', $file_url);
+            }
+            $subcat_details[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $child->get('tid')->value), '/');
           }
-          $cat_details['cat_name'] = $name;
-          $cat_details['cat_icon'] = $cat_ic;
-          $cat_details['cat_color'] = $cat_color;
-          $subcat_details[$k]['subcat_name'] = $child->get('name')->value;
-          $file = $this->entityTypeManager->getStorage('file')->load($child->get('field_sub_category_thumbnail')->target_id);
-          if ($file) {
-            $file_url = $file->getFileUri();
-            $subcat_details[$k]['sub_category_thumbnail'] = str_replace('public://', 'sites/default/files/', $file_url);
-          }
-          $subcat_details[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $child->get('tid')->value), '/');
         }
       }
     }
@@ -98,15 +105,16 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
         if (!empty($value['target_id'])) {
           $parent = $this->entityTypeManager->getStorage('taxonomy_term')->loadParents($value['target_id']);
           $parent = reset($parent);
-          $term_id = $parent->id();
-          $parent_id[$term_id] = $term_id;
-          $langcode = $this->languageManager->getCurrentLanguage()->getId();
-          $vid = 'categories';
-          $parent_tid = $term_id;
-          $depth = 1;
-          $load_entities = TRUE;
-          $arr[$value['target_id']] = $value['target_id'];
-
+          if ($parent) {
+            $term_id = $parent->id();
+            $parent_id[$term_id] = $term_id;
+            $langcode = $this->languageManager->getCurrentLanguage()->getId();
+            $vid = 'categories';
+            $parent_tid = $term_id;
+            $depth = 1;
+            $load_entities = TRUE;
+            $arr[$value['target_id']] = $value['target_id'];
+          }
         }
       }
 
@@ -115,18 +123,20 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
         $cat_details['cat_name'] = '';
         $cat_details['cat_icon'] = '';
         foreach ($child_terms1 as $child) {
-          if ($child->hasTranslation($langcode)) {
-            $child = $child->getTranslation($langcode);
-          }
-          if ((!in_array($child->get('tid')->value, $arr))) {
-            $subcat_tid = $child->get('tid')->value;
-            $subcat_details[$subcat_tid]['subcat_name'] = $child->get('name')->value;
-            $file = $this->entityTypeManager->getStorage('file')->load($child->get('field_sub_category_thumbnail')->target_id);
-            if ($file) {
-              $file_url = $file->getFileUri();
-              $subcat_details[$subcat_tid]['sub_category_thumbnail'] = str_replace('public://', 'sites/default/files/', $file_url);
+          if ($child->get('field_domain')->target_id == $this->domain->getActiveDomain()->id() && ($child->hasTranslation($langcode) || $child->get('langcode')->value == $langcode)) {
+            if ($child->hasTranslation($langcode)) {
+              $child = $child->getTranslation($langcode);
             }
-            $subcat_details[$subcat_tid]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $child->get('tid')->value), '/');
+            if ((!in_array($child->get('tid')->value, $arr))) {
+              $subcat_tid = $child->get('tid')->value;
+              $subcat_details[$subcat_tid]['subcat_name'] = $child->get('name')->value;
+              $file = $this->entityTypeManager->getStorage('file')->load($child->get('field_sub_category_thumbnail')->target_id);
+              if ($file) {
+                $file_url = $file->getFileUri();
+                $subcat_details[$subcat_tid]['sub_category_thumbnail'] = str_replace('public://', 'sites/default/files/', $file_url);
+              }
+              $subcat_details[$subcat_tid]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $child->get('tid')->value), '/');
+            }
           }
         }
       }

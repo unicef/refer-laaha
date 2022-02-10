@@ -43,7 +43,7 @@ vss_custom.need_help_form:
     _form: '\Drupal\vss_custom\Form\NeedHelpCsvUpload'
     _title: "Need Help CSV Upload"
   requirements:
-    _role: "content_editor"
+    _permission: 'need help csv upload'
 
 
 vss_custom.country_selector:

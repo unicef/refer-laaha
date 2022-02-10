@@ -155,12 +155,20 @@ class LocationSelectorForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Next'),
       '#button_type' => 'primary',
-      '#attributes' => ['class' => ['location-selector-btn']],
+      '#attributes' => ['class' => ['location-selector-btn pink-btn']],
     ];
 
     $form['#attached']['library'][] = 'vss_custom/geoip';
     $form['#attached']['drupalSettings']['api_key'] = 'c6ea4bfd74d1403ab52e4bacf7478f36';
     $form['#theme'] = 'location_selector_form';
+    $cookie_name = "country-selector";
+    $cookie_langid = $lang_id;
+    $cookie_value = $string;
+    $cookie_voice = $voiceId;
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+    setcookie("voice", $cookie_voice, time() + (86400 * 30), "/");
+    setcookie("langid", $lang_id, time() + (86400 * 30), "/");
+    $this->pageCacheKillSwitch->trigger();
     return $form;
   }
 
@@ -179,20 +187,16 @@ class LocationSelectorForm extends FormBase {
     // Get domain path from dropdown.
     $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($form_state->getValue('country'));
     $default_lang = \Drupal::configFactory()->get('domain.config.' . $domain->id() . '.system.site');
-
-    $domain_path = $domain->get('path');
     $domain_lang = $form_state->getValue('language');
-    if ($default_lang->get('default_langcode') == $domain_lang) {
-      $domain_lang = '';
-    }
+    $domain_path = $domain->get('path');
 
     // Get selected domain's url.
-    $url = $domain_path . $domain_lang . '/home';
+    $url = $domain_path . $domain_lang . '/home?tour';
     $response = new TrustedRedirectResponse($url);
     $domain_current_url = explode(".", $_SERVER['SERVER_NAME']);
     $domain_slice = array_slice($domain_current_url, -2);
     $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
-    $response->headers->setCookie(new Cookie('country-selector', 'TRUE', strtotime('+7 days'), '/', $domain_site, NULL, FALSE));
+    $response->headers->setCookie(new Cookie('country-location-selector', 'TRUE', strtotime('+7 days'), '/', $domain_site, NULL, FALSE));
     $form_state->setResponse($response);
 
     return;

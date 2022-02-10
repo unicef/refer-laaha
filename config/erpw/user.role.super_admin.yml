@@ -1,9 +1,45 @@
 uuid: 1958e3d8-af4a-4072-9425-84f90c704a7d
 langcode: sn
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - node.type.organisation
+    - node.type.service_type
+  module:
+    - content_translation
+    - domain_access
+    - erpw_location
+    - node
+    - node_view_permissions
+    - quick_node_clone
 id: super_admin
 label: 'Super Admin'
 weight: -10
 is_admin: null
-permissions: {  }
+permissions:
+  - 'access user profiles'
+  - 'add location entity entities'
+  - 'administer users'
+  - 'clone service_type content'
+  - 'create organisation content'
+  - 'create service_type content'
+  - 'create service_type content on assigned domains'
+  - 'delete any organisation content'
+  - 'delete any service_type content'
+  - 'delete location entity entities'
+  - 'delete own organisation content'
+  - 'delete own service_type content'
+  - 'delete service_type content on assigned domains'
+  - 'edit any organisation content'
+  - 'edit any service_type content'
+  - 'edit location entity entities'
+  - 'edit own organisation content'
+  - 'edit own service_type content'
+  - 'translate service_type node'
+  - 'update service_type content on assigned domains'
+  - 'view any organisation content'
+  - 'view any service_type content'
+  - 'view own organisation content'
+  - 'view own service_type content'
+  - 'view published location entity entities'
+  - 'view unpublished location entity entities'

@@ -42,17 +42,17 @@
                 $("span.ui-icon-closethick").click();
             });
             // set Localstorage and remove Localstorage when browser close.
-            if(localStorage.getItem('signinPopup')){
+            if(sessionStorage.getItem('signinPopup')){
                 $('.sign-in-popup, .overlay').hide();
             }
             $(".path-frontpage, .skip, .sign-in").on('click', function(){
-                window.localStorage.signinPopup = "true";
+                window.sessionStorage.signinPopup = "true";
             });
-            $(window).on("beforeunload", function() { 
-                if(window.location.pathname == '/user/login'){
-                    window.localStorage.removeItem('signinPopup');
-                }
-            })
+            $(window).on("unload", function(){
+                // Clear the session storage
+                window.signinPopup.clear()
+            });
+            
         }
     };
 }(jQuery, Drupal, drupalSettings));
