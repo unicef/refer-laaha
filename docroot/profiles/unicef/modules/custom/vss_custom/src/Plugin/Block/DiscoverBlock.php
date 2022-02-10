@@ -3,12 +3,10 @@
 namespace Drupal\vss_custom\Plugin\Block;
 
 use Drupal\paragraphs\Entity\Paragraph;
-use Drupal\Core\Url;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Cache\Cache;
-use Drupal\taxonomy\Entity\Term;
 
 /**
  * Provides a 'SocialIconsFooterBlock' block.
@@ -69,17 +67,16 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     $discover_article = NULL;
     $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
       'field_domain' => $this->domain->getActiveDomain()->id(),
+      'field_sub_category' => 0,
+      'vid' => 'categories',
     ]);
     foreach ($terms as $term_id => $val) {
-      if ($val) {
+      if ($val && $val->hasTranslation($langcode) || $val->get('langcode')->value == $langcode) {
         if (isset($val) && !$val->get('field_related_content')->isEmpty()) {
-          if ($val->hasTranslation($langcode) || $val->get('langcode')->value == $langcode) {
-            $val = $val->getTranslation($langcode);
-          }
+          $val = $val->getTranslation($langcode);
           foreach ($val->get('field_related_content')->getValue() as $target_id) {
             $node = $this->entityTypeManager->getStorage('node')->load($target_id['target_id']);
             if (isset($node)) {
-              $node_url = Url::fromRoute('entity.node.canonical', ['node' => $target_id['target_id']]);
               $node_url = ltrim($this->aliaspath->getAliasByPath('/node/' . $target_id['target_id']), '/');
 
               $node_type = NULL;

@@ -60,13 +60,13 @@ class LanguageSelector extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
     $form['description_1'] = [
       '#type' => 'markup',
-      '#prefix' => '<div class="review-msg">',
+      '#prefix' => '<div class="welcome-text">',
       '#markup' => $this->t('Welcome to eRPW'),
       '#suffix' => '</div>',
     ];
     $form['description_2'] = [
       '#type' => 'markup',
-      '#prefix' => '<div class="email-notify">',
+      '#prefix' => '<div class="choose-language-text">',
       '#markup' => $this->t('Choose your preferred language'),
       '#suffix' => '</div>',
     ];
