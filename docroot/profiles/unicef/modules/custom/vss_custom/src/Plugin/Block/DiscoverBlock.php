@@ -69,6 +69,8 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     $discover_article = NULL;
     $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
       'field_domain' => $this->domain->getActiveDomain()->id(),
+      'field_sub_category' => 0,
+      'vid' => 'categories',
     ]);
     foreach ($terms as $term_id => $val) {
       if ($val) {
