@@ -43,6 +43,13 @@ function erpw_location_theme() {
     'render element' => 'form',
     'template' => 'manage-location-form',
   ];
+  $theme['homepage_user_location'] = [
+    'variables' => [
+      'location' => NULL,
+      'tid' => NULL,
+    ],
+    'template' => 'homepage-user-location',
+  ];
   return $theme;
 }
 

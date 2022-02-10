@@ -33,7 +33,7 @@ class SignInPopup extends FormBase {
       '#type' => 'markup',
       '#prefix' => '<div class="popup-content">',
       '#suffix' => '</div>',
-      '#markup' => $this->t('If you haven’t registered or signed in, you can either click on sign in below or go to <b>menu</b><span class="menu-icon-popup"></span> to sign in or register later.'),
+      '#markup' => $this->t('Interested in suggesting the change or manage the RPW, Sign in into the application. You can either click on sign in below or go to <b>menu</b><span class="menu-icon-popup"></span> to sign in or register later.'),
     ];
     $form['actions']['run_reco'] = [
       '#type' => 'submit',
@@ -49,6 +49,11 @@ class SignInPopup extends FormBase {
     $form['actions']['export_csv'] = [
       '#type' => 'submit',
       '#value' => $this->t('SIGN IN'),
+      '#attributes' => [
+        'class' => [
+          'sign-in',
+        ],
+      ],
       '#suffix' => '</div>',
     ];
     return $form;

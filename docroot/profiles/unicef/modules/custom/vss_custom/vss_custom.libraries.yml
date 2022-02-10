@@ -15,12 +15,29 @@ narrate:
     - core/jquery
     - core/drupalSettings
 
+geoip:
+  js:
+    js/geoip.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+    - core/drupal.ajax
+    
+location_selector:
+  js:
+    js/location_selector.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+    - core/jquery.cookie
+
 disclaimer:
   js:
     js/disclaimer.js: {}
   dependencies:
     - core/jquery
     - core/drupalSettings
+    - core/jquery.cookie
 
 
 related_content:

@@ -126,7 +126,7 @@ class KernelTerminateSubscriber implements EventSubscriberInterface {
    *   string user agent, or empty string if user agent does not exist
    */
   protected function getUserAgent() {
-    return isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+    return $_SERVER['HTTP_USER_AGENT'] ?? '';
   }
 
 }

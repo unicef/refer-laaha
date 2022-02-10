@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Contains erpw_custom.install.
+ */
+
+/**
+ * Implements hook_update_N().
+ *
+ * Change the module weight wrt content translation module.
+ */
+function erpw_custom_update_9001() {
+  module_set_weight('erpw_custom', 999);
+}

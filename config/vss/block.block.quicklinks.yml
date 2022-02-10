@@ -6,6 +6,7 @@ dependencies:
     - system.menu.quick-links
   module:
     - menu_item_fields
+    - system
   theme:
     - vss
 id: quicklinks
@@ -17,11 +18,15 @@ plugin: 'menu_item_fields:quick-links'
 settings:
   id: 'menu_item_fields:quick-links'
   label: 'Quick Links'
-  provider: menu_item_fields
   label_display: visible
+  provider: menu_item_fields
+  view_mode: default
   level: '1'
   depth: '0'
   expand_all_items: 0
-  view_mode: default
   view_mode_override_field: _none
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /country-selector

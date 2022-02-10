@@ -1,0 +1,31 @@
+uuid: 49374510-4741-4206-83f5-94b7b7659431
+langcode: sn
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_section
+    - node.type.referral_path_way
+    - paragraphs.paragraphs_type.sections
+  module:
+    - entity_reference_revisions
+id: node.referral_path_way.field_section
+field_name: field_section
+entity_type: node
+bundle: referral_path_way
+label: 'Section Details'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      sections: sections
+    negate: 0
+    target_bundles_drag_drop:
+      sections:
+        weight: 2
+        enabled: true
+field_type: entity_reference_revisions

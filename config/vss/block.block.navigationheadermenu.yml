@@ -7,6 +7,7 @@ dependencies:
   module:
     - language
     - menu_item_fields
+    - system
   theme:
     - vss
 id: navigationheadermenu
@@ -18,19 +19,23 @@ plugin: 'menu_item_fields:navigation-header-menu'
 settings:
   id: 'menu_item_fields:navigation-header-menu'
   label: 'Navigation Header Menu'
-  provider: menu_item_fields
   label_display: '0'
+  provider: menu_item_fields
+  view_mode: default
   level: '1'
   depth: '0'
   expand_all_items: 0
-  view_mode: default
   view_mode_override_field: _none
 visibility:
   language:
     id: language
-    langcodes:
-      en: en
-      es: es
     negate: false
     context_mapping:
       language: '@language.current_language_context:language_interface'
+    langcodes:
+      en: en
+      es: es
+  request_path:
+    id: request_path
+    negate: true
+    pages: /country-selector

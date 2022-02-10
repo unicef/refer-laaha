@@ -1,0 +1,120 @@
+.block-homepage-hero-categories-block  {
+  margin-bottom: 48px;
+}
+
+.homepage-hero {
+  background-color: #fef4f6;
+  margin: 0 -20%;
+
+  .homepage-hero-section--title {
+    @media screen and (min-width: 1024px) {
+      padding: 0 30px;
+    }
+  }
+}
+
+.hero-wrapper {
+  margin: 0 20%;
+  text-align: center;
+}
+
+.homepare-cat-wrapper {
+  background-color: #fef4f6;
+  margin: 0 -20%;
+  position: relative;
+}
+
+.homepage-category {
+  margin: 0 14%;
+  position: relative;
+
+  @media screen and (min-width: 1024px) {
+    padding-top: 0;
+  }
+
+  .lSSlideWrapper,
+  .lSSlideOuter {
+    overflow: visible !important;
+  }
+}
+
+.homepage-hero-section--categories {
+  background-color: #ffcdd2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+
+  .category-item {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 5px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .category-thumbnail,
+  .category-thumbnail--large {
+    display: none;
+  }
+
+  .category-name {
+    max-width: 200px;
+    padding: 5px;
+    text-align: center;
+  }
+
+  @media screen and (min-width: 1366px) {
+    height: 100%;
+    left: 0;
+    margin: 0;
+    top: 0;
+    width: 100%;
+  }
+}
+
+
+//Hero Search
+// @Todo: Separate this from this file later
+
+.block-views-exposed-filter-blocks-block {
+  background: #fdf3f6;
+  margin: 0 -20%;
+
+  form {
+    margin: 0 20%;
+    padding: 30px;
+    padding-bottom: 0;
+    text-align: center;
+  }
+
+  .form-type-search-api-autocomplete,
+  .input-group {
+    width: 100%;
+  }
+
+  .input-group {
+    @media screen and (min-width: 1024px) {
+      width: 60%;
+    }
+  }
+
+  .input-group-addon {
+    display: none;
+  }
+
+  input[name="search_api_fulltext"] {
+    border: 3px solid #ffcdd2;
+    border-radius: 3px !important;
+    outline: 0;
+    height: 23px;
+    width: 60%;
+
+    &:focus {
+      border: 3px solid #ffcdd2;
+    }
+  }
+}

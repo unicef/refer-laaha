@@ -9,14 +9,14 @@ dependencies:
 id: vss_amp_sitebranding
 theme: vss_amp
 region: header
-weight: -4
+weight: -7
 provider: null
 plugin: system_branding_block
 settings:
   id: system_branding_block
   label: 'Site branding'
-  provider: system
   label_display: '0'
+  provider: system
   use_site_logo: true
   use_site_name: true
   use_site_slogan: true

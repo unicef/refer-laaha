@@ -418,7 +418,6 @@ html[dir="rtl"] {
       transform: rotate(180deg);
     }
   }
-  
   .ques,
   .ans {
     margin-left: 10px;
@@ -427,6 +426,70 @@ html[dir="rtl"] {
   .faq-item .faq-answer-wrapper .button-defult::after {
     margin-left: 0;
     margin-right: 14px;
+  }
+
+  //disclaimer
+  .popup-wrapper h2 {
+    padding: 40px 0 16px 40px;
+  }
+  .heading-with-mike .buttons {
+    left: 20px;
+    right: inherit;
+  }
+  .pop-up-btn.right-arrow {
+    &::after {
+      margin-left: 0;
+      margin-right: 15px;
+      vertical-align: text-bottom;
+      transform: rotate(180deg);
+    }
+  }
+  //country selector 
+  .pink-btn  {
+    &::after {
+      margin-left: 0;
+      margin-right: 15px;
+      vertical-align: text-bottom;
+      transform: rotate(180deg);
+    }
+  }
+  form.location-form .heading-with-mike {
+    text-align: right;
+    .buttons {
+      margin: 10px 18px 0 0;
+    }
+  }
+  .virtual-main-title::before {
+    margin-right: 0;
+    margin-left: 12px;
+  }
+  form.location-form .select-wrapper:after {
+    left: 0;
+    right: inherit;
+    transform: rotate(180deg);
+  }
+  //search result page
+  .search-content-image {
+    margin-right: 0;
+    margin-left: 20px;
+  }
+  .pager__item {
+		a::after {
+      margin-left: 0;
+      margin-right: 10px;
+    }
+  }
+  .search-content-cat .cat-title {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  // view-count-block
+  .block-view-count-block {
+    .view-icon {
+      margin-left: 6px;
+      margin-right: 0;
+    }
   }
 }
 

@@ -14,18 +14,13 @@
     <div class="chatbot">
     <a href="#"><img src ="/{{ base_path ~ directory }}/images/chatbot.png" alt="chatbot" /><span>{{ 'Chatbot'|t }}</span></a>
     </div>
-    {% if content.get_help %}
     <div class="gethelp">
     {% if lang_code != 'en' %}
-    <a href="/{{ lang_code }}/{{content.get_help}}"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Get Help'|t }}</span></a></div>
+    <a href="/{{ lang_code }}/need-help"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Need Help'|t }}</span></a></div>
     {% else %}
-    <a href="/{{content.get_help}}"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Get Help'|t }}</span></a></div>
-    {% endif %}
-    {% else %}
-    <div class="gethelp">
-    <a href="#"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Get Help'|t }}</span></a></div>  
+    <a href="/need-help"><img src ="/{{ base_path ~ directory }}/images/gethelp.png" alt="gethelp" /><span>{{ 'Need Help'|t }}</span></a></div>
     {% endif %}
     <div class="exit">
-    <a class="exit-website-btn"><img src ="/{{ base_path ~ directory }}/images/exit.png" alt="exit" /><span>{{ 'Quick Exit'|t }}</span></a>
+    <a class="exit-website-btn"><img src ="/{{ base_path ~ directory }}/images/exit.png" alt="exit" /><span>{{ 'Exit Website'|t }}</span></a>
     </div>
 </div>

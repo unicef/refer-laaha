@@ -39,6 +39,7 @@ class HomepageHeroCategoriesBlock extends BlockBase implements ContainerFactoryP
     $instance = new static($configuration, $plugin_id, $plugin_definition);
     $instance->vssCommonConfigDefault = $container->get('vss_common_config.default');
     $instance->languageManager = $container->get('language_manager');
+    $instance->domain = $container->get('domain.negotiator');
     return $instance;
   }
 
@@ -53,7 +54,10 @@ class HomepageHeroCategoriesBlock extends BlockBase implements ContainerFactoryP
     $term_length = count($content['homepage_hero']);
     foreach ($content['homepage_hero'] as $term_id) {
       $term_obj = Term::load($term_id);
-      if ($term_obj) {
+      if ($term_obj && ($term_obj->get('field_domain')->target_id == $this->domain->getActiveDomain()->id())) {
+        if ($term_obj->hasTranslation($langcode) || $term_obj->get('langcode')->value == $langcode) {
+          $term_obj = $term_obj->getTranslation($langcode);
+        }
         $term_name = $term_obj->getName();
         $term_short_name = $term_obj->get('field_category_short_name')->getValue() ?
         $term_obj->get('field_category_short_name')->getValue()[0]['value'] : '';

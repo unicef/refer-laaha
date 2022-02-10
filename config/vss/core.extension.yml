@@ -5,11 +5,13 @@ module:
   admin_toolbar_tools: 0
   amp: 0
   amp_toolbar: 0
+  autologout: 0
   automated_cron: 0
   autosave_form: 0
   big_pipe: 0
   block: 0
   block_content: 0
+  block_inactive_users: 0
   breakpoint: 0
   ckeditor: 0
   ckeditor_tippy: 0
@@ -27,6 +29,7 @@ module:
   content_lock_timeout: 0
   content_moderation: 0
   contextual: 0
+  core_views_facets: 0
   ctools: 0
   datetime: 0
   dblog: 0
@@ -38,15 +41,19 @@ module:
   domain_config: 0
   domain_config_ui: 0
   domain_content: 0
+  domain_entity: 0
   domain_lang: 0
   domain_language_negotiation: 0
   dynamic_page_cache: 0
   editor: 0
+  encrypt: 0
   entity_pdf: 0
   entity_reference_revisions: 0
   entity_usage: 0
   environment_indicator: 0
+  facets: 0
   field: 0
+  field_encrypt: 0
   field_ui: 0
   file: 0
   filter: 0
@@ -58,6 +65,7 @@ module:
   imageapi_optimize: 0
   imageapi_optimize_gd: 0
   imageapi_optimize_tinypng: 0
+  key: 0
   language: 0
   layout_discovery: 0
   layout_paragraphs: 0
@@ -80,12 +88,19 @@ module:
   paragraphs_features: 0
   paragraphs_library: 0
   paragraphs_modal_edit: 0
+  password_policy_character_types: 0
+  password_policy_characters: 0
+  password_policy_consecutive: 0
+  password_policy_history: 0
+  password_policy_length: 0
+  password_policy_username: 0
   path: 0
   path_alias: 0
   public_preview: 0
   quick_node_clone: 0
   quickedit: 0
   rdf: 0
+  robotstxt: 0
   schema_metatag: 0
   search: 0
   search_api: 0
@@ -93,6 +108,7 @@ module:
   search_api_solr: 0
   seckit: 0
   serialization: 0
+  session_limit: 0
   shield: 0
   system: 0
   taxonomy: 0
@@ -116,6 +132,7 @@ module:
   workflows: 0
   pathauto: 1
   content_translation: 10
+  password_policy: 10
   views: 10
   paragraphs: 11
   paragraphs_ee: 15

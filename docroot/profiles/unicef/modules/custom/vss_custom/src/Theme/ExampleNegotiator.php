@@ -15,14 +15,20 @@ class ExampleNegotiator implements ThemeNegotiatorInterface {
    */
   public function applies(RouteMatchInterface $route_match) {
     // Use this theme on a certain route.
-    return $route_match->getRouteName() == 'entity.taxonomy_term.canonical';
+    $routes = [
+      'entity.taxonomy_term.canonical', 'vss_custom.country_selector', 'view.need_help_view.page_1',
+      'view.search.page_1',
+    ];
+    if (in_array($route_match->getRouteName(), $routes)) {
+      return $route_match->getRouteName();
+    }
   }
 
   /**
    * {@inheritdoc}
    */
   public function determineActiveTheme(RouteMatchInterface $route_match) {
-    if ($_SERVER['QUERY_STRING'] == 'amp') {
+    if ($_SERVER['QUERY_STRING'] == 'amp' || strpos($_SERVER['QUERY_STRING'], 'amp')) {
       $route_match->getRouteObject()->setOption('_no_big_pipe', TRUE);
       return 'vss_amp';
     }

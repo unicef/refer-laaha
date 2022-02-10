@@ -1,0 +1,118 @@
+.overlay-popup {
+	background: rgba(0, 0, 0, 0.7);
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	-webkit-transition: opacity 500ms;
+	transition: opacity 500ms;
+	visibility: visible;
+	opacity: 1;
+	z-index: 999;
+	-webkit-backdrop-filter: blur(4px);
+	backdrop-filter: blur(4px);
+}
+
+.popup-wrapper {
+  background: #fff;
+	border-radius: 8px;
+	position: absolute;
+	color: white;
+	height: auto;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	margin: 0 auto;
+	overflow-y: scroll;
+	width: 91%;
+	z-index: 9999;
+	max-height: 100%;
+	@media screen and (min-width: 1024px) {
+		width: 840px;
+	}
+	.pop-up-speech {
+		margin: 0 16px 40px;
+		@media screen and (min-width: 768px) {
+			margin: 0 40px 40px;
+		}
+	}
+	h2 {
+		color: rgba(0, 0, 0, 0.87);
+		display: inline-block;
+		font-size: $base-font-size;
+		font-weight: $base-footer-font-weight;
+		line-height: 24px;
+		margin: 0;
+		padding: 40px 40px 16px 0;
+		position: relative;
+		@media screen and (min-width: 768px) {
+			font-size: $base-h2-font-size;
+		}
+	}
+	.disclaimer-top-image {
+		margin-top: 24px;
+		text-align: center;
+	}
+	.popup-content {
+		p,
+		strong {
+			color: $base-black-color;
+			font-size: $base-font-size;
+			font-weight: $base-footer-font-weight;
+			line-height: 24px;
+			margin: 0 0 16px;
+		}
+	}
+	.pop-up-btn {
+		background: #E4F1E2;
+		border: 0;
+		border-radius: 5px;
+		color: $base-black-color;
+		font-size: $base-footer-font-size;
+		font-weight: $base-footer-font-weight-medium;
+		line-height: 36px;
+		padding: 9px 0;
+		text-align: center;
+		width: 100%;
+	}
+}
+.disclaimer-image {
+	text-align: center;
+	@media screen and (min-width: 768px) {
+		margin-right: -24px;
+	}
+	img {
+		margin-bottom: 24px;
+		max-width: 145px;
+		width: 100%;
+		@media screen and (min-width: 768px) {
+			margin: 0 24px 40px 0;
+			max-width: 250px;
+			width: 100%;
+		}
+		@media screen and (min-width: 1024px) {
+			max-width: inherit;
+			width: auto;
+		}
+	
+	}
+}
+.heading-with-mike {
+	position: relative;
+	text-align: center;
+	.buttons {
+		bottom: 13px;
+		position: absolute;
+		right: 0%;
+		button {
+			background: url('../images/sound-icon.png') 0 0 no-repeat;
+			border: 0;
+			font-size: 0;
+			height: 25px;
+			width: 25px;
+			z-index: 1;
+		}
+	}
+}

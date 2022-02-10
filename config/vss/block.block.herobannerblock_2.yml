@@ -16,13 +16,13 @@ plugin: hero_banner_block
 settings:
   id: hero_banner_block
   label: 'Other Related Sub Categories'
-  provider: vss_custom
   label_display: visible
+  provider: vss_custom
 visibility:
   'entity_bundle:node':
     id: 'entity_bundle:node'
-    bundles:
-      scorm: scorm
     negate: false
     context_mapping:
       node: '@node.node_route_context:node'
+    bundles:
+      scorm: scorm

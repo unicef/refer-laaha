@@ -16,10 +16,10 @@ plugin: homepage_hero_categories_block
 settings:
   id: homepage_hero_categories_block
   label: 'Homepage Hero categories block'
-  provider: vss_custom
   label_display: '0'
+  provider: vss_custom
 visibility:
   request_path:
     id: request_path
-    pages: '<front>'
     negate: false
+    pages: '<front>'

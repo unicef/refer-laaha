@@ -24,7 +24,7 @@ class Dashboard extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
     $url = Url::fromRoute('erpw_location.manage_location');
-    $external_link = Link::fromTextAndUrl('Manage locations', $url)->toString();
+    $external_link = Link::fromTextAndUrl($this->t('Manage locations'), $url)->toString();
     $form['manage_location'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="dashboard-link location-link">',
@@ -32,10 +32,26 @@ class Dashboard extends FormBase {
       '#suffix' => '</div>',
     ];
     $url = Url::fromRoute('view.manage_service_types.page_1');
-    $link = Link::fromTextAndUrl('Manage service types', $url)->toString();
+    $link = Link::fromTextAndUrl($this->t('Manage service types'), $url)->toString();
     $form['manage_services'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="dashboard-link service-link">',
+      '#markup' => $link,
+      '#suffix' => '</div>',
+    ];
+    $url = Url::fromRoute('view.organisations.page_1');
+    $link = Link::fromTextAndUrl($this->t('Manage organisation'), $url)->toString();
+    $form['manage_organization'] = [
+      '#type' => 'markup',
+      '#prefix' => '<div class="dashboard-link org-link">',
+      '#markup' => $link,
+      '#suffix' => '</div>',
+    ];
+    $url = Url::fromRoute('view.user_lists.page_1');
+    $link = Link::fromTextAndUrl($this->t('Manage Application Users'), $url)->toString();
+    $form['manage_users'] = [
+      '#type' => 'markup',
+      '#prefix' => '<div class="dashboard-link user-link">',
       '#markup' => $link,
       '#suffix' => '</div>',
     ];

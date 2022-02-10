@@ -1,6 +1,6 @@
 uuid: 82a30404-158f-4555-8f02-d4b143a1c7bc
 langcode: en
-status: false
+status: true
 dependencies:
   config:
     - system.menu.iraq-navigation-header-menu
@@ -12,25 +12,25 @@ dependencies:
 id: vss_amp_iraqnavigationheadermenu
 theme: vss_amp
 region: header
-weight: -3
+weight: -5
 provider: null
 plugin: 'menu_item_fields:iraq-navigation-header-menu'
 settings:
   id: 'menu_item_fields:iraq-navigation-header-menu'
   label: 'Iraq Navigation header menu'
-  provider: menu_item_fields
   label_display: '0'
+  provider: menu_item_fields
+  view_mode: default
   level: '1'
   depth: '0'
   expand_all_items: 0
-  view_mode: default
   view_mode_override_field: _none
 visibility:
   language:
     id: language
-    langcodes:
-      ku: ku
-      ar: ar
     negate: false
     context_mapping:
       language: '@language.current_language_context:language_interface'
+    langcodes:
+      ku: ku
+      ar: ar

@@ -1,0 +1,29 @@
+uuid: b9e332e5-a00c-4ba6-abac-f9855301d39f
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.service_provider_name
+  module:
+    - facets
+    - system
+  theme:
+    - vss
+id: serviceprovidername
+theme: vss
+region: sidebar_first
+weight: -16
+provider: null
+plugin: 'facet_block:service_provider_name'
+settings:
+  id: 'facet_block:service_provider_name'
+  label: 'Filter By Organisation'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: serviceprovidername
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /need-help

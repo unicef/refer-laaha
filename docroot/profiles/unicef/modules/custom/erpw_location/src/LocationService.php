@@ -138,6 +138,29 @@ class LocationService {
    * Process taxonomy data.
    */
   public function processTaxonomyData($string, $pid, $level = 0, $mode = "", $update_tid_value = 0) {
+    if ($level == 4 && $mode == 'update') {
+      // Maharastra.
+      $pos = strpos($string, "(");
+      if (!$pos) {
+        $level_term_id = $this->taxonomyTermExist($string, $pid);
+        if ($mode == 'update' && $level_term_id) {
+          return 0;
+        }
+        if ($level_term_id) {
+          return $level_term_id;
+        }
+        else {
+          if ($mode == 'update') {
+            $level_term_id = $this->taxonomyTermUpdate($update_tid_value, $string);
+            return $level_term_id;
+          }
+          else {
+            $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
+          }
+          return $level_term_id;
+        }
+      }
+    }
     if ($level == 4 && $mode == "") {
       $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
       return $level_term_id;
@@ -203,10 +226,10 @@ class LocationService {
     ]);
     $query->values([
       $country_term_id,
-      isset($ancestors[1]) ? $ancestors[1] : '',
-      isset($ancestors[2]) ? $ancestors[2] : '',
-      isset($ancestors[3]) ? $ancestors[3] : '',
-      isset($ancestors[4]) ? $ancestors[4] : '',
+      $ancestors[1] ?? '',
+      $ancestors[2] ?? '',
+      $ancestors[3] ?? '',
+      $ancestors[4] ?? '',
     ]);
     $query->execute();
   }

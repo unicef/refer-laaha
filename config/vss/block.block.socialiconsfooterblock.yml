@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - system
     - vss_custom
   theme:
     - vss
@@ -15,6 +16,10 @@ plugin: social_icons_footer_block
 settings:
   id: social_icons_footer_block
   label: 'Social icons footer block'
-  provider: vss_custom
   label_display: '0'
-visibility: {  }
+  provider: vss_custom
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /country-selector

@@ -12,7 +12,7 @@
 .field--type-color-field-type .form-wrapper {
 		box-shadow: 0px 4px 12px rgb(103 97 97 / 15%);
 		@include border-radius(10px);
-		margin: 45px 0;
+		margin: 45px 0 0;
 		label {
 			font-weight: 400;
 		}
@@ -68,7 +68,7 @@
 			}
 			.selector-footer {
 				color: $base-secondary-bgcolor;
-				padding: 10px 15px 0;
+				padding: 10px 15px;
 			}
 		}
 		.uf::before {
@@ -99,6 +99,36 @@
 			left: inherit !important;
 			z-index: inherit !important;
 			height: inherit !important;
+
+			.selector-search {
+				margin: 0 auto;
+				width: 90%;
+				input[type=text] {
+					border: 1px solid $border;
+					&::-webkit-input-placeholder {
+						color: #E0D7D7;
+						font-size: 14px;
+					}
+				
+					&:-moz-placeholder {
+						color: #E0D7D7;
+						font-size: 14px;
+					}
+				
+					&::-moz-placeholder {
+						color: #E0D7D7;
+						font-size: 14px;
+					}
+				
+					&:-ms-input-placeholder {
+						color: #E0D7D7;
+						font-size: 14px;
+					}
+				}
+				.fip-icon-search {
+					top: 10px;
+				}
+			}
 		}
 	}
 	.color-field-widget-box-form {
@@ -119,31 +149,6 @@
 	}
 	.button--primary {
 		@extend .button-border;
-	}
-	.form-actions {
-		display: flex;
-		justify-content: space-between;
-		[id^='edit-submit'] {
-			order: 2;
-		}
-		[id^='edit-preview'],
-		[id^='edit-cancel'] {
-			background: none;
-			border: 1px solid $base-secondary-bgcolor;
-			@include border-radius(4px);
-			color: $base-secondary-bgcolor;
-			display: inline-block;
-			font-size: 0.875em;
-			margin: 0 15px 1em 0;
-			padding: 10px 24px;
-			order: 1;
-			text-transform: uppercase;
-		}
-		input[type=submit] {
-			text-align: center;
-    	padding: 10px 0;
-			width: 134px;
-		}
 	}
 	.color_field_widget_box__color {
 		border: 1px solid transparent !important;
@@ -196,28 +201,32 @@
 	}
 	.views-field-field-service-type-icon {
 		position: absolute;
-		top: 20px;
-    left: 22px;
+    top: 24px;
+    left: 10px;
+    width: 50px;
+    text-align: center;
 	}
 	.views-field-field-service-type-color {
 		display: inline-block;
 		padding: 0 10px;
 		vertical-align: top;
 	}
-	.service-title {
+	.service-title,
+	.views-field-title {
 		display: inline-block;
 		padding: 5px 0;
 		width: 77%;
-		a {
+		span, a {
 			color: $grey-txt-color;
 			font-size: 15px;
 			font-weight: 500;
+			text-transform: capitalize;
 			word-break: break-all;
 		}
 	}
 	.service-count {
-		color: $grey-txt-color;
-		font-size: 16px;
+		color: #9B9B9B;
+		font-size: 14px;
 		font-weight: 400;
 		position: absolute;
 		right: 0;
@@ -244,6 +253,7 @@
 	}
 	.clone-service-type a {
 		background: url('../images/clone.svg') center center no-repeat;
+		margin-left: 0;
 	}
 	.edit-link a {
 		background: url('../images/edit.svg') center center no-repeat;
@@ -251,10 +261,64 @@
 	.delete-link a {
 		background: url('../images/delete-button.svg') center center no-repeat;
 	}
+	.translate-link a {
+		background: url('../images/language-translate.png') center center no-repeat;
+		width: 24px;
+    height: 24px;
+	}
 }
 div.color_field__swatch label:hover span,
 div.color_field__swatch input[type=checkbox]:checked + label span, 
 div.color_field__swatch input[type=radio]:checked + label span {
     border: 0;
     transform: inherit;
+}
+.selector-arrows i::before {
+	font-size: 18px;
+}
+
+//form actions
+.node-service-type-form,
+.node-service-type-quick-node-clone-form,
+.node-service-type-edit-form,
+.node-organisation-form {
+	.form-actions {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 45px;
+		[id^='edit-submit'] {
+			order: 2;
+		}
+		[id^='edit-preview'],
+		[id^='edit-cancel'] {
+			background: none;
+			border: 1px solid $base-secondary-bgcolor;
+			@include border-radius(4px);
+			color: $base-secondary-bgcolor;
+			display: inline-block;
+			font-size: 0.875em;
+			margin: 0 15px 1em 0;
+			padding: 10px 24px;
+			order: 1;
+			text-transform: uppercase;
+		}
+		input[type=submit] {
+			text-align: center;
+    	padding: 10px 0;
+			width: 134px;
+		}
+	}
+}
+
+//Manage org
+.view-organisations {
+
+	@extend .service-list;
+
+	.views-field-title {
+		padding: 5px 10px;
+	}
+}
+.icons-search-input {
+	border: 1px solid #F3C1BF !important;
 }

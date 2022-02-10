@@ -1,0 +1,29 @@
+uuid: c15a6863-0202-40e7-8a5e-da4864172f21
+langcode: en
+status: true
+dependencies:
+  config:
+    - facets.facet.title1
+  module:
+    - facets
+    - system
+  theme:
+    - vss
+id: title1
+theme: vss
+region: sidebar_first
+weight: -15
+provider: null
+plugin: 'facet_block:title1'
+settings:
+  id: 'facet_block:title1'
+  label: 'Filter By Services'
+  label_display: visible
+  provider: facets
+  context_mapping: {  }
+  block_id: title1
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /need-help
