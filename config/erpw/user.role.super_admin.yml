@@ -8,6 +8,7 @@ dependencies:
   module:
     - content_translation
     - domain_access
+    - erpw_location
     - node
     - node_view_permissions
     - quick_node_clone
@@ -16,17 +17,22 @@ label: 'Super Admin'
 weight: -10
 is_admin: null
 permissions:
+  - 'access user profiles'
+  - 'add location entity entities'
+  - 'administer users'
   - 'clone service_type content'
   - 'create organisation content'
   - 'create service_type content'
   - 'create service_type content on assigned domains'
   - 'delete any organisation content'
   - 'delete any service_type content'
+  - 'delete location entity entities'
   - 'delete own organisation content'
   - 'delete own service_type content'
   - 'delete service_type content on assigned domains'
   - 'edit any organisation content'
   - 'edit any service_type content'
+  - 'edit location entity entities'
   - 'edit own organisation content'
   - 'edit own service_type content'
   - 'translate service_type node'
@@ -35,3 +41,5 @@ permissions:
   - 'view any service_type content'
   - 'view own organisation content'
   - 'view own service_type content'
+  - 'view published location entity entities'
+  - 'view unpublished location entity entities'

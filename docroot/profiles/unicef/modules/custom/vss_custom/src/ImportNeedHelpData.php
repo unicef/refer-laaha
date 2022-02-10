@@ -47,7 +47,7 @@ class ImportNeedHelpData {
     $language = $context['master_results']['language_datas'];
     $service_base_name = $item['Service base name'];
     $service_provider_base_name = $item['Organisation Base name'];
-    $hierarchy_4_base_name = $item['Base hierarchy level 4'];
+    $hierarchy_1_base_name = $item['Base hierarchy level 1'];
     $service_name = $item['Service Name'];
     $service_provider_name = $item['Organisation Name'];
     $email = $item['Email ID'];
@@ -65,11 +65,11 @@ class ImportNeedHelpData {
     $country = $item['Country'];
     $description = $item['Description'];
 
-    if (!empty($service_base_name) && !empty($service_provider_base_name) && !empty($hierarchy_4_base_name)) {
+    if (!empty($service_base_name) && !empty($service_provider_base_name) && !empty($hierarchy_1_base_name)) {
       $node = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
         'title' => $service_base_name,
         'field_service_provider_name' => $service_provider_base_name,
-        'field_hierarchy_level_4' => $hierarchy_4_base_name,
+        'field_hierarchy_level_1' => $hierarchy_1_base_name,
       ]);
     }
     if ($node) {
@@ -93,8 +93,12 @@ class ImportNeedHelpData {
       }
       $nd->set('field_hierarchy_level_1', $hierarchy_1);
       $nd->set('field_hierarchy_level_2', $hierarchy_2);
-      $nd->set('field_hierarchy_level_3', $hierarchy_3);
-      $nd->set('field_hierarchy_level_4', $hierarchy_4);
+      if ($hierarchy_3) {
+        $nd->set('field_hierarchy_level_3', $hierarchy_3);
+      }
+      if ($hierarchy_4) {
+        $nd->set('field_hierarchy_level_4', $hierarchy_4);
+      }
       if ($linkedin) {
         $nd->set('field_linkedin', $linkedin);
       }

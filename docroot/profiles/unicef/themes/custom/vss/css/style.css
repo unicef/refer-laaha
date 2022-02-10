@@ -1768,7 +1768,7 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
     .homepage-hero .homepage-hero-section--title {
       padding: 0 30px; } }
 
-.hero-wrapper {
+.homepage-hero-wrapper {
   margin: 0 20%;
   text-align: center; }
 
@@ -2157,6 +2157,7 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
       background-position-x: -15px; } }
 
 .discover-section {
+  margin-bottom: 80px;
   padding: 0 30px; }
   .discover-section .discover-section-title {
     margin: 40px 0; }
@@ -2193,6 +2194,9 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
         -webkit-box-direction: normal;
             -ms-flex-direction: row;
                 flex-direction: row; } }
+    @media screen and (max-width: 767px) {
+      .discover-section .discovery-articles a:not(:first-child) {
+        display: none; } }
   .discover-section .discover-content-link {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -2464,7 +2468,8 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
       width: 10px; }
 
 .thumbnail-icon {
-  background-size: 100% !important;
+  background-size: 25px !important;
+  border-radius: 50%;
   height: 32px;
   left: 8px;
   position: absolute;
@@ -2472,16 +2477,16 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   width: 32px; }
 
 .icon-video {
-  background: url("../images/video-icon.png") no-repeat; }
+  background: #000 url("../images/video-icon.png") no-repeat center; }
 
 .icon-podcast {
-  background: url("../images/podcast-icon.png") no-repeat; }
+  background: #000 url("../images/podcast-icon.png") no-repeat center; }
 
 .icon-article {
-  background: url("../images/article-icon.png") no-repeat; }
+  background: #000 url("../images/article-icon.png") no-repeat center; }
 
 .icon-scorm {
-  background: url("../images/cources-icon.png") no-repeat; }
+  background: #000 url("../images/cources-icon.png") no-repeat center; }
 
 .block-views-blocksub-category-all-result-block-1 {
   background-size: 100%;

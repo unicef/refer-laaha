@@ -129,4 +129,8 @@
       }
   });
 
+  $(document).ready(function() {
+    jQuery('form').get(0).reset(); //clear form data on page load
+  });
+
 })(jQuery, Drupal, drupalSettings);
