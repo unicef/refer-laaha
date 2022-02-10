@@ -64,7 +64,6 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $content = $this->vssCommonConfigDefault->getCategories();
     $count = 0;
-    // $term_length = count($content['homepage_hero']);
     $discover = NULL;
     $discover_article = NULL;
     $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
