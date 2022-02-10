@@ -1,0 +1,63 @@
+.path-select-language {
+	background: url('../images/language-selector-bg.svg') center center no-repeat;
+	.back-arrow {
+		display: none;
+	}
+}
+.language-selector {
+	margin: 0 auto;
+	max-width: 290px;
+	width: 100%;
+	.js-form-item-language-selector {
+		display: inline-block;
+		margin: 10px 14px 20px;
+	}
+	.form-radios {
+		display: flex;
+    flex-wrap: wrap;
+		margin: 0 -14px 160px;
+	}
+	input[type=submit] {
+		background: url('../images/arrow-white.svg') calc(50% + 50px) center no-repeat #A85766;
+	}
+}
+.welcome-text {
+	color: $grey-txt-color;
+	font-size: 1.25em;
+	font-weight: 500;
+	line-height: 32px;
+}
+.choose-language-text {
+	color: $grey-txt-color;
+	font-size: 1.13em;
+	font-weight: 400;
+	line-height: 28px;
+	margin: 5px 0 10px;
+}
+input[type="radio"] {
+	position: absolute;
+	opacity: 0;
+
+	&:checked,
+	&:hover {
+		+ label {
+			background: $base-secondary-bgcolor;
+			color: $base-white-color;
+		}
+	}
+	+ label {
+		align-items: center;
+		background: #FCF1F0;
+		border-radius: 6px;
+		color: $base-secondary-bgcolor;
+		cursor: pointer;
+		display: inline-flex;
+		font-size: 14px;
+		font-weight: 400;
+		justify-content: center;
+		min-height: 112px;
+		height: 100%;
+		text-align: center;
+		width: 129px;
+	}
+}

@@ -451,7 +451,7 @@ class SignUpForm extends FormBase {
       '#type' => 'actions',
     ];
     $form['action-wrapper'] = [
-      '#prefix' => '<div id="form-actions">',
+      '#prefix' => '<div id="form-actions" class="sign-buttons">',
       '#suffix' => '</div>',
     ];
     if (!empty($form_state->getValue('location_options'))) {
