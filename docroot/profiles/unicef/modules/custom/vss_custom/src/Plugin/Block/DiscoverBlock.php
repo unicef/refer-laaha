@@ -50,6 +50,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     $instance->languageManager = $container->get('language_manager');
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->domain = $container->get('domain.negotiator');
+    $instance->aliaspath = $container->get('path_alias.manager');
 
     return $instance;
   }
@@ -64,21 +65,22 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $content = $this->vssCommonConfigDefault->getCategories();
     $count = 0;
-    $term_length = count($content['homepage_hero']);
     $discover = NULL;
     $discover_article = NULL;
-    foreach ($content['homepage_hero'] as $term_id => $val) {
-      $term_obj = Term::load($term_id);
-      if ($term_obj) {
-        if (isset($term_obj) && !$term_obj->get('field_related_content')->isEmpty() && ($term_obj->get('field_domain')->target_id == $this->domain->getActiveDomain()->id())) {
-          if ($term_obj->hasTranslation($langcode) || $term_obj->get('langcode')->value == $langcode) {
-            $term_obj = $term_obj->getTranslation($langcode);
+    $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+      'field_domain' => $this->domain->getActiveDomain()->id(),
+    ]);
+    foreach ($terms as $term_id => $val) {
+      if ($val) {
+        if (isset($val) && !$val->get('field_related_content')->isEmpty()) {
+          if ($val->hasTranslation($langcode) || $val->get('langcode')->value == $langcode) {
+            $val = $val->getTranslation($langcode);
           }
-          foreach ($term_obj->get('field_related_content')->getValue() as $target_id) {
+          foreach ($val->get('field_related_content')->getValue() as $target_id) {
             $node = $this->entityTypeManager->getStorage('node')->load($target_id['target_id']);
             if (isset($node)) {
               $node_url = Url::fromRoute('entity.node.canonical', ['node' => $target_id['target_id']]);
-              $node_url = $node_url->toString();
+              $node_url = ltrim($this->aliaspath->getAliasByPath('/node/' . $target_id['target_id']), '/');
 
               $node_type = NULL;
               if ($node->getType() != NULL) {
@@ -145,8 +147,8 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
             }
           }
         }
-        $weight = $term_obj->get('weight')->getValue()[0]['value'];
-        if ($term_obj->get('weight')->getValue()[0]['value'] == 0) {
+        $weight = $val->get('weight')->getValue()[0]['value'];
+        if ($val->get('weight')->getValue()[0]['value'] == 0) {
           $count = $count + 1;
         }
 
@@ -156,11 +158,11 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
 
         $discover[$weight][] = [
           'id' => $term_id,
-          'name' => $term_obj->getName(),
-          'color' => $term_obj->get('field_category_color')->getValue()[0]['color'],
-          'cat_uri' => $term_obj->get('path')->alias,
-          'icon' => $term_obj->get('field_icon')->entity->getFileUri(),
-          'description' => $term_obj->get('description')->getValue()[0]['value'],
+          'name' => $val->getName(),
+          'color' => $val->get('field_category_color')->getValue()[0]['color'],
+          'cat_uri' => $val->get('path')->alias,
+          'icon' => $val->get('field_icon')->entity->getFileUri(),
+          'description' => $val->get('description')->getValue()[0]['value'],
         ];
       }
     }
