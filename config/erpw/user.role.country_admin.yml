@@ -1,9 +1,14 @@
 uuid: 40681601-7caa-4e95-b4fd-7c41836880ad
 langcode: sn
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - node.type.organisation
+  module:
+    - node
 id: country_admin
 label: 'Country Admin'
-weight: -9
+weight: -8
 is_admin: null
-permissions: {  }
+permissions:
+  - 'create organisation content'
