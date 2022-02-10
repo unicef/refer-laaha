@@ -9,8 +9,6 @@ use Drupal\Core\Url;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
-use Drupal\Core\Entity\EntityForm;
-use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -127,21 +125,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['submit']['#weight'] = 5;
     $form['actions']['cancel']['#weight'] = 10;
   }
-  // Content type RPW.
-  if (in_array($form_id,
-    [
-      'node_referral_path_way_form',
-      'node_referral_path_way_edit_form',
-    ])) {
-    $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = t('Add New Section');
-    $form = \Drupal::service('erpw_location.location_build_form')->buildForm($form, $form_state);
-    unset($form['location']['message']);
-    unset($form['location']['intro_text']);
-    $form['actions']['submit']['#submit'][] = '_erpw_custom_submit_content';
-  }
-  if ($form_id == 'node_referral_path_way_edit_form') {
-    $form['actions']['submit']['#cancel'][] = '_erpw_custom_rpw_handler';
-  }
 }
 
 /**
@@ -166,61 +149,6 @@ function cancelorganisation(array &$form, FormStateInterface $form_state) {
 /**
  * {@inheritdoc}
  */
-function _erpw_custom_submit_content(array &$form, FormStateInterface $form_state) {
-  $levels = $form_state->getValues('location');
-
-  if (!empty($levels['level_4'])) {
-    $locaton_level = $levels['level_4'];
-  }
-  elseif (!empty($levels['level_3'])) {
-    $locaton_level = $levels['level_3'];
-  }
-  elseif (!empty($levels['level_2'])) {
-    $locaton_level = $levels['level_2'];
-  }
-  elseif (!empty($levels['level_1'])) {
-    $locaton_level = $levels['level_1'];
-  }
-  elseif (!empty($levels['location_options'])) {
-    $locaton_level = $levels['location_options'];
-  }
-
-  if (empty($locaton_level)) {
-    return;
-  }
-
-  $node = \Drupal::routeMatch()->getParameter('node');
-  if ($node instanceof NodeInterface) {
-    save_location_reference_field($node, $locaton_level);
-  }
-  else {
-    $form_object = $form_state->getFormObject();
-    if ($form_object instanceof EntityForm) {
-      $entity = $form_object->getEntity();
-      save_location_reference_field($entity, $locaton_level);
-    }
-  }
-
-}
-
-/**
- * Save erpw location reference field.
- */
-function save_location_reference_field($entity, $location) {
-  if (is_array($location)) {
-    foreach ($location as $key => $value) {
-      $entity->field_location[] = ['target_id' => $value];
-    }
-  }
-  else {
-    $entity->field_location->target_id = $location;
-  }
-  $entity->save();
-}
-
-/**
- * {@inheritdoc}
- */
 function _erpw_custom_delete_content(array &$form, FormStateInterface $form_state) {
   return _erpw_custom_redirect('erpw_custom.dashboard');
 }
@@ -229,14 +157,6 @@ function _erpw_custom_delete_content(array &$form, FormStateInterface $form_stat
  * {@inheritdoc}
  */
 function _erpw_custom_service_handler(array &$form, FormStateInterface $form_state) {
-  return _erpw_custom_redirect('view.manage_service_types.page_1');
-}
-
-/**
- * {@inheritdoc}
- */
-function _erpw_custom_rpw_handler(array &$form, FormStateInterface $form_state) {
-  // @todo Replace route name when RPW view list is done.
   return _erpw_custom_redirect('view.manage_service_types.page_1');
 }
 

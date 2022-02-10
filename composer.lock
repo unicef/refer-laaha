@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae55d7ae76829ba83e355a95a47cc051",
+    "content-hash": "18e790b0c19c8032b9b8b5d3999566ee",
     "packages": [
         {
             "name": "acquia/blt",
@@ -5792,6 +5792,72 @@
             "homepage": "https://www.drupal.org/project/field_encrypt",
             "support": {
                 "source": "https://git.drupalcode.org/project/field_encrypt"
+            }
+        },
+        {
+            "name": "drupal/hook_event_dispatcher",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/hook_event_dispatcher.git",
+                "reference": "3.0.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/hook_event_dispatcher-3.0.1.zip",
+                "reference": "3.0.1",
+                "shasum": "2c0a09852cf6b926ef9ebd39e7458aeea9374b59"
+            },
+            "require": {
+                "drupal/core": "^9.2"
+            },
+            "require-dev": {
+                "drupal/core_event_dispatcher": "*",
+                "drupal/eck": "^1.0@alpha",
+                "drupal/paragraphs": "^1.10",
+                "drupal/webform": "^6.0",
+                "mglaman/phpstan-drupal": "^1.1",
+                "mockery/mockery": "^1.3",
+                "phpmd/phpmd": "^2.8"
+            },
+            "suggest": {
+                "drupal/paragraphs": "Enables the creation of paragraphs entities.",
+                "drupal/token": "Provides additional tokens not supported by core (most notably fields), as well as a UI for browsing tokens."
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "3.0.1",
+                    "datestamp": "1643545771",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "el7cosmos",
+                    "homepage": "https://www.drupal.org/user/251087"
+                },
+                {
+                    "name": "pdenooijer",
+                    "homepage": "https://www.drupal.org/user/3175437"
+                },
+                {
+                    "name": "robin.ingelbrecht",
+                    "homepage": "https://www.drupal.org/user/2339074"
+                }
+            ],
+            "description": "Dispatches events for several drupal core hooks.",
+            "homepage": "https://drupal.org/project/hook_event_dispatcher",
+            "support": {
+                "source": "https://git.drupalcode.org/project/hook_event_dispatcher",
+                "issues": "https://drupal.org/project/issues/hook_event_dispatcher"
             }
         },
         {
@@ -18889,5 +18955,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }
