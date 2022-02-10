@@ -105,4 +105,7 @@ resume.addEventListener("click", () => {
     var newUrl = oldUrl + "?amp"; // Create new url
     $(this).attr("href", newUrl); // Set herf value
   });
-  
+
+  $(document).ready(function() {
+    jQuery('form').get(0).reset(); //clear form data on page load
+  });
