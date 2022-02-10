@@ -1,17 +1,17 @@
-uuid: d4e06515-63c2-438d-970f-bd34bcfa1d62
+uuid: 4929d0dd-ba39-4c49-847f-cfd72a27af8a
 langcode: en
 status: true
 dependencies:
   config:
-    - block_content.type.user_home_content
+    - block_content.type.user_frontpage_content
     - field.storage.block_content.body
   module:
     - text
-id: block_content.user_home_content.body
+id: block_content.user_frontpage_content.body
 field_name: body
 entity_type: block_content
-bundle: user_home_content
-label: Body
+bundle: user_frontpage_content
+label: body
 description: ''
 required: false
 translatable: true
