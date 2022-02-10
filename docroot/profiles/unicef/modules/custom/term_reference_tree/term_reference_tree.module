@@ -74,7 +74,7 @@ function template_preprocess_checkbox_tree(&$variables) {
     }
   }
 
-  $attributes = isset($element['#attributes']) ? $element['#attributes'] : [];
+  $attributes = $element['#attributes'] ?? [];
   if (isset($element['#id'])) {
     $attributes['id'] = $element['#id'];
   }
@@ -428,8 +428,8 @@ function _term_reference_tree_build_item($element, $term, $form_state, $value, $
           '#return_value' => $term->tid,
           '#parent_values' => $parent_tids,
           '#default_value' => isset($value[$term->tid]) ? $term->tid : NULL,
-          '#attributes' => isset($element['#attributes']) ? $element['#attributes'] : NULL,
-          '#ajax' => isset($element['#ajax']) ? $element['#ajax'] : NULL,
+          '#attributes' => $element['#attributes'] ?? NULL,
+          '#ajax' => $element['#ajax'] ?? NULL,
         ];
 
         if (is_array($e)) {
