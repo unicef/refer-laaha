@@ -8,6 +8,7 @@ dependencies:
     - field.field.user.user.field_domain_all_affiliates
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
+    - field.field.user.user.field_location_details
     - field.field.user.user.field_organisation
     - field.field.user.user.field_phone
     - field.field.user.user.field_position
@@ -67,6 +68,14 @@ content:
     settings:
       size: 60
       placeholder: 'Enter last name'
+    third_party_settings: {  }
+  field_location_details:
+    type: string_textfield
+    weight: 51
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_organisation:
     type: string_textfield

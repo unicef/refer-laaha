@@ -99,8 +99,6 @@ class NeedHelpCsvUpload extends FormBase {
           'Telephone Number',
           'Hierarchy level 1',
           'Hierarchy level 2',
-          'Hierarchy level 3',
-          'Hierarchy level 4',
           'City',
           'Country',
           'Priority',

@@ -480,7 +480,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<a href=\"{{ view_node  }} \">\r\n<div class=\"thumbnail-image\">\r\n<span class=\"{{ type|lower }}-play-icon\"></span>\r\n<span class=\"icon-{{ type|lower }} thumbnail-icon\"></span>\r\n{{ field_thumbnail_image }}\r\n<span class=\"video-time\">{{ field_video_time }}</span>\r\n</div>\r\n<span class=\"content-title\"> {{ title}}</span>\r\n<span class=\"read-time\">{{ field_read_time }}</span>\r\n</a>"
+            text: "<a href=\"{{ view_node  }} \">\r\n<div class=\"thumbnail-image\">\r\n<span class=\"{{ type|lower }}-play-icon\"></span>\r\n<span class=\"icon-{{ type|lower }} thumbnail-icon\"></span>\r\n{{ field_thumbnail_image }}\r\n<span class=\"video-time\">{{ field_video_time }}</span>\r\n</div>\r\n<span class=\"content-title\"> {{ title}}</span>\r\n<span class=\"read-time\">{{ '[ ' }}{{ field_read_time }}{{ ' mins ]'|t }}</span>\r\n</a>"
             make_link: false
             path: ''
             absolute: false
