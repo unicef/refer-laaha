@@ -458,6 +458,11 @@ class SignUpForm extends FormBase {
       $form['action-wrapper']['actions']['back'] = [
         '#type' => 'submit',
         '#value' => $this->t('Back'),
+        '#attributes' => [
+          'class' => [
+            'button-border',
+          ],
+        ],
         '#submit' => ['::pageOneBack'],
         '#limit_validation_errors' => [],
       ];

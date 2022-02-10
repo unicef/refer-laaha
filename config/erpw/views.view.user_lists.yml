@@ -7,7 +7,8 @@ dependencies:
     - field.storage.user.field_last_name
     - field.storage.user.field_organisation
     - field.storage.user.field_phone
-    - user.role.authenticated
+    - user.role.administrator
+    - user.role.super_admin
   module:
     - user
 id: user_lists
@@ -478,7 +479,8 @@ display:
         type: role
         options:
           role:
-            authenticated: authenticated
+            super_admin: super_admin
+            administrator: administrator
       cache:
         type: tag
         options: {  }
