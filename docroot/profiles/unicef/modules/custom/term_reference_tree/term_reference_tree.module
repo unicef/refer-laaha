@@ -289,7 +289,7 @@ function _term_reference_tree_get_children($tid, $vid) {
 }
 
 /**
- *
+ * Get selected children.
  */
 function _term_reference_tree_children_selected($terms, $default) {
   foreach ($terms->children as $term) {
@@ -380,7 +380,11 @@ function _term_reference_tree_build_item($element, $term, $form_state, $value, $
 
     $active_domain_id = $active_domain->id();
     $t = \Drupal::entityTypeManager()->getStorage('taxonomy_term')
-      ->loadByProperties(['vid' => 'categories', 'tid' => $term->tid, 'field_domain' => $active_domain_id]);
+      ->loadByProperties([
+        'vid' => 'categories',
+        'tid' => $term->tid,
+        'field_domain' => $active_domain_id,
+      ]);
     $t = reset($t);
     if (!empty($t)) {
       $original_title = $t->getname();
