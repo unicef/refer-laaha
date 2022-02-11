@@ -136,7 +136,7 @@ function erpw_custom_field_widget_entity_reference_paragraphs_form_alter(&$eleme
     $element['top']['links']['remove_button']['#paragraphs_mode'] = 'removed';
   }
   if ($element['#paragraph_type'] == 'sections') {
-    $element['subform']['field_service_type']['widget']['add_more']['#value'] = t('Add New Service Type');
+    $element['subform']['field_service_type']['widget']['add_more']['#value'] = t('Add another service type');
   }
 }
 
