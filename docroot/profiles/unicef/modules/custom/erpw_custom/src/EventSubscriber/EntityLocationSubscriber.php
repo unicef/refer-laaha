@@ -10,7 +10,6 @@ use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\node\NodeInterface;
-// use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\erpw_location\LocationService;
 
@@ -351,9 +350,6 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents(): array {
     return [];
-    // return [
-    //   HookEventDispatcherInterface::FORM_ALTER => 'alterForm',
-    // ];
   }
 
 }
