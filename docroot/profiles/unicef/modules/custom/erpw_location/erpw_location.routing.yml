@@ -5,6 +5,13 @@ erpw_location.manage_location:
     _title: 'Manage Locations'
   requirements:
     _permission: 'access content'
+erpw_location.manage_location_url:
+  path: '/manage-location/{country_tid}'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\ManageLocationForm'
+    _title: 'Manage Country Locations'
+  requirements:
+    _permission: 'access content'
 erpw_location.open_import_modal:
   path: '/import-location-modal'
   defaults:

@@ -959,6 +959,16 @@ body {
 
   .featured_stories_block {
     margin-bottom: 95px;
+
+    .featured-thumbnail {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .row {
+      margin-bottom: 20px;
+    }
+
     .two-slice{
       a{
         max-width: 508px;
@@ -989,12 +999,6 @@ body {
 
       span {
         font-size: $base-font-size;
-        line-height: 20px;
-        margin-top: 16px;
-        margin-bottom: 24px;
-        display: block;
-        font-weight: 400;
-        min-height: 40px;
       }
     }
 
@@ -1047,18 +1051,19 @@ body {
         height: 332px;
         border-radius: 20px;
       }
+    }
 
-      .play-circle {
-        position: absolute;
-        left: calc(50% - 28px);
-        top: 37%;
-      }
+    .play-circle {
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-      .play-circle-podcast {
-        position: absolute;
-        left: 22px;
-        top: 222px;
-      }
+    .play-circle-podcast {
+      bottom: 8px;
+      left: 8px;
+      position: absolute;
     }
 
     .four-slice {
@@ -1080,19 +1085,6 @@ body {
         height: 158px;
         width: 100%;
         border-radius: 20px;
-      }
-
-      .play-circle {
-        position: absolute;
-        left: calc(50% - 28px);
-        top: 20%;
-      }
-
-      .play-circle-podcast {
-        position: absolute;
-        width: 50px;
-        left: 22px;
-        top: 78px;
       }
     }
   }
