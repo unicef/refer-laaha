@@ -10,7 +10,6 @@ use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\node\NodeInterface;
-use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\erpw_location\LocationService;
 
@@ -154,12 +153,14 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
 
       // Change button name of section.
       $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = $this->t('Add a new section');
+      $form['#title'] = $this->t('Add new template for RPW');
 
       // Form submit handler.
       $form['actions']['submit']['#submit'][] = [$this, 'eprwSubmitHandler'];
     }
 
     if ($form_id == 'node_referral_path_way_edit_form') {
+      $form['#title'] = $this->t('Update RPW template');
       $form['actions']['submit']['#cancel'][] = [$this, 'eprwCancelHandler'];
     }
   }
@@ -348,9 +349,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents(): array {
-    return [
-      HookEventDispatcherInterface::FORM_ALTER => 'alterForm',
-    ];
+    return [];
   }
 
 }
