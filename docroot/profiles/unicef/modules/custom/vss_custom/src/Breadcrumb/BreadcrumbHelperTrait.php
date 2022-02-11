@@ -16,15 +16,19 @@ trait BreadcrumbHelperTrait {
   public function generateBreadcrumbLink($entity, $type, $route, $parent = FALSE) {
     $image = $this->loadThumbnailImage($entity, $type, $parent);
     $url = Url::fromRoute($route, [$type => $entity->id()]);
+    $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
     if ($type == 'node') {
-      $title = $entity->getTitle();
+      $title = $entity->getTranslation($langcode)->getTitle() ? $entity->getTranslation($langcode)->getTitle() : $entity->getTitle();
     }
     else {
       if (isset($entity->get('field_category_short_name')->value) && !empty($entity->get('field_category_short_name')->value)) {
+        if ($entity->hasTranslation($langcode)) {
+          $entity = $entity->getTranslation($langcode);
+        }
         $title = $entity->get('field_category_short_name')->value;
       }
       else {
-        $title = $entity->getName();
+        $title = $entity->getTranslation($langcode)->getName() ? $entity->getTranslation($langcode)->getName() : $entity->getName();
       }
     }
     $text = [
