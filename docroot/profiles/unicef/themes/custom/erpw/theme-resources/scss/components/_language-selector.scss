@@ -1,5 +1,5 @@
 .path-select-language {
-	background: url('../images/language-selector-bg.svg') center center no-repeat;
+	background: url('../images/language-selector-bg.svg') center center no-repeat, url('../images/language-selector-dot-bg.svg') right top 120px no-repeat;
 	.back-arrow {
 		display: none;
 	}
@@ -37,12 +37,12 @@
 	width: 100%;
 	.js-form-item-language-selector {
 		display: inline-block;
-		margin: 10px 14px 20px;
+		margin: 10px 12px 20px;
 	}
 	.form-radios {
 		display: flex;
     flex-wrap: wrap;
-		margin: 0 -14px 160px;
+		margin: 0 -14px 120px;
 	}
 	input[type=submit] {
 		background: url('../images/arrow-white.svg') calc(50% + 50px) center no-repeat #A85766;
