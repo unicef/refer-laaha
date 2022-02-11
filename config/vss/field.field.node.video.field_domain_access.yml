@@ -12,7 +12,7 @@ bundle: video
 label: 'Domain Access'
 description: 'Select the affiliate domain(s) for this content'
 required: true
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: 'Drupal\domain_access\DomainAccessManager::getDefaultValue'
 settings:

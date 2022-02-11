@@ -159,6 +159,10 @@ class DeleteLocationForm extends FormBase {
       '#type' => 'hidden',
       '#value' => $curr_path[2],
     ];
+    $form['top_parent'] = [
+      '#type' => 'hidden',
+      '#value' => $location_id,
+    ];
     if ($mode == 'view') {
       // @todo url routes to be updated.
       $clone_url = $this->urlGenerator->generateFromRoute('erpw_location.manage_location');
@@ -230,7 +234,7 @@ class DeleteLocationForm extends FormBase {
       }
     }
     // Get the modal form using the form builder.
-    $location_popup_form = $this->formBuilder->getForm('Drupal\erpw_location\Form\LocationPopupForm');
+    $location_popup_form = $this->formBuilder->getForm('Drupal\erpw_location\Form\LocationPopupForm', $values['top_parent']);
 
     // Add an AJAX command to open a modal dialog with the form as the content.
     $response->addCommand(new OpenModalDialogCommand('', $location_popup_form, ['width' => '400']));
