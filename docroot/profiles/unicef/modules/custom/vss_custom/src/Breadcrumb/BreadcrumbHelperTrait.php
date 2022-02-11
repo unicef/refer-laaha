@@ -18,7 +18,7 @@ trait BreadcrumbHelperTrait {
     $url = Url::fromRoute($route, [$type => $entity->id()]);
     $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
     if ($type == 'node') {
-      $title = $node->getTranslation($langcode)->getTitle();
+      $title = $node->getTranslation($langcode)->getTitle() ? $node->getTranslation($langcode)->getTitle() : $node->getTitle();
     }
     else {
       if (isset($entity->get('field_category_short_name')->value) && !empty($entity->get('field_category_short_name')->value)) {
@@ -28,7 +28,7 @@ trait BreadcrumbHelperTrait {
         $title = $entity->get('field_category_short_name')->value;
       }
       else {
-        $title = $entity->getTranslation($langcode)->getName();
+        $title = $entity->getTranslation($langcode)->getName() ? $entity->getTranslation($langcode)->getName() : $entity->getName();
       }
     }
     $text = [
