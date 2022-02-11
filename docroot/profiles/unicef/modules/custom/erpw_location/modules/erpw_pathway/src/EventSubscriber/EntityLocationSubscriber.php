@@ -132,7 +132,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
             'callback' => [$this, 'getLocationDetail'],
             'event' => 'change',
             'method' => 'replace',
-            'wrapper' => 'edit-level-1',
+            'wrapper' => 'location-level-1',
             'progress' => [
               'type' => 'throbber',
             ],
@@ -262,11 +262,11 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
         }
       }
       $child_location['level_' . $i] = [
-        '#prefix' => '<div id="edit-level-' . $i . '" class="' . $class . '">',
+        '#prefix' => '<div id="location-level-' . $i . '" class="' . $class . '">',
         '#suffix' => '</div>',
         '#options' => $childs,
         '#type' => 'select',
-        '#title' => $this->levelLabel[$id][$i],
+        '#title' => $this->levelLabel[$id][$i] ?? '',
         '#attributes' => ['class' => ['loc-dropdown'], 'data-level' => ($i + 1)],
         '#multiple' => ($i == $this->maxLevel) ? TRUE : FALSE,
         '#level' => ($i + 1),
@@ -275,7 +275,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
           'callback' => [$this, 'getLocationDetail'],
           'event' => 'change',
           'method' => 'replace',
-          'wrapper' => 'edit-level-' . ($i + 1),
+          'wrapper' => 'location-level-' . ($i + 1),
           'progress' => [
             'type' => 'throbber',
           ],
