@@ -4,7 +4,7 @@
             $(document).ready(function() {
                 $(".path-delete-location .ui-icon-closethick").on("click", function(event){
                     event.preventDefault();
-                    window.location.href = document.referrer;
+                    window.location.href = drupalSettings.erpw_location.redirect_to_manage;
                 });
             });
         }
