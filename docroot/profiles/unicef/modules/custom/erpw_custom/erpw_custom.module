@@ -120,6 +120,11 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
 
     $form['actions']['cancel'] = [
       '#type' => 'submit',
+      '#attributes' => [
+        'class' => [
+          'button-border',
+        ],
+      ],
       '#value' => t('CANCEL'),
     ];
     $form['actions']['submit']['#weight'] = 5;

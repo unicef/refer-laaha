@@ -1,6 +1,6 @@
 services:
-  erpw_custom.entity_location:
-    class: Drupal\erpw_custom\EventSubscriber\EntityLocationSubscriber
+  erpw_pathway.entity_location:
+    class: Drupal\erpw_pathway\EventSubscriber\EntityLocationSubscriber
     arguments:
       - "@entity_type.manager"
       - "@messenger"
