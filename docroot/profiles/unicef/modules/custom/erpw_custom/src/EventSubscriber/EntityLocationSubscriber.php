@@ -127,7 +127,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
           '#required' => TRUE,
           '#level' => 1,
           '#attributes' => ['class' => ['loc-dropdown'], 'data-level' => 1],
-          '#default_value' => isset($parent_list[0]) ? $parent_list[0] : '',
+          '#default_value' => $parent_list[0] ?? '',
           '#ajax' => [
             'callback' => [$this, 'getLocationDetail'],
             'event' => 'change',
@@ -186,14 +186,14 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       'status' => 1,
       'field_location_taxonomy_term' => $parents[0],
     ]);
-    $count = 0;
+
     for ($i = $this->maxLevel; $i >= 0; $i--) {
       $level_id = 'level_' . $i;
       if (isset($location_entities[$parents[0]]->get($level_id)->getValue()[0])) {
         break;
       }
     }
-    if (count($parents) == $i+1) {
+    if (count($parents) == ($i + 1)) {
       $index = count($parents) - 1;
       $parents[$index] = $loc_tid;
     }
@@ -250,7 +250,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       $childs = ['0' => $this->t("Select") . ' ' . $i . ' ' . $this->t("Label")];
       $class = '';
       if (isset($location->get($level_id)->getValue()[0])) {
-        $this->levelLabel[$id][$i] = isset($this->levelLabel[$id][$i]) ? $this->levelLabel[$id][$i] : $location->get($level_id)->getValue()[0]['value'];
+        $this->levelLabel[$id][$i] = $this->levelLabel[$id][$i] ?? $location->get($level_id)->getValue()[0]['value'];
         $location_tid = !empty($parent_list[$i - 1]) ? $parent_list[$i - 1] : $form_state->getValue('level_' . ($i - 1));
 
         $childs += $this->locationService->getChildrenByTid($location_tid);
@@ -267,7 +267,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
         '#attributes' => ['class' => ['loc-dropdown'], 'data-level' => ($i + 1)],
         '#multiple' => ($i == $this->maxLevel) ? TRUE : FALSE,
         '#level' => ($i + 1),
-        '#default_value' => isset($parent_list[$i]) ? $parent_list[$i] : '',
+        '#default_value' => $parent_list[$i] ?? '',
         '#ajax' => [
           'callback' => [$this, 'getLocationDetail'],
           'event' => 'change',
@@ -326,7 +326,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    */
   protected function saveLocationField($entity, $location) {
     if (is_array($location)) {
-      foreach ($location as $key => $value) {
+      foreach ($location as $value) {
         $entity->field_location[] = ['target_id' => $value];
       }
     }
