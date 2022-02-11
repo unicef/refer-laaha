@@ -24,7 +24,7 @@ class SignUpForm extends FormBase {
   /**
    * The Current user service.
    *
-   * @var \Drupal\Core\Messenger\MessengerInterface
+   * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
 
@@ -398,16 +398,7 @@ class SignUpForm extends FormBase {
                   $array_keys = array_keys($location_levels);
                   $last_key = end($array_keys);
                   if ($last_key == $key) {
-                    $form['location']['all_wrapper']['location_level']['level_' . ($key + 1)]['#ajax'] = [
-                      'callback' => '::getLevelFour',
-                      'event' => 'change',
-                      'method' => 'replace',
-                      'wrapper' => 'location-level-4',
-                      'progress' => [
-                        'type' => 'throbber',
-                      ],
-                    ];
-
+                    $form['location']['all_wrapper']['location_level']['level_' . ($key + 1)]['#multiple'] = TRUE;
                   }
                   else {
                     $form['location']['all_wrapper']['location_level']['level_' . ($key + 1)]['#ajax'] = [
@@ -424,8 +415,14 @@ class SignUpForm extends FormBase {
                 else {
                   if (!empty($form_state->getValue('level_' . $key))) {
                     if ($key == 3) {
-                      $parent_level3_tid = $form_state->getValue('level_' . $key);
-                      $level_3_options = $this->locationService->getChildrenByTid($parent_level3_tid);
+                      $parent_level3_tid = $form_state->getValues();
+                      if (is_array($parent_level3_tid['level_3'])) {
+                        $parent_level_3 = !isset($parent_level3_tid['level_3']) ? $parent_level3_tid['level_3'][0] : "";
+                      }
+                      else {
+                        $parent_level_3 = $parent_level3_tid['level_3'];
+                      }
+                      $level_3_options = $this->locationService->getChildrenByTid($parent_level_3);
                       $form['location']['all_wrapper']['location_level']['level_4'] = [
                         '#type' => 'select',
                         '#multiple' => TRUE,

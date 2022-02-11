@@ -15,3 +15,11 @@ entity.location_type.collection:
   description: 'List Location Entity type (bundles)'
   parent: system.admin_structure
   weight: 99
+
+# User Location Entity type menu items definition
+user_location.settings:
+  title: 'User Location HomePage'
+  route_name: user_location.settings
+  description: 'Update Data of User Location for HomePage'
+  parent: system.admin_config_ui
+  weight: 100
