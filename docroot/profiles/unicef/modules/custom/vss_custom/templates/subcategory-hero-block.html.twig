@@ -19,9 +19,9 @@
     <div class="banner-right col-12 col-md-6">
       <h2 class="banner-title">{{content.title}}</h2>
       {% if lang_code != 'en' %}
-        <a href="/{{ lang_code }}/{{content.url}}" target='_blank' class="banner-cta cta">{{'READ MORE'|t }}</a>
+        <a href="/{{ lang_code }}/{{content.url}}" class="banner-cta cta">{{'READ MORE'|t }}</a>
       {% else %}
-        <a href="/{{content.url}}" target='_blank' class="banner-cta cta">{{'READ MORE'|t }}</a>
+        <a href="/{{content.url}}" class="banner-cta cta">{{'READ MORE'|t }}</a>
       {% endif %}
     </div>
   </div>
