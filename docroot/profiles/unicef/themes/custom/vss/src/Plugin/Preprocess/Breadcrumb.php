@@ -50,11 +50,15 @@ class Breadcrumb extends BootBreadcrumb {
         $parent = TRUE;
       }
       if ($tax_term) {
+        $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
         $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tax_term->id());
-        if (isset($term->field_category_short_name->value) && !empty($term->field_category_short_name->value)) {
-          $page_title = $term->field_category_short_name->value;
+        if ($term->hasTranslation($langcode) || $term->get('langcode')->value == $langcode) {
+          $term = $term->getTranslation($langcode);
+          if (isset($term->field_category_short_name->value) && !empty($term->field_category_short_name->value)) {
+            $page_title = $term->field_category_short_name->value;
+          }
+          $image = $this->loadThumbnailImage($tax_term, 'taxonomy_term', $parent);
         }
-        $image = $this->loadThumbnailImage($tax_term, 'taxonomy_term', $parent);
       }
       $link_text = [
         '#type' => 'html_tag',
