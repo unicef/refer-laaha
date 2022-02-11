@@ -3,7 +3,10 @@ display:
   default:
     display_title: Master
     display_options:
-      title: 'Recent log messages'
+      exposed_form:
+        options:
+          submit_button: Filter
+          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
       fields:
         severity:
           label: Severity
@@ -17,14 +20,6 @@ display:
           label: بەکارهێنەر
         link:
           label: کاره‌کان
-      exposed_form:
-        options:
-          submit_button: Filter
-          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
-      empty:
-        area:
-          admin_label: 'No log messages available.'
-          content: 'No log messages available.'
       filters:
         type:
           expose:
@@ -32,5 +27,10 @@ display:
         severity:
           expose:
             label: Severity
+      title: 'Recent log messages'
+      empty:
+        area:
+          admin_label: 'No log messages available.'
+          content: 'No log messages available.'
   page:
     display_title: پەڕە

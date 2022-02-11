@@ -2,16 +2,14 @@ display:
   default:
     display_title: Master
     display_options:
-      fields:
-        info:
-          label: 'Block description'
-        changed:
-          label: Updated
-        operations:
-          label: کاره‌کان
       exposed_form:
         options:
           reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
+      fields:
+        info:
+          label: 'Block description'
+        operations:
+          label: کاره‌کان
       filters:
         info:
           expose:

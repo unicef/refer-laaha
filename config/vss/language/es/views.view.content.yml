@@ -1,10 +1,21 @@
 label: Contenido
-description: 'Find and manage content.'
 display:
   default:
-    display_title: Master
     display_options:
-      title: Contenido
+      exposed_form:
+        options:
+          submit_button: Filter
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          tags:
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
+            first: '« Primero'
+            last: 'Último »'
       fields:
         title:
           label: Título
@@ -15,30 +26,8 @@ display:
           label: Autor
         status:
           label: Estado
-          settings:
-            format_custom_false: Unpublished
-            format_custom_true: Published
-        changed:
-          label: Updated
         operations:
           label: Operaciones
-      pager:
-        options:
-          tags:
-            next: 'Siguiente >'
-            previous: '‹ Anterior'
-            first: '« Primero'
-            last: 'Último »'
-      exposed_form:
-        options:
-          submit_button: Filter
-          reset_button_label: Restablecer
-          exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
-      empty:
-        area_text_custom:
-          content: 'No content available.'
       filters:
         title:
           expose:
@@ -49,21 +38,15 @@ display:
         status:
           expose:
             label: Estado
-          group_info:
-            label: 'Published status'
-            group_items:
-              1:
-                title: Published
-              2:
-                title: Unpublished
         langcode:
           expose:
             label: Idioma
+      title: Contenido
+    display_title: Master
   page_1:
-    display_title: Página
     display_options:
       menu:
         title: Contenido
       tab_options:
         title: Contenido
-        description: 'Find and manage content'
+    display_title: Página

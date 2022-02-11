@@ -1,40 +1,7 @@
-label: Files
-description: 'Find and manage files.'
 display:
   default:
     display_title: Master
     display_options:
-      title: Files
-      fields:
-        fid:
-          label: Fid
-        filename:
-          label: Nombre
-          separator: ', '
-        filemime:
-          label: 'Tipo MIME'
-        filesize:
-          label: Size
-        status:
-          label: Estado
-          settings:
-            format_custom_false: Temporary
-            format_custom_true: Permanent
-        created:
-          label: 'Upload date'
-        changed:
-          label: 'Changed date'
-        count:
-          label: 'Used in'
-      pager:
-        options:
-          tags:
-            next: 'Siguiente >'
-            previous: '‹ Anterior'
-          expose:
-            items_per_page_label: 'Elementos por página'
-            items_per_page_options_all_label: '- Todo -'
-            offset_label: Desplazamiento
       exposed_form:
         options:
           submit_button: Filter
@@ -42,49 +9,49 @@ display:
           exposed_sorts_label: 'Ordenar por'
           sort_asc_label: Asc
           sort_desc_label: Desc
-      empty:
-        area_text_custom:
-          content: 'No files available.'
-      filters:
-        filename:
+      pager:
+        options:
+          tags:
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
           expose:
-            label: Filename
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
+      fields:
+        filename:
+          label: Nombre
+          separator: ', '
+        filemime:
+          label: 'Tipo MIME'
+        status:
+          label: Estado
+      filters:
         filemime:
           expose:
             label: 'Tipo MIME'
         status:
           expose:
             label: Estado
-  page_1:
-    display_title: 'Files overview'
-    display_options:
-      menu:
-        title: Files
   page_2:
-    display_title: 'File usage'
     display_options:
-      title: 'File usage'
+      pager:
+        options:
+          tags:
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
       fields:
         entity_label:
           label: Entity
         type:
           label: 'Tipo de entidad'
-        module:
-          label: 'Registering module'
         count:
-          label: 'Use count'
           format_plural_string: !!binary MQNAY291bnQ=
-      pager:
-        options:
-          tags:
-            next: 'Siguiente >'
-            previous: '‹ Anterior'
-          expose:
-            items_per_page_label: 'Elementos por página'
-            items_per_page_options_all_label: '- Todo -'
-            offset_label: Desplazamiento
       arguments:
         fid:
           exception:
             title: Todo(s)
-          title: 'File usage information for {{ arguments.fid }}'

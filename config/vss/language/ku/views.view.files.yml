@@ -1,33 +1,20 @@
-label: Files
 display:
   default:
     display_title: Master
     display_options:
-      title: Files
-      fields:
-        filename:
-          label: ناو
-        filesize:
-          label: Size
-        status:
-          label: ڕەوش
-        count:
-          label: 'Used in'
       exposed_form:
         options:
           submit_button: Filter
           reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
-      filters:
+      fields:
         filename:
-          expose:
-            label: Filename
+          label: ناو
+        status:
+          label: ڕەوش
+      filters:
         status:
           expose:
             label: ڕەوش
-  page_1:
-    display_options:
-      menu:
-        title: Files
   page_2:
     display_options:
       arguments:
