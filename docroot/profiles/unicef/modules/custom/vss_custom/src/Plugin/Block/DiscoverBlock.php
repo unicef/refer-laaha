@@ -71,7 +71,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
       'vid' => 'categories',
     ]);
     foreach ($terms as $term_id => $val) {
-      if ($val && ($val->hasTranslation($langcode) || $val->get('langcode')->value == $langcode) && ($val->get('field_domain')->target_id == $this->domain->getActiveDomain()->id())) {
+      if ($val && ($val->hasTranslation($langcode) || $val->get('langcode')->value == $langcode)) {
         if (isset($val) && !$val->get('field_related_content')->isEmpty()) {
           $val = $val->getTranslation($langcode);
           foreach ($val->get('field_related_content')->getValue() as $target_id) {
