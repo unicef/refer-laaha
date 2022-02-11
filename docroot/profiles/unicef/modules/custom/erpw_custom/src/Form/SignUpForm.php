@@ -761,10 +761,8 @@ class SignUpForm extends FormBase {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $password = $form_state->getValue('password');
     $confirm_password = $form_state->getValue('confirm_password');
-    if ($password && $confirm_password && (strlen($password) > 0 || strlen($confirm_password) > 0)) {
-      if (strcmp($password, $confirm_password)) {
-        $form_state->setErrorByName('password', $this->t('The specified passwords do not match.'));
-      }
+    if ($password && strcmp($password, $confirm_password)) {
+      $form_state->setErrorByName('password', $this->t('The specified passwords do not match.'));
     }
     if ($password && !preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,64}$/", $password)) {
       $form_state->setErrorByName('password', $this->t('Password should contain at least one Number, one Symbol and one alphabet'));
