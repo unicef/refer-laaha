@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\erpw_custom\EventSubscriber;
+namespace Drupal\erpw_pathway\EventSubscriber;
 
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityForm;
@@ -10,6 +10,7 @@ use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\node\NodeInterface;
+use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\erpw_location\LocationService;
 
@@ -122,7 +123,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
           '#type' => 'select',
           '#options' => $location_options,
           '#empty_option' => $this->t('Select Country'),
-          '#title' => $this->t('Country'),
+          '#title' => $this->t('Select Country'),
           '#required' => TRUE,
           '#level' => 1,
           '#attributes' => ['class' => ['loc-dropdown'], 'data-level' => 1],
@@ -131,7 +132,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
             'callback' => [$this, 'getLocationDetail'],
             'event' => 'change',
             'method' => 'replace',
-            'wrapper' => 'edit-level-1',
+            'wrapper' => 'location-level-1',
             'progress' => [
               'type' => 'throbber',
             ],
@@ -154,6 +155,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       // Change button name of section.
       $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = $this->t('Add a new section');
       $form['#title'] = $this->t('Add new template for RPW');
+      $form['actions']['preview']['#attributes']['class'][] = 'button-border';
 
       // Form submit handler.
       $form['actions']['submit']['#submit'][] = [$this, 'eprwSubmitHandler'];
@@ -260,11 +262,11 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
         }
       }
       $child_location['level_' . $i] = [
-        '#prefix' => '<div id="edit-level-' . $i . '" class="' . $class . '">',
+        '#prefix' => '<div id="location-level-' . $i . '" class="' . $class . '">',
         '#suffix' => '</div>',
         '#options' => $childs,
         '#type' => 'select',
-        '#title' => $this->levelLabel[$id][$i],
+        '#title' => $this->levelLabel[$id][$i] ?? '',
         '#attributes' => ['class' => ['loc-dropdown'], 'data-level' => ($i + 1)],
         '#multiple' => ($i == $this->maxLevel) ? TRUE : FALSE,
         '#level' => ($i + 1),
@@ -273,7 +275,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
           'callback' => [$this, 'getLocationDetail'],
           'event' => 'change',
           'method' => 'replace',
-          'wrapper' => 'edit-level-' . ($i + 1),
+          'wrapper' => 'location-level-' . ($i + 1),
           'progress' => [
             'type' => 'throbber',
           ],
@@ -305,6 +307,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
     // Saving the location data.
     $node = $this->routeMatch->getParameter('node');
     if ($node instanceof NodeInterface) {
+      $node->set('field_location', []);
       $this->saveLocationField($node, $location_level);
     }
     else {
@@ -349,7 +352,9 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents(): array {
-    return [];
+    return [
+      HookEventDispatcherInterface::FORM_ALTER => 'alterForm',
+    ];
   }
 
 }
