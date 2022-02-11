@@ -26,7 +26,7 @@ class HeaderResponse implements EventSubscriberInterface {
 
     $csp = "default-src 'self' blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://bam.nr-data.net/ https://www.googletagmanager.com https://js-agent.newrelic.com https://cdn.ampproject.org https://www.google-analytics.com https://cdnjs.cloudflare.com https://ajax.googleapis.com https://code.jquery.com https://cdn.jsdelivr.net https://www.youtube.com https://www.vimeo.com; img-src 'self' data: https://www.google-analytics.com https://h5p.org https://www.gstatic.com https://www.youtube.com https://www.vimeo.com  https://i.ytimg.com; style-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://translate.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.youtube.com https://www.vimeo.com https://i.ytimg.com; font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.youtube.com https://www.vimeo.com https://i.ytimg.com; frame-src 'self' https://www.youtube.com https://www.vimeo.com; connect-src 'self' https://www.google-analytics.com https://metrics.articulate.com; worker-src 'self' blob:;";
     $connect_src = "connect-src https://api.opencagedata.com";
-    $frame_src = "frame-src 'self' https://iq.virtualsafespace.net https://ec.virtualsafespace.net https://virtualsafespace.net *.virtualsafespace.net";
+    $frame_src = "frame-src 'self' https://player.vimeo.com https://iq.virtualsafespace.net https://ec.virtualsafespace.net https://virtualsafespace.net *.virtualsafespace.net";
     $response->headers->set("Content-Security-Policy", $csp);
     $response->headers->set("Content-Security-Policy", $frame_src);
   }
