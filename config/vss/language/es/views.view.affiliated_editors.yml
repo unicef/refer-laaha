@@ -1,3 +1,4 @@
+description: 'Find and manage people interacting with your site.'
 display:
   default:
     display_title: Máster
@@ -21,33 +22,60 @@ display:
             items_per_page_options_all_label: '- Todo -'
             offset_label: Desplazamiento
       fields:
+        user_bulk_form:
+          label: 'Bulk update'
         name:
           label: 'Nombre de usuario'
         status:
           label: Estado
           settings:
             format_custom_true: Activo
+            format_custom_false: Blocked
         roles_target_id:
           label: Roles
         field_domain_access:
           separator: ', '
         field_domain_all_affiliates:
           separator: ', '
+        created:
+          label: 'Member for'
+        access:
+          label: 'Last access'
         operations:
           label: Operaciones
         mail:
           separator: ', '
       filters:
+        combine:
+          expose:
+            label: 'Name or email contains'
+        roles_target_id:
+          expose:
+            label: Role
+        permission:
+          expose:
+            label: Permission
         status:
           group_info:
             label: Estado
             group_items:
               1:
                 title: Activo
+              2:
+                title: Blocked
+      title: People
+      empty:
+        area_text_custom:
+          content: 'No people available.'
+      use_more_text: more
   page_1:
     display_options:
       menu:
         title: List
+        description: 'Find and manage people interacting with your site.'
+      tab_options:
+        title: People
+        description: 'Manage user accounts, roles, and permissions.'
       arguments:
         field_domain_access_target_id:
           exception:
@@ -55,9 +83,23 @@ display:
   page_2:
     display_options:
       filters:
+        combine:
+          expose:
+            label: 'Name or email contains'
+        roles_target_id:
+          expose:
+            label: Role
+        permission:
+          expose:
+            label: Permission
         status:
           group_info:
             label: Estado
             group_items:
               1:
                 title: Activo
+              2:
+                title: Blocked
+        field_domain_access_target_id:
+          expose:
+            label: Domain

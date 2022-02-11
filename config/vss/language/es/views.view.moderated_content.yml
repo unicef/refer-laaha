@@ -1,25 +1,10 @@
+label: 'Moderated content'
+description: 'Find and moderate content.'
 display:
   default:
     display_title: Master
     display_options:
-      exposed_form:
-        options:
-          submit_button: Filter
-          reset_button_label: Restablecer
-          exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
-      pager:
-        options:
-          tags:
-            previous: '‹ Anterior'
-            next: 'Siguiente >'
-            first: '« Primero'
-            last: 'Último »'
-          expose:
-            items_per_page_label: 'Elementos por página'
-            items_per_page_options_all_label: '- Todo -'
-            offset_label: Desplazamiento
+      title: 'Moderated content'
       fields:
         title:
           label: Título
@@ -31,11 +16,34 @@ display:
           label: Autor
           separator: ', '
         moderation_state:
+          label: 'Moderation state'
           separator: ', '
         changed:
+          label: Updated
           separator: ', '
         operations:
           label: Operaciones
+      pager:
+        options:
+          tags:
+            next: 'Siguiente >'
+            previous: '‹ Anterior'
+            first: '« Primero'
+            last: 'Último »'
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
+      exposed_form:
+        options:
+          submit_button: Filter
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      empty:
+        area_text_custom:
+          content: 'No moderated content available. Only pending versions of content, such as drafts, are listed here.'
       filters:
         title:
           expose:
@@ -43,6 +51,11 @@ display:
         type:
           expose:
             label: 'Tipo de contenido'
+        moderation_state:
+          expose:
+            label: 'Moderation state'
         langcode:
           expose:
             label: Idioma
+  moderated_content:
+    display_title: 'Moderated content'

@@ -1,3 +1,4 @@
+description: 'Find and manage content.'
 display:
   default:
     display_options:
@@ -12,12 +13,20 @@ display:
           label: نووسەر
         status:
           label: ڕەوش
+          settings:
+            format_custom_true: Published
+        changed:
+          label: Updated
         operations:
           label: کاره‌کان
       filters:
         status:
           expose:
             label: ڕەوش
+          group_info:
+            group_items:
+              1:
+                title: Published
         type:
           expose:
             label: جۆر
@@ -27,6 +36,9 @@ display:
         langcode:
           expose:
             label: زمان
+      empty:
+        area_text_custom:
+          content: 'No content available.'
       arguments:
         field_domain_access_target_id:
           exception:
@@ -41,6 +53,10 @@ display:
         status:
           expose:
             label: ڕەوش
+          group_info:
+            group_items:
+              1:
+                title: Published
         type:
           expose:
             label: جۆر
@@ -57,6 +73,10 @@ display:
         status:
           expose:
             label: ڕەوش
+          group_info:
+            group_items:
+              1:
+                title: Published
         type:
           expose:
             label: جۆر
@@ -66,3 +86,6 @@ display:
         langcode:
           expose:
             label: زمان
+        field_domain_access_target_id:
+          expose:
+            label: Domain

@@ -11,6 +11,8 @@ display:
           submit_button: Aplicar
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       pager:
         options:
           tags:
@@ -25,6 +27,9 @@ display:
       fields:
         title:
           label: Título
+          separator: ', '
+        nid:
+          label: 'Count views'
     display_title: Máster
   page:
     display_title: Página

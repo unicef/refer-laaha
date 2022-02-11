@@ -3,10 +3,7 @@ display:
   default:
     display_title: Master
     display_options:
-      exposed_form:
-        options:
-          submit_button: Filter
-          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
+      title: ڕەنگاڵە
       fields:
         media_bulk_form:
           action_title: کردار
@@ -16,16 +13,28 @@ display:
           label: نووسەر
         status:
           label: ڕەوش
+          settings:
+            format_custom_true: Published
+        changed:
+          label: Updated
         operations:
           label: کاره‌کان
+      exposed_form:
+        options:
+          submit_button: Filter
+          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
       filters:
         bundle:
           expose:
             label: جۆر
+        status:
+          group_info:
+            group_items:
+              1:
+                title: Published
         langcode:
           expose:
             label: زمان
-      title: ڕەنگاڵە
   media_page_list:
     display_title: ڕەنگاڵە
     display_options:

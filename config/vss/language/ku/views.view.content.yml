@@ -1,11 +1,10 @@
 label: ناوەڕۆک
+description: 'Find and manage content.'
 display:
   default:
+    display_title: Master
     display_options:
-      exposed_form:
-        options:
-          submit_button: Filter
-          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
+      title: ناوەڕۆک
       fields:
         title:
           label: ناونیشان
@@ -15,8 +14,19 @@ display:
           label: نووسەر
         status:
           label: ڕەوش
+          settings:
+            format_custom_true: Published
+        changed:
+          label: Updated
         operations:
           label: کاره‌کان
+      exposed_form:
+        options:
+          submit_button: Filter
+          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
+      empty:
+        area_text_custom:
+          content: 'No content available.'
       filters:
         title:
           expose:
@@ -27,15 +37,17 @@ display:
         status:
           expose:
             label: ڕەوش
+          group_info:
+            group_items:
+              1:
+                title: Published
         langcode:
           expose:
             label: زمان
-      title: ناوەڕۆک
-    display_title: Master
   page_1:
+    display_title: پەڕە
     display_options:
       menu:
         title: ناوەڕۆک
       tab_options:
         title: ناوەڕۆک
-    display_title: پەڕە

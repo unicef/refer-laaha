@@ -1,7 +1,19 @@
+label: Archive
+description: 'All content, by month.'
 display:
   default:
     display_title: Master
     display_options:
+      title: 'Monthly archive'
+      pager:
+        options:
+          tags:
+            next: ››
+            previous: ‹‹
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
       exposed_form:
         options:
           submit_button: Aplicar
@@ -9,13 +21,14 @@ display:
           exposed_sorts_label: 'Ordenar por'
           sort_asc_label: Asc
           sort_desc_label: Desc
-      pager:
-        options:
-          expose:
-            items_per_page_label: 'Elementos por página'
-            items_per_page_options_all_label: '- Todo -'
-            offset_label: Desplazamiento
+      arguments:
+        created_year_month:
+          title: '{{ arguments.created_year_month }}'
   block_1:
     display_title: Bloque
+    display_options:
+      arguments:
+        created_year_month:
+          title: '{{ arguments.created_year_month }}'
   page_1:
     display_title: Página

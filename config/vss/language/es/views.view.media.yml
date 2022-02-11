@@ -1,26 +1,10 @@
 label: Multimedia
+description: 'Find and manage media.'
 display:
   default:
     display_title: Master
     display_options:
-      exposed_form:
-        options:
-          submit_button: Filter
-          reset_button_label: Restablecer
-          exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
-      pager:
-        options:
-          expose:
-            items_per_page_label: 'Elementos por página'
-            items_per_page_options_all_label: '- Todo -'
-            offset_label: Desplazamiento
-          tags:
-            previous: '‹ Anterior'
-            next: 'Siguiente >'
-            first: '« Primero'
-            last: 'Último »'
+      title: Multimedia
       fields:
         media_bulk_form:
           action_title: Acción
@@ -28,6 +12,7 @@ display:
           label: Miniatura
           separator: ', '
         name:
+          label: 'Media name'
           separator: ', '
         bundle:
           label: Tipo
@@ -37,22 +22,56 @@ display:
           separator: ', '
         status:
           label: Estado
+          settings:
+            format_custom_false: Unpublished
+            format_custom_true: Published
           separator: ', '
         changed:
+          label: Updated
           separator: ', '
         operations:
           label: Operaciones
+      pager:
+        options:
+          tags:
+            next: 'Siguiente >'
+            previous: '‹ Anterior'
+            first: '« Primero'
+            last: 'Último »'
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
+      exposed_form:
+        options:
+          submit_button: Filter
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      empty:
+        area_text_custom:
+          content: 'No media available.'
       filters:
+        name:
+          expose:
+            label: 'Media name'
         bundle:
           expose:
             label: Tipo
         status:
           expose:
             label: Verdad
+          group_info:
+            label: 'Published status'
+            group_items:
+              1:
+                title: Published
+              2:
+                title: Unpublished
         langcode:
           expose:
             label: Idioma
-      title: Multimedia
   media_page_list:
     display_title: Multimedia
     display_options:

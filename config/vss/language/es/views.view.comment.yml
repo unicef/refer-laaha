@@ -1,7 +1,42 @@
+label: Comments
+description: 'Find and manage comments.'
 display:
   default:
     display_title: Master
     display_options:
+      title: Comments
+      fields:
+        comment_bulk_form:
+          action_title: Acción
+        subject:
+          label: Asunto
+          separator: ', '
+        uid:
+          separator: ', '
+        name:
+          label: Autor
+          separator: ', '
+        entity_id:
+          label: 'Posted in'
+          separator: ', '
+        changed:
+          label: Updated
+          separator: ', '
+        operations:
+          label: Operaciones
+        name_1:
+          separator: ', '
+      pager:
+        options:
+          tags:
+            next: 'next ›'
+            previous: '‹ previous'
+            first: '« first'
+            last: 'last »'
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
       exposed_form:
         options:
           submit_button: Filter
@@ -9,47 +44,30 @@ display:
           exposed_sorts_label: 'Ordenar por'
           sort_asc_label: Asc
           sort_desc_label: Desc
-      pager:
-        options:
-          expose:
-            items_per_page_label: 'Elementos por página'
-            items_per_page_options_all_label: '- Todo -'
-            offset_label: Desplazamiento
-      fields:
-        comment_bulk_form:
-          action_title: Acción
-        subject:
-          label: Asunto
-          separator: ', '
-        uid:
-          separator: ', '
-        name:
-          label: Autor
-          separator: ', '
-        entity_id:
-          separator: ', '
-        changed:
-          separator: ', '
-        operations:
-          label: Operaciones
-        name_1:
-          separator: ', '
+      empty:
+        area_text_custom:
+          content: 'No comments available.'
       filters:
         subject:
           expose:
             label: Asunto
+        combine:
+          expose:
+            label: 'Author name'
         langcode:
           expose:
             label: Idioma
-  page_unapproved:
+      use_more_text: more
+  page_published:
+    display_title: 'Published comments'
     display_options:
-      filters:
-        subject:
-          expose:
-            label: Asunto
-        langcode:
-          expose:
-            label: Idioma
+      display_description: 'The approved comments listing.'
+      menu:
+        title: Comments
+        description: 'Comments published'
+  page_unapproved:
+    display_title: 'Unapproved comments'
+    display_options:
       fields:
         comment_bulk_form:
           action_title: Acción
@@ -62,10 +80,26 @@ display:
           label: Autor
           separator: ', '
         entity_id:
+          label: 'Posted in'
           separator: ', '
         changed:
+          label: Updated
           separator: ', '
         operations:
           label: Operaciones
         name_1:
           separator: ', '
+      filters:
+        subject:
+          expose:
+            label: Asunto
+        combine:
+          expose:
+            label: 'Author Name'
+        langcode:
+          expose:
+            label: Idioma
+      display_description: 'The unapproved comments listing.'
+      menu:
+        title: 'Unapproved comments'
+        description: 'Comments unapproved'

@@ -1,20 +1,36 @@
+label: Comments
 display:
   default:
     display_title: Master
     display_options:
+      title: Comments
+      fields:
+        comment_bulk_form:
+          action_title: کردار
+        subject:
+          label: سه‌ردیڕ
+        name:
+          label: نووسەر
+        entity_id:
+          label: 'Posted in'
+        changed:
+          label: Updated
+        operations:
+          label: کاره‌کان
+      pager:
+        options:
+          tags:
+            next: 'next ›'
+            previous: '‹ previous'
+            first: '« first'
+            last: 'last »'
       exposed_form:
         options:
           submit_button: Filter
           reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
-      fields:
-        comment_bulk_form:
-          action_title: کردار
-        subject:
-          label: سه‌ردیڕ
-        name:
-          label: نووسەر
-        operations:
-          label: کاره‌کان
+      empty:
+        area_text_custom:
+          content: 'No comments available.'
       filters:
         subject:
           expose:
@@ -22,15 +38,15 @@ display:
         langcode:
           expose:
             label: زمان
-  page_unapproved:
+      use_more_text: more
+  page_published:
+    display_title: 'Published comments'
     display_options:
-      filters:
-        subject:
-          expose:
-            label: سه‌ردیڕ
-        langcode:
-          expose:
-            label: زمان
+      menu:
+        title: Comments
+  page_unapproved:
+    display_title: 'Unapproved comments'
+    display_options:
       fields:
         comment_bulk_form:
           action_title: کردار
@@ -38,5 +54,18 @@ display:
           label: سه‌ردیڕ
         name:
           label: نووسەر
+        entity_id:
+          label: 'Posted in'
+        changed:
+          label: Updated
         operations:
           label: کاره‌کان
+      filters:
+        subject:
+          expose:
+            label: سه‌ردیڕ
+        langcode:
+          expose:
+            label: زمان
+      menu:
+        title: 'Unapproved comments'

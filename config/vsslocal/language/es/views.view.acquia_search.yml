@@ -1,11 +1,10 @@
-label: Carrusel
 display:
   default:
     display_title: Máster
     display_options:
       exposed_form:
         options:
-          submit_button: Aplicar
+          submit_button: Search
           reset_button_label: Restablecer
           exposed_sorts_label: 'Ordenar por'
           sort_asc_label: Asc
@@ -17,11 +16,28 @@ display:
             items_per_page_options_all_label: '- Todo -'
             offset_label: Desplazamiento
           tags:
-            previous: ‹‹
-            next: ››
+            previous: '‹ Anterior'
+            next: 'Siguiente >'
+            first: '« Primero'
+            last: 'Último »'
       fields:
         title:
           separator: ', '
-      title: Carrusel
-  page_1:
-    display_title: Página
+        body:
+          separator: ', '
+        type:
+          label: Tipo
+          separator: ', '
+      filters:
+        search_api_fulltext:
+          expose:
+            label: Search
+      title: Search
+      empty:
+        area:
+          content:
+            value: 'No results found.'
+  page:
+    display_options:
+      menu:
+        title: Search
