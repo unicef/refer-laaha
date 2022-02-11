@@ -48,7 +48,7 @@ class Dashboard extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
     $current_user_role = $this->currentUser->getRoles();
-    $access_role = ['administrator', 'super_admin'];
+    $access_role = ['administrator', 'super_admin', 'country_admin'];
     if (array_intersect($current_user_role, $access_role)) {
       $url = Url::fromRoute('erpw_location.manage_location');
       $external_link = Link::fromTextAndUrl($this->t('Manage locations'), $url)->toString();
