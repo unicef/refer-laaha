@@ -71,12 +71,13 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
       'vid' => 'categories',
     ]);
     foreach ($terms as $term_id => $val) {
-      if ($val && $val->hasTranslation($langcode) || $val->get('langcode')->value == $langcode) {
+      if ($val && ($val->hasTranslation($langcode) || $val->get('langcode')->value == $langcode) && ($val->get('field_domain')->target_id == $this->domain->getActiveDomain()->id())) {
         if (isset($val) && !$val->get('field_related_content')->isEmpty()) {
           $val = $val->getTranslation($langcode);
           foreach ($val->get('field_related_content')->getValue() as $target_id) {
             $node = $this->entityTypeManager->getStorage('node')->load($target_id['target_id']);
-            if (isset($node)) {
+            if (isset($node) && ($node->get('field_domain_access')->target_id == $this->domain->getActiveDomain()->id()) && ($node->hasTranslation($langcode) || $node->get('langcode')->value == $langcode)) {
+              $node = $node->getTranslation($langcode);
               $node_url = ltrim($this->aliaspath->getAliasByPath('/node/' . $target_id['target_id']), '/');
 
               $node_type = NULL;

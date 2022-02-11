@@ -141,7 +141,8 @@
                 "web-root": "./docroot/"
             },
             "file-mapping": {
-                "[web-root]/.htaccess": false
+                "[web-root]/.htaccess": false,
+                "[web-root]/robots.txt": false
             }
         },
         "installer-paths": {

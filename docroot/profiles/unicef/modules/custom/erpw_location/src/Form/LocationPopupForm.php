@@ -52,8 +52,11 @@ class LocationPopupForm extends FormBase {
       '#markup' => $dashboard_url,
       '#suffix' => '</div>',
     ];
+    $url_redirect = Url::fromRoute('erpw_location.manage_location_url', ['country_tid' => $options],
+     [], ['absolute' => TRUE])->toString();
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'erpw_location/erpw_location_js';
+    $form['#attached']['drupalSettings']['erpw_location']['redirect_to_manage'] = $url_redirect;
     return $form;
   }
 

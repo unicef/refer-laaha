@@ -3,6 +3,33 @@
 	.back-arrow {
 		display: none;
 	}
+	input[type="radio"] {
+		position: absolute;
+		opacity: 0;
+	
+		&:checked,
+		&:hover {
+			+ label {
+				background: $base-secondary-bgcolor;
+				color: $base-white-color;
+			}
+		}
+		+ label {
+			align-items: center;
+			background: #FCF1F0;
+			border-radius: 6px;
+			color: $base-secondary-bgcolor;
+			cursor: pointer;
+			display: inline-flex;
+			font-size: 14px;
+			font-weight: 400;
+			justify-content: center;
+			min-height: 112px;
+			height: 100%;
+			text-align: center;
+			width: 129px;
+		}
+	}
 }
 .language-selector {
 	margin: 0 auto;
@@ -33,31 +60,4 @@
 	font-weight: 400;
 	line-height: 28px;
 	margin: 5px 0 10px;
-}
-input[type="radio"] {
-	position: absolute;
-	opacity: 0;
-
-	&:checked,
-	&:hover {
-		+ label {
-			background: $base-secondary-bgcolor;
-			color: $base-white-color;
-		}
-	}
-	+ label {
-		align-items: center;
-		background: #FCF1F0;
-		border-radius: 6px;
-		color: $base-secondary-bgcolor;
-		cursor: pointer;
-		display: inline-flex;
-		font-size: 14px;
-		font-weight: 400;
-		justify-content: center;
-		min-height: 112px;
-		height: 100%;
-		text-align: center;
-		width: 129px;
-	}
 }
