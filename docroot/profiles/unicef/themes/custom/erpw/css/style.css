@@ -781,6 +781,35 @@ header {
 .path-select-language .back-arrow {
   display: none;
 }
+.path-select-language input[type=radio] {
+  position: absolute;
+  opacity: 0;
+}
+.path-select-language input[type=radio]:checked + label, .path-select-language input[type=radio]:hover + label {
+  background: #A85766;
+  color: #ffffff;
+}
+.path-select-language input[type=radio] + label {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #FCF1F0;
+  border-radius: 6px;
+  color: #A85766;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 400;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  min-height: 112px;
+  height: 100%;
+  text-align: center;
+  width: 129px;
+}
 
 .language-selector {
   margin: 0 auto;
@@ -816,36 +845,6 @@ header {
   font-weight: 400;
   line-height: 28px;
   margin: 5px 0 10px;
-}
-
-input[type=radio] {
-  position: absolute;
-  opacity: 0;
-}
-input[type=radio]:checked + label, input[type=radio]:hover + label {
-  background: #A85766;
-  color: #ffffff;
-}
-input[type=radio] + label {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  background: #FCF1F0;
-  border-radius: 6px;
-  color: #A85766;
-  cursor: pointer;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  font-size: 14px;
-  font-weight: 400;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  min-height: 112px;
-  height: 100%;
-  text-align: center;
-  width: 129px;
 }
 
 .overlay {
@@ -1460,6 +1459,24 @@ div.color_field__swatch input[type=radio]:checked + label span {
 
 .icons-search-input {
   border: 1px solid #F3C1BF !important;
+}
+
+.view-user-lists .view-header {
+  border-bottom: 2px solid rgba(243, 193, 191, 0.53);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  position: relative;
+}
+.view-user-lists .service-count {
+  color: #9B9B9B;
+  font-size: 14px;
+  font-weight: 400;
+  position: absolute;
+  right: 0;
+  bottom: -30px;
+}
+.view-user-lists .view-content {
+  margin-top: 40px;
 }
 
 body.path-user {
