@@ -192,7 +192,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
 
     for ($i = $this->maxLevel; $i >= 0; $i--) {
       $level_id = 'level_' . $i;
-      if (isset($location_entities[$parents[0]]->get($level_id)->getValue()[0])) {
+      if (isset($location_entities[$parents[0]]) && isset($location_entities[$parents[0]]->get($level_id)->getValue()[0])) {
         break;
       }
     }
