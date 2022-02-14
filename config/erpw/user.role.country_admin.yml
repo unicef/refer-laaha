@@ -6,9 +6,16 @@ dependencies:
     - node.type.organisation
   module:
     - node
+    - node_view_permissions
 id: country_admin
 label: 'Country Admin'
 weight: -8
 is_admin: null
 permissions:
   - 'create organisation content'
+  - 'delete any organisation content'
+  - 'delete own organisation content'
+  - 'edit any organisation content'
+  - 'edit own organisation content'
+  - 'view any organisation content'
+  - 'view own organisation content'
