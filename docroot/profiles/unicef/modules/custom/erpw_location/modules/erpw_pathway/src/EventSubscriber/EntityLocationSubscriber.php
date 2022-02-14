@@ -71,13 +71,13 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager,
-    LocationService $locationService,
+  public function __construct(EntityTypeManagerInterface $entity_type_manager,
+    LocationService $location_service,
     RouteMatchInterface $route_match,
-    ErpwPathwayService $erpwPathwayService) {
-    self::$entityTypeManager = $entityTypeManager;
-    self::$locationService = $locationService;
-    $this->erpwPathwayService = $erpwPathwayService;
+    ErpwPathwayService $erpw_pathway_service) {
+    self::$entityTypeManager = $entity_type_manager;
+    self::$locationService = $location_service;
+    $this->erpwPathwayService = $erpw_pathway_service;
     $this->routeMatch = $route_match;
   }
 
@@ -107,6 +107,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = $this->t('Add a new section');
       $form['#title'] = $this->t('Add new template for RPW');
       $form['actions']['preview']['#attributes']['class'][] = 'button-border';
+      $form['field_section']['widget']['#title'] = '';
 
       // Form submit handler.
       $form['actions']['submit']['#submit'][] = [$this, 'eprwSubmitHandler'];
