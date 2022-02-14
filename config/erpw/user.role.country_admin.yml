@@ -5,6 +5,7 @@ dependencies:
   config:
     - node.type.organisation
   module:
+    - erpw_custom
     - node
     - node_view_permissions
 id: country_admin
@@ -12,10 +13,13 @@ label: 'Country Admin'
 weight: -8
 is_admin: null
 permissions:
+  - 'add new user for their own country'
   - 'create organisation content'
   - 'delete any organisation content'
   - 'delete own organisation content'
   - 'edit any organisation content'
   - 'edit own organisation content'
+  - 'edit users of their own country'
   - 'view any organisation content'
   - 'view own organisation content'
+  - 'view users of their own country'
