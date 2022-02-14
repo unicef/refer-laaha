@@ -71,6 +71,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
       'field_sub_category' => 0,
       'vid' => 'categories',
     ]);
+    $term_length = count($terms);
     foreach ($terms as $term_id => $val) {
       if ($val && ($val->hasTranslation($langcode) || $val->get('langcode')->value == $langcode)) {
         if (isset($val) && !$val->get('field_related_content')->isEmpty()) {
@@ -168,8 +169,9 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
         ];
       }
     }
-
-    ksort($discover);
+    if ($discover) {
+      ksort($discover);
+    }
     $build['#theme'] = 'discover_block';
     $build['#content'] = $discover;
     $build['#content_node'] = $discover_article;

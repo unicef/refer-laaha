@@ -159,7 +159,7 @@ class LocationSelectorForm extends FormBase {
     ];
 
     $form['#attached']['library'][] = 'vss_custom/geoip';
-    $form['#attached']['drupalSettings']['api_key'] = 'c6ea4bfd74d1403ab52e4bacf7478f36';
+    $form['#attached']['drupalSettings']['api_key'] = getenv('opencage_api_key');
     $form['#theme'] = 'location_selector_form';
     $cookie_name = "country-selector";
     $cookie_langid = $lang_id;
