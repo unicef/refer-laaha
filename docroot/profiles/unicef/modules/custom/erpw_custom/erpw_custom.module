@@ -12,6 +12,7 @@ use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\views\ViewExecutable;
 use Drupal\user\Entity\User;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -327,30 +328,26 @@ function erpw_custom_preprocess_status_messages(&$variables) {
 }
 
 /**
- * Implements hook_views_pre_render().
+ * Implements hook_views_query_alter().
  */
-function erpw_custom_views_pre_render(ViewExecutable $view) {
+function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
   if ($view->id() == "user_lists" && $view->current_display == 'page_1') {
     $current_user = \Drupal::currentUser();
     if ($current_user->hasPermission('view users of their own country')) {
       $user_entity = User::load($current_user->id());
       if ($user_entity->hasField('field_location_details') && !$user_entity->get('field_location_details')->isEmpty()) {
         $location_id = $user_entity->get('field_location_details')->getValue()[0]['value'];
-        $ptid = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
-        $ptid = reset($ptid);
+        $ptids = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
       }
-      foreach ($view->result as $result) {
-        if ($result->_entity->hasField('field_location_details')) {
-          if ($result->_entity->get('field_location_details')->isEmpty()) {
-            unset($view->result[0]);
-          }
-          else {
-            $user_location_id = $result->_entity->get('field_location_details')->getValue()[0]['value'];
-            $user_ptid = \Drupal::service('erpw_location.location_services')->getAllAncestors($user_location_id);
-            $user_ptid = reset($user_ptid);
-            if ($ptid != $user_ptid) {
-              unset($view->result[0]);
-            }
+      foreach ($query->where as &$condition_group) {
+        foreach ($condition_group['conditions'] as &$condition) {
+          if ($condition['field'] == 'user__field_location_details.field_location_details_value') {
+            $condition = [
+              'field' => 'user__field_location_details.field_location_details_value',
+              'value' => $ptids,
+              'operator' => 'in',
+            ];
+            break;
           }
         }
       }
