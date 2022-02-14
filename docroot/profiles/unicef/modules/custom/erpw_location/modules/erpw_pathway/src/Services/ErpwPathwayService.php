@@ -69,7 +69,7 @@ class ErpwPathwayService {
     // Build location Form.
     $location_entities = self::$entityTypeManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
-    $location_options = [];
+    $location_options = ['0' => $this->t("Select country")];
     $form_state->setRebuild(TRUE);
 
     if (!empty($location_entities)) {
