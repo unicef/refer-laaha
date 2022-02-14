@@ -5,6 +5,7 @@ dependencies:
   config:
     - node.type.organisation
     - user.role.administrator
+    - user.role.country_admin
     - user.role.super_admin
   module:
     - node
@@ -121,6 +122,7 @@ display:
         options:
           role:
             super_admin: super_admin
+            country_admin: country_admin
             administrator: administrator
       cache:
         type: tag

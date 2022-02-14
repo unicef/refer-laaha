@@ -1,9 +1,19 @@
 uuid: b5c4d82c-dbf9-4cc9-8667-dfd1d795c0ea
 langcode: sn
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - node.type.referral_path_way
+  module:
+    - erpw_location
+    - node
+    - node_view_permissions
 id: gbv_coordinator_interagency_coordinator
 label: 'GBV Coordinator/ Interagency Coordinator'
-weight: -8
+weight: -7
 is_admin: null
-permissions: {  }
+permissions:
+  - 'create referral_path_way content'
+  - 'edit own referral_path_way content'
+  - 'manage locaion'
+  - 'view own referral_path_way content'
