@@ -25,11 +25,11 @@ class HeaderResponse implements EventSubscriberInterface {
     $response->headers->set("Access-Control-Allow-Origin", $event->getRequest()->getHost());
     $csp = "default-src 'self' blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://bam.nr-data.net https://cdn.ampproject.org https://www.google-analytics.com https://cdnjs.cloudflare.com https://ajax.googleapis.com https://code.jquery.com https://cdn.jsdelivr.net https://www.youtube.com https://www.googletagmanager.com https://js-agent.newrelic.com https://www.vimeo.com;";
 
-    $csp .= " img-src 'self' data: https://www.google-analytics.com https://h5p.org https://www.gstatic.com https://www.youtube.com https://www.vimeo.com  https://i.ytimg.com;";
+    $csp .= " img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://h5p.org https://www.gstatic.com https://www.youtube.com https://www.vimeo.com  https://i.ytimg.com;";
 
     $csp .= " style-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com *.virtualsafespace.net https://translate.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.youtube.com https://www.vimeo.com https://i.ytimg.com;";
 
-    $csp .= " font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com *.virtualsafespace.net https://www.youtube.com https://www.vimeo.com https://i.ytimg.com;";
+    $csp .= " font-src 'self' data: https://themes.googleusercontent.com https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com *.virtualsafespace.net https://www.youtube.com https://www.vimeo.com https://i.ytimg.com;";
 
     $csp .= " frame-src 'self' https://www.youtube.com https://www.vimeo.com https://player.vimeo.com https://iq.virtualsafespace.net https://ec.virtualsafespace.net https://virtualsafespace.net *.virtualsafespace.net;";
 

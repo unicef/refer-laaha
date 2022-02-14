@@ -111,7 +111,7 @@
         }
       });
     });
-    
+
     // location selector page redirection
       /**
        * Get cookie value.
@@ -130,7 +130,9 @@
   });
 
   $(document).ready(function() {
-    jQuery('form').get(0).reset(); //clear form data on page load
+    if (jQuery('form').get(0)) {
+      jQuery('form').get(0).reset(); //clear form data on page load
+    }
   });
 
 })(jQuery, Drupal, drupalSettings);
