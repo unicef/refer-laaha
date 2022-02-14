@@ -27,7 +27,7 @@
             <div class="discovery-articles">
               {% for key_2,item_2 in content_node %}
                 {% if item_1['id'] == item_2['term_id'] %}
-                      <a href="/{{lang_code}}/{{ item_2.node_url }}" target='_blank' class="discover-content-link col-md-6">
+                      <a href="/{{lang_code}}/{{ item_2.node_url }}" class="discover-content-link col-md-6">
                         <div class="discover-content-thumbnail">
                           <span class="thumbnail-icon icon-{{ item_2.node_type|lower }}"></span>
                           <img src="{{ file_url(item_2.thumbnail_img) }}"/>
@@ -69,7 +69,7 @@
             <div class="discovery-articles">
               {% for key_2,item_2 in content_node %}
                 {% if item_1['id'] == item_2['term_id'] %}
-                      <a href="/{{lang_code}}/{{ item_2.node_url }}" target='_blank' class="discover-content-link col-md-6">
+                      <a href="/{{lang_code}}/{{ item_2.node_url }}" class="discover-content-link col-md-6">
                         <div class="discover-content-thumbnail">
                           <span class="thumbnail-icon icon-{{ item_2.node_type|lower }}"></span>
                           <img src="{{ file_url(item_2.thumbnail_img) }}"/>
