@@ -4,18 +4,37 @@ status: true
 dependencies:
   config:
     - node.type.organisation
+    - node.type.service_type
   module:
+    - content_translation
+    - domain_access
     - node
     - node_view_permissions
+    - quick_node_clone
 id: country_admin
 label: 'Country Admin'
 weight: -8
 is_admin: null
 permissions:
+  - 'add new user for their own country'
+  - 'clone service_type content'
   - 'create organisation content'
+  - 'create service_type content'
+  - 'create service_type content on assigned domains'
   - 'delete any organisation content'
+  - 'delete any service_type content'
   - 'delete own organisation content'
+  - 'delete own service_type content'
+  - 'delete service_type content on assigned domains'
   - 'edit any organisation content'
+  - 'edit any service_type content'
   - 'edit own organisation content'
+  - 'edit own service_type content'
+  - 'edit users of their own country'
+  - 'translate service_type node'
+  - 'update service_type content on assigned domains'
   - 'view any organisation content'
+  - 'view any service_type content'
   - 'view own organisation content'
+  - 'view own service_type content'
+  - 'view users of their own country'
