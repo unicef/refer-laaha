@@ -185,7 +185,7 @@ function vss_custom_taxonomy_term_presave($term) {
         'langcode' => 'en',
         'weight' => $term->get('weight')->value,
         'expanded' => FALSE,
-        'field_taxonomy_term_id' => $term->id(),
+        'field_taxonomy_term_id' => $term->get('name')->value,
         'field_icon' => [
           'target_id' => $term->get('field_icon')->target_id,
           'alt' => $term->get('field_icon')->alt,
@@ -195,7 +195,7 @@ function vss_custom_taxonomy_term_presave($term) {
       $menu_link->save();
     }
     else {
-      $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['field_taxonomy_term_id' => $term->id()]);
+      $links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['field_taxonomy_term_id' => $term->get('name')->value]);
       if ($link = reset($links)) {
         if (!$link->hasTranslation($term->get('langcode')->value)) {
           $link->addTranslation($term->get('langcode')->value, ['title' => $name])->save();
@@ -203,7 +203,7 @@ function vss_custom_taxonomy_term_presave($term) {
         else {
           $link->title->value = $name;
           $link->expanded = TRUE;
-          $link->field_taxonomy_term_id = $term->id();
+          $link->field_taxonomy_term_id = $term->get('name')->value;
           $link->link->uri = $path;
           $link->langcode->value = $term->get('langcode')->value;
           $link->weight->value = $term->get('weight')->value;
