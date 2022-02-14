@@ -10,11 +10,49 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\views\ViewExecutable;
+use Drupal\user\Entity\User;
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
 function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'sign_up') {
+    if (isset($form['location_options']['#options']) && \Drupal::currentUser()->hasPermission('Add new user for their own country')) {
+      $current_user = \Drupal::currentUser();
+      $current_user_role = $current_user->getRoles();
+      $access_role = ['country_admin'];
+      $location_id = FALSE;
+      if (array_intersect($current_user_role, $access_role)) {
+        $current_user = User::load($current_user->id());
+        if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
+          $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
+        }
+      }
+      if ($location_id) {
+        $ptid = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
+        $ptid = reset($ptid);
+        foreach ($form['location_options']['#options'] as $key => $option) {
+          if ($key != $ptid) {
+            unset($form['location_options']['#options'][$key]);
+          }
+        }
+      }
+    }
+    if (isset($form['system_role']['#options'])) {
+      $role_options = $form['system_role']['#options'];
+      $current_user = \Drupal::currentUser()->getAccount();
+      $role_hierarchy_helper = \Drupal::service('role_hierarchy.helper');
+      foreach ($role_options as $role_id => $role_label) {
+        if (!$role_hierarchy_helper->hasRoleEditAccess(
+          $role_hierarchy_helper->getAccountRoleWeight($current_user),
+          $role_hierarchy_helper->getRoleWeight($role_id))
+        ) {
+          unset($form['system_role']['#options'][$role_id]);
+        }
+      }
+    }
+  }
   if ($form_id == 'node_organisation_form') {
     $form['revision_information']['#access'] = FALSE;
     $form['actions']['submit']['#value'] = t('Publish');
@@ -281,6 +319,38 @@ function erpw_custom_preprocess_status_messages(&$variables) {
         foreach ($status_messages as $delta => $message) {
           if (strpos((string) $message, 'The title must be unique.') !== FALSE) {
             $variables['message_list']['error'][$delta] = t("Organisation already exists, kindly update the organisation name and save it again.");
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function erpw_custom_views_pre_render(ViewExecutable $view) {
+  if ($view->id() == "user_lists" && $view->current_display == 'page_1') {
+    $current_user = \Drupal::currentUser();
+    if (\Drupal::currentUser()->hasPermission('View Users of their own country')) {
+      $current_user = User::load($current_user->id());
+      if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
+        $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
+        $ptid = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
+        $ptid = reset($ptid);
+      }
+      foreach ($view->result as $result) {
+        if ($result->_entity->hasField('field_location_details')) {
+          if ($result->_entity->get('field_location_details')->isEmpty()) {
+            unset($view->result[0]);
+          }
+          else {
+            $user_location_id = $result->_entity->get('field_location_details')->getValue()[0]['value'];
+            $user_ptid = \Drupal::service('erpw_location.location_services')->getAllAncestors($user_location_id);
+            $user_ptid = reset($user_ptid);
+            if ($ptid != $user_ptid) {
+              unset($view->result[0]);
+            }
           }
         }
       }
