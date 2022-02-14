@@ -4,21 +4,21 @@ erpw_location.manage_location:
     _form: '\Drupal\erpw_location\Form\ManageLocationForm'
     _title: 'Manage Locations'
   requirements:
-    _permission: 'access content'
+    _permission: 'erpw location manage location'
 erpw_location.manage_location_url:
   path: '/manage-location/{country_tid}'
   defaults:
     _form: '\Drupal\erpw_location\Form\ManageLocationForm'
     _title: 'Manage Country Locations'
   requirements:
-    _permission: 'access content'
+    _permission: 'erpw location manage location url'
 erpw_location.open_import_modal:
   path: '/import-location-modal'
   defaults:
     _title: 'Modal Form'
     _controller: '\Drupal\erpw_location\Controller\ModalFormController::openModalForm'
   requirements:
-    _permission: 'access content'
+    _permission: 'erpw location open import modal'
 erpw_location.autocomplete:
   path: '/location-autocomplete/{tid}'
   defaults:
@@ -32,39 +32,39 @@ erpw_location.add_location:
     _form: '\Drupal\erpw_location\Form\AddLocationForm'
     _title: 'Add Location'
   requirements:
-    _permission: 'access content'
+    _permission: 'erpw location add location'
 erpw_location.edit_location:
   path: '/update-location/{id}'
   defaults:
     _form: '\Drupal\erpw_location\Form\AddLocationForm'
     _title: 'Update Location'
   requirements:
-    _permission: 'access content'
+    _permission: 'erpw location edit location'
 erpw_location.delete_location:
   path: '/delete-location/{tid}'
   defaults:
     _form: '\Drupal\erpw_location\Form\DeleteLocationForm'
     _title: 'Delete location'
   requirements:
-    _permission: 'access content'
+    _permission: 'erpw location delete location'
 erpw_location.view_location:
   path: '/view-location/{tid}/{mode}'
   defaults:
     _form: '\Drupal\erpw_location\Form\DeleteLocationForm'
     _title: 'Location Details'
   requirements:
-    _permission: 'access content'
+    _permission: 'erpw location view location'
 erpw_location.user_location:
   path: '/user-location/{id}'
   defaults:
     _form: '\Drupal\erpw_location\Form\UserLocationForm'
     _title: 'Location'
   requirements:
-    _permission: 'access content'
+    _permission: 'erpw location user location'
 user_location.settings:
   path: '/user-location-homepage'
   defaults:
     _form: '\Drupal\erpw_location\Form\UserLocationConfigForm'
     _title: 'User Location Data for Homepage'
   requirements:
-    _permission: 'access content'
+    _permission: 'erpw location user location settings'
