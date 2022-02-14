@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06c680cd3af97f4b05c85830e6deae63",
+    "content-hash": "632208c87bfd141e88f5e93e68723573",
     "packages": [
         {
             "name": "acquia/blt",
@@ -7745,6 +7745,54 @@
             "support": {
                 "source": "https://git.drupal.org/project/robotstxt.git",
                 "issues": "https://www.drupal.org/project/issues/robotstxt"
+            }
+        },
+        {
+            "name": "drupal/role_hierarchy",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/role_hierarchy.git",
+                "reference": "8.x-2.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/role_hierarchy-8.x-2.2.zip",
+                "reference": "8.x-2.2",
+                "shasum": "b5dc500ffbcdab00f3fc2200816f041730efd4f2"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-2.2",
+                    "datestamp": "1613641956",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "cristiroma",
+                    "homepage": "https://www.drupal.org/user/2267390"
+                },
+                {
+                    "name": "stefan.butura",
+                    "homepage": "https://www.drupal.org/user/3535177"
+                }
+            ],
+            "description": "Provides security updates for platforms that are using a clear role hierarchy.",
+            "homepage": "https://www.drupal.org/project/role_hierarchy",
+            "support": {
+                "source": "https://git.drupalcode.org/project/role_hierarchy"
             }
         },
         {
