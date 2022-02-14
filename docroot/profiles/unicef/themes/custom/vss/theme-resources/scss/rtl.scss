@@ -35,7 +35,8 @@ html[dir="rtl"] {
       .four-slice,
       .two-slice{
         .play-circle-podcast{
-          left:calc( 100% -   78px);
+          left: unset;
+          right: 8px;
         }
       }
     }
@@ -489,6 +490,22 @@ html[dir="rtl"] {
     .view-icon {
       margin-left: 6px;
       margin-right: 0;
+    }
+  }
+
+  // audio settings pop-up
+
+  .audio-info-icon {
+    left: 125px;
+  }
+
+  .audio-info-pop-up {
+    left: 10%;
+    right: unset;
+
+    .close-icon {
+      left: 15px;
+      right: unset;
     }
   }
 }

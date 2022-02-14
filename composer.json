@@ -60,6 +60,7 @@
         "drupal/entity_usage": "^2.0@beta",
         "drupal/environment_indicator": "^4.0",
         "drupal/field_encrypt": "^3.0",
+        "drupal/hook_event_dispatcher": "^3.0",
         "drupal/google_analytics": "^3.1",
         "drupal/google_tag": "^1.4",
         "drupal/imageapi_optimize": "^4.0",
@@ -141,7 +142,8 @@
                 "web-root": "./docroot/"
             },
             "file-mapping": {
-                "[web-root]/.htaccess": false
+                "[web-root]/.htaccess": false,
+                "[web-root]/robots.txt": false
             }
         },
         "installer-paths": {
