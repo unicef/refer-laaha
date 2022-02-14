@@ -61,3 +61,10 @@ erpw_location.user_location:
     _title: 'Location'
   requirements:
     _permission: 'access content'
+user_location.settings:
+  path: '/user-location-homepage'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\UserLocationConfigForm'
+    _title: 'User Location Data for Homepage'
+  requirements:
+    _permission: 'access content'

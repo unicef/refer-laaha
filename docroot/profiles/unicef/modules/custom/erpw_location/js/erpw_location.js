@@ -13,12 +13,14 @@
               var level = $(this).attr("data-level");
               var levelcount = drupalSettings.leveldetails.levelcount;
               for (i = level; i <= levelcount; i++) {
-                $("#edit-level-" + i).addClass('hidden');
-                $("#edit-level-" + i).find('option:not(:first)').remove();
+                $("#location-level-" + i).addClass('hidden');
+                $("#location-level-" + i).find('option:not(:first)').remove();
               }
               // Make last dropdown as multi select element.
               $(".add_multiple").prop("multiple", 'true');
           });
+        	//Referral Pathway for add another section
+        	$('.node-referral-path-way-form .field-add-more-submit').parents('.clearfix').addClass('plus-icon button-with-icon');
         }
     };
 }(jQuery, Drupal, drupalSettings));
