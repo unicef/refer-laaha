@@ -1,11 +1,8 @@
 favicon:
-  mimetype: image/vnd.microsoft.icon
-  path: ''
-  url: 'http://vss.lndo.site/profiles/unicef/themes/custom/vss/favicon.ico'
-  use_default: true
-schemas:
-  bootstrap: 8000
-  vss: 8000
+  mimetype: image/png
+  path: profiles/unicef/themes/custom/vss_amp/images/favicon.png
+  url: 'https://vss.lndo.site/sites/default/files/favicon_0.png'
+  use_default: false
 features:
   comment_user_picture: true
   comment_user_verification: true
@@ -15,12 +12,24 @@ logo:
   path: ''
   url: ''
   use_default: true
+schemas:
+  bootstrap: 8000
+  vss: 8000
 fluid_container: 1
-table_responsive: '-1'
-cdn_theme: bootstrap
-cdn_cache_ttl_versions: '604800'
-cdn_cache_ttl_themes: '604800'
-cdn_cache_ttl_assets: '0'
-cdn_cache_ttl_library: '0'
+region_wells:
+  navigation: ''
+  navigation_collapsible: ''
+  header: ''
+  breadcrumb: ''
+  highlighted: ''
+  help: ''
+  content: ''
+  content_bottom: ''
+  sidebar_first: ''
+  sidebar_second: ''
+  content_bottom_fluid: ''
+  global_sticky: ''
+  footer_top: ''
+  footer: ''
 reset_http_request_cache: ''
 table: ''
