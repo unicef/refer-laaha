@@ -209,8 +209,8 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   color: #ffffff;
 }
 
-.card-shadow, .node-referral-path-way-form .table-format .table-format,
-.node-referral-path-way-edit-form .table-format .table-format {
+.card-shadow, .node-referral-path-way-form .table-format table .table-format,
+.node-referral-path-way-edit-form .table-format table .table-format {
   -webkit-box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
           box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
   border-radius: 10px;
@@ -926,16 +926,69 @@ header {
   content: ")";
 }
 
-.node-referral-path-way-form .table-format .table-format table,
-.node-referral-path-way-form .table-format .table-format thead th,
-.node-referral-path-way-edit-form .table-format .table-format table,
-.node-referral-path-way-edit-form .table-format .table-format thead th {
+.node-referral-path-way-form .table-format table,
+.node-referral-path-way-edit-form .table-format table {
+  border: 0;
+  width: 99.8%;
+}
+.node-referral-path-way-form .table-format table thead,
+.node-referral-path-way-edit-form .table-format table thead {
   border: 0;
 }
-.node-referral-path-way-form .table-format .table-format .label,
-.node-referral-path-way-edit-form .table-format .table-format .label {
+.node-referral-path-way-form .table-format table tbody tr,
+.node-referral-path-way-edit-form .table-format table tbody tr {
+  border: 1px solid #F3C1BF;
+}
+.node-referral-path-way-form .table-format table tbody tr > td,
+.node-referral-path-way-edit-form .table-format table tbody tr > td {
+  margin-bottom: 20px;
+}
+.node-referral-path-way-form .table-format table .table-format tbody,
+.node-referral-path-way-form .table-format table .table-format thead,
+.node-referral-path-way-edit-form .table-format table .table-format tbody,
+.node-referral-path-way-edit-form .table-format table .table-format thead {
+  border: 0;
+}
+.node-referral-path-way-form .table-format table .table-format tbody tr,
+.node-referral-path-way-form .table-format table .table-format thead tr,
+.node-referral-path-way-edit-form .table-format table .table-format tbody tr,
+.node-referral-path-way-edit-form .table-format table .table-format thead tr {
+  border: 0;
+}
+.node-referral-path-way-form .table-format table .table-format > td,
+.node-referral-path-way-edit-form .table-format table .table-format > td {
+  margin-bottom: unset;
+}
+.node-referral-path-way-form .table-format table .table-format table,
+.node-referral-path-way-form .table-format table .table-format thead th,
+.node-referral-path-way-edit-form .table-format table .table-format table,
+.node-referral-path-way-edit-form .table-format table .table-format thead th {
+  border: 0;
+}
+.node-referral-path-way-form .table-format table .table-format .label,
+.node-referral-path-way-edit-form .table-format table .table-format .label {
   font-size: 0.75em;
   font-weight: 500;
+}
+.node-referral-path-way-form .table-format table .field-multiple-drag,
+.node-referral-path-way-edit-form .table-format table .field-multiple-drag {
+  width: 25px;
+}
+.node-referral-path-way-form .table-format table .field-multiple-drag a.tabledrag-handle,
+.node-referral-path-way-edit-form .table-format table .field-multiple-drag a.tabledrag-handle {
+  width: 20px;
+}
+.node-referral-path-way-form .table-format table .field-multiple-drag a.tabledrag-handle .handle,
+.node-referral-path-way-edit-form .table-format table .field-multiple-drag a.tabledrag-handle .handle {
+  background-position: 40% 9px;
+}
+.node-referral-path-way-form .table-format table .has-multiple-fields-remove-button,
+.node-referral-path-way-edit-form .table-format table .has-multiple-fields-remove-button {
+  padding-right: 20px !important;
+}
+.node-referral-path-way-form .table-format table input.form-autocomplete,
+.node-referral-path-way-edit-form .table-format table input.form-autocomplete {
+  margin-top: 0;
 }
 .node-referral-path-way-form .tabledrag-toggle-weight-wrapper,
 .node-referral-path-way-edit-form .tabledrag-toggle-weight-wrapper {
@@ -968,6 +1021,7 @@ header {
   font-size: 0;
   height: 20px;
   margin-left: 30px;
+  right: -5px;
   vertical-align: super;
   width: 20px;
 }
@@ -977,7 +1031,11 @@ header {
 }
 .node-referral-path-way-form .field--widget-string-textfield,
 .node-referral-path-way-edit-form .field--widget-string-textfield {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+}
+.node-referral-path-way-form input[type=submit]:focus,
+.node-referral-path-way-edit-form input[type=submit]:focus {
+  outline: 0;
 }
 .node-referral-path-way-form .form-actions,
 .node-referral-path-way-edit-form .form-actions {
@@ -1016,6 +1074,7 @@ header {
 }
 .node-referral-path-way-form .button-with-icon,
 .node-referral-path-way-edit-form .button-with-icon {
+  margin-bottom: -10px;
   top: -45px;
 }
 .node-referral-path-way-form .button-with-icon .field-add-more-submit,
@@ -1025,6 +1084,8 @@ header {
   padding: 0 0 0 60px;
   margin: 0;
   text-transform: capitalize;
+  position: relative;
+  z-index: 2;
 }
 .node-referral-path-way-form .button-with-icon .field-add-more-submit:focus,
 .node-referral-path-way-edit-form .button-with-icon .field-add-more-submit:focus {
