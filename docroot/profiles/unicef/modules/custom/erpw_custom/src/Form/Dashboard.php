@@ -50,6 +50,14 @@ class Dashboard extends FormBase {
     $current_user_role = $this->currentUser->getRoles();
     $access_role = ['administrator', 'super_admin', 'country_admin'];
     if (array_intersect($current_user_role, $access_role)) {
+      $url = Url::fromRoute('view.referral_pathway_listing.page_1');
+      $external_link = Link::fromTextAndUrl($this->t('Manage Referral Pathway'), $url)->toString();
+      $form['manage_referral_pathway'] = [
+        '#type' => 'markup',
+        '#prefix' => '<div class="dashboard-link referral-link">',
+        '#markup' => $external_link,
+        '#suffix' => '</div>',
+      ];
       $url = Url::fromRoute('erpw_location.manage_location');
       $external_link = Link::fromTextAndUrl($this->t('Manage locations'), $url)->toString();
       $form['manage_location'] = [
