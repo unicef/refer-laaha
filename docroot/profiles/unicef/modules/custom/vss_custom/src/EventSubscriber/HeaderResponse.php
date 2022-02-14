@@ -33,7 +33,7 @@ class HeaderResponse implements EventSubscriberInterface {
 
     $csp .= " frame-src 'self' https://www.youtube.com https://www.vimeo.com https://player.vimeo.com https://iq.virtualsafespace.net https://ec.virtualsafespace.net https://virtualsafespace.net *.virtualsafespace.net;";
 
-    $csp .= " connect-src 'self' https://www.google-analytics.com https://metrics.articulate.com *.virtualsafespace.net https://api.opencagedata.com; worker-src 'self' blob:;";
+    $csp .= " connect-src 'self' https://bam.nr-data.net https://www.google-analytics.com https://metrics.articulate.com *.virtualsafespace.net https://api.opencagedata.com; worker-src 'self' blob:;";
     $response->headers->set("Content-Security-Policy", $csp);
   }
 
