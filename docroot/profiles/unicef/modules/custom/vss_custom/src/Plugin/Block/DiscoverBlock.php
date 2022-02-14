@@ -65,18 +65,23 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     $count = 0;
     $discover = NULL;
     $discover_article = NULL;
+    $domain_arr = [];
     $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
       'field_domain' => $this->domain->getActiveDomain()->id(),
       'field_sub_category' => 0,
       'vid' => 'categories',
     ]);
     foreach ($terms as $term_id => $val) {
-      if ($val && $val->hasTranslation($langcode) || $val->get('langcode')->value == $langcode) {
+      if ($val && ($val->hasTranslation($langcode) || $val->get('langcode')->value == $langcode)) {
         if (isset($val) && !$val->get('field_related_content')->isEmpty()) {
           $val = $val->getTranslation($langcode);
           foreach ($val->get('field_related_content')->getValue() as $target_id) {
             $node = $this->entityTypeManager->getStorage('node')->load($target_id['target_id']);
-            if (isset($node)) {
+            foreach ($node->get('field_domain_access')->getValue() as $v) {
+              $domain_arr[] = $v['target_id'];
+            }
+            if (isset($node) && (in_array($this->domain->getActiveDomain()->id(), $domain_arr)) && ($node->hasTranslation($langcode) || $node->get('langcode')->value == $langcode)) {
+              $node = $node->getTranslation($langcode);
               $node_url = ltrim($this->aliaspath->getAliasByPath('/node/' . $target_id['target_id']), '/');
 
               $node_type = NULL;

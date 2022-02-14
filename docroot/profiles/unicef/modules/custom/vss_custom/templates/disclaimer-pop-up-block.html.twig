@@ -37,12 +37,14 @@
             {{ content.disclaimer_description|raw }}
         </div>
         {% endif %}
-        {% if content.disclaimer_image is not empty %}
+
+        {# Temporairily commenting this section as requested keeping the code as we might need this section later #}
+        {# {% if content.disclaimer_image is not empty %}
             <div class="disclaimer-image">
                 <img src ="/{{ base_path ~ directory }}/images/disclaimer-2.jpg" alt="disclaimer" />
-								<img src ="/{{ base_path ~ directory }}/images/disclaimer-1.jpg" alt="disclaimer" />
+                <img src ="/{{ base_path ~ directory }}/images/disclaimer-1.jpg" alt="disclaimer" />
             </div>
-        {% endif %}
+        {% endif %} #}
     	{% endif %}
       <button type="button" class="pop-up pop-up-btn right-arrow">{{'OK'|t}}</button>
     </div>

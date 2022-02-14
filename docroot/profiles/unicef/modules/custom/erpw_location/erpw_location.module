@@ -45,6 +45,8 @@ function erpw_location_theme() {
   ];
   $theme['homepage_user_location'] = [
     'variables' => [
+      'title' => NULL,
+      'description' => NULL,
       'location' => NULL,
       'tid' => NULL,
     ],

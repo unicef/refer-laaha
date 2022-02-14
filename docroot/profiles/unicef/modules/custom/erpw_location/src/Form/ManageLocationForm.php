@@ -95,7 +95,7 @@ class ManageLocationForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state, $country_tid = "") {
     $form['#attributes']['enctype'] = "multipart/form-data";
     $form['open_modal'] = [
       '#type' => 'link',
@@ -121,10 +121,11 @@ class ManageLocationForm extends FormBase {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
 
     }
-    if (!empty($location_entities)) {
+    if (!empty($location_entities) || $country_tid = "") {
       $form['location_options'] = [
         '#type' => 'select',
         '#options' => $location_options,
+        '#default_value' => $country_tid,
         '#empty_option' => t('Select Country'),
         '#title' => $this->t('Country'),
         '#ajax' => [
@@ -142,8 +143,8 @@ class ManageLocationForm extends FormBase {
       '#prefix' => '<div id="edit-location-details">',
       '#suffix' => '</div>',
     ];
-    if (!empty($form_state->getValue('location_options'))) {
-      $location_entity_id = $form_state->getValue('location_options');
+    if (!empty($form_state->getValue('location_options')) || $country_tid != "") {
+      $location_entity_id = !empty($form_state->getValue('location_options')) ? $form_state->getValue('location_options') : $country_tid;
       $location_levels = \Drupal::service('erpw_location.location_services')->getLocationLevels($location_entity_id);
       $location_levels_count = count($location_levels);
       $location_entity = $this->entityManager->getStorage('location')->load($location_entity_id);

@@ -1,0 +1,10 @@
+services:
+  erpw_pathway.entity_location:
+    class: Drupal\erpw_pathway\EventSubscriber\EntityLocationSubscriber
+    arguments:
+      - "@entity_type.manager"
+      - "@messenger"
+      - "@erpw_location.location_services"
+      - "@current_route_match"
+    tags:
+      - { name: 'event_subscriber' }
