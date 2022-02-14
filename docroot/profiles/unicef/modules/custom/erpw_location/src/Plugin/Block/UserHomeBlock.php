@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\erpw_location\LocationService;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Provides a block with a simple text.
@@ -41,6 +42,13 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
   protected $entityManager;
 
   /**
+   * Drupal\Core\Config\ConfigFactoryInterface definition.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configfactory;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(array $configuration,
@@ -48,11 +56,13 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
   $plugin_definition,
   AccountInterface $current_user,
   LocationService $location_service,
-  EntityTypeManagerInterface $entityManager) {
+  EntityTypeManagerInterface $entityManager,
+  ConfigFactoryInterface $config_factory) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->currentUser = $current_user;
     $this->locationService = $location_service;
     $this->entityManager = $entityManager;
+    $this->configfactory = $config_factory;
   }
 
   /**
@@ -79,7 +89,8 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
       $plugin_definition,
       $container->get('current_user'),
       $container->get('erpw_location.location_services'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('config.factory')
     );
   }
 
@@ -87,6 +98,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
    * {@inheritdoc}
    */
   public function build() {
+    $form_config = $this->configfactory->get('user_location_config_form.settings');
     $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
     $tid = $user->field_location_details->value;
     $tid_array = explode(",", $tid);
@@ -105,6 +117,8 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
     }
     return [
       '#theme' => 'homepage_user_location',
+      '#title' => $form_config->get('title'),
+      '#description' => $form_config->get('description'),
       '#location' => $location,
       '#tid' => !empty($ancestors_prev[0]) ? $ancestors_prev[0] : 0,
       '#cache' => ['max-age' => 0],

@@ -17,7 +17,7 @@ main {
   text-align: center;
   font-size: 1.125em;
   font-weight: 500;
-  margin: 0;
+  margin: 0 15%;
 }
 
 .link-text {
@@ -209,7 +209,8 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   color: #ffffff;
 }
 
-.card-shadow {
+.card-shadow, .node-referral-path-way-form .table-format .table-format,
+.node-referral-path-way-edit-form .table-format .table-format {
   -webkit-box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
           box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
   border-radius: 10px;
@@ -776,7 +777,7 @@ header {
 }
 
 .path-select-language {
-  background: url("../images/language-selector-bg.svg") center center no-repeat;
+  background: url("../images/language-selector-bg.svg") center center no-repeat, url("../images/language-selector-dot-bg.svg") right top 120px no-repeat;
 }
 .path-select-language .back-arrow {
   display: none;
@@ -818,7 +819,7 @@ header {
 }
 .language-selector .js-form-item-language-selector {
   display: inline-block;
-  margin: 10px 14px 20px;
+  margin: 10px 12px 20px;
 }
 .language-selector .form-radios {
   display: -webkit-box;
@@ -826,7 +827,7 @@ header {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  margin: 0 -14px 160px;
+  margin: 0 -14px 120px;
 }
 .language-selector input[type=submit] {
   background: url("../images/arrow-white.svg") calc(50% + 50px) center no-repeat #A85766;
@@ -923,6 +924,111 @@ header {
 }
 .menu-icon-popup::after {
   content: ")";
+}
+
+.node-referral-path-way-form .table-format .table-format table,
+.node-referral-path-way-form .table-format .table-format thead th,
+.node-referral-path-way-edit-form .table-format .table-format table,
+.node-referral-path-way-edit-form .table-format .table-format thead th {
+  border: 0;
+}
+.node-referral-path-way-form .table-format .table-format .label,
+.node-referral-path-way-edit-form .table-format .table-format .label {
+  font-size: 0.75em;
+  font-weight: 500;
+}
+.node-referral-path-way-form .tabledrag-toggle-weight-wrapper,
+.node-referral-path-way-edit-form .tabledrag-toggle-weight-wrapper {
+  display: none;
+}
+.node-referral-path-way-form .paragraph-type-title,
+.node-referral-path-way-edit-form .paragraph-type-title {
+  color: #444;
+  font-size: 1em;
+  text-overflow: unset;
+}
+.node-referral-path-way-form .paragraph-type-title:before,
+.node-referral-path-way-edit-form .paragraph-type-title:before {
+  background: #ffffff;
+  border: 3px solid #A85766;
+  border-radius: 50%;
+  content: "";
+  display: inline-block;
+  height: 10px;
+  margin-right: 11px;
+  vertical-align: bottom;
+  width: 10px;
+}
+.node-referral-path-way-form .multiple-fields-remove-button,
+.node-referral-path-way-form .paragraphs-dropbutton-wrapper input[value=Remove],
+.node-referral-path-way-edit-form .multiple-fields-remove-button,
+.node-referral-path-way-edit-form .paragraphs-dropbutton-wrapper input[value=Remove] {
+  background: url("../images/delete-button.svg") center center no-repeat;
+  border: 0 !important;
+  font-size: 0;
+  height: 20px;
+  margin-left: 30px;
+  vertical-align: super;
+  width: 20px;
+}
+.node-referral-path-way-form .paragraphs-subform,
+.node-referral-path-way-edit-form .paragraphs-subform {
+  margin-top: 20px;
+}
+.node-referral-path-way-form .field--widget-string-textfield,
+.node-referral-path-way-edit-form .field--widget-string-textfield {
+  margin-bottom: 40px;
+}
+.node-referral-path-way-form .form-actions,
+.node-referral-path-way-edit-form .form-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.node-referral-path-way-form .form-actions input[type=submit],
+.node-referral-path-way-edit-form .form-actions input[type=submit] {
+  padding: 10px 0 !important;
+  width: 134px;
+}
+.node-referral-path-way-form .form-actions [id^=edit-submit],
+.node-referral-path-way-edit-form .form-actions [id^=edit-submit] {
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
+}
+.node-referral-path-way-form [id^=edit-preview],
+.node-referral-path-way-edit-form [id^=edit-preview] {
+  background: none;
+  border: 1px solid #A85766;
+  border-radius: 4px;
+  color: #A85766;
+  display: inline-block;
+  font-size: 0.875em;
+  margin: 0 15px 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
+}
+.node-referral-path-way-form .button-with-icon,
+.node-referral-path-way-edit-form .button-with-icon {
+  top: -45px;
+}
+.node-referral-path-way-form .button-with-icon .field-add-more-submit,
+.node-referral-path-way-edit-form .button-with-icon .field-add-more-submit {
+  border: 0;
+  background: none;
+  padding: 0 0 0 60px;
+  margin: 0;
+  text-transform: capitalize;
+}
+.node-referral-path-way-form .button-with-icon .field-add-more-submit:focus,
+.node-referral-path-way-edit-form .button-with-icon .field-add-more-submit:focus {
+  outline: none;
 }
 
 .steps-highlight {
