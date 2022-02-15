@@ -2,11 +2,11 @@
 
 namespace Drupal\vss_custom\Plugin\Block;
 
-use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Block\BlockBase;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Cache\Cache;
 
 /**
  * Provides a 'SocialIconsFooterBlock' block.
@@ -61,7 +61,6 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
     $query_params = \Drupal::request()->query->all();
     $is_amp = array_key_exists('amp', $query_params);
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
-    $content = $this->vssCommonConfigDefault->getCategories();
     $count = 0;
     $discover = NULL;
     $discover_article = NULL;
@@ -71,6 +70,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
       'field_sub_category' => 0,
       'vid' => 'categories',
     ]);
+    $term_length = count($terms);
     foreach ($terms as $term_id => $val) {
       if ($val && ($val->hasTranslation($langcode) || $val->get('langcode')->value == $langcode)) {
         if (isset($val) && !$val->get('field_related_content')->isEmpty()) {
@@ -168,8 +168,9 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
         ];
       }
     }
-
-    ksort($discover);
+    if ($discover) {
+      ksort($discover);
+    }
     $build['#theme'] = 'discover_block';
     $build['#content'] = $discover;
     $build['#content_node'] = $discover_article;

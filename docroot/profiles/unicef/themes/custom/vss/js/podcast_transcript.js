@@ -14,7 +14,7 @@
                     player.currentTime = seekToTime;
                     player.play();
                 });
-                podcastTranscriptsCount = $('.show-podcast-transcript').length;
+                let podcastTranscriptsCount = $('.show-podcast-transcript').length;
                 var podcastPlayers = [];
                 for (var i = 0; i < podcastTranscriptsCount; i++) {
                     var transcriptId = $('.show-podcast-transcript')[i].getAttribute("data-id").split("_")[1];
@@ -32,7 +32,7 @@
                             for (var i = 0, l = lines.length; i < l; i++) {
                                 if (now >= lines[i].getAttribute("data-start") &&
                                     now <= lines[i].getAttribute("data-end")) {
-                                    lineId = lines[i].getAttribute('id');
+                                    let lineId = lines[i].getAttribute('id');
                                     if (!$("#" + lineId + " > .podcast-transcript-text").hasClass("current")) {
                                         $("#" + lineId + " > .podcast-transcript-text").addClass("current");
                                         var scrollOffset = $(".current").offset().top - $("#podcast-transcript_" + transcriptId).offset().top;

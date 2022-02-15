@@ -16,7 +16,7 @@
                         player.play();
                     }
                 });
-                videoTranscriptsCount = $('.show-transcript').length;
+                let videoTranscriptsCount = $('.show-transcript').length;
                 var players = [];
                 for (var i = 0; i < videoTranscriptsCount; i++) {
                     var transcriptId = $('.show-transcript')[i].getAttribute("data-id").split("_")[1];
@@ -34,7 +34,7 @@
                             for (var i = 0, l = lines.length; i < l; i++) {
                                 if (now >= lines[i].getAttribute("data-start") &&
                                     now <= lines[i].getAttribute("data-end")) {
-                                    lineId = lines[i].getAttribute('id');
+                                    let lineId = lines[i].getAttribute('id');
                                     if (!$("#" + lineId + " > .transcript-text").hasClass("current")) {
                                         $("#" + lineId + " > .transcript-text").addClass("current");
                                         var scrollOffset = $(".current").offset().top - $("#transcript_" + transcriptId).offset().top;

@@ -2,9 +2,9 @@
 
 namespace Drupal\visitors\EventSubscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Drupal\Core\Url;
+use Symfony\Component\HttpKernel\Event\PostResponseEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Store visitors data when a request terminates.
@@ -29,11 +29,21 @@ class KernelTerminateSubscriber implements EventSubscriberInterface {
     $user = \Drupal::currentUser();
     $visitors_uid = isset($user) ? $user->id() : '';
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
-    if ($user->isAnonymous() && (Url::fromRoute('<current>')->toString() == '/' || Url::fromRoute('<current>')->toString() == '/node' || Url::fromRoute('<current>')->toString() == "/$lang/node")) {
+    if ($user->isAnonymous() && (
+      Url::fromRoute('<current>')->toString() == '/' ||
+      Url::fromRoute('<current>')->toString() == '/node' ||
+      Url::fromRoute('<current>')->toString() == "/$lang/node"
+    )) {
       $title = 'Home';
     }
 
-    if ($user->isAnonymous() && ($this->getTitle() || $title) && (strpos(Url::fromRoute('<current>')->toString(), 'user') == '' && strpos(Url::fromRoute('<current>')->toString(), 'modal') == '' && strpos(Url::fromRoute('<current>')->toString(), 'autocomplete') == ''  && strpos(Url::fromRoute('<current>')->toString(), 'nodeviewcount') == '' && strpos(Url::fromRoute('<current>')->toString(), 'profiles') == '')) {
+    if ($user->isAnonymous() && ($this->getTitle() || $title) && (
+      strpos(Url::fromRoute('<current>')->toString(), 'user') == '' &&
+      strpos(Url::fromRoute('<current>')->toString(), 'modal') == '' &&
+      strpos(Url::fromRoute('<current>')->toString(), 'autocomplete') == ''  &&
+      strpos(Url::fromRoute('<current>')->toString(), 'nodeviewcount') == '' &&
+      strpos(Url::fromRoute('<current>')->toString(), 'profiles') == ''
+    )) {
       $ip_str = $this->getIpStr();
       if (Url::fromRoute('<current>')->toString() == '/') {
         $title = 'Home';
@@ -81,16 +91,17 @@ class KernelTerminateSubscriber implements EventSubscriberInterface {
    */
   protected function getTitle() {
     $title = '';
-    $routeObject = \Drupal::routeMatch()->getRouteObject();
-    if (!is_null($routeObject)) {
-      $title = \Drupal::routeMatch()->getRouteObject()->getDefault("_title");
-      if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') {
-        $term_id = \Drupal::routeMatch()->getRawParameter('taxonomy_term');
+    $route = \Drupal::routeMatch();
+    $route_object = $route->getRouteObject();
+    if (!is_null($route_object)) {
+      $title = $route->getRouteObject()->getDefault("_title");
+      if ($route->getRouteName() == 'entity.taxonomy_term.canonical') {
+        $term_id = $route->getRawParameter('taxonomy_term');
         $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($term_id);
         $title = $term->label();
       }
-      if (\Drupal::routeMatch()->getRouteName() == 'entity.node.canonical') {
-        $nid = \Drupal::routeMatch()->getRawParameter('node');
+      if ($route->getRouteName() == 'entity.node.canonical') {
+        $nid = $route->getRawParameter('node');
         $node = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
         $title = $node->label();
       }
@@ -106,7 +117,7 @@ class KernelTerminateSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Get the address of the page (if any) which referred the user agent to the current page.
+   * Get the address of the page which referred the user to the current page.
    */
   protected function getReferer() {
     return isset($_SERVER['HTTP_REFERER']) ? urldecode($_SERVER['HTTP_REFERER']) : '';

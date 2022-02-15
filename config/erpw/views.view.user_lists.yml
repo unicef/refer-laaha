@@ -8,6 +8,7 @@ dependencies:
     - field.storage.user.field_organisation
     - field.storage.user.field_phone
     - user.role.administrator
+    - user.role.country_admin
     - user.role.super_admin
   module:
     - user
@@ -479,8 +480,9 @@ display:
         type: role
         options:
           role:
-            super_admin: super_admin
             administrator: administrator
+            super_admin: super_admin
+            country_admin: country_admin
       cache:
         type: tag
         options: {  }

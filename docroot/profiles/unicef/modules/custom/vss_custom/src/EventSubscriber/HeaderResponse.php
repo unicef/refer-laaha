@@ -23,6 +23,7 @@ class HeaderResponse implements EventSubscriberInterface {
     $response->headers->set("X-Content-Type-Options", "nosniff always");
     $response->headers->set("Strict-Transport-Security", "max-age=31536000; includeSubDomains always");
     $response->headers->set("Access-Control-Allow-Origin", $event->getRequest()->getHost());
+
     $csp = "default-src 'self' blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://bam.nr-data.net https://cdn.ampproject.org https://www.google-analytics.com https://cdnjs.cloudflare.com https://ajax.googleapis.com https://code.jquery.com https://cdn.jsdelivr.net https://www.youtube.com https://www.googletagmanager.com https://js-agent.newrelic.com https://www.vimeo.com;";
 
     $csp .= " img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://h5p.org https://www.gstatic.com https://www.youtube.com https://www.vimeo.com  https://i.ytimg.com;";

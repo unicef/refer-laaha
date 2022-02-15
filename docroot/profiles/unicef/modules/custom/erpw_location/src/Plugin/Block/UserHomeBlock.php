@@ -3,12 +3,12 @@
 namespace Drupal\erpw_location\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\erpw_location\LocationService;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a block with a simple text.
@@ -51,17 +51,19 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
   /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration,
-  $plugin_id,
-  $plugin_definition,
-  AccountInterface $current_user,
-  LocationService $location_service,
-  EntityTypeManagerInterface $entityManager,
-  ConfigFactoryInterface $config_factory) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    AccountInterface $current_user,
+    LocationService $location_service,
+    EntityTypeManagerInterface $entity_manager,
+    ConfigFactoryInterface $config_factory) {
+
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->currentUser = $current_user;
     $this->locationService = $location_service;
-    $this->entityManager = $entityManager;
+    $this->entityManager = $entity_manager;
     $this->configfactory = $config_factory;
   }
 

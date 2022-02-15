@@ -106,21 +106,19 @@ var scripts = {
 };
 
 gulp.task('concatvendor', function () {
-  var stream = gulp.src(scripts.vendors)
+  return gulp.src(scripts.vendors)
     .pipe(concat('vendor.js'))
     .on('error', console.error.bind(console))
     .pipe(gulp.dest('theme-resources/tmp/' + 'js/'))
-  return stream;
 });
 
 gulp.task('concatapp', function () {
-  var stream = gulp.src(scripts.app)
+  console.log("JS created at " + '/js');
+  return gulp.src(scripts.app)
     .pipe(concat('app.js'))
     .on('error', console.error.bind(console))
     .pipe(uglify())
     .pipe(gulp.dest('js/'))
-  console.log("JS created at " + '/js');
-  return stream;
 });
 
 gulp.task('concatjs', gulp.series([

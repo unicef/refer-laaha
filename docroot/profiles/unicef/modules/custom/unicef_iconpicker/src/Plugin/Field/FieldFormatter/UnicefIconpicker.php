@@ -3,10 +3,10 @@
 namespace Drupal\unicef_iconpicker\Plugin\Field\FieldFormatter;
 
 use Drupal\Component\Utility\Html;
-use Drupal\Core\Field\FieldItemInterface;
-use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 
 /**
  * Plugin implementation of the 'unicef_iconpicker' formatter.
@@ -71,8 +71,6 @@ class UnicefIconpicker extends FormatterBase {
     foreach ($items as $delta => $item) {
       $size = $this->getSetting('size');
       $safe_value = $this->viewValue($item);
-      print_r($safe_value);
-      die;
       $elements[$delta] = [
         '#theme' => 'unicef_iconpicker_formatter',
         '#icon' => $safe_value,

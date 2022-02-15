@@ -2,14 +2,14 @@
 
 namespace Drupal\vss_custom\Controller;
 
+use Drupal\Core\State\State;
+use Drupal\Core\Session\SessionManager;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Routing\TrustedRedirectResponse;
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Session\SessionManager;
-use Drupal\Core\State\State;
-use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 
 /**
  * Class ExitController.
@@ -43,7 +43,12 @@ class ExitController extends ControllerBase implements ContainerInjectionInterfa
   /**
    * ExitController constructor.
    */
-  public function __construct(SessionManager $session_manager, State $state, KillSwitch $page_cache_kill_switch, RequestStack $request_stack) {
+  public function __construct(
+    SessionManager $session_manager,
+    State $state,
+    KillSwitch $page_cache_kill_switch,
+    RequestStack $request_stack) {
+
     $this->sessionManager = $session_manager;
     $this->state = $state;
     $this->pageCacheKillSwitch = $page_cache_kill_switch;

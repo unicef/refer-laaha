@@ -3,8 +3,8 @@
 namespace Drupal\visitors\Controller\Report;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Datetime\DateFormatterInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -99,7 +99,6 @@ class TopPages extends ControllerBase {
    *   Array representing the table content.
    */
   protected function getData(array $header) {
-    // $items_per_page = \Drupal::config('visitors.config')->get('items_per_page');
     $items_per_page = 20;
 
     $query = \Drupal::database()->select('visitors', 'v')
