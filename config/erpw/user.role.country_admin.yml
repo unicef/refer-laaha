@@ -6,6 +6,7 @@ dependencies:
     - node.type.organisation
     - node.type.service_type
   module:
+    - erpw_custom
     - content_translation
     - domain_access
     - node
@@ -29,6 +30,7 @@ permissions:
   - 'edit any organisation content'
   - 'edit any service_type content'
   - 'edit own organisation content'
+  - 'edit users of their own country'
   - 'edit own service_type content'
   - 'edit users of their own country'
   - 'translate service_type node'
