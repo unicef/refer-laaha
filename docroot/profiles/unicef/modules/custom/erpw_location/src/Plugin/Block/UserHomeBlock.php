@@ -117,8 +117,8 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
     }
     return [
       '#theme' => 'homepage_user_location',
-      '#title' => $form_config->get('title'),
-      '#description' => $form_config->get('description'),
+      '#title' => $this->t($form_config->get('title')),
+      '#description' => $this->t($form_config->get('description')),
       '#location' => $location,
       '#tid' => !empty($ancestors_prev[0]) ? $ancestors_prev[0] : 0,
       '#cache' => ['max-age' => 0],
