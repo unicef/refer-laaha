@@ -2,9 +2,9 @@
 
 namespace Drupal\erpw_custom\Form;
 
+use Drupal\Core\Url;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
 
 /**
  * ModalForm class.
@@ -35,7 +35,10 @@ class ServiceTypeUpdate extends FormBase {
       '#suffix' => '</div>',
     ];
     $url = Url::fromRoute('erpw_custom.updated_service_type')->toString();
-    $external_link = t("<a href='$url' class='use-ajax button bg-green' data-dialog-type='modal' data-dialog-options='{&quot;width&quot;:400}'>PROCEED</a>");
+    $external_link = "<a href='$url'
+    class='use-ajax button bg-green' data-dialog-type='modal' data-dialog-options='{&quot;width&quot;:400}'>" .
+    $this->t("PROCEED") . "</a>";
+
     $form['proceed'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="email-notify">',

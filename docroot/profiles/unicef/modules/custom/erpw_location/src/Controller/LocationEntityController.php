@@ -2,12 +2,12 @@
 
 namespace Drupal\erpw_location\Controller;
 
+use Drupal\Core\Url;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Drupal\Core\Url;
 use Drupal\erpw_location\Entity\LocationEntityInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 
 /**
  * Class LocationEntityController.
@@ -98,8 +98,12 @@ class LocationEntityController extends ControllerBase implements ContainerInject
     ]) : $this->t('Revisions for %title', ['%title' => $location->label()]);
 
     $header = [$this->t('Revision'), $this->t('Operations')];
-    $revert_permission = (($account->hasPermission("revert all location entity revisions") || $account->hasPermission('administer location entity entities')));
-    $delete_permission = (($account->hasPermission("delete all location entity revisions") || $account->hasPermission('administer location entity entities')));
+    $revert_permission = (
+      ($account->hasPermission("revert all location entity revisions") || $account->hasPermission('administer location entity entities'))
+    );
+    $delete_permission = (
+      ($account->hasPermission("delete all location entity revisions") || $account->hasPermission('administer location entity entities'))
+    );
 
     $rows = [];
 
@@ -131,10 +135,11 @@ class LocationEntityController extends ControllerBase implements ContainerInject
         }
 
         $row = [];
+        $msg = '{% trans %}{{ date }} by {{ username }}{% endtrans %}{% if message %}<p class="revision-log">{{ message }}</p>{% endif %}';
         $column = [
           'data' => [
             '#type' => 'inline_template',
-            '#template' => '{% trans %}{{ date }} by {{ username }}{% endtrans %}{% if message %}<p class="revision-log">{{ message }}</p>{% endif %}',
+            '#template' => $msg,
             '#context' => [
               'date' => $link,
               'username' => $this->renderer->renderPlain($username),
