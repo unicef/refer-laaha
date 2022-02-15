@@ -2,12 +2,12 @@
 
 namespace Drupal\erpw_custom\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\OpenModalDialogCommand;
-use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Form\FormBuilder;
 use Drupal\node\Entity\Node;
+use Drupal\Core\Form\FormBuilder;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * ModalFormController class.
@@ -24,11 +24,11 @@ class ModalController extends ControllerBase {
   /**
    * The ModalFormController constructor.
    *
-   * @param \Drupal\Core\Form\FormBuilder $formBuilder
+   * @param \Drupal\Core\Form\FormBuilder $form_builder
    *   The form builder.
    */
-  public function __construct(FormBuilder $formBuilder) {
-    $this->formBuilder = $formBuilder;
+  public function __construct(FormBuilder $form_builder) {
+    $this->formBuilder = $form_builder;
   }
 
   /**

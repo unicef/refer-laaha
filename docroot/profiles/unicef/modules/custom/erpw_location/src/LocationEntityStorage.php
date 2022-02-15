@@ -2,9 +2,9 @@
 
 namespace Drupal\erpw_location;
 
-use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
 use Drupal\erpw_location\Entity\LocationEntityInterface;
 
 /**
@@ -41,8 +41,10 @@ class LocationEntityStorage extends SqlContentEntityStorage implements LocationE
    * {@inheritdoc}
    */
   public function countDefaultLanguageRevisions(LocationEntityInterface $entity) {
-    return $this->database->query('SELECT COUNT(*) FROM {location_field_revision} WHERE id = :id AND default_langcode = 1', [':id' => $entity->id()])
-      ->fetchField();
+    return $this->database->query(
+      'SELECT COUNT(*) FROM {location_field_revision}
+      WHERE id = :id AND default_langcode = 1', [':id' => $entity->id()]
+      )->fetchField();
   }
 
   /**

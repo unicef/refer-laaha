@@ -3,9 +3,9 @@
 namespace Drupal\vss_custom\Form;
 
 use Drupal\Core\Form\FormBase;
-use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\HttpFoundation\Cookie;
+use Drupal\Core\Routing\TrustedRedirectResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -76,13 +76,13 @@ class LocationSelectorForm extends FormBase {
     }
     if ($lang_id == 'es') {
       $lang_id = 'es-ES';
-      $voiceId = 30;
-      $form['#attached']['drupalSettings']['voiceId'] = $voiceId;
+      $voice_id = 30;
+      $form['#attached']['drupalSettings']['voiceId'] = $voice_id;
     }
     if ($lang_id == 'en') {
       $lang_id = 'en-US';
-      $voiceId = 41;
-      $form['#attached']['drupalSettings']['voiceId'] = $voiceId;
+      $voice_id = 41;
+      $form['#attached']['drupalSettings']['voiceId'] = $voice_id;
     }
     $form['#attached']['drupalSettings']['location_selector_landId'] = $lang_id;
     $form['#attached']['drupalSettings']['location_selector_narrate'] = $string;
@@ -164,7 +164,7 @@ class LocationSelectorForm extends FormBase {
     $cookie_name = "country-selector";
     $cookie_langid = $lang_id;
     $cookie_value = $string;
-    $cookie_voice = $voiceId;
+    $cookie_voice = $voice_id;
     setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
     setcookie("voice", $cookie_voice, time() + (86400 * 30), "/");
     setcookie("langid", $lang_id, time() + (86400 * 30), "/");
@@ -198,8 +198,6 @@ class LocationSelectorForm extends FormBase {
     $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
     $response->headers->setCookie(new Cookie('country-location-selector', 'TRUE', strtotime('+7 days'), '/', $domain_site, NULL, FALSE));
     $form_state->setResponse($response);
-
-    return;
   }
 
 }

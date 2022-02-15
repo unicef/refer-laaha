@@ -5,21 +5,23 @@
 
 (function ($, Drupal, drupalSettings) {
     $(document).ready(function () {
-        var tag = document.createElement('script');
-        var player;
+        let tag = document.createElement("script");
         tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        tag.integrity = "sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"; // Compliant
+        tag.crossOrigin = "anonymous";
+        document.head.appendChild(script);
+
+        var player;
         var players = [];
         window.onYouTubeIframeAPIReady = function () {
-            videoTranscriptsCount = $('.show-transcript-external').length;
+            let videoTranscriptsCount = $('.show-transcript-external').length;
             for (var i = 0; i < videoTranscriptsCount; i++) {
                 var transcriptId = $('.show-transcript-external')[i].getAttribute("data-id").split("_")[1];
                 var frameId = 'youtube_' + transcriptId;
                 $('#youtube_' + transcriptId).find('iframe').attr('id', frameId);
                 $('#youtube_' + transcriptId).css({"border-radius": "20px"});
-                youtube_url = $('#youtube_' + transcriptId).find('iframe').attr('src');
-                videoId = youtube_parser(youtube_url);
+                let youtube_url = $('#youtube_' + transcriptId).find('iframe').attr('src');
+                let videoId = youtube_parser(youtube_url);
                 player = new YT.Player(frameId, {
                     width: '100%',
                     height: '570',
@@ -58,7 +60,7 @@
                             for (var i = 0, l = lines.length; i < l; i++) {
                                 if (now >= lines[i].getAttribute("data-start") &&
                                     now <= lines[i].getAttribute("data-end")) {
-                                    lineId = lines[i].getAttribute('id');
+                                    let lineId = lines[i].getAttribute('id');
                                     if (!$("#" + lineId + " > .transcript-text").hasClass("current")) {
                                         $("#" + lineId + " > .transcript-text").addClass("current");
                                         var scrollOffset = $(".current").offset().top - $("#transcript_" + transcriptId).offset().top;

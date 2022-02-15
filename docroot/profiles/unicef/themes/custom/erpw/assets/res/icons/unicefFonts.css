@@ -1,11 +1,11 @@
 @font-face {
-	font-family: "unicefFonts";
-	src: url('unicefFonts.eot');
-	src: url('unicefFonts.eot?#iefix') format('eot'),
-		url('unicefFonts.woff2') format('woff2'),
-		url('unicefFonts.woff') format('woff'),
-		url('unicefFonts.ttf') format('truetype'),
-		url('unicefFonts.svg#unicefFonts') format('svg');
+  font-family: "unicefFonts";
+  src: url('unicefFonts.eot');
+  src: url('unicefFonts.eot?#iefix') format('eot'),
+    url('unicefFonts.woff2') format('woff2'),
+    url('unicefFonts.woff') format('woff'),
+    url('unicefFonts.ttf') format('truetype'),
+    url('unicefFonts.svg#unicefFonts') format('svg');
 }
 
 .uf:before {
@@ -19,7 +19,6 @@
 	text-decoration: none;
 	text-transform: none;
 }
-
 
 .uf-Abduction-kidnapping:before {
 	content: "\E001";
@@ -677,7 +676,7 @@
 	content: "\E0A4";
 }
 
-.uf-Indigenous people:before {
+.uf-Indigenous .people:before {
 	content: "\E0A5";
 }
 
@@ -1289,7 +1288,7 @@
 	content: "\E13D";
 }
 
-.uf-Sexual-and-reproductive health:before {
+.uf-Sexual-and-reproductive .health:before {
 	content: "\E13E";
 }
 
