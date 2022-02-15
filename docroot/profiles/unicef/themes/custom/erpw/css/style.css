@@ -1098,6 +1098,28 @@ header {
   outline: none;
 }
 
+.view-referral-pathway-listing .views-row {
+  border-bottom: 1px solid rgba(215, 215, 215, 0.5);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.view-referral-pathway-listing .views-row .views-field-field-location {
+  background: url("../images/rpw.svg") top left no-repeat;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+  padding: 0 0 0 40px;
+  margin: 10px 10px 0;
+}
+.view-referral-pathway-listing .views-row .views-field-nothing {
+  border: 0;
+  margin-top: 0;
+}
+
 .steps-highlight {
   display: -webkit-box;
   display: -ms-flexbox;
