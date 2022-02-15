@@ -7,7 +7,7 @@
   Drupal.behaviors.disclaimer = {
     attach: function (context, settings) {
       $(document).ready(function () {
-        // Add session storage for window
+        // Add session storage for window.
         $('.pop-up').click(function () {
           window.speechSynthesis.cancel();
           $('.overlay-popup').hide();
@@ -21,13 +21,13 @@
         }
         window.speechSynthesis.cancel();
 
-        // grab the UI elements to work with
+        // Grab the UI elements to work with.
         const play = document.getElementById('play');
         const pause = document.getElementById('pause');
         const resume = document.getElementById('resume');
         resume.hidden = true;
         pause.hidden = true;
-        // add UI event handlers
+        // Add UI event handlers.
         play.addEventListener("click", () => {
           var utterance = new SpeechSynthesisUtterance(drupalSettings.disclaimer_narrate);
           if (drupalSettings.voiceId) {
@@ -57,7 +57,6 @@
         });
 
         resume.addEventListener("click", () => {
-          // data.innerText = "resume";
           speechSynthesis.resume();
           play.hidden = true;
           resume.hidden = true;

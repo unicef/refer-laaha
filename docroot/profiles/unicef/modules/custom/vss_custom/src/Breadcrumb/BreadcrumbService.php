@@ -2,13 +2,13 @@
 
 namespace Drupal\vss_custom\Breadcrumb;
 
+use Drupal\Core\Link;
+use Drupal\Core\Routing\AdminContext;
+use Drupal\Core\Breadcrumb\Breadcrumb;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\Core\Breadcrumb\BreadcrumbBuilderInterface;
-use Drupal\Core\Breadcrumb\Breadcrumb;
-use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Link;
-use Drupal\Core\Routing\AdminContext;
 
 /**
  * Class BreadcrumbService to modify breadcrumbs.
@@ -41,10 +41,14 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
   /**
    * Constructs a new BreadcrumbService object.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request_stack, AdminContext $routeAdminContext) {
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    RequestStack $request_stack,
+    AdminContext $route_admin_context) {
+
     $this->entityTypeManager = $entity_type_manager;
     $this->requestStack = $request_stack;
-    $this->routeAdminContext = $routeAdminContext;
+    $this->routeAdminContext = $route_admin_context;
   }
 
   /**

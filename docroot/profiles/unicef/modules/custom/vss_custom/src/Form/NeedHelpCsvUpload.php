@@ -2,9 +2,9 @@
 
 namespace Drupal\vss_custom\Form;
 
+use Drupal\file\Entity\File;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\file\Entity\File;
 
 /**
  * Defines a form that configures forms module settings.
@@ -120,7 +120,7 @@ class NeedHelpCsvUpload extends FormBase {
     }
 
     if (!empty($errors)) {
-      $form_state->setErrorByName('csv', t($errors));
+      $form_state->setErrorByName('csv', $errors);
       return;
     }
   }

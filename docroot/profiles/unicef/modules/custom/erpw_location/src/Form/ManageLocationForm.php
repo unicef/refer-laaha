@@ -2,16 +2,16 @@
 
 namespace Drupal\erpw_location\Form;
 
-use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Logger\LoggerChannelFactory;
-use Drupal\Core\Database\Connection;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Url;
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class ManageLocationForm.
@@ -53,7 +53,7 @@ class ManageLocationForm extends FormBase {
    *   Logger object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entityManager
+   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   EntityManager object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
@@ -62,10 +62,17 @@ class ManageLocationForm extends FormBase {
    * @param \Drupal\Core\Routing\UrlGeneratorInterface $url_generator
    *   The url generator.
    */
-  public function __construct(LoggerChannelFactory $logger, Connection $connection, EntityTypeManagerInterface $entityManager, MessengerInterface $messenger, FormBuilderInterface $form_builder, UrlGeneratorInterface $url_generator) {
+  public function __construct(
+    LoggerChannelFactory $logger,
+    Connection $connection,
+    EntityTypeManagerInterface $entity_manager,
+    MessengerInterface $messenger,
+    FormBuilderInterface $form_builder,
+    UrlGeneratorInterface $url_generator) {
+
     $this->logger = $logger;
     $this->connection = $connection;
-    $this->entityManager = $entityManager;
+    $this->entityManager = $entity_manager;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
     $this->urlGenerator = $url_generator;
@@ -156,14 +163,17 @@ class ManageLocationForm extends FormBase {
       foreach ($tree as $term) {
         if ($term->depth == $location_levels_count - 1) {
           $tid = $term->id();
-          $term_name = $term->hasTranslation($langcode) ? $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
+          $term_name = $term->hasTranslation($langcode) ?
+            $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
           $locations[$tid] = $term_name;
         }
       }
       natcasesort($locations);
       $form['location_list']['location_count'] = [
         '#type' => 'markup',
-        '#markup' => '<div class="location-count edit-delete-links margin-space">' . count($locations) . ' ' . $this->t('Locations') . '</div>',
+        '#markup' => '<div class="location-count edit-delete-links margin-space">' .
+        count($locations) . ' ' . $this->t('Locations') .
+        '</div>',
       ];
       foreach ($locations as $tid => $location) {
         $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
@@ -187,16 +197,23 @@ class ManageLocationForm extends FormBase {
         $view_url = $this->urlGenerator->generateFromRoute('erpw_location.view_location',
            ['tid' => $tid, 'mode' => 'view']
         );
-        $location_operations = '<div class="edit-delete-links"> 
-        <span class="clone-service-type"><a href="' . $clone_url . '">' . $this->t('Clone') . '</a></span>
-        <span class="delete-link"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>
-        <span class="edit-link"><a href="' . $edit_url . '">' . $this->t('Edit') . '</a></span>
+        $location_operations = '<div class="edit-delete-links">
+          <span class="clone-service-type"><a href="' . $clone_url . '">' . $this->t('Clone') . '</a></span>
+          <span class="delete-link"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>
+          <span class="edit-link"><a href="' . $edit_url . '">' . $this->t('Edit') . '</a></span>
         </div>';
 
         $form['location_list']['location_' . $tid] = [
           '#type' => 'markup',
-          '#markup' => '<div class="location-card"><div class="title-with-icons"><a href="' . $view_url . '"><div id="location-title" class="location-title">' . $location . '</div></a>
-          <div class="location-operations">' . $location_operations . '</div></div><a href="' . $view_url . '"><div class="location-details>' . $location_details . '</div></div></a> ',
+          '#markup' => '
+            <div class="location-card">
+              <div class="title-with-icons">
+                <a href="' . $view_url . '">
+                  <div id="location-title" class="location-title">' . $location . '</div>
+                </a>
+                <div class="location-operations">' . $location_operations . '</div>
+                </div><a href="' . $view_url . '"><div class="location-details>' . $location_details .
+          '</div></div></a> ',
         ];
       }
     }

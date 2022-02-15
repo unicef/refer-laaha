@@ -2,9 +2,9 @@
 
 namespace Drupal\erpw_location;
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Language\LanguageManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
  * Class is used for the locations services.
@@ -27,19 +27,19 @@ class LocationService {
   /**
    * LocationService constructor.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityManager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   Entity Manager Object.
-   * @param \Drupal\Core\Language\LanguageManager $languageManager
+   * @param \Drupal\Core\Language\LanguageManager $language_manager
    *   Location Manager object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
    */
-  public function __construct(EntityTypeManagerInterface $entityManager,
-  LanguageManager $languageManager,
-  Connection $connection
-  ) {
-    $this->entityManager = $entityManager;
-    $this->languageManager = $languageManager;
+  public function __construct(
+    EntityTypeManagerInterface $entity_manager,
+    LanguageManager $language_manager,
+    Connection $connection) {
+    $this->entityManager = $entity_manager;
+    $this->languageManager = $language_manager;
     $this->connection = $connection;
   }
 
@@ -54,7 +54,8 @@ class LocationService {
     for ($i = 1; $i <= 4; $i++) {
       if ($location_entity->get('level_' . $i)->getValue()) {
         $level_label = $location_entity->hasTranslation($langcode) ?
-        $location_entity->getTranslation($langcode)->get('level_' . $i)->getValue()[0]['value'] : $location_entity->get('level_' . $i)->getValue()[0]['value'];
+        $location_entity->getTranslation($langcode)
+          ->get('level_' . $i)->getValue()[0]['value'] : $location_entity->get('level_' . $i)->getValue()[0]['value'];
         array_push($location_levels, $level_label);
       }
 
@@ -68,14 +69,16 @@ class LocationService {
   public function getChildrenByTid($location_tid, $q = '') {
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $tree = $this->entityManager->getStorage('taxonomy_term')->loadTree(
-        'country',
-        $location_tid,
-        1,
-        TRUE
-        );
+      'country',
+      $location_tid,
+      1,
+      TRUE
+    );
     $result = [];
     foreach ($tree as $term) {
-      $term_name = $term->hasTranslation($langcode) ? $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
+      $term_name = $term->hasTranslation($langcode) ?
+        $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
+
       if (str_contains(strtolower($term_name), strtolower($q))) {
         $result[$term->id()] = $term_name;
       }
@@ -250,7 +253,8 @@ class LocationService {
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $term = $this->entityManager->getStorage('taxonomy_term')->load($id);
     if ($term) {
-      $term_name = $term->hasTranslation($langcode) ? $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
+      $term_name = $term->hasTranslation($langcode) ?
+        $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
       return $term_name;
     }
     return '';
@@ -260,7 +264,9 @@ class LocationService {
    * Get location entities.
    */
   public function getLocationEntityByTid($tid) {
-    $location_options = $this->entityManager->getStorage('location')->loadByProperties(['field_location_taxonomy_term' => $tid]);
+    $location_options = $this->entityManager->getStorage('location')->loadByProperties(
+      ['field_location_taxonomy_term' => $tid]
+    );
     foreach ($location_options as $location) {
       $location_levels = $this->getLocationLevels($location->id());
     }

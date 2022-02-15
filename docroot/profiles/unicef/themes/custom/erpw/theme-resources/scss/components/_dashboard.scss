@@ -49,5 +49,13 @@
         mask: url('../images/user.svg') center center no-repeat;
       }
     }
+		&.referral-link a {
+			&::before {
+        background-color: $base-secondary-bgcolor;
+        content: '';
+        -webkit-mask: url('../images/rpw.svg') center center no-repeat;
+        mask: url('../images/rpw.svg') center center no-repeat;
+      }
+		}
 	}
 }
