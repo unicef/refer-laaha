@@ -70,6 +70,7 @@
 		}
 	}
 	.multiple-fields-remove-button,
+	.multiple-fields-remove-button:hover,
 	.paragraphs-dropbutton-wrapper input[value="Remove"] {
 		background: url("../images/delete-button.svg") center center no-repeat;
 		border: 0 !important;
@@ -120,13 +121,12 @@
 		margin-bottom: -10px;
 		top: -45px;
 		.field-add-more-submit {
-			border: 0;
+			border: 0 !important;
 			background: none;
 			padding: 0 0 0 60px;
 			margin: 0;
 			text-transform: capitalize;
 			position: relative;
-    	z-index: 2;
 			&:focus {
 				outline: none;
 			}

@@ -1,0 +1,14 @@
+uuid: 1bfe721f-55a0-4c5a-87e8-1f3fa7df6647
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.interagency_gbv_coordinator
+  module:
+    - user
+id: user_remove_role_action.interagency_gbv_coordinator
+label: 'Remove the Interagency GBV Coordinator role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: interagency_gbv_coordinator
