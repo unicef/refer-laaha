@@ -9,6 +9,7 @@ dependencies:
     - field.storage.user.field_phone
     - user.role.administrator
     - user.role.country_admin
+    - user.role.gbv_coordinator_interagency_coordinator
     - user.role.super_admin
   module:
     - user
@@ -483,6 +484,7 @@ display:
             administrator: administrator
             super_admin: super_admin
             country_admin: country_admin
+            gbv_coordinator_interagency_coordinator: gbv_coordinator_interagency_coordinator
       cache:
         type: tag
         options: {  }
