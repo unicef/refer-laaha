@@ -8,6 +8,7 @@ dependencies:
   module:
     - content_translation
     - domain_access
+    - erpw_location
     - node
     - node_view_permissions
     - quick_node_clone
@@ -31,6 +32,7 @@ permissions:
   - 'edit own organisation content'
   - 'edit own service_type content'
   - 'edit users of their own country'
+  - 'erpw location add location'
   - 'translate service_type node'
   - 'update service_type content on assigned domains'
   - 'view any organisation content'
