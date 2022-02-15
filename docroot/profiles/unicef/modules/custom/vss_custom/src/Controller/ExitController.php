@@ -67,7 +67,9 @@ class ExitController extends ControllerBase implements ContainerInjectionInterfa
    */
   public function clearAllData() {
     $exit_url = $this->state->get('exit_url');
-    $this->sessionManager->destroy();
+    if ($this->sessionManager->isStarted()) {
+      $this->sessionManager->destroy();
+    }
     if (isset($_SERVER['HTTP_COOKIE'])) {
       $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
       foreach ($cookies as $cookie) {

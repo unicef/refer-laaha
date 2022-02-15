@@ -19,6 +19,8 @@
               // Make last dropdown as multi select element.
               $(".add_multiple").prop("multiple", 'true');
           });
+        	//Referral Pathway for add another section
+        	$('.node-referral-path-way-form .field-add-more-submit, .node-referral-path-way-edit-form  .field-add-more-submit').parents('.clearfix').addClass('plus-icon button-with-icon');
         }
     };
 }(jQuery, Drupal, drupalSettings));

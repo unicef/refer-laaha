@@ -1,0 +1,135 @@
+.node-referral-path-way-form,
+.node-referral-path-way-edit-form {
+	.table-format  table {
+		border: 0;
+		width: 99.8%;
+		thead {
+			border: 0;
+		}
+		tbody tr {
+			border: 1px solid #F3C1BF;
+			> td {
+				margin-bottom: 20px;
+			}
+		}
+		.table-format {
+			@extend .card-shadow;
+			tbody,
+			thead {
+				border: 0;
+				tr {
+					border: 0;
+				}
+			}
+			> td {
+				margin-bottom: unset;
+			}
+			table,
+			thead th {
+				border: 0;
+			}
+			.label {
+				font-size: 0.75em;
+				font-weight: 500;
+			}
+			
+		}
+		.field-multiple-drag {
+			width: 25px;
+			a.tabledrag-handle {
+				width: 20px;
+				.handle {
+					background-position: 40% 9px;
+				}
+			}
+		}
+		.has-multiple-fields-remove-button {
+			padding-right: 20px !important;
+		}
+		input.form-autocomplete {
+			margin-top: 0;
+		}
+	}
+	.tabledrag-toggle-weight-wrapper {
+		display: none;
+	}
+	.paragraph-type-title  {
+		color: $grey-txt-color;
+		font-size: $base-font-size;
+		text-overflow: unset;
+		&:before {
+			background: $base-white-color;
+			border: 3px solid $base-secondary-bgcolor;
+			border-radius: 50%;
+			content: '';
+			display: inline-block;
+			height: 10px;
+			margin-right: 11px;
+			vertical-align: bottom;
+			width: 10px;
+		}
+	}
+	.multiple-fields-remove-button,
+	.paragraphs-dropbutton-wrapper input[value="Remove"] {
+		background: url("../images/delete-button.svg") center center no-repeat;
+		border: 0 !important;
+    font-size: 0;
+		height: 20px;
+    margin-left: 30px;
+		right: -5px;
+    vertical-align: super;
+    width: 20px;
+	}
+	.paragraphs-subform {
+		margin-top: 20px;
+	}
+	.field--widget-string-textfield {
+		margin-bottom: 20px;
+	}
+	input[type=submit]:focus {
+		outline: 0;
+	}
+	.form-actions {
+		display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+		input[type=submit] {
+			padding: 10px 0 !important;
+			width: 134px
+		}
+		[id^='edit-submit'] {
+			order: 2;
+		}
+	}
+	[id^='edit-preview'] {
+		background: none;
+		border: 1px solid $base-secondary-bgcolor;
+		@include border-radius(4px);
+		color: $base-secondary-bgcolor;
+		display: inline-block;
+		font-size: 0.875em;
+		margin: 0 15px 1em 0;
+		padding: 10px 24px;
+		text-transform: uppercase;
+		order: 1;
+	}
+	.button-with-icon {
+		margin-bottom: -10px;
+		top: -45px;
+		.field-add-more-submit {
+			border: 0;
+			background: none;
+			padding: 0 0 0 60px;
+			margin: 0;
+			text-transform: capitalize;
+			position: relative;
+    	z-index: 2;
+			&:focus {
+				outline: none;
+			}
+		}
+	}
+}

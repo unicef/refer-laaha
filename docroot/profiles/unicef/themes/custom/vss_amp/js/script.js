@@ -107,5 +107,7 @@ resume.addEventListener("click", () => {
   });
 
   $(document).ready(function() {
-    jQuery('form').get(0).reset(); //clear form data on page load
+    if (jQuery('form').get(0)) {
+      jQuery('form').get(0).reset(); //clear form data on page load
+    } //clear form data on page load
   });

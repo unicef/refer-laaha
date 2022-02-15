@@ -2,6 +2,13 @@
 
 /**
  * @file
+ * Hook update.
+ */
+
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * @file
  * The PHP page that serves all page requests on a Drupal installation.
  *
  * Impments hook update.
@@ -45,4 +52,37 @@ function vss_content_update_9016() {
 function vss_content_update_9017() {
   $importer = \Drupal::service('vss_content.importer');
   $importer->importContent('block_content/0b1ba97b-332f-4c68-b979-8bfab8952f16.yml');
+}
+
+/**
+ * Hook update to increase the length of telephone number field.
+ */
+function vss_content_update_9018() {
+  $entity_type = 'node';
+  $field_name = 'field_telephone_number';
+  $field_length = 255;
+  $database = \Drupal::database();
+  // Resize the main field data table.
+  $database->query("ALTER TABLE {$entity_type}__{$field_name} MODIFY {$field_name}_value VARCHAR({$field_length})");
+  // Resize the revision field data table.
+  $database->query("ALTER TABLE {$entity_type}_revision__{$field_name} MODIFY {$field_name}_value VARCHAR({$field_length})");
+  // Update storage schema.
+  $storage_key = $entity_type . '.field_schema_data.' . $field_name;
+  $storage_schema = \Drupal::keyValue('entity.storage_schema.sql');
+  $field_schema = $storage_schema->get($storage_key);
+  $field_schema[$entity_type . '__' . $field_name]['fields'][$field_name . '_value']['length'] = $field_length;
+  $field_schema[$entity_type . '_revision__' . $field_name]['fields'][$field_name . '_value']['length'] = $field_length;
+  $storage_schema->set($storage_key, $field_schema);
+  // Update field configuration.
+  $config = \Drupal::configFactory()
+    ->getEditable("field.storage.{$entity_type}.{$field_name}");
+  $config->set('settings.max_length', $field_length);
+  $config->save(TRUE);
+  // Update field storage configuration.
+  FieldStorageConfig::loadByName($entity_type, $field_name)->save();
+  return t('Length of @entity-type.@field-name updated to @field-length', [
+    '@entity-type' => $entity_type,
+    '@field-name' => $field_name,
+    '@field-length' => $field_length,
+  ]);
 }
