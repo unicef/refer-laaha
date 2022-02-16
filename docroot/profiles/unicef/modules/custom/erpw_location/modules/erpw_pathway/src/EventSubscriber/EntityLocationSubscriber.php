@@ -105,7 +105,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       $form = $this->erpwPathwayService->getLocationForm($form, $form_state, $parent_list);
       // Change button name of section.
       $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = $this->t('Add a new section');
-      $form['#title'] = $this->t('Add new template for RPW');
+      $form['#title'] = $this->t('Add New Referral Pathway');
       $form['actions']['preview']['#attributes']['class'][] = 'button-border';
       $form['field_section']['widget']['#title'] = '';
 
@@ -114,7 +114,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
     }
 
     if ($form_id == 'node_referral_path_way_edit_form') {
-      $form['#title'] = $this->t('Update RPW template');
+      $form['#title'] = $this->t('Update RPW');
       $form['actions']['submit']['#cancel'][] = [$this, 'eprwCancelHandler'];
     }
   }
@@ -180,6 +180,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       }
     }
 
+    return _erpw_custom_redirect('view.referral_pathway_listing.page_1');
   }
 
   /**
@@ -206,8 +207,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public function eprwCancelHandler(&$form, $form_state) {
-    // @todo Replace route name when RPW view list is done.
-    return _erpw_custom_redirect('view.manage_service_types.page_1');
+    return _erpw_custom_redirect('view.referral_pathway_listing.page_1');
   }
 
   /**

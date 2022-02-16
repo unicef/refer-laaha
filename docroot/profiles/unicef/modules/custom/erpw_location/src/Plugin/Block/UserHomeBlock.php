@@ -100,7 +100,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
    * {@inheritdoc}
    */
   public function build() {
-    $form_config = $this->configfactory->get('user_location_config_form.settings');
+    $form_config = $this->configfactory->get('erpw_location.settings');
     $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
     $tid = $user->field_location_details->value;
     $tid_array = explode(",", $tid);
@@ -117,13 +117,14 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
         }
       }
     }
+    $title = !empty($form_config->get('title')) ? $this->t($form_config->get('title')) : "";
+    $descripton = !empty($form_config->get('description')) ? $this->t($form_config->get('description')) : "";
     return [
       '#theme' => 'homepage_user_location',
-      '#title' => $form_config->get('title'),
-      '#description' => $form_config->get('description'),
+      '#title' => $title,
+      '#description' => $descripton,
       '#location' => $location,
       '#tid' => !empty($ancestors_prev[0]) ? $ancestors_prev[0] : 0,
-      '#cache' => ['max-age' => 0],
     ];
   }
 

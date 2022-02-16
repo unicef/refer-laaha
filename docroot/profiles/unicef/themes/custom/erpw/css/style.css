@@ -217,6 +217,16 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   padding: 5px 10px 10px;
   margin: 13px 0 15px;
 }
+.card-shadow .card-shadow, .node-referral-path-way-form .table-format table .table-format .card-shadow,
+.node-referral-path-way-edit-form .table-format table .table-format .card-shadow, .card-shadow .node-referral-path-way-form .table-format table .table-format, .node-referral-path-way-form .table-format table .card-shadow .table-format, .node-referral-path-way-form .table-format table .table-format .table-format,
+.card-shadow .node-referral-path-way-edit-form .table-format table .table-format,
+.node-referral-path-way-edit-form .table-format table .card-shadow .table-format,
+.node-referral-path-way-edit-form .table-format table .table-format .table-format {
+  -webkit-box-shadow: unset;
+          box-shadow: unset;
+  margin: 0;
+  padding: 0;
+}
 
 .simple-status-messages .status-message-close span {
   color: #A85766;
@@ -276,6 +286,41 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   color: #A85766;
   padding: 0;
   margin: 0;
+}
+
+.select2-container {
+  width: 100% !important;
+}
+.select2-container--default .select2-selection--multiple {
+  border: 1px solid #F3C1BF !important;
+  margin-top: 7px;
+  padding: 6px 6px 8px !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background: #fff !important;
+  border: 1px solid #F3C1BF !important;
+  margin-top: 0 !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  border-right: 1px solid #F3C1BF !important;
+  color: #A85766 !important;
+}
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border: 1px solid #F3C1BF;
+}
+.select2-container--default .select2-results__option--selected {
+  background: #ffffff !important;
+}
+.select2-container--default .select2-results__option.select2-results__option--selectable {
+  padding-left: 11px;
+}
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+  background: #FFF6F5 !important;
+  color: #444 !important;
+  padding-left: 11px;
+}
+.select2-container .select2-dropdown {
+  border: 1px solid #F3C1BF;
 }
 
 form .form-required::after {
@@ -618,6 +663,58 @@ header {
   display: inline-flex;
   height: 27px;
   width: 26px;
+}
+
+.block-select-user-location {
+  margin-bottom: 30px;
+  text-align: right;
+}
+.block-select-user-location a {
+  font-size: 11px;
+  color: #A85766;
+  border-bottom: 1px solid #A85766;
+  padding-bottom: 2px;
+}
+.block-select-user-location a::after {
+  background: url("../images/arrow-small.svg") center right no-repeat;
+  content: "";
+  height: 7px;
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 5px;
+  width: 4px;
+}
+
+.user-location-list {
+  text-align: left;
+}
+.user-location-list .user-title {
+  font-weight: 400;
+  margin-bottom: 10px;
+  line-height: 24.5px;
+  letter-spacing: 0.3px;
+}
+.user-location-list .user-description {
+  font-size: 12px;
+  line-height: 18.5px;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+.user-location-list .location-theme {
+  background: url("../images/location.svg") top 8px left 18px no-repeat #FFF6F5;
+  -webkit-box-shadow: 0px 1px 4px rgba(168, 87, 102, 0.25);
+          box-shadow: 0px 1px 4px rgba(168, 87, 102, 0.25);
+  border-radius: 6px;
+  color: #A85766;
+  font-size: 13px;
+  line-height: 20px;
+  margin-bottom: 13px;
+  padding: 8px 18px 8px 45px;
+  text-transform: capitalize;
+}
+
+.user-location-form input[type=submit].use-ajax.arrow-btn {
+  background-position: calc(50% + 50px) center;
 }
 
 .manage-list {
@@ -1126,6 +1223,28 @@ header {
 .node-referral-path-way-form .button-with-icon .field-add-more-submit:focus,
 .node-referral-path-way-edit-form .button-with-icon .field-add-more-submit:focus {
   outline: none;
+}
+
+.view-referral-pathway-listing .views-row {
+  border-bottom: 1px solid rgba(215, 215, 215, 0.5);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.view-referral-pathway-listing .views-row .views-field-field-location {
+  background: url("../images/rpw.svg") top left no-repeat;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+  padding: 0 0 0 40px;
+  margin: 10px 10px 0;
+}
+.view-referral-pathway-listing .views-row .views-field-nothing {
+  border: 0;
+  margin-top: 0;
 }
 
 .steps-highlight {

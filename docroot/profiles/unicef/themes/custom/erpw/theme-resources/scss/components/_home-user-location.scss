@@ -1,0 +1,52 @@
+.block-select-user-location {
+	margin-bottom: 30px;
+	text-align: right;
+	a {
+		
+		font-size: 11px;
+		color: $base-secondary-bgcolor;
+		border-bottom: 1px solid $base-secondary-bgcolor;
+		padding-bottom: 2px;
+		&::after {
+			background: url('../images/arrow-small.svg') center right no-repeat;
+			content: '';
+			height: 7px;
+			display: inline-block;
+			vertical-align: middle;
+			padding-left: 5px;
+			width: 4px;
+		}
+	}
+}
+.user-location-list {
+	text-align: left;
+  .user-title {
+		font-weight: 400;
+		margin-bottom: 10px;
+    line-height: 24.5px;
+		letter-spacing: .3px;
+	}
+	.user-description {
+		font-size: 12px;
+		line-height: 18.5px;
+		letter-spacing: 0.5px;
+		margin-bottom: 20px;
+	}
+	.location-theme {
+		background: url('../images/location.svg') top 8px left 18px no-repeat $base-primary-bgcolor;
+		box-shadow: 0px 1px 4px rgba(168, 87, 102, 0.25);
+		border-radius: 6px;
+		color: $base-secondary-bgcolor;
+		font-size: 13px;
+    line-height: 20px;
+		margin-bottom: 13px;
+		padding: 8px 18px 8px 45px;
+		text-transform: capitalize;
+	}
+}
+
+.user-location-form {
+	input[type=submit].use-ajax.arrow-btn {
+		background-position: calc(50% + 50px) center;
+	}
+}
