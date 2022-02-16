@@ -46,9 +46,9 @@ class ErpwPathwayService {
   /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager,
+  public function __construct(EntityTypeManagerInterface $entity_type_manager,
     LocationService $location_service) {
-    self::$entityTypeManager = $entityTypeManager;
+    self::$entityTypeManager = $entity_type_manager;
     self::$locationService = $location_service;
   }
 
@@ -69,7 +69,7 @@ class ErpwPathwayService {
     // Build location Form.
     $location_entities = self::$entityTypeManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
-    $location_options = ['0' => $this->t("Select country")];
+    $location_options = ['' => $this->t("Select country")];
     $form_state->setRebuild(TRUE);
 
     if (!empty($location_entities)) {
@@ -166,10 +166,12 @@ class ErpwPathwayService {
       '#suffix' => '</div>',
       '#options' => $options,
       '#type' => 'select',
+      '#required' => ($counter == 0) ? TRUE : FALSE,
+      '#validated' => TRUE,
       '#title' => $label,
       '#attributes' => [
         'class' => ['loc-dropdown'],
-        'data-level' => ($counter + 1)
+        'data-level' => ($counter + 1),
       ],
       '#multiple' => ($counter == self::MAX_LEVEL) ? TRUE : FALSE,
       '#level' => ($counter + 1),
