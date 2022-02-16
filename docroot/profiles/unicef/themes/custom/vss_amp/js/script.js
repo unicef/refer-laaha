@@ -1,30 +1,30 @@
 'use strict';
 
-  const targetDiv = document.querySelector(".overlay-popup");
-  const btn = document.querySelector(".pop-up");
+const targetDiv = document.querySelector(".overlay-popup");
+const btn = document.querySelector(".pop-up");
 
-  if (window.localStorage.getItem("key", "pop-up" )) {
+if (window.localStorage.getItem("key", "pop-up" )) {
+  targetDiv.style.display = 'none';
+}
+else {
+  targetDiv.style.display = 'block';
+}
+
+btn.addEventListener("click", function () {
+  if (!window.localStorage.getItem("key", "pop-up" )) {
+    window.localStorage.setItem("key", "pop-up" );
     targetDiv.style.display = 'none';
-  } else {
-    targetDiv.style.display = 'block';
+    window.speechSynthesis.cancel();
   }
-
-  btn.addEventListener("click", function () {
-    if (!window.localStorage.getItem("key", "pop-up" )) {
-      window.localStorage.setItem("key", "pop-up" );
-      targetDiv.style.display = 'none';
-      window.speechSynthesis.cancel();
-    }
-  });
+});
 
   // grab the UI elements to work with
 
-  function getCookieValue(cname) {
+function getCookieValue(cname) {
   let name = cname + "=";
   let decodedCookie = decodeURIComponent(document.cookie);
   let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
+  for (let c of ca) {
     while (c.charAt(0) == ' ') {
       c = c.substring(1);
     }
@@ -32,8 +32,10 @@
       return c.substring(name.length, c.length);
     }
   }
+
   return "";
 }
+
 const play = document.querySelector('.play');
 const pause = document.querySelector('.pause');
 const resume = document.querySelector('.resume');
@@ -77,7 +79,6 @@ pause.addEventListener("click", () => {
 });
 
 resume.addEventListener("click", () => {
-  // data.innerText = "resume";
   speechSynthesis.resume();
   play.hidden = true;
   resume.hidden = true;
@@ -100,12 +101,14 @@ resume.addEventListener("click", () => {
     window.location.href = "/country-selector";
   }
 
-  $('.region-header a').each(function(){ 
+  $('.region-header a').each(function(){
     var oldUrl = $(this).attr("href"); // Get current url
     var newUrl = oldUrl + "?amp"; // Create new url
     $(this).attr("href", newUrl); // Set herf value
   });
 
   $(document).ready(function() {
-    jQuery('form').get(0).reset(); //clear form data on page load
+    if (jQuery('form').get(0)) {
+      jQuery('form').get(0).reset(); //clear form data on page load
+    } //clear form data on page load
   });

@@ -2,11 +2,11 @@
 
 namespace Drupal\vss_common_config;
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\language\ConfigurableLanguageManagerInterface;
-use Drupal\domain_config_ui\Config\ConfigFactory;
 use Drupal\domain\DomainNegotiator;
+use Drupal\domain_config_ui\Config\ConfigFactory;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\language\ConfigurableLanguageManagerInterface;
 
 /**
  * Class VssCommonService.
@@ -54,48 +54,57 @@ class VssCommonService implements VssCommonInterface {
   /**
    * Constructs a new VssCommonService object.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, ConfigurableLanguageManagerInterface $language_manager, RequestStack $request, ConfigFactory $config_factory, DomainNegotiator $domainNegotiator) {
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    ConfigurableLanguageManagerInterface $language_manager,
+    RequestStack $request,
+    ConfigFactory $config_factory,
+    DomainNegotiator $domain_negotiator) {
     $this->entityTypeManager = $entity_type_manager;
     $this->languageManager = $language_manager;
     $this->request = $request;
     $this->configFactory = $config_factory;
-    $this->domainNegotiator = $domainNegotiator;
+    $this->domainNegotiator = $domain_negotiator;
   }
 
   /**
    * Get domain specific config.
    */
   public function getVssDomainWithLanguageConfiguration() : array {
-    $activeDomain = $this->domainNegotiator->getActiveDomain();
-    $langId = $this->languageManager->getCurrentLanguage()->getId();
+    $active_domain = $this->domainNegotiator->getActiveDomain();
+    $lang_id = $this->languageManager->getCurrentLanguage()->getId();
     $host = $this->request->getCurrentRequest()->getHost();
-    $rawData = [];
-    if ($activeDomain && $activeDomain->getHostName() === $host) {
-      $rawData = $this->configFactory->get('domain.config.' . $activeDomain->id() . '.' . $langId . '.vss_common_config.vsscommonconfig')->getRawData();
+    $row_data = [];
+    if ($active_domain && $active_domain->getHostName() === $host) {
+      $row_data = $this->configFactory
+        ->get('domain.config.' . $active_domain->id() . '.' . $lang_id . '.vss_common_config.vsscommonconfig')
+        ->getRawData();
     }
-    return $rawData;
+    return $row_data;
   }
 
   /**
    * Get domain specific config.
    */
   public function getVssDomainWithoutLanguageConfiguration() : array {
-    $activeDomain = $this->domainNegotiator->getActiveDomain();
+    $active_domain = $this->domainNegotiator->getActiveDomain();
     $host = $this->request->getCurrentRequest()->getHost();
-    $rawData = [];
-    if ($activeDomain && $activeDomain->getHostName() === $host) {
-      $rawData = $this->configFactory->get('domain.config.' . $activeDomain->id() . '.vss_common_config.vsscommonconfig')->getRawData();
+    $row_data = [];
+    if ($active_domain && $active_domain->getHostName() === $host) {
+      $row_data = $this->configFactory
+        ->get('domain.config.' . $active_domain->id() . '.vss_common_config.vsscommonconfig')
+        ->getRawData();
     }
-    return $rawData;
+    return $row_data;
   }
 
   /**
    * Get domain specific config.
    */
   public function getVssCommonConfiguration(): array {
-    $rawData = [];
-    $rawData = $this->configFactory->get('vss_common_config.vsscommonconfig')->getRawData();
-    return $rawData;
+    $row_data = [];
+    $row_data = $this->configFactory->get('vss_common_config.vsscommonconfig')->getRawData();
+    return $row_data;
   }
 
   /**
@@ -108,13 +117,13 @@ class VssCommonService implements VssCommonInterface {
       'address',
     ];
     $data = $this->checkConfiguration($keys);
-    $footerDetails = [];
+    $footer_details = [];
     if (isset($data['vss_common_config'])) {
-      $footerDetails['phone'] = $data['vss_common_config']['phone'] ?? '';
-      $footerDetails['email'] = $data['vss_common_config']['email'] ?? '';
-      $footerDetails['address'] = $data['vss_common_config']['address'] ?? '';
+      $footer_details['phone'] = $data['vss_common_config']['phone'] ?? '';
+      $footer_details['email'] = $data['vss_common_config']['email'] ?? '';
+      $footer_details['address'] = $data['vss_common_config']['address'] ?? '';
     }
-    return $footerDetails;
+    return $footer_details;
   }
 
   /**
@@ -167,12 +176,12 @@ class VssCommonService implements VssCommonInterface {
       'header_phone',
     ];
     $data = $this->checkConfiguration($keys);
-    $headerPhone = [];
+    $header_phone = [];
     if (isset($data['vss_common_config'])) {
-      $headerPhone['header_country_code'] = trim($data['vss_common_config']['header_country_code']) ?? '';
-      $headerPhone['header_phone'] = trim($data['vss_common_config']['header_phone']) ?? '';
+      $header_phone['header_country_code'] = trim($data['vss_common_config']['header_country_code']) ?? '';
+      $header_phone['header_phone'] = trim($data['vss_common_config']['header_phone']) ?? '';
     }
-    return $headerPhone;
+    return $header_phone;
   }
 
   /**
@@ -188,16 +197,16 @@ class VssCommonService implements VssCommonInterface {
       'social_link_insta',
     ];
     $data = $this->checkConfiguration($keys);
-    $headerPhone = [];
+    $header_phone = [];
     if (isset($data['vss_common_config'])) {
-      $headerPhone['social_twitter'] = (int) $data['vss_common_config']['social_twitter'] ?? '';
-      $headerPhone['social_link_twitter'] = trim($data['vss_common_config']['social_link_twitter']) ?? '';
-      $headerPhone['social_youtube'] = (int) $data['vss_common_config']['social_youtube'] ?? '';
-      $headerPhone['social_link_youtube'] = trim($data['vss_common_config']['social_link_youtube']) ?? '';
-      $headerPhone['social_insta'] = (int) $data['vss_common_config']['social_insta'] ?? '';
-      $headerPhone['social_link_insta'] = trim($data['vss_common_config']['social_link_insta']) ?? '';
+      $header_phone['social_twitter'] = (int) $data['vss_common_config']['social_twitter'] ?? '';
+      $header_phone['social_link_twitter'] = trim($data['vss_common_config']['social_link_twitter']) ?? '';
+      $header_phone['social_youtube'] = (int) $data['vss_common_config']['social_youtube'] ?? '';
+      $header_phone['social_link_youtube'] = trim($data['vss_common_config']['social_link_youtube']) ?? '';
+      $header_phone['social_insta'] = (int) $data['vss_common_config']['social_insta'] ?? '';
+      $header_phone['social_link_insta'] = trim($data['vss_common_config']['social_link_insta']) ?? '';
     }
-    return $headerPhone;
+    return $header_phone;
   }
 
   /**

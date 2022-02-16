@@ -312,11 +312,13 @@ div.color_field__swatch input[type=radio]:checked + label span {
 }
 
 //Manage org
-.view-organisations {
+.view-organisations,
+.view-referral-pathway-listing {
 
 	@extend .service-list;
 
-	.views-field-title {
+	.views-field-title,
+	.views-field-field-location {
 		padding: 5px 10px;
 	}
 }

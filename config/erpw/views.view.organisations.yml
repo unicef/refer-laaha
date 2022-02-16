@@ -5,6 +5,8 @@ dependencies:
   config:
     - node.type.organisation
     - user.role.administrator
+    - user.role.country_admin
+    - user.role.interagency_gbv_coordinator
     - user.role.super_admin
   module:
     - node
@@ -120,8 +122,10 @@ display:
         type: role
         options:
           role:
-            super_admin: super_admin
             administrator: administrator
+            super_admin: super_admin
+            country_admin: country_admin
+            interagency_gbv_coordinator: interagency_gbv_coordinator
       cache:
         type: tag
         options: {  }

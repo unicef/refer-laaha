@@ -83,7 +83,9 @@ class HomepageHeroCategoriesBlock extends BlockBase implements ContainerFactoryP
         ];
       }
     }
-    ksort($hero);
+    if ($hero) {
+      ksort($hero);
+    }
     $build['#theme'] = 'homepage_hero_categories_block';
     $build['#content'] = $hero;
     $build['#lang_code'] = $langcode;

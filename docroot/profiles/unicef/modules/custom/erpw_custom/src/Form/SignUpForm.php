@@ -3,18 +3,18 @@
 namespace Drupal\erpw_custom\Form;
 
 use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\erpw_location\LocationService;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\OpenModalDialogCommand;
-use Drupal\Core\Ajax\HtmlCommand;
-use Drupal\Core\Ajax\InvokeCommand;
-use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\erpw_location\LocationService;
 
 /**
  * Class user signup form.
@@ -59,9 +59,16 @@ class SignUpForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(Connection $database, EntityTypeManagerInterface $entityTypeManager, AccountProxyInterface $current_user, MessengerInterface $messenger, FormBuilderInterface $form_builder, LocationService $location_service) {
+  public function __construct(
+    Connection $database,
+    EntityTypeManagerInterface $entity_type_manager,
+    AccountProxyInterface $current_user,
+    MessengerInterface $messenger,
+    FormBuilderInterface $form_builder,
+    LocationService $location_service) {
+
     $this->database = $database;
-    $this->entityTypeManager = $entityTypeManager;
+    $this->entityTypeManager = $entity_type_manager;
     $this->currentUser = $current_user;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
@@ -105,13 +112,17 @@ class SignUpForm extends FormBase {
     $form_state->set('page', 1);
 
     $form['progress_step1'] = [
-      '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
+      '#markup' => '<div class="steps-highlight">
+        <div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') .
+      '</div>',
     ];
     $form['progress_step2'] = [
       '#markup' => '<div class="location-detail-page step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
     ];
     $form['progress_step3'] = [
-      '#markup' => '<div class="password-creation-page step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
+      '#markup' => '<div class="password-creation-page step-circle">' .
+      $this->t('<div class="step-number">3</div>') . '</div>
+      </div>',
     ];
 
     $form['message-step'] = [
@@ -241,7 +252,9 @@ class SignUpForm extends FormBase {
   public function formPageTwo(array &$form, FormStateInterface $form_state) {
     $form['#prefix'] = '<div id="status-message"></div>';
     $form['progress_step1'] = [
-      '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
+      '#markup' => '<div class="steps-highlight">
+        <div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') .
+      '</div>',
     ];
     $form['progress_step2'] = [
       '#markup' => '<div class="location-detail-page active step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
@@ -666,13 +679,19 @@ class SignUpForm extends FormBase {
    */
   public function formPageThree(array &$form, FormStateInterface $form_state) {
     $form['progress_step1'] = [
-      '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
+      '#markup' => '<div class="steps-highlight">
+        <div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') .
+      '</div>',
     ];
     $form['progress_step2'] = [
-      '#markup' => '<div class="location-detail-page active step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
+      '#markup' => '<div class="location-detail-page active step-circle">' .
+      $this->t('<div class="step-number">2</div>') .
+      '</div>',
     ];
     $form['progress_step3'] = [
-      '#markup' => '<div class="password-creation-page active step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
+      '#markup' => '<div class="password-creation-page active step-circle">' .
+      $this->t('<div class="step-number">3</div>') .
+      '</div></div>',
     ];
 
     $form['message-step'] = [
@@ -682,7 +701,9 @@ class SignUpForm extends FormBase {
     if ($this->currentUser->id()) {
       $form['message-info'] = [
         '#prefix' => '<div class="password-creation">',
-        '#markup' => '<div class="notify-messsage">' . $this->t('How would you like to send the password creation link to the new user?') . '</div>',
+        '#markup' => '<div class="notify-messsage">' .
+        $this->t('How would you like to send the password creation link to the new user?') .
+        '</div>',
       ];
       $form['submit'] = [
         '#type' => 'submit',

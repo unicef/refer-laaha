@@ -2,10 +2,10 @@
 
 namespace Drupal\vss_custom\Plugin\Block;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Cache\Cache;
 
 /**
  * Provides a 'DisclaimerPopUpBlock' block.
@@ -74,13 +74,13 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
     }
     if ($lang_id == 'es') {
       $lang_id = 'es-ES';
-      $voiceId = 30;
-      $build['#attached']['drupalSettings']['voiceId'] = $voiceId;
+      $voice_id = 30;
+      $build['#attached']['drupalSettings']['voiceId'] = $voice_id;
     }
     if ($lang_id == 'en') {
       $lang_id = 'en-US';
-      $voiceId = 41;
-      $build['#attached']['drupalSettings']['voiceId'] = $voiceId;
+      $voice_id = 41;
+      $build['#attached']['drupalSettings']['voiceId'] = $voice_id;
     }
     $build['#attached']['drupalSettings']['disclaimer_landId'] = $lang_id;
     $build['#attached']['drupalSettings']['disclaimer_narrate'] = $string;
@@ -88,7 +88,7 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
     $cookie_name = "player";
     $cookie_langid = $lang_id;
     $cookie_value = $string;
-    $cookie_voice = $voiceId;
+    $cookie_voice = $voice_id;
     setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
     setcookie("voice", $cookie_voice, time() + (86400 * 30), "/");
     setcookie("langid", $lang_id, time() + (86400 * 30), "/");

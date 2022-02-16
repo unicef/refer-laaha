@@ -7,7 +7,7 @@
   Drupal.behaviors.narrateJs = {
     attach: function (context, settings) {
       $(document).ready(function () {
-        // Add session storage for window
+        // Add session storage for window.
         $('.pop-up').click(function () {
           if (!sessionStorage.getItem('pop-up')) {
             sessionStorage.setItem('pop-up', '1');
@@ -17,13 +17,13 @@
           return;
         }
         window.speechSynthesis.cancel();
-        // grab the UI elements to work with
+        // Grab the UI elements to work with.
         const play = document.getElementById('play-article');
         const pause = document.getElementById('pause-article');
         const resume = document.getElementById('resume-article');
         resume.hidden = true;
         pause.hidden = true;
-        // add UI event handlers
+        // Add UI event handlers.
         play.addEventListener("click", () => {
           var utterance = new SpeechSynthesisUtterance(drupalSettings.narrate);
           if (drupalSettings.voiceId) {
@@ -54,7 +54,6 @@
         });
 
         resume.addEventListener("click", () => {
-          // data.innerText = "resume";
           speechSynthesis.resume();
           play.hidden = true;
           resume.hidden = true;

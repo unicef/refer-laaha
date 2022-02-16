@@ -2,9 +2,9 @@
 
 namespace Drupal\erpw_custom\Form;
 
+use Drupal\Core\Url;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
 
 /**
  * ModalForm class.
@@ -35,7 +35,7 @@ class UpdatedServiceType extends FormBase {
       '#suffix' => '</div>',
     ];
     $url = Url::fromRoute('view.manage_service_types.page_1')->toString();
-    $external_link = t("<a href='$url' class='button-red'>BACK TO DASHBOARD</a>");
+    $external_link = "<a href='$url' class='button-red'>" . t("BACK TO DASHBOARD") . "</a>";
     $form['cancel'] = [
       '#type' => 'markup',
       '#markup' => $external_link,

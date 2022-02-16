@@ -173,7 +173,7 @@ form input[type=submit] {
 	margin: 13px 0 15px;
 }
 .simple-status-messages .status-message-close span {
-	color: #A85766;
+	color: $base-secondary-bgcolor;
 	font-size: 28px;
 	right: 7px;
 	top: -3px;
@@ -189,7 +189,7 @@ form input[type=submit] {
 		border-collapse: collapse; 
 		width: 100%;
 		thead {
-			color: #A85766;
+			color: $base-secondary-bgcolor;
 			text-align: left;
 			th {
 				border-bottom: 1px solid #F3C1BF;
@@ -203,7 +203,32 @@ form input[type=submit] {
 			border: 0 !important;
 		}
 		a {
-			color: #A85766;
+			color: $base-secondary-bgcolor;
 		}
+	}
+}
+
+.ui-autocomplete {
+	border: 1px solid #F3C1BF !important;
+	border-radius: 5px;
+	height: 194px;
+	max-width: 77%;
+	overflow-y: scroll;
+	li {
+		border-bottom: 1px solid rgba(243,193,191,0.53);
+		padding: 10px;
+		a {
+			color: $grey-txt-color;
+			font-size: 14px;
+			padding: 0 !important;
+			word-break: break-word;
+		}
+	}
+	.ui-state-active {
+		background: none;
+		border: 0;
+		color: $base-secondary-bgcolor;
+		padding: 0;
+		margin: 0;
 	}
 }

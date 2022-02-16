@@ -96,13 +96,13 @@ function vss_preprocess_node(array &$variables) {
       }
       if ($lang_id == 'es') {
         $lang_id = 'es-ES';
-        $voiceId = 30;
-        $variables['#attached']['drupalSettings']['voiceId'] = $voiceId;
+        $voice_id = 30;
+        $variables['#attached']['drupalSettings']['voiceId'] = $voice_id;
       }
       if ($lang_id == 'en') {
         $lang_id = 'en-US';
-        $voiceId = 41;
-        $variables['#attached']['drupalSettings']['voiceId'] = $voiceId;
+        $voice_id = 41;
+        $variables['#attached']['drupalSettings']['voiceId'] = $voice_id;
       }
       $variables['#attached']['drupalSettings']['langId'] = $lang_id;
     }

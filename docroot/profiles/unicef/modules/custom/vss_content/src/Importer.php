@@ -2,21 +2,21 @@
 
 namespace Drupal\vss_content;
 
-use Drupal\Component\Graph\Graph;
-use Drupal\Core\Config\Entity\ConfigEntityInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\File\FileSystemInterface;
-use Drupal\Core\Serialization\Yaml;
-use Drupal\Core\Session\AccountSwitcherInterface;
-use Drupal\default_content\Event\DefaultContentEvents;
-use Drupal\default_content\Event\ImportEvent;
-use Drupal\default_content\Normalizer\ContentEntityNormalizerInterface;
-use Drupal\default_content\ContentFileStorageInterface;
 use Drupal\file\FileInterface;
-use Drupal\hal\LinkManager\LinkManagerInterface;
+use Drupal\Component\Graph\Graph;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\user\EntityOwnerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Drupal\Core\File\FileSystemInterface;
 use Symfony\Component\Serializer\Serializer;
+use Drupal\default_content\Event\ImportEvent;
+use Drupal\hal\LinkManager\LinkManagerInterface;
+use Drupal\Core\Session\AccountSwitcherInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Config\Entity\ConfigEntityInterface;
+use Drupal\default_content\Event\DefaultContentEvents;
+use Drupal\default_content\ContentFileStorageInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Drupal\default_content\Normalizer\ContentEntityNormalizerInterface;
 
 /**
  * A service for handling import of default content.
@@ -121,10 +121,20 @@ class Importer implements ImporterInterface {
    *   The account switcher.
    * @param \Drupal\default_content\Normalizer\ContentEntityNormalizerInterface $content_entity_normaler
    *   The YAML normalizer.
-   * @param \Drupal\Core\File\FileSystemInterface $fileSystem
+   * @param \Drupal\Core\File\FileSystemInterface $file_system
    *   The filesystem.
    */
-  public function __construct(Serializer $serializer, EntityTypeManagerInterface $entity_type_manager, LinkManagerInterface $link_manager, EventDispatcherInterface $event_dispatcher, ContentFileStorageInterface $content_file_storage, $link_domain, AccountSwitcherInterface $account_switcher, ContentEntityNormalizerInterface $content_entity_normaler, FileSystemInterface $fileSystem) {
+  public function __construct(
+    Serializer $serializer,
+    EntityTypeManagerInterface $entity_type_manager,
+    LinkManagerInterface $link_manager,
+    EventDispatcherInterface $event_dispatcher,
+    ContentFileStorageInterface $content_file_storage,
+    $link_domain,
+    AccountSwitcherInterface $account_switcher,
+    ContentEntityNormalizerInterface $content_entity_normaler,
+    FileSystemInterface $file_system) {
+
     $this->serializer = $serializer;
     $this->entityTypeManager = $entity_type_manager;
     $this->linkManager = $link_manager;
@@ -133,7 +143,7 @@ class Importer implements ImporterInterface {
     $this->linkDomain = $link_domain;
     $this->accountSwitcher = $account_switcher;
     $this->contentEntityNormalizer = $content_entity_normaler;
-    $this->fileSystem = $fileSystem;
+    $this->fileSystem = $file_system;
   }
 
   /**
@@ -183,7 +193,9 @@ class Importer implements ImporterInterface {
         if (isset($file_map[$item_uuid])) {
           // Reset link domain.
           $this->linkManager->setLinkDomain(FALSE);
-          throw new \Exception(sprintf('Default content with uuid "%s" exists twice: "%s" "%s"', $item_uuid, $file_map[$item_uuid], $file));
+          throw new \Exception(
+            sprintf('Default content with uuid "%s" exists twice: "%s" "%s"', $item_uuid, $file_map[$item_uuid], $file)
+          );
         }
         // Store the entity type with the file.
         // Store the file in the file map.

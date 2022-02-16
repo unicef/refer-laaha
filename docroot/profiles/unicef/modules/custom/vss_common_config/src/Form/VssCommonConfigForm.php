@@ -2,13 +2,13 @@
 
 namespace Drupal\vss_common_config\Form;
 
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Cache\CacheTagsInvalidator;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Drupal\Core\Database\Connection;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class VssCommonConfigForm.
@@ -50,7 +50,7 @@ class VssCommonConfigForm extends ConfigFormBase {
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\Core\Cache\CacheTagsInvalidator $cacheTagsInvalidator
+   * @param \Drupal\Core\Cache\CacheTagsInvalidator $cache_tags_invalidator
    *   The cache tags invalidator.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request
    *   The request stack.
@@ -59,12 +59,12 @@ class VssCommonConfigForm extends ConfigFormBase {
    */
   public function __construct(
     EntityTypeManager $entity_type_manager,
-    CacheTagsInvalidator $cacheTagsInvalidator,
+    CacheTagsInvalidator $cache_tags_invalidator,
     RequestStack $request,
     Connection $database
   ) {
     $this->entityTypeManager = $entity_type_manager;
-    $this->cacheTagsInvalidator = $cacheTagsInvalidator;
+    $this->cacheTagsInvalidator = $cache_tags_invalidator;
     $this->request = $request;
     $this->database = $database;
   }
@@ -102,7 +102,7 @@ class VssCommonConfigForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('vss_common_config.vsscommonconfig');
-    $commonConfig = $config->get('vss_common_config');
+    $common_config = $config->get('vss_common_config');
     $form['vsscommonconfig'] = [
       '#type' => 'vertical_tabs',
     ];
@@ -119,19 +119,19 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#description' => $this->t('Enter Phone Number'),
       '#maxlength' => 255,
       '#size' => 64,
-      '#default_value' => !empty($commonConfig['phone']) ? $commonConfig['phone'] : '',
+      '#default_value' => !empty($common_config['phone']) ? $common_config['phone'] : '',
     ];
     $form['footer_details']['email'] = [
       '#type' => 'email',
       '#title' => $this->t('Email'),
       '#description' => $this->t('Enter Email'),
-      '#default_value' => !empty($commonConfig['email']) ? $commonConfig['email'] : '',
+      '#default_value' => !empty($common_config['email']) ? $common_config['email'] : '',
     ];
     $form['footer_details']['address'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Address'),
       '#description' => $this->t('Address for Domain'),
-      '#default_value' => !empty($commonConfig['address']) ? $commonConfig['address'] : '',
+      '#default_value' => !empty($common_config['address']) ? $common_config['address'] : '',
       '#maxlength' => 255,
       '#size' => 64,
     ];
@@ -145,14 +145,14 @@ class VssCommonConfigForm extends ConfigFormBase {
     $form['disclaimer']['disclaimer_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Ttile'),
-      '#default_value' => !empty($commonConfig['disclaimer_title']) ? $commonConfig['disclaimer_title'] : '',
+      '#default_value' => !empty($common_config['disclaimer_title']) ? $common_config['disclaimer_title'] : '',
     ];
 
     $form['disclaimer']['disclaimer_description'] = [
       '#type' => 'text_format',
       '#format' => 'full_html',
       '#title' => $this->t('Message'),
-      '#default_value' => !empty($commonConfig['disclaimer_description']) ? $commonConfig['disclaimer_description']['value'] : '',
+      '#default_value' => !empty($common_config['disclaimer_description']) ? $common_config['disclaimer_description']['value'] : '',
     ];
     $form['disclaimer']['disclaimer_image'] = [
       '#type'                 => 'managed_file',
@@ -165,7 +165,7 @@ class VssCommonConfigForm extends ConfigFormBase {
         'file_validate_size'          => [25600000],
       ],
       '#title'                => $this->t('Upload an image file.'),
-      '#default_value' => !empty($commonConfig['disclaimer_image']) ? [$commonConfig['disclaimer_image'][0]] : '',
+      '#default_value' => !empty($common_config['disclaimer_image']) ? [$common_config['disclaimer_image'][0]] : '',
     ];
 
     $form['header_phone'] = [
@@ -179,7 +179,7 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#description' => $this->t('Enter Country Code'),
       '#maxlength' => 255,
       '#size' => 64,
-      '#default_value' => !empty($commonConfig['header_country_code']) ? $commonConfig['header_country_code'] : '',
+      '#default_value' => !empty($common_config['header_country_code']) ? $common_config['header_country_code'] : '',
     ];
     $form['header_phone']['header_phone'] = [
       '#type' => 'textfield',
@@ -187,7 +187,7 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#description' => $this->t('Enter Header Phone Number'),
       '#maxlength' => 255,
       '#size' => 64,
-      '#default_value' => !empty($commonConfig['header_phone']) ? $commonConfig['header_phone'] : '',
+      '#default_value' => !empty($common_config['header_phone']) ? $common_config['header_phone'] : '',
     ];
 
     $form['social_links'] = [
@@ -200,7 +200,7 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#title' => $this->t('Add twitter'),
       '#maxlength' => 255,
       '#size' => 64,
-      '#default_value' => !empty($commonConfig['social_twitter']) ? $commonConfig['social_twitter'] : '',
+      '#default_value' => !empty($common_config['social_twitter']) ? $common_config['social_twitter'] : '',
     ];
 
     $form['social_links']['social_link_twitter'] = [
@@ -208,14 +208,14 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#title' => $this->t('Add twitter link'),
       '#maxlength' => 255,
       '#size' => 64,
-      '#default_value' => !empty($commonConfig['social_link_twitter']) ? $commonConfig['social_link_twitter'] : '',
+      '#default_value' => !empty($common_config['social_link_twitter']) ? $common_config['social_link_twitter'] : '',
     ];
     $form['social_links']['social_youtube'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Add youtube'),
       '#maxlength' => 255,
       '#size' => 64,
-      '#default_value' => !empty($commonConfig['social_youtube']) ? $commonConfig['social_youtube'] : '',
+      '#default_value' => !empty($common_config['social_youtube']) ? $common_config['social_youtube'] : '',
     ];
 
     $form['social_links']['social_link_youtube'] = [
@@ -223,14 +223,14 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#title' => $this->t('Add youtube link'),
       '#maxlength' => 255,
       '#size' => 64,
-      '#default_value' => !empty($commonConfig['social_link_youtube']) ? $commonConfig['social_link_youtube'] : '',
+      '#default_value' => !empty($common_config['social_link_youtube']) ? $common_config['social_link_youtube'] : '',
     ];
     $form['social_links']['social_insta'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Add insta'),
       '#maxlength' => 255,
       '#size' => 64,
-      '#default_value' => !empty($commonConfig['social_insta']) ? $commonConfig['social_insta'] : '',
+      '#default_value' => !empty($common_config['social_insta']) ? $common_config['social_insta'] : '',
     ];
 
     $form['social_links']['social_link_insta'] = [
@@ -238,7 +238,7 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#title' => $this->t('Add insta link'),
       '#maxlength' => 255,
       '#size' => 64,
-      '#default_value' => !empty($commonConfig['social_link_insta']) ? $commonConfig['social_link_insta'] : '',
+      '#default_value' => !empty($common_config['social_link_insta']) ? $common_config['social_link_insta'] : '',
     ];
 
     $form['categories'] = [
@@ -255,14 +255,14 @@ class VssCommonConfigForm extends ConfigFormBase {
       '#type' => 'select',
       '#title' => $this->t('Get help category'),
       '#options' => ['' => 'Select'] + $tax_opt,
-      '#default_value' => !empty($commonConfig['get_help']) ? $commonConfig['get_help'] : '',
+      '#default_value' => !empty($common_config['get_help']) ? $common_config['get_help'] : '',
     ];
 
     $form['categories']['homepage_hero'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('Hompage hero Categories'),
       '#options' => $tax_opt,
-      '#default_value' => !empty($commonConfig['homepage_hero']) ? $commonConfig['homepage_hero'] : [],
+      '#default_value' => !empty($common_config['homepage_hero']) ? $common_config['homepage_hero'] : [],
     ];
 
     $form['location_selection'] = [
@@ -274,14 +274,15 @@ class VssCommonConfigForm extends ConfigFormBase {
     $form['location_selection']['location_selection_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#default_value' => !empty($commonConfig['location_selection_title']) ? $commonConfig['location_selection_title'] : '',
+      '#default_value' => !empty($common_config['location_selection_title']) ? $common_config['location_selection_title'] : '',
     ];
 
     $form['location_selection']['location_selection_description'] = [
       '#type' => 'text_format',
       '#format' => 'full_html',
       '#title' => $this->t('Description'),
-      '#default_value' => !empty($commonConfig['location_selection_description']) ? $commonConfig['location_selection_description']['value'] : '',
+      '#default_value' => !empty($common_config['location_selection_description']) ?
+      $common_config['location_selection_description']['value'] : '',
     ];
 
     return parent::buildForm($form, $form_state);

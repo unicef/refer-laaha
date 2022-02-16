@@ -5,17 +5,16 @@
  * Functions to support theming in the erpw theme.
  */
 
-use Drupal\node\NodeInterface;
-use Drupal\user\Entity\User;
 use Drupal\Core\Url;
+use Drupal\user\Entity\User;
+use Drupal\node\NodeInterface;
 
 /**
  * Implements hook_preprocess_HOOK()
  */
 function erpw_preprocess_block(&$variables) {
 
-  $userCurrent = \Drupal::currentUser();
-  if ($userCurrent->isAuthenticated()) {
+  if (\Drupal::currentUser()->isAuthenticated()) {
     $account = User::load(\Drupal::currentUser()->id());
     $user_firstname = $account->field_first_name->value;
     $variables['user_logged_in_name'] = ucfirst($user_firstname);
