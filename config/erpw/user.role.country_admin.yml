@@ -4,11 +4,12 @@ status: true
 dependencies:
   config:
     - node.type.organisation
+    - node.type.referral_path_way
     - node.type.service_type
   module:
-    - erpw_custom
     - content_translation
     - domain_access
+    - erpw_custom
     - erpw_location
     - node
     - node_view_permissions
@@ -18,27 +19,50 @@ label: 'Country Admin'
 weight: -8
 is_admin: null
 permissions:
+  - 'add location entity entities'
   - 'add new user for their own country'
+  - 'clone referral_path_way content'
   - 'clone service_type content'
+  - 'create content translations'
   - 'create organisation content'
+  - 'create referral_path_way content'
   - 'create service_type content'
   - 'create service_type content on assigned domains'
   - 'delete any organisation content'
+  - 'delete any referral_path_way content'
   - 'delete any service_type content'
+  - 'delete location entity entities'
   - 'delete own organisation content'
+  - 'delete own referral_path_way content'
   - 'delete own service_type content'
   - 'delete service_type content on assigned domains'
   - 'edit any organisation content'
+  - 'edit any referral_path_way content'
   - 'edit any service_type content'
+  - 'edit location entity entities'
   - 'edit own organisation content'
-  - 'edit users of their own country'
+  - 'edit own referral_path_way content'
   - 'edit own service_type content'
   - 'edit users of their own country'
+  - 'edit users of their own country'
   - 'erpw location add location'
+  - 'erpw location delete location'
+  - 'erpw location edit location'
+  - 'erpw location manage location'
+  - 'erpw location manage location url'
+  - 'erpw location open import modal'
+  - 'erpw location user location'
+  - 'erpw location user location settings'
+  - 'erpw location view location'
   - 'translate service_type node'
+  - 'update content translations'
   - 'update service_type content on assigned domains'
   - 'view any organisation content'
+  - 'view any referral_path_way content'
   - 'view any service_type content'
   - 'view own organisation content'
+  - 'view own referral_path_way content'
   - 'view own service_type content'
+  - 'view published location entity entities'
+  - 'view unpublished location entity entities'
   - 'view users of their own country'
