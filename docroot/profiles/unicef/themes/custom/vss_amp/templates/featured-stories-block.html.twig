@@ -2,26 +2,44 @@
 		{% if content is not empty %}
 			<div class="featured-stories">
 				<div class="container">
-          <h3 class="text-center featured-head"><amp-img width="48" height="48" src="/{{ base_path ~ directory }}/images/featured-head-icon.png" alt="featured" > </amp-img><span>{{'Featured Stories'|t}}</span></h3>
+          <h2 class="text-center featured-head"><amp-img width="48" height="48" src="/{{ base_path ~ directory }}/images/featured-head-icon.png" alt="featured" > </amp-img><span>{{'Featured Stories'|t}}</span></h3>
 					<div class="featured_stories_block">
 						<div class="row">
 							{% for key,value in content|slice(0, 2) %}
 								<div class="col-sm-6 two-slice {{value.type}}">
                   {% if lang_code != 'en' %}
-										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'><img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/><span>{{ value.title }}</span>
-										{% if value.type == 'video' %}
-                      <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
-                    {% elseif value.type == 'podcast' %}
-                      <img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
-                    {% endif %} 
+										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'>
+											<div class="featured-thumbnail">
+													<img class="two-slice-img" src="{{ file_url(value.thumbnail) }}" alt=""/>
+													<span class="video-time">{{ value.video_time }} {{ value.podcast_time }}</span>
+											</div>
+											<span>{{ value.title }}
+												{% if value.read_time %}
+													{{'[ ' }}{{ value.read_time }} {{ 'mins ]'|t }}
+												{% endif %}
+											</span>
+											{% if value.type == 'video' %}
+												<img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
+											{% elseif value.type == 'podcast' %}
+												<img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
+											{% endif %} 
                     </a>
 									{% else %}
-										<a class={{value.type}} href="/{{value.url}}" target='_blank'><img class="two-slice-img" src="/{{value.thumbnail}}" alt=""/><span>{{ value.title }}</span>
-										{% if value.type == 'video' %}
-                      <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
-                    {% elseif value.type == 'podcast' %}
-                      <img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
-                    {% endif %} 
+										<a class={{value.type}} href="/{{value.url}}" target='_blank'>
+											<div class="featured-thumbnail">
+													<img class="two-slice-img" src="{{ file_url(value.thumbnail) }}" alt=""/>
+												<span class="video-time">{{ value.video_time }} {{ value.podcast_time }}</span>
+											</div>
+											<span>{{ value.title }}
+												{% if value.read_time %}
+													{{'[ ' }}{{ value.read_time }} {{ 'mins ]'|t }}
+												{% endif %}
+											</span>
+											{% if value.type == 'video' %}
+												<img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
+											{% elseif value.type == 'podcast' %}
+												<img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
+											{% endif %} 
                     </a>
 									{% endif %}
                 </div>
@@ -31,20 +49,38 @@
 							{% for key,value in content|slice(2, 6) %}
 								<div class="col-sm-3 four-slice {{value.type}}">
 									{% if lang_code != 'en' %}
-										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'><img class="four-slice-img" src="/{{value.thumbnail}}" alt=""/><span>{{ value.title }}</span>
-										{% if value.type == 'video' %}
-                      <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
-                    {% elseif value.type == 'podcast' %}
-                      <img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
-                    {% endif %} 
+										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'>
+											<div class="featured-thumbnail">
+												<img class="four-slice-img" src="{{ file_url(value.thumbnail) }}" alt=""/>
+												<span class="video-time">{{ value.video_time }} {{ value.podcast_time }}</span>
+											</div>
+											<span>{{ value.title }}
+												{% if value.read_time %}
+													{{'[ ' }}{{ value.read_time }} {{ 'mins ]'|t }}
+												{% endif %}
+											</span>
+											{% if value.type == 'video' %}
+												<img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
+											{% elseif value.type == 'podcast' %}
+												<img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
+											{% endif %} 
                     </a>
 									{% else %}
-										<a class={{value.type}} href="/{{value.url}}" target='_blank'><img  class="four-slice-img" src="/{{value.thumbnail}}" alt=""/><span>{{ value.title }}</span>
-										{% if value.type == 'video' %}
-                      <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
-                    {% elseif value.type == 'podcast' %}
-                      <img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
-                    {% endif %} 
+										<a class={{value.type}} href="/{{value.url}}" target='_blank'>
+											<div class="featured-thumbnail">
+												<img  class="four-slice-img" src="{{ file_url(value.thumbnail) }}" alt=""/>
+												<span class="video-time">{{ value.video_time }} {{ value.podcast_time }}</span>
+											</div>
+											<span>{{ value.title }}
+												{% if value.read_time %}
+													{{'[ ' }}{{ value.read_time }} {{ 'mins ]'|t }}
+												{% endif %}
+											</span>
+											{% if value.type == 'video' %}
+												<img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
+											{% elseif value.type == 'podcast' %}
+												<img class="play-circle-podcast"  src="/{{ base_path ~ directory }}/images/play-circle-pod.png" alt='play btn pod' />
+											{% endif %} 
                     </a>
 									{% endif %}
                 </div>

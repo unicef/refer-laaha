@@ -16,6 +16,14 @@ body {
   margin-bottom: 0;
 }
 
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+  @media (min-width: 768px) {
+    width: 1170px;
+  }
+}
+
 .container-fluid {
   >.navbar-header {
     margin-left: -15px;
@@ -951,9 +959,6 @@ body {
     }
   }
 
-  background: url(../images/featured-cat-stories.png) no-repeat;
-  background-size: cover;
-
   .featured_stories_block {
     margin-bottom: 95px;
 
@@ -964,14 +969,12 @@ body {
         text-decoration: none;
       }
 
-      span {
-        font-size: $base-font-size;
-        line-height: 20px;
-        margin-top: 16px;
-        margin-bottom: 24px;
-        display: block;
-        font-weight: 400;
-        min-height: 40px;
+    }
+
+    .row {
+      @media (min-width: 768px) {
+        display: flex;
+        flex-wrap: wrap;
       }
     }
 
@@ -1004,6 +1007,7 @@ body {
     }
 
     .two-slice {
+      padding: 0 15px;
       position: relative;
 
 
@@ -1036,9 +1040,13 @@ body {
         left: 22px;
         top: 222px;
       }
+      @media (min-width: 768px) {
+        width: 47%;
+      }
     }
 
     .four-slice {
+      padding: 0 15px;
       position: relative;
 
       &:after {
@@ -1071,7 +1079,16 @@ body {
         left: 22px;
         top: 78px;
       }
+
+      @media (min-width: 768px) {
+        width: 22%;
+      }
     }
+  }
+
+  .featured-thumbnail {
+    margin-bottom:  20px;
+    position: relative;
   }
 }
 
@@ -1083,7 +1100,8 @@ body {
 .block-hero-banner-block {
 
   h2 {
-    margin: 60px 0;
+    padding: 60px 0;
+    text-align: center;
 
     img {
       width: 48px;
@@ -1094,8 +1112,13 @@ body {
 
   .hero-wrapper {
     .hero-col {
+      display: flex;
+      justify-content: center;
       margin-bottom: 20px;
       min-height: 350px;
+      @media only screen and (min-width: 786px) {
+        width: 22%;
+      }
     }
 
     a {
@@ -1116,6 +1139,13 @@ body {
         font-size: $header-logo-font;
         margin-top: 24px;
 
+      }
+    }
+
+    .row {
+      @media (min-width: 768px) {
+        display: flex;
+        flex-wrap: wrap;
       }
     }
   }
