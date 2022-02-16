@@ -181,6 +181,7 @@ class ErpwPathwayService {
         'wrapper' => 'location-level-' . ($counter + 1),
         'progress' => [
           'type' => 'throbber',
+          'message' => $this->t('Please wait...'),
         ],
       ],
       '#attached' => [

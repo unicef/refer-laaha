@@ -7,9 +7,9 @@
     Drupal.behaviors.tour_display = {
       attach: function (context, settings) {
         $('body', context).once('tour_display').each(function () {
+          window.speechSynthesis.cancel();
           var skip = Drupal.t('SKIP');
           var finish  = Drupal.t('FINISH');
-          window.speechSynthesis.cancel();
           $('.tour-tip-body').before('<img class="supportimg" src="/profiles/unicef/themes/custom/vss/images/support-icon.png" width="64" height="64" alt="support-icon">');
           $('.tour-tip-body').after('<img class="play" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon">'); 
           $('.shepherd-footer button').before('<span class="skip">'+skip+'</span>');
@@ -55,9 +55,11 @@
           });
           $(".shepherd-cancel-icon").click(function () {
             removeQuery();
+            window.speechSynthesis.cancel();
           });
           $("body").on("click", ".skip", function(){
             $(".shepherd-cancel-icon").trigger( "click" );
+            window.speechSynthesis.cancel();
           });
        });
        function removeQuery() {
