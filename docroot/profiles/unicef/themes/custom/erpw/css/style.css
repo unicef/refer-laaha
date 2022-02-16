@@ -253,6 +253,31 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   color: #A85766;
 }
 
+.ui-autocomplete {
+  border: 1px solid #F3C1BF !important;
+  border-radius: 5px;
+  height: 194px;
+  max-width: 77%;
+  overflow-y: scroll;
+}
+.ui-autocomplete li {
+  border-bottom: 1px solid rgba(243, 193, 191, 0.53);
+  padding: 10px;
+}
+.ui-autocomplete li a {
+  color: #444;
+  font-size: 14px;
+  padding: 0 !important;
+  word-break: break-word;
+}
+.ui-autocomplete .ui-state-active {
+  background: none;
+  border: 0;
+  color: #A85766;
+  padding: 0;
+  margin: 0;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
@@ -1019,8 +1044,10 @@ header {
   width: 10px;
 }
 .node-referral-path-way-form .multiple-fields-remove-button,
+.node-referral-path-way-form .multiple-fields-remove-button:hover,
 .node-referral-path-way-form .paragraphs-dropbutton-wrapper input[value=Remove],
 .node-referral-path-way-edit-form .multiple-fields-remove-button,
+.node-referral-path-way-edit-form .multiple-fields-remove-button:hover,
 .node-referral-path-way-edit-form .paragraphs-dropbutton-wrapper input[value=Remove] {
   background: url("../images/delete-button.svg") center center no-repeat;
   border: 0 !important;
@@ -1085,17 +1112,38 @@ header {
 }
 .node-referral-path-way-form .button-with-icon .field-add-more-submit,
 .node-referral-path-way-edit-form .button-with-icon .field-add-more-submit {
-  border: 0;
+  border: 0 !important;
   background: none;
   padding: 0 0 0 60px;
   margin: 0;
   text-transform: capitalize;
   position: relative;
-  z-index: 2;
 }
 .node-referral-path-way-form .button-with-icon .field-add-more-submit:focus,
 .node-referral-path-way-edit-form .button-with-icon .field-add-more-submit:focus {
   outline: none;
+}
+
+.view-referral-pathway-listing .views-row {
+  border-bottom: 1px solid rgba(215, 215, 215, 0.5);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.view-referral-pathway-listing .views-row .views-field-field-location {
+  background: url("../images/rpw.svg") top left no-repeat;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+  padding: 0 0 0 40px;
+  margin: 10px 10px 0;
+}
+.view-referral-pathway-listing .views-row .views-field-nothing {
+  border: 0;
+  margin-top: 0;
 }
 
 .steps-highlight {
@@ -1641,7 +1689,9 @@ div.color_field__swatch input[type=radio]:checked + label span {
 }
 
 .view-organisations .views-field-title,
-.view-referral-pathway-listing .views-field-title {
+.view-organisations .views-field-field-location,
+.view-referral-pathway-listing .views-field-title,
+.view-referral-pathway-listing .views-field-field-location {
   padding: 5px 10px;
 }
 
