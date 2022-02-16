@@ -55,6 +55,11 @@
             
             //Add select 2 for multiselect
             $('.form-select[multiple=multiple]').select2();
+            
+            //Home page country field
+            if ($('.user-location').text().length > 0) {
+                $('.user-location').addClass('location-theme');
+            }
         }
     };
 }(jQuery, Drupal, drupalSettings));
