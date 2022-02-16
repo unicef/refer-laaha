@@ -121,12 +121,6 @@ class LocationListForm extends FormBase {
       '#prefix' => '<div id="edit-location-details" class="card-shadow">',
       '#suffix' => '</div>',
     ];
-    if (!empty($form_state->getValue('location_options'))) {
-      $form['location']['message'] = [
-        '#type' => 'markup',
-        '#markup' => '<div id="intro-text">' . $this->t('Add the new location details') . '</div>',
-      ];
-    }
     $form['location']['intro_text'] = [
       '#type' => 'markup',
       '#markup' => '<div id="intro-text">' . $this->t('Select the country first, to view the respective form') . '</div>',
