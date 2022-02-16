@@ -7,6 +7,7 @@
     Drupal.behaviors.tour_display = {
       attach: function (context, settings) {
         $('body', context).once('tour_display').each(function () {
+          window.speechSynthesis.cancel();
           var skip = Drupal.t('SKIP');
           var finish  = Drupal.t('FINISH');
           $('.tour-tip-body').before('<img class="supportimg" src="/profiles/unicef/themes/custom/vss/images/support-icon.png" width="64" height="64" alt="support-icon">');
