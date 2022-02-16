@@ -245,9 +245,11 @@ form input[type=submit] {
 		.select2-selection--multiple {
 			border: 1px solid #F3C1BF !important;
 			margin-top: 7px;
+			padding: 6px 6px 8px !important;
 			.select2-selection__choice {
 				background: #fff !important;
 				border: 1px solid #F3C1BF !important;
+				margin-top: 0 !important;
 				&__remove {
 					border-right: 1px solid #F3C1BF !important;
 					color: $base-secondary-bgcolor !important;
