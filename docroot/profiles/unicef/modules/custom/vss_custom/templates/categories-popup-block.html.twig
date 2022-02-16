@@ -4,19 +4,11 @@
  <div class="row">
 {% for key,value in content %}
   <div class="col-lg-4 col-sm-4 cat-col">
-    {% if lang_code != 'en' %}
       <a href="/{{lang_code}}/{{value.url}}" target='_blank'>
         <div class="category-icon" style="background: {{ '#'~ value.cat_color }}"><img class="category-imgs" src ="/{{value.cat_icon}}" alt="" /></div>
         <div class="subcat-name right-arrow">{{ value.name }}</div>
       </a>
       <div class="subcat-desc">{{ value.cat_desc }}</div>
-    {% else %}
-      <a href="/{{value.url}}" target='_blank'>
-        <div class="category-icon" style="background: {{ '#'~ value.cat_color }}"><img src ="/{{value.cat_icon}}" alt="" /></div>
-        <div class="subcat-name right-arrow">{{ value.name }}</div>
-        </a>
-      <div class="subcat-desc">{{ value.cat_desc }}</div>
-    {% endif %}
     </div>
 {% endfor %}
 </div>
