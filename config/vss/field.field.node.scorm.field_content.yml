@@ -5,8 +5,14 @@ dependencies:
   config:
     - field.storage.node.field_content
     - node.type.scorm
+    - paragraphs.paragraphs_type.external_videos
+    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.layout
+    - paragraphs.paragraphs_type.podcast_audio
     - paragraphs.paragraphs_type.scorm
+    - paragraphs.paragraphs_type.video
+    - paragraphs.paragraphs_type.wysiwyg_editor
   module:
     - entity_reference_revisions
 id: node.scorm.field_content
@@ -23,38 +29,50 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
+      external_videos: external_videos
+      image: image
+      image_gallery: image_gallery
       layout: layout
+      podcast_audio: podcast_audio
       scorm: scorm
+      video: video
+      wysiwyg_editor: wysiwyg_editor
     negate: 0
     target_bundles_drag_drop:
       external_videos:
         weight: 11
+        enabled: true
+      faq:
+        weight: 14
         enabled: false
       from_library:
         weight: 12
         enabled: false
       image:
         weight: 13
-        enabled: false
+        enabled: true
       image_gallery:
         weight: 14
-        enabled: false
+        enabled: true
       layout:
         weight: 15
         enabled: true
       podcast_audio:
         weight: 16
-        enabled: false
+        enabled: true
       scorm:
         weight: 17
         enabled: true
+      services:
+        weight: 21
+        enabled: false
       video:
         weight: 18
-        enabled: false
+        enabled: true
       vtt_entries:
         weight: 19
         enabled: false
       wysiwyg_editor:
         weight: 20
-        enabled: false
+        enabled: true
 field_type: entity_reference_revisions
