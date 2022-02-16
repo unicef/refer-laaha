@@ -22,7 +22,7 @@ class UserLocationConfigForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
-      'user_location_config_form.settings',
+      'erpw_location.settings',
     ];
   }
 
@@ -30,7 +30,7 @@ class UserLocationConfigForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('user_location_config_form.settings');
+    $config = $this->config('erpw_location.settings');
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
@@ -50,7 +50,7 @@ class UserLocationConfigForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Retrieve the configuration.
-    $this->configFactory->getEditable('user_location_config_form.settings')
+    $this->configFactory->getEditable('erpw_location.settings')
 
       // Set the submitted configuration setting.
       ->set('title', $form_state->getValue('title'))
