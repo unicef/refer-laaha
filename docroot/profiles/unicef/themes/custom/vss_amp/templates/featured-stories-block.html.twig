@@ -8,7 +8,7 @@
 							{% for key,value in content|slice(0, 2) %}
 								<div class="col-sm-6 two-slice {{value.type}}">
                   {% if lang_code != 'en' %}
-										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'>
+										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}">
 											<div class="featured-thumbnail">
 													<img class="two-slice-img" src="{{ file_url(value.thumbnail) }}" alt=""/>
 													<span class="video-time">{{ value.video_time }} {{ value.podcast_time }}</span>
@@ -25,7 +25,7 @@
 											{% endif %} 
                     </a>
 									{% else %}
-										<a class={{value.type}} href="/{{value.url}}" target='_blank'>
+										<a class={{value.type}} href="/{{value.url}}">
 											<div class="featured-thumbnail">
 													<img class="two-slice-img" src="{{ file_url(value.thumbnail) }}" alt=""/>
 												<span class="video-time">{{ value.video_time }} {{ value.podcast_time }}</span>
@@ -49,7 +49,7 @@
 							{% for key,value in content|slice(2, 6) %}
 								<div class="col-sm-3 four-slice {{value.type}}">
 									{% if lang_code != 'en' %}
-										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}" target='_blank'>
+										<a class={{value.type}} href="/{{lang_code}}/{{value.url}}">
 											<div class="featured-thumbnail">
 												<img class="four-slice-img" src="{{ file_url(value.thumbnail) }}" alt=""/>
 												<span class="video-time">{{ value.video_time }} {{ value.podcast_time }}</span>
@@ -66,7 +66,7 @@
 											{% endif %} 
                     </a>
 									{% else %}
-										<a class={{value.type}} href="/{{value.url}}" target='_blank'>
+										<a class={{value.type}} href="/{{value.url}}">
 											<div class="featured-thumbnail">
 												<img  class="four-slice-img" src="{{ file_url(value.thumbnail) }}" alt=""/>
 												<span class="video-time">{{ value.video_time }} {{ value.podcast_time }}</span>
