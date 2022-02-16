@@ -171,6 +171,11 @@ form input[type=submit] {
 	border-radius: 10px;
 	padding: 5px 10px 10px;
 	margin: 13px 0 15px;
+	.card-shadow {
+		box-shadow: unset;
+		margin: 0;
+		padding: 0;
+	}
 }
 .simple-status-messages .status-message-close span {
 	color: $base-secondary-bgcolor;
@@ -230,5 +235,45 @@ form input[type=submit] {
 		color: $base-secondary-bgcolor;
 		padding: 0;
 		margin: 0;
+	}
+}
+
+//select 2 common styling
+.select2-container {
+	width: 100% !important;
+	&--default {
+		.select2-selection--multiple {
+			border: 1px solid #F3C1BF !important;
+			margin-top: 7px;
+			.select2-selection__choice {
+				background: #fff !important;
+				border: 1px solid #F3C1BF !important;
+				&__remove {
+					border-right: 1px solid #F3C1BF !important;
+					color: $base-secondary-bgcolor !important;
+				}
+			}
+		}
+		&.select2-container--focus {
+			.select2-selection--multiple {
+				border: 1px solid #F3C1BF;
+			}
+		}
+		.select2-results__option {
+			&--selected {
+				background: $base-white-color !important;
+			}
+			&.select2-results__option--selectable {
+				padding-left: 11px;
+			}
+			&--highlighted.select2-results__option--selectable {
+				background: $base-primary-bgcolor !important;
+				color: $grey-txt-color !important;
+				padding-left: 11px;
+			}
+		}
+	}
+	.select2-dropdown {
+		border: 1px solid #F3C1BF;
 	}
 }

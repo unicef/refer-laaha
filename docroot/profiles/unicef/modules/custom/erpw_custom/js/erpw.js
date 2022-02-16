@@ -53,6 +53,8 @@
                 window.signinPopup.clear()
             });
             
+            //Add select 2 for multiselect
+            $('.form-select[multiple=multiple]').select2();
         }
     };
 }(jQuery, Drupal, drupalSettings));

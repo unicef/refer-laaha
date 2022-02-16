@@ -92,6 +92,12 @@ class UserLocationForm extends LocationListForm {
       '#type' => 'submit',
       '#title' => "Change",
       '#value' => 'DONE',
+      '#attributes' => [
+        'class' => [
+          'use-ajax',
+          'arrow-btn',
+        ],
+      ],
     ];
     return $form;
   }
