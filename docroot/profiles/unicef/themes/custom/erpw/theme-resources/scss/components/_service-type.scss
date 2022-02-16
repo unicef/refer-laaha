@@ -317,7 +317,8 @@ div.color_field__swatch input[type=radio]:checked + label span {
 
 	@extend .service-list;
 
-	.views-field-title {
+	.views-field-title,
+	.views-field-field-location {
 		padding: 5px 10px;
 	}
 }

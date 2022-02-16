@@ -206,8 +206,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public function eprwCancelHandler(&$form, $form_state) {
-    // @todo Replace route name when RPW view list is done.
-    return _erpw_custom_redirect('view.manage_service_types.page_1');
+    return _erpw_custom_redirect('view.referral_pathway_listing.page_1');
   }
 
   /**
