@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.field_location
     - node.type.referral_path_way
     - user.role.administrator
+    - user.role.country_admin
     - user.role.super_admin
   module:
     - content_translation
@@ -343,8 +344,9 @@ display:
         type: role
         options:
           role:
-            super_admin: super_admin
             administrator: administrator
+            super_admin: super_admin
+            country_admin: country_admin
       cache:
         type: tag
         options: {  }
@@ -370,6 +372,21 @@ display:
           admin_label: ''
           plugin_id: standard
           order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
+        nid:
+          id: nid
+          table: node_field_data
+          field: nid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: nid
+          plugin_id: standard
+          order: DESC
           expose:
             label: ''
             field_identifier: ''
