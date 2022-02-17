@@ -342,12 +342,10 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
       '#title' => t('Password'),
     ];
 
-    if ($language_manager->getId() != 'en') {
-      $url = $form['previews'][$language_manager->getId()]['url']['#default_value'];
-      $url = explode('node', $url);
-      $new_url = $url[0] . $language_manager->getId() . '/node' . $url[1];
-      $form['previews'][$language_manager->getId()]['url']['#default_value'] = $new_url;
-    }
+    $url = $form['previews'][$language_manager->getId()]['url']['#default_value'];
+    $url = explode('node', $url);
+    $new_url = $url[0] . $language_manager->getId() . '/node' . $url[1];
+    $form['previews'][$language_manager->getId()]['url']['#default_value'] = $new_url;
 
     $form['#validate'][] = 'preview_validate';
     $form['#submit'][] = 'preview_submit';
@@ -719,12 +717,7 @@ function vss_custom_entity_insert(EntityInterface $entity) {
           $editor_name = $entity->getOwner()->name->value;
           $nid = $entity->id();
           $langcode = $entity->get('langcode')->getValue()[0]['value'];
-          if ($langcode != 'en') {
-            $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
-          }
-          else {
-            $url = \Drupal::request()->getHost() . "/node/$nid/edit";
-          }
+          $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
         }
         $mail_manager = \Drupal::service('plugin.manager.mail');
         $module = 'vss_custom';
@@ -768,12 +761,7 @@ function vss_custom_entity_update(EntityInterface $entity) {
           $editor_name = $entity->getOwner()->name->value;
           $nid = $entity->id();
           $langcode = $entity->get('langcode')->getValue()[0]['value'];
-          if ($langcode != 'en') {
-            $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
-          }
-          else {
-            $url = \Drupal::request()->getHost() . "/node/$nid/edit";
-          }
+          $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
         }
         $mail_manager = \Drupal::service('plugin.manager.mail');
         $module = 'vss_custom';

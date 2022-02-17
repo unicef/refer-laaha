@@ -321,6 +321,13 @@ form .node-service-type-edit-form input[type=submit].button--primary,
 .select2-container .select2-dropdown {
   border: 1px solid #F3C1BF;
 }
+.select2-container .ui-state-active {
+  background: none;
+  border: 0;
+  color: #A85766;
+  padding: 0;
+  margin: 0;
+}
 
 .node-organisation-form .form-actions,
 .node-service-type-form .form-actions,
