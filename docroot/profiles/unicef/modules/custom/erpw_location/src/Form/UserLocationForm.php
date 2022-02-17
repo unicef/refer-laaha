@@ -77,7 +77,7 @@ class UserLocationForm extends LocationListForm {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, $id = NULL, $page = "") {
     if (!empty($id)) {
       $location_entity = $this->entityTypeManager->getStorage('location')->loadByProperties(
         ['field_location_taxonomy_term' => $id]
@@ -98,6 +98,10 @@ class UserLocationForm extends LocationListForm {
           'arrow-btn',
         ],
       ],
+    ];
+    $form['location_level_page'] = [
+      '#type' => 'hidden',
+      '#value' => $page,
     ];
     return $form;
   }
@@ -124,17 +128,26 @@ class UserLocationForm extends LocationListForm {
       $locaton_level = $levels['level_1'];
     }
     elseif (!empty($levels['location_options'])) {
-      $locaton_level = $levels['location_options'];
+      if ($levels['location_level_page'] == "location") {
+        $location_entity = $this->entityTypeManager->getStorage('location')->load($levels['location_options']);
+        $locaton_level = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+      }
     }
 
-    $current_user = $this->currentUser->id();
-    $user = $this->entityTypeManager->getStorage('user')->load($current_user);
-    // Set value for field.
-    $user->field_location_details->value = $locaton_level;
-    $user->save();
+    if ($levels['location_level_page'] == "location") {
+      $url = Url::fromUri('internal:/manage-location/' . $levels['location_options'] . "/" . $locaton_level);
+      $form['location_level']['button'] = $form_state->setRedirectUrl($url);
+    }
+    else {
+      $current_user = $this->currentUser->id();
+      $user = $this->entityTypeManager->getStorage('user')->load($current_user);
+      // Set value for field.
+      $user->field_location_details->value = $locaton_level;
+      $user->save();
 
-    $url = Url::fromRoute('<front>');
-    $form['location_level']['button'] = $form_state->setRedirectUrl($url);
+      $url = Url::fromRoute('<front>');
+      $form['location_level']['button'] = $form_state->setRedirectUrl($url);
+    }
   }
 
 }

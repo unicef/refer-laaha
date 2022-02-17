@@ -141,10 +141,11 @@ class LocationService {
    * Process taxonomy data.
    */
   public function processTaxonomyData($string, $pid, $level = 0, $mode = "", $update_tid_value = 0) {
+    preg_match('/\(\d+\)/', $string, $matches);
     if ($level == 4 && $mode == 'update') {
       // Maharastra.
       $pos = strpos($string, "(");
-      if (!$pos) {
+      if (empty($matches[0])) {
         $level_term_id = $this->taxonomyTermExist($string, $pid);
         if ($mode == 'update' && $level_term_id) {
           return 0;
@@ -164,18 +165,14 @@ class LocationService {
         }
       }
     }
-    if ($level == 4 && $mode == "") {
-      $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
-      return $level_term_id;
-    }
     // Maharastr (4)
-    if ($this->clean($string) != 0) {
+    if (!empty($matches[0])) {
       $term_string_level = $this->clean($string);
       $tid_array = explode("(", $string);
       $level_term_id = $this->taxonomyTermExist(trim($tid_array[0]), $pid);
     }
     // Maharastra.
-    elseif ($this->clean($string) == 0) {
+    else {
       $level_term_id = $this->taxonomyTermExist($string, $pid);
       if ($mode == 'update' && $level_term_id) {
         return 0;
@@ -193,10 +190,6 @@ class LocationService {
         }
         return $level_term_id;
       }
-    }
-    else {
-
-      $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
     }
     return $level_term_id;
   }
@@ -271,6 +264,19 @@ class LocationService {
       $location_levels = $this->getLocationLevels($location->id());
     }
     return $location_levels;
+  }
+
+  /**
+   * Get location entity.
+   */
+  public function getLocationSingleEntityIdByTid($tid) {
+    $location_entity = $this->entityManager->getStorage('location')->loadByProperties(
+      ['field_location_taxonomy_term' => $tid]
+    );
+    foreach ($location_entity as $location) {
+      $location_entity_id = $location->id();
+    }
+    return $location_entity_id;
   }
 
 }

@@ -12,6 +12,13 @@ erpw_location.manage_location_url:
     _title: 'Manage Country Locations'
   requirements:
     _permission: 'erpw location manage location url'
+erpw_location.manage_location_depth:
+  path: '/manage-location/{country_tid}/{location_levels_tid}'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\ManageLocationForm'
+    _title: 'Manage Country Locations Depth'
+  requirements:
+    _permission: 'erpw location manage location depth'
 erpw_location.open_import_modal:
   path: '/import-location-modal'
   defaults:
@@ -68,3 +75,10 @@ user_location.settings:
     _title: 'User Location Data for Homepage'
   requirements:
     _permission: 'erpw location user location settings'
+erpw_location.user_location_manage:
+  path: '/user-location/{id}/{page}'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\UserLocationForm'
+    _title: 'Location'
+  requirements:
+    _permission: 'erpw location user location'
