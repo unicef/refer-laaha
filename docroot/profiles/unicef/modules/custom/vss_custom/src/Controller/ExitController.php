@@ -84,7 +84,7 @@ class ExitController extends ControllerBase implements ContainerInjectionInterfa
         $domain_current_url = explode(".", $this->requestStack->server->get('SERVER_NAME'));
         $domain_slice = array_slice($domain_current_url, -2);
         $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
-        setcookie('country-location-selector', '', time() - 100, "/", $domain_site);
+        setcookie($name, '', time() - 100, "/", $domain_site);
       }
     }
     $this->pageCacheKillSwitch->trigger();
