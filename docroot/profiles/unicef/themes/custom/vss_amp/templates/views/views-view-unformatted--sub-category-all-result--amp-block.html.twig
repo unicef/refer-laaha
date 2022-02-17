@@ -40,8 +40,8 @@
 <div class="subcategory-content-listing">
   {% for row in rows %}
     {% if loop.index <= 2  and view.pager.current_page == 0 %}
-      <div class="col-sm-6">
-        <div{{ row.attributes.addClass(row_classes) }}">
+      <div class="col-sm-6 item-large">
+        <div{{ row.attributes.addClass(row_classes) }}>
           {{- row.content -}}
         </div>
       </div>
