@@ -2721,28 +2721,6 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   padding: 17px 16px;
 }
 
-.block-subcategory-hero-block {
-  background: url("../images/subcat-hero-mobile.svg") no-repeat;
-  background-size: 100%;
-  left: 50%;
-  margin: 0 -50vw;
-  max-width: 100vw;
-  min-height: 380px;
-  position: relative;
-  right: 50%;
-  width: 100vw;
-}
-@media screen and (min-width: 768px) {
-  .block-subcategory-hero-block {
-    background: url("../images/subcat-hero-bg.svg") no-repeat;
-    min-height: 500px;
-  }
-}
-@media screen and (min-width: 1024px) {
-  .block-subcategory-hero-block {
-    background-size: 100%;
-  }
-}
 .block-subcategory-hero-block .hero-banner {
   padding-top: 20px;
 }
@@ -2757,6 +2735,13 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
 .block-subcategory-hero-block .hero-banner .banner-left,
 .block-subcategory-hero-block .hero-banner .banner-right {
   padding: 0;
+  position: relative;
+}
+@media screen and (min-width: 1024px) {
+  .block-subcategory-hero-block .hero-banner .banner-left,
+.block-subcategory-hero-block .hero-banner .banner-right {
+    width: 47%;
+  }
 }
 .block-subcategory-hero-block .hero-banner .banner-left img {
   border-radius: 20px;
@@ -2812,7 +2797,7 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   background: url("../images/cources-icon.png") no-repeat;
 }
 
-.block-views-blocksub-category-all-result-block-1 {
+.block-views-blocksub-category-all-result-amp-block {
   background-size: 100%;
   left: 50%;
   margin: 0 -50vw;
@@ -2821,12 +2806,7 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   right: 50%;
   width: 100vw;
 }
-@media screen and (min-width: 1024px) {
-  .block-views-blocksub-category-all-result-block-1 {
-    background: url("../images/subcategory-list-bg.svg") repeat-y;
-  }
-}
-.block-views-blocksub-category-all-result-block-1 .view-header {
+.block-views-blocksub-category-all-result-amp-block .view-header {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -2837,7 +2817,7 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   margin: 35px 0;
   padding: 14px;
 }
-.block-views-blocksub-category-all-result-block-1 .view-header::before {
+.block-views-blocksub-category-all-result-amp-block .view-header::before {
   background: url("../images/allresult.svg") no-repeat;
   background-size: 100%;
   content: "";
@@ -2846,10 +2826,10 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   margin-right: 5px;
   width: 12px;
 }
-.block-views-blocksub-category-all-result-block-1 + .views-element-container {
+.block-views-blocksub-category-all-result-amp-block + .views-element-container {
   display: none;
 }
-.block-views-blocksub-category-all-result-block-1 .pager__item .button {
+.block-views-blocksub-category-all-result-amp-block .pager__item .button {
   background: #fecdd2;
   border-radius: 4px;
   color: #000;
@@ -2858,10 +2838,10 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   padding: 14px 25px;
   text-transform: uppercase;
 }
-.block-views-blocksub-category-all-result-block-1 .pager__item .button:hover {
+.block-views-blocksub-category-all-result-amp-block .pager__item .button:hover {
   text-decoration: none;
 }
-.block-views-blocksub-category-all-result-block-1 .pager__item .button::after {
+.block-views-blocksub-category-all-result-amp-block .pager__item .button::after {
   background: url("../images/button-arrow.svg") no-repeat center;
   content: "";
   display: inline-block;
@@ -2900,19 +2880,29 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   height: 100%;
   width: 100%;
 }
-.subcategory-content-listing .content-title {
-  font-size: 16px;
-}
 .subcategory-content-listing .read-time {
-  font-size: 16px;
   margin-left: 5px;
+}
+.subcategory-content-listing .item-small {
+  padding: 15px;
 }
 .subcategory-content-listing .item-small .thumbnail-image {
   height: 186px;
 }
 @media screen and (min-width: 1024px) {
+  .subcategory-content-listing .item-small {
+    width: 22%;
+  }
   .subcategory-content-listing .item-small .thumbnail-image {
     height: 140px;
+  }
+}
+.subcategory-content-listing .item-large {
+  padding: 15px;
+}
+@media screen and (min-width: 1024px) {
+  .subcategory-content-listing .item-large {
+    width: 47%;
   }
 }
 .subcategory-content-listing a {

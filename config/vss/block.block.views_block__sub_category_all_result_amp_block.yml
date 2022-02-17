@@ -1,0 +1,33 @@
+uuid: 2e9c8533-b737-4ee9-82d6-f784b5984b9b
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.sub_category_all_result
+  module:
+    - taxonomy
+    - views
+  theme:
+    - vss_amp
+id: views_block__sub_category_all_result_amp_block
+theme: vss_amp
+region: content
+weight: -3
+provider: null
+plugin: 'views_block:sub_category_all_result-amp_block'
+settings:
+  id: 'views_block:sub_category_all_result-amp_block'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      categories: categories
