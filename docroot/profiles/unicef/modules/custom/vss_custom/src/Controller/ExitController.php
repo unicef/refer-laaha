@@ -87,7 +87,6 @@ class ExitController extends ControllerBase implements ContainerInjectionInterfa
         setcookie('country-location-selector', '', time() - 100, "/", $domain_site);
       }
     }
-
     $this->pageCacheKillSwitch->trigger();
     header("Cache-Control: no-cache, must-revalidate");
     header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
