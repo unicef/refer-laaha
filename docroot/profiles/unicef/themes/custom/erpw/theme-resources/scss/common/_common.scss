@@ -278,4 +278,11 @@ form input[type=submit] {
 	.select2-dropdown {
 		border: 1px solid #F3C1BF;
 	}
+	.ui-state-active {
+		background: none;
+		border: 0;
+		color: $base-secondary-bgcolor;
+		padding: 0;
+		margin: 0;
+	}
 }
