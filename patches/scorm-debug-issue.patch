@@ -21,7 +21,7 @@ index 363f3ca..dbfc860 100644
 -        // Failsafe - in case a launch URL has 2 or more '?'.
 -        $parameters = implode('&', $parts);
 -      }
-+      $launch = 'scormcontent';
++      $launch = 'scormcontent/index.html';
  
        // Get the SCO location on the filesystem.
        $sco_location = "{$scorm->extracted_dir}/$launch";
