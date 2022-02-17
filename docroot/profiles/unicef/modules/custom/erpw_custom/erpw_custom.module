@@ -116,7 +116,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#prefix'] = '<div id="status-message"></div>';
     $form['actions']['submit']['#attributes']['class'][] = 'use-ajax ok-btn';
     $form['#title'] = t('Update Service Type');
-    $form['actions']['submit']['#cancel'][] = '_erpw_custom_service_handler';
     $form['actions']['submit']['#ajax'] = [
       'callback' => '_erpw_custom_update_service_type',
       'event' => 'click',
@@ -145,13 +144,9 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
     $form['actions']['submit']['#value'] = t('PUBLISH');
   }
-  // To alter buttons text for Edit forms.
-  if (in_array($form_id,
-    [
-      'node_service_type_edit_form',
-      'node_referral_path_way_edit_form',
-    ])) {
-    $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
+
+  // To alter buttons text for Service Type Edit form.
+  if ($form_id == 'node_service_type_edit_form') {
     $form['actions']['submit']['#value'] = t('UPDATE');
     $form['actions']['delete']['#access'] = FALSE;
     $form['actions']['preview']['#access'] = FALSE;
@@ -159,6 +154,8 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
 
     $form['actions']['cancel'] = [
       '#type' => 'submit',
+      '#submit' => ['_erpw_custom_service_handler'],
+      '#limit_validation_errors' => [],
       '#attributes' => [
         'class' => [
           'button-border',
@@ -205,16 +202,32 @@ function _erpw_custom_delete_content(array &$form, FormStateInterface $form_stat
  * {@inheritdoc}
  */
 function _erpw_custom_service_handler(array &$form, FormStateInterface $form_state) {
-  return _erpw_custom_redirect('view.manage_service_types.page_1');
+  return _erpw_custom_redirect('view.manage_service_types.page_1', 'service_type');
 }
 
 /**
  * Function to redirect on a given route.
  */
-function _erpw_custom_redirect($route_name) {
-  $url = Url::fromRoute($route_name);
-  $response = new RedirectResponse($url->toString());
+function _erpw_custom_redirect($route_name, $page_type = NULL) {
+  $current_language = \Drupal::service('erpw_custom.custom_service')->getCurrentLanguage();
+  $user_language = \Drupal::service('erpw_custom.custom_service')->getUserLanguage();
+  if ($current_language != $user_language) {
+    switch ($page_type) {
+      case 'service_type':
+        $url = '/' . $user_language . '/manage-service-types';
+        break;
+
+      case 'rpw_listing':
+        $url = '/' . $user_language . '/referral-pathway-listing';
+        break;
+    }
+  }
+  else {
+    $url = Url::fromRoute($route_name)->toString();
+  }
+  $response = new RedirectResponse($url);
   $response->send();
+
   return $response;
 }
 

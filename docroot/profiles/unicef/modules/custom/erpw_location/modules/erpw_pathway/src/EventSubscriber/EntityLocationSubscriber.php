@@ -115,7 +115,21 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
 
     if ($form_id == 'node_referral_path_way_edit_form') {
       $form['#title'] = $this->t('Update RPW');
-      $form['actions']['submit']['#cancel'][] = [$this, 'eprwCancelHandler'];
+      $form['actions']['submit']['#value'] = $this->t('UPDATE');
+      $form['actions']['delete']['#access'] = FALSE;
+      $form['actions']['preview']['#access'] = FALSE;
+      $form['actions']['delete_translation']['#access'] = FALSE;
+      $form['actions']['cancel'] = [
+        '#type' => 'submit',
+        '#submit' => ['eprwCancelHandler'],
+        '#limit_validation_errors' => [],
+        '#attributes' => [
+          'class' => [
+            'button-border',
+          ],
+        ],
+        '#value' => $this->t('CANCEL'),
+      ];
     }
   }
 
@@ -207,7 +221,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public function eprwCancelHandler(&$form, $form_state) {
-    return _erpw_custom_redirect('view.referral_pathway_listing.page_1');
+    return _erpw_custom_redirect('view.referral_pathway_listing.page_1', 'rpw_listing');
   }
 
   /**
