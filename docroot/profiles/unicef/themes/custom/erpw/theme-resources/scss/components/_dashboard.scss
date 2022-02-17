@@ -57,5 +57,13 @@
         mask: url('../images/rpw.svg') center center no-repeat;
       }
 		}
+		&.service-provider-link a {
+			&::before {
+        background-color: #62489B;
+        content: '';
+        -webkit-mask: url('../images/service-provider.svg') center center no-repeat;
+        mask: url('../images/service-provider.svg') center center no-repeat;
+      }
+		}
 	}
 }

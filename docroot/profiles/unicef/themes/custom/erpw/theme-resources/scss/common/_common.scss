@@ -279,3 +279,39 @@ form input[type=submit] {
 		border: 1px solid #F3C1BF;
 	}
 }
+
+//common form actions button
+.node-organisation-form,
+.node-service-type-form,
+.node-service-type-quick-node-clone-form,
+.node-service-type-edit-form {
+	.form-actions {
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-pack: justify;
+		-ms-flex-pack: justify;
+		justify-content: space-between;
+		margin-top: 40px;
+		input[type=submit] {
+			padding: 10px 0 !important;
+			width: 134px
+		}
+		[id^='edit-submit'] {
+			order: 2;
+		}
+		[id^='edit-preview'],
+		[id^='edit-cancel']  {
+			background: none;
+			border: 1px solid $base-secondary-bgcolor;
+			@include border-radius(4px);
+			color: $base-secondary-bgcolor;
+			display: inline-block;
+			font-size: 0.875em;
+			margin: 0 15px 1em 0;
+			padding: 10px 24px;
+			text-transform: uppercase;
+			order: 1;
+		}
+	}
+}
