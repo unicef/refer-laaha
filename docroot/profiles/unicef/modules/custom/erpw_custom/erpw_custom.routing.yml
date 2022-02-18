@@ -4,8 +4,8 @@ erpw_custom.sign_up_form:
     _form: '\Drupal\erpw_custom\Form\SignUpForm'
     _title: 'Add user'
   requirements:
-    _permission: 'access content'
-    
+    _permission: 'add new user'
+
 erpw_custom.sign_in_popup:
   path: '/signin-popup'
   defaults:
