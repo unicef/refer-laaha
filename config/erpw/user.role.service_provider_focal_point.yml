@@ -7,10 +7,11 @@ dependencies:
     - erpw_location
 id: service_provider_focal_point
 label: 'Service provider/ focal point'
-weight: -6
+weight: -4
 is_admin: null
 permissions:
   - 'add location entity entities'
+  - 'add new user'
   - 'add new user for their own country'
   - 'delete location entity entities'
   - 'edit location entity entities'
