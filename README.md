@@ -40,6 +40,9 @@ __Prod:__ https://erefer.org
       $config['environment_indicator.indicator']['bg_color'] = '#6aa84f';
       $config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
       $config['environment_indicator.indicator']['name'] = 'Local Development';
+      $config['shield.settings']['shield_enable'] = 0;
+      $config['sheild.settings']['credentials.shield.user'] = '';
+      $config['sheild.settings']['credentials.shield.pass'] = '';
     ```
 - For eRPW,
    - Copy the `example.settings.local.php` from docroot/sites/default location and rename it as settings.local.php
@@ -62,6 +65,9 @@ __Prod:__ https://erefer.org
     $config['environment_indicator.indicator']['bg_color'] = '#6aa84f';
     $config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
     $config['environment_indicator.indicator']['name'] = 'eRPW Local Development';
+    $config['shield.settings']['shield_enable'] = 0;
+    $config['sheild.settings']['credentials.shield.user'] = '';
+    $config['sheild.settings']['credentials.shield.pass'] = '';
     ```
     - Run `lando mysql`
     - Inside mysql, run `create database erpw;`

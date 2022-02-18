@@ -1,0 +1,6 @@
+services:
+  erpw_custom.custom_service:
+    class: Drupal\erpw_custom\Services\ErpwCustomService
+    arguments:
+      - "@language_manager"
+      - "@request_stack"
