@@ -181,17 +181,10 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       }
     }
     // Saving the location data.
-    $node = $this->routeMatch->getParameter('node');
-    if ($node instanceof NodeInterface) {
-      $node->set('field_location', []);
-      $this->saveLocationField($node, $location_level);
-    }
-    else {
-      $form_object = $form_state->getFormObject();
-      if ($form_object instanceof EntityForm) {
-        $entity = $form_object->getEntity();
-        $this->saveLocationField($entity, $location_level);
-      }
+    $form_object = $form_state->getFormObject();
+    if ($form_object instanceof EntityForm) {
+      $entity = $form_object->getEntity();
+      $this->saveLocationField($entity, $location_level);
     }
 
     return _erpw_custom_redirect('view.referral_pathway_listing.page_1');
@@ -206,13 +199,18 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    *   Location data.
    */
   protected function saveLocationField($entity, $location) {
+    $node = $this->routeMatch->getParameter('node');
+    // Removing the previous location to avoid duplicates.
+    if ($node instanceof NodeInterface) {
+      $entity->set('field_location', []);
+    }
     if (is_array($location)) {
       foreach ($location as $value) {
         $entity->field_location[] = ['target_id' => $value];
       }
     }
     else {
-      $entity->field_location->target_id = $location;
+      $entity->field_location[] = ['target_id' => $location];
     }
     $entity->save();
   }
