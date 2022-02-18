@@ -2,12 +2,9 @@ uuid: e607f283-a7cf-4568-ae57-70cf89428e97
 langcode: sn
 status: true
 dependencies:
-  config:
-    - node.type.organisation
   module:
     - erpw_custom
     - erpw_location
-    - node
 id: service_provider_focal_point
 label: 'Service provider/ focal point'
 weight: -6
@@ -15,7 +12,6 @@ is_admin: null
 permissions:
   - 'add location entity entities'
   - 'add new user for their own country'
-  - 'create organisation content'
   - 'delete location entity entities'
   - 'edit location entity entities'
   - 'edit users of their own country'
