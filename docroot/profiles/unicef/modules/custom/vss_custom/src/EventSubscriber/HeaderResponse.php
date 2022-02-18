@@ -21,6 +21,7 @@ class HeaderResponse implements EventSubscriberInterface {
 
     $response->headers->set("X-XSS-Protection", "1; mode=block");
     $response->headers->set("X-Frame-Options", "ALLOW-FROM " . $event->getRequest()->getHost());
+    $response->headers->set("X-Frame-Options", "ALLOW-FROM *");
     $response->headers->set("X-Content-Type-Options", "nosniff always");
     $response->headers->set("Strict-Transport-Security", "max-age=31536000; includeSubDomains always");
     $response->headers->set("Access-Control-Allow-Origin", $event->getRequest()->getHost());
