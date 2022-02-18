@@ -95,7 +95,7 @@ class SignUpForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple();
     foreach ($roles as $role) {
-      if ($role->id() == 'administrator' || $role->id() == 'anonymous') {
+      if ($role->id() == 'administrator' || $role->id() == 'anonymous' || $role->id() == 'authenticated') {
         continue;
       }
       $system_roles[$role->id()] = $role->label();

@@ -10,9 +10,10 @@ dependencies:
     - node_view_permissions
 id: interagency_gbv_coordinator
 label: 'Interagency GBV Coordinator'
-weight: -6
+weight: -7
 is_admin: null
 permissions:
+  - 'add new user'
   - 'add new user for their own country'
   - 'create organisation content'
   - 'edit own organisation content'
