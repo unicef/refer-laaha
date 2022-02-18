@@ -53,9 +53,13 @@ print_pdf:
     js/print_pdf.js: {}
 
 amp_switch:
+  version: VERSION
+  header: TRUE
   js:
-    js/amp_switch.js: {}
-
+    js/amp_switch.js: { attributes: { async: true } }
+  dependencies:
+    - core/jquery
+    - core/drupal
 
       # Uncomment for LESS source JavaScript files.
 #  js:
