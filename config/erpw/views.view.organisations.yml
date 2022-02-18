@@ -7,6 +7,7 @@ dependencies:
     - user.role.administrator
     - user.role.country_admin
     - user.role.interagency_gbv_coordinator
+    - user.role.service_provider_focal_point
     - user.role.super_admin
   module:
     - node
@@ -126,6 +127,7 @@ display:
             super_admin: super_admin
             country_admin: country_admin
             interagency_gbv_coordinator: interagency_gbv_coordinator
+            service_provider_focal_point: service_provider_focal_point
       cache:
         type: tag
         options: {  }
