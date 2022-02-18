@@ -186,6 +186,50 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['submit']['#weight'] = 5;
     $form['actions']['cancel']['#weight'] = 10;
   }
+
+  // Form alter for Add new Service Provider form.
+  if ($form_id == 'node_service_provider_form' || $form_id == 'node_service_provider_edit_form') {
+    unset($form['meta']);
+    unset($form['menu']);
+    unset($form['path']);
+    unset($form['author']);
+    unset($form['options']);
+    unset($form['revision_information']);
+    unset($form['revision_log']);
+    $form['#attached']['library'][] = 'erpw_custom/erpw_js';
+    $form['next_link'] = [
+      '#type' => 'markup',
+      '#markup' => "<div class = 'prev-btn hidden button button--primary'>Prev</div>
+        <div class='next-btn button button--primary'>Next</div>",
+      '#prefix' => "<div class = 'service-next-prev-button'>",
+      '#suffix' => "</div>",
+      '#weight' => 10,
+
+    ];
+    $form['actions']['submit']['#value'] = t('Publish');
+    array_unshift($form['actions']['submit']['#submit'], 'service_provider_form_');
+  }
+}
+
+/**
+ * Implements checking for p-code and assigning p-code based on country taxonomy .
+ */
+function service_provider_form_(array $form, FormStateInterface $form_state) {
+  if (empty($form_state->getValue('field_p_code')[0]['value'])) {
+    for ($i = 4; $i >= 0; $i--) {
+      $location_level = $form_state->getValue('level_' . $i);
+      if (!empty($location_level)) {
+        break;
+      }
+    }
+    foreach ($location_level as $key => $value) {
+      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($key);
+      $p_code_value[] = $term->field_p_code->value;
+    }
+    $p_code_str_value = implode(",", $p_code_value);
+    $form['field_p_code']['widget']['0']['value']['#value'] = $p_code_str_value;
+    $form_state->setValue('field_p_code', [['value' => $p_code_str_value]]);
+  }
 }
 
 /**

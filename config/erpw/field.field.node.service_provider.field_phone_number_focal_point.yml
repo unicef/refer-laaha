@@ -1,0 +1,23 @@
+uuid: 97875a28-8643-44da-9e88-a9a611520e0c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_phone_number_focal_point
+    - node.type.service_provider
+id: node.service_provider.field_phone_number_focal_point
+field_name: field_phone_number_focal_point
+entity_type: node
+bundle: service_provider
+label: 'Phone number of focal point'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,29 @@
+uuid: 54774c1b-723d-4769-a50d-1518cf3c9f38
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_location_sp
+    - node.type.service_provider
+    - taxonomy.vocabulary.country
+id: node.service_provider.field_location_sp
+field_name: field_location_sp
+entity_type: node
+bundle: service_provider
+label: Location
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      country: country
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

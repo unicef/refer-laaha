@@ -1,0 +1,20 @@
+uuid: acacd7af-e1eb-4724-9b06-cbb77802f005
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_phone_number_of_back_up
+field_name: field_phone_number_of_back_up
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,19 @@
+uuid: 2ee9939d-9a62-4258-9b67-81b29786006f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_opening_hours
+    - node.type.service_provider
+id: node.service_provider.field_opening_hours
+field_name: field_opening_hours
+entity_type: node
+bundle: service_provider
+label: 'Opening hours'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
