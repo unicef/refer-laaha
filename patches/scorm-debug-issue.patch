@@ -7,7 +7,7 @@ index 363f3ca..dbfc860 100644
      // Does the SCO have a launch property ?
      if (!empty($sco->launch)) {
 -      $query = [];
- 
+
        // Load the SCO data.
        $scorm = $scorm_service->scormLoadById($sco->scorm_id);
 @@ -30,31 +29,12 @@ class OpignoScormController extends ControllerBase {
@@ -22,11 +22,11 @@ index 363f3ca..dbfc860 100644
 -        $parameters = implode('&', $parts);
 -      }
 +      $launch = 'scormcontent/index.html';
- 
+
        // Get the SCO location on the filesystem.
        $sco_location = "{$scorm->extracted_dir}/$launch";
        $sco_path = file_create_url($sco_location);
- 
+
 -      // Where there any parameters ? If so, prepare them for Drupal.
 -      if (!empty($parameters)) {
 -        foreach (explode('&', $parameters) as $param) {
