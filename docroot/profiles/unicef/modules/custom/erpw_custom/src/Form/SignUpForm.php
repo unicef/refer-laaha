@@ -300,15 +300,9 @@ class SignUpForm extends FormBase {
       '#type' => 'container',
       '#attributes' => ['id' => 'all-wrapper'],
     ];
-    if (!empty($form_state->getValue('location_options'))) {
-      $form['location']['all_wrapper']['message'] = [
-        '#type' => 'markup',
-        '#markup' => '<div id="intro-text">' . $this->t('Add the new location details') . '</div>',
-      ];
-    }
     $form['location']['all_wrapper']['intro_text'] = [
       '#type' => 'markup',
-      '#markup' => '<div id="intro-text">' . $this->t('Select the country first, to view the respective form') . '</div>',
+      '#markup' => '<div id="intro-text">' . $this->t('Select country to view its Hierarchy.') . '</div>',
     ];
     if (!empty($form_state->getValue('location_options'))) {
       $form['top_wrapper']['all_wrapper']['#prefix'] = '<div class="location-container">';
