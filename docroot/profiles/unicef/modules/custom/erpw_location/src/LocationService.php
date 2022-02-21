@@ -143,8 +143,7 @@ class LocationService {
   public function processTaxonomyData($string, $pid, $level = 0, $mode = "", $update_tid_value = 0) {
     preg_match('/\(\d+\)/', $string, $matches);
     if ($level == 4 && $mode == 'update') {
-      // Maharastra.
-      $pos = strpos($string, "(");
+      // If string not matches like value (5).
       if (empty($matches[0])) {
         $level_term_id = $this->taxonomyTermExist($string, $pid);
         if ($mode == 'update' && $level_term_id) {
@@ -165,13 +164,12 @@ class LocationService {
         }
       }
     }
-    // Maharastr (4)
+    // Check if string matches like value (5).
     if (!empty($matches[0])) {
-      $term_string_level = $this->clean($string);
       $tid_array = explode("(", $string);
       $level_term_id = $this->taxonomyTermExist(trim($tid_array[0]), $pid);
     }
-    // Maharastra.
+
     else {
       $level_term_id = $this->taxonomyTermExist($string, $pid);
       if ($mode == 'update' && $level_term_id) {
@@ -270,11 +268,14 @@ class LocationService {
    * Get location entity.
    */
   public function getLocationSingleEntityIdByTid($tid) {
+    $location_entity_id = "";
     $location_entity = $this->entityManager->getStorage('location')->loadByProperties(
-      ['field_location_taxonomy_term' => $tid]
+      ['field_location_taxonomy_term' => $tid, 'status' => 1]
     );
-    foreach ($location_entity as $location) {
-      $location_entity_id = $location->id();
+    if (!empty($location_entity)) {
+      foreach ($location_entity as $location) {
+        $location_entity_id = $location->id();
+      }
     }
     return $location_entity_id;
   }

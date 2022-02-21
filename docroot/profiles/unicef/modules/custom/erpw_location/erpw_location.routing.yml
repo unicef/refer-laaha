@@ -9,14 +9,14 @@ erpw_location.manage_location_url:
   path: '/manage-location/{country_tid}'
   defaults:
     _form: '\Drupal\erpw_location\Form\ManageLocationForm'
-    _title: 'Manage Country Locations'
+    _title: 'Manage Locations'
   requirements:
     _permission: 'erpw location manage location url'
 erpw_location.manage_location_depth:
   path: '/manage-location/{country_tid}/{location_levels_tid}'
   defaults:
     _form: '\Drupal\erpw_location\Form\ManageLocationForm'
-    _title: 'Manage Country Locations Depth'
+    _title: 'Manage Locations'
   requirements:
     _permission: 'erpw location manage location depth'
 erpw_location.open_import_modal:

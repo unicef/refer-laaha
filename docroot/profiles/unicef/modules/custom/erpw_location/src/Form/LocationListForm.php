@@ -15,7 +15,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class LocationListForm.
+ * Class Location List Form.
  */
 class LocationListForm extends FormBase {
 
@@ -100,7 +100,7 @@ class LocationListForm extends FormBase {
       $form['location_options'] = [
         '#type' => 'select',
         '#options' => $location_options,
-        '#empty_option' => t('Select Country'),
+        '#empty_option' => $this->t('Select Country'),
         '#title' => $this->t('Country'),
         '#default_value' => $id,
         '#required' => TRUE,
@@ -118,7 +118,7 @@ class LocationListForm extends FormBase {
     }
     $form['location'] = [
       '#weight' => -107,
-      '#prefix' => '<div id="edit-location-details" class="card-shadow">',
+      '#prefix' => '<div id="edit-location-details" >',
       '#suffix' => '</div>',
     ];
     $form['location']['intro_text'] = [
@@ -164,7 +164,7 @@ class LocationListForm extends FormBase {
           $this->level_key = $key;
           $form['location']['location_level']['level_1'] = [
             '#type' => 'select',
-            '#empty_option' => t("Select Level 1 Label"),
+            '#empty_option' => $this->t("Select Level 1 Label"),
             '#empty_value' => '',
             '#options' => $childs,
             '#title' => $level,
@@ -187,7 +187,7 @@ class LocationListForm extends FormBase {
               $level_1_options = \Drupal::service('erpw_location.location_services')->getChildrenByTid($parent_tid);
               $form['location']['location_level']['level_2'] = [
                 '#type' => 'select',
-                '#empty_option' => t("Select Level 2 Label"),
+                '#empty_option' => $this->t("Select Level 2 Label"),
                 '#options' => $level_1_options,
                 '#empty_value' => '',
                 '#title' => $level,
@@ -215,7 +215,7 @@ class LocationListForm extends FormBase {
                   $level_2_options = \Drupal::service('erpw_location.location_services')->getChildrenByTid($parent_level2_tid);
                   $form['location']['location_level']['level_3'] = [
                     '#type' => 'select',
-                    '#empty_option' => t("Select Level 3 Label"),
+                    '#empty_option' => $this->t("Select Level 3 Label"),
                     '#empty_value' => '',
                     '#options' => $level_2_options,
                     '#title' => $level,
@@ -255,7 +255,7 @@ class LocationListForm extends FormBase {
                       $form['location']['location_level']['level_4'] = [
                         '#type' => 'select',
                         '#multiple' => TRUE,
-                        '#empty_option' => t("Select Level 4 Label"),
+                        '#empty_option' => $this->t("Select Level 4 Label"),
                         '#empty_value' => '',
                         '#options' => $level_3_options,
                         '#title' => $level,
@@ -288,7 +288,7 @@ class LocationListForm extends FormBase {
     $parent_level2_tid = $form_state->getValue('level_1');
     $level_2_options = \Drupal::service('erpw_location.location_services')->getChildrenByTid($parent_level2_tid);
     if (!empty($level_2_options)) {
-      $level_2_options_final[''] = t('Select Level 2 Label');
+      $level_2_options_final[''] = $this->t('Select Level 2 Label');
       foreach ($level_2_options as $key => $value) {
         $level_2_options_final[$key] = $value;
       }
@@ -296,7 +296,7 @@ class LocationListForm extends FormBase {
     else {
       $level_2_options_final = $level_2_options;
     }
-    $form['location']['location_level']['level_2']['#empty_option'] = t("Select Level 2 Label");
+    $form['location']['location_level']['level_2']['#empty_option'] = $this->t("Select Level 2 Label");
     $form['location']['location_level']['level_3']['#options'] = [];
     $form['location']['location_level']['level_4']['#options'] = [];
     $form['location']['location_level']['level_2']['#options'] = $level_2_options_final;
@@ -319,7 +319,7 @@ class LocationListForm extends FormBase {
     $location_levels = \Drupal::service('erpw_location.location_services')->getLocationLevels($location_country_id);
     $level_2_options = \Drupal::service('erpw_location.location_services')->getChildrenByTid($parent_level2_tid);
     if (!empty($level_2_options)) {
-      $level_2_options_final[''] = t('Select Level 3 Label');
+      $level_2_options_final[''] = $this->t('Select Level 3 Label');
       foreach ($level_2_options as $key => $value) {
         $level_2_options_final[$key] = $value;
       }
@@ -328,7 +328,7 @@ class LocationListForm extends FormBase {
       $level_2_options_final = $childs;
     }
 
-    $form['location']['location_level']['level_3']['#empty_option'] = t("Select Level 3 Label");
+    $form['location']['location_level']['level_3']['#empty_option'] = $this->t("Select Level 3 Label");
     $form['location']['location_level']['level_4']['#options'] = [];
     $form['location']['location_level']['level_3']['#options'] = $level_2_options_final;
     $form['location']['location_level']['level_3']['#empty_value'] = '';
@@ -346,7 +346,7 @@ class LocationListForm extends FormBase {
     $response = new AjaxResponse();
     $parent_level2_tid = $form_state->getValue('level_3');
     $level_2_options = \Drupal::service('erpw_location.location_services')->getChildrenByTid($parent_level2_tid);
-    $form['location']['location_level']['level_4']['#empty_option'] = t("Select Level 4 Label");
+    $form['location']['location_level']['level_4']['#empty_option'] = $this->t("Select Level 4 Label");
     $form['location']['location_level']['level_4']['#options'] = $level_2_options;
     $form['location']['location_level']['level_4']['#empty_value'] = '';
     $response = new AjaxResponse();
@@ -372,7 +372,7 @@ class LocationListForm extends FormBase {
     $childs = \Drupal::service('erpw_location.location_services')->getChildrenByTid($location_tid);
 
     if (!empty($childs)) {
-      $level_2_options_final[''] = t('Select Level 1 Label');
+      $level_2_options_final[''] = $this->t('Select Level 1 Label');
       foreach ($childs as $key => $value) {
         $level_2_options_final[$key] = $value;
       }
@@ -383,7 +383,7 @@ class LocationListForm extends FormBase {
     $response = new AjaxResponse();
 
     $form['location']['location_level']['level_1']['#options'] = $level_2_options_final;
-    $form['location']['location_level']['level_1']['#empty_option'] = t("Select Level 1 Label");
+    $form['location']['location_level']['level_1']['#empty_option'] = $this->t("Select Level 1 Label");
     $form['location']['location_level']['level_1']['#empty_value'] = '';
     $form['location']['location_level']['level_1']['#title'] = $location_levels[0];
     unset($form['location']['location_level']['level_2']);
@@ -398,7 +398,7 @@ class LocationListForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    \Drupal::messenger()->deleteAll();
+    $this->messenger->deleteAll();
   }
 
 }

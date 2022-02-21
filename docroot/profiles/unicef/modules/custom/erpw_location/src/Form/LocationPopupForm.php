@@ -6,11 +6,41 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Link;
+use Drupal\Core\TempStore\PrivateTempStoreFactory;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * ModalForm class.
  */
 class LocationPopupForm extends FormBase {
+
+  /**
+   * The temp store factory.
+   *
+   * @var \Drupal\Core\TempStore\PrivateTempStoreFactory
+   */
+  protected $tempStoreFactory;
+
+  /**
+   * Location Popup Form constructor.
+   *
+   * @param \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory
+   *   The temp store factory.
+   */
+  public function __construct(
+    PrivateTempStoreFactory $temp_store_factory) {
+
+    $this->tempStoreFactory = $temp_store_factory;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('tempstore.private'),
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -52,8 +82,11 @@ class LocationPopupForm extends FormBase {
       '#markup' => $dashboard_url,
       '#suffix' => '</div>',
     ];
-    $url_redirect = Url::fromRoute('erpw_location.manage_location_url', ['country_tid' => $options],
-     [], ['absolute' => TRUE])->toString();
+
+    $store = $this->tempStoreFactory->get('erpw_location_collection');
+    $redirect_url_value = $store->get('location_redirect_url');
+    $url_redirect = Url::fromUri('internal:' . $redirect_url_value)->toString();
+
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'erpw_location/erpw_location_js';
     $form['#attached']['drupalSettings']['erpw_location']['redirect_to_manage'] = $url_redirect;

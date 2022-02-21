@@ -16,6 +16,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Url;
 
 /**
  * Class for add location.
@@ -387,7 +388,6 @@ class AddLocationForm extends FormBase {
         '#suffix' => '</div>',
       ];
     }
-
     $url = $this->urlGenerator->generateFromRoute('erpw_location.manage_location');
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
@@ -561,7 +561,8 @@ class AddLocationForm extends FormBase {
       $modal_form = $this->formBuilder->getForm(
         'Drupal\erpw_custom\Form\AddLocationPopup',
         $this->t('Updated successfully'),
-        $this->t('The details have been successfully updated.')
+        $this->t('The details have been successfully updated.'),
+        'update'
       );
     }
 
