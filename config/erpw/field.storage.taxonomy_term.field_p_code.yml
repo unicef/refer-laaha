@@ -1,12 +1,12 @@
-uuid: 7bff604f-bb64-4d0d-ad80-bac6c6f06ad3
+uuid: b84ba875-c42d-4f9e-8538-4405cb8427b2
 langcode: en
 status: true
 dependencies:
   module:
-    - node
-id: node.field_service_type_icon
-field_name: field_service_type_icon
-entity_type: node
+    - taxonomy
+id: taxonomy_term.field_p_code
+field_name: field_p_code
+entity_type: taxonomy_term
 type: string
 settings:
   max_length: 255

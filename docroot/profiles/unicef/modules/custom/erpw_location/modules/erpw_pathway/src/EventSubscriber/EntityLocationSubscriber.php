@@ -96,6 +96,8 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       [
         'node_referral_path_way_form',
         'node_referral_path_way_edit_form',
+        'node_service_provider_form',
+        'node_service_provider_edit_form',
       ])) {
       $parent_list = [];
       $node = $this->routeMatch->getParameter('node');
@@ -108,7 +110,13 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       $form['#title'] = $this->t('Add New Referral Pathway');
       $form['actions']['preview']['#attributes']['class'][] = 'button-border';
       $form['field_section']['widget']['#title'] = '';
-
+      if (in_array($form_id,
+      [
+        'node_service_provider_form',
+        'node_service_provider_edit_form',
+      ])) {
+        $form['#validate'][] = 'erpwCustomServiceProviderValidation';
+      }
       // Form submit handler.
       $form['actions']['submit']['#submit'][] = [$this, 'eprwSubmitHandler'];
     }
@@ -130,6 +138,25 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
         ],
         '#value' => $this->t('CANCEL'),
       ];
+    }
+  }
+
+  /**
+   * Validation for allowing only integer and '+' in phone number fields.
+   */
+  public function erpwCustomServiceProviderValidation(array $form, FormStateInterface $form_state) {
+    $message = $this->t('Only numberic values are allowed');
+    $field_phone_number = $form_state->getValue('field_phone_number')[0]['value'];
+    if (!preg_match('/^[+-]?\d+$/', $field_phone_number)) {
+      $form_state->setError($form['field_phone_number'], $message);
+    }
+    $field_phone_number_backup_focalp = $form_state->getValue('field_phone_number_backup_focalp')[0]['value'];
+    if (!preg_match('/^[+-]?\d+$/', $field_phone_number_backup_focalp)) {
+      $form_state->setError($form['field_phone_number_backup_focalp'], $message);
+    }
+    $field_phone_number_of_focal_poin = $form_state->getValue('field_phone_number_of_focal_poin')[0]['value'];
+    if (!preg_match('/^[+-]?\d+$/', $field_phone_number_of_focal_poin)) {
+      $form_state->setError($form['field_phone_number_of_focal_poin'], $message);
     }
   }
 

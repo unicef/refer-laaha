@@ -1,0 +1,19 @@
+uuid: 52e775e8-7edc-4d6c-bc42-617cec8f7d8d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_number_of_staff_providing_
+    - node.type.service_provider
+id: node.service_provider.field_number_of_staff_providing_
+field_name: field_number_of_staff_providing_
+entity_type: node
+bundle: service_provider
+label: 'Number of staff providing services (female/male)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
