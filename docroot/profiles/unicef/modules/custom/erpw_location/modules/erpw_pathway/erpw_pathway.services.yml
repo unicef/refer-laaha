@@ -13,12 +13,3 @@ services:
     arguments:
       - "@entity_type.manager"
       - "@erpw_location.location_services"
-  erpw_pathway.entity_service_provider:
-    class: Drupal\erpw_pathway\EventSubscriber\EntityServiceProviderSubscriber
-    arguments:
-      - "@entity_type.manager"
-      - "@erpw_location.location_services"
-      - "@current_route_match"
-      - "@erpw_pathway.erpw_location_form"
-    tags:
-      - { name: 'event_subscriber' }      

@@ -12,7 +12,7 @@ dependencies:
     - field.field.node.service_provider.field_domain_source
     - field.field.node.service_provider.field_email_backup_focal_point
     - field.field.node.service_provider.field_email_of_focal_point
-    - field.field.node.service_provider.field_location_sp
+    - field.field.node.service_provider.field_location
     - field.field.node.service_provider.field_mode
     - field.field.node.service_provider.field_name_backup_focalpoint_ref
     - field.field.node.service_provider.field_name_focalpoint_referrals
@@ -20,8 +20,8 @@ dependencies:
     - field.field.node.service_provider.field_opening_hours
     - field.field.node.service_provider.field_p_code
     - field.field.node.service_provider.field_phone_number
-    - field.field.node.service_provider.field_phone_number_focal_point
-    - field.field.node.service_provider.field_phone_number_of_back_up
+    - field.field.node.service_provider.field_phone_number_backup_focalp
+    - field.field.node.service_provider.field_phone_number_of_focal_poin
     - field.field.node.service_provider.field_select_organisation
     - field.field.node.service_provider.field_service_type
     - field.field.node.service_provider.field_target_group
@@ -81,13 +81,13 @@ content:
     third_party_settings: {  }
     weight: 119
     region: content
-  field_location_sp:
+  field_location:
     type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 102
+    weight: 125
     region: content
   field_mode:
     type: list_default
@@ -137,31 +137,28 @@ content:
     weight: 105
     region: content
   field_phone_number:
-    type: number_integer
+    type: string
     label: above
     settings:
-      thousand_separator: ''
-      prefix_suffix: true
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 115
+    weight: 126
     region: content
-  field_phone_number_focal_point:
-    type: number_integer
+  field_phone_number_backup_focalp:
+    type: string
     label: above
     settings:
-      thousand_separator: ''
-      prefix_suffix: true
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 118
+    weight: 127
     region: content
-  field_phone_number_of_back_up:
-    type: number_integer
+  field_phone_number_of_focal_poin:
+    type: string
     label: above
     settings:
-      thousand_separator: ''
-      prefix_suffix: true
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 121
+    weight: 128
     region: content
   field_select_organisation:
     type: entity_reference_label

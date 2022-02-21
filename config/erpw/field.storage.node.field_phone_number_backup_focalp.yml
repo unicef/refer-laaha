@@ -1,16 +1,17 @@
-uuid: acacd7af-e1eb-4724-9b06-cbb77802f005
+uuid: c2dd9328-8144-42a5-9963-99db719c9e3e
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_phone_number_of_back_up
-field_name: field_phone_number_of_back_up
+id: node.field_phone_number_backup_focalp
+field_name: field_phone_number_backup_focalp
 entity_type: node
-type: integer
+type: string
 settings:
-  unsigned: false
-  size: normal
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
 module: core
 locked: false
 cardinality: 1

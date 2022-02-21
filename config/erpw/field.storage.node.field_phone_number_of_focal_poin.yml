@@ -1,16 +1,17 @@
-uuid: 01bdf4ee-0192-496a-988f-a0e3a228e550
+uuid: 48ba7013-badf-475e-921c-0cfe07480d2a
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_phone_number_focal_point
-field_name: field_phone_number_focal_point
+id: node.field_phone_number_of_focal_poin
+field_name: field_phone_number_of_focal_poin
 entity_type: node
-type: integer
+type: string
 settings:
-  unsigned: false
-  size: normal
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
 module: core
 locked: false
 cardinality: 1

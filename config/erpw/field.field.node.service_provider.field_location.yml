@@ -1,19 +1,19 @@
-uuid: 54774c1b-723d-4769-a50d-1518cf3c9f38
+uuid: 558649aa-1296-43ab-b29c-f213a4801c06
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_location_sp
+    - field.storage.node.field_location
     - node.type.service_provider
     - taxonomy.vocabulary.country
-id: node.service_provider.field_location_sp
-field_name: field_location_sp
+id: node.service_provider.field_location
+field_name: field_location
 entity_type: node
 bundle: service_provider
 label: Location
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
