@@ -72,7 +72,10 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
       if ($count > 1) {
         $content[$k]['title'] = $v->title;
         $thumbnail = $v->field_thumbnail_image_target_id;
-        $node = \Drupal::entityTypeManager()->getStorage('node')->load($v->nft_entity_id);
+        $node = $this->entityTypeManager->getStorage('node')->load($v->nft_entity_id);
+        if ($node->hasTranslation($langcode) || $node->get('langcode')->value == $langcode) {
+          $node = $node->getTranslation($langcode);
+        }
         if (!$node->get('field_read_time')->isEmpty()) {
           $read_time = $node->field_read_time->getValue()['0']['value'];
           $content[$k]['read_time'] = $read_time;
@@ -122,12 +125,13 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
         $content[$k]['type'] = $v->type;
         $content[$k]['video_time'] = $paragraph_video_time;
         $content[$k]['podcast_time'] = $paragraph_podcast_time;
+
+        $this->pageCacheKillSwitch->trigger();
+        $build['#theme'] = 'featured_stories_block';
+        $build['#content'] = $content;
+        $build['#lang_code'] = $langcode;
       }
     }
-    $this->pageCacheKillSwitch->trigger();
-    $build['#theme'] = 'featured_stories_block';
-    $build['#content'] = $content;
-    $build['#lang_code'] = $langcode;
 
     return $build;
   }
@@ -152,9 +156,11 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
     $query->join('node__field_sub_category', 'nscat', 'nscat.entity_id = nft.entity_id');
     $query->join('taxonomy_term__parent', 'tp', 'tp.entity_id = nscat.field_sub_category_target_id AND tp.parent_target_id = t.tid');
     $query->join('node_field_data', 'n', 'nft.entity_id = n.nid');
-    // $query->join('node__field_read_time', 'frt', 'nft.entity_id = n.nid');
+    $query->join('node__field_domain_access', 'nd', 'nft.entity_id = nd.entity_id');
+    $query->condition('nd.field_domain_access_target_id', $domain);
     $query->condition('t.vid', 'categories');
-    $query->condition('n.langcode', $langcode);
+    $query->condition('nft.langcode', $langcode);
+    $query->condition('t.langcode', $langcode);
     $query->condition('t.tid', $term_id);
     $query->condition('dm.field_domain_target_id', $domain);
     $query->condition('sc.field_sub_category_value', 1, '!=');
