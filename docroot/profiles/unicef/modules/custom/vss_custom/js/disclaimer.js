@@ -14,7 +14,6 @@
           if (!sessionStorage.getItem('pop-up')) {
             sessionStorage.setItem('pop-up', '1');
           }
-          $.cookie('disclaimer', '1');
         });
         if (!drupalSettings.disclaimer_narrate) {
         return;

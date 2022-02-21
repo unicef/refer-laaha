@@ -628,11 +628,6 @@ function vss_custom_preprocess_block(&$variables) {
   if ($variables['elements']['#base_plugin_id'] == 'disclaimer_pop_up_block') {
     $variables['elements']['#cache']['max-age'] = 0;
     $variables['#cache']['max-age'] = 0;
-    $cookie_get = \Drupal::request()->cookies->get('disclaimer');
-    if ($cookie_get) {
-      unset($variables['label']);
-      unset($variables['content']);
-    }
   }
 }
 
