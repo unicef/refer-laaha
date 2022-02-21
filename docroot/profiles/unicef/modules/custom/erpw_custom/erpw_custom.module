@@ -20,23 +20,41 @@ use Drupal\views\Plugin\views\query\QueryPluginBase;
  * Implements hook_form_FORM_ID_alter().
  */
 function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'node_referral_path_way_edit_form' || $form_id == 'node_referral_path_way_form') {
+    $current_user = \Drupal::currentUser();
+    $permission = ($form_id == 'node_referral_path_way_edit_form') ? 'edit referral pathway of their own country' : 'add referral pathway of their own country';
+    if ($current_user->hasPermission($permission)) {
+      $location_id = FALSE;
+      $current_user = User::load($current_user->id());
+      if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
+        $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
+      }
+      if ($location_id) {
+        $ptid = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
+        $ptid = reset($ptid);
+        foreach ($form['location']['level_0']['#options'] as $tid => $country) {
+          if ($tid != $ptid && $tid != '') {
+            unset($form['location']['level_0']['#options'][$tid]);
+          }
+        }
+      }
+    }
+  }
+
   if ($form_id == 'sign_up') {
     $current_user = \Drupal::currentUser();
     if (isset($form['location_options']['#options']) && $current_user->hasPermission('add new user for their own country')) {
       $current_user_role = $current_user->getRoles();
-      $access_role = ['country_admin'];
       $location_id = FALSE;
-      if (array_intersect($current_user_role, $access_role)) {
-        $current_user = User::load($current_user->id());
-        if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
-          $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
-        }
+      $current_user = User::load($current_user->id());
+      if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
+        $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
       }
       if ($location_id) {
         $ptid = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
         $ptid = reset($ptid);
         foreach ($form['location_options']['#options'] as $key => $option) {
-          if ($key != $ptid) {
+          if ($key != $ptid && $key != '') {
             unset($form['location_options']['#options'][$key]);
           }
         }
@@ -375,6 +393,28 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
           if ($condition['field'] == 'user__field_location_details.field_location_details_value') {
             $condition = [
               'field' => 'user__field_location_details.field_location_details_value',
+              'value' => $ptids,
+              'operator' => 'in',
+            ];
+            break;
+          }
+        }
+      }
+    }
+  }
+  if ($view->id() == "referral_pathway_listing" && $view->current_display == 'page_1') {
+    $current_user = \Drupal::currentUser();
+    if ($current_user->hasPermission('view referral pathway of their own country')) {
+      $user_entity = User::load($current_user->id());
+      if ($user_entity->hasField('field_location_details') && !$user_entity->get('field_location_details')->isEmpty()) {
+        $location_id = $user_entity->get('field_location_details')->getValue()[0]['value'];
+        $ptids = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
+      }
+      foreach ($query->where as &$condition_group) {
+        foreach ($condition_group['conditions'] as &$condition) {
+          if ($condition['field'] == 'node__field_location.field_location_target_id') {
+            $condition = [
+              'field' => 'node__field_location.field_location_target_id',
               'value' => $ptids,
               'operator' => 'in',
             ];
