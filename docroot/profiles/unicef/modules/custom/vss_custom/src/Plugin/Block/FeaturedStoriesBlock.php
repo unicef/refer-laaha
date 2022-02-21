@@ -156,7 +156,7 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
     $query->join('node__field_sub_category', 'nscat', 'nscat.entity_id = nft.entity_id');
     $query->join('taxonomy_term__parent', 'tp', 'tp.entity_id = nscat.field_sub_category_target_id AND tp.parent_target_id = t.tid');
     $query->join('node_field_data', 'n', 'nft.entity_id = n.nid');
-    $query->join('node__field_domain_access', 'nd', 'nft.entity_id = nd.entity_id');
+    $query->join('node__field_domain_access', 'nd', "nft.entity_id = nd.entity_id AND langcode = $langcode");
     $query->condition('nd.field_domain_access_target_id', $domain);
     $query->condition('t.vid', 'categories');
     $query->condition('nft.langcode', $langcode);
