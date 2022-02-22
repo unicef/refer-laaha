@@ -65,6 +65,7 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $domain = $this->domain->getActiveDomain()->id();
     $featured_stories = $this->getContentfromTags($term_id, $langcode, $domain);
+    dump($featured_stories);
     shuffle($featured_stories);
     $featured_stories = array_intersect_key($featured_stories, array_flip(array_slice(array_keys($featured_stories), 0, 6)));
     $count = count($featured_stories);
@@ -159,7 +160,7 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
     $query->join('node__field_domain_access', 'nd', 'nft.entity_id = nd.entity_id');
     $query->condition('nd.field_domain_access_target_id', $domain);
     $query->condition('t.vid', 'categories');
-    $query->condition('nft.langcode', $langcode);
+    $query->condition('tmb.langcode', $langcode);
     $query->condition('n.langcode', $langcode);
     $query->condition('t.langcode', $langcode);
     $query->condition('t.tid', $term_id);
