@@ -31,10 +31,10 @@ erpw_custom.update_service_type_form:
 erpw_custom.dashboard:
   path: '/dashboard'
   defaults:
-    _form: '\Drupal\erpw_custom\Form\Dashboard'
+    _controller: '\Drupal\erpw_custom\Controller\ModalController::dashboardContent'
     _title: 'Dashboard'
   requirements:
-    _role: 'authenticated'
+   _permission: 'view dashboard'
 
 erpw_custom.node_delete:
   path: '/node/delete/{id}'
