@@ -1,17 +1,15 @@
-uuid: 7bff604f-bb64-4d0d-ad80-bac6c6f06ad3
+uuid: 2b5b9e37-d578-4c5f-9eb7-3647df0ea1d1
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_service_type_icon
-field_name: field_service_type_icon
+id: node.field_service_type
+field_name: field_service_type
 entity_type: node
-type: string
+type: entity_reference
 settings:
-  max_length: 255
-  case_sensitive: false
-  is_ascii: false
+  target_type: node
 module: core
 locked: false
 cardinality: 1

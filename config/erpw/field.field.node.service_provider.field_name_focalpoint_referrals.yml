@@ -1,0 +1,19 @@
+uuid: beca7a47-6057-438e-8e92-3732c45bd9bf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_name_focalpoint_referrals
+    - node.type.service_provider
+id: node.service_provider.field_name_focalpoint_referrals
+field_name: field_name_focalpoint_referrals
+entity_type: node
+bundle: service_provider
+label: "Name of focal point for referrals (first/last name)\_"
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

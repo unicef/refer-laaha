@@ -1,0 +1,21 @@
+uuid: 1cc44149-6ea8-4910-b118-8ea597191600
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_accessibility_for_persons_
+    - node.type.service_provider
+  module:
+    - options
+id: node.service_provider.field_accessibility_for_persons_
+field_name: field_accessibility_for_persons_
+entity_type: node
+bundle: service_provider
+label: 'Accessibility for persons with disability (Yes/No)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,17 +1,15 @@
-uuid: 7bff604f-bb64-4d0d-ad80-bac6c6f06ad3
+uuid: c0cff714-77d3-4c5e-a537-3c548ec806e0
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_service_type_icon
-field_name: field_service_type_icon
+id: node.field_select_organisation
+field_name: field_select_organisation
 entity_type: node
-type: string
+type: entity_reference
 settings:
-  max_length: 255
-  case_sensitive: false
-  is_ascii: false
+  target_type: node
 module: core
 locked: false
 cardinality: 1
