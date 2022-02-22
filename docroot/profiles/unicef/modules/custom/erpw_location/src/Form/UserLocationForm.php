@@ -77,7 +77,7 @@ class UserLocationForm extends LocationListForm {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, $id = NULL, $page = "") {
     if (!empty($id)) {
       $location_entity = $this->entityTypeManager->getStorage('location')->loadByProperties(
         ['field_location_taxonomy_term' => $id]
@@ -99,6 +99,10 @@ class UserLocationForm extends LocationListForm {
         ],
       ],
     ];
+    $form['location_level_page'] = [
+      '#type' => 'hidden',
+      '#value' => $page,
+    ];
     return $form;
   }
 
@@ -110,31 +114,40 @@ class UserLocationForm extends LocationListForm {
 
     if (!empty($levels['level_4'])) {
       foreach ($levels['level_4'] as $value) {
-        $locaton_level = $value;
+        $location_value = $value;
       }
-      $locaton_level = implode(",", $levels['level_4']);
+      $location_value = implode(",", $levels['level_4']);
     }
     elseif (!empty($levels['level_3'])) {
-      $locaton_level = $levels['level_3'];
+      $location_value = $levels['level_3'];
     }
     elseif (!empty($levels['level_2'])) {
-      $locaton_level = $levels['level_2'];
+      $location_value = $levels['level_2'];
     }
     elseif (!empty($levels['level_1'])) {
-      $locaton_level = $levels['level_1'];
+      $location_value = $levels['level_1'];
     }
     elseif (!empty($levels['location_options'])) {
-      $locaton_level = $levels['location_options'];
+      $location_entity = $this->entityTypeManager->getStorage('location')->load($levels['location_options']);
+      if (!empty($location_entity->get('field_location_taxonomy_term')->getValue())) {
+        $location_value = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+      }
     }
 
-    $current_user = $this->currentUser->id();
-    $user = $this->entityTypeManager->getStorage('user')->load($current_user);
-    // Set value for field.
-    $user->field_location_details->value = $locaton_level;
-    $user->save();
+    if ($levels['location_level_page'] == 'location') {
+      $url = Url::fromUri('internal:/manage-location/' . $levels['location_options'] . '/' . $location_value);
+      $form['location_level']['button'] = $form_state->setRedirectUrl($url);
+    }
+    else {
+      $current_user = $this->currentUser->id();
+      $user = $this->entityTypeManager->getStorage('user')->load($current_user);
+      // Set value for field.
+      $user->field_location_details->value = $location_value;
+      $user->save();
 
-    $url = Url::fromRoute('<front>');
-    $form['location_level']['button'] = $form_state->setRedirectUrl($url);
+      $url = Url::fromRoute('<front>');
+      $form['location_level']['button'] = $form_state->setRedirectUrl($url);
+    }
   }
 
 }

@@ -11,10 +11,15 @@ use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\erpw_location\LocationService;
+use Drupal\Core\TempStore\PrivateTempStoreFactory;
 
 /**
- * Class ManageLocationForm.
+ * Class Manage Location Form.
  */
 class ManageLocationForm extends FormBase {
 
@@ -47,6 +52,34 @@ class ManageLocationForm extends FormBase {
   protected $urlGenerator;
 
   /**
+   * Drupal\Core\Session\AccountInterface definition.
+   *
+   * @var \Drupal\Core\Session\AccountInterface
+   */
+  protected $currentUser;
+
+  /**
+   * The language manager service.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
+   * The location service.
+   *
+   * @var \Drupal\erpw_location\LocationService
+   */
+  protected $locationService;
+
+  /**
+   * The temp store factory.
+   *
+   * @var \Drupal\Core\TempStore\PrivateTempStoreFactory
+   */
+  protected $tempStoreFactory;
+
+  /**
    * ManageLocation constructor.
    *
    * @param \Psr\Log\LoggerChannelFactory $logger
@@ -61,6 +94,14 @@ class ManageLocationForm extends FormBase {
    *   The form_builder service.
    * @param \Drupal\Core\Routing\UrlGeneratorInterface $url_generator
    *   The url generator.
+   * @param \Drupal\Core\Session\AccountInterface $current_user
+   *   The current user.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   *   The language manager service.
+   * @param \Drupal\erpw_location\LocationService $location_service
+   *   The location service.
+   * @param \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory
+   *   The temp store factory.
    */
   public function __construct(
     LoggerChannelFactory $logger,
@@ -68,7 +109,11 @@ class ManageLocationForm extends FormBase {
     EntityTypeManagerInterface $entity_manager,
     MessengerInterface $messenger,
     FormBuilderInterface $form_builder,
-    UrlGeneratorInterface $url_generator) {
+    UrlGeneratorInterface $url_generator,
+    AccountInterface $current_user,
+    LanguageManagerInterface $language_manager,
+    LocationService $location_service,
+    PrivateTempStoreFactory $temp_store_factory) {
 
     $this->logger = $logger;
     $this->connection = $connection;
@@ -76,6 +121,10 @@ class ManageLocationForm extends FormBase {
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
     $this->urlGenerator = $url_generator;
+    $this->currentUser = $current_user;
+    $this->languageManager = $language_manager;
+    $this->locationService = $location_service;
+    $this->tempStoreFactory = $temp_store_factory;
   }
 
   /**
@@ -88,7 +137,11 @@ class ManageLocationForm extends FormBase {
       $container->get('entity_type.manager'),
       $container->get('messenger'),
       $container->get('form_builder'),
-      $container->get('url_generator')
+      $container->get('url_generator'),
+      $container->get('current_user'),
+      $container->get('language_manager'),
+      $container->get('erpw_location.location_services'),
+      $container->get('tempstore.private'),
     );
   }
 
@@ -102,7 +155,11 @@ class ManageLocationForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $country_tid = "") {
+  public function buildForm(array $form, FormStateInterface $form_state, $country_tid = "", $location_levels_tid = "") {
+    $current_uri = \Drupal::request()->getRequestUri();
+    $store = $this->tempStoreFactory->get('erpw_location_collection');
+    $store->set('location_redirect_url', $current_uri);
+
     $form['#attributes']['enctype'] = "multipart/form-data";
     $form['open_modal'] = [
       '#type' => 'link',
@@ -128,12 +185,37 @@ class ManageLocationForm extends FormBase {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
 
     }
+    if (!$form_state->getUserInput()) {
+
+      $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
+      $location_value = $user->field_location_details->value;
+      if (!empty($location_levels_tid)) {
+        $location_value = $location_levels_tid;
+
+      }
+      $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($location_value);
+      $upper_ancestors = array_reverse(array_keys($ancestors));
+      $mylocation = "";
+      foreach (array_reverse($upper_ancestors) as $key => $value) {
+        $mylocation .= " " . $this->locationService->getTaxonomyTermById($value);
+      }
+
+      if (!empty($upper_ancestors[0])) {
+        $country_tid = $this->locationService->getLocationSingleEntityIdByTid($upper_ancestors[0]);
+      }
+      $link = Link::createFromRoute($this->t('Click to change location'), 'erpw_location.user_location_manage',
+      ['id' => $country_tid, 'page' => 'location'])->toString();
+      $form['change_country_link'] = [
+        '#markup' => $link,
+      ];
+    }
+
     if (!empty($location_entities) || $country_tid = "") {
       $form['location_options'] = [
         '#type' => 'select',
         '#options' => $location_options,
         '#default_value' => $country_tid,
-        '#empty_option' => t('Select Country'),
+        '#empty_option' => $this->t('Select Country'),
         '#title' => $this->t('Country'),
         '#ajax' => [
           'callback' => '::getLocationDetail',
@@ -145,28 +227,45 @@ class ManageLocationForm extends FormBase {
         ],
       ];
     }
+    $form['location_value'] = [
+      '#markup' => $mylocation,
+    ];
 
     $form['location_list'] = [
       '#prefix' => '<div id="edit-location-details">',
       '#suffix' => '</div>',
     ];
+
     if (!empty($form_state->getValue('location_options')) || $country_tid != "") {
       $location_entity_id = !empty($form_state->getValue('location_options')) ? $form_state->getValue('location_options') : $country_tid;
-      $location_levels = \Drupal::service('erpw_location.location_services')->getLocationLevels($location_entity_id);
+      $location_levels = $this->locationService->getLocationLevels($location_entity_id);
       $location_levels_count = count($location_levels);
       $location_entity = $this->entityManager->getStorage('location')->load($location_entity_id);
-      $location_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+      if (!empty($location_entity->get('field_location_taxonomy_term')->getValue())) {
+        $location_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+      }
       $manager = $this->entityManager->getStorage('taxonomy_term');
-      $tree = $manager->loadTree('country', $location_tid, $location_levels_count, TRUE);
-      $locations = [];
-      $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
-      foreach ($tree as $term) {
-        if ($term->depth == $location_levels_count - 1) {
-          $tid = $term->id();
-          $term_name = $term->hasTranslation($langcode) ?
-            $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
-          $locations[$tid] = $term_name;
+      if (!$form_state->getUserInput()) {
+        $location_tid = $upper_ancestors[0];
+        $location_tid = !empty($location_levels_tid) ? $location_levels_tid : $location_tid;
+      }
+      $childs_check = $this->entityManager->getStorage('taxonomy_term')->loadChildren($location_tid);
+      if (!empty($childs_check)) {
+        $tree = $manager->loadTree('country', $location_tid, $location_levels_count, TRUE);
+        $locations = [];
+        $langcode = $this->languageManager->getCurrentLanguage()->getId();
+        foreach ($tree as $term) {
+          $childs = $this->entityManager->getStorage('taxonomy_term')->loadChildren($term->id());
+          if (empty($childs)) {
+            $tid = $term->id();
+            $term_name = $term->hasTranslation($langcode) ?
+              $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
+            $locations[$tid] = $term_name;
+          }
         }
+      }
+      else {
+        $locations[$location_tid] = $this->locationService->getTaxonomyTermById($location_tid);
       }
       natcasesort($locations);
       $form['location_list']['location_count'] = [
@@ -180,8 +279,14 @@ class ManageLocationForm extends FormBase {
         $ancestors = array_reverse(array_keys($ancestors));
         $location_details = '';
         foreach ($location_levels as $key => $level) {
-          $level_term = $this->entityManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
-          $level_data_name = $level_term->get('name')->value;
+          $level_data_name = "";
+          $level_term = "";
+          if (!empty($ancestors[$key + 1])) {
+            $level_term = $this->entityManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
+          }
+          if (!empty($level_term)) {
+            $level_data_name = $level_term->get('name')->value;
+          }
           if ($key !== array_key_last($location_levels)) {
             $location_details .= '<div class="level">' . $level . " : " . $level_data_name . '</div>';
           }
@@ -220,6 +325,7 @@ class ManageLocationForm extends FormBase {
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#theme'] = 'manage_location_form';
+    $form['#flag'] = 1;
     return $form;
 
   }
@@ -256,8 +362,8 @@ class ManageLocationForm extends FormBase {
     else {
       $country_name = 'Country Name';
     }
+    $active_languages = $this->languageManager->getLanguages();
     if (!$location_id) {
-      $active_languages = \Drupal::languageManager()->getLanguages();
       $active_languages_list = array_keys($active_languages);
       $location_lang_count = 0;
       $location_lang = [];
@@ -279,7 +385,6 @@ class ManageLocationForm extends FormBase {
     }
     else {
       $location = $this->entityManager->getStorage('location')->load($location_id);
-      $active_languages = \Drupal::languageManager()->getLanguages();
       $active_languages_list = array_keys($active_languages);
       $location_lang_count = 0;
       $location_lang = [];
