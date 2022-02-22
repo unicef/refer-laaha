@@ -584,14 +584,14 @@ footer {
 .menu--bottom-nav li.menu-item a.search-icon::before {
   background: url(../images/searchIcon.svg) no-repeat center center;
 }
-.menu--bottom-nav li.menu-item .menu-icon {
+.menu--bottom-nav li.menu-item .bottom-menu-icon {
   color: #ffffff;
   cursor: pointer;
   display: block;
   font-size: 8px;
   text-align: center;
 }
-.menu--bottom-nav li.menu-item .menu-icon::before {
+.menu--bottom-nav li.menu-item .bottom-menu-icon::before {
   background: url(../images/menu.svg) no-repeat center center;
   content: "";
   display: block;
@@ -651,12 +651,22 @@ header {
   padding: 0;
 }
 
+.dashboard {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 .dashboard .dashboard-link {
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
           box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
-  padding: 7px 10px;
+  padding: 14px 17px;
   margin-bottom: 32px;
+}
+.dashboard .dashboard-link span {
+  display: inline-block;
+  margin-right: 25px;
+  vertical-align: middle;
 }
 .dashboard .dashboard-link a {
   background: url("../images/arrow-right.svg") right center no-repeat;

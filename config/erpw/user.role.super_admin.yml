@@ -9,6 +9,7 @@ dependencies:
   module:
     - content_translation
     - domain_access
+    - erpw_custom
     - erpw_location
     - node
     - node_view_permissions
@@ -20,6 +21,7 @@ is_admin: null
 permissions:
   - 'access user profiles'
   - 'add location entity entities'
+  - 'add new user'
   - 'administer users'
   - 'clone referral_path_way content'
   - 'clone service_type content'
