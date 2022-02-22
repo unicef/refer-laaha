@@ -232,6 +232,7 @@ function _erpw_custom_service_provider_form(array $form, FormStateInterface $for
     $form['field_p_code']['widget']['0']['value']['#value'] = $p_code_str_value;
     $form_state->setValue('field_p_code', [['value' => $p_code_str_value]]);
   }
+  return _erpw_custom_redirect('view.manage_service.page_1');
 }
 
 /**

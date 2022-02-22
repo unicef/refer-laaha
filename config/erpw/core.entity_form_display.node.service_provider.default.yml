@@ -56,20 +56,6 @@ third_party_settings:
         id: service-provider-step1
         description: ''
         required_fields: true
-    group_step_2_location_details:
-      children: {  }
-      label: 'Step 2 : Location Details'
-      region: hidden
-      parent_name: ''
-      weight: 14
-      format_type: tab
-      format_settings:
-        classes: 'step2-location-details , service-provider-class'
-        show_empty_fields: false
-        id: step2-location-details
-        formatter: closed
-        description: ''
-        required_fields: true
     group_ste:
       children:
         - field_countrycode
@@ -97,7 +83,7 @@ bundle: service_provider
 mode: default
 content:
   field_accessibility_for_persons_:
-    type: options_select
+    type: options_buttons
     weight: 9
     region: content
     settings: {  }
@@ -122,7 +108,7 @@ content:
     region: content
     settings:
       size: 60
-      placeholder: 'Enter the Name of Focal Point for Referrals'
+      placeholder: ''
     third_party_settings: {  }
   field_email_backup_focal_point:
     type: string_textfield
@@ -160,7 +146,7 @@ content:
     region: content
     settings:
       size: 60
-      placeholder: ''
+      placeholder: 'Enter the Name of Focal Point for Referrals'
     third_party_settings: {  }
   field_number_of_staff_providing_:
     type: string_textfield
@@ -237,7 +223,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_transportation_available:
-    type: options_select
+    type: options_buttons
     weight: 8
     region: content
     settings: {  }
@@ -249,6 +235,11 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   created: true
