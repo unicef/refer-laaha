@@ -44,9 +44,11 @@
 		.popular-picture {
 			position: relative;
 		}
-		img {
+		amp-img {
+			aspect-ratio: calc(3/1);
 			border-radius: 20px;
-			width: 100%;
+			width: 100% !important;
+			height: 100% !important;
 		}
 	}
 	.search-content-title,
@@ -66,6 +68,10 @@
 			height: 24px;
 			padding: 2px;
 			width: 24px;
+
+			amp-img {
+				height: 100% !important;
+			}
 		}
 		span.cat-title {
 			padding-left: 8px;
