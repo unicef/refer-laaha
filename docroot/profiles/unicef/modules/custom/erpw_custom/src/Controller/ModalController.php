@@ -63,4 +63,13 @@ class ModalController extends ControllerBase {
     return $response;
   }
 
+  /**
+   * Dashboard page.
+   */
+  public function dashboardContent() {
+    return [
+      '#markup' => '',
+    ];
+  }
+
 }
