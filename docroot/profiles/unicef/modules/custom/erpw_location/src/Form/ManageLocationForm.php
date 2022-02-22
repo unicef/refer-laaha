@@ -199,9 +199,7 @@ class ManageLocationForm extends FormBase {
       foreach (array_reverse($upper_ancestors) as $key => $value) {
         $mylocation .= " " . $this->locationService->getTaxonomyTermById($value);
       }
-      if (!empty($upper_ancestors[0])) {
-        $country_tid = $upper_ancestors[0];
-      }
+
       if (!empty($upper_ancestors[0])) {
         $country_tid = $this->locationService->getLocationSingleEntityIdByTid($upper_ancestors[0]);
       }
@@ -249,9 +247,7 @@ class ManageLocationForm extends FormBase {
       $manager = $this->entityManager->getStorage('taxonomy_term');
       if (!$form_state->getUserInput()) {
         $location_tid = $upper_ancestors[0];
-        if (!empty($location_levels_tid)) {
-          $location_tid = $location_levels_tid;
-        }
+        $location_tid = !empty($location_levels_tid) ? $location_levels_tid : $location_tid;
       }
       $childs_check = $this->entityManager->getStorage('taxonomy_term')->loadChildren($location_tid);
       if (!empty($childs_check)) {
@@ -282,12 +278,10 @@ class ManageLocationForm extends FormBase {
         $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
         $ancestors = array_reverse(array_keys($ancestors));
         $location_details = '';
-        // Echo "<pre>"; print_r($ancestors);  print_r($location_levels);  die;.
         foreach ($location_levels as $key => $level) {
-          // Echo $key;.
           $level_data_name = "";
           $level_term = "";
-          if (!empty($ancestors[$key])) {
+          if (!empty($ancestors[$key + 1])) {
             $level_term = $this->entityManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
           }
           if (!empty($level_term)) {

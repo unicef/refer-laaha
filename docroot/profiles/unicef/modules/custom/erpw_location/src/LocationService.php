@@ -255,13 +255,8 @@ class LocationService {
    * Get location entities.
    */
   public function getLocationEntityByTid($tid) {
-    $location_options = $this->entityManager->getStorage('location')->loadByProperties(
-      ['field_location_taxonomy_term' => $tid]
-    );
-    foreach ($location_options as $location) {
-      $location_levels = $this->getLocationLevels($location->id());
-    }
-    return $location_levels;
+    $location_id = $this->getLocationSingleEntityIdByTid($tid);
+    return $this->getLocationLevels($location_id);
   }
 
   /**
@@ -270,12 +265,14 @@ class LocationService {
   public function getLocationSingleEntityIdByTid($tid) {
     $location_entity_id = "";
     $location_entity = $this->entityManager->getStorage('location')->loadByProperties(
-      ['field_location_taxonomy_term' => $tid, 'status' => 1]
+      [
+        'field_location_taxonomy_term' => $tid,
+        'status' => 1,
+        'type' => 'country',
+      ]
     );
     if (!empty($location_entity)) {
-      foreach ($location_entity as $location) {
-        $location_entity_id = $location->id();
-      }
+      $location_entity_id = array_keys($location_entity)[0];
     }
     return $location_entity_id;
   }
