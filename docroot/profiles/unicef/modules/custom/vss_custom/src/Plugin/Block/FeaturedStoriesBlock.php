@@ -65,7 +65,6 @@ class FeaturedStoriesBlock extends BlockBase implements ContainerFactoryPluginIn
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $domain = $this->domain->getActiveDomain()->id();
     $featured_stories = $this->getContentfromTags($term_id, $langcode, $domain);
-    dump($featured_stories);
     shuffle($featured_stories);
     $featured_stories = array_intersect_key($featured_stories, array_flip(array_slice(array_keys($featured_stories), 0, 6)));
     $count = count($featured_stories);
