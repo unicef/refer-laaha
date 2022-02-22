@@ -17,6 +17,7 @@ main {
   text-align: center;
   font-size: 1.125em;
   font-weight: 500;
+  margin: 0;
 }
 
 .link-text {
@@ -290,21 +291,34 @@ form .node-service-type-edit-form input[type=submit].button--primary,
 .select2-container {
   width: 100% !important;
 }
-.select2-container--default .select2-selection--multiple {
+.select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--single {
   border: 1px solid #F3C1BF !important;
   margin-top: 7px;
   padding: 6px 6px 8px !important;
 }
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
+.select2-container--default .select2-selection--multiple .select2-selection__choice,
+.select2-container--default .select2-selection--single .select2-selection__choice {
   background: #fff !important;
   border: 1px solid #F3C1BF !important;
   margin-top: 0 !important;
 }
-.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove,
+.select2-container--default .select2-selection--single .select2-selection__choice__remove {
   border-right: 1px solid #F3C1BF !important;
   color: #A85766 !important;
 }
-.select2-container--default.select2-container--focus .select2-selection--multiple {
+.select2-container--default .select2-selection--single {
+  height: inherit !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: inherit !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  display: none;
+}
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--focus .select2-selection--single {
   border: 1px solid #F3C1BF;
 }
 .select2-container--default .select2-results__option--selected {
@@ -936,7 +950,7 @@ header {
   margin-bottom: 10px;
 }
 [id^=block-erpw-main-menu] .menu-item a {
-  color: #A85766;
+  color: #A85766 !important;
   font-size: 16px;
   padding-left: 30px;
 }
