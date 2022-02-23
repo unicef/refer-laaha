@@ -16,7 +16,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Url;
+use Drupal\Core\Session\AccountProxyInterface;
 
 /**
  * Class for add location.
@@ -73,6 +73,13 @@ class AddLocationForm extends FormBase {
   protected $tid;
 
   /**
+   * The Current user service.
+   *
+   * @var Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
    * ManageLocation constructor.
    *
    * @param \Psr\Log\LoggerChannelFactory $logger
@@ -89,6 +96,8 @@ class AddLocationForm extends FormBase {
    *   The location service.
    * @param \Drupal\Core\Routing\UrlGeneratorInterface $url_generator
    *   The url generator.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   The current user.
    */
   public function __construct(LoggerChannelFactory $logger,
     Connection $connection,
@@ -96,15 +105,17 @@ class AddLocationForm extends FormBase {
     MessengerInterface $messenger,
     FormBuilderInterface $form_builder,
     LocationService $location_service,
-    UrlGeneratorInterface $url_generator) {
+    UrlGeneratorInterface $url_generator,
+    AccountProxyInterface $current_user) {
 
     $this->logger = $logger;
     $this->connection = $connection;
-    $this->entityManager = $entity_type_manager->getStorage('location');
+    $this->entityManager = $entity_type_manager;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
     $this->locationService = $location_service;
     $this->urlGenerator = $url_generator;
+    $this->currentUser = $current_user;
   }
 
   /**
@@ -118,7 +129,8 @@ class AddLocationForm extends FormBase {
       $container->get('messenger'),
       $container->get('form_builder'),
       $container->get('erpw_location.location_services'),
-      $container->get('url_generator')
+      $container->get('url_generator'),
+      $container->get('current_user'),
     );
   }
 
@@ -144,6 +156,23 @@ class AddLocationForm extends FormBase {
     $readonly_level3 = FALSE;
     $readonly_level4 = FALSE;
     if (!empty($location_options) && $id == "") {
+      $uid = $this->currentUser->id();
+      $current_user = $this->entityManager->getStorage('user')->load($uid);
+      if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission('add location of their own country')) {
+        if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
+          $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
+          $ptid = $this->locationService->getAllAncestors($location_id);
+          $ptid = reset($ptid);
+          foreach ($location_options as $key => $location) {
+            if ($key != $ptid) {
+              unset($location_options[$key]);
+            }
+          }
+        }
+        else {
+          unset($location_options);
+        }
+      }
       $form['location_options'] = [
         '#type' => 'select',
         '#options' => $location_options,
@@ -156,9 +185,7 @@ class AddLocationForm extends FormBase {
       ];
     }
     else {
-
       if (!empty($id)) {
-
         $ancestors = $this->locationService->getAllAncestors($id);
         $top_level = $this->locationService->getTaxonomyTermById($ancestors[0]);
         if (isset($ancestors[1])) {
@@ -228,7 +255,7 @@ class AddLocationForm extends FormBase {
     if ($form_state->getValue('location_options') != FALSE || !empty($id)) {
       if (empty($id)) {
         unset($form['top_wrapper']['all_wrapper']['intro_text']);
-        $location = $this->entityManager->load($form_state->getValue('location_options'));
+        $location = $this->entityManager->getStorage('location')->load($form_state->getValue('location_options'));
         $location_levels = $this->locationService->getLocationLevels($form_state->getValue('location_options'));
         $this->cid = $location->get('field_location_taxonomy_term')->target_id;
       }

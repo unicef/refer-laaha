@@ -2,7 +2,6 @@
 
 namespace Drupal\erpw_location\Form;
 
-use Drupal\Core\Url;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormStateInterface;
@@ -12,11 +11,11 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Link;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\erpw_location\LocationService;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
+use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\erpw_location\LocationService;
 
 /**
  * Class Manage Location Form.
@@ -52,9 +51,9 @@ class ManageLocationForm extends FormBase {
   protected $urlGenerator;
 
   /**
-   * Drupal\Core\Session\AccountInterface definition.
+   * The Current user service.
    *
-   * @var \Drupal\Core\Session\AccountInterface
+   * @var Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
 
@@ -94,14 +93,14 @@ class ManageLocationForm extends FormBase {
    *   The form_builder service.
    * @param \Drupal\Core\Routing\UrlGeneratorInterface $url_generator
    *   The url generator.
-   * @param \Drupal\Core\Session\AccountInterface $current_user
-   *   The current user.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager service.
-   * @param \Drupal\erpw_location\LocationService $location_service
-   *   The location service.
    * @param \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory
    *   The temp store factory.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   The current user.
+   * @param \Drupal\erpw_location\LocationService $location_service
+   *   The location service.
    */
   public function __construct(
     LoggerChannelFactory $logger,
@@ -110,10 +109,10 @@ class ManageLocationForm extends FormBase {
     MessengerInterface $messenger,
     FormBuilderInterface $form_builder,
     UrlGeneratorInterface $url_generator,
-    AccountInterface $current_user,
     LanguageManagerInterface $language_manager,
-    LocationService $location_service,
-    PrivateTempStoreFactory $temp_store_factory) {
+    PrivateTempStoreFactory $temp_store_factory,
+    AccountProxyInterface $current_user,
+    LocationService $location_service) {
 
     $this->logger = $logger;
     $this->connection = $connection;
@@ -121,10 +120,10 @@ class ManageLocationForm extends FormBase {
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
     $this->urlGenerator = $url_generator;
-    $this->currentUser = $current_user;
     $this->languageManager = $language_manager;
-    $this->locationService = $location_service;
     $this->tempStoreFactory = $temp_store_factory;
+    $this->currentUser = $current_user;
+    $this->locationService = $location_service;
   }
 
   /**
@@ -138,10 +137,10 @@ class ManageLocationForm extends FormBase {
       $container->get('messenger'),
       $container->get('form_builder'),
       $container->get('url_generator'),
-      $container->get('current_user'),
       $container->get('language_manager'),
-      $container->get('erpw_location.location_services'),
       $container->get('tempstore.private'),
+      $container->get('current_user'),
+      $container->get('erpw_location.location_services')
     );
   }
 
@@ -159,12 +158,11 @@ class ManageLocationForm extends FormBase {
     $current_uri = \Drupal::request()->getRequestUri();
     $store = $this->tempStoreFactory->get('erpw_location_collection');
     $store->set('location_redirect_url', $current_uri);
-
     $form['#attributes']['enctype'] = "multipart/form-data";
     $form['open_modal'] = [
       '#type' => 'link',
       '#title' => $this->t('Import'),
-      '#url' => Url::fromRoute('erpw_location.open_import_modal'),
+      '#url' => $this->urlGenerator->generateFromRoute('erpw_location.open_import_modal'),
       '#attributes' => [
         'class' => [
           'use-ajax',
@@ -183,15 +181,12 @@ class ManageLocationForm extends FormBase {
     $location_options = [];
     foreach ($location_entities as $location) {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
-
     }
     if (!$form_state->getUserInput()) {
-
       $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
       $location_value = $user->field_location_details->value;
       if (!empty($location_levels_tid)) {
         $location_value = $location_levels_tid;
-
       }
       $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($location_value);
       $upper_ancestors = array_reverse(array_keys($ancestors));
@@ -199,7 +194,6 @@ class ManageLocationForm extends FormBase {
       foreach (array_reverse($upper_ancestors) as $key => $value) {
         $mylocation .= " " . $this->locationService->getTaxonomyTermById($value);
       }
-
       if (!empty($upper_ancestors[0])) {
         $country_tid = $this->locationService->getLocationSingleEntityIdByTid($upper_ancestors[0]);
       }
