@@ -49,12 +49,12 @@ content:
     weight: 13
     region: content
   field_organisation:
-    type: string
+    type: entity_reference_label
     label: above
     settings:
-      link_to_entity: false
+      link: true
     third_party_settings: {  }
-    weight: 8
+    weight: 14
     region: content
   field_phone:
     type: string

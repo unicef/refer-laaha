@@ -1,17 +1,16 @@
-uuid: 9f5bd894-d5a3-4d5b-9b69-25ceb44caa0e
+uuid: 265b7f31-5b3f-4036-9a31-e7269e0629e8
 langcode: en
 status: true
 dependencies:
   module:
+    - node
     - user
 id: user.field_organisation
 field_name: field_organisation
 entity_type: user
-type: string
+type: entity_reference
 settings:
-  max_length: 255
-  is_ascii: false
-  case_sensitive: false
+  target_type: node
 module: core
 locked: false
 cardinality: 1
