@@ -1,0 +1,63 @@
+.service-provider-class {
+	border: 0;
+	margin: 30px 0 0;
+	padding: 0;
+	.fieldset-legend {
+		@extend .step;
+	}
+	[id^='edit-field-transportation-available-wrapper'],
+	[id^='edit-field-accessibility-for-persons-wrapper'] {
+		.fieldset-legend {
+			@extend label;
+		}
+		.form-type-radio {
+			border: 1px solid $border;
+			border-radius: 4px;
+			display: inline-block;
+			padding: 5px 10px;
+			margin-right: 20px;
+			&:first-child {
+				display: none;
+			}
+		}
+	}
+	[id^='edit-field-countrycode-wrapper'] {
+		display: inline-block;
+		margin-right: 10px;
+		max-width: 15%;
+		width: 100%;
+		.form-item {
+			margin-bottom: 0;
+		}
+	}
+	[id^='edit-field-phone-number-wrapper'] {
+		display: inline-block;
+		max-width: 50%;
+		width: 100%;
+		.form-item {
+			margin-bottom: 0;
+		}
+	}
+	
+}
+.node-service-provider-form {
+	.service-next-prev-button {
+		display: inline-block;
+		margin-top: 30px;
+		.button-border {
+			background: none;
+			border: 1px solid $base-secondary-bgcolor;
+			@include border-radius(4px);
+			color: $base-secondary-bgcolor;
+			display: inline-block;
+			font-size: 0.875em;
+			margin: 0 15px 1em 0;
+			padding: 10px 24px;
+			text-transform: uppercase;
+		}
+	}
+	.form-actions {
+		float: right;
+		margin-top: 30px;
+	}
+}

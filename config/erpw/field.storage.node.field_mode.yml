@@ -10,7 +10,10 @@ field_name: field_mode
 entity_type: node
 type: list_string
 settings:
-  allowed_values: {  }
+  allowed_values:
+    -
+      value: 'In person'
+      label: 'In person'
   allowed_values_function: ''
 module: options
 locked: false

@@ -7,6 +7,7 @@ dependencies:
   module:
     - comment
     - contact
+    - erpw_custom
     - filter
     - search
     - system
@@ -14,12 +15,13 @@ _core:
   default_config_hash: pq_mEIu_B4widZN7Ap81iCJSjShFFdcL0jEiCi8VrDk
 id: anonymous
 label: 'Anonymous user'
-weight: -3
+weight: -5
 is_admin: false
 permissions:
   - 'access comments'
   - 'access content'
   - 'access pwa'
   - 'access site-wide contact form'
+  - 'add new user'
   - 'search content'
   - 'use text format restricted_html'

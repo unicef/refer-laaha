@@ -32,7 +32,7 @@ body {
   background: #CD0000;
   color: #ffffff; }
   .exit-website-btn i {
-    padding-right: 12px; }
+    margin-right: 12px; }
 
 .footer-wrapper {
   background: #CB9CA1; }
@@ -74,7 +74,7 @@ body {
         display: -ms-flexbox;
         display: flex; }
         .block-menu-item-fieldsquick-links ul li > div > div {
-          padding-right: 12px; }
+          margin-right: 12px; }
       .block-menu-item-fieldsquick-links ul li a {
         font-size: 1.14em;
         font-family: Roboto;
@@ -218,11 +218,23 @@ ul.block-menu-item-fieldsfooter-last-menu {
       top: 32px; }
       .region-header #block-iraqnavigationheadermenu .discoverdd li,
       .region-header #block-navigationheadermenu .discoverdd li {
-        margin: 24px 16px;
+        margin: 16px;
         line-height: 24px; }
         .region-header #block-iraqnavigationheadermenu .discoverdd li a,
         .region-header #block-navigationheadermenu .discoverdd li a {
           font-weight: 400; }
+      .region-header #block-iraqnavigationheadermenu .discoverdd .field--type-image,
+      .region-header #block-navigationheadermenu .discoverdd .field--type-image {
+        -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+                flex: 0 0 auto;
+        width: 40px; }
+        .region-header #block-iraqnavigationheadermenu .discoverdd .field--type-image img,
+        .region-header #block-navigationheadermenu .discoverdd .field--type-image img {
+          background-color: #FFCDD233;
+          border-radius: 50%;
+          height: 40px;
+          width: 40px; }
     .region-header #block-iraqnavigationheadermenu > ul,
     .region-header #block-navigationheadermenu > ul {
       /*position: relative;*/
@@ -248,7 +260,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
           display: flex; }
           .region-header #block-iraqnavigationheadermenu > ul li > div > div,
           .region-header #block-navigationheadermenu > ul li > div > div {
-            padding-right: 12px; }
+            margin-right: 12px; }
         .region-header #block-iraqnavigationheadermenu > ul li a,
         .region-header #block-navigationheadermenu > ul li a {
           font-size: 1em;
@@ -313,7 +325,6 @@ ul.block-menu-item-fieldsfooter-last-menu {
       font-size: 0;
       float: left;
       background: url(../images/plus.png) no-repeat center center;
-      margin-top: 0;
       display: block;
       width: 14px;
       height: 14px;
@@ -590,8 +601,7 @@ body .absoluteclass {
 #readmore_article[aria-expanded="true"] {
   height: auto !important; }
 
-.breadcrumb img,
-.discoverdd .field--type-image img {
+.breadcrumb img {
   width: 24px;
   height: 24px;
   border-radius: 50%; }
