@@ -5,8 +5,12 @@
  * Contains erpw_pathway.module.
  */
 
+use Drupal\views\ViewExecutable;
+use Drupal\user\Entity\User;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+
 /**
- * Implements hook_preprocess_views_view_field().
+ * Implements erpw_pathway_preprocess_views_view_field() for eprw listing.
  */
 function erpw_pathway_preprocess_views_view_field(&$variables) {
   $view = $variables['view'];
@@ -24,4 +28,58 @@ function erpw_pathway_preprocess_views_view_field(&$variables) {
       $variables['output'] = implode(', ', $loc_name);
     }
   }
+}
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function erpw_pathway_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  if ($view->id() == "referral_pathway_on_homepage" && $view->current_display == 'block_1') {
+    $current_user = \Drupal::currentUser();
+    if ($current_user->hasPermission('view referral pathway of their own country')) {
+      $user_entity = User::load($current_user->id());
+      if ($user_entity->hasField('field_location_details') && !$user_entity->get('field_location_details')->isEmpty()) {
+        $location_id = $user_entity->get('field_location_details')->getValue()[0]['value'];
+        $ptids = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
+      }
+      // Getting zero level parent id.
+      $ptid = reset($ptids);
+      $tids = get_children_by_parent($ptid);
+      foreach ($query->where as &$condition_group) {
+        foreach ($condition_group['conditions'] as &$condition) {
+          if ($condition['field'] == 'node__field_location.field_location_target_id') {
+            $condition = [
+              'field' => 'node__field_location.field_location_target_id',
+              'value' => $tids,
+              'operator' => 'IN',
+            ];
+            break;
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Get children by parent id.
+ *
+ * @param int $ptid
+ *   The parent id.
+ *
+ * @return array
+ *   Return of children.
+ */
+function get_children_by_parent($ptid) {
+  $depth = NULL;
+  // True will return loaded entities rather than ids.
+  $load_entities = FALSE;
+  $child_terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('country', $ptid, $depth, $load_entities);
+  // Array to keep children tids including first parent id.
+  $terms = [$ptid];
+  foreach ($child_terms as $child_term) {
+    $terms[] = (int) $child_term->tid;
+  }
+
+  return $terms;
 }

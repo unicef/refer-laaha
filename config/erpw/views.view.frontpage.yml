@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.rss
-    - core.entity_view_mode.node.teaser
   module:
     - node
     - user
@@ -24,7 +23,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: ''
+      title: Home
       fields: {  }
       pager:
         type: full
@@ -98,7 +97,7 @@ display:
           plugin_id: title
           label: ''
           empty: true
-          title: 'Welcome to [site:name]'
+          title: Home
       sorts:
         sticky:
           id: sticky
@@ -238,7 +237,8 @@ display:
       row:
         type: 'entity:node'
         options:
-          view_mode: teaser
+          relationship: none
+          view_mode: default
       query:
         type: views_query
         options:
@@ -300,7 +300,8 @@ display:
     display_plugin: page
     position: 1
     display_options:
-      display_extenders: {  }
+      display_extenders:
+        library_in_views_display_extender: {  }
       path: node
     cache_metadata:
       max-age: -1
