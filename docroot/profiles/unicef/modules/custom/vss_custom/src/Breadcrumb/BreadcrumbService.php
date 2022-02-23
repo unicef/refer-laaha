@@ -137,8 +137,8 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
           $term_id = array_key_first($values);
         }
         $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($term_id);
-        $path = $term->toUrl()->getRouteName();
         if ($term) {
+          $path = $term->toUrl()->getRouteName();
           $parent = $this->entityTypeManager->getStorage('taxonomy_term')->load($term->parent->target_id);
           if ($parent) {
             $parent_path = $parent->toUrl()->getRouteName();
