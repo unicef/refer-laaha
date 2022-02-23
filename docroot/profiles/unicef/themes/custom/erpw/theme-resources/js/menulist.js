@@ -2,7 +2,7 @@
   'use strict';
   Drupal.behaviors.menu_list = {
   attach: function (context, settings) {
-    $('.menu-icon').click(function(){
+    $('.bottom-menu-icon').click(function(){
       $('[id^="block-erpw-main-menu"]').append("<span class='close-popup'></span>");
         $('[id^="block-erpw-main-menu"]').show();
         $('.overlay').show();

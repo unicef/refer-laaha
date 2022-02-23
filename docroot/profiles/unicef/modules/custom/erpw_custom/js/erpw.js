@@ -54,7 +54,8 @@
             });
             
             //Add select 2 for multiselect
-            $('.form-select[multiple=multiple]').select2();
+            $('.form-select.add_multiple').attr('multiple','multiple');
+            $('.form-select[multiple=multiple], .form-select.add_multiple').select2();
             
             //Home page country field
             if ($('.user-location').text().length > 0) {

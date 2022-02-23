@@ -17,6 +17,7 @@ main {
   text-align: center;
   font-size: 1.125em;
   font-weight: 500;
+  margin: 0;
 }
 
 .link-text {
@@ -287,24 +288,41 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   margin: 0;
 }
 
+.add_multiple + .select2-container .select2-selection__choice[title="Select 3 Label"] {
+  display: none;
+}
+
 .select2-container {
   width: 100% !important;
 }
-.select2-container--default .select2-selection--multiple {
+.select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--single {
   border: 1px solid #F3C1BF !important;
   margin-top: 7px;
-  padding: 6px 6px 8px !important;
+  padding: 5px 6px 7px !important;
 }
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
+.select2-container--default .select2-selection--multiple .select2-selection__choice,
+.select2-container--default .select2-selection--single .select2-selection__choice {
   background: #fff !important;
   border: 1px solid #F3C1BF !important;
   margin-top: 0 !important;
 }
-.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove,
+.select2-container--default .select2-selection--single .select2-selection__choice__remove {
   border-right: 1px solid #F3C1BF !important;
   color: #A85766 !important;
 }
-.select2-container--default.select2-container--focus .select2-selection--multiple {
+.select2-container--default .select2-selection--single {
+  height: inherit !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: inherit !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  display: none;
+}
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--focus .select2-selection--single {
   border: 1px solid #F3C1BF;
 }
 .select2-container--default .select2-results__option--selected {
@@ -570,14 +588,14 @@ footer {
 .menu--bottom-nav li.menu-item a.search-icon::before {
   background: url(../images/searchIcon.svg) no-repeat center center;
 }
-.menu--bottom-nav li.menu-item .menu-icon {
+.menu--bottom-nav li.menu-item .bottom-menu-icon {
   color: #ffffff;
   cursor: pointer;
   display: block;
   font-size: 8px;
   text-align: center;
 }
-.menu--bottom-nav li.menu-item .menu-icon::before {
+.menu--bottom-nav li.menu-item .bottom-menu-icon::before {
   background: url(../images/menu.svg) no-repeat center center;
   content: "";
   display: block;
@@ -637,12 +655,22 @@ header {
   padding: 0;
 }
 
+.dashboard {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 .dashboard .dashboard-link {
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
           box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
-  padding: 7px 10px;
+  padding: 14px 17px;
   margin-bottom: 32px;
+}
+.dashboard .dashboard-link span {
+  display: inline-block;
+  margin-right: 25px;
+  vertical-align: middle;
 }
 .dashboard .dashboard-link a {
   background: url("../images/arrow-right.svg") right center no-repeat;
@@ -936,7 +964,7 @@ header {
   margin-bottom: 10px;
 }
 [id^=block-erpw-main-menu] .menu-item a {
-  color: #A85766;
+  color: #A85766 !important;
   font-size: 16px;
   padding-left: 30px;
 }

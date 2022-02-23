@@ -1,9 +1,12 @@
 uuid: 43b193e8-d0d0-4f90-99ff-2d4803a6c8b9
 langcode: sn
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - erpw_custom
 id: service_provider_staff
 label: 'Service Provider/ Staff'
-weight: -5
+weight: -3
 is_admin: null
-permissions: {  }
+permissions:
+  - 'view dashboard'

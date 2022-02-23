@@ -239,13 +239,19 @@ form input[type=submit] {
 }
 
 //select 2 common styling
+.add_multiple + .select2-container {
+	.select2-selection__choice[title='Select 3 Label'] {
+		display: none;
+	}
+}
 .select2-container {
 	width: 100% !important;
 	&--default {
-		.select2-selection--multiple {
+		.select2-selection--multiple,
+		.select2-selection--single {
 			border: 1px solid #F3C1BF !important;
 			margin-top: 7px;
-			padding: 6px 6px 8px !important;
+			padding: 5px 6px 7px !important;
 			.select2-selection__choice {
 				background: #fff !important;
 				border: 1px solid #F3C1BF !important;
@@ -256,8 +262,18 @@ form input[type=submit] {
 				}
 			}
 		}
+		.select2-selection--single {
+			height: inherit !important;
+			.select2-selection__rendered {
+				line-height: inherit !important;
+			}
+			.select2-selection__arrow {
+				display: none;
+			}
+		}
 		&.select2-container--focus {
-			.select2-selection--multiple {
+			.select2-selection--multiple,
+			.select2-selection--single {
 				border: 1px solid #F3C1BF;
 			}
 		}
