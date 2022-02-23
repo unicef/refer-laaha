@@ -3369,9 +3369,11 @@ form.location-form .form-item .description {
 .view-search .search-content-image .popular-picture {
   position: relative;
 }
-.view-search .search-content-image img {
+.view-search .search-content-image amp-img {
+  aspect-ratio: 3;
   border-radius: 20px;
-  width: 100%;
+  width: 100% !important;
+  height: 100% !important;
 }
 .view-search .search-content-title,
 .view-search .search-content-cat {
@@ -3395,6 +3397,10 @@ form.location-form .form-item .description {
   height: 24px;
   padding: 2px;
   width: 24px;
+}
+.view-search .search-content-title .cat-icon amp-img,
+.view-search .search-content-cat .cat-icon amp-img {
+  height: 100% !important;
 }
 .view-search .search-content-title span.cat-title,
 .view-search .search-content-cat span.cat-title {
