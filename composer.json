@@ -57,6 +57,7 @@
         "drupal/domain_lang": "1.x-dev@dev",
         "drupal/domain_language_negotiation": "3.0.x-dev@dev",
         "drupal/dropzonejs": "^2.5",
+        "drupal/email_tfa": "^1.0",
         "drupal/entity_browser": "^2.6",
         "drupal/entity_pdf": "^2.0",
         "drupal/entity_usage": "^2.0@beta",
@@ -239,7 +240,10 @@
             },
             "drupal/better_exposed_filters_jquery":{
                 "jquery ui library":"https://www.drupal.org/files/issues/2021-11-17/jquery-touch-punch_3159222_73.patch"
-            }
+            },
+            "drupal/email_tfa": {
+                "Athentication form": "patches/email_tfa.patch"
+            }    
         }
     }
 }

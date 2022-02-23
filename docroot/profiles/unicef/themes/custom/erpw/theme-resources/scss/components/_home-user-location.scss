@@ -44,9 +44,11 @@
 		text-transform: capitalize;
 	}
 }
-
 .user-location-form {
 	input[type=submit].use-ajax.arrow-btn {
 		background-position: calc(50% + 50px) center;
 	}
+}
+.user-change-link {
+	@extend .block-select-user-location;
 }

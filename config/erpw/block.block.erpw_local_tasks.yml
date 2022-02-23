@@ -12,14 +12,14 @@ _core:
 id: erpw_local_tasks
 theme: erpw
 region: content
-weight: -6
+weight: -7
 provider: null
 plugin: local_tasks_block
 settings:
   id: local_tasks_block
   label: Tabs
-  provider: core
   label_display: '0'
+  provider: core
   primary: false
   secondary: false
 visibility:
@@ -29,8 +29,8 @@ visibility:
     pages: /user/login
   node_type:
     id: node_type
-    bundles:
-      service_type: service_type
     negate: false
     context_mapping:
       node: '@node.node_route_context:node'
+    bundles:
+      service_type: service_type

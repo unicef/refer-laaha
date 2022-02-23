@@ -7,6 +7,7 @@ dependencies:
     - node.type.referral_path_way
     - user.role.administrator
     - user.role.country_admin
+    - user.role.interagency_gbv_coordinator
     - user.role.super_admin
   module:
     - content_translation
@@ -347,6 +348,7 @@ display:
             administrator: administrator
             super_admin: super_admin
             country_admin: country_admin
+            interagency_gbv_coordinator: interagency_gbv_coordinator
       cache:
         type: tag
         options: {  }
