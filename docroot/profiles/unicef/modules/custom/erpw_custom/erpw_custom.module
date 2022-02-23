@@ -201,8 +201,8 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     $form['next_link'] = [
       '#type' => 'markup',
-      '#markup' => "<div class = 'prev-btn hidden button button--primary'>" . t('Prev') . "</div>
-        <div class='next-btn button button--primary'>" . t('Next') . "</div>",
+      '#markup' => "<div class = 'prev-btn hidden button--primary'><span class='button-border'>" . t('Prev') . "</span></div>
+        <div class='next-btn button--primary'><span class='button-border'>" . t('Next') . "</div>",
       '#prefix' => "<div class = 'service-next-prev-button'>",
       '#suffix' => "</div>",
       '#weight' => 10,

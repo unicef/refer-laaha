@@ -43,7 +43,6 @@ third_party_settings:
         - field_transportation_available
         - field_accessibility_for_persons_
         - field_age_group
-        - field_mode
         - field_target_group
       label: 'Step 1: Add service Details'
       region: content
@@ -60,6 +59,7 @@ third_party_settings:
       children:
         - field_countrycode
         - field_phone_number
+        - field_mode
         - field_name_focalpoint_referrals
         - field_phone_number_of_focal_poin
         - field_email_of_focal_point
@@ -112,7 +112,7 @@ content:
     third_party_settings: {  }
   field_email_backup_focal_point:
     type: string_textfield
-    weight: 21
+    weight: 22
     region: content
     settings:
       size: 60
@@ -120,7 +120,7 @@ content:
     third_party_settings: {  }
   field_email_of_focal_point:
     type: string_textfield
-    weight: 18
+    weight: 19
     region: content
     settings:
       size: 60
@@ -128,13 +128,13 @@ content:
     third_party_settings: {  }
   field_mode:
     type: options_select
-    weight: 11
+    weight: 16
     region: content
     settings: {  }
     third_party_settings: {  }
   field_name_backup_focalpoint_ref:
     type: string_textfield
-    weight: 19
+    weight: 20
     region: content
     settings:
       size: 60
@@ -142,7 +142,7 @@ content:
     third_party_settings: {  }
   field_name_focalpoint_referrals:
     type: string_textfield
-    weight: 16
+    weight: 17
     region: content
     settings:
       size: 60
@@ -182,7 +182,7 @@ content:
     third_party_settings: {  }
   field_phone_number_backup_focalp:
     type: string_textfield
-    weight: 20
+    weight: 21
     region: content
     settings:
       size: 60
@@ -190,31 +190,23 @@ content:
     third_party_settings: {  }
   field_phone_number_of_focal_poin:
     type: string_textfield
-    weight: 17
+    weight: 18
     region: content
     settings:
       size: 60
       placeholder: 'Enter the Phone Number of Focal Point for Referrals'
     third_party_settings: {  }
   field_select_organisation:
-    type: entity_reference_autocomplete
+    type: options_select
     weight: 3
     region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: 'Select a Organisation '
+    settings: {  }
     third_party_settings: {  }
   field_service_type:
-    type: entity_reference_autocomplete
+    type: options_select
     weight: 2
     region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: 'Select a service type'
+    settings: {  }
     third_party_settings: {  }
   field_target_group:
     type: options_select

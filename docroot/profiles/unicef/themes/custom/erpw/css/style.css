@@ -416,7 +416,8 @@ form .form-actions .signup-next {
   width: auto;
 }
 
-label {
+label, .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend {
   color: #A85766;
   font-size: 0.75em;
   font-weight: 500;
@@ -734,7 +735,9 @@ header {
   word-break: break-word;
   width: 100%;
 }
-.delete-screen label,
+.delete-screen label, .delete-screen .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .delete-screen .fieldset-legend,
+.delete-screen .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .delete-screen .fieldset-legend,
 .delete-screen .label-text {
   color: #A85766;
   display: -webkit-inline-box;
@@ -1007,11 +1010,17 @@ header {
   position: absolute;
   opacity: 0;
 }
-.path-select-language input[type=radio]:checked + label, .path-select-language input[type=radio]:hover + label {
+.path-select-language input[type=radio]:checked + label, .path-select-language .service-provider-class [id^=edit-field-transportation-available-wrapper] input[type=radio]:checked + .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .path-select-language input[type=radio]:checked + .fieldset-legend,
+.path-select-language .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] input[type=radio]:checked + .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .path-select-language input[type=radio]:checked + .fieldset-legend, .path-select-language input[type=radio]:hover + label, .path-select-language .service-provider-class [id^=edit-field-transportation-available-wrapper] input[type=radio]:hover + .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .path-select-language input[type=radio]:hover + .fieldset-legend,
+.path-select-language .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] input[type=radio]:hover + .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .path-select-language input[type=radio]:hover + .fieldset-legend {
   background: #A85766;
   color: #ffffff;
 }
-.path-select-language input[type=radio] + label {
+.path-select-language input[type=radio] + label, .path-select-language .service-provider-class [id^=edit-field-transportation-available-wrapper] input[type=radio] + .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .path-select-language input[type=radio] + .fieldset-legend,
+.path-select-language .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] input[type=radio] + .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .path-select-language input[type=radio] + .fieldset-legend {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -1353,7 +1362,7 @@ header {
   margin: 0 0 40px;
 }
 
-.step {
+.step, .service-provider-class .fieldset-legend {
   font-size: 1em;
   color: #444;
 }
@@ -1465,15 +1474,35 @@ header {
   text-align: center;
 }
 
-.node-service-type-form label,
+.node-service-type-form label, .node-service-type-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-form .fieldset-legend,
+.node-service-type-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-form .fieldset-legend,
 .node-service-type-quick-node-clone-form label,
-.node-service-type-edit-form label {
+.node-service-type-quick-node-clone-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-quick-node-clone-form .fieldset-legend,
+.node-service-type-quick-node-clone-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-quick-node-clone-form .fieldset-legend,
+.node-service-type-edit-form label,
+.node-service-type-edit-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-edit-form .fieldset-legend,
+.node-service-type-edit-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-edit-form .fieldset-legend {
   vertical-align: top;
   margin-top: -15px;
 }
-.node-service-type-form label.form-required::after,
+.node-service-type-form label.form-required::after, .node-service-type-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .form-required.fieldset-legend::after, .service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-form .form-required.fieldset-legend::after,
+.node-service-type-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .form-required.fieldset-legend::after,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-form .form-required.fieldset-legend::after,
 .node-service-type-quick-node-clone-form label.form-required::after,
-.node-service-type-edit-form label.form-required::after {
+.node-service-type-quick-node-clone-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .form-required.fieldset-legend::after,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-quick-node-clone-form .form-required.fieldset-legend::after,
+.node-service-type-quick-node-clone-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .form-required.fieldset-legend::after,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-quick-node-clone-form .form-required.fieldset-legend::after,
+.node-service-type-edit-form label.form-required::after,
+.node-service-type-edit-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .form-required.fieldset-legend::after,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-edit-form .form-required.fieldset-legend::after,
+.node-service-type-edit-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .form-required.fieldset-legend::after,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-edit-form .form-required.fieldset-legend::after {
   content: "";
 }
 .node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield,
@@ -1487,12 +1516,34 @@ header {
   border-radius: 10px;
   margin: 45px 0 0;
 }
-.node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield label,
+.node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield label, .node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield .fieldset-legend,
+.node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield .fieldset-legend,
 .node-service-type-form .field--type-color-field-type .form-wrapper label,
+.node-service-type-form .field--type-color-field-type .form-wrapper .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-form .field--type-color-field-type .form-wrapper .fieldset-legend,
+.node-service-type-form .field--type-color-field-type .form-wrapper .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-form .field--type-color-field-type .form-wrapper .fieldset-legend,
 .node-service-type-quick-node-clone-form .field--name-field-service-type-icon .js-form-type-textfield label,
+.node-service-type-quick-node-clone-form .field--name-field-service-type-icon .js-form-type-textfield .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-quick-node-clone-form .field--name-field-service-type-icon .js-form-type-textfield .fieldset-legend,
+.node-service-type-quick-node-clone-form .field--name-field-service-type-icon .js-form-type-textfield .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-quick-node-clone-form .field--name-field-service-type-icon .js-form-type-textfield .fieldset-legend,
 .node-service-type-quick-node-clone-form .field--type-color-field-type .form-wrapper label,
+.node-service-type-quick-node-clone-form .field--type-color-field-type .form-wrapper .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-quick-node-clone-form .field--type-color-field-type .form-wrapper .fieldset-legend,
+.node-service-type-quick-node-clone-form .field--type-color-field-type .form-wrapper .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-quick-node-clone-form .field--type-color-field-type .form-wrapper .fieldset-legend,
 .node-service-type-edit-form .field--name-field-service-type-icon .js-form-type-textfield label,
-.node-service-type-edit-form .field--type-color-field-type .form-wrapper label {
+.node-service-type-edit-form .field--name-field-service-type-icon .js-form-type-textfield .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-edit-form .field--name-field-service-type-icon .js-form-type-textfield .fieldset-legend,
+.node-service-type-edit-form .field--name-field-service-type-icon .js-form-type-textfield .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-edit-form .field--name-field-service-type-icon .js-form-type-textfield .fieldset-legend,
+.node-service-type-edit-form .field--type-color-field-type .form-wrapper label,
+.node-service-type-edit-form .field--type-color-field-type .form-wrapper .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-edit-form .field--type-color-field-type .form-wrapper .fieldset-legend,
+.node-service-type-edit-form .field--type-color-field-type .form-wrapper .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-edit-form .field--type-color-field-type .form-wrapper .fieldset-legend {
   font-weight: 400;
 }
 .node-service-type-form .field--type-color-field-type .form-wrapper .form-item,
@@ -1819,9 +1870,19 @@ header {
   height: 24px;
 }
 
-div.color_field__swatch label:hover span,
+div.color_field__swatch label:hover span, div.color_field__swatch .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend:hover span, .service-provider-class [id^=edit-field-transportation-available-wrapper] div.color_field__swatch .fieldset-legend:hover span,
+div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend:hover span,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] div.color_field__swatch .fieldset-legend:hover span,
 div.color_field__swatch input[type=checkbox]:checked + label span,
-div.color_field__swatch input[type=radio]:checked + label span {
+div.color_field__swatch .service-provider-class [id^=edit-field-transportation-available-wrapper] input[type=checkbox]:checked + .fieldset-legend span,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] div.color_field__swatch input[type=checkbox]:checked + .fieldset-legend span,
+div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] input[type=checkbox]:checked + .fieldset-legend span,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] div.color_field__swatch input[type=checkbox]:checked + .fieldset-legend span,
+div.color_field__swatch input[type=radio]:checked + label span,
+div.color_field__swatch .service-provider-class [id^=edit-field-transportation-available-wrapper] input[type=radio]:checked + .fieldset-legend span,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] div.color_field__swatch input[type=radio]:checked + .fieldset-legend span,
+div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] input[type=radio]:checked + .fieldset-legend span,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] div.color_field__swatch input[type=radio]:checked + .fieldset-legend span {
   border: 0;
   -webkit-transform: inherit;
           transform: inherit;
@@ -1913,6 +1974,65 @@ div.color_field__swatch input[type=radio]:checked + label span {
 }
 .view-user-lists .view-content {
   margin-top: 40px;
+}
+
+.service-provider-class {
+  border: 0;
+  margin: 30px 0 0;
+  padding: 0;
+}
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .form-type-radio,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .form-type-radio {
+  border: 1px solid #F3C1BF;
+  border-radius: 4px;
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 20px;
+}
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .form-type-radio:first-child,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .form-type-radio:first-child {
+  display: none;
+}
+.service-provider-class [id^=edit-field-countrycode-wrapper] {
+  display: inline-block;
+  margin-right: 10px;
+  max-width: 15%;
+  width: 100%;
+}
+.service-provider-class [id^=edit-field-countrycode-wrapper] .form-item {
+  margin-bottom: 0;
+}
+.service-provider-class [id^=edit-field-phone-number-wrapper] {
+  display: inline-block;
+  max-width: 50%;
+  width: 100%;
+}
+.service-provider-class [id^=edit-field-phone-number-wrapper] .form-item {
+  margin-bottom: 0;
+}
+
+.node-service-provider-form .service-next-prev-button {
+  display: inline-block;
+  margin-top: 30px;
+}
+.node-service-provider-form .service-next-prev-button .button-border, .node-service-provider-form .service-next-prev-button .node-service-type-form .button--primary, .node-service-type-form .node-service-provider-form .service-next-prev-button .button--primary,
+.node-service-provider-form .service-next-prev-button .node-service-type-quick-node-clone-form .button--primary,
+.node-service-type-quick-node-clone-form .node-service-provider-form .service-next-prev-button .button--primary,
+.node-service-provider-form .service-next-prev-button .node-service-type-edit-form .button--primary,
+.node-service-type-edit-form .node-service-provider-form .service-next-prev-button .button--primary {
+  background: none;
+  border: 1px solid #A85766;
+  border-radius: 4px;
+  color: #A85766;
+  display: inline-block;
+  font-size: 0.875em;
+  margin: 0 15px 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+}
+.node-service-provider-form .form-actions {
+  float: right;
+  margin-top: 30px;
 }
 
 body.path-user {
