@@ -161,19 +161,21 @@ class SignUpForm extends FormBase {
       '#default_value' => $form_state->getValue('phone', ''),
     ];
 
-    $organisation = [
-      'srijan' => 'Srijan',
-      'Infosys' => 'Infosys',
-      'wipro' => 'Wipro',
-    ];
-
     $form['organisation'] = [
-      '#type' => 'select',
-      '#options' => $organisation,
-      '#empty_option' => $this->t('Select organization'),
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'node',
       '#title' => $this->t('Organisation'),
       '#required' => TRUE,
-      '#default_value' => $form_state->getValue('organisation', ''),
+      '#placeholder' => $this->t('Select Organisation'),
+      '#selection_settings' => [
+        'target_bundles' => ['organisation'],
+        'sort' => [
+          'field' => 'title',
+          'direction' => 'ASC',
+        ],
+        'match_operator' => 'STARTS_WITH',
+        'match_limit' => 10,
+      ],
     ];
 
     $form['position'] = [
