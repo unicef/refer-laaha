@@ -98,13 +98,10 @@ class UserLocationForm extends LocationListForm {
           'arrow-btn',
         ],
       ],
-<<<<<<< HEAD
     ];
     $form['location_level_page'] = [
       '#type' => 'hidden',
       '#value' => $page,
-=======
->>>>>>> eff06825 (NCF-1059: select country location mgt)
     ];
     return $form;
   }
