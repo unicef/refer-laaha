@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.service_provider.body
     - field.field.node.service_provider.field_city
     - field.field.node.service_provider.field_country
     - field.field.node.service_provider.field_description
@@ -35,6 +36,7 @@ content:
     weight: 100
     region: content
 hidden:
+  body: true
   field_city: true
   field_country: true
   field_description: true
