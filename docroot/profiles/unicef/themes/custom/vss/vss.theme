@@ -165,3 +165,13 @@ function vss_preprocess_paragraph(&$variables) {
       break;
   }
 }
+
+/**
+ * Implements preprocess_HOOK for html ()
+ */
+function vss_preprocess_html(&$variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name === 'email_tfa.verifiy') {
+    $variables['page_top']['toolbar'] = [];
+  }
+}

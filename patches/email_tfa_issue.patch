@@ -1,3 +1,23 @@
+diff --git a/email_tfa.module b/email_tfa.module
+index a9299c9..3e79778 100644
+--- a/email_tfa.module
++++ b/email_tfa.module
+@@ -130,9 +130,9 @@ function _email_tfa_user_current_status() {
+  *
+  * Suppress the admin toolbar on the email code verification page.
+  */
+-function email_tfa_toolbar_alter(&$items) {
+-  $route_name = \Drupal::routeMatch()->getRouteName();
+-  if ($route_name === 'email_tfa.verifiy') {
+-    $items = [];
+-  }
+-}
++// function email_tfa_toolbar_alter(&$items) {
++//   $route_name = \Drupal::routeMatch()->getRouteName();
++//   if ($route_name === 'email_tfa.verifiy') {
++//     $items = [];
++//   }
++// }
 diff --git a/src/Form/EmailTfaVerifyForm.php b/src/Form/EmailTfaVerifyForm.php
 index 0c4b599..1f4d1fe 100644
 --- a/src/Form/EmailTfaVerifyForm.php
