@@ -8,8 +8,3 @@ services:
     arguments: ['@entity_type.manager', '@request_stack', '@router.admin_context']
     tags:
       - { name: breadcrumb_builder, priority: 1004 }
-
-  vss_custom.response_header:
-    class: 'Drupal\vss_custom\EventSubscriber\HeaderResponse'
-    tags:
-      - { name: event_subscriber }
