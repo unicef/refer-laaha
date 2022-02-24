@@ -11,6 +11,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Link;
+use Drupal\Core\Url;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
@@ -155,20 +156,22 @@ class ManageLocationForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $country_tid = "", $location_levels_tid = "") {
-    $current_uri = \Drupal::request()->getRequestUri();
+    $current_uri = $this->getRequest()->getRequestUri();
     $store = $this->tempStoreFactory->get('erpw_location_collection');
     $store->set('location_redirect_url', $current_uri);
     $form['#attributes']['enctype'] = "multipart/form-data";
-    $form['open_modal'] = [
-      '#type' => 'link',
-      '#title' => $this->t('Import'),
-      '#url' => $this->urlGenerator->generateFromRoute('erpw_location.open_import_modal'),
-      '#attributes' => [
+    $url = Url::fromRoute('erpw_location.open_import_modal', [], [
+      'attributes' => [
         'class' => [
           'use-ajax',
           'button',
         ],
       ],
+    ]);
+    $link = Link::fromTextAndUrl($this->t('Import'), $url)->toString();
+    $form['open_modal'] = [
+      '#type' => 'markup',
+      '#markup' => $link,
     ];
     $form['export_csv'] = [
       '#type' => 'submit',
