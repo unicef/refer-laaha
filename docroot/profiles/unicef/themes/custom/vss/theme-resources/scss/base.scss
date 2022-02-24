@@ -90,8 +90,10 @@ ul.block-menu-item-fieldsfooter-last-menu {
     @include flex-ul;
 
     li {
-      flex-grow: 1;
+      align-items: center;
+      display: flex;
       flex-basis: auto;
+      flex-grow: 1;
       text-align: center;
 
       &:first-child {
