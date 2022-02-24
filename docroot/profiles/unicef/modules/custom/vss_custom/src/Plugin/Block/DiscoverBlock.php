@@ -131,6 +131,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
               }
               if (!$node->get('field_thumbnail_image')->isEmpty()) {
                 $thumbnail_img = $node->get('field_thumbnail_image')->entity->getFileUri();
+                $thumbnail_alt = $node->get('field_thumbnail_image')->getValue()[0]['alt'];
               }
 
               if ($node) {
@@ -140,6 +141,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
                   'node_name' => $node->getTitle(),
                   'node_url' => $node_url,
                   'thumbnail_img' => $thumbnail_img,
+                  'thumbnail_alt' => $thumbnail_alt,
                   'node_type' => $node_type,
                   'node_read_time' => $node_read_time,
                   'paragraph_video_time' => $paragraph_video_time,
@@ -164,6 +166,7 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
           'color' => $val->get('field_category_color')->getValue()[0]['color'],
           'cat_uri' => $val->get('path')->alias,
           'icon' => $val->get('field_icon')->entity->getFileUri(),
+          'icon_alt' => $val->get('field_icon')->getValue()[0]['alt'],
           'description' => $val->get('description')->getValue()[0]['value'],
         ];
       }
