@@ -106,8 +106,9 @@ function erpw_preprocess_user(&$variables) {
     $ancestors_prev = \Drupal::service('erpw_location.location_services')->getAllAncestors($tid_array[0]);
     $ancestors = array_reverse($ancestors_prev);
     foreach ($ancestors as $key => $value) {
-      $location .= " " . \Drupal::service('erpw_location.location_services')->getTaxonomyTermById($value);
+      $location .= " " . \Drupal::service('erpw_location.location_services')->getTaxonomyTermById($value) . ", ";
     }
+    $location = substr(trim($location), 0, -1);
   }
   $variables['location'] = $location;
 }

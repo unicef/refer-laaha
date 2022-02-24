@@ -8,6 +8,7 @@ dependencies:
     - field.field.user.user.field_domain_all_affiliates
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
+    - field.field.user.user.field_location
     - field.field.user.user.field_location_details
     - field.field.user.user.field_organisation
     - field.field.user.user.field_phone
@@ -69,6 +70,16 @@ content:
       size: 60
       placeholder: 'Enter last name'
     third_party_settings: {  }
+  field_location:
+    type: entity_reference_autocomplete
+    weight: 53
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_location_details:
     type: string_textfield
     weight: 51
@@ -78,12 +89,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_organisation:
-    type: string_textfield
-    weight: 4
+    type: entity_reference_autocomplete
+    weight: 52
     region: content
     settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
-      placeholder: 'Select organisation '
+      placeholder: ''
     third_party_settings: {  }
   field_phone:
     type: string_textfield

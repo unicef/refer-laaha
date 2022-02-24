@@ -92,6 +92,7 @@ class RelatedContentAjaxController extends ControllerBase {
     $query->condition('field_domain_access', $this->domainNegotiator->getActiveDomain()->id());
     $query->addTag('sort_by_random');
     $result = $query->execute();
+    $output = [];
     if ($result) {
       $nodes = $this->entityTypeManager->getStorage('node')->loadMultiple($result);
       $data = [];
