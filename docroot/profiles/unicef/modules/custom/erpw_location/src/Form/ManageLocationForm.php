@@ -197,8 +197,13 @@ class ManageLocationForm extends FormBase {
       if (!empty($upper_ancestors[0])) {
         $country_tid = $this->locationService->getLocationSingleEntityIdByTid($upper_ancestors[0]);
       }
-      $link = Link::createFromRoute($this->t('Click to change location'), 'erpw_location.user_location_manage',
-      ['id' => $country_tid, 'page' => 'location'])->toString();
+      if(!empty($country_tid)) {
+        $link = Link::createFromRoute($this->t('Click to change location'), 'erpw_location.user_location_manage',
+        ['id' => $country_tid, 'page' => 'location'])->toString();
+      }
+      else {
+        $link = "";
+      }
       $form['change_country_link'] = [
         '#markup' => $link,
       ];
