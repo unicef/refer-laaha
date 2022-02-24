@@ -83,11 +83,12 @@
 
 {{ attach_library('unicef_iconpicker/unicef-icons')}}
 
-<div class="delete-screen">
-  <div class="detail-row">
+<div class="service-listing">
+  <div class="listing-detail">
     <label style="background-color:  {{ node.field_service_type_color.entity.field_service_type_color.color }}">
       <i class="{{ node.field_service_type_icon.entity.field_service_type_icon.value }}"></i>
     </label>
-    <span>{{ node.title.value }}</span>
+    <span class="service-title">
+     <a href="{{ path('entity.node.canonical', {'node': node.nid.value }) }}">{{ node.title.value }}</a></span>
   </div>
 </div>
