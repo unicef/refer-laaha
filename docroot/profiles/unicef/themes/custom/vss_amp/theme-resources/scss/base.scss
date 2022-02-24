@@ -923,15 +923,18 @@ body {
         left: calc(50% - 28px);
       }
 
+      .recommended-thumbnail {
+        position: relative;
+      }
+
       .recomended-images {
         border-radius: 20px;
         width: 100%;
         height: 168px;
       }
 
-      span {
+      .r-title {
         display: block;
-        width: 82%;
         margin-top: 15px;
 
         a {
