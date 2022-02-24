@@ -84,15 +84,6 @@
   {% endif %}
   {% if footer %}
     <div class="view-footer">
-      <p>
-        {{ 'If you belong to a GBV service provider organisation'|t }},
-        {% if logged_in %}
-          <a href="{{ path('node.add', {'node_type': 'service_provider'}) }}">{{ 'click here'|t }}</a>
-        {% else %}
-          <a href="{{ path('user.login') }}">{{ 'click here'|t }}</a>
-        {% endif %}
-        {{ 'to add your service'|t }}.
-      </p>
       {{ footer }}
     </div>
   {% endif %}

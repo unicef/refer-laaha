@@ -20,6 +20,10 @@ main {
   margin: 0;
 }
 
+.path-frontpage {
+  background: #FFFDFD;
+}
+
 .link-text {
   color: #A85766;
   font-size: 14px;
@@ -267,7 +271,7 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   border: 1px solid #F3C1BF !important;
   border-radius: 5px;
   height: 194px;
-  max-width: 77%;
+  width: calc(100% - 40px) !important;
   overflow-y: scroll;
 }
 .ui-autocomplete li {
@@ -759,6 +763,108 @@ header {
   display: inline-flex;
   height: 27px;
   width: 26px;
+}
+
+.view-referral-pathway-on-homepage {
+  margin: 35px 0 50px;
+}
+.view-referral-pathway-on-homepage .row-listing {
+  -webkit-box-shadow: 0px 1px 4px rgba(68, 25, 39, 0.14);
+          box-shadow: 0px 1px 4px rgba(68, 25, 39, 0.14);
+  border-radius: 20px;
+  margin: -30px 0 0 16px;
+}
+.view-referral-pathway-on-homepage .section-title {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 13px 26px;
+}
+.view-referral-pathway-on-homepage .service-listing {
+  border-top: 0.5px solid #ECECEC;
+}
+.view-referral-pathway-on-homepage .views-row {
+  margin: 0 20px 0 0;
+  padding-bottom: 40px;
+  border-left: 1px dashed #CD0000;
+}
+.view-referral-pathway-on-homepage .views-row::before {
+  background: #CD0000;
+  border: 2px solid #CD0000;
+}
+.view-referral-pathway-on-homepage .views-row:last-child {
+  padding-bottom: 0;
+}
+.view-referral-pathway-on-homepage .views-row:nth-child(1) {
+  border-left: 1px dashed #CD0000;
+}
+.view-referral-pathway-on-homepage .views-row:nth-child(1)::before {
+  background: #CD0000;
+  border: 2px solid #CD0000;
+}
+.view-referral-pathway-on-homepage .views-row:nth-child(2) {
+  border-left: 1px dashed #03B2F3;
+}
+.view-referral-pathway-on-homepage .views-row:nth-child(2)::before {
+  background: #DFF2F9;
+  border: 2px solid #03B2F3;
+}
+.view-referral-pathway-on-homepage .views-row:nth-child(3) {
+  border-left: 1px dashed #55BC3F;
+}
+.view-referral-pathway-on-homepage .views-row:nth-child(3)::before {
+  background: #EFFFEC;
+  border: 2px solid #55BC3F;
+}
+.view-referral-pathway-on-homepage .views-row::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  border-radius: 50%;
+  margin-left: -8px;
+}
+.view-referral-pathway-on-homepage .listing-detail {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 13px 26px;
+}
+.view-referral-pathway-on-homepage .listing-detail label, .view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend,
+.view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  height: 40px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-right: 14px;
+  text-align: center;
+  width: 40px;
+}
+.view-referral-pathway-on-homepage .listing-detail label .uf:before, .view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend .uf:before, .service-provider-class [id^=edit-field-transportation-available-wrapper] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend .uf:before,
+.view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend .uf:before,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend .uf:before {
+  font-size: 18px;
+}
+.view-referral-pathway-on-homepage .listing-detail .service-title {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  font-size: 12px;
+  width: calc(100% - 60px);
+}
+.view-referral-pathway-on-homepage .listing-detail .service-title a {
+  color: #A85766;
 }
 
 .block-select-user-location, .user-change-link {
