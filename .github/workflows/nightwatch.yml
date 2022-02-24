@@ -6,7 +6,7 @@ name: Nightwatch tests
 on:
   # Triggers the workflow on push or pull request events but only for the dev branch
   pull_request:
-    branches: [ develop,stage,master ]
+    branches: [ stage ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -40,14 +40,14 @@ jobs:
         run: >
           ./vendor/bin/phpcs -p -s
       - name: Run phplint with Drupal coding standards.
-        run: > 
-           ./vendor/bin/phplint 
+        run: >
+           ./vendor/bin/phplint
       - name: Install SSH key for accessing Acquia Repository
         uses: shimataro/ssh-key-action@v2
         with:
             key: ${{ secrets.SSH_PRIVATE }}
             known_hosts: ${{ secrets.SSH_KNOWN_HOST }}
-        
+
       - name: Use Node.js for Night watch test cases ${{ matrix.node-version }}
         if: ${{ startsWith(github.ref, 'refs/heads/develop'  ) }} || ${{ startsWith(github.ref, 'refs/heads/stage'  ) }} || ${{ startsWith(github.ref, 'refs/tags/tags'  ) }} || ${{ startsWith(github.ref, 'refs/heads/master'  ) }}
         uses: actions/setup-node@v1
