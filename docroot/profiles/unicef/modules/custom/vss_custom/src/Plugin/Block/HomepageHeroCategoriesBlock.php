@@ -48,6 +48,7 @@ class HomepageHeroCategoriesBlock extends BlockBase implements ContainerFactoryP
    */
   public function build() {
     $build = [];
+    $hero = [];
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $content = $this->vssCommonConfigDefault->getCategories();
     $count = 0;
@@ -83,7 +84,7 @@ class HomepageHeroCategoriesBlock extends BlockBase implements ContainerFactoryP
         ];
       }
     }
-    if ($hero) {
+    if (!empty($hero)) {
       ksort($hero);
     }
     $build['#theme'] = 'homepage_hero_categories_block';
