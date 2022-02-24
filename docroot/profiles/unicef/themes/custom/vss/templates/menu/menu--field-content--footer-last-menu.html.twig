@@ -38,14 +38,16 @@
       <li{{ item.attributes }}>
         {% if item.content %}
           {{ item.content }}
+          {% if loop.index != loop.length %}|{% endif %}
         {% else %}
           {{ link(item.title, item.url) }}
+          {% if loop.index != loop.length %}|{% endif %}
+
         {% endif %}
         {% if item.below %}
           {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
         {% endif %}
       </li>
-      {% if loop.index != loop.length %}|{% endif %}
     {% endfor %}
     </ul>
   {% endif %}

@@ -4,20 +4,29 @@ status: true
 dependencies:
   config:
     - node.type.organisation
+    - node.type.referral_path_way
   module:
     - erpw_custom
     - node
     - node_view_permissions
 id: interagency_gbv_coordinator
 label: 'Interagency GBV Coordinator'
-weight: -6
+weight: -7
 is_admin: null
 permissions:
   - 'add new user'
   - 'add new user for their own country'
+  - 'add referral pathway of their own country'
   - 'create organisation content'
+  - 'create referral_path_way content'
+  - 'edit any referral_path_way content'
   - 'edit own organisation content'
+  - 'edit own referral_path_way content'
+  - 'edit referral pathway of their own country'
   - 'edit users of their own country'
+  - 'view any referral_path_way content'
   - 'view dashboard'
   - 'view own organisation content'
+  - 'view own referral_path_way content'
+  - 'view referral pathway of their own country'
   - 'view users of their own country'

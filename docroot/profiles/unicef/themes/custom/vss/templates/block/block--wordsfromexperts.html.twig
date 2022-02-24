@@ -55,23 +55,22 @@
   ]
 %}
 <section {{ attributes.addClass(classes) }}>
- <div class="container-fluid word-banner " id="block-wordsfromexperts">
-  <div class="container-fluid image-wrapper bg-banner">
-<div class="row banner-parent">
-     {{ title_prefix }}
-  {% if label %}
-    <h2{{ title_attributes.addClass('block-title') }}>{{ label }}</h2>
-  {% endif %}
-  {{ title_suffix }}
-  <img class="inverted-comma-img" src="/{{ base_path ~ directory }}/images/inverted.png" />
-  {% block content %}
-   <div class="content-wrapper">
-    <img class="experts-img" src="/{{ base_path ~ directory }}/images/Experts_img.png" />
-    {{ content }}
-   </div>
-  {% endblock %}
+  <div class="container-fluid word-banner " id="block-wordsfromexperts">
+    <div class="container-fluid image-wrapper bg-banner">
+      <div class="row banner-parent">
+        {{ title_prefix }}
+        {% if label %}
+          <h2{{ title_attributes.addClass('block-title') }}>{{ label }}</h2>
+        {% endif %}
+        {{ title_suffix }}
+        <img class="inverted-comma-img" src="/{{ base_path ~ directory }}/images/inverted.png" alt="quote image"/>
+        {% block content %}
+          <div class="content-wrapper">
+            <img class="experts-img" src="/{{ base_path ~ directory }}/images/Experts_img.png" alt="Expert illustration" />
+            {{ content }}
+          </div>
+        {% endblock %}
+      </div>
+    </div>
   </div>
-  </div>
- </div>
 </section>
-
