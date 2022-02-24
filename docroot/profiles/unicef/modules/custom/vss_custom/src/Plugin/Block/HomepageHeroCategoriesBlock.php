@@ -48,6 +48,7 @@ class HomepageHeroCategoriesBlock extends BlockBase implements ContainerFactoryP
    */
   public function build() {
     $build = [];
+    $hero = [];
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $content = $this->vssCommonConfigDefault->getCategories();
     $count = 0;
@@ -63,6 +64,7 @@ class HomepageHeroCategoriesBlock extends BlockBase implements ContainerFactoryP
         $term_obj->get('field_category_short_name')->getValue()[0]['value'] : '';
         $term_bgcolor = $term_obj->get('field_category_color')->getValue()[0]['color'];
         $icon_path = $term_obj->get('field_icon')->entity->getFileUri();
+        $icon_alt = $term_obj->get('field_icon')->getValue()[0]['alt'];
         $term_alias = $term_obj->get('path')->alias;
 
         $weight = $term_obj->get('weight')->getValue()[0]['value'];
@@ -80,10 +82,11 @@ class HomepageHeroCategoriesBlock extends BlockBase implements ContainerFactoryP
           'color' => $term_bgcolor,
           'cat_uri' => $term_alias,
           'icon' => $icon_path,
+          'alt' => $icon_alt,
         ];
       }
     }
-    if ($hero) {
+    if (!empty($hero)) {
       ksort($hero);
     }
     $build['#theme'] = 'homepage_hero_categories_block';

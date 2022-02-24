@@ -217,7 +217,7 @@ form input[type=submit] {
 	border: 1px solid #F3C1BF !important;
 	border-radius: 5px;
 	height: 194px;
-	max-width: 77%;
+	width: calc(100% - 40px) !important;
 	overflow-y: scroll;
 	li {
 		border-bottom: 1px solid rgba(243,193,191,0.53);
