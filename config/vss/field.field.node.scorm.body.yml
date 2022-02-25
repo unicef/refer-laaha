@@ -1,16 +1,16 @@
-uuid: 6cdc94c7-f747-4716-a558-4dd5462f389d
+uuid: ee6ebe4e-20a1-4ec3-b636-7428b146ca2a
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.body
-    - node.type.video
+    - node.type.scorm
   module:
     - text
-id: node.video.body
+id: node.scorm.body
 field_name: body
 entity_type: node
-bundle: video
+bundle: scorm
 label: 'Meta description for SEO Purpose'
 description: ''
 required: false

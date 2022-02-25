@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.scorm.body
     - field.field.node.scorm.field_content
     - field.field.node.scorm.field_domain_access
     - field.field.node.scorm.field_domain_all_affiliates
@@ -43,6 +44,7 @@ content:
     weight: 2
     region: content
 hidden:
+  body: true
   field_domain_access: true
   field_domain_all_affiliates: true
   field_preview_password: true

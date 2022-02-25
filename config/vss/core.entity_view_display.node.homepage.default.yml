@@ -9,31 +9,24 @@ dependencies:
     - field.field.node.homepage.field_preview_password
     - node.type.homepage
   module:
-    - text
     - user
 id: node.homepage.default
 targetEntityType: node
 bundle: homepage
 mode: default
 content:
-  body:
-    label: hidden
-    type: text_default
-    weight: 2
+  content_moderation_control:
     settings: {  }
     third_party_settings: {  }
-    region: content
-  content_moderation_control:
     weight: 0
     region: content
+  links:
     settings: {  }
     third_party_settings: {  }
-  links:
     weight: 1
     region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
+  body: true
   field_domain_access: true
   field_domain_all_affiliates: true
   field_preview_password: true

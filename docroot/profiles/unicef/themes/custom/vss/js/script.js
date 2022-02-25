@@ -17,7 +17,9 @@
       $( ".searchbox-icon" ).on( "click", function() {
         $('.global-sticky-region').css('z-index', 102);
       });
-      $(".form-type-search-api-autocomplete input").attr("placeholder", "Type here to search");
+
+      var search  = Drupal.t('Type here to search');
+      $(".form-type-search-api-autocomplete input").attr("placeholder", search);
 
       // Audio support info modal
       const audioInfoModal = $(".audio-info-pop-up");
