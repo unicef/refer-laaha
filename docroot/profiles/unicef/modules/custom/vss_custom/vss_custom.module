@@ -1154,3 +1154,22 @@ function vss_custom_views_pre_render(ViewExecutable $view) {
     }
   }
 }
+
+/**
+ * Submit tags.
+ */
+function vss_custom_views_post_execute(ViewExecutable $view) {
+  if ($view->id() == 'sub_category_all_result') {
+    $filtered_nids = [];
+    foreach ($view->result as $i => $row) {
+      if (in_array($row->field_sub_category_taxonomy_term_field_data_nid, $filtered_nids)) {
+        // Remove the duplicate.
+        unset($view->result[$i]);
+      }
+      else {
+        $filtered_nids[] = $row->field_sub_category_taxonomy_term_field_data_nid;
+      }
+    }
+    $view->total_rows = count($filtered_nids);
+  }
+}
