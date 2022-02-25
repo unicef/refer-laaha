@@ -734,28 +734,31 @@ body .absoluteclass {
       margin-left: 27px;
       margin-top: 12px; }
     #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item .play-circle-podcast {
+      bottom: 8px;
+      left: 8px;
       position: absolute;
-      top: 109px;
-      left: 22px;
       width: 50px; }
     #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item .play-circle {
+      left: 50%;
       position: absolute;
-      top: 26%;
-      left: calc(50% - 28px); }
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%); }
+    #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item .recommended-thumbnail {
+      position: relative; }
     #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item .recomended-images {
       border-radius: 20px;
       width: 100%;
       height: 168px; }
-    #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item span {
+    #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item .r-title {
       display: block;
-      width: 82%;
       margin-top: 15px; }
-      #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item span a {
+      #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item .r-title a {
         color: #000000DE;
         font-weight: 500;
         font-size: 1.42em;
         line-height: 28px; }
-        #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item span a:hover {
+        #block-recommendedrelatedcontentblock .recomended-wrapper .recomended-item .r-title a:hover {
           text-decoration: none; }
 
 .featured-stories {

@@ -918,16 +918,21 @@ body {
       }
 
       .play-circle-podcast {
+        bottom: 8px;
+        left: 8px;
         position: absolute;
-        top: 109px;
-        left: 22px;
         width: 50px;
       }
 
       .play-circle {
+        left: 50%;
         position: absolute;
-        top: 26%;
-        left: calc(50% - 28px);
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .recommended-thumbnail {
+        position: relative;
       }
 
       .recomended-images {
@@ -936,9 +941,8 @@ body {
         height: 168px;
       }
 
-      span {
+      .r-title {
         display: block;
-        width: 82%;
         margin-top: 15px;
 
         a {
