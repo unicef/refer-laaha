@@ -6,6 +6,14 @@ erpw_custom.sign_up_form:
   requirements:
     _permission: 'add new user'
 
+erpw_custom.user_update_form:
+  path: '/update-user/{id}'
+  defaults:
+    _form: '\Drupal\erpw_custom\Form\SignUpForm'
+    _title: 'Update User'
+  requirements:
+    _permission: 'update user'
+
 erpw_custom.sign_in_popup:
   path: '/signin-popup'
   defaults:
