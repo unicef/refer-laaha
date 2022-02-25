@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.homepage.body
     - field.field.node.homepage.field_domain_access
     - field.field.node.homepage.field_domain_all_affiliates
+    - field.field.node.homepage.field_meta_tags
     - field.field.node.homepage.field_preview_password
     - node.type.homepage
   module:
@@ -38,6 +39,7 @@ content:
 hidden:
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_meta_tags: true
   field_preview_password: true
   langcode: true
   search_api_excerpt: true

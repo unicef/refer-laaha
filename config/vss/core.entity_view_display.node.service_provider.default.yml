@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.service_provider.field_hierarchy_level_3
     - field.field.node.service_provider.field_hierarchy_level_4
     - field.field.node.service_provider.field_linkedin
+    - field.field.node.service_provider.field_meta_tags
     - field.field.node.service_provider.field_priority
     - field.field.node.service_provider.field_service_provider_name
     - field.field.node.service_provider.field_state
@@ -23,6 +24,7 @@ dependencies:
     - field.field.node.service_provider.field_twitter
     - node.type.service_provider
   module:
+    - metatag
     - text
     - user
 id: node.service_provider.default
@@ -107,6 +109,13 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 10
+    region: content
+  field_meta_tags:
+    type: metatag_empty_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 16
     region: content
   field_priority:
     type: number_integer
