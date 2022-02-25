@@ -1,0 +1,14 @@
+label: Tours
+tips:
+  getting-started:
+    label: 'Getting started'
+    body: 'On this page you can manage tours.'
+  adding-tours:
+    label: 'Adding tours'
+    body: "When adding Tours you need to know on what page(s) more specific route(s) they must be present.\r\n\r\n<h3>Routes</h3>\r\n\r\nYou can install the <a href=\"https://www.drupal.org/project/tour_ui\">Devel</a> module then visit <a href=\"/devel/routes\">/devel/routes</a> to find the Route by entering the URL path on that page."
+  edit-tour:
+    label: 'Edit tour'
+    body: '<p>Here you can choose what actions to apply to your tour.</p><p>When installing <a href="https://www.drupal.org/project/tour_builder">Tour Builder</a> you can ie clone tours.</p>'
+  share-tours:
+    label: 'Share Tours'
+    body: "After creating or updating a Tour you maybe want to share it.\r\n\r\n<h3>Configuration management</h3>\r\n\r\nYou can export a single item as a YAML file. Make sure not to share the <strong>uuid</strong> row and <strong>_core</strong> values\r\n\r\n<h3>Tour builder</h3>\r\n\r\nYou can also use the <a href=\"https://www.drupal.org/project/tour_builder\">Tour Builder</a> module which tries to ease the export and patch workflow."

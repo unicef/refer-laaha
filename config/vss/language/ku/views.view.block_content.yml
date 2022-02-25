@@ -2,14 +2,20 @@ display:
   default:
     display_title: Master
     display_options:
-      exposed_form:
-        options:
-          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
       fields:
         info:
           label: 'Block description'
+        changed:
+          label: Updated
         operations:
           label: کاره‌کان
+      pager:
+        options:
+          tags:
+            next: 'Next ›'
+      exposed_form:
+        options:
+          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
       filters:
         info:
           expose:

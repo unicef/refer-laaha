@@ -1,0 +1,24 @@
+label: 'Last views per user'
+display:
+  default:
+    display_title: Master
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Apply
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      fields:
+        title:
+          separator: ', '
+      title: 'List of last views'
+      arguments:
+        uid:
+          exception:
+            title: All
+  block:
+    display_title: Block
+    display_options:
+      block_description: 'List of last views'

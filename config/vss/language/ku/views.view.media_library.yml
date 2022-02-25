@@ -2,20 +2,26 @@ display:
   default:
     display_title: Master
     display_options:
-      exposed_form:
-        options:
-          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
+      title: ڕەنگاڵە
       fields:
         media_bulk_form:
           action_title: کردار
+      exposed_form:
+        options:
+          reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
       filters:
+        status:
+          group_info:
+            label: Published
+            group_items:
+              1:
+                title: Published
         name:
           expose:
             label: ناو
         langcode:
           expose:
             label: زمان
-      title: ڕەنگاڵە
   page:
     display_title: پەڕە
     display_options:
@@ -28,14 +34,14 @@ display:
           text: سڕینه‌وه‌
   widget:
     display_options:
-      filters:
-        name:
-          expose:
-            label: ناو
       arguments:
         bundle:
           exception:
             title: هەموو
+      filters:
+        name:
+          expose:
+            label: ناو
       header:
         display_link_table:
           label: خشتە
@@ -46,14 +52,16 @@ display:
           label: ناو
         uid:
           label: نووسەر
-      filters:
-        name:
-          expose:
-            label: ناو
+        changed:
+          label: Updated
       arguments:
         bundle:
           exception:
             title: هەموو
+      filters:
+        name:
+          expose:
+            label: ناو
       header:
         display_link_table:
           label: خشتە

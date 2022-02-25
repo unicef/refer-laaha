@@ -4,8 +4,14 @@ display:
       exposed_form:
         options:
           reset_button_label: 'گەڕاندنەوە بۆ باری سەرەتایی'
+      pager:
+        options:
+          tags:
+            next: 'Next ›'
       fields:
         title:
           label: ناونیشان
+        nid:
+          label: 'Count views'
   page:
     display_title: پەڕە
