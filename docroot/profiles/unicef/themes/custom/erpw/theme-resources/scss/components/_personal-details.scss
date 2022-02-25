@@ -1,0 +1,21 @@
+.user-logged-in.path-user {
+	background: none;
+	header {
+		background: #FFF6F5;
+	}
+	.region-header {
+		background: url(../images/top_nav_image.svg) no-repeat right -143px top -130px;
+	}
+}
+.user-personal-details {
+  padding: 0 34px;
+	h2 {
+		@extend .step;
+		font-weight: 500;
+	}
+	span {
+		display: block;
+		padding: 15px 0;
+		word-break: break-word;
+	}
+}
