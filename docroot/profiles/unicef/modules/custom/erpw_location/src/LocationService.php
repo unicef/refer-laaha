@@ -277,4 +277,29 @@ class LocationService {
     return $location_entity_id;
   }
 
+  /**
+   * Get children by parent id.
+   *
+   * @param int $location_id
+   *   The location id.
+   *
+   * @return array
+   *   Return of children with parent term id.
+   */
+  public function getChildrenByParent($location_id) {
+    $ptids = $this->getAllAncestors($location_id);
+    $terms = [];
+    if (!empty($ptids)) {
+      // Getting zero level parent id.
+      $ptid = reset($ptids);
+      $child_terms = $this->entityManager->getStorage('taxonomy_term')->loadTree('country', $ptid, NULL, FALSE);
+      // All children term with zero level parent id.
+      $terms = [$ptid];
+      foreach ($child_terms as $child_term) {
+        $terms[] = (int) $child_term->tid;
+      }
+      return $terms;
+    }
+  }
+
 }

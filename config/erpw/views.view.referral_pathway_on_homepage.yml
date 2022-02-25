@@ -8,14 +8,10 @@ dependencies:
     - field.storage.paragraph.field_service_type
     - node.type.referral_path_way
     - taxonomy.vocabulary.country
-    - user.role.administrator
-    - user.role.country_admin
-    - user.role.super_admin
   module:
     - node
     - paragraphs
     - taxonomy
-    - user
 id: referral_pathway_on_homepage
 label: 'Referral Pathway on Homepage'
 module: views
@@ -30,7 +26,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Referral Pathway on Homepage'
+      title: Home
       fields:
         field_location:
           id: field_location
@@ -249,12 +245,8 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       access:
-        type: role
-        options:
-          role:
-            administrator: administrator
-            super_admin: super_admin
-            country_admin: country_admin
+        type: none
+        options: {  }
       cache:
         type: tag
         options: {  }
@@ -425,20 +417,7 @@ display:
           required: true
       css_class: ''
       header: {  }
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: "      <div class=\"cta-links\">\r\n        <div class=\"cta-link\">\r\n          <a href=\"#\">View Guidelines For Safe And Ethical GBV Referrals</a>\r\n        </div>\r\n        <div class=\"cta-link\">\r\n          <a href=\"#\">Download Complete Referral Pathway For Location</a>\r\n        </div>\r\n        <div class=\"cta-link\">\r\n          <a href=\"#\">Click To Get The Pocket Guide App</a>\r\n        </div>\r\n      </div>"
-            format: full_html
-          tokenize: false
+      footer: {  }
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -448,20 +427,19 @@ display:
         - url.query_args
         - user
         - 'user.node_grants:view'
-        - user.roles
       tags:
         - 'config:field.storage.node.field_location'
         - 'config:field.storage.paragraph.field_section_name'
         - 'config:field.storage.paragraph.field_service_type'
-  block_1:
-    id: block_1
-    display_title: Block
-    display_plugin: block
-    position: 1
+  page_1:
+    id: page_1
+    display_title: Page
+    display_plugin: page
+    position: 2
     display_options:
       display_extenders:
         library_in_views_display_extender: {  }
-      block_description: 'Referral Pathway on Homepage'
+      path: referral-pathway
     cache_metadata:
       max-age: -1
       contexts:
@@ -470,7 +448,6 @@ display:
         - url.query_args
         - user
         - 'user.node_grants:view'
-        - user.roles
       tags:
         - 'config:field.storage.node.field_location'
         - 'config:field.storage.paragraph.field_section_name'

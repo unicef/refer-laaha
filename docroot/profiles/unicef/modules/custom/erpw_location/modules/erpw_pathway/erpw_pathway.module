@@ -20,7 +20,19 @@ function erpw_pathway_preprocess_views_view_field(&$variables) {
       $loc_name = [];
       if ($row[0]) {
         $parent_tid = \Drupal::service('erpw_location.location_services')->getAllAncestors($row[0]);
-        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadMultiple(array_reverse($parent_tid));
+        $last_sibling_terms = [];
+        $parents = [];
+        if (count($row) > 1) {
+          array_shift($row);
+          $last_sibling_terms = $row;
+        }
+        if (!empty($last_sibling_terms)) {
+          $parents = array_merge($parent_tid, $last_sibling_terms);
+        }
+        else {
+          $parents = $parent_tid;
+        }
+        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadMultiple(array_reverse($parents));
         foreach ($terms as $term) {
           $loc_name[] = $term->label();
         }
@@ -34,23 +46,21 @@ function erpw_pathway_preprocess_views_view_field(&$variables) {
  * Implements hook_views_query_alter().
  */
 function erpw_pathway_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
-  if ($view->id() == "referral_pathway_on_homepage" && $view->current_display == 'block_1') {
+  if ($view->id() == "referral_pathway_on_homepage" && $view->current_display == 'page_1') {
+    $ptids = [];
     $current_user = \Drupal::currentUser();
-    if ($current_user->hasPermission('view referral pathway of their own country')) {
-      $user_entity = User::load($current_user->id());
-      if ($user_entity->hasField('field_location_details') && !$user_entity->get('field_location_details')->isEmpty()) {
-        $location_id = $user_entity->get('field_location_details')->getValue()[0]['value'];
-        $ptids = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
-      }
-      // Getting zero level parent id.
-      $ptid = reset($ptids);
-      $tids = get_children_by_parent($ptid);
+    $user_entity = User::load($current_user->id());
+    if ($user_entity->hasField('field_location_details') && !$user_entity->get('field_location_details')->isEmpty()) {
+      $location_id = $user_entity->get('field_location_details')->getValue()[0]['value'];
+      $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
+    }
+    if (!empty($ptids)) {
       foreach ($query->where as &$condition_group) {
         foreach ($condition_group['conditions'] as &$condition) {
           if ($condition['field'] == 'node__field_location.field_location_target_id') {
             $condition = [
               'field' => 'node__field_location.field_location_target_id',
-              'value' => $tids,
+              'value' => $ptids,
               'operator' => 'IN',
             ];
             break;
@@ -59,27 +69,4 @@ function erpw_pathway_views_query_alter(ViewExecutable $view, QueryPluginBase $q
       }
     }
   }
-}
-
-/**
- * Get children by parent id.
- *
- * @param int $ptid
- *   The parent id.
- *
- * @return array
- *   Return of children.
- */
-function get_children_by_parent($ptid) {
-  $depth = NULL;
-  // True will return loaded entities rather than ids.
-  $load_entities = FALSE;
-  $child_terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('country', $ptid, $depth, $load_entities);
-  // Array to keep children tids including first parent id.
-  $terms = [$ptid];
-  foreach ($child_terms as $child_term) {
-    $terms[] = (int) $child_term->tid;
-  }
-
-  return $terms;
 }
