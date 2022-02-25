@@ -191,6 +191,7 @@ class ManageLocationForm extends FormBase {
       if (!empty($location_levels_tid)) {
         $location_value = $location_levels_tid;
       }
+
       $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($location_value);
       $upper_ancestors = array_reverse(array_keys($ancestors));
       $mylocation = "";
@@ -201,7 +202,7 @@ class ManageLocationForm extends FormBase {
         $country_tid = $this->locationService->getLocationSingleEntityIdByTid($upper_ancestors[0]);
       }
       if (!empty($country_tid)) {
-        $link = Link::createFromRoute($this->t('Click to change location'), 'erpw_location.user_location_manage',
+        $link = Link::createFromRoute($this->t('Click to change country'), 'erpw_location.user_location_manage',
         ['id' => $country_tid, 'page' => 'location'])->toString();
       }
       else {
