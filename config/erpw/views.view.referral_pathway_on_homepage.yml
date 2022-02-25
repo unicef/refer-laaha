@@ -395,6 +395,10 @@ display:
           error_message: true
       style:
         type: default
+        options:
+          grouping: {  }
+          row_class: row-listing
+          default_row_class: false
       row:
         type: fields
       query:

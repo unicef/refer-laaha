@@ -318,7 +318,7 @@ form .node-service-type-edit-form input[type=submit].button--primary,
 }
 .select2-container--default .select2-selection--single {
   padding: 8px 6px 8px !important;
-  height: inherit !important;
+  height: 37px !important;
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered {
   line-height: inherit !important;
@@ -1072,7 +1072,7 @@ header {
   width: 212px;
 }
 [id^=block-erpw-main-menu] .menu-item {
-  padding: 15px 20px 15px 15px;
+  padding: 15px 0 15px 15px;
   margin: 0 20px 0 0;
 }
 [id^=block-erpw-main-menu] .menu-item.save-logged-in {
@@ -1112,6 +1112,9 @@ header {
 }
 [id^=block-erpw-main-menu] .menu-item .help-icon {
   background: url("../images/help.svg") top left no-repeat;
+}
+[id^=block-erpw-main-menu] .menu-item .location-change {
+  background: url("../images/language-translate.png") top left no-repeat;
 }
 
 .path-select-language {
@@ -1476,7 +1479,7 @@ header {
   margin: 0 0 40px;
 }
 
-.step, .service-provider-class .fieldset-legend {
+.step, .user-personal-details h2, .service-provider-class .fieldset-legend {
   font-size: 1em;
   color: #444;
 }
@@ -2072,6 +2075,12 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   border: 1px solid #F3C1BF !important;
 }
 
+.view-user-lists .view-filters form {
+  margin: 0 -0.5em 0 0;
+}
+.view-user-lists .view-filters .form-item {
+  width: calc(50% - 0.5em);
+}
 .view-user-lists .view-header {
   border-bottom: 2px solid rgba(243, 193, 191, 0.53);
   margin-bottom: 20px;
@@ -2147,6 +2156,28 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
 .node-service-provider-form .form-actions {
   float: right;
   margin-top: 30px;
+}
+
+.user-logged-in.path-user {
+  background: none;
+}
+.user-logged-in.path-user header {
+  background: #FFF6F5;
+}
+.user-logged-in.path-user .region-header {
+  background: url(../images/top_nav_image.svg) no-repeat right -143px top -130px;
+}
+
+.user-personal-details {
+  padding: 0 34px;
+}
+.user-personal-details h2 {
+  font-weight: 500;
+}
+.user-personal-details span {
+  display: block;
+  padding: 15px 0;
+  word-break: break-word;
 }
 
 body.path-user {
