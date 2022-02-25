@@ -1,0 +1,21 @@
+uuid: c0be983e-2e13-4514-89fd-5f8c41538171
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meta_tags
+    - node.type.scorm
+  module:
+    - metatag
+id: node.scorm.field_meta_tags
+field_name: field_meta_tags
+entity_type: node
+bundle: scorm
+label: 'Meta tags'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: metatag
