@@ -21,10 +21,8 @@ use Drupal\views\Plugin\views\query\QueryPluginBase;
 function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $view_ids = ['manage_service'];
   if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
-    $form['field_service_type_target_id'] = [
-      '#type'             => 'select',
-      '#options'          => erpw_custom_service_type_options(),
-    ];
+    $form['field_service_type_target_id']['#type'] = 'select';
+    $form['field_service_type_target_id']['#options'] = erpw_custom_service_type_options();
   }
 }
 
@@ -33,13 +31,14 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
  */
 function erpw_custom_service_type_options() {
   $query = \Drupal::database()->select("node_field_data", "n");
+  $query->innerJoin('node__field_service_type', 'ns', 'ns.field_service_type_target_id = n.nid');
   $query->fields('n', ['nid', 'title']);
   $query->condition('n.type', 'service_type');
-  $query->condition('n.status', 1);
-  $query->orderBy('title', 'ASC');
+  $query->condition('ns.bundle', 'service_provider');
+  $query->condition('n.status', "1");
+  $query->orderBy('n.title', 'ASC');
   $query = $query->execute();
   $results = $query->fetchAll();
-
   $options[''] = t('All');
   foreach ($results as $value) {
     $options[$value->nid] = $value->title;
