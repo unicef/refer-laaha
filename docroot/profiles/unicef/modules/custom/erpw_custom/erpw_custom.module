@@ -6,9 +6,7 @@
  */
 
 use Drupal\Core\Url;
-use Drupal\node\NodeInterface;
 use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,11 +26,12 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       $location_id = FALSE;
       if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
         $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
-        $ptid = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
+        $ptid = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
         $ptid = reset($ptid);
         foreach ($form['location']['level_0']['#options'] as $tid => $country) {
           if ($tid != $ptid && $tid != '') {
             unset($form['location']['level_0']['#options'][$tid]);
+            $form['location']['level_0']['#empty_option'] = t('Select country');
           }
         }
       }
@@ -52,11 +51,12 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
         $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
       }
       if ($location_id) {
-        $ptid = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
+        $ptid = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
         $ptid = reset($ptid);
         foreach ($form['location_options']['#options'] as $key => $option) {
           if ($key != $ptid && $key != '') {
             unset($form['location_options']['#options'][$key]);
+            $form['location_options']['#empty_option'] = t('Select country');
           }
         }
       }
@@ -433,7 +433,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission('view users of their own country')) {
       if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
         $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
-        $ptids = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
+        $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
       }
       foreach ($query->where as &$condition_group) {
         foreach ($condition_group['conditions'] as &$condition) {
@@ -455,7 +455,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission('view referral pathway of their own country')) {
       if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
         $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
-        $ptids = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
+        $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
       }
       foreach ($query->where as &$condition_group) {
         foreach ($condition_group['conditions'] as &$condition) {

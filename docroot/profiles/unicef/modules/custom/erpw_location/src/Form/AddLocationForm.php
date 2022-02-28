@@ -161,7 +161,7 @@ class AddLocationForm extends FormBase {
       if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission('add location of their own country')) {
         if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
           $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
-          $ptid = $this->locationService->getAllAncestors($location_id);
+          $ptid = $this->locationService->getChildrenByParent($location_id);
           $ptid = reset($ptid);
           foreach ($location_options as $key => $location) {
             if ($key != $ptid) {
