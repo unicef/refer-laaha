@@ -1,8 +1,9 @@
-uuid: 62a86cb4-97a5-45e4-944b-714877287646
+uuid: 08f31184-a321-46c1-9ff3-f4c7d0753a0c
 langcode: en
-status: true
+status: false
 dependencies:
   config:
+    - core.entity_view_mode.node.full
     - field.field.node.scorm.field_content
     - field.field.node.scorm.field_domain_access
     - field.field.node.scorm.field_domain_all_affiliates
@@ -15,10 +16,10 @@ dependencies:
   module:
     - layout_paragraphs
     - user
-id: node.scorm.default
+id: node.scorm.full
 targetEntityType: node
 bundle: scorm
-mode: default
+mode: full
 content:
   content_moderation_control:
     settings: {  }
@@ -29,8 +30,8 @@ content:
     type: layout_paragraphs
     label: hidden
     settings:
-      view_mode: amp
-      link: false
+      view_mode: default
+      link: ''
     third_party_settings: {  }
     weight: 1
     region: content
