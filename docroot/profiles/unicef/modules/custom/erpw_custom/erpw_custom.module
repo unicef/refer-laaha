@@ -216,7 +216,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     $form['next_link'] = [
       '#type' => 'markup',
-      '#markup' => "<div class = 'prev-btn hidden button--primary'><span class='button-border'>" . t('Prev') . "</span></div>
+      '#markup' => "<div class = 'prev-btn hidden button--primary'><span class='button-border'>" . t('Back') . "</span></div>
         <div class='next-btn button--primary'><span class='button-border'>" . t('Next') . "</div>",
       '#prefix' => "<div class = 'service-next-prev-button'>",
       '#suffix' => "</div>",
@@ -391,9 +391,11 @@ function erpw_custom_preprocess_page_title(&$variables) {
   }
   elseif ($route_name = "entity.node.canonical") {
     $node = \Drupal::routeMatch()->getParameter('node');
-    $typeName = $node->bundle();
-    if ($typeName == 'service_provider') {
-      $variables['title'] = t('Service Information');
+    if (!empty($node)) {
+      $typeName = $node->bundle();
+      if ($typeName == 'service_provider') {
+        $variables['title'] = t('Service Information');
+      }
     }
   }
 }
