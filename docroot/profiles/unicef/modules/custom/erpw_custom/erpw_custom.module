@@ -380,7 +380,6 @@ function _erpw_custom_form_user_email_validate(array &$form, FormStateInterface 
 function erpw_custom_preprocess_page_title(&$variables) {
   $uid = \Drupal::currentUser()->id();
   $route_name = \Drupal::routeMatch()->getRouteName();
-
   if (!$uid && $route_name == 'erpw_custom.sign_up_form') {
     $variables['title'] = t('Sign up');
   }
@@ -388,6 +387,13 @@ function erpw_custom_preprocess_page_title(&$variables) {
     $type = \Drupal::routeMatch()->getParameter('node_type')->get('type');
     if ($type == 'organisation') {
       $variables['title'] = t('Add Organisation');
+    }
+  }
+  elseif ($route_name = "entity.node.canonical") {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    $typeName = $node->bundle();
+    if ($typeName == 'service_provider') {
+      $variables['title'] = t('Service Information');
     }
   }
 }
