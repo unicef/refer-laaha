@@ -137,7 +137,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
       '#location' => $location,
       '#tid' => !empty($ancestors_prev[0]) ? $ancestors_prev[0] : 0,
       '#cache' => [
-        'contexts' => ['user'],
+        'max-age' => 0,
       ],
     ];
   }
