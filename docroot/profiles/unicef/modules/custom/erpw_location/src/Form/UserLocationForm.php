@@ -134,10 +134,7 @@ class UserLocationForm extends LocationListForm {
     $levels = $form_state->getValues();
 
     if (!empty($levels['level_4'])) {
-      foreach ($levels['level_4'] as $value) {
-        $location_value = $value;
-      }
-      $location_value = implode(",", $levels['level_4']);
+      $location_value = $levels['level_4'];
     }
     elseif (!empty($levels['level_3'])) {
       $location_value = $levels['level_3'];

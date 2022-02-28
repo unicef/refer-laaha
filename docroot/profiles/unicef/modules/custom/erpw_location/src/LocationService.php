@@ -317,4 +317,37 @@ class LocationService {
     return $result->fetchField();
   }
 
+  /**
+   * Get user location.
+   *
+   * @param object $user
+   *   The user object.
+   */
+  public function getUserLocation($user) {
+    if (!empty($user->field_location)) {
+      if (!empty($user->field_location->getValue()) && is_array($user->field_location->getValue())) {
+        $tid = $user->field_location->getValue()[0]['target_id'];
+        $tid_array = $user->field_location->getValue();
+      }
+      else {
+        $tid = $user->field_location->value;
+      }
+    }
+    $location = '';
+    if (!empty($tid)) {
+      foreach ($tid_array as $key => $value) {
+        if ($key != 0) {
+          $location .= $this->getTaxonomyTermById($value['target_id']) . ", ";
+        }
+      }
+      $ancestors_prev = $this->getAllAncestors($tid);
+      $ancestors = array_reverse($ancestors_prev);
+      foreach ($ancestors as $value) {
+        $location .= $this->getTaxonomyTermById($value) . ", ";
+      }
+      $location = substr(trim($location), 0, -1);
+      return $location;
+    }
+  }
+
 }
