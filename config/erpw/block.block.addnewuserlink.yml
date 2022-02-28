@@ -1,0 +1,30 @@
+uuid: 8492ca36-cd86-4301-8d48-f3888fbbf9ba
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:ddfdede5-2f42-4afa-b8ec-c91c821baa7e'
+  module:
+    - block_content
+    - system
+  theme:
+    - erpw
+id: addnewuserlink
+theme: erpw
+region: content
+weight: -7
+provider: null
+plugin: 'block_content:ddfdede5-2f42-4afa-b8ec-c91c821baa7e'
+settings:
+  id: 'block_content:ddfdede5-2f42-4afa-b8ec-c91c821baa7e'
+  label: 'Add new user link'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /users-list
