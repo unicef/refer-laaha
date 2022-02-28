@@ -302,4 +302,19 @@ class LocationService {
     }
   }
 
+  /**
+   * Get default country ID.
+   *
+   * @return int
+   *   Return of default location id.
+   */
+  public function getDefaultLocation() {
+    $query = $this->connection->select('location__field_location_taxonomy_term', 'tm');
+    $query->innerJoin('taxonomy_term_data', 't', 't.tid = tm.field_location_taxonomy_term_target_id');
+    $query->fields('t', ['tid']);
+    $result = $query->execute();
+
+    return $result->fetchField();
+  }
+
 }

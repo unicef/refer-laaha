@@ -32,6 +32,7 @@ erpw_location.autocomplete:
     _controller: '\Drupal\erpw_location\Controller\AutocompleteController::handleAutocomplete'
     _format: json
   requirements:
+    # Only allow for aunticated user.
    _access: 'TRUE'
 erpw_location.add_location:
   path: '/add-location'
@@ -66,8 +67,6 @@ erpw_location.user_location:
   defaults:
     _form: '\Drupal\erpw_location\Form\UserLocationForm'
     _title: 'Location'
-  requirements:
-    _permission: 'erpw location user location'
 user_location.settings:
   path: '/user-location-homepage'
   defaults:

@@ -6,7 +6,6 @@
  */
 
 use Drupal\views\ViewExecutable;
-use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 
 /**
@@ -48,12 +47,8 @@ function erpw_pathway_preprocess_views_view_field(&$variables) {
 function erpw_pathway_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
   if ($view->id() == "referral_pathway_on_homepage" && $view->current_display == 'page_1') {
     $ptids = [];
-    $current_user = \Drupal::currentUser();
-    $user_entity = User::load($current_user->id());
-    if ($user_entity->hasField('field_location_details') && !$user_entity->get('field_location_details')->isEmpty()) {
-      $location_id = $user_entity->get('field_location_details')->getValue()[0]['value'];
-      $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
-    }
+    $location_id = get_user_location();
+    $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
     if (!empty($ptids)) {
       foreach ($query->where as &$condition_group) {
         foreach ($condition_group['conditions'] as &$condition) {
@@ -68,5 +63,53 @@ function erpw_pathway_views_query_alter(ViewExecutable $view, QueryPluginBase $q
         }
       }
     }
+  }
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function erpw_pathway_user_login($account) {
+  if ($account->id()) {
+    set_user_location();
+  }
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function erpw_pathway_user_logout() {
+  set_user_location();
+}
+
+/**
+ * Set user location using cookie.
+ */
+function set_user_location() {
+  $tempstore = \Drupal::service('tempstore.private')->get('erpw_location_collection');
+  $cookie = \Drupal::service('erpw_location.location_cookie');
+  $default_location = \Drupal::service('erpw_location.location_services')->getDefaultLocation();
+  if (empty($cookie->getCookieValue())) {
+    $cookie->setCookieValue(base64_encode('country_tid_' . time()));
+    $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
+  }
+  else {
+    $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
+  }
+}
+
+/**
+ * Set user location using cookie.
+ */
+function get_user_location() {
+  $tempstore = \Drupal::service('tempstore.private')->get('erpw_location_collection');
+  $cookie_value = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
+  $location_id = $tempstore->get(base64_decode($cookie_value));
+  if (!empty($location_id)) {
+    return $location_id;
+  }
+  else {
+    set_user_location();
+    return $tempstore->get(base64_decode($cookie_value));
   }
 }
