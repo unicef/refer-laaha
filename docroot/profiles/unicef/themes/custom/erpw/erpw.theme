@@ -99,16 +99,6 @@ function erpw_preprocess_user(&$variables) {
   $variables['mail'] = $variables['user']->getEmail();
   $route = \Drupal::routeMatch()->getRawParameter('user');
   $user = \Drupal::service('entity_type.manager')->getStorage('user')->load($route);
-  $tid = $user->field_location_details->value;
-  $tid_array = explode(",", $tid);
-  $location = '';
-  if (!empty($tid)) {
-    $ancestors_prev = \Drupal::service('erpw_location.location_services')->getAllAncestors($tid_array[0]);
-    $ancestors = array_reverse($ancestors_prev);
-    foreach ($ancestors as $key => $value) {
-      $location .= " " . \Drupal::service('erpw_location.location_services')->getTaxonomyTermById($value) . ", ";
-    }
-    $location = substr(trim($location), 0, -1);
-  }
+  $location = \Drupal::service('erpw_location.location_services')->getUserLocation($user);
   $variables['location'] = $location;
 }

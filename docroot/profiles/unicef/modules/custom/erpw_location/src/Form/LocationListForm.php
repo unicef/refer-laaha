@@ -271,7 +271,6 @@ class LocationListForm extends FormBase {
                       $level_3_options = \Drupal::service('erpw_location.location_services')->getChildrenByTid($parent_level3_tid);
                       $form['location']['location_level']['level_4'] = [
                         '#type' => 'select',
-                        '#multiple' => TRUE,
                         '#empty_option' => $this->t("Select Level 4 Label"),
                         '#empty_value' => '',
                         '#options' => $level_3_options,

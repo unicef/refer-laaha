@@ -416,7 +416,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"location-card\">\r\n\t<div class=\"title-with-icons\">\r\n\t\t<a href=\"/view-location/2836/view\"><div id=\"location-title\" class=\"location-title\">{{ field_first_name }} {{ field_last_name }} </div></a>\r\n\t\t<div class=\"location-operations\"><div class=\"edit-delete-links\"> \r\n\t\t\t<span class=\"edit-link\"><a href=\"/user/{{uid}}/edit?destination=/users-list\">Edit</a></span>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n\t<a href=\"/user/{{uid}}\"><div><div class=\"level\">Organisation : {{ field_organisation }}</div><div class=\"level\">Role : {{ roles_target_id }}</div><div class=\"level\">Contact No. : {{ field_phone }}</div></div></a>\r\n</div>"
+            text: "<div class=\"location-card\">\r\n\t<div class=\"title-with-icons\">\r\n\t\t<a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div id=\"location-title\" class=\"location-title\">{{ field_first_name }} {{ field_last_name }} </div></a>\r\n\t\t<div class=\"location-operations\"><div class=\"edit-delete-links\"> \r\n\t\t\t<span class=\"edit-link\"><a href=\"{{ path('erpw_custom.user_update_form', {'id': uid}, {'query': {'destination': path('<current>') }}) }}\">{{ 'Edit'|t }}</a></span>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n\t<a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div><div class=\"level\">Organisation : {{ field_organisation }}</div><div class=\"level\">Role : {{ roles_target_id }}</div><div class=\"level\">Contact No. : {{ field_phone }}</div></div></a>\r\n</div>"
             make_link: false
             path: ''
             absolute: false

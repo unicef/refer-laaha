@@ -10,6 +10,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\erpw_location\LocationCookie;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 
 /**
  * Provides a block with a simple text.
@@ -57,6 +58,13 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
   protected $tempStoreFactory;
 
   /**
+   * The Current user service.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -67,7 +75,8 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
     EntityTypeManagerInterface $entity_manager,
     ConfigFactoryInterface $config_factory,
     LocationCookie $location_cookie,
-    PrivateTempStoreFactory $temp_store_factory) {
+    PrivateTempStoreFactory $temp_store_factory,
+    AccountProxyInterface $current_user) {
 
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->locationService = $location_service;
@@ -75,6 +84,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
     $this->configfactory = $config_factory;
     $this->locationCookie = $location_cookie;
     $this->tempStoreFactory = $temp_store_factory->get('erpw_location_collection');
+    $this->currentUser = $current_user;
   }
 
   /**
@@ -104,6 +114,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
       $container->get('config.factory'),
       $container->get('erpw_location.location_cookie'),
       $container->get('tempstore.private'),
+      $container->get('current_user'),
     );
   }
 
@@ -128,8 +139,14 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
         }
       }
     }
-    $title = !empty($form_config->get('title')) ? $form_config->get('title') : "";
-    $descripton = !empty($form_config->get('description')) ? $form_config->get('description') : "";
+
+    if ($tid != "") {
+      $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
+      $location = $this->locationService->getUserLocation($user);
+    }
+
+    $title = !empty($form_config->get('title')) ? $this->t($form_config->get('title')) : "";
+    $descripton = !empty($form_config->get('description')) ? $this->t($form_config->get('description')) : "";
     return [
       '#theme' => 'homepage_user_location',
       '#title' => $title,
