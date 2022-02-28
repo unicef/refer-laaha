@@ -5,15 +5,18 @@ namespace Drupal\erpw_custom\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\TempStore\PrivateTempStoreFactory;
+use Drupal\domain\DomainNegotiatorInterface;
+use Drupal\erpw_location\LocationCookie;
+use Drupal\erpw_location\LocationService;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * ModalForm class.
  */
 class LanguageSelector extends FormBase {
-
 
   /**
    * Drupal\domain\DomainNegotiatorInterface definition.
@@ -30,6 +33,27 @@ class LanguageSelector extends FormBase {
   protected $languageManager;
 
   /**
+   * The cookie as a service.
+   *
+   * @var \Drupal\erpw_location\LocationCookie
+   */
+  protected $locationCookie;
+
+  /**
+   * The location service.
+   *
+   * @var \Drupal\erpw_location\LocationService
+   */
+  protected $locationService;
+
+  /**
+   * The tempstore factory.
+   *
+   * @var \Drupal\Core\TempStore\PrivateTempStoreFactory
+   */
+  protected $tempStoreFactory;
+
+  /**
    * {@inheritdoc}
    */
   public function getFormId() {
@@ -39,9 +63,18 @@ class LanguageSelector extends FormBase {
   /**
    * LegalAdminTermsForm constructor.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, LanguageManagerInterface $language_manager) {
+  public function __construct(ConfigFactoryInterface $config_factory,
+    LanguageManagerInterface $language_manager,
+    LocationCookie $location_cookie,
+    DomainNegotiatorInterface $negotiator,
+    PrivateTempStoreFactory $temp_store_factory,
+    LocationService $location_service) {
     $this->configfactory = $config_factory;
     $this->languageManager = $language_manager;
+    $this->locationCookie = $location_cookie;
+    $this->domainNegotiator = $negotiator;
+    $this->tempStoreFactory = $temp_store_factory->get('erpw_location_collection');
+    $this->locationService = $location_service;
   }
 
   /**
@@ -51,6 +84,10 @@ class LanguageSelector extends FormBase {
     return new static(
       $container->get('config.factory'),
       $container->get('language_manager'),
+      $container->get('erpw_location.location_cookie'),
+      $container->get('domain.negotiator'),
+      $container->get('tempstore.private'),
+      $container->get('erpw_location.location_services'),
     );
   }
 
@@ -70,7 +107,7 @@ class LanguageSelector extends FormBase {
       '#markup' => $this->t('Choose your preferred language'),
       '#suffix' => '</div>',
     ];
-    $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $domain = $this->domainNegotiator->getActiveDomain();
     $active_lang = $this->configfactory->get('domain.language.' . $domain->id() . '.language.negotiation')->getRawData()['languages'];
     $site_languages = $this->languageManager->getNativeLanguages();
     $languages = [];
@@ -80,7 +117,7 @@ class LanguageSelector extends FormBase {
     $form['language_selector'] = [
       '#type' => 'radios',
       '#options' => $languages,
-      '#default_value' => t('en'),
+      '#default_value' => $this->t('en'),
     ];
     $form['actions']['lang_selector'] = [
       '#type' => 'submit',
@@ -104,6 +141,15 @@ class LanguageSelector extends FormBase {
       $redirect_url = Url::fromUri('base:/' . $value['language_selector']);
       setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', NULL, FALSE);
       setcookie('userLanguage', $value['language_selector'], strtotime('+1 year'), '/', NULL, FALSE);
+      // Storing the value into coookie and temp storage.
+      $default_location = $this->locationService->getDefaultLocation();
+      if (empty($this->locationCookie->getCookieValue())) {
+        $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
+        $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
+      }
+      else {
+        $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
+      }
       $form_state->setRedirectUrl($redirect_url);
     }
   }
