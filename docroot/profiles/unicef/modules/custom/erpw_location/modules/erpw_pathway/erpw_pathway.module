@@ -9,11 +9,11 @@ use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 
 /**
- * Implements erpw_pathway_preprocess_views_view_field() for eprw listing.
+ * Implementing erpw_pathway_preprocess_views_view_field().
  */
 function erpw_pathway_preprocess_views_view_field(&$variables) {
   $view = $variables['view'];
-  if ($view->id() == 'referral_pathway_listing' || $view->id() == 'manage_service') {
+  if ($view->id() == 'referral_pathway_listing' || $view->id() == 'manage_service' || $view->id() == 'service_list') {
     if ($variables['field']->field == 'field_location') {
       $row = $variables['field']->getValue($variables['row']);
       $loc_name = [];
@@ -45,7 +45,7 @@ function erpw_pathway_preprocess_views_view_field(&$variables) {
  * Implements hook_views_query_alter().
  */
 function erpw_pathway_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
-  if ($view->id() == "referral_pathway_on_homepage" && $view->current_display == 'page_1') {
+  if ($view->id() == "referral_pathway_on_homepage" || $view->id() == "service_list") {
     $ptids = [];
     $location_id = get_user_location();
     $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);

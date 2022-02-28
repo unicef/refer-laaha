@@ -115,7 +115,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
         'node_service_provider_form',
         'node_service_provider_edit_form',
       ])) {
-        $form['#validate'][] = 'erpwCustomServiceProviderValidation';
+        $form['#validate'][] = [$this, 'serviceProviderValidation'];
       }
       // Form submit handler.
       $form['actions']['submit']['#submit'][] = [$this, 'eprwSubmitHandler'];
@@ -144,7 +144,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   /**
    * Validation for allowing only integer and '+' in phone number fields.
    */
-  public function erpwCustomServiceProviderValidation(array $form, FormStateInterface $form_state) {
+  public function serviceProviderValidation(&$form, $form_state) {
     $message = $this->t('Only numberic values are allowed');
     $field_phone_number = $form_state->getValue('field_phone_number')[0]['value'];
     if (!preg_match('/^[+-]?\d+$/', $field_phone_number)) {
