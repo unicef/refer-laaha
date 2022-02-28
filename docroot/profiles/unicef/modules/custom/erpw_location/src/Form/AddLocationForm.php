@@ -156,23 +156,8 @@ class AddLocationForm extends FormBase {
     $readonly_level3 = FALSE;
     $readonly_level4 = FALSE;
     if (!empty($location_options) && $id == "") {
-      $uid = $this->currentUser->id();
-      $current_user = $this->entityManager->getStorage('user')->load($uid);
-      if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission('add location of their own country')) {
-        if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
-          $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
-          $ptid = $this->locationService->getAllAncestors($location_id);
-          $ptid = reset($ptid);
-          foreach ($location_options as $key => $location) {
-            if ($key != $ptid) {
-              unset($location_options[$key]);
-            }
-          }
-        }
-        else {
-          unset($location_options);
-        }
-      }
+      $permission = 'add location of their own country';
+      $location_options = erpw_filter_locations_permissions($location_options, $permission, 'location_entity');
       $form['location_options'] = [
         '#type' => 'select',
         '#options' => $location_options,

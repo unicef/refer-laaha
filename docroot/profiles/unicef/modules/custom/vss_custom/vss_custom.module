@@ -1122,3 +1122,54 @@ function filter_tags_submit(&$form, FormStateInterface $form_state) {
   $response = new RedirectResponse("/admin/structure/taxonomy/manage/tags/overview?language_content_entity=$country");
   $response->send();
 }
+
+/**
+ * Submit tags.
+ */
+function vss_custom_views_pre_render(ViewExecutable $view) {
+  if ($view->id() == 'sub_category_all_result') {
+    $filtered_nids = [];
+
+    foreach ($view->result as $key => $row) {
+      if (in_array($row->field_sub_category_taxonomy_term_field_data_nid, $filtered_nids)) {
+        // Remove the duplicate.
+        unset($view->result[$key]);
+      }
+      else {
+        $filtered_nids[] = $row->field_sub_category_taxonomy_term_field_data_nid;
+      }
+    }
+  }
+
+  if ($view->id() == 'top_viewed_nodes') {
+    $filtered_nids = [];
+    foreach ($view->result as $key => $row) {
+      if (in_array($row->nid, $filtered_nids)) {
+        // Remove the duplicate.
+        unset($view->result[$key]);
+      }
+      else {
+        $filtered_nids[] = $row->nid;
+      }
+    }
+  }
+}
+
+/**
+ * Submit tags.
+ */
+function vss_custom_views_post_execute(ViewExecutable $view) {
+  if ($view->id() == 'sub_category_all_result') {
+    $filtered_nids = [];
+    foreach ($view->result as $i => $row) {
+      if (in_array($row->field_sub_category_taxonomy_term_field_data_nid, $filtered_nids)) {
+        // Remove the duplicate.
+        unset($view->result[$i]);
+      }
+      else {
+        $filtered_nids[] = $row->field_sub_category_taxonomy_term_field_data_nid;
+      }
+    }
+    $view->total_rows = count($filtered_nids);
+  }
+}
