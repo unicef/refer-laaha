@@ -24,7 +24,7 @@
 	[id^='edit-field-countrycode-wrapper'] {
 		display: inline-block;
 		margin-right: 10px;
-		max-width: 15%;
+		max-width: 30%;
 		width: 100%;
 		.form-item {
 			margin-bottom: 0;
@@ -32,8 +32,8 @@
 	}
 	[id^='edit-field-phone-number-wrapper'] {
 		display: inline-block;
-		max-width: 50%;
-		width: 100%;
+		width: calc(100% - 35%);
+    vertical-align: top;
 		.form-item {
 			margin-bottom: 0;
 		}
@@ -44,10 +44,12 @@
 	.service-next-prev-button {
 		display: inline-block;
 		margin-top: 30px;
+		width: 100%;
 		.button-border {
 			background: none;
 			border: 1px solid $base-secondary-bgcolor;
 			@include border-radius(4px);
+			cursor: pointer;
 			color: $base-secondary-bgcolor;
 			display: inline-block;
 			font-size: 0.875em;
@@ -55,8 +57,12 @@
 			padding: 10px 24px;
 			text-transform: uppercase;
 		}
+		.next-btn {
+			text-align: right;
+		}
 	}
 	.form-actions {
+		display: none;
 		float: right;
 		margin-top: 30px;
 	}
