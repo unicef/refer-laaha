@@ -239,6 +239,17 @@ form input[type=submit] {
 }
 
 //select 2 common styling
+.js-form-type-select {
+	position: relative;
+	select + .error {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+	}
+}
+label.error + .select2-container .select2-selection {
+	border: 2px solid red !important;
+}
 .add_multiple + .select2-container {
 	.select2-selection__choice[title='Select 3 Label'] {
 		display: none;

@@ -61,6 +61,21 @@
             if ($('.user-location').text().length > 0) {
                 $('.user-location').addClass('location-theme');
             }
+
+						//Default service form
+            $('.next-btn').click(function(){
+							if($('.service-provider-step1').hasClass('hidden')) {
+									$('.form-actions').show();
+							}
+							$('.service-next-prev-button').css('width', 'inherit');
+            })
+						$('.prev-btn').click(function(){
+							if($('.service-provider-step1').hasClass('hidden')) {
+									$('.form-actions').hide();
+							}
+							$('.service-next-prev-button').css('width', '100%');
+            })
+            
         }
     };
 }(jQuery, Drupal, drupalSettings));
