@@ -60,16 +60,20 @@
   }
 
   .category-item {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    padding: 15px 5px;
+    a {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      padding: 15px 5px;
 
-    &:hover {
-      cursor: pointer;
+      &:hover {
+        cursor: pointer;
+      }
+      @media screen and (min-width: 1366px) {
+        padding: 0;
+      }
     }
     @media screen and (min-width: 1366px) {
-      padding: 0;
       position: absolute;
     }
   }
