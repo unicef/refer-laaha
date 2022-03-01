@@ -2,3 +2,8 @@ services:
   erpw_location.location_services:
     class: Drupal\erpw_location\LocationService
     arguments: ['@entity_type.manager', '@language_manager','@database']
+  erpw_location.location_cookie:
+    class: Drupal\erpw_location\LocationCookie
+    arguments: ['@request_stack']
+    tags:
+      - { name: 'event_subscriber' }

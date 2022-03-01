@@ -3,12 +3,14 @@
 namespace Drupal\erpw_location\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\erpw_location\LocationService;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\TempStore\PrivateTempStoreFactory;
+use Drupal\erpw_location\LocationCookie;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 
 /**
  * Provides a block with a simple text.
@@ -19,13 +21,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface {
-
-  /**
-   * Drupal\Core\Session\AccountInterface definition.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $currentUser;
 
   /**
    * The location service.
@@ -49,22 +44,47 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
   protected $configfactory;
 
   /**
+   * The cookie as a service.
+   *
+   * @var \Drupal\erpw_location\LocationCookie
+   */
+  protected $locationCookie;
+
+  /**
+   * The tempstore factory.
+   *
+   * @var \Drupal\Core\TempStore\PrivateTempStoreFactory
+   */
+  protected $tempStoreFactory;
+
+  /**
+   * The Current user service.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    AccountInterface $current_user,
     LocationService $location_service,
     EntityTypeManagerInterface $entity_manager,
-    ConfigFactoryInterface $config_factory) {
+    ConfigFactoryInterface $config_factory,
+    LocationCookie $location_cookie,
+    PrivateTempStoreFactory $temp_store_factory,
+    AccountProxyInterface $current_user) {
 
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->currentUser = $current_user;
     $this->locationService = $location_service;
     $this->entityManager = $entity_manager;
     $this->configfactory = $config_factory;
+    $this->locationCookie = $location_cookie;
+    $this->tempStoreFactory = $temp_store_factory->get('erpw_location_collection');
+    $this->currentUser = $current_user;
   }
 
   /**
@@ -89,10 +109,12 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('current_user'),
       $container->get('erpw_location.location_services'),
       $container->get('entity_type.manager'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('erpw_location.location_cookie'),
+      $container->get('tempstore.private'),
+      $container->get('current_user'),
     );
   }
 
@@ -101,8 +123,8 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
    */
   public function build() {
     $form_config = $this->configfactory->get('erpw_location.settings');
-    $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
-    $tid = $user->field_location_details->value;
+    $cookie_value = $this->locationCookie->getCookieValue();
+    $tid = $this->tempStoreFactory->get(base64_decode($cookie_value));
     $tid_array = explode(",", $tid);
     $location = '';
     if (!empty($tid)) {
@@ -117,8 +139,9 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
         }
       }
     }
-    $title = !empty($form_config->get('title')) ? $this->t($form_config->get('title')) : "";
-    $descripton = !empty($form_config->get('description')) ? $this->t($form_config->get('description')) : "";
+
+    $title = !empty($form_config->get('title')) ? $form_config->get('title') : "";
+    $descripton = !empty($form_config->get('description')) ? $form_config->get('description') : "";
     return [
       '#theme' => 'homepage_user_location',
       '#title' => $title,
@@ -126,7 +149,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
       '#location' => $location,
       '#tid' => !empty($ancestors_prev[0]) ? $ancestors_prev[0] : 0,
       '#cache' => [
-        'contexts' => ['user'],
+        'max-age' => 0,
       ],
     ];
   }

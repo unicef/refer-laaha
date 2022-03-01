@@ -65,9 +65,6 @@
  *
  * @see template_preprocess_node()
  *
- * @todo Remove the id attribute (or make it a class), because if that gets
- *   rendered twice on a page this is invalid CSS for example: two lists
- *   in different view modes.
  */
 #}
 {%
@@ -80,16 +77,27 @@
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
   ]
 %}
-
-{{ attach_library('unicef_iconpicker/unicef-icons')}}
-
-<div class="service-listing">
-  <div class="listing-detail">
-    <label style="background-color:  {{ node.field_service_type_color.entity.field_service_type_color.color }}">
-      <i class="{{ node.field_service_type_icon.entity.field_service_type_icon.value }}"></i>
-    </label>
-    <span class="service-title">
-    <a href="{{ path('view.service_list.page_1', {'arg_0': node.nid.value }) }}">{{ node.title.value }}</a></span>
-
-  </div>
+{{ attach_library('classy/node') }}
+<article{{ attributes.addClass(classes) }}>
+<div{{ content_attributes.addClass('node__content') }}>
+<a href="{{ path('entity.node.edit_form', {'node': node.nid.value }) }}">{{ 'Edit'|t }}</a></span>
+<p> {{ 'Name of the service'|t }}:  {{ content.field_service_type.0['#title'] }}</p>
+<p> {{ 'Name of the Organisation'|t }}:  {{ content.field_select_organisation.0['#title'] }}</p>
+<p> {{ 'P-code'|t }}:  {{ content.field_p_code.0['#title'] }}</p>
+<p> {{ 'Opening hours'|t }}:   {{ content.field_opening_hours.0['#title'] }}</p>
+<p> {{ 'Cost of Service'|t }}:   {{ content.field_cost_of_service.0['#title'] }}</p>
+<p> {{ 'Transportation Available'|t }}:  {{ content.field_transportation_available.0['#title'] }}</p>
+<p> {{ 'Accessibility for Persons'|t }}:   {{ content.field_accessibility_for_persons_.0['#title'] }}</p>
+<p> {{ 'Age group'|t }}:   {{ content.field_age_group.0['#title'] }}</p>
+<p> {{ 'Target group'|t }}:   {{ content.field_target_group.0['#markup'] }}</p>
+<p> {{ 'Country code'|t }}:  {{ content.field_countrycode.0['#title'] }}</p>
+<p> {{ 'Phone Number'|t }}:  {{ content.field_phone_number.0['#title'] }}</p>
+<p> {{ 'Mode'|t }}:   {{ content.field_mode.0['#title'] }}</p>
+<p> {{ 'Name of the Focal Point'|t }}: {{ label }}
+<p> {{ 'Phone Number of focal point'|t }}:   {{ content.field_phone_number_of_focal_poin.0['#title'] }}</p>
+<p> {{ 'Email of Focal point'|t }}:   {{ content.field_email_of_focal_point.0['#title'] }}</p>
+<p> {{ 'Name of backup focal point'|t }}:   {{ content.field_name_backup_focalpoint_ref.0['#title'] }}</p>
+<p> {{ 'Phone Number backup focal point'|t }}:   {{ content.field_phone_number_backup_focalp.0['#title'] }}</p>
+<p> {{ 'Email of backup focal point'|t }}:   {{ content.field_email_backup_focal_point.0['#title'] }}</p>
 </div>
+</article>

@@ -5,6 +5,7 @@
  * Contains erpw_custom.module.
  */
 
+use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Form\FormStateInterface;
@@ -13,6 +14,51 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\views\ViewExecutable;
 use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
+
+/**
+ * Implements exposed form alter.
+ */
+function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $view_ids = ['manage_service'];
+  if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
+    $form['field_service_type_target_id']['#type'] = 'select';
+    $form['field_service_type_target_id']['#options'] = erpw_custom_service_type_options();
+  }
+}
+
+/**
+ * Callback to get service type options array.
+ */
+function erpw_custom_service_type_options() {
+  $query = \Drupal::database()->select("node_field_data", "n");
+  $query->innerJoin('node__field_service_type', 'ns', 'ns.field_service_type_target_id = n.nid');
+  $query->fields('n', ['nid', 'title']);
+  $query->condition('n.type', 'service_type');
+  $query->condition('ns.bundle', 'service_provider');
+  $query->condition('n.status', "1");
+  $query->orderBy('n.title', 'ASC');
+  $query = $query->execute();
+  $results = $query->fetchAll();
+  $options[''] = t('All');
+  foreach ($results as $value) {
+    $options[$value->nid] = $value->title;
+  }
+  return $options;
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function erpw_custom_views_pre_render(ViewExecutable $view) {
+  if ($view->id() == 'service_list') {
+    $nid = \Drupal::routeMatch()->getRawParameter('node');
+    $parameters = \Drupal::routeMatch()->getParameters()->all();
+    $nid = $parameters['arg_0'];
+    $node = Node::load($nid);
+    $title = $node->getTitle();
+    $view->setTitle($title);
+  }
+}
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -170,7 +216,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     $form['next_link'] = [
       '#type' => 'markup',
-      '#markup' => "<div class = 'prev-btn hidden button--primary'><span class='button-border'>" . t('Prev') . "</span></div>
+      '#markup' => "<div class = 'prev-btn hidden button--primary'><span class='button-border'>" . t('Back') . "</span></div>
         <div class='next-btn button--primary'><span class='button-border'>" . t('Next') . "</div>",
       '#prefix' => "<div class = 'service-next-prev-button'>",
       '#suffix' => "</div>",
@@ -334,7 +380,6 @@ function _erpw_custom_form_user_email_validate(array &$form, FormStateInterface 
 function erpw_custom_preprocess_page_title(&$variables) {
   $uid = \Drupal::currentUser()->id();
   $route_name = \Drupal::routeMatch()->getRouteName();
-
   if (!$uid && $route_name == 'erpw_custom.sign_up_form') {
     $variables['title'] = t('Sign up');
   }
@@ -342,6 +387,15 @@ function erpw_custom_preprocess_page_title(&$variables) {
     $type = \Drupal::routeMatch()->getParameter('node_type')->get('type');
     if ($type == 'organisation') {
       $variables['title'] = t('Add Organisation');
+    }
+  }
+  elseif ($route_name = "entity.node.canonical") {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if (!empty($node)) {
+      $typeName = $node->bundle();
+      if ($typeName == 'service_provider') {
+        $variables['title'] = t('Service Information');
+      }
     }
   }
 }

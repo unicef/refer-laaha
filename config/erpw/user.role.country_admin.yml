@@ -5,6 +5,7 @@ dependencies:
   config:
     - node.type.organisation
     - node.type.referral_path_way
+    - node.type.service_provider
     - node.type.service_type
   module:
     - content_translation
@@ -29,6 +30,7 @@ permissions:
   - 'create content translations'
   - 'create organisation content'
   - 'create referral_path_way content'
+  - 'create service_provider content'
   - 'create service_type content'
   - 'create service_type content on assigned domains'
   - 'delete any organisation content'

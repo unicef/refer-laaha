@@ -187,7 +187,11 @@ class ManageLocationForm extends FormBase {
     }
     if (!$form_state->getUserInput()) {
       $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
-      $location_value = $user->field_location_details->value;
+
+      if (!empty($user->field_location)) {
+        $location_value = $user->field_location->getValue()[0]['target_id'];
+      }
+
       if (!empty($location_levels_tid)) {
         $location_value = $location_levels_tid;
       }
@@ -196,8 +200,10 @@ class ManageLocationForm extends FormBase {
       $upper_ancestors = array_reverse(array_keys($ancestors));
       $mylocation = "";
       foreach (array_reverse($upper_ancestors) as $key => $value) {
-        $mylocation .= " " . $this->locationService->getTaxonomyTermById($value);
+        $mylocation .= " " . $this->locationService->getTaxonomyTermById($value) . ", ";
       }
+      $mylocation = substr(trim($mylocation), 0, -1);
+
       if (!empty($upper_ancestors[0])) {
         $country_tid = $this->locationService->getLocationSingleEntityIdByTid($upper_ancestors[0]);
       }

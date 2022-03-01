@@ -302,4 +302,52 @@ class LocationService {
     }
   }
 
+  /**
+   * Get default country ID.
+   *
+   * @return int
+   *   Return of default location id.
+   */
+  public function getDefaultLocation() {
+    $query = $this->connection->select('location__field_location_taxonomy_term', 'tm');
+    $query->innerJoin('taxonomy_term_data', 't', 't.tid = tm.field_location_taxonomy_term_target_id');
+    $query->fields('t', ['tid']);
+    $result = $query->execute();
+
+    return $result->fetchField();
+  }
+
+  /**
+   * Get user location.
+   *
+   * @param object $user
+   *   The user object.
+   */
+  public function getUserLocation($user) {
+    if (!empty($user->field_location)) {
+      if (!empty($user->field_location->getValue()) && is_array($user->field_location->getValue())) {
+        $tid = $user->field_location->getValue()[0]['target_id'];
+        $tid_array = $user->field_location->getValue();
+      }
+      else {
+        $tid = $user->field_location->value;
+      }
+    }
+    $location = '';
+    if (!empty($tid)) {
+      foreach ($tid_array as $key => $value) {
+        if ($key != 0) {
+          $location .= $this->getTaxonomyTermById($value['target_id']) . ", ";
+        }
+      }
+      $ancestors_prev = $this->getAllAncestors($tid);
+      $ancestors = array_reverse($ancestors_prev);
+      foreach ($ancestors as $value) {
+        $location .= $this->getTaxonomyTermById($value) . ", ";
+      }
+      $location = substr(trim($location), 0, -1);
+      return $location;
+    }
+  }
+
 }
