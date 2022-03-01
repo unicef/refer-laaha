@@ -3,9 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.scorm.body
     - field.field.node.scorm.field_content
     - field.field.node.scorm.field_domain_access
     - field.field.node.scorm.field_domain_all_affiliates
+    - field.field.node.scorm.field_meta_tags
     - field.field.node.scorm.field_preview_password
     - field.field.node.scorm.field_read_time
     - field.field.node.scorm.field_sub_category
@@ -29,8 +31,8 @@ content:
     type: layout_paragraphs
     label: hidden
     settings:
-      view_mode: amp
-      link: false
+      view_mode: default
+      link: ''
     third_party_settings: {  }
     weight: 1
     region: content
@@ -43,8 +45,10 @@ content:
     weight: 2
     region: content
 hidden:
+  body: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_meta_tags: true
   field_preview_password: true
   field_read_time: true
   field_sub_category: true
