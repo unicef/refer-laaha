@@ -6,6 +6,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\erpw_location\LocationService;
@@ -1067,9 +1068,9 @@ class SignUpForm extends FormBase {
       $user->save();
       _user_mail_notify('register_pending_approval', $user);
       $response = new AjaxResponse();
-      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\ModalForm');
-      // Add an AJAX command to open a modal dialog with the form as content.
-      $response->addCommand(new OpenModalDialogCommand('', $modal_form, ['width' => '400']));
+      $url = Url::fromRoute('view.user_lists.page_1');
+      $command = new RedirectCommand($url);
+      $response->addCommand($command);
     }
     return $response;
   }
