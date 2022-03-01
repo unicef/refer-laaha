@@ -2038,7 +2038,7 @@ html[dir=rtl] .search-content-cat .cat-title {
   padding-left: 0;
   padding-right: 0;
 }
-html[dir=rtl] .table caption, html[dir=rtl] .table th, html[dir=rtl] .table td {
+html[dir=rtl] table caption, html[dir=rtl] table th, html[dir=rtl] table td {
   text-align: right;
 }
 
@@ -3443,16 +3443,13 @@ form.location-form .form-item .description {
   width: 10px;
 }
 
-.table caption {
-  font-size: 18px;
-}
-.table .fa-facebook-square::before {
+table .fa-facebook-square::before {
   content: "Facebook";
 }
-.table .fa-twitter::before {
+table .fa-twitter::before {
   content: "Twitter";
 }
-.table .fa-linkedin::before {
+table .fa-linkedin::before {
   content: "LinkedIn";
 }
 
