@@ -508,6 +508,36 @@ html[dir="rtl"] {
       right: unset;
     }
   }
+
+  // Need-help
+  .view-need-help-view {
+    .table {
+      caption {
+        text-align: right;
+      }
+
+      th {
+        text-align: right;
+      }
+    }
+  }
+// Need help facets
+  .block-facet-blockcity,
+  .block-facet-blockservice-provider-name,
+  .block-facet-blocktitle1  {
+
+    ul {
+      list-style: none;
+      padding-right: 0;
+    }
+
+    li {
+      input[type=checkbox] {
+        margin-left: 6px;
+        margin-right: 0;
+      }
+    }
+  }
 }
 
 
