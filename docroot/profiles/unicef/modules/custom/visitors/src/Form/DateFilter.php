@@ -24,7 +24,6 @@ class DateFilter extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
 
     $from = \Drupal::request()->query->get('timestamp');
-    $form = [];
 
     $form['visitors_date_from_filter'] = [
       '#title'            => t('Filter By'),
