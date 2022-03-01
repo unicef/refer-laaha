@@ -60,6 +60,24 @@
       font-size: 18px;
     }
   }
+
+  .fa-facebook-square {
+    &::before {
+      content: 'Facebook';
+    }
+  }
+
+  .fa-twitter {
+    &::before {
+      content: 'Twitter';
+    }
+  }
+
+  .fa-linkedin {
+    &::before {
+      content: 'LinkedIn';
+    }
+  }
 }
 
 #block-amp-needhelptitle {

@@ -1717,6 +1717,24 @@ html[dir="rtl"] .audio-info-pop-up {
     left: 15px;
     right: unset; }
 
+html[dir="rtl"] .view-need-help-view .table caption {
+  text-align: right; }
+
+html[dir="rtl"] .view-need-help-view .table th {
+  text-align: right; }
+
+html[dir="rtl"] .block-facet-blockcity ul,
+html[dir="rtl"] .block-facet-blockservice-provider-name ul,
+html[dir="rtl"] .block-facet-blocktitle1 ul {
+  list-style: none;
+  padding-right: 0; }
+
+html[dir="rtl"] .block-facet-blockcity li input[type=checkbox],
+html[dir="rtl"] .block-facet-blockservice-provider-name li input[type=checkbox],
+html[dir="rtl"] .block-facet-blocktitle1 li input[type=checkbox] {
+  margin-left: 6px;
+  margin-right: 0; }
+
 @media screen and (max-width: 767px) {
   html[dir="rtl"] #block-recommendedrelatedcontentblock .recomended-header span {
     padding-right: 8px;
