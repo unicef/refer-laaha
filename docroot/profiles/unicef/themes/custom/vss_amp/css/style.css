@@ -2038,23 +2038,8 @@ html[dir=rtl] .search-content-cat .cat-title {
   padding-left: 0;
   padding-right: 0;
 }
-html[dir=rtl] .view-need-help-view .table caption {
+html[dir=rtl] table caption, html[dir=rtl] table th, html[dir=rtl] table td {
   text-align: right;
-}
-html[dir=rtl] .view-need-help-view .table th {
-  text-align: right;
-}
-html[dir=rtl] .block-facet-blockcity ul,
-html[dir=rtl] .block-facet-blockservice-provider-name ul,
-html[dir=rtl] .block-facet-blocktitle1 ul {
-  list-style: none;
-  padding-right: 0;
-}
-html[dir=rtl] .block-facet-blockcity li input[type=checkbox],
-html[dir=rtl] .block-facet-blockservice-provider-name li input[type=checkbox],
-html[dir=rtl] .block-facet-blocktitle1 li input[type=checkbox] {
-  margin-left: 6px;
-  margin-right: 0;
 }
 
 @media screen and (max-width: 767px) {
@@ -3458,70 +3443,13 @@ form.location-form .form-item .description {
   width: 10px;
 }
 
-.block-facet-blockcity,
-.block-facet-blockservice-provider-name,
-.block-facet-blocktitle1 {
-  background-color: #FFCDD2;
-  margin-bottom: 48px;
-  padding: 5px 10px;
-}
-.block-facet-blockcity .block-title,
-.block-facet-blockservice-provider-name .block-title,
-.block-facet-blocktitle1 .block-title {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.3;
-  margin: 0 0 10px;
-}
-.block-facet-blockcity ul,
-.block-facet-blockservice-provider-name ul,
-.block-facet-blocktitle1 ul {
-  list-style: none;
-  padding-left: 0;
-}
-.block-facet-blockcity li.facet-item,
-.block-facet-blockservice-provider-name li.facet-item,
-.block-facet-blocktitle1 li.facet-item {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin-bottom: 5px;
-}
-.block-facet-blockcity li input[type=checkbox],
-.block-facet-blockservice-provider-name li input[type=checkbox],
-.block-facet-blocktitle1 li input[type=checkbox] {
-  margin-right: 6px;
-  margin-top: 0;
-}
-.block-facet-blockcity li label,
-.block-facet-blockservice-provider-name li label,
-.block-facet-blocktitle1 li label {
-  margin-bottom: 0;
-}
-
-.view-need-help-view .view-header {
-  margin-bottom: 20px;
-}
-.view-need-help-view .pagination > .active > a {
-  background-color: #FFCDD2;
-  border-color: #FFCDD2;
-}
-.view-need-help-view .pagination > li > a {
-  color: #000;
-}
-.view-need-help-view .table caption {
-  font-size: 18px;
-}
-.view-need-help-view .fa-facebook-square::before {
+table .fa-facebook-square::before {
   content: "Facebook";
 }
-.view-need-help-view .fa-twitter::before {
+table .fa-twitter::before {
   content: "Twitter";
 }
-.view-need-help-view .fa-linkedin::before {
+table .fa-linkedin::before {
   content: "LinkedIn";
 }
 

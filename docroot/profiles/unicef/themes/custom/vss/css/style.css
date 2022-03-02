@@ -1849,7 +1849,7 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   position: relative; }
   .homepage-hero-section--categories.lightSlider {
     margin: 0; }
-  .homepage-hero-section--categories .category-item {
+  .homepage-hero-section--categories .category-item a {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
@@ -1861,12 +1861,14 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
         -ms-flex-direction: column;
             flex-direction: column;
     padding: 15px 5px; }
-    .homepage-hero-section--categories .category-item:hover {
+    .homepage-hero-section--categories .category-item a:hover {
       cursor: pointer; }
     @media screen and (min-width: 1366px) {
-      .homepage-hero-section--categories .category-item {
-        padding: 0;
-        position: absolute; } }
+      .homepage-hero-section--categories .category-item a {
+        padding: 0; } }
+  @media screen and (min-width: 1366px) {
+    .homepage-hero-section--categories .category-item {
+      position: absolute; } }
   .homepage-hero-section--categories .category-thumbnail,
   .homepage-hero-section--categories .category-thumbnail--large {
     -webkit-box-align: center;

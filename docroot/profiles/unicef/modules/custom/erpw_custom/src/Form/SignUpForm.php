@@ -103,6 +103,7 @@ class SignUpForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
     $this->userId = $id;
+    $organisation = "";
     $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple();
     foreach ($roles as $role) {
       if ($role->id() == 'administrator' || $role->id() == 'anonymous' || $role->id() == 'authenticated') {
@@ -183,6 +184,9 @@ class SignUpForm extends FormBase {
       '#placeholder' => $this->t('**********'),
       '#default_value' => !empty($field_phone) ? $field_phone : $form_state->getValue('phone', ''),
     ];
+    if (!empty($form_state->getValue('organisation'))) {
+      $organisation = $this->entityTypeManager->getStorage('node')->load($form_state->getValue('organisation'));
+    }
 
     $form['organisation'] = [
       '#type' => 'entity_autocomplete',
@@ -190,7 +194,7 @@ class SignUpForm extends FormBase {
       '#title' => $this->t('Organisation'),
       '#required' => TRUE,
       '#placeholder' => $this->t('Select Organisation'),
-      '#default_value' => !empty($organisation) ? $organisation : $form_state->getValue('organisation', ''),
+      '#default_value' => $organisation,
       '#selection_settings' => [
         'target_bundles' => ['organisation'],
         'sort' => [

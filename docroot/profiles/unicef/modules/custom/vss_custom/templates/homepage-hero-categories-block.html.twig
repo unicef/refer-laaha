@@ -18,8 +18,10 @@
     {% for key,item in content %}
     {% set item = item['0'] %}
       <div class="category-item category-item-{{ loop.index0 }}">
-        <div class="category-thumbnail" style="background-color: {{ '#'~ item.color }}"><img src="{{ file_url( item.icon | image_style('thumbnail')) }}" alt="{{ item.alt }}"/></div>
-        <div class="category-name hide-desktop"><a href="/{{lang_code}}{{ item.cat_uri }}">{{ item.sname ? item.sname : item.name}} </a></div>
+        <a href="/{{lang_code}}{{ item.cat_uri }}">
+          <div class="category-thumbnail" style="background-color: {{ '#'~ item.color }}"><img src="{{ file_url( item.icon | image_style('thumbnail')) }}" alt="{{ item.alt }}"/></div>
+          <div class="category-name hide-desktop">{{ item.sname ? item.sname : item.name}}</div>
+        </a>
         <a class="hidden hover-show" href="/{{lang_code}}{{ item.cat_uri }}">
           <div class="category-thumbnail--large" style="background-color: {{ '#'~ item.color }}">
             <img src="{{ file_url( item.icon | image_style('thumbnail')) }}" alt="{{ item.alt }}"/>
