@@ -24,6 +24,10 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     $form['field_service_type_target_id']['#type'] = 'select';
     $form['field_service_type_target_id']['#options'] = erpw_custom_service_type_options();
   }
+  if ($form_id == 'views_exposed_form' && $form_state->get('view')->id() == 'user_lists') {
+    $form['field_organisation_target_id_verf']['#options']['All'] = t('- All -');
+    $form['roles_target_id']['#options']['All'] = t('- All -');
+  }
 }
 
 /**
@@ -69,7 +73,11 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
     $form['location']['level_0']['#empty_option'] = t('Select country');
   }
-
+  if ($form_id == 'user_location_form') {
+    $permission = 'edit location of their own country';
+    $form['location_options']['#options'] = erpw_filter_locations_permissions($form['location_options']['#options'], $permission, 'location_entity');
+    $form['location_options']['#empty_option'] = t('Select country');
+  }
   if ($form_id == 'sign_up') {
     if (isset($form['location_options']['#options'])) {
       $permission = 'add new user for their own country';
@@ -452,7 +460,7 @@ function erpw_custom_preprocess_status_messages(&$variables) {
 function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
   if ($view->id() == "user_lists" && $view->current_display == 'page_1') {
     $permission = 'view users of their own country';
-    $condition_field = 'user__field_location_details.field_location_details_value';
+    $condition_field = 'user__field_location.field_location_target_id';
     $query = erpw_view_results_locations_permissions($query, $condition_field, $permission);
   }
   if ($view->id() == "referral_pathway_listing" && $view->current_display == 'page_1') {
@@ -469,8 +477,8 @@ function erpw_view_results_locations_permissions($query, $condition_field, $perm
   $uid = \Drupal::currentUser()->id();
   $current_user = User::load($uid);
   if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
-    if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
-      $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
+    if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
+      $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
       $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
     }
     foreach ($query->where as &$condition_group) {
@@ -497,8 +505,8 @@ function erpw_filter_locations_permissions($location_options, $permission, $type
   $current_user = User::load($uid);
   if ($uid != 1 && $location_options && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
     $location_id = FALSE;
-    if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
-      $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
+    if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
+      $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
     }
     if ($location_id) {
       $ptid = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);

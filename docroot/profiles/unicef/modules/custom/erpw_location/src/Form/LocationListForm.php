@@ -92,25 +92,8 @@ class LocationListForm extends FormBase {
     $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
     $location_options = [];
-    $uid = $this->currentUser->id();
-    $current_user = $this->entityTypeManager->getStorage('user')->load($uid);
-    if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission('view location of their own country')) {
-      if ($current_user->hasField('field_location_details') && !$current_user->get('field_location_details')->isEmpty()) {
-        $location_id = $current_user->get('field_location_details')->getValue()[0]['value'];
-        $ancestors = $this->entityTypeManager->getStorage('taxonomy_term')->loadAllParents($location_id);
-        $ancestors = array_reverse(array_keys($ancestors));
-        $ptid = reset($ancestors);
-        foreach ($location_entities as $location) {
-          if ($location->id() == $ptid) {
-            $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
-          }
-        }
-      }
-    }
-    else {
-      foreach ($location_entities as $location) {
-        $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
-      }
+    foreach ($location_entities as $location) {
+      $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
     }
     asort($location_options);
     if (!empty($location_entities)) {

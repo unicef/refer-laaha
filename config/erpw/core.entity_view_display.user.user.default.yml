@@ -9,7 +9,6 @@ dependencies:
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
     - field.field.user.user.field_location
-    - field.field.user.user.field_location_details
     - field.field.user.user.field_organisation
     - field.field.user.user.field_phone
     - field.field.user.user.field_position
@@ -48,14 +47,6 @@ content:
       link: true
     third_party_settings: {  }
     weight: 15
-    region: content
-  field_location_details:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 13
     region: content
   field_organisation:
     type: entity_reference_label
