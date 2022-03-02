@@ -5,9 +5,10 @@ dependencies:
   config:
     - field.storage.user.field_first_name
     - field.storage.user.field_last_name
-    - field.storage.user.field_location_details
+    - field.storage.user.field_location
     - field.storage.user.field_organisation
     - field.storage.user.field_phone
+    - taxonomy.vocabulary.country
     - user.role.administrator
     - user.role.country_admin
     - user.role.interagency_gbv_coordinator
@@ -15,6 +16,7 @@ dependencies:
     - user.role.super_admin
   module:
     - better_exposed_filters
+    - taxonomy
     - user
     - verf
 id: user_lists
@@ -453,10 +455,10 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: false
-        field_location_details:
-          id: field_location_details
-          table: user__field_location_details
-          field: field_location_details
+        field_location:
+          id: field_location
+          table: user__field_location
+          field: field_location
           relationship: none
           group_type: group
           admin_label: ''
@@ -502,11 +504,10 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
+          click_sort_column: target_id
+          type: entity_reference_entity_id
+          settings: {  }
+          group_column: target_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -615,16 +616,16 @@ display:
           exposed: false
       arguments: {  }
       filters:
-        field_location_details_value:
-          id: field_location_details_value
-          table: user__field_location_details
-          field: field_location_details_value
+        field_location_target_id:
+          id: field_location_target_id
+          table: user__field_location
+          field: field_location_target_id
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: string
-          operator: word
-          value: ''
+          plugin_id: taxonomy_index_tid
+          operator: 'not empty'
+          value: {  }
           group: 1
           exposed: false
           expose:
@@ -641,7 +642,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-            placeholder: ''
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -654,6 +655,12 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          reduce_duplicates: false
+          vid: country
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
         field_organisation_target_id_verf:
           id: field_organisation_target_id_verf
           table: user__field_organisation
@@ -768,7 +775,7 @@ display:
           plugin_id: boolean
           operator: '='
           value: '1'
-          group: 1
+          group: 2
           exposed: false
           expose:
             operator_id: ''
@@ -796,6 +803,11 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: OR
+          2: AND
       style:
         type: default
       row:
@@ -832,12 +844,13 @@ display:
         - url
         - url.query_args
         - url.site
+        - user
         - 'user.node_grants:view'
         - user.roles
       tags:
         - 'config:field.storage.user.field_first_name'
         - 'config:field.storage.user.field_last_name'
-        - 'config:field.storage.user.field_location_details'
+        - 'config:field.storage.user.field_location'
         - 'config:field.storage.user.field_organisation'
         - 'config:field.storage.user.field_phone'
         - 'config:views.view.user_lists'
@@ -859,12 +872,13 @@ display:
         - url
         - url.query_args
         - url.site
+        - user
         - 'user.node_grants:view'
         - user.roles
       tags:
         - 'config:field.storage.user.field_first_name'
         - 'config:field.storage.user.field_last_name'
-        - 'config:field.storage.user.field_location_details'
+        - 'config:field.storage.user.field_location'
         - 'config:field.storage.user.field_organisation'
         - 'config:field.storage.user.field_phone'
         - 'config:views.view.user_lists'

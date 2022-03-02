@@ -188,7 +188,8 @@ class ManageLocationForm extends FormBase {
     if (!$form_state->getUserInput()) {
       $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
 
-      if (!empty($user->field_location)) {
+      $location_value = '';
+      if ($user->hasField('field_location') && !$user->get('field_location')->isEmpty()) {
         $location_value = $user->field_location->getValue()[0]['target_id'];
       }
 
