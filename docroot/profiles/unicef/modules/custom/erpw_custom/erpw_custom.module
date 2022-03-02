@@ -25,8 +25,8 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     $form['field_service_type_target_id']['#options'] = erpw_custom_service_type_options();
   }
   if ($form_id == 'views_exposed_form' && $form_state->get('view')->id() == 'user_lists') {
-    $form['field_organisation_target_id_verf']['#options']['All'] = t('- All -');
-    $form['roles_target_id']['#options']['All'] = t('- All -');
+    $form['field_organisation_target_id_verf']['#options']['All'] = t('All');
+    $form['roles_target_id']['#options']['All'] = t('All');
   }
 }
 
