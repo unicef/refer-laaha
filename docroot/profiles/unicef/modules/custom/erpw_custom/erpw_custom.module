@@ -133,9 +133,9 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
   $common_form_ids = [
     'node_service_type_form',
     'node_service_type_edit_form',
-    'node_service_type_quick_node_clone_form',
     'node_referral_path_way_form',
     'node_referral_path_way_edit_form',
+    'node_service_type_quick_node_clone_form',
   ];
   if (in_array($form_id, $common_form_ids)) {
     $form['advanced']['#access'] = FALSE;
@@ -194,7 +194,12 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
     $form['actions']['submit']['#value'] = t('PUBLISH');
   }
-
+  // Update the translation buttons for RPW edit form.
+  if ($form_id == 'node_referral_path_way_edit_form') {
+    $form['actions']['submit']['#value'] = t('UPDATE');
+    $form['actions']['delete']['#access'] = FALSE;
+    $form['actions']['delete_translation']['#access'] = FALSE;
+  }
   // To alter buttons text for Service Type Edit form.
   if ($form_id == 'node_service_type_edit_form') {
     $form['actions']['submit']['#value'] = t('UPDATE');
@@ -262,19 +267,6 @@ function _erpw_custom_service_provider_form(array $form, FormStateInterface $for
     $form_state->setValue('field_p_code', [['value' => $p_code_str_value]]);
   }
   return _erpw_custom_redirect('view.manage_service.page_1');
-}
-
-/**
- * Implements hook_field_widget_WIDGET_TYPE_form_alter().
- */
-function erpw_custom_field_widget_entity_reference_paragraphs_form_alter(&$element, &$form_state, $context) {
-  if ($element['#paragraph_type'] == 'sections') {
-    $element['subform']['field_service_type']['widget']['add_more']['#value'] = t('Add another service type');
-    $element['top']['links']['remove_button']['#paragraphs_mode'] = 'removed';
-  }
-  if ($element['#paragraph_type'] == 'sections') {
-    $element['subform']['field_service_type']['widget']['add_more']['#value'] = t('Add another service type');
-  }
 }
 
 /**
