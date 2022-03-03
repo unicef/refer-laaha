@@ -13,7 +13,7 @@
           $('.tour-tip-body').before('<img class="supportimg" src="/profiles/unicef/themes/custom/vss/images/support-icon.png" width="64" height="64" alt="support-icon">');
           $('.tour-tip-body').after('<img class="pause" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon" style=display:none;cursor:pointer;margin-right:6px;margin-top:11px;>'); 
           $('.tour-tip-body').after('<img class="resume" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon" style=display:none;cursor:pointer;margin-right:6px;margin-top:11px;>'); 
-          $('.tour-tip-body').after('<img class="play" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon">');           
+          $('.tour-tip-body').after('<div class="play-wrapper"> <img class="play" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon"></div>');
           $('.shepherd-footer button').before('<span class="skip">'+skip+'</span>');
           $('.shepherd-footer button').addClass('button-defult');
           $('.shepherd-footer button').append('<i class="fa fa-angle-right"></i>');
@@ -29,7 +29,7 @@
              $('.tour-tip-body').before('<img class="supportimg" src="/profiles/unicef/themes/custom/vss/images/support-icon.png" width="64" height="64" alt="support-icon">');
              $('.tour-tip-body').after('<img class="pause" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon" style=display:none;cursor:pointer;margin-right:6px;margin-top:11px;>'); 
              $('.tour-tip-body').after('<img class="resume" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon" style=display:none;cursor:pointer;margin-right:6px;margin-top:11px;>'); 
-             $('.tour-tip-body').after('<img class="play" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18"  alt="sound-icon">');
+             $('.tour-tip-body').after('<div class="play-wrapper"> <img class="play" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon"></div>');
              $('.shepherd-footer button').before('<span class="skip">'+skip+'</span>');
              $('.shepherd-footer button').addClass('button-defult');
              $('.shepherd-footer button').append('<i class="fa fa-angle-right"></i>');
