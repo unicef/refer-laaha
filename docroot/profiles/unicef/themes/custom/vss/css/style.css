@@ -671,10 +671,24 @@ body .absoluteclass {
       margin-top: 8px;
       padding: 0 12px;
       min-height: 50px; }
+  .shepherd-element .play-wrapper {
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    background: #FFCDD2;
+    border-radius: 50%;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    height: 30px;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    margin-top: 8px;
+    padding: 20px;
+    width: 30px; }
   .shepherd-element .play {
-    cursor: pointer;
-    margin-right: 6px;
-    margin-top: 11px; }
+    cursor: pointer; }
   .shepherd-element .shepherd-cancel-icon {
     top: 29px;
     right: 31px; }
@@ -1659,8 +1673,8 @@ html[dir="rtl"] .popup-wrapper h2 {
   padding: 40px 0 16px 40px; }
 
 html[dir="rtl"] .heading-with-mike .buttons {
-  left: 20px;
-  right: inherit; }
+  left: -10px;
+  right: unset; }
 
 html[dir="rtl"] .pop-up-btn.right-arrow::after {
   margin-left: 0;
@@ -1678,8 +1692,6 @@ html[dir="rtl"] .pink-btn::after {
 
 html[dir="rtl"] form.location-form .heading-with-mike {
   text-align: right; }
-  html[dir="rtl"] form.location-form .heading-with-mike .buttons {
-    margin: 10px 18px 0 0; }
 
 html[dir="rtl"] .virtual-main-title::before {
   margin-right: 0;
@@ -1702,6 +1714,10 @@ html[dir="rtl"] .pager__item a::after {
 html[dir="rtl"] .search-content-cat .cat-title {
   padding-left: 0;
   padding-right: 0; }
+
+html[dir="rtl"] .form-type-search-api-autocomplete {
+  margin-left: 16px;
+  margin-right: unset; }
 
 html[dir="rtl"] .block-view-count-block .view-icon {
   margin-left: 6px;
@@ -2051,6 +2067,7 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
           -ms-flex-pack: center;
               justify-content: center; }
   .block-views-exposed-filter-blocks-block .form-type-search-api-autocomplete {
+    margin-right: 16px;
     width: 60%; }
   .block-views-exposed-filter-blocks-block .input-group {
     width: 100%; }
@@ -2666,38 +2683,27 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
 form.location-form {
   position: relative; }
   form.location-form .heading-with-mike {
-    text-align: left;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     display: -webkit-box;
     display: -ms-flexbox;
-    display: flex; }
+    display: flex;
+    text-align: left; }
     form.location-form .heading-with-mike h3 {
-      font-size: 1.28em;
-      line-height: 28px;
-      font-weight: 400;
       color: #000;
+      font-size: 1.28em;
+      font-weight: 400;
+      line-height: 28px;
       margin: 0;
       opacity: .8; }
       @media screen and (min-width: 768px) {
         form.location-form .heading-with-mike h3 {
-          font-size: 2.40em;
+          font-size: 2.4em;
           line-height: 48px; } }
     form.location-form .heading-with-mike .buttons {
-      position: inherit;
-      margin: 5px 0 0 18px;
-      bottom: inherit;
-      right: inherit;
-      left: inherit; }
-      @media screen and (min-width: 768px) {
-        form.location-form .heading-with-mike .buttons {
-          margin: 16px 0 0 18px; } }
-      @media screen and (min-width: 992px) {
-        form.location-form .heading-with-mike .buttons {
-          margin: 10px 0 0 18px; } }
-    @media screen and (min-width: 992px) {
-      form.location-form .heading-with-mike button {
-        background: url("../images/sound-icon.svg") 0 0 no-repeat !important;
-        height: 35px !important;
-        width: 35px !important; } }
+      bottom: 0;
+      position: relative; }
   form.location-form .location-selector-block {
     padding: 180px 0 160px; }
     @media screen and (min-width: 992px) {
@@ -2753,8 +2759,8 @@ form.location-form {
     display: none; }
   form.location-form .form-item {
     background: #ffffff;
-    padding: 8px 16px;
-    margin: 8px 0; }
+    margin: 8px 0;
+    padding: 8px 16px; }
     @media screen and (min-width: 992px) {
       form.location-form .form-item {
         border: 1px solid rgba(0, 0, 0, 0.6);
@@ -2954,14 +2960,16 @@ form.location-form {
   position: relative;
   text-align: center; }
   .heading-with-mike .buttons {
-    bottom: 13px;
+    bottom: 10px;
     position: absolute;
-    right: 0%; }
+    right: -16px; }
     .heading-with-mike .buttons button {
-      background: url("../images/sound-icon.png") 0 0 no-repeat;
+      background: #FFCDD2 url("../images/sound-icon.png") no-repeat center;
       border: 0;
+      border-radius: 50%;
       font-size: 0;
       height: 25px;
+      padding: 20px;
       width: 25px;
       z-index: 1; }
 
@@ -2975,10 +2983,11 @@ form.location-form {
 
 .view-search .form-type-search-api-autocomplete,
 .view-search .input-group {
+  margin-right: 16px;
   width: 100%; }
 
 .view-search .form-text {
-  border: 0;
+  border: 1px solid #ffffff;
   border-radius: 0;
   -webkit-box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 4px 8px rgba(0, 0, 0, 0.2);
           box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 4px 8px rgba(0, 0, 0, 0.2);
@@ -3075,7 +3084,6 @@ form.location-form {
   border-color: #FFCDD2;
   color: #000;
   height: unset !important;
-  margin: 0 0 0 16px;
   padding: 17px 20px !important;
   text-transform: uppercase;
   width: unset !important; }
@@ -3084,6 +3092,8 @@ form.location-form {
     border-color: #FFCDD2;
     color: #000;
     outline: none; }
+  .form-submit.btn-primary .glyphicon {
+    margin: 4px; }
 
 .block-view-count-block {
   margin-top: 48px; }
