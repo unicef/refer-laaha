@@ -40,7 +40,8 @@
 	}
 	
 }
-.node-service-provider-form {
+.node-service-provider-form,
+.node-service-provider-edit-form {
 	.service-next-prev-button {
 		display: inline-block;
 		margin-top: 30px;
@@ -65,5 +66,128 @@
 		display: none;
 		float: right;
 		margin-top: 30px;
+		width: 106px;
+	}
+}
+//service provider listing
+.view-manage-service,
+.view-service-list {
+	form .form-type-select {
+		width: 100%;
+	}
+	.views-row {
+		@extend .card-shadow;
+		color: $grey-txt-color;
+		font-size: 12px;
+		a {
+			color: $grey-txt-color;
+		}
+		.service-provider-title {
+			border-bottom: 0.5px solid #D7D7D7;
+			font-weight: 700;
+			padding: 6px 0;
+			text-transform: capitalize;
+			a {
+				color: $grey-txt-color;
+				padding-left: 25px;
+			}
+			&::before {
+				background: url('../images/service-provider.svg') 0 0 no-repeat;
+				content: '';
+				display: inline-block;
+				height: 26px;
+				vertical-align: middle;
+				width: 26px;
+			}
+		}
+		.service-provider-org,
+		.service-provider-number {
+			display: flex;
+			margin-top: 10px;
+			padding: 0 5px;
+			word-break: break-word;
+			span {
+				max-width: 100px;
+    		width: 100%;
+			}
+		}
+		.views-field {
+			padding: 0 5px;
+			margin-top: 10px;
+			&.views-field-field-location {
+				display: flex;
+				padding: 0 10px;
+				word-break: break-word;
+				span {
+					max-width: 100px;
+    			width: 100%;
+				}
+				.field-content {
+					display: inline-block;
+				}
+			}
+			&.views-field-nothing-1 .service-mode {
+				border-bottom: 0.5px solid #D7D7D7;
+				display: flex;
+				padding: 0 5px 10px;
+				word-break: break-word;
+				span {
+					max-width: 100px;
+    			width: 100%;
+				}
+			}
+		}
+		.more-details-text {
+			padding: 10px;
+			text-align: right;
+			a {
+				color: $base-secondary-bgcolor;
+				border-bottom: 1px solid $base-secondary-bgcolor;
+				&::after {
+					background: url('../images/arrow-small.svg') center right no-repeat;
+					content: '';
+					height: 7px;
+					display: inline-block;
+					vertical-align: middle;
+					padding-left: 5px;
+					width: 4px;
+				}
+			}
+		}
+	}
+}
+.service-list-icons {
+	&::before {
+		display: inline-block;
+		height: 10px;
+		margin-right: 10px;
+		vertical-align: middle;
+		width: 15px;
+	}
+}
+.org-icon {
+	&::before {
+		background-color: #282C7B;
+		content: '';
+		background: url('../images/org-icon.svg') 0 0 no-repeat;
+	}
+}
+.contact-icon {
+	&::before {
+		content: '';
+		background: url('../images/contact.svg') 0 0 no-repeat;
+	}
+}
+.location-icon {
+	&::before {
+		content: '';
+		color: #444;
+		background: url('../images/service-location.svg') 0 0 no-repeat;
+	}
+}
+.mode-icon {
+	&::before {
+		content: '';
+		background: url('../images/mode.svg') 0 0 no-repeat;
 	}
 }
