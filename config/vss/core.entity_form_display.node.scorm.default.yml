@@ -77,11 +77,11 @@ content:
     weight: 15
     region: content
     settings:
-      start_minimized: true
-      leaves_only: false
+      start_minimized: false
+      leaves_only: true
       select_parents: false
       cascading_selection: 0
-      max_depth: 0
+      max_depth: 2
     third_party_settings: {  }
   field_tags:
     type: entity_reference_autocomplete
