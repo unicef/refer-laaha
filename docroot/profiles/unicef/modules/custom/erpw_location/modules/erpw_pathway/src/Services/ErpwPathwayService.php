@@ -61,17 +61,19 @@ class ErpwPathwayService {
    *   Form State.
    * @param array $parent_list
    *   Array Form parent list.
+   * @param array $ptids
+   *   Array parent list.
    *
    * @return array
    *   Array of form element.
    */
-  public function getLocationForm(array $form, $form_state, array $parent_list = []) {
+  public function getLocationForm(array $form, $form_state, array $parent_list = [], array $ptids = []) {
+
     // Build location Form.
     $location_entities = self::$entityTypeManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
     $location_options = ['' => $this->t("Select country")];
     $form_state->setRebuild(TRUE);
-
     if (!empty($location_entities)) {
       foreach ($location_entities as $location) {
         $id = isset($location->get('field_location_taxonomy_term')->getValue()[0]) ?
@@ -80,7 +82,7 @@ class ErpwPathwayService {
         if (isset($parent_list[0])) {
           $id = $parent_list[0];
         }
-        $child_location = $this->getChildLocation($id, $location, $form, $form_state, $parent_list);
+        $child_location = $this->getChildLocation($id, $location, $form, $form_state, $parent_list, $ptids);
       }
       if ($country_id = $form_state->getValue('level_0')) {
         $level_count = count(self::$levelLabel[$country_id]);
@@ -88,8 +90,12 @@ class ErpwPathwayService {
         $child_location['level_' . $level_count]['#attributes']['class'][] = 'add_multiple';
       }
       $default_value = $parent_list[0] ?? '';
+      $is_disabled = '';
+      if ($ptids) {
+        $is_disabled = in_array($default_value, $ptids) ? 'disabled' : '';
+      }
       $label = $this->t('Select Country');
-      $form['location']['level_0'] = $this->childLocationForm('0', $label, $location_options, $default_value);
+      $form['location']['level_0'] = $this->childLocationForm('0', $label, $location_options, $default_value, '', $is_disabled);
       $form['location'] += $child_location;
     }
 
@@ -133,11 +139,13 @@ class ErpwPathwayService {
    *   Form state.
    * @param array $parent_list
    *   List of parents.
+   * @param array $ptids
+   *   Array of user location parents.
    *
    * @return array
    *   Return Child location.
    */
-  protected function getChildLocation($id, $location, array $form, $form_state, array $parent_list = []) {
+  protected function getChildLocation($id, $location, array $form, $form_state, array $parent_list = [], array $ptids = []) {
     for ($i = 1; $i <= self::MAX_LEVEL; $i++) {
       $level_id = 'level_' . $i;
       $childs = ['0' => $this->t("Select") . ' ' . $i . ' ' . $this->t("Label")];
@@ -150,7 +158,11 @@ class ErpwPathwayService {
         }
         $class = (count($childs) <= 1) ? 'hidden' : '';
         $default_value = $parent_list[$i] ?? '';
-        $child_location['level_' . $i] = $this->childLocationForm($i, self::$levelLabel[$id][$i], $childs, $default_value, $class);
+        $is_disabled = '';
+        if ($ptids) {
+          $is_disabled = in_array($default_value, $ptids) ? 'disabled' : '';
+        }
+        $child_location['level_' . $i] = $this->childLocationForm($i, self::$levelLabel[$id][$i], $childs, $default_value, $class, $is_disabled);
       }
     }
 
@@ -160,7 +172,7 @@ class ErpwPathwayService {
   /**
    * Create child location form.
    */
-  protected function childLocationForm($counter, $label, array $options, $default_value, $class = '') {
+  protected function childLocationForm($counter, $label, array $options, $default_value, $class = '', $is_disabled = '') {
     return [
       '#prefix' => '<div id="location-level-' . $counter . '" class="' . $class . '">',
       '#suffix' => '</div>',
@@ -172,6 +184,7 @@ class ErpwPathwayService {
       '#attributes' => [
         'class' => ['loc-dropdown'],
         'data-level' => ($counter + 1),
+        $is_disabled => $is_disabled,
       ],
       '#multiple' => ($counter == self::MAX_LEVEL) ? TRUE : FALSE,
       '#level' => ($counter + 1),

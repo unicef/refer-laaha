@@ -27,6 +27,12 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
   if ($form_id == 'views_exposed_form' && $form_state->get('view')->id() == 'user_lists') {
     $form['field_organisation_target_id_verf']['#options']['All'] = t('All');
     $form['roles_target_id']['#options']['All'] = t('All');
+    $permission = 'view users of their own location and organisation';
+    $uid = \Drupal::currentUser()->id();
+    $current_user = User::load($uid);
+    if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
+      $form['field_organisation_target_id_verf']['#access'] = FALSE;
+    }
   }
 }
 
@@ -460,20 +466,62 @@ function erpw_custom_preprocess_status_messages(&$variables) {
 function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
   if ($view->id() == "user_lists" && $view->current_display == 'page_1') {
     $permission = 'view users of their own country';
-    $condition_field = 'user__field_location.field_location_target_id';
-    $query = erpw_view_results_locations_permissions($query, $condition_field, $permission);
+    $location_condition = 'user__field_location.field_location_target_id';
+    $query = erpw_view_results_own_country_permissions($query, $location_condition, $permission);
+    $permission = 'view users of their own location and organisation';
+    $org_condition = 'user__field_organisation.field_organisation_target_id';
+    $query = erpw_view_results_own_location_organisation($query, $location_condition, $org_condition, $permission);
   }
   if ($view->id() == "referral_pathway_listing" && $view->current_display == 'page_1') {
     $permission = 'view referral pathway of their own country';
     $condition_field = 'node__field_location.field_location_target_id';
-    $query = erpw_view_results_locations_permissions($query, $condition_field, $permission);
+    $query = erpw_view_results_own_country_permissions($query, $condition_field, $permission);
+    $permission = 'view referral pathway of their own location';
+    $query = erpw_view_results_own_location_organisation($query, $condition_field, NULL, $permission);
   }
 }
 
 /**
  * Callback for hook_views_query_alter alter query.
  */
-function erpw_view_results_locations_permissions($query, $condition_field, $permission) {
+function erpw_view_results_own_location_organisation($query, $location_condition, $org_condition = NULL, $permission = NULL) {
+  $uid = \Drupal::currentUser()->id();
+  $current_user = User::load($uid);
+  if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
+    if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
+      $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
+      $ptids = get_child_term_tid($location_id);
+    }
+    $org_id = '';
+    if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
+      $org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
+    }
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+        if ($condition['field'] == $location_condition) {
+          $condition = [
+            'field' => $location_condition,
+            'value' => $ptids,
+            'operator' => 'in',
+          ];
+        }
+        if ($condition['field'] == $org_condition) {
+          $condition = [
+            'field' => $org_condition,
+            'value' => $org_id,
+            'operator' => '=',
+          ];
+        }
+      }
+    }
+  }
+  return $query;
+}
+
+/**
+ * Callback for hook_views_query_alter alter query.
+ */
+function erpw_view_results_own_country_permissions($query, $condition_field, $permission) {
   $uid = \Drupal::currentUser()->id();
   $current_user = User::load($uid);
   if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
@@ -529,4 +577,20 @@ function erpw_filter_locations_permissions($location_options, $permission, $type
     }
   }
   return $location_options;
+}
+
+/**
+ * Get child term by parant tid.
+ */
+function get_child_term_tid($ptid) {
+  $tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+    'country',
+    $ptid
+  );
+  $result = [];
+  $result[$ptid] = $ptid;
+  foreach ($tree as $term) {
+    $result[$term->tid] = $term->tid;
+  }
+  return $result;
 }
