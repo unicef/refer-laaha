@@ -465,7 +465,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div>\r\n<h2>{{ field_name_focalpoint_referrals }}</h2>\r\n<p>Organisation: {{ field_select_organisation }} </p>\r\n<p>Contact: {{ field_phone_number }} </p>\r\n"
+            text: "<div class=\"service-provider-title\">{{ field_name_focalpoint_referrals }}</div>\r\n<div class=\"service-provider-org\"><span>Organisation: </span>{{ field_select_organisation }} </div>\r\n<div class=\"service-provider-number\"><span>Contact: </span>{{ field_phone_number }} </div>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -577,7 +577,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<p>Mode: {{ field_mode }} </p>\r\n</div>\r\n<div class=\"edit-delete-links\"> \r\n<span class=\"edit-link\">{{ edit_node }}</span>\r\n<span class=\"translate-link\">{{ translation_link }}</span>\r\n</div>"
+            text: "<div class=\"service-mode\"><span>Mode: </span>{{ field_mode }} </div>\r\n<div class=\"edit-delete-links\"> \r\n<span class=\"edit-link\">{{ edit_node }}</span>\r\n<span class=\"translate-link\">{{ translation_link }}</span>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -802,7 +802,7 @@ display:
           replica: false
           query_tags: {  }
       relationships: {  }
-      css_class: service-list
+      css_class: ''
       use_ajax: true
       group_by: false
       header:
