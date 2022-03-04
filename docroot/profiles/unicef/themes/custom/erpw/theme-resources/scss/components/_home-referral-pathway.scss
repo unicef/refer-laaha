@@ -1,5 +1,5 @@
 .view-referral-pathway-on-homepage {
-	margin: 35px 0 50px;
+	margin: 35px 0 20px;
 	.row-listing {
 		box-shadow: 0px 1px 4px rgba(68, 25, 39, 0.14);
 		border-radius: 20px;
@@ -75,5 +75,39 @@
 				color: $base-secondary-bgcolor;
 			}
 		}
+	}
+}
+
+//Guidelines button
+[id^='block-rpw-cta-buttons-on-homepage'] {
+	margin-bottom: 50px;
+}
+.field--name-field-upload-gbv-referrals-guide  {
+	.file--application-pdf {
+    background: none;
+    padding-left: 0;
+    text-align: center;
+		width: 100%;
+	}
+}
+.field--name-field-upload-gbv-referrals-guide,
+.field--name-field-pocket-guide-app-link {
+	margin-bottom: 15px;
+	a {
+		background: $base-secondary-bgcolor;
+		border: 1px solid $base-secondary-bgcolor;
+		box-sizing: border-box;
+		@include border-radius(4px);
+		color: $base-white-color;
+		display: inline-block;
+		font-size: .875em;
+		font-weight: 500;
+		margin: 0;
+		padding: 10px 17px;
+		text-transform: uppercase;
+		width: 100%;
+		text-align: center;
+		font-weight: 400;
+		font-size: 9px;
 	}
 }
