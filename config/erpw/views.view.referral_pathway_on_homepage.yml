@@ -217,23 +217,9 @@ display:
           separator: ''
           field_api_classes: false
       pager:
-        type: mini
+        type: none
         options:
           offset: 0
-          items_per_page: 10
-          total_pages: null
-          id: 0
-          tags:
-            next: ››
-            previous: ‹‹
-          expose:
-            items_per_page: false
-            items_per_page_label: 'Items per page'
-            items_per_page_options: '5, 10, 25, 50'
-            items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
-            offset: false
-            offset_label: Offset
       exposed_form:
         type: basic
         options:
@@ -263,22 +249,19 @@ display:
           content: '<div>No Referral Pathway is available for the selected locations.</p>'
           tokenize: false
       sorts:
-        created:
-          id: created
-          table: node_field_data
-          field: created
-          relationship: none
+        field_section_name_value:
+          id: field_section_name_value
+          table: paragraph__field_section_name
+          field: field_section_name_value
+          relationship: field_section
           group_type: group
           admin_label: ''
-          entity_type: node
-          entity_field: created
-          plugin_id: date
-          order: DESC
+          plugin_id: standard
+          order: ASC
           expose:
             label: ''
             field_identifier: ''
           exposed: false
-          granularity: second
       arguments: {  }
       filters:
         status:
@@ -428,7 +411,6 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - url.query_args
         - user
         - 'user.node_grants:view'
       tags:
@@ -449,7 +431,6 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - url.query_args
         - user
         - 'user.node_grants:view'
       tags:

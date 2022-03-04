@@ -1508,7 +1508,7 @@ header {
   margin: 0 0 40px;
 }
 
-.step, .user-personal-details h2, .service-provider-class .fieldset-legend {
+.step, .user-personal-details h2, .service-provider-details h2, .service-provider-class .fieldset-legend {
   font-size: 1em;
   color: #444;
 }
@@ -2344,6 +2344,32 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   background: url("../images/mode.svg") 0 0 no-repeat;
 }
 
+.service-provider-details {
+  padding: 0 !important;
+}
+
+.service-detail-heading {
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  border-bottom: 0.5px solid #D7D7D7;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 20px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.service-detail-heading h3 {
+  color: #444;
+  font-size: 18px;
+  line-height: 32px;
+  margin: 0 0 7px;
+  padding: 0;
+  font-weight: 400;
+}
+
 .user-logged-in.path-user {
   background: none;
 }
@@ -2354,14 +2380,22 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   background: url(../images/top_nav_image.svg) no-repeat right -143px top -130px;
 }
 
-.user-personal-details {
+.user-personal-details, .service-provider-details {
   padding: 0 34px;
 }
-.user-personal-details h2 {
+.user-personal-details label, .service-provider-details label, .user-personal-details .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .user-personal-details .fieldset-legend, .service-provider-details .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .service-provider-details .fieldset-legend,
+.user-personal-details .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .user-personal-details .fieldset-legend,
+.service-provider-details .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .service-provider-details .fieldset-legend {
+  font-size: 14px;
+}
+.user-personal-details h2, .service-provider-details h2 {
   font-weight: 500;
 }
-.user-personal-details span {
+.user-personal-details span, .service-provider-details span {
   display: block;
+  font-size: 12px;
   padding: 15px 0;
   word-break: break-word;
 }

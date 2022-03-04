@@ -318,6 +318,35 @@ class LocationService {
   }
 
   /**
+   * Validating Location By Term ID.
+   *
+   * @param int $location_id
+   *   The location id.
+   * @param string $current_language
+   *   The current language.
+   *
+   * @return int
+   *   Return term id of the location.
+   */
+  public function getSavedLocation($location_id, $current_language = NULL) {
+    $language = $current_language ?? 'en';
+    $query = $this->connection->select('node__field_location', 'fl');
+    $query->fields('fl', ['field_location_target_id']);
+    $query->condition('fl.langcode', $language);
+    $query->condition('fl.bundle', 'referral_path_way');
+    if (!empty($location_id) && is_array($location_id)) {
+      $query->condition('fl.field_location_target_id', $location_id, 'IN');
+    }
+    else {
+      $query->condition('fl.field_location_target_id', $location_id);
+    }
+    $result = $query->execute();
+    $saved_loc_id = $result->fetchField();
+
+    return (isset($saved_loc_id) && is_numeric($saved_loc_id)) ? $saved_loc_id : NULL;
+  }
+
+  /**
    * Get user location.
    *
    * @param object $user
