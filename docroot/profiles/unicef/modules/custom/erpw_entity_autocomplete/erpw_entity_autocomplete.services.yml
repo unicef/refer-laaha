@@ -1,0 +1,9 @@
+services:
+  erpw_entity_autocomplete.route_subscriber:
+    class: Drupal\erpw_entity_autocomplete\Routing\RpwAutocompleteRouteSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  erpw_entity_autocomplete.autocomplete_matcher:
+    class: Drupal\erpw_entity_autocomplete\RpwEntityAutocompleteMatcher
+    arguments: ['@plugin.manager.entity_reference_selection', '@entity_type.manager', '@entity.repository']

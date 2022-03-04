@@ -375,6 +375,21 @@ display:
           group_type: count_distinct
           admin_label: ''
           plugin_id: standard
+          order: DESC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
+        name:
+          id: name
+          table: taxonomy_term_field_data
+          field: name
+          relationship: field_location
+          group_type: group
+          admin_label: ''
+          entity_type: taxonomy_term
+          entity_field: name
+          plugin_id: standard
           order: ASC
           expose:
             label: ''
@@ -511,7 +526,16 @@ display:
           distinct: false
           replica: false
           query_tags: {  }
-      relationships: {  }
+      relationships:
+        field_location:
+          id: field_location
+          table: node__field_location
+          field: field_location
+          relationship: none
+          group_type: group
+          admin_label: 'field_location: Taxonomy term'
+          plugin_id: standard
+          required: true
       css_class: service-list
       group_by: true
       header:
