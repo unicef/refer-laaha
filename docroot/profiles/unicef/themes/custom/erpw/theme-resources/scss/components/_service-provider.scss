@@ -192,3 +192,24 @@
 		background: url('../images/mode.svg') 0 0 no-repeat;
 	}
 }
+
+//service-provider-details
+.service-provider-details {
+	@extend .user-personal-details;
+	padding: 0 !important;
+}
+.service-detail-heading {
+	align-items: flex-end;
+	border-bottom: 0.5px solid #D7D7D7;
+	display: flex;
+	margin-bottom: 20px;
+	justify-content: space-between;
+	h3 {
+		color: $grey-txt-color;
+		font-size: 18px;
+		line-height: 32px;
+		margin: 0 0 7px;
+    padding: 0;
+    font-weight: 400;
+	}
+}
