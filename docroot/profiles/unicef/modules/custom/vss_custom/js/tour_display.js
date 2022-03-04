@@ -11,9 +11,9 @@
           var skip = Drupal.t('SKIP');
           var finish  = Drupal.t('FINISH');
           $('.tour-tip-body').before('<img class="supportimg" src="/profiles/unicef/themes/custom/vss/images/support-icon.png" width="64" height="64" alt="support-icon">');
-          $('.tour-tip-body').after('<img class="pause" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon" style=display:none;cursor:pointer;margin-right:6px;margin-top:11px;>'); 
-          $('.tour-tip-body').after('<img class="resume" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon" style=display:none;cursor:pointer;margin-right:6px;margin-top:11px;>'); 
-          $('.tour-tip-body').after('<div class="play-wrapper"> <img class="play" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon"></div>');
+          $('.tour-tip-body').after('<div class="pause-wrapper" style=display:none;cursor:pointer><img class="pause" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon" ></div >');
+          $('.tour-tip-body').after('<div class="resume-wrapper" style=display:none;cursor:pointer;><img class="resume" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon"></div>');
+          $('.tour-tip-body').after('<div class="play-wrapper"><img class="play" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon"></div>');
           $('.shepherd-footer button').before('<span class="skip">'+skip+'</span>');
           $('.shepherd-footer button').addClass('button-defult');
           $('.shepherd-footer button').append('<i class="fa fa-angle-right"></i>');
@@ -27,9 +27,9 @@
           $("body",context).on("click", ".shepherd-button", function(){
              window.speechSynthesis.cancel();
              $('.tour-tip-body').before('<img class="supportimg" src="/profiles/unicef/themes/custom/vss/images/support-icon.png" width="64" height="64" alt="support-icon">');
-             $('.tour-tip-body').after('<img class="pause" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon" style=display:none;cursor:pointer;margin-right:6px;margin-top:11px;>'); 
-             $('.tour-tip-body').after('<img class="resume" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon" style=display:none;cursor:pointer;margin-right:6px;margin-top:11px;>'); 
-             $('.tour-tip-body').after('<div class="play-wrapper"> <img class="play" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon"></div>');
+             $('.tour-tip-body').after('<div class="pause-wrapper" style=display:none;cursor:pointer;><img class="pause" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon" ></div>');
+             $('.tour-tip-body').after('<div class="resume-wrapper" style=display:none;cursor:pointer;><img class="resume" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon"></div>');
+             $('.tour-tip-body').after('<div class="play-wrapper"><img class="play" src="/profiles/unicef/themes/custom/vss/images/sound-icon.png" height="18" width="18" alt="sound-icon"></div>');
              $('.shepherd-footer button').before('<span class="skip">'+skip+'</span>');
              $('.shepherd-footer button').addClass('button-defult');
              $('.shepherd-footer button').append('<i class="fa fa-angle-right"></i>');
@@ -44,10 +44,10 @@
             }
           });
 
-          $('.pause').hide();
-          $('.resume').hide();
+          $('.pause-wrapper').hide();
+          $('.resume-wrapper').hide();
           // add UI event handlers
-          $("body").on("click", ".play", function(){
+          $("body").on("click", ".play-wrapper", function(){
             var text = $(this).prev().text();
             var utterance = new SpeechSynthesisUtterance(text);
             if (drupalSettings.voiceId) {
@@ -58,29 +58,29 @@
               utterance.lang = drupalSettings.langId;
             }
 
-            $('.play').hide();
-            $('.pause').show();
-            $('.resume').hide();
+            $('.play-wrapper').hide();
+            $('.pause-wrapper').show();
+            $('.resume-wrapper').hide();
             speechSynthesis.speak(utterance);
             utterance.addEventListener('end', function (event) {
               speechSynthesis.cancel();
-              $('.play').show();
-              $('.pause').hide();
-              $('.resume').hide();
+              $('.play-wrapper').show();
+              $('.pause-wrapper').hide();
+              $('.resume-wrapper').hide();
             });
           });
 
-          $("body").on("click", ".pause", function(){
-            $('.play').hide();
-            $('.resume').show();
-            $('.pause').hide();
+          $("body").on("click", ".pause-wrapper", function(){
+            $('.play-wrapper').hide();
+            $('.pause-wrapper').hide();
+            $('.resume-wrapper').show();
             speechSynthesis.pause();
           });
 
-          $("body").on("click", ".resume", function(){
-            $('.play').hide();
-            $('.pause').show();
-            $('.resume').hide();
+          $("body").on("click", ".resume-wrapper", function(){
+            $('.play-wrapper').hide();
+            $('.resume-wrapper').hide();
+            $('.pause-wrapper').show();
             speechSynthesis.resume();
           });
 
@@ -102,4 +102,3 @@
     };
   
   })(jQuery, Drupal, drupalSettings);
-  
