@@ -671,7 +671,9 @@ body .absoluteclass {
       margin-top: 8px;
       padding: 0 12px;
       min-height: 50px; }
-  .shepherd-element .play-wrapper {
+  .shepherd-element .play-wrapper,
+  .shepherd-element .pause-wrapper,
+  .shepherd-element .resume-wrapper {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
