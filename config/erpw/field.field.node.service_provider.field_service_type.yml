@@ -1,0 +1,29 @@
+uuid: 7d6605dc-0781-4273-80c5-cf3a9eb61977
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_service_type
+    - node.type.service_provider
+    - node.type.service_type
+id: node.service_provider.field_service_type
+field_name: field_service_type
+entity_type: node
+bundle: service_provider
+label: 'Service Type'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      service_type: service_type
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

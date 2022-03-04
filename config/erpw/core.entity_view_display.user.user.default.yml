@@ -8,7 +8,7 @@ dependencies:
     - field.field.user.user.field_domain_all_affiliates
     - field.field.user.user.field_first_name
     - field.field.user.user.field_last_name
-    - field.field.user.user.field_location_details
+    - field.field.user.user.field_location
     - field.field.user.user.field_organisation
     - field.field.user.user.field_phone
     - field.field.user.user.field_position
@@ -40,21 +40,21 @@ content:
     third_party_settings: {  }
     weight: 6
     region: content
-  field_location_details:
-    type: string
+  field_location:
+    type: entity_reference_label
     label: above
     settings:
-      link_to_entity: false
+      link: true
     third_party_settings: {  }
-    weight: 13
+    weight: 15
     region: content
   field_organisation:
-    type: string
+    type: entity_reference_label
     label: above
     settings:
-      link_to_entity: false
+      link: true
     third_party_settings: {  }
-    weight: 8
+    weight: 14
     region: content
   field_phone:
     type: string

@@ -4,8 +4,16 @@ erpw_custom.sign_up_form:
     _form: '\Drupal\erpw_custom\Form\SignUpForm'
     _title: 'Add user'
   requirements:
-    _permission: 'access content'
-    
+    _permission: 'add new user'
+
+erpw_custom.user_update_form:
+  path: '/update-user/{id}'
+  defaults:
+    _form: '\Drupal\erpw_custom\Form\SignUpForm'
+    _title: 'Update User'
+  requirements:
+    _permission: 'update user'
+
 erpw_custom.sign_in_popup:
   path: '/signin-popup'
   defaults:
@@ -31,10 +39,10 @@ erpw_custom.update_service_type_form:
 erpw_custom.dashboard:
   path: '/dashboard'
   defaults:
-    _form: '\Drupal\erpw_custom\Form\Dashboard'
+    _controller: '\Drupal\erpw_custom\Controller\ModalController::dashboardContent'
     _title: 'Dashboard'
   requirements:
-    _role: 'authenticated'
+   _permission: 'view dashboard'
 
 erpw_custom.node_delete:
   path: '/node/delete/{id}'

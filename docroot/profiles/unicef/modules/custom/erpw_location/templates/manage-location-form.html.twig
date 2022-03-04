@@ -1,12 +1,17 @@
 {{ form.form_build_id }}
 {{ form.form_token }}
 {{ form.form_id }}
+{% set text = 'Add a new location' %}
 <div class="manage-list">
-<div class="plus-icon button-with-icon"><a href="/add-location">Add a new location</a></div>
-  <div class="manage-location">
-    <div class="import-csv">{{ form.open_modal }}</div>
-    <div class="export-csv">{{ form.export_csv }}</div>
+  <div class="plus-icon button-with-icon"><a href="{{ path('erpw_location.add_location') }}">{{ text|t }}</a></div>
+    <div class="manage-location">
+      <div class="import-csv">{{ form.open_modal }}</div>
+      <div class="export-csv">{{ form.export_csv }}</div>
+    </div>
   </div>
-</div>
-<div class="country-list">{{ form.location_options }}</div>
+  <div class="user-location-list">
+    <div class="user-location">{{ form.location_value }}</div>
+    <div class="user-change-link"> {{ form.change_country_link }}</div>
+ </div>
+<div class="country-list" style="display:none">{{ form.location_options }}</div>
 <div class="location-list">{{ form.location_list }}</div>

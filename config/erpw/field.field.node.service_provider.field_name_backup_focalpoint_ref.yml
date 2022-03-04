@@ -1,0 +1,19 @@
+uuid: ccc15d02-18ed-4cd4-9104-ea22a8f48fc9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_name_backup_focalpoint_ref
+    - node.type.service_provider
+id: node.service_provider.field_name_backup_focalpoint_ref
+field_name: field_name_backup_focalpoint_ref
+entity_type: node
+bundle: service_provider
+label: 'Name of back-up focal point for referral (first/last name):'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

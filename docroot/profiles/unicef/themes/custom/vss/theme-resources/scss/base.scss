@@ -28,7 +28,7 @@ body {
   color: $base-white-color;
 
   i {
-    padding-right: 12px;
+    margin-right: 12px;
   }
 }
 
@@ -61,7 +61,7 @@ body {
         display: flex;
 
         >div {
-          padding-right: 12px;
+          margin-right: 12px;
         }
       }
 
@@ -90,8 +90,10 @@ ul.block-menu-item-fieldsfooter-last-menu {
     @include flex-ul;
 
     li {
-      flex-grow: 1;
+      align-items: center;
+      display: flex;
       flex-basis: auto;
+      flex-grow: 1;
       text-align: center;
 
       &:first-child {
@@ -204,13 +206,25 @@ ul.block-menu-item-fieldsfooter-last-menu {
       top: 32px;
 
       li {
-        margin: 24px 16px;
+        margin: 16px;
         line-height: 24px;
 
         a {
           font-weight: $base-footer-font-weight;
         }
 
+      }
+
+      .field--type-image{
+        flex: 0 0 auto;
+        width: 40px;
+
+        img {
+          background-color: $base-primary-light-bgcolor;
+          border-radius: 50%;
+          height: 40px;
+          width: 40px;
+        }
       }
     }
 
@@ -228,7 +242,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
           display: flex;
 
           >div {
-            padding-right: 12px;
+            margin-right: 12px;
           }
         }
 
@@ -317,7 +331,6 @@ ul.block-menu-item-fieldsfooter-last-menu {
       font-size: 0;
       float: left;
       background: url(../images/plus.png) no-repeat center center;
-      margin-top: 0;
       display: block;
       width: 14px;
       height: 14px;
@@ -475,8 +488,7 @@ body {
   .article {
     border: 2px solid #000;
     text-align: center;
-    /*margin: 25% 10% auto;*/
-    top: 60%;
+    bottom: 8%;
     left: 10%;
     padding: 2% 5%;
     width: 80%;
@@ -709,8 +721,7 @@ body {
   height: auto !important;
 }
 
-.breadcrumb img,
-.discoverdd .field--type-image img {
+.breadcrumb img {
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -799,10 +810,22 @@ body {
     }
   }
 
+  .play-wrapper,
+  .pause-wrapper,
+  .resume-wrapper {
+    align-items: center;
+    background: $base-primary-bgcolor;
+    border-radius: 50%;
+    display: inline-flex;
+    height: 30px;
+    justify-content: center;
+    margin-top: 8px;
+    padding: 20px;
+    width: 30px;
+  }
+
   .play {
     cursor: pointer;
-    margin-right: 6px;
-    margin-top: 11px;
   }
 
   .shepherd-cancel-icon {
@@ -906,16 +929,21 @@ body {
       }
 
       .play-circle-podcast {
+        bottom: 8px;
+        left: 8px;
         position: absolute;
-        top: 109px;
-        left: 22px;
         width: 50px;
       }
 
       .play-circle {
+        left: 50%;
         position: absolute;
-        top: 26%;
-        left: calc(50% - 28px);
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .recommended-thumbnail {
+        position: relative;
       }
 
       .recomended-images {
@@ -924,9 +952,8 @@ body {
         height: 168px;
       }
 
-      span {
+      .r-title {
         display: block;
-        width: 82%;
         margin-top: 15px;
 
         a {
@@ -1243,7 +1270,7 @@ body {
   }
 }
 
-// Home Page Search Bar 
+// Home Page Search Bar
 
 .search-parent{
   .home-search {

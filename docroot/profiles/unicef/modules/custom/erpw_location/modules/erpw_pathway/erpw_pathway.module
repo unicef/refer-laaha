@@ -4,3 +4,154 @@
  * @file
  * Contains erpw_pathway.module.
  */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function erpw_pathway_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Implementing cancel button for RPW Forms.
+  if (in_array($form_id,
+  [
+    'node_referral_path_way_form',
+    'node_referral_path_way_edit_form',
+  ])) {
+    $form['actions']['cancel'] = [
+      '#type' => 'submit',
+      '#submit' => ['eprw_cancel_handler'],
+      '#limit_validation_errors' => [],
+      '#attributes' => [
+        'class' => [
+          'button-border',
+        ],
+      ],
+      '#value' => t('CANCEL'),
+    ];
+  }
+}
+
+/**
+ * Callback function to cancel the form submission.
+ */
+function eprw_cancel_handler(array &$form, FormStateInterface $form_state) {
+  return _erpw_custom_redirect('view.referral_pathway_listing.page_1', 'rpw_listing');
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ */
+function erpw_pathway_field_widget_entity_reference_paragraphs_form_alter(&$element, &$form_state, $context) {
+  if ($element['#paragraph_type'] == 'sections') {
+    $element['subform']['field_service_type']['widget']['add_more']['#value'] = t('Add another service type');
+    $element['top']['links']['remove_button']['#paragraphs_mode'] = 'removed';
+  }
+}
+
+/**
+ * Implementing erpw_pathway_preprocess_views_view_field().
+ */
+function erpw_pathway_preprocess_views_view_field(&$variables) {
+  $view = $variables['view'];
+  if ($view->id() == 'referral_pathway_listing' || $view->id() == 'manage_service' || $view->id() == 'service_list') {
+    if ($variables['field']->field == 'field_location') {
+      $row = $variables['field']->getValue($variables['row']);
+      $loc_name = [];
+      if ($row[0]) {
+        $parent_tid = \Drupal::service('erpw_location.location_services')->getAllAncestors($row[0]);
+        $last_sibling_terms = [];
+        $parents = [];
+        if (count($row) > 1) {
+          array_shift($row);
+          $last_sibling_terms = $row;
+        }
+        if (!empty($last_sibling_terms)) {
+          $parents = array_merge($parent_tid, $last_sibling_terms);
+        }
+        else {
+          $parents = $parent_tid;
+        }
+        $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadMultiple(array_reverse($parents));
+        foreach ($terms as $term) {
+          $loc_name[] = $term->label();
+        }
+      }
+      $variables['output'] = implode(', ', $loc_name);
+    }
+  }
+}
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function erpw_pathway_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  if ($view->id() == "referral_pathway_on_homepage" || $view->id() == "service_list") {
+    $ptids = [];
+    $location_id = get_user_location();
+    $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
+    if (!empty($ptids)) {
+      foreach ($query->where as &$condition_group) {
+        foreach ($condition_group['conditions'] as &$condition) {
+          if ($condition['field'] == 'node__field_location.field_location_target_id') {
+            $condition = [
+              'field' => 'node__field_location.field_location_target_id',
+              'value' => $ptids,
+              'operator' => 'IN',
+            ];
+            break;
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function erpw_pathway_user_login($account) {
+  if ($account->id()) {
+    set_user_location();
+  }
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function erpw_pathway_user_logout() {
+  set_user_location();
+}
+
+/**
+ * Set user location using cookie.
+ */
+function set_user_location() {
+  $tempstore = \Drupal::service('tempstore.private')->get('erpw_location_collection');
+  $cookie = \Drupal::service('erpw_location.location_cookie');
+  $default_location = \Drupal::service('erpw_location.location_services')->getDefaultLocation();
+  if (empty($cookie->getCookieValue())) {
+    $cookie->setCookieValue(base64_encode('country_tid_' . time()));
+    $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
+  }
+  else {
+    $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
+  }
+}
+
+/**
+ * Set user location using cookie.
+ */
+function get_user_location() {
+  $tempstore = \Drupal::service('tempstore.private')->get('erpw_location_collection');
+  $cookie_value = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
+  $location_id = $tempstore->get(base64_decode($cookie_value));
+  if (!empty($location_id)) {
+    return $location_id;
+  }
+  else {
+    set_user_location();
+    return $tempstore->get(base64_decode($cookie_value));
+  }
+}

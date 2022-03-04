@@ -3,18 +3,20 @@
 namespace Drupal\erpw_custom\Form;
 
 use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Ajax\RedirectCommand;
+use Drupal\Core\Url;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\erpw_location\LocationService;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\OpenModalDialogCommand;
-use Drupal\Core\Ajax\HtmlCommand;
-use Drupal\Core\Ajax\InvokeCommand;
-use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\erpw_location\LocationService;
 
 /**
  * Class user signup form.
@@ -50,6 +52,13 @@ class SignUpForm extends FormBase {
   protected $locationService;
 
   /**
+   * A userId variable.
+   *
+   * @var Drupal\erpw_custom
+   */
+  protected $userId;
+
+  /**
    * {@inheritdoc}
    */
   public function getFormId() {
@@ -59,9 +68,16 @@ class SignUpForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(Connection $database, EntityTypeManagerInterface $entityTypeManager, AccountProxyInterface $current_user, MessengerInterface $messenger, FormBuilderInterface $form_builder, LocationService $location_service) {
+  public function __construct(
+    Connection $database,
+    EntityTypeManagerInterface $entity_type_manager,
+    AccountProxyInterface $current_user,
+    MessengerInterface $messenger,
+    FormBuilderInterface $form_builder,
+    LocationService $location_service) {
+
     $this->database = $database;
-    $this->entityTypeManager = $entityTypeManager;
+    $this->entityTypeManager = $entity_type_manager;
     $this->currentUser = $current_user;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
@@ -85,45 +101,64 @@ class SignUpForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
+    $this->userId = $id;
+    $organisation = "";
     $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple();
     foreach ($roles as $role) {
-      if ($role->id() == 'administrator' || $role->id() == 'anonymous') {
+      if ($role->id() == 'administrator' || $role->id() == 'anonymous' || $role->id() == 'authenticated') {
         continue;
       }
       $system_roles[$role->id()] = $role->label();
     }
 
-    if ($form_state->has('page') && $form_state->get('page') == 2) {
+    if ($this->userId != "") {
+      $user_details = $this->entityTypeManager->getStorage('user')->load($this->userId);
+      $first_name = $user_details->field_first_name->value;
+      $last_name = $user_details->field_last_name->value;
+      $field_phone = $user_details->field_phone->value;
+      $organisation = $user_details->field_organisation->target_id[0];
+      $organisation = $this->entityTypeManager->getStorage('node')->load($organisation);
+      $field_position = $user_details->field_position->value;
+      $email = $user_details->getEmail();
+      $system_role = $user_details->getRoles();
+    }
+
+    if ($form_state->has('page') && $form_state->get('page') == 2 && $this->userId == "") {
       return self::formPageTwo($form, $form_state);
     }
 
-    if ($form_state->has('page') && $form_state->get('page') == 3) {
+    if ($form_state->has('page') && $form_state->get('page') == 3 && $this->userId == "") {
       return self::formPageThree($form, $form_state);
     }
 
     $form_state->set('page', 1);
-
-    $form['progress_step1'] = [
-      '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
-    ];
-    $form['progress_step2'] = [
-      '#markup' => '<div class="location-detail-page step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
-    ];
-    $form['progress_step3'] = [
-      '#markup' => '<div class="password-creation-page step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
-    ];
-
-    $form['message-step'] = [
-      '#markup' => '<div class="step">' . $this->t('Step 1: Personal details') . '</div>',
-    ];
-
+    if ($this->userId == "") {
+      $form['progress_step1'] = [
+        '#markup' => '<div class="steps-highlight">
+          <div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') .
+        '</div>',
+      ];
+      $form['progress_step2'] = [
+        '#markup' => '<div class="location-detail-page step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
+      ];
+      $form['progress_step3'] = [
+        '#markup' => '<div class="password-creation-page step-circle">' .
+        $this->t('<div class="step-number">3</div>') . '</div>
+        </div>',
+      ];
+    }
+    if ($this->userId == "") {
+      $form['message-step'] = [
+        '#markup' => '<div class="step">' . $this->t('Step 1: Personal details') . '</div>',
+      ];
+    }
     $form['first_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('First name'),
       '#required' => TRUE,
       '#placeholder' => $this->t('Enter first name'),
-      '#default_value' => $form_state->getValue('first_name', ''),
+      '#default_value' => !empty($first_name) ? $first_name : $form_state->getValue('first_name', ''),
     ];
 
     $form['last_name'] = [
@@ -131,7 +166,7 @@ class SignUpForm extends FormBase {
       '#title' => $this->t('Last name'),
       '#required' => TRUE,
       '#placeholder' => $this->t('Enter last name'),
-      '#default_value' => $form_state->getValue('last_name', ''),
+      '#default_value' => !empty($last_name) ? $last_name : $form_state->getValue('last_name', ''),
     ];
 
     $form['email'] = [
@@ -139,7 +174,7 @@ class SignUpForm extends FormBase {
       '#title' => $this->t('Email'),
       '#required' => TRUE,
       '#placeholder' => $this->t('Example@gmail.com'),
-      '#default_value' => $form_state->getValue('email', ''),
+      '#default_value' => !empty($email) ? $email : $form_state->getValue('email', ''),
     ];
 
     $form['phone'] = [
@@ -147,22 +182,28 @@ class SignUpForm extends FormBase {
       '#title' => $this->t('Phone'),
       '#required' => TRUE,
       '#placeholder' => $this->t('**********'),
-      '#default_value' => $form_state->getValue('phone', ''),
+      '#default_value' => !empty($field_phone) ? $field_phone : $form_state->getValue('phone', ''),
     ];
-
-    $organisation = [
-      'srijan' => 'Srijan',
-      'Infosys' => 'Infosys',
-      'wipro' => 'Wipro',
-    ];
+    if (!empty($form_state->getValue('organisation'))) {
+      $organisation = $this->entityTypeManager->getStorage('node')->load($form_state->getValue('organisation'));
+    }
 
     $form['organisation'] = [
-      '#type' => 'select',
-      '#options' => $organisation,
-      '#empty_option' => $this->t('Select organization'),
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'node',
       '#title' => $this->t('Organisation'),
       '#required' => TRUE,
-      '#default_value' => $form_state->getValue('organisation', ''),
+      '#placeholder' => $this->t('Select Organisation'),
+      '#default_value' => $organisation,
+      '#selection_settings' => [
+        'target_bundles' => ['organisation'],
+        'sort' => [
+          'field' => 'title',
+          'direction' => 'ASC',
+        ],
+        'match_operator' => 'STARTS_WITH',
+        'match_limit' => 10,
+      ],
     ];
 
     $form['position'] = [
@@ -170,7 +211,7 @@ class SignUpForm extends FormBase {
       '#title' => $this->t('Position'),
       '#required' => TRUE,
       '#placeholder' => $this->t('Select position'),
-      '#default_value' => $form_state->getValue('position', ''),
+      '#default_value' => !empty($field_position) ? $field_position : $form_state->getValue('position', ''),
     ];
 
     $form['system_role'] = [
@@ -179,25 +220,30 @@ class SignUpForm extends FormBase {
       '#empty_option' => $this->t('Select system role'),
       '#title' => $this->t('System role'),
       '#required' => TRUE,
-      '#default_value' => $form_state->getValue('system_role', ''),
+      '#default_value' => !empty($system_role) ? $system_role : $form_state->getValue('system_role', ''),
     ];
+    if ($this->userId != "") {
+      $form = self::formPageTwo($form, $form_state);
+    }
+    else {
 
-    $form['actions'] = [
-      '#type' => 'actions',
-    ];
+      $form['actions'] = [
+        '#type' => 'actions',
+      ];
 
-    $form['actions']['next'] = [
-      '#type' => 'submit',
-      '#button_type' => 'primary',
-      '#value' => $this->t('Next'),
-      '#attributes' => [
-        'class' => [
-          'signup-next',
+      $form['actions']['next'] = [
+        '#type' => 'submit',
+        '#button_type' => 'primary',
+        '#value' => $this->t('Next'),
+        '#attributes' => [
+          'class' => [
+            'signup-next',
+          ],
         ],
-      ],
-      '#submit' => ['::submitPageOne'],
-      '#validate' => ['::validatePageOne'],
-    ];
+        '#submit' => ['::submitPageOne'],
+        '#validate' => ['::validatePageOne'],
+      ];
+    }
     $form['#cache']['max-age'] = 0;
     return $form;
   }
@@ -222,37 +268,130 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitPageOne(array &$form, FormStateInterface $form_state) {
-    $form_state->set('page_values', [
-      'first_name' => $form_state->getValue('first_name'),
-      'last_name' => $form_state->getValue('last_name'),
-      'email' => $form_state->getValue('email'),
-      'phone' => $form_state->getValue('phone'),
-      'organisation' => $form_state->getValue('organisation'),
-      'position' => $form_state->getValue('position'),
-      'system_role' => $form_state->getValue('system_role'),
-    ])
-      ->set('page', 2)
-      ->setRebuild(TRUE);
+    if ($this->userId == "") {
+      $form_state->set('page_values', [
+        'first_name' => $form_state->getValue('first_name'),
+        'last_name' => $form_state->getValue('last_name'),
+        'email' => $form_state->getValue('email'),
+        'phone' => $form_state->getValue('phone'),
+        'organisation' => $form_state->getValue('organisation'),
+        'position' => $form_state->getValue('position'),
+        'system_role' => $form_state->getValue('system_role'),
+      ])
+        ->set('page', 2)
+        ->setRebuild(TRUE);
+    }
+    else {
+      $location_tid = '';
+      if (!empty($form_state->getValue('level_4'))) {
+        if (is_array($form_state->getValue('level_4'))) {
+          $location_tid = array_keys($form_state->getValue('level_4'));
+        }
+        else {
+          $location_tid = $form_state->getValue('level_3');
+        }
+
+      }
+      elseif (!empty($form_state->getValue('level_3'))) {
+        if (is_array($form_state->getValue('level_3'))) {
+          $location_tid = array_keys($form_state->getValue('level_3'));
+        }
+        else {
+          $location_tid = $form_state->getValue('level_3');
+        }
+
+      }
+      elseif (!empty($form_state->getValue('level_2'))) {
+        if (is_array($form_state->getValue('level_2'))) {
+          $location_tid = array_keys($form_state->getValue('level_2'));
+        }
+        else {
+          $location_tid = $form_state->getValue('level_2');
+        }
+      }
+      elseif (!empty($form_state->getValue('level_1'))) {
+        if (is_array($form_state->getValue('level_1'))) {
+          $location_tid = array_keys($form_state->getValue('level_1'));
+        }
+        else {
+          $location_tid = $form_state->getValue('level_1');
+        }
+
+      }
+      elseif (!empty($form_state->getValue('location_options'))) {
+
+        $location_country_id = $form_state->getValue('location_options');
+        $location_entity = $this->entityTypeManager->getStorage('location')->load($location_country_id);
+        $location_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+      }
+      $user = $this->entityTypeManager->getStorage('user')->load($this->userId);
+      $user->setEmail($form_state->getValue('email'));
+      $user->set('field_first_name', $form_state->getValue('first_name'));
+      $user->set('field_last_name', $form_state->getValue('last_name'));
+      $user->set('field_phone', $form_state->getValue('phone'));
+      $user->set('field_organisation', $form_state->getValue('organisation'));
+      $user->set('field_position', $form_state->getValue('position'));
+      $user->set('roles', $form_state->getValue('system_role'));
+      $user->set('field_location', $location_tid);
+      $user->save();
+    }
+
   }
 
   /**
    * {@inheritdoc}
    */
-  public function formPageTwo(array &$form, FormStateInterface $form_state) {
-    $form['#prefix'] = '<div id="status-message"></div>';
-    $form['progress_step1'] = [
-      '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
-    ];
-    $form['progress_step2'] = [
-      '#markup' => '<div class="location-detail-page active step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
-    ];
-    $form['progress_step3'] = [
-      '#markup' => '<div class="password-creation-page step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
-    ];
+  public function formPageTwo(array &$form, FormStateInterface $form_state, $id = NULL) {
+    $level_four_default = "";
+    $level_three_default = "";
+    $location_levels = [];
+    if ($this->userId == "") {
+      $user_location_array = [];
+      $form['#prefix'] = '<div id="status-message"></div>';
+      $form['progress_step1'] = [
+        '#markup' => '<div class="steps-highlight">
+          <div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') .
+        '</div>',
+      ];
+      $form['progress_step2'] = [
+        '#markup' => '<div class="location-detail-page active step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
+      ];
+      $form['progress_step3'] = [
+        '#markup' => '<div class="password-creation-page step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
+      ];
 
-    $form['message-step'] = [
-      '#markup' => '<div class="step">' . $this->t('Step 2: Geographical coverage of your role') . '</div>',
-    ];
+      $form['message-step'] = [
+        '#markup' => '<div class="step">' . $this->t('Step 2: Geographical coverage of your role') . '</div>',
+      ];
+
+    }
+    else {
+      $user_details = $this->entityTypeManager->getStorage('user')->load($this->userId);
+      $user_saved_location = $user_details->field_location->getValue();
+
+      if (is_array($user_saved_location) && !empty($user_saved_location)) {
+        $user_location_array = $this->locationService->getAllAncestors($user_details->field_location->getValue()[0]['target_id']);
+        foreach ($user_saved_location as $value) {
+          $user_last_location[] = $value['target_id'];
+        }
+      }
+      else {
+        $user_location_array = $this->locationService->getAllAncestors($user_details->field_location->target_id);
+      }
+      if (isset($user_location_array[0])) {
+        $user_location_entity_id = $this->locationService->getLocationSingleEntityIdByTid($user_location_array[0]);
+      }
+
+    }
+    $level_one_default = !empty($user_location_array[1]) ? $user_location_array[1] : "";
+    $level_two_default = !empty($user_location_array[2]) ? $user_location_array[2] : "";
+    if (isset($user_location_array[3])) {
+      $level_three_default = is_array($user_saved_location) && (count($user_location_array) == 4) ? $user_last_location : $user_location_array[3];
+    }
+    if (isset($user_location_array[4])) {
+      $level_four_default = is_array($user_saved_location) && (count($user_location_array) == 5) ? $user_last_location : $user_location_array[4];
+    }
+    $user_location_entity_id = !empty($user_location_entity_id) ? $user_location_entity_id : "";
     $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
     $location_options = [];
@@ -266,7 +405,7 @@ class SignUpForm extends FormBase {
         '#options' => $location_options,
         '#empty_option' => $this->t('Select Country'),
         '#title' => $this->t('Country'),
-        '#default_value' => $form_state->getValue('location_options', ''),
+        '#default_value' => !empty($form_state->getValue('location_options', '')) ? $form_state->getValue('location_options', '') : $user_location_entity_id,
         '#required' => TRUE,
         '#ajax' => [
           'callback' => '::getLocationDetail',
@@ -280,35 +419,37 @@ class SignUpForm extends FormBase {
       ];
     }
     $form['location'] = [
-      '#prefix' => '<div id="edit-location-details" class="card-shadow">',
+      '#prefix' => '<div id="edit-location-details" >',
       '#suffix' => '</div>',
     ];
     $form['all_wrapper'] = [
       '#type' => 'container',
       '#attributes' => ['id' => 'all-wrapper'],
     ];
-    if (!empty($form_state->getValue('location_options'))) {
-      $form['location']['all_wrapper']['message'] = [
-        '#type' => 'markup',
-        '#markup' => '<div id="intro-text">' . $this->t('Add the new location details') . '</div>',
-      ];
-    }
     $form['location']['all_wrapper']['intro_text'] = [
       '#type' => 'markup',
-      '#markup' => '<div id="intro-text">' . $this->t('Select the country first, to view the respective form') . '</div>',
+      '#markup' => '<div id="intro-text">' . $this->t('Select country to view its Hierarchy.') . '</div>',
     ];
     if (!empty($form_state->getValue('location_options'))) {
       $form['top_wrapper']['all_wrapper']['#prefix'] = '<div class="location-container">';
       $form['top_wrapper']['all_wrapper']['#suffix'] = '</div>';
     }
 
-    if (!empty($form_state->getValue('location_options'))) {
+    if (!empty($form_state->getValue('location_options')) || $this->userId != "") {
       unset($form['location']['all_wrapper']['intro_text']);
-      $location_country_id = $form_state->getValue('location_options');
-      $location_entity = $this->entityTypeManager->getStorage('location')->load($location_country_id);
-      $location_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
-      $location_levels = $this->locationService->getLocationLevels($location_country_id);
-      $childs = $this->locationService->getChildrenByTid($location_tid);
+      $location_country_id = !empty($form_state->getValue('location_options')) ? $form_state->getValue('location_options') : $user_location_entity_id;
+      if (!empty($location_country_id)) {
+        $location_entity = $this->entityTypeManager->getStorage('location')->load($location_country_id);
+      }
+      if (!empty($location_entity) && isset($location_entity)) {
+        $location_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+      }
+      if (!empty($location_country_id)) {
+        $location_levels = $this->locationService->getLocationLevels($location_country_id);
+      }
+      if (!empty($location_tid)) {
+        $childs = $this->locationService->getChildrenByTid($location_tid);
+      }
       $i = 1;
       $form['location']['all_wrapper']['location_level'] = [
         '#prefix' => '<div id="location-levels">',
@@ -340,7 +481,7 @@ class SignUpForm extends FormBase {
             '#options' => $childs,
             '#title' => $level,
             '#weight' => 10,
-            '#default_value' => $form_state->getValue('level_1', ''),
+            '#default_value' => !empty($form_state->getValue('level_1', '')) ? $form_state->getValue('level_1', '') : $level_one_default,
             '#ajax' => [
               'callback' => '::getLevelTwo',
               'event' => 'change',
@@ -353,18 +494,18 @@ class SignUpForm extends FormBase {
           ];
         }
         else {
-          if (!empty($form_state->getValue('level_' . $key))) {
+          if (!empty($form_state->getValue('level_' . $key)) || $level_two_default != "") {
             if ($key == 1) {
-              $parent_tid = $form_state->getValue('level_' . $key);
+              $parent_tid = !empty($form_state->getValue('level_' . $key)) ? $form_state->getValue('level_' . $key) : $level_one_default;
               $level_1_options = $this->locationService->getChildrenByTid($parent_tid);
-              $form['location']['all_wrapper']['location_level']['level_2'] = [
+              $form['location']['all_wrapper']['location_level2']['level_2'] = [
                 '#type' => 'select',
                 '#empty_option' => $this->t("Select Level 2 Label"),
                 '#options' => $level_1_options,
                 '#empty_value' => '',
                 '#title' => $level,
                 '#weight' => 20,
-                '#default_value' => $form_state->getValue('level_2', ''),
+                '#default_value' => !empty($form_state->getValue('level_2', '')) ? $form_state->getValue('level_2', '') : $level_two_default,
                 '#ajax' => [
                   'callback' => '::getLevelThree',
                   'event' => 'change',
@@ -378,30 +519,33 @@ class SignUpForm extends FormBase {
               $array_keys = array_keys($location_levels);
               $last_key = end($array_keys);
               if ($last_key == $key) {
-                $form['location']['all_wrapper']['location_level']['level_' . ($key + 1)]['#multiple'] = TRUE;
+                $form['location']['all_wrapper']['location_level2']['level_' . ($key + 1)]['#multiple'] = TRUE;
               }
             }
             else {
-              if (!empty($form_state->getValue('level_' . $key))) {
+              if (!empty($form_state->getValue('level_' . $key)) || $level_three_default != "") {
                 if ($key == 2) {
-                  $parent_level2_tid = $form_state->getValue('level_' . $key);
+                  $parent_level2_tid = !empty($form_state->getValue('level_' . $key)) ? $form_state->getValue('level_' . $key) : $level_two_default;
                   $level_2_options = $this->locationService->getChildrenByTid($parent_level2_tid);
-                  $form['location']['all_wrapper']['location_level']['level_3'] = [
+                  $form['location']['all_wrapper']['location_level3']['level_3'] = [
                     '#type' => 'select',
                     '#empty_option' => $this->t("Select Level 3 Label"),
                     '#empty_value' => '',
                     '#options' => $level_2_options,
                     '#title' => $level,
+                    '#attributes' => [
+                      'data-placeholder' => $this->t('Select Level 3 Label'),
+                    ],
                     '#weight' => 30,
-                    '#default_value' => $form_state->getValue('level_3', ''),
+                    '#default_value' => !empty($form_state->getValue('level_3', '')) ? $form_state->getValue('level_3', '') : $level_three_default,
                   ];
                   $array_keys = array_keys($location_levels);
                   $last_key = end($array_keys);
                   if ($last_key == $key) {
-                    $form['location']['all_wrapper']['location_level']['level_' . ($key + 1)]['#multiple'] = TRUE;
+                    $form['location']['all_wrapper']['location_level3']['level_' . ($key + 1)]['#multiple'] = TRUE;
                   }
                   else {
-                    $form['location']['all_wrapper']['location_level']['level_' . ($key + 1)]['#ajax'] = [
+                    $form['location']['all_wrapper']['location_level3']['level_' . ($key + 1)]['#ajax'] = [
                       'callback' => '::getLevelFour',
                       'event' => 'change',
                       'method' => 'replace',
@@ -413,25 +557,29 @@ class SignUpForm extends FormBase {
                   }
                 }
                 else {
-                  if (!empty($form_state->getValue('level_' . $key))) {
+                  if (!empty($form_state->getValue('level_' . $key)) || $level_four_default != "") {
                     if ($key == 3) {
                       $parent_level3_tid = $form_state->getValues();
-                      if (is_array($parent_level3_tid['level_3'])) {
-                        $parent_level_3 = !isset($parent_level3_tid['level_3']) ? $parent_level3_tid['level_3'][0] : "";
+                      if (isset($parent_level3_tid['level_3']) && is_array($parent_level3_tid['level_3'])) {
+                        $parent_level3_tid_array = array_keys($parent_level3_tid['level_3']);
+                        $parent_level_3 = !empty($parent_level3_tid['level_3']) ? $parent_level3_tid_array[0] : $level_three_default;
                       }
                       else {
-                        $parent_level_3 = $parent_level3_tid['level_3'];
+                        $parent_level_3 = !empty($parent_level3_tid['level_3']) ? $parent_level3_tid['level_3'] : $level_three_default;
                       }
                       $level_3_options = $this->locationService->getChildrenByTid($parent_level_3);
-                      $form['location']['all_wrapper']['location_level']['level_4'] = [
+                      $form['location']['all_wrapper']['location_level4']['level_4'] = [
                         '#type' => 'select',
                         '#multiple' => TRUE,
                         '#empty_option' => $this->t("Select Level 4 Label"),
                         '#empty_value' => '',
+                        '#attributes' => [
+                          'data-placeholder' => $this->t('Select Level 4 Label'),
+                        ],
                         '#options' => $level_3_options,
                         '#title' => $level,
                         '#weight' => 40,
-                        '#default_value' => $form_state->getValue('level_4', ''),
+                        '#default_value' => !empty($form_state->getValue('level_4', '')) ? $form_state->getValue('level_4', '') : $level_four_default,
                       ];
                     }
                   }
@@ -452,17 +600,19 @@ class SignUpForm extends FormBase {
       '#suffix' => '</div>',
     ];
     if (!empty($form_state->getValue('location_options'))) {
-      $form['action-wrapper']['actions']['back'] = [
-        '#type' => 'submit',
-        '#value' => $this->t('Back'),
-        '#attributes' => [
-          'class' => [
-            'button-border',
+      if ($this->userId == "") {
+        $form['action-wrapper']['actions']['back'] = [
+          '#type' => 'submit',
+          '#value' => $this->t('Back'),
+          '#attributes' => [
+            'class' => [
+              'button-border',
+            ],
           ],
-        ],
-        '#submit' => ['::pageOneBack'],
-        '#limit_validation_errors' => [],
-      ];
+          '#submit' => ['::pageOneBack'],
+          '#limit_validation_errors' => [],
+        ];
+      }
       $form['action-wrapper']['actions']['next'] = [
         '#type' => 'submit',
         '#button_type' => 'primary',
@@ -474,6 +624,31 @@ class SignUpForm extends FormBase {
         ],
         '#submit' => ['::submitPageTwo'],
         '#validate' => ['::validatePageTwo'],
+      ];
+    }
+    if ($this->userId != "") {
+      $form['action-wrapper']['actions']['back'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Cancel'),
+        '#attributes' => [
+          'class' => [
+            'button-border',
+          ],
+          ['onClick' => 'window.location.reload(); event.preventDefault();'],
+        ],
+
+      ];
+      $form['action-wrapper']['actions']['next'] = [
+        '#type' => 'submit',
+        '#button_type' => 'primary',
+        '#value' => $this->t('Update'),
+        '#attributes' => [
+          'class' => [
+            'signup-next',
+          ],
+        ],
+        '#submit' => ['::submitPageOne'],
+        '#validate' => ['::validatePageOne'],
       ];
     }
     $form['#cache']['max-age'] = 0;
@@ -491,7 +666,6 @@ class SignUpForm extends FormBase {
     $location_levels = $this->locationService->getLocationLevels($location_country_id);
     $parent_level2_tid = $form_state->getValue('level_1');
     $level_2_options = $this->locationService->getChildrenByTid($parent_level2_tid);
-    // $level_2_options[''] = $this->t("Select Level 2 Label");
     if (!empty($level_2_options)) {
       $i = 1;
       foreach ($level_2_options as $key => $value) {
@@ -508,13 +682,13 @@ class SignUpForm extends FormBase {
     else {
       $level_2_options_final = $level_2_options;
     }
-    $form['location']['all_wrapper']['location_level']['level_2']['#empty_option'] = $this->t("Select Level 2 Label");
-    $form['location']['all_wrapper']['location_level']['level_3']['#options'] = [];
-    $form['location']['all_wrapper']['location_level']['level_4']['#options'] = [];
-    $form['location']['all_wrapper']['location_level']['level_2']['#options'] = $level_2_options_final;
-    $form['location']['all_wrapper']['location_level']['level_2']['#title'] = $location_levels[1];
+    $form['location']['all_wrapper']['location_level2']['level_2']['#empty_option'] = $this->t("Select Level 2 Label");
+    $form['location']['all_wrapper']['location_level3']['level_3']['#options'] = [];
+    $form['location']['all_wrapper']['location_level4']['level_4']['#options'] = [];
+    $form['location']['all_wrapper']['location_level2']['level_2']['#options'] = $level_2_options_final;
+    $form['location']['all_wrapper']['location_level2']['level_2']['#title'] = $location_levels[1];
     $response = new AjaxResponse();
-    $response->addCommand(new HtmlCommand('#location-level-2', $form['location']['all_wrapper']['location_level']['level_2']));
+    $response->addCommand(new HtmlCommand('#location-level-2', $form['location']['all_wrapper']['location_level2']['level_2']));
     $response->addCommand(new HtmlCommand('#location-level-3', ''));
     $response->addCommand(new HtmlCommand('#location-level-4', ''));
     return $response;
@@ -534,7 +708,6 @@ class SignUpForm extends FormBase {
       $i = 1;
       foreach ($level_2_options as $key => $value) {
         if ($i == 1) {
-          $level_2_options_final[''] = $this->t('Select Level 3 Label');
           $level_2_options_final[$key] = $value;
         }
         else {
@@ -546,13 +719,13 @@ class SignUpForm extends FormBase {
     else {
       $level_2_options_final = $level_2_options;
     }
-    $form['location']['all_wrapper']['location_level']['level_3']['#empty_option'] = $this->t("Select Level 3 Label");
-    $form['location']['all_wrapper']['location_level']['level_4']['#options'] = [];
-    $form['location']['all_wrapper']['location_level']['level_3']['#options'] = $level_2_options_final;
-    $form['location']['all_wrapper']['location_level']['level_3']['#empty_value'] = '';
-    $form['location']['all_wrapper']['location_level']['level_3']['#title'] = $location_levels[2];
+    $form['location']['all_wrapper']['location_level3']['level_3']['#empty_option'] = $this->t("Select Level 3 Label");
+    $form['location']['all_wrapper']['location_level4']['level_4']['#options'] = [];
+    $form['location']['all_wrapper']['location_level3']['level_3']['#options'] = $level_2_options_final;
+    $form['location']['all_wrapper']['location_level3']['level_3']['#empty_value'] = '';
+    $form['location']['all_wrapper']['location_level3']['level_3']['#title'] = $location_levels[2];
     $response = new AjaxResponse();
-    $response->addCommand(new HtmlCommand('#location-level-3', $form['location']['all_wrapper']['location_level']['level_3']));
+    $response->addCommand(new HtmlCommand('#location-level-3', $form['location']['all_wrapper']['location_level3']['level_3']));
     $response->addCommand(new HtmlCommand('#location-level-4', ''));
     return $response;
   }
@@ -564,11 +737,11 @@ class SignUpForm extends FormBase {
     $response = new AjaxResponse();
     $parent_level2_tid = $form_state->getValue('level_3');
     $level_2_options = $this->locationService->getChildrenByTid($parent_level2_tid);
-    $form['location']['all_wrapper']['location_level']['level_4']['#empty_option'] = $this->t("Select Level 4 Label");
-    $form['location']['all_wrapper']['location_level']['level_4']['#options'] = $level_2_options;
-    $form['location']['all_wrapper']['location_level']['level_4']['#empty_value'] = '';
+    $form['location']['all_wrapper']['location_level4']['level_4']['#empty_option'] = $this->t("Select Level 4 Label");
+    $form['location']['all_wrapper']['location_level4']['level_4']['#options'] = $level_2_options;
+    $form['location']['all_wrapper']['location_level4']['level_4']['#empty_value'] = '';
     $response = new AjaxResponse();
-    $response->addCommand(new HtmlCommand('#location-level-4', $form['location']['all_wrapper']['location_level']['level_4']));
+    $response->addCommand(new HtmlCommand('#location-level-4', $form['location']['all_wrapper']['location_level4']['level_4']));
     return $response;
   }
 
@@ -610,11 +783,20 @@ class SignUpForm extends FormBase {
     $form['location']['all_wrapper']['location_level']['level_1']['#empty_option'] = $this->t("Select Level 1 Label");
     $form['location']['all_wrapper']['location_level']['level_1']['#empty_value'] = '';
     $form['location']['all_wrapper']['location_level']['level_1']['#title'] = $location_levels[0];
-    unset($form['location']['all_wrapper']['location_level']['level_2']);
-    unset($form['location']['all_wrapper']['location_level']['level_3']);
-    unset($form['location']['all_wrapper']['location_level']['level_4']);
+    unset($form['location']['all_wrapper']['location_level2']['level_2']);
+    unset($form['location']['all_wrapper']['location_level3']['level_3']);
+    unset($form['location']['all_wrapper']['location_level4']['level_4']);
+    $form_state->setValue('level_2', "");
+    $form_state->setValue('level_3', "");
+    $form_state->setValue('level_4', "");
+    $form_state->setRebuild(TRUE);
+    $response->addCommand(new HtmlCommand('#location-level-2', ''));
+    $response->addCommand(new HtmlCommand('#location-level-3', ''));
+    $response->addCommand(new HtmlCommand('#location-level-4', ''));
     $response->addCommand(new HtmlCommand('#edit-location-details', $form['location']['all_wrapper']));
-    $response->addCommand(new HtmlCommand('#form-actions', $form['action-wrapper']['actions']));
+    if ($this->userId == "") {
+      $response->addCommand(new HtmlCommand('#form-actions', $form['action-wrapper']['actions']));
+    }
     return $response;
 
   }
@@ -624,7 +806,7 @@ class SignUpForm extends FormBase {
    */
   public function validatePageTwo(array &$form, FormStateInterface $form_state) {
     if (empty($form_state->getValue('location_options'))) {
-      $form_state->setErrorByName('location_options', $this->t('Please fill the required fileds'));
+      $form_state->setErrorByName('location_options', $this->t('Please fill the required fields'));
     }
   }
 
@@ -645,14 +827,47 @@ class SignUpForm extends FormBase {
   public function submitPageTwo(array &$form, FormStateInterface $form_state) {
     $location_tid = '';
     if (!empty($form_state->getValue('level_4'))) {
-      $location_tid = $form_state->getValue('level_4');
+      if (is_array($form_state->getValue('level_4'))) {
+        $location_tid = array_keys($form_state->getValue('level_4'));
+      }
+      else {
+        $location_tid = $form_state->getValue('level_3');
+      }
+
     }
     elseif (!empty($form_state->getValue('level_3'))) {
-      $location_tid = $form_state->getValue('level_3');
+      if (is_array($form_state->getValue('level_3'))) {
+        $location_tid = array_keys($form_state->getValue('level_3'));
+      }
+      else {
+        $location_tid = $form_state->getValue('level_3');
+      }
+
     }
     elseif (!empty($form_state->getValue('level_2'))) {
-      $location_tid = $form_state->getValue('level_2');
+      if (is_array($form_state->getValue('level_2'))) {
+        $location_tid = array_keys($form_state->getValue('level_2'));
+      }
+      else {
+        $location_tid = $form_state->getValue('level_2');
+      }
     }
+    elseif (!empty($form_state->getValue('level_1'))) {
+      if (is_array($form_state->getValue('level_1'))) {
+        $location_tid = array_keys($form_state->getValue('level_1'));
+      }
+      else {
+        $location_tid = $form_state->getValue('level_1');
+      }
+
+    }
+    elseif (!empty($form_state->getValue('location_options'))) {
+
+      $location_country_id = $form_state->getValue('location_options');
+      $location_entity = $this->entityTypeManager->getStorage('location')->load($location_country_id);
+      $location_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+    }
+
     $form_state->set('page_two_values', [
       'personal_details' => $form_state->get('page_values'),
       'location_tid' => $location_tid,
@@ -666,13 +881,19 @@ class SignUpForm extends FormBase {
    */
   public function formPageThree(array &$form, FormStateInterface $form_state) {
     $form['progress_step1'] = [
-      '#markup' => '<div class="steps-highlight"><div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') . '</div>',
+      '#markup' => '<div class="steps-highlight">
+        <div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') .
+      '</div>',
     ];
     $form['progress_step2'] = [
-      '#markup' => '<div class="location-detail-page active step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
+      '#markup' => '<div class="location-detail-page active step-circle">' .
+      $this->t('<div class="step-number">2</div>') .
+      '</div>',
     ];
     $form['progress_step3'] = [
-      '#markup' => '<div class="password-creation-page active step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
+      '#markup' => '<div class="password-creation-page active step-circle">' .
+      $this->t('<div class="step-number">3</div>') .
+      '</div></div>',
     ];
 
     $form['message-step'] = [
@@ -682,7 +903,9 @@ class SignUpForm extends FormBase {
     if ($this->currentUser->id()) {
       $form['message-info'] = [
         '#prefix' => '<div class="password-creation">',
-        '#markup' => '<div class="notify-messsage">' . $this->t('How would you like to send the password creation link to the new user?') . '</div>',
+        '#markup' => '<div class="notify-messsage">' .
+        $this->t('How would you like to send the password creation link to the new user?') .
+        '</div>',
       ];
       $form['submit'] = [
         '#type' => 'submit',
@@ -803,7 +1026,7 @@ class SignUpForm extends FormBase {
         'field_phone' => $values['phone'],
         'field_organisation' => $values['organisation'],
         'field_position' => $values['position'],
-        'field_location_details' => $location_values['location_tid'],
+        'field_location' => $location_values['location_tid'],
         'roles' => $values['system_role'],
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
@@ -843,16 +1066,16 @@ class SignUpForm extends FormBase {
         'field_phone' => $values['phone'],
         'field_organisation' => $values['organisation'],
         'field_position' => $values['position'],
-        'field_location_details' => $location_values['location_tid'],
+        'field_location' => $location_values['location_tid'],
         'roles' => $values['system_role'],
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
       $user->save();
       _user_mail_notify('register_pending_approval', $user);
       $response = new AjaxResponse();
-      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\ModalForm');
-      // Add an AJAX command to open a modal dialog with the form as content.
-      $response->addCommand(new OpenModalDialogCommand('', $modal_form, ['width' => '400']));
+      $url = Url::fromRoute('view.user_lists.page_1')->toString();
+      $command = new RedirectCommand($url);
+      $response->addCommand($command);
     }
     return $response;
   }

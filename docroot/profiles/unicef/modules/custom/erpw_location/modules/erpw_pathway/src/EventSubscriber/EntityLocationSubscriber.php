@@ -12,7 +12,9 @@ use Drupal\node\NodeInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\erpw_location\LocationService;
+use Drupal\erpw_custom\Services\ErpwCustomService;
 use Drupal\erpw_pathway\Services\ErpwPathwayService;
+use Drupal\Core\Session\AccountProxyInterface;
 
 /**
  * Class EntityLocationSubscriber.
@@ -27,6 +29,13 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   const MAX_LEVEL = 4;
 
   /**
+   * The custom service.
+   *
+   * @var \Drupal\erpw_custom\Services\ErpwCustomService
+   */
+  protected $erpwCustomService;
+
+  /**
    * The Messenger service.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -39,6 +48,13 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    * @var levelLabel
    */
   protected $levelLabel = [];
+
+  /**
+   * A Location Service instance.
+   *
+   * @var Drupal\erpw_location\LocationService
+   */
+  protected $locationEntity;
 
   /**
    * A LocationService instance.
@@ -69,16 +85,28 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   protected $routeMatch;
 
   /**
+   * The Current user service.
+   *
+   * @var Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager,
     LocationService $location_service,
     RouteMatchInterface $route_match,
-    ErpwPathwayService $erpw_pathway_service) {
+    ErpwPathwayService $erpw_pathway_service,
+    AccountProxyInterface $current_user,
+    ErpwCustomService $erpw_custom_service) {
     self::$entityTypeManager = $entity_type_manager;
     self::$locationService = $location_service;
     $this->erpwPathwayService = $erpw_pathway_service;
     $this->routeMatch = $route_match;
+    $this->currentUser = $current_user;
+    $this->locationEntity = $location_service;
+    $this->erpwCustomService = $erpw_custom_service;
   }
 
   /**
@@ -96,26 +124,107 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       [
         'node_referral_path_way_form',
         'node_referral_path_way_edit_form',
+        'node_service_provider_form',
+        'node_service_provider_edit_form',
       ])) {
       $parent_list = [];
       $node = $this->routeMatch->getParameter('node');
       if (empty($form_state->getTriggeringElement()['#level']) && $node instanceof NodeInterface) {
         $parent_list = $this->getTermParents($node);
       }
-      $form = $this->erpwPathwayService->getLocationForm($form, $form_state, $parent_list);
-      // Change button name of section.
-      $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = $this->t('Add a new section');
-      $form['#title'] = $this->t('Add new template for RPW');
-      $form['actions']['preview']['#attributes']['class'][] = 'button-border';
-      $form['field_section']['widget']['#title'] = '';
+      $current_user = self::$entityTypeManager->getStorage('user')->load($this->currentUser->id());
+      $ptids = [];
+      switch ($form_id) {
+        case 'node_referral_path_way_form':
+          $permission = 'add referral pathway of their own location';
+          break;
 
+        case 'node_referral_path_way_edit_form':
+          $permission = 'edit referral pathway of their own location';
+          break;
+
+        default:
+          $permission = '';
+          break;
+      }
+      if ($current_user->hasPermission($permission)) {
+        $location_id = '';
+        if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
+          $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
+        }
+        $ptids = self::$locationService->getAllAncestors($location_id);
+        $parent_list = empty($parent_list) ? array_values($ptids) : $parent_list;
+      }
+      $form = $this->erpwPathwayService->getLocationForm($form, $form_state, $parent_list, $ptids);
       // Form submit handler.
       $form['actions']['submit']['#submit'][] = [$this, 'eprwSubmitHandler'];
     }
-
+    // Manage service validation.
+    if (in_array($form_id,
+    [
+      'node_service_provider_form',
+      'node_service_provider_edit_form',
+    ])) {
+      $form['#validate'][] = [$this, 'serviceProviderValidation'];
+    }
+    // RPW basic elements alter.
+    if (in_array($form_id,
+    [
+      'node_referral_path_way_form',
+      'node_referral_path_way_edit_form',
+    ])) {
+      // Change button name of the section.
+      $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = $this->t('Add a new section');
+      $form['field_section']['widget']['#title'] = '';
+    }
+    // Only alter for RPW Add Form.
+    if ($form_id == 'node_referral_path_way_form') {
+      $form['#title'] = $this->t('Add New Referral Pathway');
+      $form['actions']['submit']['#value'] = $this->t('Publish');
+      $form['#validate'][] = [$this, 'eprwValidationHandler'];
+    }
+    // Only alter for RPW Edit Form.
     if ($form_id == 'node_referral_path_way_edit_form') {
-      $form['#title'] = $this->t('Update RPW template');
-      $form['actions']['submit']['#cancel'][] = [$this, 'eprwCancelHandler'];
+      $form['#title'] = $this->t('Update RPW');
+      $form['actions']['submit']['#value'] = $this->t('UPDATE');
+      $form['#attached']['library'][] = 'erpw_pathway/erpw_pathway_autocomplete';
+    }
+  }
+
+  /**
+   * Validation for duplicate location hierarchy.
+   */
+  public function eprwValidationHandler(array &$form, $form_state) {
+    for ($i = self::MAX_LEVEL; $i >= 0; $i--) {
+      $location_level = $form_state->getValue('level_' . $i);
+      if (!empty($location_level)) {
+        break;
+      }
+    }
+    $current_lang = $this->erpwCustomService->getCurrentLanguage();
+    $saved_loc_id = $this->locationEntity->getSavedLocation($location_level, $current_lang);
+    if (!empty($saved_loc_id)) {
+      $message = $this->t('The selected location is already associated with a RPW.');
+      $form_state->setError($form['location'], $message);
+    }
+  }
+
+  /**
+   * Validation for allowing only integer and '+' in phone number fields.
+   */
+  public function serviceProviderValidation(&$form, $form_state) {
+    $message = $this->t('Only numberic values are allowed');
+    $field_phone_number = $form_state->getValue('field_phone_number')[0]['value'];
+    if (!preg_match('/^[+-]?\d+$/', $field_phone_number)) {
+      $form_state->setError($form['field_phone_number'], $message);
+    }
+    $field_phone_number_backup_focalp = $form_state->getValue('field_phone_number_backup_focalp')[0]['value'];
+    if (!preg_match('/^[+-]?\d+$/', $field_phone_number_backup_focalp)) {
+      $form_state->setError($form['field_phone_number_backup_focalp'], $message);
+    }
+    $field_phone_number_of_focal_poin = $form_state->getValue('field_phone_number_of_focal_poin')[0]['value'];
+    if (!preg_match('/^[+-]?\d+$/', $field_phone_number_of_focal_poin)) {
+      $form_state->setError($form['field_phone_number_of_focal_poin'], $message);
     }
   }
 
@@ -167,19 +276,13 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       }
     }
     // Saving the location data.
-    $node = $this->routeMatch->getParameter('node');
-    if ($node instanceof NodeInterface) {
-      $node->set('field_location', []);
-      $this->saveLocationField($node, $location_level);
-    }
-    else {
-      $form_object = $form_state->getFormObject();
-      if ($form_object instanceof EntityForm) {
-        $entity = $form_object->getEntity();
-        $this->saveLocationField($entity, $location_level);
-      }
+    $form_object = $form_state->getFormObject();
+    if ($form_object instanceof EntityForm) {
+      $entity = $form_object->getEntity();
+      $this->saveLocationField($entity, $location_level);
     }
 
+    return _erpw_custom_redirect('view.referral_pathway_listing.page_1', 'rpw_listing');
   }
 
   /**
@@ -191,13 +294,18 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    *   Location data.
    */
   protected function saveLocationField($entity, $location) {
+    $node = $this->routeMatch->getParameter('node');
+    // Removing the previous location to avoid duplicates.
+    if ($node instanceof NodeInterface) {
+      $entity->set('field_location', []);
+    }
     if (is_array($location)) {
       foreach ($location as $value) {
         $entity->field_location[] = ['target_id' => $value];
       }
     }
     else {
-      $entity->field_location->target_id = $location;
+      $entity->field_location[] = ['target_id' => $location];
     }
     $entity->save();
   }
@@ -206,8 +314,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public function eprwCancelHandler(&$form, $form_state) {
-    // @todo Replace route name when RPW view list is done.
-    return _erpw_custom_redirect('view.manage_service_types.page_1');
+    return _erpw_custom_redirect('view.referral_pathway_listing.page_1', 'rpw_listing');
   }
 
   /**

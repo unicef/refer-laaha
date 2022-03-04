@@ -279,10 +279,14 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
   $request = \Drupal::request();
   if ($request->attributes->has('_route')) {
     if ($request->attributes->get('_route') == 'entity.node.content_translation_add') {
-      \Drupal::messenger()->addWarning(t('You are modifying content for @language language', ['@language' => $language_manager->getName()]));
+      \Drupal::messenger()->addWarning(
+        t('You are modifying content for @language language', ['@language' => $language_manager->getName()])
+      );
     }
     if ($request->attributes->get('_route') == 'entity.media.content_translation_add') {
-      \Drupal::messenger()->addWarning(t('You are modifying media for @language language', ['@language' => $language_manager->getName()]));
+      \Drupal::messenger()->addWarning(
+        t('You are modifying media for @language language', ['@language' => $language_manager->getName()])
+      );
     }
     if ($request->attributes->get('_route') == 'entity.media.collection') {
       $messenger = \Drupal::messenger();
@@ -338,12 +342,10 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
       '#title' => t('Password'),
     ];
 
-    if ($language_manager->getId() != 'en') {
-      $url = $form['previews'][$language_manager->getId()]['url']['#default_value'];
-      $url = explode('node', $url);
-      $new_url = $url[0] . $language_manager->getId() . '/node' . $url[1];
-      $form['previews'][$language_manager->getId()]['url']['#default_value'] = $new_url;
-    }
+    $url = $form['previews'][$language_manager->getId()]['url']['#default_value'];
+    $url = explode('node', $url);
+    $new_url = $url[0] . $language_manager->getId() . '/node' . $url[1];
+    $form['previews'][$language_manager->getId()]['url']['#default_value'] = $new_url;
 
     $form['#validate'][] = 'preview_validate';
     $form['#submit'][] = 'preview_submit';
@@ -601,8 +603,6 @@ function vss_custom_preprocess_block(&$variables) {
   }
   if ($variables['elements']['#id'] == 'homepageherocategoriesblock') {
     $variables['elements']['#cache']['max-age'] = 0;
-    $commonConfig = \Drupal::config('vss_common_config.vsscommonconfig')->get('vss_common_config');
-    $categories = $commonConfig['homepage_hero'];
   }
   if ($variables['elements']['#id'] == 'wordsfromexperts') {
     $variables['elements']['#cache']['max-age'] = 0;
@@ -628,11 +628,9 @@ function vss_custom_preprocess_block(&$variables) {
   if ($variables['elements']['#base_plugin_id'] == 'disclaimer_pop_up_block') {
     $variables['elements']['#cache']['max-age'] = 0;
     $variables['#cache']['max-age'] = 0;
-    $cookie_get = \Drupal::request()->cookies->get('disclaimer');
-    if ($cookie_get) {
-      unset($variables['label']);
-      unset($variables['content']);
-    }
+  }
+  if ($variables['elements']['#base_plugin_id'] == 'hero_banner_block' && $variables['content']['#content'] == NULL) {
+    unset($variables['label']);
   }
 }
 
@@ -670,13 +668,13 @@ function vss_custom_preprocess_exit_website(&$variables) {
   }
   if ($lang_id == 'es') {
     $lang_id = 'es-ES';
-    $voiceId = 30;
-    $variables['#attached']['drupalSettings']['voiceId'] = $voiceId;
+    $voice_id = 30;
+    $variables['#attached']['drupalSettings']['voiceId'] = $voice_id;
   }
   if ($lang_id == 'en') {
     $lang_id = 'en-US';
-    $voiceId = 41;
-    $variables['#attached']['drupalSettings']['voiceId'] = $voiceId;
+    $voice_id = 41;
+    $variables['#attached']['drupalSettings']['voiceId'] = $voice_id;
   }
   $variables['#attached']['drupalSettings']['langId'] = $lang_id;
 }
@@ -702,7 +700,9 @@ function vss_custom_mail($key, &$message, $params) {
  */
 function vss_custom_entity_insert(EntityInterface $entity) {
   if ($entity->getEntityType()->id() == 'node') {
-    if ($entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' || $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_un_publish') {
+    if ($entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ||
+      $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_un_publish'
+    ) {
       $domain = $entity->get('field_domain_access')->target_id;
       $state = $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ? 'publish' : 'unpublish';
       $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
@@ -715,14 +715,9 @@ function vss_custom_entity_insert(EntityInterface $entity) {
           $editor_name = $entity->getOwner()->name->value;
           $nid = $entity->id();
           $langcode = $entity->get('langcode')->getValue()[0]['value'];
-          if ($langcode != 'en') {
-            $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
-          }
-          else {
-            $url = \Drupal::request()->getHost() . "/node/$nid/edit";
-          }
+          $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
         }
-        $mailManager = \Drupal::service('plugin.manager.mail');
+        $mail_manager = \Drupal::service('plugin.manager.mail');
         $module = 'vss_custom';
         $key = 'general_mail';
         $to = $user_email;
@@ -732,7 +727,7 @@ function vss_custom_entity_insert(EntityInterface $entity) {
         Click on the link to view the content or go to your dashboard in the CMS";
         $params['subject'] = "Request for $state content by $editor_name";
         $send = TRUE;
-        $result = $mailManager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
+        $result = $mail_manager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
         if ($result['result'] !== TRUE) {
           \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
         }
@@ -749,7 +744,9 @@ function vss_custom_entity_insert(EntityInterface $entity) {
  */
 function vss_custom_entity_update(EntityInterface $entity) {
   if ($entity->getEntityType()->id() == 'node') {
-    if ($entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' || $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_un_publish') {
+    if ($entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ||
+      $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_un_publish'
+    ) {
       $domain = $entity->get('field_domain_access')->target_id;
       $state = $entity->get('moderation_state')->getValue()[0]['value'] == 'request_for_publish' ? 'publish' : 'unpublish';
       $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(
@@ -762,14 +759,9 @@ function vss_custom_entity_update(EntityInterface $entity) {
           $editor_name = $entity->getOwner()->name->value;
           $nid = $entity->id();
           $langcode = $entity->get('langcode')->getValue()[0]['value'];
-          if ($langcode != 'en') {
-            $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
-          }
-          else {
-            $url = \Drupal::request()->getHost() . "/node/$nid/edit";
-          }
+          $url = \Drupal::request()->getHost() . '/' . $langcode . "/node/$nid/edit";
         }
-        $mailManager = \Drupal::service('plugin.manager.mail');
+        $mail_manager = \Drupal::service('plugin.manager.mail');
         $module = 'vss_custom';
         $key = 'general_mail';
         $to = $user_email;
@@ -779,7 +771,7 @@ function vss_custom_entity_update(EntityInterface $entity) {
         Click on the link to view the content or go to your dashboard in the CMS";
         $params['subject'] = "Request for $state content by $editor_name";
         $send = TRUE;
-        $result = $mailManager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
+        $result = $mail_manager->mail($module, $key, $to, \Drupal::currentUser()->getPreferredLangcode(), $params, NULL, $send);
         if ($result['result'] !== TRUE) {
           \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
         }
@@ -906,7 +898,8 @@ function vss_custom_preprocess_views_view(&$variables) {
     else {
       $country = 'ECUADOR';
     }
-    $variables['header']['area_text_custom']['#markup'] = $variables['header']['area_text_custom']['#markup'] . ' ' . '<b>' . $country . '</b>';
+    $variables['header']['area_text_custom']['#markup'] =
+      $variables['header']['area_text_custom']['#markup'] . ' ' . '<b>' . $country . '</b>';
   }
 }
 
@@ -991,7 +984,9 @@ function vss_custom_form_taxonomy_overview_terms_alter(&$form, FormStateInterfac
     ];
     foreach ($form['terms'] as $key => &$term) {
       if (is_array($term) && !empty($term['#term'])) {
-        if (($active_domain != $term['#term']->field_domain->target_id) || ($term['#term']->langcode->value != $default_lang && !$term['#term']->hasTranslation($default_lang))) {
+        if (($active_domain != $term['#term']->field_domain->target_id) ||
+          ($term['#term']->langcode->value != $default_lang && !$term['#term']->hasTranslation($default_lang))
+        ) {
           unset($form['terms'][$key]);
         }
         $tid = $term['#term']->tid->value;
@@ -1129,4 +1124,44 @@ function filter_tags_submit(&$form, FormStateInterface $form_state) {
   $country = $form_state->getValue('language');
   $response = new RedirectResponse("/admin/structure/taxonomy/manage/tags/overview?language_content_entity=$country");
   $response->send();
+}
+
+/**
+ * Submit tags.
+ */
+function vss_custom_views_pre_render(ViewExecutable $view) {
+  if ($view->id() == 'top_viewed_nodes') {
+    $filtered_nids = [];
+    foreach ($view->result as $key => $row) {
+      if (in_array($row->nid, $filtered_nids)) {
+        // Remove the duplicate.
+        unset($view->result[$key]);
+      }
+      else {
+        $filtered_nids[] = $row->nid;
+      }
+    }
+  }
+}
+
+/**
+ * Submit tags.
+ */
+function vss_custom_views_data_alter(&$data) {
+  $data['node_field_data']['field_video_time'] = [
+    'title' => t('video time field handler'),
+    'field' => [
+      'title' => t('video time field handler'),
+      'help' => t('video time field handler'),
+      'id' => 'field_video_time',
+    ],
+  ];
+  $data['node_field_data']['field_podcast_time'] = [
+    'title' => t('podcast time field handler'),
+    'field' => [
+      'title' => t('podcast time field handler'),
+      'help' => t('podcast time field handler'),
+      'id' => 'field_podcast_time',
+    ],
+  ];
 }

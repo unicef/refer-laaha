@@ -3,19 +3,20 @@
 namespace Drupal\erpw_location\Form;
 
 use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Logger\LoggerChannelFactory;
-use Drupal\Core\Database\Connection;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\erpw_location\LocationService;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\erpw_location\LocationService;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 
 /**
  * Class for add location.
@@ -72,6 +73,13 @@ class AddLocationForm extends FormBase {
   protected $tid;
 
   /**
+   * The Current user service.
+   *
+   * @var Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
    * ManageLocation constructor.
    *
    * @param \Psr\Log\LoggerChannelFactory $logger
@@ -88,6 +96,8 @@ class AddLocationForm extends FormBase {
    *   The location service.
    * @param \Drupal\Core\Routing\UrlGeneratorInterface $url_generator
    *   The url generator.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   The current user.
    */
   public function __construct(LoggerChannelFactory $logger,
     Connection $connection,
@@ -95,14 +105,17 @@ class AddLocationForm extends FormBase {
     MessengerInterface $messenger,
     FormBuilderInterface $form_builder,
     LocationService $location_service,
-    UrlGeneratorInterface $url_generator) {
+    UrlGeneratorInterface $url_generator,
+    AccountProxyInterface $current_user) {
+
     $this->logger = $logger;
     $this->connection = $connection;
-    $this->entityManager = $entity_type_manager->getStorage('location');
+    $this->entityManager = $entity_type_manager;
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
     $this->locationService = $location_service;
     $this->urlGenerator = $url_generator;
+    $this->currentUser = $current_user;
   }
 
   /**
@@ -116,7 +129,8 @@ class AddLocationForm extends FormBase {
       $container->get('messenger'),
       $container->get('form_builder'),
       $container->get('erpw_location.location_services'),
-      $container->get('url_generator')
+      $container->get('url_generator'),
+      $container->get('current_user'),
     );
   }
 
@@ -142,6 +156,8 @@ class AddLocationForm extends FormBase {
     $readonly_level3 = FALSE;
     $readonly_level4 = FALSE;
     if (!empty($location_options) && $id == "") {
+      $permission = 'add location of their own country';
+      $location_options = erpw_filter_locations_permissions($location_options, $permission, 'location_entity');
       $form['location_options'] = [
         '#type' => 'select',
         '#options' => $location_options,
@@ -154,9 +170,7 @@ class AddLocationForm extends FormBase {
       ];
     }
     else {
-
       if (!empty($id)) {
-
         $ancestors = $this->locationService->getAllAncestors($id);
         $top_level = $this->locationService->getTaxonomyTermById($ancestors[0]);
         if (isset($ancestors[1])) {
@@ -226,7 +240,7 @@ class AddLocationForm extends FormBase {
     if ($form_state->getValue('location_options') != FALSE || !empty($id)) {
       if (empty($id)) {
         unset($form['top_wrapper']['all_wrapper']['intro_text']);
-        $location = $this->entityManager->load($form_state->getValue('location_options'));
+        $location = $this->entityManager->getStorage('location')->load($form_state->getValue('location_options'));
         $location_levels = $this->locationService->getLocationLevels($form_state->getValue('location_options'));
         $this->cid = $location->get('field_location_taxonomy_term')->target_id;
       }
@@ -386,7 +400,6 @@ class AddLocationForm extends FormBase {
         '#suffix' => '</div>',
       ];
     }
-
     $url = $this->urlGenerator->generateFromRoute('erpw_location.manage_location');
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
@@ -550,10 +563,19 @@ class AddLocationForm extends FormBase {
 
     if (empty($this->tid) && $this->tid == "") {
       $this->locationService->addEprwLocation($last_level_tid, $this->cid);
-      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup', $this->t('Location added successfully'), $this->t('The location has been added successfully. You can now access it in the application.'));
+      $modal_form = $this->formBuilder->getForm(
+        'Drupal\erpw_custom\Form\AddLocationPopup',
+        $this->t('Location added successfully'),
+        $this->t('The location has been added successfully. You can now access it in the application.')
+      );
     }
     else {
-      $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\AddLocationPopup', $this->t('Updated successfully'), $this->t('The details have been successfully updated.'));
+      $modal_form = $this->formBuilder->getForm(
+        'Drupal\erpw_custom\Form\AddLocationPopup',
+        $this->t('Updated successfully'),
+        $this->t('The details have been successfully updated.'),
+        'update'
+      );
     }
 
     $response->addCommand(new OpenModalDialogCommand('', $modal_form, ['width' => '400']));

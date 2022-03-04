@@ -479,6 +479,13 @@ html[dir="rtl"] {
     padding-left: 0;
     padding-right: 0;
   }
+
+  // Need-help
+  table {
+    caption, th, td {
+      text-align: right;
+    }
+  }
 }
 
 

@@ -1,0 +1,19 @@
+uuid: 7363dbcd-7c66-42fd-81aa-2c3a5e8a0e74
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_p_code
+    - node.type.service_provider
+id: node.service_provider.field_p_code
+field_name: field_p_code
+entity_type: node
+bundle: service_provider
+label: P-code
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

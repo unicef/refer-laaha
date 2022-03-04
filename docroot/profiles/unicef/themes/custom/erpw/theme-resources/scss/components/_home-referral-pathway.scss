@@ -1,0 +1,79 @@
+.view-referral-pathway-on-homepage {
+	margin: 35px 0 50px;
+	.row-listing {
+		box-shadow: 0px 1px 4px rgba(68, 25, 39, 0.14);
+		border-radius: 20px;
+		margin: -30px 0 0 16px;
+	}
+	.section-title {
+		color: $grey-txt-color;
+		font-size: 14px;
+		font-weight: 500;
+		letter-spacing: 1px;
+		padding: 13px 26px;
+	}
+	.service-listing {
+		border-top: 0.5px solid #ECECEC;
+	}
+	.views-row {
+    margin: 0 20px 0 0;
+    padding-bottom: 40px;
+    border-left: 1px dashed #CD0000;
+    &:nth-child(3n+1) {
+      border-left: 1px dashed #CD0000;
+      &::before {
+        background: #CD0000;
+        border: 2px solid #CD0000;
+      }
+    }
+    &:nth-child(3n+2) {
+      border-left: 1px dashed #03B2F3;
+      &::before {
+        background: #DFF2F9;
+        border: 2px solid #03B2F3;
+      }
+    }
+    &:nth-child(3n+3) {
+      border-left: 1px dashed #55BC3F;
+      &::before {
+        background: #EFFFEC;
+        border: 2px solid #55BC3F;
+      }
+    }
+    &::before {
+      content: '';
+      width: 12px;
+      height: 12px;
+      display: inline-block;
+      border-radius: 50%;
+      margin-left: -8px;
+    }
+  }
+	
+	.listing-detail {
+		display: flex;
+		padding: 13px 26px;
+		label {
+			align-items: center;
+			border-radius: 50%;
+			display: inline-flex;
+			height: 40px;
+			justify-content: center;
+			margin-right: 14px;
+			text-align: center;
+			width: 40px;
+			.uf:before {
+				font-size: 18px;
+			}
+		}
+		.service-title {
+    	align-items: center;
+			display: inline-flex;
+			font-size: 12px;
+			width: calc(100% - 60px);
+			a {
+				color: $base-secondary-bgcolor;
+			}
+		}
+	}
+}

@@ -1,0 +1,21 @@
+uuid: 44117ffc-70fb-48d9-84c0-f28a1301cc56
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_mode
+    - node.type.service_provider
+  module:
+    - options
+id: node.service_provider.field_mode
+field_name: field_mode
+entity_type: node
+bundle: service_provider
+label: Mode
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

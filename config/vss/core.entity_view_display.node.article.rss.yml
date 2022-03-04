@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.article.field_domain_access
     - field.field.node.article.field_domain_all_affiliates
     - field.field.node.article.field_image
+    - field.field.node.article.field_meta_tags
     - field.field.node.article.field_preview_password
     - field.field.node.article.field_read_time
     - field.field.node.article.field_sub_category
@@ -27,15 +28,15 @@ bundle: article
 mode: rss
 content:
   content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
     weight: 0
     region: content
+  links:
     settings: {  }
     third_party_settings: {  }
-  links:
     weight: 1
     region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
   body: true
   comment: true
@@ -44,6 +45,7 @@ hidden:
   field_domain_access: true
   field_domain_all_affiliates: true
   field_image: true
+  field_meta_tags: true
   field_preview_password: true
   field_read_time: true
   field_sub_category: true

@@ -1,9 +1,17 @@
 .dashboard {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
 	.dashboard-link {
 		@include border-radius(10px);
 		box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
-		padding: 7px 10px;
+		padding: 14px 17px;
 		margin-bottom: 32px;
+		span {
+			display: inline-block;
+			margin-right: 25px;
+			vertical-align: middle;
+		}
 		a {
 			background: url('../images/arrow-right.svg') right center no-repeat;
 			color: $base-secondary-bgcolor;
@@ -49,5 +57,21 @@
         mask: url('../images/user.svg') center center no-repeat;
       }
     }
+		&.referral-link a {
+			&::before {
+        background-color: $base-secondary-bgcolor;
+        content: '';
+        -webkit-mask: url('../images/rpw.svg') center center no-repeat;
+        mask: url('../images/rpw.svg') center center no-repeat;
+      }
+		}
+		&.service-provider-link a {
+			&::before {
+        background-color: #62489B;
+        content: '';
+        -webkit-mask: url('../images/service-provider.svg') center center no-repeat;
+        mask: url('../images/service-provider.svg') center center no-repeat;
+      }
+		}
 	}
 }

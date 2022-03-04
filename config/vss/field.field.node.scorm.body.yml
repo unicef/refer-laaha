@@ -1,0 +1,23 @@
+uuid: ee6ebe4e-20a1-4ec3-b636-7428b146ca2a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.scorm
+  module:
+    - text
+id: node.scorm.body
+field_name: body
+entity_type: node
+bundle: scorm
+label: 'Meta description for SEO Purpose'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

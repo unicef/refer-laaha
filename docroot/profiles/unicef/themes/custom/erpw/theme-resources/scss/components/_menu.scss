@@ -41,7 +41,7 @@
 		width: 212px;
 	}
 	.menu-item {
-		padding:15px 20px 15px 15px;
+		padding:15px 0 15px 15px;
 		margin: 0 20px 0 0;
 		&.save-logged-in {
 			border-bottom: 1px solid $base-black-color;
@@ -49,7 +49,7 @@
 			margin-bottom: 10px;
 		}
 		a {
-			color: $base-secondary-bgcolor;
+			color: $base-secondary-bgcolor !important;
 			font-size: 16px;
 			padding-left: 30px;
 		}
@@ -80,6 +80,9 @@
 		}
 		.help-icon {
 			background: url('../images/help.svg') top left no-repeat;
+		}
+		.location-change {
+			background: url('../images/language-translate.png') top left no-repeat;
 		}
 	}
 }

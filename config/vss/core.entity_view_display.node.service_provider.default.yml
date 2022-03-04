@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.service_provider.body
     - field.field.node.service_provider.field_city
     - field.field.node.service_provider.field_country
     - field.field.node.service_provider.field_description
@@ -15,6 +16,7 @@ dependencies:
     - field.field.node.service_provider.field_hierarchy_level_3
     - field.field.node.service_provider.field_hierarchy_level_4
     - field.field.node.service_provider.field_linkedin
+    - field.field.node.service_provider.field_meta_tags
     - field.field.node.service_provider.field_priority
     - field.field.node.service_provider.field_service_provider_name
     - field.field.node.service_provider.field_state
@@ -22,6 +24,7 @@ dependencies:
     - field.field.node.service_provider.field_twitter
     - node.type.service_provider
   module:
+    - metatag
     - text
     - user
 id: node.service_provider.default
@@ -35,7 +38,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 106
+    weight: 5
     region: content
   field_country:
     type: string
@@ -43,21 +46,21 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 108
+    weight: 7
     region: content
   field_description:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 116
+    weight: 15
     region: content
   field_email_id:
     type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 103
+    weight: 2
     region: content
   field_facebook:
     type: string
@@ -65,7 +68,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 8
     region: content
   field_hierarchy_level_1:
     type: string
@@ -73,7 +76,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 112
+    weight: 11
     region: content
   field_hierarchy_level_2:
     type: string
@@ -81,7 +84,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 113
+    weight: 12
     region: content
   field_hierarchy_level_3:
     type: string
@@ -89,7 +92,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 114
+    weight: 13
     region: content
   field_hierarchy_level_4:
     type: string
@@ -97,7 +100,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 115
+    weight: 14
     region: content
   field_linkedin:
     type: string
@@ -105,7 +108,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 111
+    weight: 10
+    region: content
+  field_meta_tags:
+    type: metatag_empty_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 16
     region: content
   field_priority:
     type: number_integer
@@ -114,7 +124,7 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: 105
+    weight: 4
     region: content
   field_service_provider_name:
     type: string
@@ -122,7 +132,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 101
+    weight: 1
     region: content
   field_state:
     type: string
@@ -130,7 +140,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 107
+    weight: 6
     region: content
   field_telephone_number:
     type: string
@@ -138,7 +148,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 104
+    weight: 3
     region: content
   field_twitter:
     type: string
@@ -146,14 +156,15 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 110
+    weight: 9
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
 hidden:
+  body: true
   field_domain_access: true
   field_domain_all_affiliates: true
   langcode: true

@@ -17,7 +17,11 @@ main {
   text-align: center;
   font-size: 1.125em;
   font-weight: 500;
-  margin: 0 15%;
+  margin: 0;
+}
+
+.path-frontpage {
+  background: #FFFDFD;
 }
 
 .link-text {
@@ -209,13 +213,43 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   color: #ffffff;
 }
 
-.card-shadow, .node-referral-path-way-form .table-format .table-format,
-.node-referral-path-way-edit-form .table-format .table-format {
+.card-shadow, .view-manage-service .views-row,
+.view-service-list .views-row, .node-referral-path-way-form .table-format table .table-format,
+.node-referral-path-way-edit-form .table-format table .table-format {
   -webkit-box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
           box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
   border-radius: 10px;
   padding: 5px 10px 10px;
   margin: 13px 0 15px;
+}
+.card-shadow .card-shadow, .view-manage-service .views-row .card-shadow,
+.view-service-list .views-row .card-shadow, .card-shadow .view-manage-service .views-row, .view-manage-service .card-shadow .views-row, .view-manage-service .views-row .views-row,
+.card-shadow .view-service-list .views-row,
+.view-service-list .card-shadow .views-row,
+.view-service-list .views-row .views-row, .node-referral-path-way-form .table-format table .table-format .card-shadow, .node-referral-path-way-form .table-format table .table-format .view-manage-service .views-row, .view-manage-service .node-referral-path-way-form .table-format table .table-format .views-row,
+.node-referral-path-way-form .table-format table .table-format .view-service-list .views-row,
+.view-service-list .node-referral-path-way-form .table-format table .table-format .views-row,
+.node-referral-path-way-edit-form .table-format table .table-format .card-shadow,
+.node-referral-path-way-edit-form .table-format table .table-format .view-manage-service .views-row,
+.view-manage-service .node-referral-path-way-edit-form .table-format table .table-format .views-row,
+.node-referral-path-way-edit-form .table-format table .table-format .view-service-list .views-row,
+.view-service-list .node-referral-path-way-edit-form .table-format table .table-format .views-row, .card-shadow .node-referral-path-way-form .table-format table .table-format, .view-manage-service .views-row .node-referral-path-way-form .table-format table .table-format,
+.view-service-list .views-row .node-referral-path-way-form .table-format table .table-format, .node-referral-path-way-form .table-format table .card-shadow .table-format, .node-referral-path-way-form .table-format table .view-manage-service .views-row .table-format, .view-manage-service .node-referral-path-way-form .table-format table .views-row .table-format,
+.node-referral-path-way-form .table-format table .view-service-list .views-row .table-format,
+.view-service-list .node-referral-path-way-form .table-format table .views-row .table-format, .node-referral-path-way-form .table-format table .table-format .table-format,
+.card-shadow .node-referral-path-way-edit-form .table-format table .table-format,
+.view-manage-service .views-row .node-referral-path-way-edit-form .table-format table .table-format,
+.view-service-list .views-row .node-referral-path-way-edit-form .table-format table .table-format,
+.node-referral-path-way-edit-form .table-format table .card-shadow .table-format,
+.node-referral-path-way-edit-form .table-format table .view-manage-service .views-row .table-format,
+.view-manage-service .node-referral-path-way-edit-form .table-format table .views-row .table-format,
+.node-referral-path-way-edit-form .table-format table .view-service-list .views-row .table-format,
+.view-service-list .node-referral-path-way-edit-form .table-format table .views-row .table-format,
+.node-referral-path-way-edit-form .table-format table .table-format .table-format {
+  -webkit-box-shadow: unset;
+          box-shadow: unset;
+  margin: 0;
+  padding: 0;
 }
 
 .simple-status-messages .status-message-close span {
@@ -253,6 +287,161 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   color: #A85766;
 }
 
+.ui-autocomplete {
+  border: 1px solid #F3C1BF !important;
+  border-radius: 5px;
+  height: 194px;
+  width: calc(100% - 40px) !important;
+  overflow-y: scroll;
+}
+.ui-autocomplete li {
+  border-bottom: 1px solid rgba(243, 193, 191, 0.53);
+  padding: 10px;
+}
+.ui-autocomplete li a {
+  color: #444;
+  font-size: 14px;
+  padding: 0 !important;
+  word-break: break-word;
+}
+.ui-autocomplete .ui-state-active {
+  background: none;
+  border: 0;
+  color: #A85766;
+  padding: 0;
+  margin: 0;
+}
+
+.js-form-type-select {
+  position: relative;
+}
+.js-form-type-select select + .error {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+}
+
+label.error + .select2-container .select2-selection, .service-provider-class [id^=edit-field-transportation-available-wrapper] .error.fieldset-legend + .select2-container .select2-selection,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .error.fieldset-legend + .select2-container .select2-selection {
+  border: 2px solid red !important;
+}
+
+.add_multiple + .select2-container .select2-selection__choice[title="Select 3 Label"] {
+  display: none;
+}
+
+.select2-container {
+  width: 100% !important;
+}
+.select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--single {
+  border: 1px solid #F3C1BF !important;
+  margin-top: 7px;
+  padding: 5px 6px 7px !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice,
+.select2-container--default .select2-selection--single .select2-selection__choice {
+  background: #fff !important;
+  border: 1px solid #F3C1BF !important;
+  margin-top: 0 !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove,
+.select2-container--default .select2-selection--single .select2-selection__choice__remove {
+  border-right: 1px solid #F3C1BF !important;
+  color: #A85766 !important;
+}
+.select2-container--default .select2-selection--single {
+  padding: 8px 6px 8px !important;
+  height: 37px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: inherit !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  top: 11px !important;
+  right: 17px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  background: url("../images/arrow.svg") 0 0 no-repeat transparent;
+  border: 0 !important;
+  height: 6px !important;
+  width: 12px !important;
+}
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--focus .select2-selection--single {
+  border: 1px solid #F3C1BF;
+}
+.select2-container--default .select2-results__option--selected {
+  background: #ffffff !important;
+}
+.select2-container--default .select2-results__option.select2-results__option--selectable {
+  padding-left: 11px;
+}
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+  background: #FFF6F5 !important;
+  color: #444 !important;
+  padding-left: 11px;
+}
+.select2-container .select2-dropdown {
+  border: 1px solid #F3C1BF;
+}
+.select2-container .ui-state-active {
+  background: none;
+  border: 0;
+  color: #A85766;
+  padding: 0;
+  margin: 0;
+}
+
+.node-organisation-form .form-actions,
+.node-service-type-form .form-actions,
+.node-service-type-quick-node-clone-form .form-actions,
+.node-service-type-edit-form .form-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+.node-organisation-form .form-actions input[type=submit],
+.node-service-type-form .form-actions input[type=submit],
+.node-service-type-quick-node-clone-form .form-actions input[type=submit],
+.node-service-type-edit-form .form-actions input[type=submit] {
+  padding: 10px 0 !important;
+  width: 134px;
+}
+.node-organisation-form .form-actions [id^=edit-submit],
+.node-service-type-form .form-actions [id^=edit-submit],
+.node-service-type-quick-node-clone-form .form-actions [id^=edit-submit],
+.node-service-type-edit-form .form-actions [id^=edit-submit] {
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
+}
+.node-organisation-form .form-actions [id^=edit-preview],
+.node-organisation-form .form-actions [id^=edit-cancel],
+.node-service-type-form .form-actions [id^=edit-preview],
+.node-service-type-form .form-actions [id^=edit-cancel],
+.node-service-type-quick-node-clone-form .form-actions [id^=edit-preview],
+.node-service-type-quick-node-clone-form .form-actions [id^=edit-cancel],
+.node-service-type-edit-form .form-actions [id^=edit-preview],
+.node-service-type-edit-form .form-actions [id^=edit-cancel] {
+  background: none;
+  border: 1px solid #A85766;
+  border-radius: 4px;
+  color: #A85766;
+  display: inline-block;
+  font-size: 0.875em;
+  margin: 0 15px 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
@@ -273,7 +462,8 @@ form .form-actions .signup-next {
   width: auto;
 }
 
-label {
+label, .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend {
   color: #A85766;
   font-size: 0.75em;
   font-weight: 500;
@@ -387,6 +577,10 @@ input[type=submit].use-ajax.arrow-btn {
   z-index: 9;
 }
 
+.signin-or-form {
+  display: none;
+}
+
 footer {
   bottom: 0;
   position: fixed;
@@ -441,14 +635,14 @@ footer {
 .menu--bottom-nav li.menu-item a.search-icon::before {
   background: url(../images/searchIcon.svg) no-repeat center center;
 }
-.menu--bottom-nav li.menu-item .menu-icon {
+.menu--bottom-nav li.menu-item .bottom-menu-icon {
   color: #ffffff;
   cursor: pointer;
   display: block;
   font-size: 8px;
   text-align: center;
 }
-.menu--bottom-nav li.menu-item .menu-icon::before {
+.menu--bottom-nav li.menu-item .bottom-menu-icon::before {
   background: url(../images/menu.svg) no-repeat center center;
   content: "";
   display: block;
@@ -508,12 +702,22 @@ header {
   padding: 0;
 }
 
+.dashboard {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 .dashboard .dashboard-link {
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
           box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
-  padding: 7px 10px;
+  padding: 14px 17px;
   margin-bottom: 32px;
+}
+.dashboard .dashboard-link span {
+  display: inline-block;
+  margin-right: 25px;
+  vertical-align: middle;
 }
 .dashboard .dashboard-link a {
   background: url("../images/arrow-right.svg") right center no-repeat;
@@ -552,6 +756,18 @@ header {
   -webkit-mask: url("../images/user.svg") center center no-repeat;
   mask: url("../images/user.svg") center center no-repeat;
 }
+.dashboard .dashboard-link.referral-link a::before {
+  background-color: #A85766;
+  content: "";
+  -webkit-mask: url("../images/rpw.svg") center center no-repeat;
+  mask: url("../images/rpw.svg") center center no-repeat;
+}
+.dashboard .dashboard-link.service-provider-link a::before {
+  background-color: #62489B;
+  content: "";
+  -webkit-mask: url("../images/service-provider.svg") center center no-repeat;
+  mask: url("../images/service-provider.svg") center center no-repeat;
+}
 
 .delete-screen .detail-row {
   display: -webkit-box;
@@ -565,7 +781,9 @@ header {
   word-break: break-word;
   width: 100%;
 }
-.delete-screen label,
+.delete-screen label, .delete-screen .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .delete-screen .fieldset-legend,
+.delete-screen .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .delete-screen .fieldset-legend,
 .delete-screen .label-text {
   color: #A85766;
   display: -webkit-inline-box;
@@ -587,6 +805,155 @@ header {
   display: inline-flex;
   height: 27px;
   width: 26px;
+}
+
+.view-referral-pathway-on-homepage {
+  margin: 35px 0 50px;
+}
+.view-referral-pathway-on-homepage .row-listing {
+  -webkit-box-shadow: 0px 1px 4px rgba(68, 25, 39, 0.14);
+          box-shadow: 0px 1px 4px rgba(68, 25, 39, 0.14);
+  border-radius: 20px;
+  margin: -30px 0 0 16px;
+}
+.view-referral-pathway-on-homepage .section-title {
+  color: #444;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 13px 26px;
+}
+.view-referral-pathway-on-homepage .service-listing {
+  border-top: 0.5px solid #ECECEC;
+}
+.view-referral-pathway-on-homepage .views-row {
+  margin: 0 20px 0 0;
+  padding-bottom: 40px;
+  border-left: 1px dashed #CD0000;
+}
+.view-referral-pathway-on-homepage .views-row:nth-child(3n+1) {
+  border-left: 1px dashed #CD0000;
+}
+.view-referral-pathway-on-homepage .views-row:nth-child(3n+1)::before {
+  background: #CD0000;
+  border: 2px solid #CD0000;
+}
+.view-referral-pathway-on-homepage .views-row:nth-child(3n+2) {
+  border-left: 1px dashed #03B2F3;
+}
+.view-referral-pathway-on-homepage .views-row:nth-child(3n+2)::before {
+  background: #DFF2F9;
+  border: 2px solid #03B2F3;
+}
+.view-referral-pathway-on-homepage .views-row:nth-child(3n+3) {
+  border-left: 1px dashed #55BC3F;
+}
+.view-referral-pathway-on-homepage .views-row:nth-child(3n+3)::before {
+  background: #EFFFEC;
+  border: 2px solid #55BC3F;
+}
+.view-referral-pathway-on-homepage .views-row::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  border-radius: 50%;
+  margin-left: -8px;
+}
+.view-referral-pathway-on-homepage .listing-detail {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 13px 26px;
+}
+.view-referral-pathway-on-homepage .listing-detail label, .view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend,
+.view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  height: 40px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-right: 14px;
+  text-align: center;
+  width: 40px;
+}
+.view-referral-pathway-on-homepage .listing-detail label .uf:before, .view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend .uf:before, .service-provider-class [id^=edit-field-transportation-available-wrapper] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend .uf:before,
+.view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend .uf:before,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend .uf:before {
+  font-size: 18px;
+}
+.view-referral-pathway-on-homepage .listing-detail .service-title {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  font-size: 12px;
+  width: calc(100% - 60px);
+}
+.view-referral-pathway-on-homepage .listing-detail .service-title a {
+  color: #A85766;
+}
+
+.block-select-user-location, .user-change-link {
+  margin-bottom: 30px;
+  text-align: right;
+}
+.block-select-user-location a, .user-change-link a {
+  font-size: 11px;
+  color: #A85766;
+  border-bottom: 1px solid #A85766;
+  padding-bottom: 2px;
+}
+.block-select-user-location a::after, .user-change-link a::after {
+  background: url("../images/arrow-small.svg") center right no-repeat;
+  content: "";
+  height: 7px;
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 5px;
+  width: 4px;
+}
+
+.user-location-list {
+  color: #444;
+  text-align: left;
+}
+.user-location-list .user-title {
+  font-weight: 400;
+  margin-bottom: 10px;
+  line-height: 24.5px;
+  letter-spacing: 0.3px;
+}
+.user-location-list .user-description {
+  font-size: 12px;
+  line-height: 18.5px;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+.user-location-list .location-theme {
+  background: url("../images/location.svg") top 8px left 18px no-repeat #FFF6F5;
+  -webkit-box-shadow: 0px 1px 4px rgba(168, 87, 102, 0.25);
+          box-shadow: 0px 1px 4px rgba(168, 87, 102, 0.25);
+  border-radius: 6px;
+  color: #A85766;
+  font-size: 13px;
+  line-height: 20px;
+  margin-bottom: 13px;
+  padding: 8px 18px 8px 45px;
+  text-transform: capitalize;
+}
+
+.user-location-form input[type=submit].use-ajax.arrow-btn {
+  background-position: calc(50% + 50px) center;
 }
 
 .manage-list {
@@ -734,7 +1101,7 @@ header {
   width: 212px;
 }
 [id^=block-erpw-main-menu] .menu-item {
-  padding: 15px 20px 15px 15px;
+  padding: 15px 0 15px 15px;
   margin: 0 20px 0 0;
 }
 [id^=block-erpw-main-menu] .menu-item.save-logged-in {
@@ -743,7 +1110,7 @@ header {
   margin-bottom: 10px;
 }
 [id^=block-erpw-main-menu] .menu-item a {
-  color: #A85766;
+  color: #A85766 !important;
   font-size: 16px;
   padding-left: 30px;
 }
@@ -775,6 +1142,9 @@ header {
 [id^=block-erpw-main-menu] .menu-item .help-icon {
   background: url("../images/help.svg") top left no-repeat;
 }
+[id^=block-erpw-main-menu] .menu-item .location-change {
+  background: url("../images/language-translate.png") top left no-repeat;
+}
 
 .path-select-language {
   background: url("../images/language-selector-bg.svg") center center no-repeat, url("../images/language-selector-dot-bg.svg") right top 120px no-repeat;
@@ -786,11 +1156,17 @@ header {
   position: absolute;
   opacity: 0;
 }
-.path-select-language input[type=radio]:checked + label, .path-select-language input[type=radio]:hover + label {
+.path-select-language input[type=radio]:checked + label, .path-select-language .service-provider-class [id^=edit-field-transportation-available-wrapper] input[type=radio]:checked + .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .path-select-language input[type=radio]:checked + .fieldset-legend,
+.path-select-language .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] input[type=radio]:checked + .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .path-select-language input[type=radio]:checked + .fieldset-legend, .path-select-language input[type=radio]:hover + label, .path-select-language .service-provider-class [id^=edit-field-transportation-available-wrapper] input[type=radio]:hover + .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .path-select-language input[type=radio]:hover + .fieldset-legend,
+.path-select-language .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] input[type=radio]:hover + .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .path-select-language input[type=radio]:hover + .fieldset-legend {
   background: #A85766;
   color: #ffffff;
 }
-.path-select-language input[type=radio] + label {
+.path-select-language input[type=radio] + label, .path-select-language .service-provider-class [id^=edit-field-transportation-available-wrapper] input[type=radio] + .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .path-select-language input[type=radio] + .fieldset-legend,
+.path-select-language .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] input[type=radio] + .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .path-select-language input[type=radio] + .fieldset-legend {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -926,16 +1302,77 @@ header {
   content: ")";
 }
 
-.node-referral-path-way-form .table-format .table-format table,
-.node-referral-path-way-form .table-format .table-format thead th,
-.node-referral-path-way-edit-form .table-format .table-format table,
-.node-referral-path-way-edit-form .table-format .table-format thead th {
+.node-referral-path-way-form .table-format table,
+.node-referral-path-way-edit-form .table-format table {
+  border: 0;
+  width: 99.8%;
+}
+.node-referral-path-way-form .table-format table thead,
+.node-referral-path-way-edit-form .table-format table thead {
   border: 0;
 }
-.node-referral-path-way-form .table-format .table-format .label,
-.node-referral-path-way-edit-form .table-format .table-format .label {
+.node-referral-path-way-form .table-format table thead th h4,
+.node-referral-path-way-edit-form .table-format table thead th h4 {
+  display: none;
+}
+.node-referral-path-way-form .table-format table tbody tr,
+.node-referral-path-way-edit-form .table-format table tbody tr {
+  border: 1px solid #F3C1BF;
+}
+.node-referral-path-way-form .table-format table tbody tr > td,
+.node-referral-path-way-edit-form .table-format table tbody tr > td {
+  margin-bottom: 20px;
+}
+.node-referral-path-way-form .table-format table .table-format tbody,
+.node-referral-path-way-form .table-format table .table-format thead,
+.node-referral-path-way-edit-form .table-format table .table-format tbody,
+.node-referral-path-way-edit-form .table-format table .table-format thead {
+  border: 0;
+}
+.node-referral-path-way-form .table-format table .table-format tbody tr,
+.node-referral-path-way-form .table-format table .table-format thead tr,
+.node-referral-path-way-edit-form .table-format table .table-format tbody tr,
+.node-referral-path-way-edit-form .table-format table .table-format thead tr {
+  border: 0;
+}
+.node-referral-path-way-form .table-format table .table-format th h4,
+.node-referral-path-way-edit-form .table-format table .table-format th h4 {
+  display: block;
+}
+.node-referral-path-way-form .table-format table .table-format > td,
+.node-referral-path-way-edit-form .table-format table .table-format > td {
+  margin-bottom: unset;
+}
+.node-referral-path-way-form .table-format table .table-format table,
+.node-referral-path-way-form .table-format table .table-format thead th,
+.node-referral-path-way-edit-form .table-format table .table-format table,
+.node-referral-path-way-edit-form .table-format table .table-format thead th {
+  border: 0;
+}
+.node-referral-path-way-form .table-format table .table-format .label,
+.node-referral-path-way-edit-form .table-format table .table-format .label {
   font-size: 0.75em;
   font-weight: 500;
+}
+.node-referral-path-way-form .table-format table .field-multiple-drag,
+.node-referral-path-way-edit-form .table-format table .field-multiple-drag {
+  width: 25px;
+}
+.node-referral-path-way-form .table-format table .field-multiple-drag a.tabledrag-handle,
+.node-referral-path-way-edit-form .table-format table .field-multiple-drag a.tabledrag-handle {
+  width: 20px;
+}
+.node-referral-path-way-form .table-format table .field-multiple-drag a.tabledrag-handle .handle,
+.node-referral-path-way-edit-form .table-format table .field-multiple-drag a.tabledrag-handle .handle {
+  background-position: 40% 9px;
+}
+.node-referral-path-way-form .table-format table .has-multiple-fields-remove-button,
+.node-referral-path-way-edit-form .table-format table .has-multiple-fields-remove-button {
+  padding-right: 20px !important;
+}
+.node-referral-path-way-form .table-format table input.form-autocomplete,
+.node-referral-path-way-edit-form .table-format table input.form-autocomplete {
+  margin-top: 0;
 }
 .node-referral-path-way-form .tabledrag-toggle-weight-wrapper,
 .node-referral-path-way-edit-form .tabledrag-toggle-weight-wrapper {
@@ -960,14 +1397,17 @@ header {
   width: 10px;
 }
 .node-referral-path-way-form .multiple-fields-remove-button,
+.node-referral-path-way-form .multiple-fields-remove-button:hover,
 .node-referral-path-way-form .paragraphs-dropbutton-wrapper input[value=Remove],
 .node-referral-path-way-edit-form .multiple-fields-remove-button,
+.node-referral-path-way-edit-form .multiple-fields-remove-button:hover,
 .node-referral-path-way-edit-form .paragraphs-dropbutton-wrapper input[value=Remove] {
   background: url("../images/delete-button.svg") center center no-repeat;
   border: 0 !important;
   font-size: 0;
   height: 20px;
   margin-left: 30px;
+  right: -5px;
   vertical-align: super;
   width: 20px;
 }
@@ -977,7 +1417,11 @@ header {
 }
 .node-referral-path-way-form .field--widget-string-textfield,
 .node-referral-path-way-edit-form .field--widget-string-textfield {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+}
+.node-referral-path-way-form input[type=submit]:focus,
+.node-referral-path-way-edit-form input[type=submit]:focus {
+  outline: 0;
 }
 .node-referral-path-way-form .form-actions,
 .node-referral-path-way-edit-form .form-actions {
@@ -1016,19 +1460,43 @@ header {
 }
 .node-referral-path-way-form .button-with-icon,
 .node-referral-path-way-edit-form .button-with-icon {
+  margin-bottom: -10px;
   top: -45px;
 }
 .node-referral-path-way-form .button-with-icon .field-add-more-submit,
 .node-referral-path-way-edit-form .button-with-icon .field-add-more-submit {
-  border: 0;
+  border: 0 !important;
   background: none;
   padding: 0 0 0 60px;
   margin: 0;
   text-transform: capitalize;
+  position: relative;
 }
 .node-referral-path-way-form .button-with-icon .field-add-more-submit:focus,
 .node-referral-path-way-edit-form .button-with-icon .field-add-more-submit:focus {
   outline: none;
+}
+
+.view-referral-pathway-listing .views-row {
+  border-bottom: 1px solid rgba(215, 215, 215, 0.5);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.view-referral-pathway-listing .views-row .views-field-field-location {
+  background: url("../images/rpw.svg") top left no-repeat;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+  padding: 0 0 0 40px;
+  margin: 10px 10px 0;
+}
+.view-referral-pathway-listing .views-row .views-field-nothing {
+  border: 0;
+  margin-top: 0;
 }
 
 .steps-highlight {
@@ -1040,7 +1508,7 @@ header {
   margin: 0 0 40px;
 }
 
-.step {
+.step, .user-personal-details h2, .service-provider-details h2, .service-provider-class .fieldset-legend {
   font-size: 1em;
   color: #444;
 }
@@ -1152,15 +1620,35 @@ header {
   text-align: center;
 }
 
-.node-service-type-form label,
+.node-service-type-form label, .node-service-type-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-form .fieldset-legend,
+.node-service-type-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-form .fieldset-legend,
 .node-service-type-quick-node-clone-form label,
-.node-service-type-edit-form label {
+.node-service-type-quick-node-clone-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-quick-node-clone-form .fieldset-legend,
+.node-service-type-quick-node-clone-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-quick-node-clone-form .fieldset-legend,
+.node-service-type-edit-form label,
+.node-service-type-edit-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-edit-form .fieldset-legend,
+.node-service-type-edit-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-edit-form .fieldset-legend {
   vertical-align: top;
   margin-top: -15px;
 }
-.node-service-type-form label.form-required::after,
+.node-service-type-form label.form-required::after, .node-service-type-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .form-required.fieldset-legend::after, .service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-form .form-required.fieldset-legend::after,
+.node-service-type-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .form-required.fieldset-legend::after,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-form .form-required.fieldset-legend::after,
 .node-service-type-quick-node-clone-form label.form-required::after,
-.node-service-type-edit-form label.form-required::after {
+.node-service-type-quick-node-clone-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .form-required.fieldset-legend::after,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-quick-node-clone-form .form-required.fieldset-legend::after,
+.node-service-type-quick-node-clone-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .form-required.fieldset-legend::after,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-quick-node-clone-form .form-required.fieldset-legend::after,
+.node-service-type-edit-form label.form-required::after,
+.node-service-type-edit-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .form-required.fieldset-legend::after,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-edit-form .form-required.fieldset-legend::after,
+.node-service-type-edit-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .form-required.fieldset-legend::after,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-edit-form .form-required.fieldset-legend::after {
   content: "";
 }
 .node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield,
@@ -1174,12 +1662,34 @@ header {
   border-radius: 10px;
   margin: 45px 0 0;
 }
-.node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield label,
+.node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield label, .node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield .fieldset-legend,
+.node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-form .field--name-field-service-type-icon .js-form-type-textfield .fieldset-legend,
 .node-service-type-form .field--type-color-field-type .form-wrapper label,
+.node-service-type-form .field--type-color-field-type .form-wrapper .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-form .field--type-color-field-type .form-wrapper .fieldset-legend,
+.node-service-type-form .field--type-color-field-type .form-wrapper .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-form .field--type-color-field-type .form-wrapper .fieldset-legend,
 .node-service-type-quick-node-clone-form .field--name-field-service-type-icon .js-form-type-textfield label,
+.node-service-type-quick-node-clone-form .field--name-field-service-type-icon .js-form-type-textfield .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-quick-node-clone-form .field--name-field-service-type-icon .js-form-type-textfield .fieldset-legend,
+.node-service-type-quick-node-clone-form .field--name-field-service-type-icon .js-form-type-textfield .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-quick-node-clone-form .field--name-field-service-type-icon .js-form-type-textfield .fieldset-legend,
 .node-service-type-quick-node-clone-form .field--type-color-field-type .form-wrapper label,
+.node-service-type-quick-node-clone-form .field--type-color-field-type .form-wrapper .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-quick-node-clone-form .field--type-color-field-type .form-wrapper .fieldset-legend,
+.node-service-type-quick-node-clone-form .field--type-color-field-type .form-wrapper .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-quick-node-clone-form .field--type-color-field-type .form-wrapper .fieldset-legend,
 .node-service-type-edit-form .field--name-field-service-type-icon .js-form-type-textfield label,
-.node-service-type-edit-form .field--type-color-field-type .form-wrapper label {
+.node-service-type-edit-form .field--name-field-service-type-icon .js-form-type-textfield .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-edit-form .field--name-field-service-type-icon .js-form-type-textfield .fieldset-legend,
+.node-service-type-edit-form .field--name-field-service-type-icon .js-form-type-textfield .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-edit-form .field--name-field-service-type-icon .js-form-type-textfield .fieldset-legend,
+.node-service-type-edit-form .field--type-color-field-type .form-wrapper label,
+.node-service-type-edit-form .field--type-color-field-type .form-wrapper .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-edit-form .field--type-color-field-type .form-wrapper .fieldset-legend,
+.node-service-type-edit-form .field--type-color-field-type .form-wrapper .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-edit-form .field--type-color-field-type .form-wrapper .fieldset-legend {
   font-weight: 400;
 }
 .node-service-type-form .field--type-color-field-type .form-wrapper .form-item,
@@ -1389,16 +1899,19 @@ header {
   background: url("../images/plus.svg") center center no-repeat #A85766;
 }
 
-.service-list .view-header, .view-organisations .view-header {
+.service-list .view-header, .view-organisations .view-header,
+.view-referral-pathway-listing .view-header {
   border-bottom: 2px solid rgba(243, 193, 191, 0.53);
   margin-bottom: 20px;
   padding-bottom: 10px;
   position: relative;
 }
-.service-list .view-content, .view-organisations .view-content {
+.service-list .view-content, .view-organisations .view-content,
+.view-referral-pathway-listing .view-content {
   margin-top: 40px;
 }
-.service-list .title-view, .view-organisations .title-view {
+.service-list .title-view, .view-organisations .title-view,
+.view-referral-pathway-listing .title-view {
   border-top: 2px solid rgba(243, 193, 191, 0.53);
   color: #444;
   font-size: 16px;
@@ -1406,7 +1919,8 @@ header {
   margin-top: 15px;
   padding-top: 15px;
 }
-.service-list .views-row, .view-organisations .views-row {
+.service-list .views-row, .view-organisations .views-row,
+.view-referral-pathway-listing .views-row {
   -webkit-box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
           box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
   border-radius: 10px;
@@ -1414,37 +1928,46 @@ header {
   padding: 8px 0;
   position: relative;
 }
-.service-list .views-field-field-service-type-icon, .view-organisations .views-field-field-service-type-icon {
+.service-list .views-field-field-service-type-icon, .view-organisations .views-field-field-service-type-icon,
+.view-referral-pathway-listing .views-field-field-service-type-icon {
   position: absolute;
   top: 24px;
   left: 10px;
   width: 50px;
   text-align: center;
 }
-.service-list .views-field-field-service-type-color, .view-organisations .views-field-field-service-type-color {
+.service-list .views-field-field-service-type-color, .view-organisations .views-field-field-service-type-color,
+.view-referral-pathway-listing .views-field-field-service-type-color {
   display: inline-block;
   padding: 0 10px;
   vertical-align: top;
 }
 .service-list .service-title, .view-organisations .service-title,
+.view-referral-pathway-listing .service-title,
 .service-list .views-field-title,
-.view-organisations .views-field-title {
+.view-organisations .views-field-title,
+.view-referral-pathway-listing .views-field-title {
   display: inline-block;
   padding: 5px 0;
   width: 77%;
 }
-.service-list .service-title span, .view-organisations .service-title span, .service-list .service-title a, .view-organisations .service-title a,
+.service-list .service-title span, .view-organisations .service-title span,
+.view-referral-pathway-listing .service-title span, .service-list .service-title a, .view-organisations .service-title a,
+.view-referral-pathway-listing .service-title a,
 .service-list .views-field-title span,
 .view-organisations .views-field-title span,
+.view-referral-pathway-listing .views-field-title span,
 .service-list .views-field-title a,
-.view-organisations .views-field-title a {
+.view-organisations .views-field-title a,
+.view-referral-pathway-listing .views-field-title a {
   color: #444;
   font-size: 15px;
   font-weight: 500;
   text-transform: capitalize;
   word-break: break-all;
 }
-.service-list .service-count, .view-organisations .service-count {
+.service-list .service-count, .view-organisations .service-count,
+.view-referral-pathway-listing .service-count {
   color: #9B9B9B;
   font-size: 14px;
   font-weight: 400;
@@ -1452,7 +1975,8 @@ header {
   right: 0;
   bottom: -30px;
 }
-.service-list .views-field-nothing, .view-organisations .views-field-nothing {
+.service-list .views-field-nothing, .view-organisations .views-field-nothing,
+.view-referral-pathway-listing .views-field-nothing {
   border-top: 1px solid rgba(215, 215, 215, 0.5);
   margin-top: 5px;
 }
@@ -1492,9 +2016,19 @@ header {
   height: 24px;
 }
 
-div.color_field__swatch label:hover span,
+div.color_field__swatch label:hover span, div.color_field__swatch .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend:hover span, .service-provider-class [id^=edit-field-transportation-available-wrapper] div.color_field__swatch .fieldset-legend:hover span,
+div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend:hover span,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] div.color_field__swatch .fieldset-legend:hover span,
 div.color_field__swatch input[type=checkbox]:checked + label span,
-div.color_field__swatch input[type=radio]:checked + label span {
+div.color_field__swatch .service-provider-class [id^=edit-field-transportation-available-wrapper] input[type=checkbox]:checked + .fieldset-legend span,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] div.color_field__swatch input[type=checkbox]:checked + .fieldset-legend span,
+div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] input[type=checkbox]:checked + .fieldset-legend span,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] div.color_field__swatch input[type=checkbox]:checked + .fieldset-legend span,
+div.color_field__swatch input[type=radio]:checked + label span,
+div.color_field__swatch .service-provider-class [id^=edit-field-transportation-available-wrapper] input[type=radio]:checked + .fieldset-legend span,
+.service-provider-class [id^=edit-field-transportation-available-wrapper] div.color_field__swatch input[type=radio]:checked + .fieldset-legend span,
+div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] input[type=radio]:checked + .fieldset-legend span,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] div.color_field__swatch input[type=radio]:checked + .fieldset-legend span {
   border: 0;
   -webkit-transform: inherit;
           transform: inherit;
@@ -1559,7 +2093,10 @@ div.color_field__swatch input[type=radio]:checked + label span {
   width: 134px;
 }
 
-.view-organisations .views-field-title {
+.view-organisations .views-field-title,
+.view-organisations .views-field-field-location,
+.view-referral-pathway-listing .views-field-title,
+.view-referral-pathway-listing .views-field-field-location {
   padding: 5px 10px;
 }
 
@@ -1567,6 +2104,12 @@ div.color_field__swatch input[type=radio]:checked + label span {
   border: 1px solid #F3C1BF !important;
 }
 
+.view-user-lists .view-filters form {
+  margin: 0 -0.5em 0 0;
+}
+.view-user-lists .view-filters .form-item {
+  width: calc(50% - 0.5em);
+}
 .view-user-lists .view-header {
   border-bottom: 2px solid rgba(243, 193, 191, 0.53);
   margin-bottom: 20px;
@@ -1583,6 +2126,278 @@ div.color_field__swatch input[type=radio]:checked + label span {
 }
 .view-user-lists .view-content {
   margin-top: 40px;
+}
+
+.service-provider-class {
+  border: 0;
+  margin: 30px 0 0;
+  padding: 0;
+}
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .form-type-radio,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .form-type-radio {
+  border: 1px solid #F3C1BF;
+  border-radius: 4px;
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 20px;
+}
+.service-provider-class [id^=edit-field-transportation-available-wrapper] .form-type-radio:first-child,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .form-type-radio:first-child {
+  display: none;
+}
+.service-provider-class [id^=edit-field-countrycode-wrapper] {
+  display: inline-block;
+  margin-right: 10px;
+  max-width: 30%;
+  width: 100%;
+}
+.service-provider-class [id^=edit-field-countrycode-wrapper] .form-item {
+  margin-bottom: 0;
+}
+.service-provider-class [id^=edit-field-phone-number-wrapper] {
+  display: inline-block;
+  width: 65%;
+  vertical-align: top;
+}
+.service-provider-class [id^=edit-field-phone-number-wrapper] .form-item {
+  margin-bottom: 0;
+}
+
+.node-service-provider-form .service-next-prev-button,
+.node-service-provider-edit-form .service-next-prev-button {
+  display: inline-block;
+  margin-top: 30px;
+  width: 100%;
+}
+.node-service-provider-form .service-next-prev-button .button-border, .node-service-provider-form .service-next-prev-button .node-service-type-form .button--primary, .node-service-type-form .node-service-provider-form .service-next-prev-button .button--primary,
+.node-service-provider-form .service-next-prev-button .node-service-type-quick-node-clone-form .button--primary,
+.node-service-type-quick-node-clone-form .node-service-provider-form .service-next-prev-button .button--primary,
+.node-service-provider-form .service-next-prev-button .node-service-type-edit-form .button--primary,
+.node-service-type-edit-form .node-service-provider-form .service-next-prev-button .button--primary,
+.node-service-provider-edit-form .service-next-prev-button .button-border,
+.node-service-provider-edit-form .service-next-prev-button .node-service-type-form .button--primary,
+.node-service-type-form .node-service-provider-edit-form .service-next-prev-button .button--primary,
+.node-service-provider-edit-form .service-next-prev-button .node-service-type-quick-node-clone-form .button--primary,
+.node-service-type-quick-node-clone-form .node-service-provider-edit-form .service-next-prev-button .button--primary,
+.node-service-provider-edit-form .service-next-prev-button .node-service-type-edit-form .button--primary,
+.node-service-type-edit-form .node-service-provider-edit-form .service-next-prev-button .button--primary {
+  background: none;
+  border: 1px solid #A85766;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #A85766;
+  display: inline-block;
+  font-size: 0.875em;
+  margin: 0 15px 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+}
+.node-service-provider-form .service-next-prev-button .next-btn,
+.node-service-provider-edit-form .service-next-prev-button .next-btn {
+  text-align: right;
+}
+.node-service-provider-form .form-actions,
+.node-service-provider-edit-form .form-actions {
+  display: none;
+  float: right;
+  margin-top: 30px;
+  width: 106px;
+}
+
+.view-manage-service form .form-type-select,
+.view-service-list form .form-type-select {
+  width: 100%;
+}
+.view-manage-service .views-row,
+.view-service-list .views-row {
+  color: #444;
+  font-size: 12px;
+}
+.view-manage-service .views-row a,
+.view-service-list .views-row a {
+  color: #444;
+}
+.view-manage-service .views-row .service-provider-title,
+.view-service-list .views-row .service-provider-title {
+  border-bottom: 0.5px solid #D7D7D7;
+  font-weight: 700;
+  padding: 6px 0;
+  text-transform: capitalize;
+}
+.view-manage-service .views-row .service-provider-title a,
+.view-service-list .views-row .service-provider-title a {
+  color: #444;
+  padding-left: 25px;
+}
+.view-manage-service .views-row .service-provider-title::before,
+.view-service-list .views-row .service-provider-title::before {
+  background: url("../images/service-provider.svg") 0 0 no-repeat;
+  content: "";
+  display: inline-block;
+  height: 26px;
+  vertical-align: middle;
+  width: 26px;
+}
+.view-manage-service .views-row .service-provider-org,
+.view-manage-service .views-row .service-provider-number,
+.view-service-list .views-row .service-provider-org,
+.view-service-list .views-row .service-provider-number {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 10px;
+  padding: 0 5px;
+  word-break: break-word;
+}
+.view-manage-service .views-row .service-provider-org span,
+.view-manage-service .views-row .service-provider-number span,
+.view-service-list .views-row .service-provider-org span,
+.view-service-list .views-row .service-provider-number span {
+  max-width: 100px;
+  width: 100%;
+}
+.view-manage-service .views-row .views-field,
+.view-service-list .views-row .views-field {
+  padding: 0 5px;
+  margin-top: 10px;
+}
+.view-manage-service .views-row .views-field.views-field-field-location,
+.view-service-list .views-row .views-field.views-field-field-location {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0 10px;
+  word-break: break-word;
+}
+.view-manage-service .views-row .views-field.views-field-field-location span,
+.view-service-list .views-row .views-field.views-field-field-location span {
+  max-width: 100px;
+  width: 100%;
+}
+.view-manage-service .views-row .views-field.views-field-field-location .field-content,
+.view-service-list .views-row .views-field.views-field-field-location .field-content {
+  display: inline-block;
+  width: calc(100% - 100px);
+}
+.view-manage-service .views-row .views-field.views-field-nothing-1 .service-mode,
+.view-service-list .views-row .views-field.views-field-nothing-1 .service-mode {
+  border-bottom: 0.5px solid #D7D7D7;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0 5px 10px;
+  word-break: break-word;
+}
+.view-manage-service .views-row .views-field.views-field-nothing-1 .service-mode span,
+.view-service-list .views-row .views-field.views-field-nothing-1 .service-mode span {
+  max-width: 100px;
+  width: 100%;
+}
+.view-manage-service .views-row .more-details-text,
+.view-service-list .views-row .more-details-text {
+  padding: 10px;
+  text-align: right;
+}
+.view-manage-service .views-row .more-details-text a,
+.view-service-list .views-row .more-details-text a {
+  color: #A85766;
+  border-bottom: 1px solid #A85766;
+}
+.view-manage-service .views-row .more-details-text a::after,
+.view-service-list .views-row .more-details-text a::after {
+  background: url("../images/arrow-small.svg") center right no-repeat;
+  content: "";
+  height: 7px;
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 5px;
+  width: 4px;
+}
+
+.service-list-icons::before {
+  display: inline-block;
+  height: 10px;
+  margin-right: 10px;
+  vertical-align: middle;
+  width: 15px;
+}
+
+.org-icon::before {
+  background-color: #282C7B;
+  content: "";
+  background: url("../images/org-icon.svg") 0 0 no-repeat;
+}
+
+.contact-icon::before {
+  content: "";
+  background: url("../images/contact.svg") 0 0 no-repeat;
+}
+
+.location-icon::before {
+  content: "";
+  color: #444;
+  background: url("../images/service-location.svg") 0 0 no-repeat;
+}
+
+.mode-icon::before {
+  content: "";
+  background: url("../images/mode.svg") 0 0 no-repeat;
+}
+
+.service-provider-details {
+  padding: 0 !important;
+}
+
+.service-detail-heading {
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  border-bottom: 0.5px solid #D7D7D7;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 20px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.service-detail-heading h3 {
+  color: #444;
+  font-size: 18px;
+  line-height: 32px;
+  margin: 0 0 7px;
+  padding: 0;
+  font-weight: 400;
+}
+
+.user-logged-in.path-user {
+  background: none;
+}
+.user-logged-in.path-user header {
+  background: #FFF6F5;
+}
+.user-logged-in.path-user .region-header {
+  background: url(../images/top_nav_image.svg) no-repeat right -143px top -130px;
+}
+
+.user-personal-details, .service-provider-details {
+  padding: 0 34px;
+}
+.user-personal-details label, .service-provider-details label, .user-personal-details .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .user-personal-details .fieldset-legend, .service-provider-details .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .service-provider-details .fieldset-legend,
+.user-personal-details .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .user-personal-details .fieldset-legend,
+.service-provider-details .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .service-provider-details .fieldset-legend {
+  font-size: 14px;
+}
+.user-personal-details h2, .service-provider-details h2 {
+  font-weight: 500;
+}
+.user-personal-details span, .service-provider-details span {
+  display: block;
+  font-size: 12px;
+  padding: 15px 0;
+  word-break: break-word;
 }
 
 body.path-user {

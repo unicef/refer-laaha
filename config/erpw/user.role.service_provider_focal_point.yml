@@ -1,9 +1,17 @@
 uuid: e607f283-a7cf-4568-ae57-70cf89428e97
 langcode: sn
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - erpw_custom
 id: service_provider_focal_point
 label: 'Service provider/ focal point'
-weight: -7
+weight: -4
 is_admin: null
-permissions: {  }
+permissions:
+  - 'add new user'
+  - 'add users of their own location and organisation'
+  - 'edit users of their own location and organisation'
+  - 'update user'
+  - 'view dashboard'
+  - 'view users of their own location and organisation'

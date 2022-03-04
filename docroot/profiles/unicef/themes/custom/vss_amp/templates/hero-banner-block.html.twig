@@ -17,15 +17,11 @@
    <span>{{ category.cat_name }}</span>
    </h2>
   {% endif %}
- <div class="hero-wrapper">
+ <div class="hero-wrapper container">
  <div class="row">
 {% for key,value in content %}
   <div class="col-sm-3 col-xs-6 hero-col text-center">
-    {% if lang_code != 'en' %}
       <a href="/{{lang_code}}/{{value.url}}"><img class="category-imgs" src ="/{{value.sub_category_thumbnail}}" alt="" /><span class="subcat-name">{{ value.subcat_name }}</span></a>
-    {% else %}
-      <a href="/{{value.url}}"><img src ="/{{value.sub_category_thumbnail}}" alt="" /><span class="subcat-name">{{ value.subcat_name }}</span></a>
-    {% endif %}
     </div>
 {% endfor %}
 </div>

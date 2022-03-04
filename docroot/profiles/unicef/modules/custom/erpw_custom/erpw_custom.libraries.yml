@@ -1,7 +1,9 @@
 erpw_js:
   version: 1.0
   js:
+    js/select2/select2.min.js: {}
     js/erpw.js: {}
+    js/erpw_service_provider.js: {}
   dependencies:
     - core/jquery
     - core/drupalSettings

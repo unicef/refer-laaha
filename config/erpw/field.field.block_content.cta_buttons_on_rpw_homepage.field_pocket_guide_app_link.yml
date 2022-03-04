@@ -1,0 +1,23 @@
+uuid: 3a5cfbab-404a-4dab-9939-a89123d56e90
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.cta_buttons_on_rpw_homepage
+    - field.storage.block_content.field_pocket_guide_app_link
+  module:
+    - link
+id: block_content.cta_buttons_on_rpw_homepage.field_pocket_guide_app_link
+field_name: field_pocket_guide_app_link
+entity_type: block_content
+bundle: cta_buttons_on_rpw_homepage
+label: 'Pocket Guide App Link'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 2
+  link_type: 16
+field_type: link

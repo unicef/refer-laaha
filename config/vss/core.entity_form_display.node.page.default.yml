@@ -7,12 +7,14 @@ dependencies:
     - field.field.node.page.field_content
     - field.field.node.page.field_domain_access
     - field.field.node.page.field_domain_all_affiliates
+    - field.field.node.page.field_meta_tags
     - field.field.node.page.field_preview_password
     - node.type.page
     - workflows.workflow.editorial
   module:
     - content_moderation
     - layout_paragraphs
+    - metatag
     - path
 _core:
   default_config_hash: AD_lefuYmjsKeH3OQApsyP_nLj6ZnGaALznLQSQ0Z_o
@@ -48,6 +50,14 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  field_meta_tags:
+    type: metatag_firehose
+    weight: 13
+    region: content
+    settings:
+      sidebar: true
+      use_details: true
     third_party_settings: {  }
   langcode:
     type: language_select

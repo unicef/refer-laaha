@@ -1,0 +1,23 @@
+uuid: c9fcc414-2429-4b8f-952d-eace759c2d1e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.service_provider
+  module:
+    - text
+id: node.service_provider.body
+field_name: body
+entity_type: node
+bundle: service_provider
+label: 'Meta description for SEO Purpose'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

@@ -2,9 +2,9 @@
 
 namespace Drupal\erpw_location;
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Language\LanguageManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
  * Class is used for the locations services.
@@ -27,19 +27,19 @@ class LocationService {
   /**
    * LocationService constructor.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityManager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   Entity Manager Object.
-   * @param \Drupal\Core\Language\LanguageManager $languageManager
+   * @param \Drupal\Core\Language\LanguageManager $language_manager
    *   Location Manager object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
    */
-  public function __construct(EntityTypeManagerInterface $entityManager,
-  LanguageManager $languageManager,
-  Connection $connection
-  ) {
-    $this->entityManager = $entityManager;
-    $this->languageManager = $languageManager;
+  public function __construct(
+    EntityTypeManagerInterface $entity_manager,
+    LanguageManager $language_manager,
+    Connection $connection) {
+    $this->entityManager = $entity_manager;
+    $this->languageManager = $language_manager;
     $this->connection = $connection;
   }
 
@@ -54,7 +54,8 @@ class LocationService {
     for ($i = 1; $i <= 4; $i++) {
       if ($location_entity->get('level_' . $i)->getValue()) {
         $level_label = $location_entity->hasTranslation($langcode) ?
-        $location_entity->getTranslation($langcode)->get('level_' . $i)->getValue()[0]['value'] : $location_entity->get('level_' . $i)->getValue()[0]['value'];
+        $location_entity->getTranslation($langcode)
+          ->get('level_' . $i)->getValue()[0]['value'] : $location_entity->get('level_' . $i)->getValue()[0]['value'];
         array_push($location_levels, $level_label);
       }
 
@@ -68,14 +69,16 @@ class LocationService {
   public function getChildrenByTid($location_tid, $q = '') {
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $tree = $this->entityManager->getStorage('taxonomy_term')->loadTree(
-        'country',
-        $location_tid,
-        1,
-        TRUE
-        );
+      'country',
+      $location_tid,
+      1,
+      TRUE
+    );
     $result = [];
     foreach ($tree as $term) {
-      $term_name = $term->hasTranslation($langcode) ? $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
+      $term_name = $term->hasTranslation($langcode) ?
+        $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
+
       if (str_contains(strtolower($term_name), strtolower($q))) {
         $result[$term->id()] = $term_name;
       }
@@ -138,10 +141,10 @@ class LocationService {
    * Process taxonomy data.
    */
   public function processTaxonomyData($string, $pid, $level = 0, $mode = "", $update_tid_value = 0) {
+    preg_match('/\(\d+\)/', $string, $matches);
     if ($level == 4 && $mode == 'update') {
-      // Maharastra.
-      $pos = strpos($string, "(");
-      if (!$pos) {
+      // If string not matches like value (5).
+      if (empty($matches[0])) {
         $level_term_id = $this->taxonomyTermExist($string, $pid);
         if ($mode == 'update' && $level_term_id) {
           return 0;
@@ -161,18 +164,13 @@ class LocationService {
         }
       }
     }
-    if ($level == 4 && $mode == "") {
-      $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
-      return $level_term_id;
-    }
-    // Maharastr (4)
-    if ($this->clean($string) != 0) {
-      $term_string_level = $this->clean($string);
+    // Check if string matches like value (5).
+    if (!empty($matches[0])) {
       $tid_array = explode("(", $string);
       $level_term_id = $this->taxonomyTermExist(trim($tid_array[0]), $pid);
     }
-    // Maharastra.
-    elseif ($this->clean($string) == 0) {
+
+    else {
       $level_term_id = $this->taxonomyTermExist($string, $pid);
       if ($mode == 'update' && $level_term_id) {
         return 0;
@@ -190,10 +188,6 @@ class LocationService {
         }
         return $level_term_id;
       }
-    }
-    else {
-
-      $level_term_id = $this->taxonomyTermCreate($string, 'country', [$pid]);
     }
     return $level_term_id;
   }
@@ -250,7 +244,8 @@ class LocationService {
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
     $term = $this->entityManager->getStorage('taxonomy_term')->load($id);
     if ($term) {
-      $term_name = $term->hasTranslation($langcode) ? $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
+      $term_name = $term->hasTranslation($langcode) ?
+        $term->getTranslation($langcode)->get('name')->value : $term->get('name')->value;
       return $term_name;
     }
     return '';
@@ -260,11 +255,128 @@ class LocationService {
    * Get location entities.
    */
   public function getLocationEntityByTid($tid) {
-    $location_options = $this->entityManager->getStorage('location')->loadByProperties(['field_location_taxonomy_term' => $tid]);
-    foreach ($location_options as $location) {
-      $location_levels = $this->getLocationLevels($location->id());
+    $location_id = $this->getLocationSingleEntityIdByTid($tid);
+    return $this->getLocationLevels($location_id);
+  }
+
+  /**
+   * Get location entity.
+   */
+  public function getLocationSingleEntityIdByTid($tid) {
+    $location_entity_id = "";
+    $location_entity = $this->entityManager->getStorage('location')->loadByProperties(
+      [
+        'field_location_taxonomy_term' => $tid,
+        'status' => 1,
+        'type' => 'country',
+      ]
+    );
+    if (!empty($location_entity)) {
+      $location_entity_id = array_keys($location_entity)[0];
     }
-    return $location_levels;
+    return $location_entity_id;
+  }
+
+  /**
+   * Get children by parent id.
+   *
+   * @param int $location_id
+   *   The location id.
+   *
+   * @return array
+   *   Return of children with parent term id.
+   */
+  public function getChildrenByParent($location_id) {
+    $ptids = $this->getAllAncestors($location_id);
+    $terms = [];
+    if (!empty($ptids)) {
+      // Getting zero level parent id.
+      $ptid = reset($ptids);
+      $child_terms = $this->entityManager->getStorage('taxonomy_term')->loadTree('country', $ptid, NULL, FALSE);
+      // All children term with zero level parent id.
+      $terms = [$ptid];
+      foreach ($child_terms as $child_term) {
+        $terms[] = (int) $child_term->tid;
+      }
+      return $terms;
+    }
+  }
+
+  /**
+   * Get default country ID.
+   *
+   * @return int
+   *   Return of default location id.
+   */
+  public function getDefaultLocation() {
+    $query = $this->connection->select('location__field_location_taxonomy_term', 'tm');
+    $query->innerJoin('taxonomy_term_data', 't', 't.tid = tm.field_location_taxonomy_term_target_id');
+    $query->fields('t', ['tid']);
+    $result = $query->execute();
+
+    return $result->fetchField();
+  }
+
+  /**
+   * Validating Location By Term ID.
+   *
+   * @param int $location_id
+   *   The location id.
+   * @param string $current_language
+   *   The current language.
+   *
+   * @return int
+   *   Return term id of the location.
+   */
+  public function getSavedLocation($location_id, $current_language = NULL) {
+    $language = $current_language ?? 'en';
+    $query = $this->connection->select('node__field_location', 'fl');
+    $query->fields('fl', ['field_location_target_id']);
+    $query->condition('fl.langcode', $language);
+    $query->condition('fl.bundle', 'referral_path_way');
+    if (!empty($location_id) && is_array($location_id)) {
+      $query->condition('fl.field_location_target_id', $location_id, 'IN');
+    }
+    else {
+      $query->condition('fl.field_location_target_id', $location_id);
+    }
+    $result = $query->execute();
+    $saved_loc_id = $result->fetchField();
+
+    return (isset($saved_loc_id) && is_numeric($saved_loc_id)) ? $saved_loc_id : NULL;
+  }
+
+  /**
+   * Get user location.
+   *
+   * @param object $user
+   *   The user object.
+   */
+  public function getUserLocation($user) {
+    if (!empty($user->field_location)) {
+      if (!empty($user->field_location->getValue()) && is_array($user->field_location->getValue())) {
+        $tid = $user->field_location->getValue()[0]['target_id'];
+        $tid_array = $user->field_location->getValue();
+      }
+      else {
+        $tid = $user->field_location->value;
+      }
+    }
+    $location = '';
+    if (!empty($tid)) {
+      foreach ($tid_array as $key => $value) {
+        if ($key != 0) {
+          $location .= $this->getTaxonomyTermById($value['target_id']) . ", ";
+        }
+      }
+      $ancestors_prev = $this->getAllAncestors($tid);
+      $ancestors = array_reverse($ancestors_prev);
+      foreach ($ancestors as $value) {
+        $location .= $this->getTaxonomyTermById($value) . ", ";
+      }
+      $location = substr(trim($location), 0, -1);
+      return $location;
+    }
   }
 
 }

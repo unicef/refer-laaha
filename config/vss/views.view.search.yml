@@ -7,6 +7,8 @@ dependencies:
     - field.storage.node.field_video_time
     - field.storage.taxonomy_term.field_category_color
     - field.storage.taxonomy_term.field_icon
+    - image.style.category_icon
+    - image.style.media_library
     - search_api.index.acquia_search_index
   module:
     - color_field
@@ -84,7 +86,7 @@ display:
           type: image
           settings:
             image_link: ''
-            image_style: ''
+            image_style: media_library
           group_column: ''
           group_columns: {  }
           group_rows: true
@@ -225,7 +227,7 @@ display:
           type: image
           settings:
             image_link: ''
-            image_style: ''
+            image_style: category_icon
           group_column: ''
           group_columns: {  }
           group_rows: true
@@ -665,7 +667,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          parse_mode: direct
+          parse_mode: sloppy_terms
           min_length: 3
           fields: {  }
         search_api_language:

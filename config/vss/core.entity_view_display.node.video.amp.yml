@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.video.field_content
     - field.field.node.video.field_domain_access
     - field.field.node.video.field_domain_all_affiliates
+    - field.field.node.video.field_meta_tags
     - field.field.node.video.field_preview_password
     - field.field.node.video.field_read_time
     - field.field.node.video.field_sub_category
@@ -24,31 +25,32 @@ bundle: video
 mode: amp
 content:
   content_moderation_control:
-    weight: 0
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 0
+    region: content
   field_content:
-    weight: 1
+    type: layout_paragraphs
     label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    type: layout_paragraphs
+    weight: 1
     region: content
   field_tags:
-    weight: 2
+    type: entity_reference_label
     label: hidden
     settings:
       link: false
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 2
     region: content
 hidden:
   body: true
   field_domain_access: true
   field_domain_all_affiliates: true
+  field_meta_tags: true
   field_preview_password: true
   field_read_time: true
   field_sub_category: true

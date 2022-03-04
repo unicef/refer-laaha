@@ -2,9 +2,9 @@
 
 namespace Drupal\erpw_custom\Form;
 
+use Drupal\Core\Url;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -33,7 +33,10 @@ class SignInPopup extends FormBase {
       '#type' => 'markup',
       '#prefix' => '<div class="popup-content">',
       '#suffix' => '</div>',
-      '#markup' => $this->t('Interested in suggesting the change or manage the RPW, Sign in into the application. You can either click on sign in below or go to <b>menu</b><span class="menu-icon-popup"></span> to sign in or register later.'),
+      '#markup' => $this->t(
+        'Interested in suggesting the change or manage the RPW, Sign in into the application.
+        You can either click on sign in below or go to <b>menu</b><span class="menu-icon-popup"></span> to sign in or register later.'
+      ),
     ];
     $form['actions']['run_reco'] = [
       '#type' => 'submit',

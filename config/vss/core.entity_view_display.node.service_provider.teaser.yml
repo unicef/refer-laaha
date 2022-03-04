@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.service_provider.body
     - field.field.node.service_provider.field_city
     - field.field.node.service_provider.field_country
     - field.field.node.service_provider.field_description
@@ -16,6 +17,7 @@ dependencies:
     - field.field.node.service_provider.field_hierarchy_level_3
     - field.field.node.service_provider.field_hierarchy_level_4
     - field.field.node.service_provider.field_linkedin
+    - field.field.node.service_provider.field_meta_tags
     - field.field.node.service_provider.field_priority
     - field.field.node.service_provider.field_service_provider_name
     - field.field.node.service_provider.field_state
@@ -35,6 +37,7 @@ content:
     weight: 100
     region: content
 hidden:
+  body: true
   field_city: true
   field_country: true
   field_description: true
@@ -47,6 +50,7 @@ hidden:
   field_hierarchy_level_3: true
   field_hierarchy_level_4: true
   field_linkedin: true
+  field_meta_tags: true
   field_priority: true
   field_service_provider_name: true
   field_state: true

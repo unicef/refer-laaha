@@ -11,13 +11,15 @@
         $(".logo-wrapper", context).clone().insertBefore("#block-iraqnavigationheadermenu");
         $("#block-exitwebsiteblock .telephone-header", context).insertBefore(".telephone_in_mobile .holder");
       }
-       $('.paragraph--type--wysiwyg-editor table').addClass('table table-bordered') ;
+      $('.paragraph--type--wysiwyg-editor table').addClass('table table-bordered') ;
 
       //search popup global
       $( ".searchbox-icon" ).on( "click", function() {
         $('.global-sticky-region').css('z-index', 102);
       });
-      $(".form-type-search-api-autocomplete input").attr("placeholder", "Type here to search");
+
+      var search  = Drupal.t('Type here to search');
+      $(".form-type-search-api-autocomplete input").attr("placeholder", search);
 
       // Audio support info modal
       const audioInfoModal = $(".audio-info-pop-up");
@@ -61,30 +63,31 @@
         const video = document.querySelectorAll("video");
         let language_matched = 0;
         let indexOfEnglish = 0;
-        if( video.length ) {
-          for (let item of video) {
-            if (b === true) {
-              for (let i = 0; i<item.textTracks.length; i++) {
-                item.textTracks[i].mode = "disabled";
-                if (item.textTracks[i].language === language ) {
-                  language_matched = 1;
-                  item.textTracks[i].mode = "showing"
-                }
-                if (item.textTracks[i].language === 'en') {
-                  indexOfEnglish = i;
-                }
-              }
 
-              if (language_matched !== 1) {
-                item.textTracks[indexOfEnglish].mode = "showing";
+        for (let item of video) {
+          if (b === true) {
+            for (let i = 0; i<item.textTracks.length; i++) {
+              item.textTracks[i].mode = "disabled";
+              if (item.textTracks[i].language === language ) {
+                language_matched = 1;
+                item.textTracks[i].mode = "showing"
               }
-            } else {
-              for (let vtt of item.textTracks) {
-                vtt.mode = "disabled"
+              if (item.textTracks[i].language === 'en') {
+                indexOfEnglish = i;
               }
+            }
+
+            if (language_matched !== 1) {
+              item.textTracks[indexOfEnglish].mode = "showing";
+            }
+          }
+          else {
+            for (let vtt of item.textTracks) {
+              vtt.mode = "disabled"
             }
           }
         }
+
       }
     }
   };
@@ -111,7 +114,7 @@
         }
       });
     });
-    
+
     // location selector page redirection
       /**
        * Get cookie value.
@@ -130,7 +133,9 @@
   });
 
   $(document).ready(function() {
-    jQuery('form').get(0).reset(); //clear form data on page load
+    if (jQuery('form').get(0)) {
+      jQuery('form').get(0).reset(); //clear form data on page load
+    }
   });
 
 })(jQuery, Drupal, drupalSettings);

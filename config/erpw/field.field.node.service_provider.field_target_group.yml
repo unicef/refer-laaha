@@ -1,0 +1,21 @@
+uuid: 6428e8dd-1db8-40e6-a5af-be2e89e08bf8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_target_group
+    - node.type.service_provider
+  module:
+    - options
+id: node.service_provider.field_target_group
+field_name: field_target_group
+entity_type: node
+bundle: service_provider
+label: 'Target group'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string
