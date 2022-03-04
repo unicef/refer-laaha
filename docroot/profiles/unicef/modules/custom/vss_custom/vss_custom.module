@@ -629,6 +629,9 @@ function vss_custom_preprocess_block(&$variables) {
     $variables['elements']['#cache']['max-age'] = 0;
     $variables['#cache']['max-age'] = 0;
   }
+  if ($variables['elements']['#base_plugin_id'] == 'hero_banner_block' && $variables['content']['#content'] == NULL) {
+    unset($variables['label']);
+  }
 }
 
 /**

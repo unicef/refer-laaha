@@ -47,7 +47,7 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
     AdminContext $route_admin_context) {
 
     $this->entityTypeManager = $entity_type_manager;
-    $this->requestStack = $request_stack;
+    $this->requestStack = $request_stack->getCurrentRequest();
     $this->routeAdminContext = $route_admin_context;
   }
 
@@ -104,7 +104,7 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
     // NOTE use of the Link class.
     if ($node) {
       if ($node->hasField('field_sub_category')) {
-        $path = parse_url($_SERVER['HTTP_REFERER'])['path'];
+        $path = parse_url($this->requestStack->server->get('HTTP_REFERER'))['path'];
         $url_object = \Drupal::service('path.validator')->getUrlIfValid($path);
         $route_name = $url_object ? $url_object->getRouteName() : '';
         if ($route_name == 'entity.taxonomy_term.canonical') {

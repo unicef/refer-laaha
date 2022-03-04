@@ -30,7 +30,6 @@
           },600000)
         }
 
-        $('#edit-submit-search').hide();
         $('.ui-dialog-buttonpane').hide();
         $('.ui-dialog-buttonset').hide();
       });

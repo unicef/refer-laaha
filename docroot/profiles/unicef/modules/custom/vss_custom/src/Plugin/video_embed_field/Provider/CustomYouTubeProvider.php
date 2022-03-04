@@ -73,7 +73,7 @@ class CustomYouTubeProvider extends ProviderPluginBase {
    * {@inheritdoc}
    */
   public function getRemoteThumbnailUrl() {
-    $url = 'http://img.youtube.com/vi/%s/%s.jpg';
+    $url = 'https://img.youtube.com/vi/%s/%s.jpg';
     $high_resolution = sprintf($url, $this->getVideoId(), 'maxresdefault');
     $backup = sprintf($url, $this->getVideoId(), 'mqdefault');
     try {

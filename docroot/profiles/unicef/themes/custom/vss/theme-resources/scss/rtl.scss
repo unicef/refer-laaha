@@ -434,8 +434,8 @@ html[dir="rtl"] {
     padding: 40px 0 16px 40px;
   }
   .heading-with-mike .buttons {
-    left: 20px;
-    right: inherit;
+    left: -10px;
+    right: unset;
   }
   .pop-up-btn.right-arrow {
     &::after {
@@ -456,9 +456,6 @@ html[dir="rtl"] {
   }
   form.location-form .heading-with-mike {
     text-align: right;
-    .buttons {
-      margin: 10px 18px 0 0;
-    }
   }
   .virtual-main-title::before {
     margin-right: 0;
@@ -483,6 +480,11 @@ html[dir="rtl"] {
   .search-content-cat .cat-title {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .form-type-search-api-autocomplete {
+    margin-left: 16px;
+    margin-right: unset;
   }
 
   // view-count-block

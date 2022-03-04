@@ -213,7 +213,8 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   color: #ffffff;
 }
 
-.card-shadow, .node-referral-path-way-form .table-format table .table-format,
+.card-shadow, .view-manage-service .views-row,
+.view-service-list .views-row, .node-referral-path-way-form .table-format table .table-format,
 .node-referral-path-way-edit-form .table-format table .table-format {
   -webkit-box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
           box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
@@ -221,10 +222,29 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   padding: 5px 10px 10px;
   margin: 13px 0 15px;
 }
-.card-shadow .card-shadow, .node-referral-path-way-form .table-format table .table-format .card-shadow,
-.node-referral-path-way-edit-form .table-format table .table-format .card-shadow, .card-shadow .node-referral-path-way-form .table-format table .table-format, .node-referral-path-way-form .table-format table .card-shadow .table-format, .node-referral-path-way-form .table-format table .table-format .table-format,
+.card-shadow .card-shadow, .view-manage-service .views-row .card-shadow,
+.view-service-list .views-row .card-shadow, .card-shadow .view-manage-service .views-row, .view-manage-service .card-shadow .views-row, .view-manage-service .views-row .views-row,
+.card-shadow .view-service-list .views-row,
+.view-service-list .card-shadow .views-row,
+.view-service-list .views-row .views-row, .node-referral-path-way-form .table-format table .table-format .card-shadow, .node-referral-path-way-form .table-format table .table-format .view-manage-service .views-row, .view-manage-service .node-referral-path-way-form .table-format table .table-format .views-row,
+.node-referral-path-way-form .table-format table .table-format .view-service-list .views-row,
+.view-service-list .node-referral-path-way-form .table-format table .table-format .views-row,
+.node-referral-path-way-edit-form .table-format table .table-format .card-shadow,
+.node-referral-path-way-edit-form .table-format table .table-format .view-manage-service .views-row,
+.view-manage-service .node-referral-path-way-edit-form .table-format table .table-format .views-row,
+.node-referral-path-way-edit-form .table-format table .table-format .view-service-list .views-row,
+.view-service-list .node-referral-path-way-edit-form .table-format table .table-format .views-row, .card-shadow .node-referral-path-way-form .table-format table .table-format, .view-manage-service .views-row .node-referral-path-way-form .table-format table .table-format,
+.view-service-list .views-row .node-referral-path-way-form .table-format table .table-format, .node-referral-path-way-form .table-format table .card-shadow .table-format, .node-referral-path-way-form .table-format table .view-manage-service .views-row .table-format, .view-manage-service .node-referral-path-way-form .table-format table .views-row .table-format,
+.node-referral-path-way-form .table-format table .view-service-list .views-row .table-format,
+.view-service-list .node-referral-path-way-form .table-format table .views-row .table-format, .node-referral-path-way-form .table-format table .table-format .table-format,
 .card-shadow .node-referral-path-way-edit-form .table-format table .table-format,
+.view-manage-service .views-row .node-referral-path-way-edit-form .table-format table .table-format,
+.view-service-list .views-row .node-referral-path-way-edit-form .table-format table .table-format,
 .node-referral-path-way-edit-form .table-format table .card-shadow .table-format,
+.node-referral-path-way-edit-form .table-format table .view-manage-service .views-row .table-format,
+.view-manage-service .node-referral-path-way-edit-form .table-format table .views-row .table-format,
+.node-referral-path-way-edit-form .table-format table .view-service-list .views-row .table-format,
+.view-service-list .node-referral-path-way-edit-form .table-format table .views-row .table-format,
 .node-referral-path-way-edit-form .table-format table .table-format .table-format {
   -webkit-box-shadow: unset;
           box-shadow: unset;
@@ -2143,7 +2163,8 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   margin-bottom: 0;
 }
 
-.node-service-provider-form .service-next-prev-button {
+.node-service-provider-form .service-next-prev-button,
+.node-service-provider-edit-form .service-next-prev-button {
   display: inline-block;
   margin-top: 30px;
   width: 100%;
@@ -2152,7 +2173,14 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
 .node-service-provider-form .service-next-prev-button .node-service-type-quick-node-clone-form .button--primary,
 .node-service-type-quick-node-clone-form .node-service-provider-form .service-next-prev-button .button--primary,
 .node-service-provider-form .service-next-prev-button .node-service-type-edit-form .button--primary,
-.node-service-type-edit-form .node-service-provider-form .service-next-prev-button .button--primary {
+.node-service-type-edit-form .node-service-provider-form .service-next-prev-button .button--primary,
+.node-service-provider-edit-form .service-next-prev-button .button-border,
+.node-service-provider-edit-form .service-next-prev-button .node-service-type-form .button--primary,
+.node-service-type-form .node-service-provider-edit-form .service-next-prev-button .button--primary,
+.node-service-provider-edit-form .service-next-prev-button .node-service-type-quick-node-clone-form .button--primary,
+.node-service-type-quick-node-clone-form .node-service-provider-edit-form .service-next-prev-button .button--primary,
+.node-service-provider-edit-form .service-next-prev-button .node-service-type-edit-form .button--primary,
+.node-service-type-edit-form .node-service-provider-edit-form .service-next-prev-button .button--primary {
   background: none;
   border: 1px solid #A85766;
   border-radius: 4px;
@@ -2164,13 +2192,156 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   padding: 10px 24px;
   text-transform: uppercase;
 }
-.node-service-provider-form .service-next-prev-button .next-btn {
+.node-service-provider-form .service-next-prev-button .next-btn,
+.node-service-provider-edit-form .service-next-prev-button .next-btn {
   text-align: right;
 }
-.node-service-provider-form .form-actions {
+.node-service-provider-form .form-actions,
+.node-service-provider-edit-form .form-actions {
   display: none;
   float: right;
   margin-top: 30px;
+  width: 106px;
+}
+
+.view-manage-service form .form-type-select,
+.view-service-list form .form-type-select {
+  width: 100%;
+}
+.view-manage-service .views-row,
+.view-service-list .views-row {
+  color: #444;
+  font-size: 12px;
+}
+.view-manage-service .views-row a,
+.view-service-list .views-row a {
+  color: #444;
+}
+.view-manage-service .views-row .service-provider-title,
+.view-service-list .views-row .service-provider-title {
+  border-bottom: 0.5px solid #D7D7D7;
+  font-weight: 700;
+  padding: 6px 0;
+  text-transform: capitalize;
+}
+.view-manage-service .views-row .service-provider-title a,
+.view-service-list .views-row .service-provider-title a {
+  color: #444;
+  padding-left: 25px;
+}
+.view-manage-service .views-row .service-provider-title::before,
+.view-service-list .views-row .service-provider-title::before {
+  background: url("../images/service-provider.svg") 0 0 no-repeat;
+  content: "";
+  display: inline-block;
+  height: 26px;
+  vertical-align: middle;
+  width: 26px;
+}
+.view-manage-service .views-row .service-provider-org,
+.view-manage-service .views-row .service-provider-number,
+.view-service-list .views-row .service-provider-org,
+.view-service-list .views-row .service-provider-number {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 10px;
+  padding: 0 5px;
+  word-break: break-word;
+}
+.view-manage-service .views-row .service-provider-org span,
+.view-manage-service .views-row .service-provider-number span,
+.view-service-list .views-row .service-provider-org span,
+.view-service-list .views-row .service-provider-number span {
+  max-width: 100px;
+  width: 100%;
+}
+.view-manage-service .views-row .views-field,
+.view-service-list .views-row .views-field {
+  padding: 0 5px;
+  margin-top: 10px;
+}
+.view-manage-service .views-row .views-field.views-field-field-location,
+.view-service-list .views-row .views-field.views-field-field-location {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0 10px;
+  word-break: break-word;
+}
+.view-manage-service .views-row .views-field.views-field-field-location span,
+.view-service-list .views-row .views-field.views-field-field-location span {
+  max-width: 100px;
+  width: 100%;
+}
+.view-manage-service .views-row .views-field.views-field-field-location .field-content,
+.view-service-list .views-row .views-field.views-field-field-location .field-content {
+  display: inline-block;
+  width: calc(100% - 100px);
+}
+.view-manage-service .views-row .views-field.views-field-nothing-1 .service-mode,
+.view-service-list .views-row .views-field.views-field-nothing-1 .service-mode {
+  border-bottom: 0.5px solid #D7D7D7;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0 5px 10px;
+  word-break: break-word;
+}
+.view-manage-service .views-row .views-field.views-field-nothing-1 .service-mode span,
+.view-service-list .views-row .views-field.views-field-nothing-1 .service-mode span {
+  max-width: 100px;
+  width: 100%;
+}
+.view-manage-service .views-row .more-details-text,
+.view-service-list .views-row .more-details-text {
+  padding: 10px;
+  text-align: right;
+}
+.view-manage-service .views-row .more-details-text a,
+.view-service-list .views-row .more-details-text a {
+  color: #A85766;
+  border-bottom: 1px solid #A85766;
+}
+.view-manage-service .views-row .more-details-text a::after,
+.view-service-list .views-row .more-details-text a::after {
+  background: url("../images/arrow-small.svg") center right no-repeat;
+  content: "";
+  height: 7px;
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 5px;
+  width: 4px;
+}
+
+.service-list-icons::before {
+  display: inline-block;
+  height: 10px;
+  margin-right: 10px;
+  vertical-align: middle;
+  width: 15px;
+}
+
+.org-icon::before {
+  background-color: #282C7B;
+  content: "";
+  background: url("../images/org-icon.svg") 0 0 no-repeat;
+}
+
+.contact-icon::before {
+  content: "";
+  background: url("../images/contact.svg") 0 0 no-repeat;
+}
+
+.location-icon::before {
+  content: "";
+  color: #444;
+  background: url("../images/service-location.svg") 0 0 no-repeat;
+}
+
+.mode-icon::before {
+  content: "";
+  background: url("../images/mode.svg") 0 0 no-repeat;
 }
 
 .user-logged-in.path-user {

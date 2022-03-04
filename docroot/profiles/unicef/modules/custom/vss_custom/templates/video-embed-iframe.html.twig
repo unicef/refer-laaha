@@ -4,4 +4,4 @@
  * Display an iframe with alterable components.
  */
 #}
-<iframe class="video" {{attributes}} {% if url is not empty %} src="{{ url }}{% if query is not empty %}?{{ query | url_encode }}&enablejsapi=1&modestbranding=1{% endif %}{% if fragment is not empty %}#{{ fragment }}{% endif %}" {% endif %}></iframe>
+<iframe class="video" title="video" {{attributes}} {% if url is not empty %} src="{{ url }}{% if query is not empty %}?{{ query | url_encode }}&enablejsapi=1&modestbranding=1{% endif %}{% if fragment is not empty %}#{{ fragment }}{% endif %}" {% endif %}></iframe>
