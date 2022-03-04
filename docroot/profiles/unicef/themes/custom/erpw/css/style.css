@@ -808,7 +808,7 @@ header {
 }
 
 .view-referral-pathway-on-homepage {
-  margin: 35px 0 50px;
+  margin: 35px 0 20px;
 }
 .view-referral-pathway-on-homepage .row-listing {
   -webkit-box-shadow: 0px 1px 4px rgba(68, 25, 39, 0.14);
@@ -901,6 +901,41 @@ header {
 }
 .view-referral-pathway-on-homepage .listing-detail .service-title a {
   color: #A85766;
+}
+
+[id^=block-rpw-cta-buttons-on-homepage] {
+  margin-bottom: 50px;
+}
+
+.field--name-field-upload-gbv-referrals-guide .file--application-pdf {
+  background: none;
+  padding-left: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.field--name-field-upload-gbv-referrals-guide,
+.field--name-field-pocket-guide-app-link {
+  margin-bottom: 15px;
+}
+.field--name-field-upload-gbv-referrals-guide a,
+.field--name-field-pocket-guide-app-link a {
+  background: #A85766;
+  border: 1px solid #A85766;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 4px;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 0.875em;
+  font-weight: 500;
+  margin: 0;
+  padding: 10px 17px;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+  font-weight: 400;
+  font-size: 9px;
 }
 
 .block-select-user-location, .user-change-link {
@@ -1323,6 +1358,10 @@ header {
 .node-referral-path-way-edit-form .table-format table tbody tr > td {
   margin-bottom: 20px;
 }
+.node-referral-path-way-form .table-format table tbody tr td.delta-order,
+.node-referral-path-way-edit-form .table-format table tbody tr td.delta-order {
+  display: none;
+}
 .node-referral-path-way-form .table-format table .table-format tbody,
 .node-referral-path-way-form .table-format table .table-format thead,
 .node-referral-path-way-edit-form .table-format table .table-format tbody,
@@ -1402,14 +1441,14 @@ header {
 .node-referral-path-way-edit-form .multiple-fields-remove-button,
 .node-referral-path-way-edit-form .multiple-fields-remove-button:hover,
 .node-referral-path-way-edit-form .paragraphs-dropbutton-wrapper input[value=Remove] {
-  background: url("../images/delete-button.svg") center center no-repeat;
+  background: url("../images/delete-button.svg") center center no-repeat !important;
   border: 0 !important;
   font-size: 0;
-  height: 20px;
+  height: 20px !important;
   margin-left: 30px;
-  right: -5px;
+  right: -5px !important;
   vertical-align: super;
-  width: 20px;
+  width: 20px !important;
 }
 .node-referral-path-way-form .paragraphs-subform,
 .node-referral-path-way-edit-form .paragraphs-subform {
