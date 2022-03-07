@@ -81,84 +81,122 @@
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('service-provider-details') }}>
   <div class="service-detail-heading">
-    <h3>Service Details</h3>
+    <h3>{{ 'Service Details'|t }}</h3>
     <div class="edit-delete-links"> 
       <span class="edit-link">
         <a href="{{ path('entity.node.edit_form', {'node': node.nid.value }) }}">{{ 'Edit'|t }}</a>
       </span>
     </div>
   </div>
-   
+  <div class="margin-space">
+   {% if content.field_service_type.0['#title'] %}
   <div> 
     <label>{{ 'Name of the service'|t }}: </label> 
     <span> {{ content.field_service_type.0['#title'] }}</span>
   </div>
+  {% endif %}
+  {% if content.field_select_organisation.0['#title'] %}
   <div> 
     <label> {{ 'Name of the Organisation'|t }}: </label> 
     <span>{{ content.field_select_organisation.0['#title'] }}</span>
   </div>
+  {% endif %}
+  {% if content.field_p_code.0['#title'] %}
   <div> 
     <label> {{ 'P-code'|t }}:</label> 
     <span> {{ content.field_p_code.0['#title'] }}</span>
   </div>
+  {% endif %}
+  {% if content.field_opening_hours.0['#title'] %}
   <div>
     <label> {{ 'Opening hours'|t }}: </label> 
     <span> {{ content.field_opening_hours.0['#title'] }}</span>
   </div>
+  {% endif %}
+  {% if content.field_cost_of_service.0['#title'] %}
   <div> 
     <label> {{ 'Cost of Service'|t }}: </label> 
     <span> {{ content.field_cost_of_service.0['#title'] }}</span>
   </div>
+  {% endif %}
+  {% if content.field_transportation_available.0['#title'] %}
   <div> 
     <label> {{ 'Transportation Available'|t }}: </label> 
     <span>{{ content.field_transportation_available.0['#title'] }}</span>
   </div>
+  {% endif %}
+  {% if content.field_accessibility_for_persons_.0['#title'] %}
   <div> 
     <label> {{ 'Accessibility for Persons'|t }}: </label> 
     <span> {{ content.field_accessibility_for_persons_.0['#title'] }}</span>
   </div>
+  {% endif %}
+  {% if content.field_age_group.0['#title'] %}
   <div> 
     <label> {{ 'Age group'|t }}: </label>  
     <span>{{ content.field_age_group.0['#title'] }}</span>
   </div>
+  {% endif %}
+  {% if content.field_target_group.0['#markup'] %}
   <div> 
     <label> {{ 'Target group'|t }}: </label>  
     <span>{{ content.field_target_group.0['#markup'] }}</span>
   </div>
+  {% endif %}
+  {% if content.field_countrycode.0['#markup'] %}
   <div> 
     <label> {{ 'Country code'|t }}:</label>  
     <span>{{ content.field_countrycode.0['#title'] }}</span>
   </div>
+  {% endif %}
+  {% if content.field_phone_number.0['#title'] %}
   <div> 
     <label> {{ 'Phone Number'|t }}: </label> 
     <span>{{ content.field_phone_number.0['#title'] }}</span>
   </div>
+  {% endif %}
+    {% if content.field_mode.0['#title'] %}
   <div> 
     <label> {{ 'Mode'|t }}: </label>  
-    <span>{{ content.field_mode.0['#title'] }}</div>
+    <span>{{ content.field_mode.0['#title'] }}</span>
+    </div>
+      {% endif %}
+      {% if label %}
   <div> 
     <label> {{ 'Name of the Focal Point'|t }}:</label> 
     <span>{{ label }}</span>
   </div>
+    {% endif %}
+    {% if content.field_phone_number_of_focal_poin.0['#title'] %}
   <div> 
     <label> {{ 'Phone Number of focal point'|t }}: </label> 
     <span> {{ content.field_phone_number_of_focal_poin.0['#title'] }}</span>
   </div>
+    {% endif %}
+    {% if content.field_email_of_focal_point.0['#title'] %}
   <div> 
     <label> {{ 'Email of Focal point'|t }}: </label> 
     <span> {{ content.field_email_of_focal_point.0['#title'] }}</span>
   </div>
+    {% endif %}
+    {% if content.field_name_backup_focalpoint_ref.0['#title'] %}
   <div> 
     <label> {{ 'Name of backup focal point'|t }}: </label> 
     <span> {{ content.field_name_backup_focalpoint_ref.0['#title'] }}</span>
   </div>
+    {% endif %}
+    {% if content.field_phone_number_backup_focalp.0['#title'] %}
   <div> 
     <label> {{ 'Phone Number backup focal point'|t }}: </label> 
     <span> {{ content.field_phone_number_backup_focalp.0['#title'] }}</span>
   </div>
+    {% endif %}
+    {% if content.field_email_backup_focal_point.0['#title'] %}
   <div> 
     <label> {{ 'Email of backup focal point'|t }}: </label>  
     <span>{{ content.field_email_backup_focal_point.0['#title'] }}</span>
   </div>
+   {% endif %}
+   </div>
 </div>
 </article>

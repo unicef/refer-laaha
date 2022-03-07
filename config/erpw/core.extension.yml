@@ -1,6 +1,7 @@
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
+  acquia_purge: 0
   admin_toolbar: 0
   admin_toolbar_tools: 0
   automated_cron: 0
@@ -22,6 +23,7 @@ module:
   contact: 0
   contextual: 0
   core_event_dispatcher: 0
+  csp: 0
   datetime: 0
   dblog: 0
   default_content: 0
@@ -49,6 +51,8 @@ module:
   field_ui: 0
   file: 0
   filter: 0
+  google_analytics: 0
+  google_tag: 0
   hal: 0
   help: 0
   history: 0
@@ -77,6 +81,13 @@ module:
   path: 0
   path_alias: 0
   permissions_filter: 0
+  purge: 0
+  purge_drush: 0
+  purge_processor_cron: 0
+  purge_processor_lateruntime: 0
+  purge_queuer_coretags: 0
+  purge_tokens: 0
+  purge_ui: 0
   pwa: 0
   pwa_a2hs: 0
   pwa_extras: 0
@@ -90,6 +101,7 @@ module:
   shield: 0
   shortcut: 0
   simple_menu_icons: 0
+  site_audit: 0
   status_messages: 0
   system: 0
   taxonomy: 0

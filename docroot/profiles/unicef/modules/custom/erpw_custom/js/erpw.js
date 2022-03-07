@@ -1,6 +1,8 @@
 (function ($, Drupal, drupalSettings) {
     Drupal.behaviors.catapult_img_preview = {
         attach: function (context, settings) {
+					//Home page guideline link add attr
+					$('.field--name-field-upload-gbv-referrals-guide .file--application-pdf a').attr('target', '_blank');
 
             // Redirect user to Language selector screen.
             let langCookieSelector = getCookie('userLanguageSelection');

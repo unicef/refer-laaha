@@ -11,9 +11,14 @@
         $(".next-btn").on('click', function(){
             $(".next-btn").addClass('hidden');
             $(".prev-btn").removeClass('hidden');
+            $(".cancel-btn").removeClass('hidden');
             $("#service-provider-step2").removeClass("hidden");
             $("#service-provider-step1").addClass("hidden");
+        });
+        $(".cancel-btn").on('click', function(){
+          window.history.go(-1);
         });
       }
     };
   })(jQuery, Drupal, window);
+  
