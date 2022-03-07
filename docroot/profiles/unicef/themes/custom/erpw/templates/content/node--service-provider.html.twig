@@ -88,6 +88,7 @@
       </span>
     </div>
   </div>
+  <div class="margin-space">
    {% if content.field_service_type.0['#title'] %}
   <div> 
     <label>{{ 'Name of the service'|t }}: </label> 
@@ -196,6 +197,6 @@
     <span>{{ content.field_email_backup_focal_point.0['#title'] }}</span>
   </div>
    {% endif %}
-  <button onclick="history.back()">{{ 'Cancel'|t }}</button>
+   </div>
 </div>
 </article>
