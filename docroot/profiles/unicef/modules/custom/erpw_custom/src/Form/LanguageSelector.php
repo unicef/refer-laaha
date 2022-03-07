@@ -2,12 +2,14 @@
 
 namespace Drupal\erpw_custom\Form;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
 use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
+use Drupal\Core\Url;
 use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\erpw_location\LocationCookie;
 use Drupal\erpw_location\LocationService;
@@ -19,11 +21,25 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class LanguageSelector extends FormBase {
 
   /**
+   * The Current user service.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
    * Drupal\domain\DomainNegotiatorInterface definition.
    *
    * @var \Drupal\domain\DomainNegotiatorInterface
    */
   protected $domainNegotiator;
+
+  /**
+   * Entity Manager instance.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityManager;
 
   /**
    * Drupal\language\ConfigurableLanguageManagerInterface definition.
@@ -68,13 +84,17 @@ class LanguageSelector extends FormBase {
     LocationCookie $location_cookie,
     DomainNegotiatorInterface $negotiator,
     PrivateTempStoreFactory $temp_store_factory,
-    LocationService $location_service) {
+    LocationService $location_service,
+    AccountProxyInterface $current_user,
+    EntityTypeManagerInterface $entity_manager) {
     $this->configfactory = $config_factory;
     $this->languageManager = $language_manager;
     $this->locationCookie = $location_cookie;
     $this->domainNegotiator = $negotiator;
     $this->tempStoreFactory = $temp_store_factory->get('erpw_location_collection');
     $this->locationService = $location_service;
+    $this->currentUser = $current_user;
+    $this->entityManager = $entity_manager;
   }
 
   /**
@@ -88,6 +108,8 @@ class LanguageSelector extends FormBase {
       $container->get('domain.negotiator'),
       $container->get('tempstore.private'),
       $container->get('erpw_location.location_services'),
+      $container->get('current_user'),
+      $container->get('entity_type.manager'),
     );
   }
 
@@ -142,7 +164,13 @@ class LanguageSelector extends FormBase {
       setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', NULL, FALSE);
       setcookie('userLanguage', $value['language_selector'], strtotime('+1 year'), '/', NULL, FALSE);
       // Storing the value into coookie and temp storage.
-      $default_location = $this->locationService->getDefaultLocation();
+      if ($this->currentUser->isAuthenticated()) {
+        $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
+        $default_location = $this->locationService->getUserDefaultLocation($user);
+      }
+      else {
+        $default_location = $this->locationService->getDefaultLocation();
+      }
       if (empty($this->locationCookie->getCookieValue())) {
         $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
         $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
