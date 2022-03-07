@@ -28,8 +28,6 @@
           }
         })
         $('label.error').parent('.select2-container .select2-selection').css("border", "2px solid red");
-
-        $('.field--name-field-upload-gbv-referrals-guide .file--application-pdf a').attr('target', '_blank');
       });
     }
   };
