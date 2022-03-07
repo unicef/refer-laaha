@@ -130,7 +130,13 @@ function erpw_pathway_user_logout() {
 function set_user_location() {
   $tempstore = \Drupal::service('tempstore.private')->get('erpw_location_collection');
   $cookie = \Drupal::service('erpw_location.location_cookie');
-  $default_location = \Drupal::service('erpw_location.location_services')->getDefaultLocation();
+  if (\Drupal::currentUser()->isAuthenticated()) {
+    $user = \Drupal::entityTypeManager()->getStorage('user')->load(\Drupal::currentUser()->id());
+    $default_location = \Drupal::service('erpw_location.location_services')->getUserDefaultLocation($user);
+  }
+  else {
+    $default_location = \Drupal::service('erpw_location.location_services')->getDefaultLocation();
+  }
   if (empty($cookie->getCookieValue())) {
     $cookie->setCookieValue(base64_encode('country_tid_' . time()));
     $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
@@ -154,4 +160,14 @@ function get_user_location() {
     set_user_location();
     return $tempstore->get(base64_decode($cookie_value));
   }
+}
+
+/**
+ * Modify field types for which remove button will be added.
+ *
+ * @param array $fieldTypes
+ *   A list with field types.
+ */
+function erpw_pathway_multiple_field_remove_button_field_types_alter(array &$fieldTypes) {
+  $fieldTypes[] = "entity_reference";
 }
