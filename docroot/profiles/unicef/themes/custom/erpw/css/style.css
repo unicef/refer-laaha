@@ -2286,14 +2286,14 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
 .view-manage-service .views-row .service-provider-title a,
 .view-service-list .views-row .service-provider-title a {
   color: #444;
-  padding-left: 25px;
 }
-.view-manage-service .views-row .service-provider-title::before,
-.view-service-list .views-row .service-provider-title::before {
+.view-manage-service .views-row .service-provider-title a::before,
+.view-service-list .views-row .service-provider-title a::before {
   background: url("../images/service-provider.svg") 0 0 no-repeat;
   content: "";
   display: inline-block;
   height: 26px;
+  padding-right: 25px;
   vertical-align: middle;
   width: 26px;
 }
@@ -2371,6 +2371,21 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   vertical-align: middle;
   padding-left: 5px;
   width: 4px;
+}
+
+.view-manage-service .view-header {
+  border-bottom: 2px solid rgba(243, 193, 191, 0.53);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  position: relative;
+}
+.view-manage-service .service-count {
+  color: #9B9B9B;
+  font-size: 14px;
+  font-weight: 400;
+  position: absolute;
+  right: 0;
+  bottom: -30px;
 }
 
 .service-list-icons::before {
