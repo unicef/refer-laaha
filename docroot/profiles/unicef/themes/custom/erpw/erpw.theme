@@ -18,7 +18,13 @@ function erpw_preprocess_block(&$variables) {
   if (!empty($route)) {
     $user = \Drupal::service('entity_type.manager')->getStorage('user')->load($route);
     if ($user instanceof UserInterface) {
-      $variables['content']['#title'] = t("User Details");
+      $route = \Drupal::routeMatch()->getRouteName();
+      if ($route == 'entity.user.edit_form') {
+        $variables['content']['#title'] = t("Update User");
+      }
+      else {
+        $variables['content']['#title'] = t("User Details");
+      }
     }
   }
   if (\Drupal::currentUser()->isAuthenticated()) {

@@ -85,10 +85,10 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['location_options']['#empty_option'] = t('Select country');
   }
   if ($form_id == 'sign_up') {
-    if (isset($form['location_options']['#options'])) {
+    if (isset($form['location']['level_0']['#options'])) {
       $permission = 'add new user for their own country';
-      $form['location_options']['#options'] = erpw_filter_locations_permissions($form['location_options']['#options'], $permission, 'location_entity');
-      $form['location_options']['#empty_option'] = t('Select country');
+      $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
+      $form['location']['level_0']['#empty_option'] = t('Select country');
     }
     if (isset($form['system_role']['#options'])) {
       $role_options = $form['system_role']['#options'];
