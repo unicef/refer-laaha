@@ -102,6 +102,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
           unset($form['system_role']['#options'][$role_id]);
         }
       }
+      $form['system_role']['#empty_option'] = t('Select System Role');
     }
   }
   if ($form_id == 'user_form') {
@@ -110,16 +111,19 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       $current_user = \Drupal::currentUser()->getAccount();
       $role_hierarchy_helper = \Drupal::service('role_hierarchy.helper');
       foreach ($role_options as $role_id => $role_label) {
-        if (!$role_hierarchy_helper->hasRoleEditAccess(
-          $role_hierarchy_helper->getAccountRoleWeight($current_user),
-          $role_hierarchy_helper->getRoleWeight($role_id)) ||
-          $role_id == 'administrator' ||
-          $role_id == 'anonymous' ||
-          $role_id == 'authenticated'
-        ) {
-          unset($form['field_system_role']['widget']['#options'][$role_id]);
+        if ($role_id) {
+          if (!$role_hierarchy_helper->hasRoleEditAccess(
+            $role_hierarchy_helper->getAccountRoleWeight($current_user),
+            $role_hierarchy_helper->getRoleWeight($role_id)) ||
+            $role_id == 'administrator' ||
+            $role_id == 'anonymous' ||
+            $role_id == 'authenticated'
+          ) {
+            unset($form['field_system_role']['widget']['#options'][$role_id]);
+          }
         }
       }
+      $form['field_system_role']['widget']['#empty_option'] = t('Select System Role');
     }
   }
   if ($form_id == 'node_organisation_form') {
