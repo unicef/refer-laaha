@@ -86,7 +86,6 @@ class DisclaimerPopUpBlock extends BlockBase implements ContainerFactoryPluginIn
     $build['#attached']['drupalSettings']['disclaimer_narrate'] = $string;
     $build['#attached']['drupalSettings']['disclaimer'] = TRUE;
     $cookie_name = "player";
-    $cookie_langid = $lang_id;
     $cookie_value = $string;
     $cookie_voice = $voice_id;
     setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");

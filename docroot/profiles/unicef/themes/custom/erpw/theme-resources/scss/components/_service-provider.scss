@@ -90,15 +90,15 @@
 			text-transform: capitalize;
 			a {
 				color: $grey-txt-color;
-				padding-left: 25px;
-			}
-			&::before {
-				background: url('../images/service-provider.svg') 0 0 no-repeat;
-				content: '';
-				display: inline-block;
-				height: 26px;
-				vertical-align: middle;
-				width: 26px;
+				&::before {
+					background: url('../images/service-provider.svg') 0 0 no-repeat;
+					content: '';
+					display: inline-block;
+					height: 26px;
+					padding-right: 25px;
+					vertical-align: middle;
+					width: 26px;
+				}
 			}
 		}
 		.service-provider-org,
@@ -156,6 +156,22 @@
 				}
 			}
 		}
+	}
+}
+.view-manage-service {
+	.view-header {
+		border-bottom: 2px solid rgba(243, 193, 191, 0.53);
+		margin-bottom: 20px;
+		padding-bottom: 10px;
+		position: relative;
+	}
+	.service-count {
+		color: #9B9B9B;
+		font-size: 14px;
+		font-weight: 400;
+		position: absolute;
+		right: 0;
+		bottom: -30px;
 	}
 }
 .service-list-icons {
