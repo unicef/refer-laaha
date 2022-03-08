@@ -92,7 +92,6 @@ class BreadcrumbService implements BreadcrumbBuilderInterface {
     // // Add a link to the homepage as our first crumb.
     $breadcrumb->addLink(Link::createFromRoute(t('Home'), '<front>'));
     if ($tax_term) {
-      $path = $tax_term->toUrl()->getRouteName();
       $tax_parent = $this->entityTypeManager->getStorage('taxonomy_term')->load($tax_term->parent->target_id);
       if ($tax_parent) {
         $parent_path = $tax_parent->toUrl()->getRouteName();
