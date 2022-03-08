@@ -56,6 +56,9 @@ class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
       if ($this->hasAssociatedWithUser($entity->id())) {
         $preventDelete = TRUE;
       }
+      if ($this->hasAssociatedLocationEntity($entity->id())) {
+        $preventDelete = TRUE;
+      }
       // Displaying message when prevent delete is true.
       if ($preventDelete == TRUE) {
         $form['#title'] = new TranslatableMarkup('This Term is being used by other entity, therefore cannot be deleted.');
@@ -112,6 +115,30 @@ class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
     $query->innerJoin('user__field_location', 'ufl', 'ufl.entity_id = u.uid');
     $query->fields('ufl', ['entity_id']);
     $query->condition('ufl.field_location_target_id', $term_id);
+    $query->distinct(TRUE);
+    $result = $query->execute();
+
+    if ($result->fetchCol()) {
+      return TRUE;
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Check if this term has been used with location entity.
+   *
+   * @param int $term_id
+   *   Term id.
+   *
+   * @return bool
+   *   Return true/false.
+   */
+  private function hasAssociatedLocationEntity($term_id) {
+    $query = $this->connection->select('location', 'loc');
+    $query->innerJoin('location__field_location_taxonomy_term', 'ltt', 'ltt.entity_id = loc.id');
+    $query->fields('ltt', ['entity_id']);
+    $query->condition('ltt.field_location_taxonomy_term_target_id', $term_id);
     $query->distinct(TRUE);
     $result = $query->execute();
 
