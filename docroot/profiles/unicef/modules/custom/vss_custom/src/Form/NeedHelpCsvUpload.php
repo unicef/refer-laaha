@@ -83,7 +83,6 @@ class NeedHelpCsvUpload extends FormBase {
     $language = $values['language'];
     $errors = '';
     $csv_file = $form_state->getValue('need_help_upload');
-    // $distributor_id = $form_state->getValue('distributor_id');
     /* Load the object of the file by it's fid */
     if (empty($language)) {
       $errors .= 'Select Language in dropdown <br>';

@@ -49,10 +49,7 @@ class DateFilter extends FormBase {
    * Validate form.
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    $fromvalue = $form_state->getValue('visitors_date_from_filter');
-    $tovalue   = $form_state->getValue('to');
-    $from      = [];
-    $to        = [];
+
   }
 
   /**
