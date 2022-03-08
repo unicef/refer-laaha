@@ -104,6 +104,24 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       }
     }
   }
+  if ($form_id == 'user_form') {
+    if (isset($form['field_system_role']['widget']['#options'])) {
+      $role_options = $form['field_system_role']['widget']['#options'];
+      $current_user = \Drupal::currentUser()->getAccount();
+      $role_hierarchy_helper = \Drupal::service('role_hierarchy.helper');
+      foreach ($role_options as $role_id => $role_label) {
+        if (!$role_hierarchy_helper->hasRoleEditAccess(
+          $role_hierarchy_helper->getAccountRoleWeight($current_user),
+          $role_hierarchy_helper->getRoleWeight($role_id)) ||
+          $role_id == 'administrator' ||
+          $role_id == 'anonymous' ||
+          $role_id == 'authenticated'
+        ) {
+          unset($form['field_system_role']['widget']['#options'][$role_id]);
+        }
+      }
+    }
+  }
   if ($form_id == 'node_organisation_form') {
     $form['revision_information']['#access'] = FALSE;
     $form['actions']['submit']['#value'] = t('Publish');
