@@ -4,3 +4,8 @@ services:
     arguments:
       - "@language_manager"
       - "@request_stack"
+  erpw_custom.prevent_term_deletion:
+    class: '\Drupal\erpw_custom\EventSubscriber\PreventTermDeletionEventSubscriber'
+    arguments: ['@database']
+    tags:
+      - { name: 'event_subscriber' }
