@@ -318,6 +318,21 @@ class LocationService {
   }
 
   /**
+   * Get user default Location ID.
+   *
+   * @param object $user
+   *   The user object.
+   *
+   * @return int
+   *   Return of default location id.
+   */
+  public function getUserDefaultLocation($user) {
+    if (!empty($user->field_location)) {
+      return $user->field_location->getValue()[0]['target_id'];
+    }
+  }
+
+  /**
    * Validating Location By Term ID.
    *
    * @param int $location_id

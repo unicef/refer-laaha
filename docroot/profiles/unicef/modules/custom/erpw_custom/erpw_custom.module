@@ -231,11 +231,21 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     unset($form['options']);
     unset($form['revision_information']);
     unset($form['revision_log']);
-    $form['#title'] = "Add Service Form";
+    $form['#title'] = t("Add Service Form");
+    $referral = \Drupal::request()->query->get('referer');
+    if (isset($referral) && $referral == 'rpw') {
+      $form['#title'] = t("Suggest a Change");
+      $form['help'] = [
+        '#type' => 'markup',
+        '#markup' => t('Your suggestions will be reviewed and further sent for approval.'),
+        '#weight' => '-3',
+      ];
+    }
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     $form['next_link'] = [
       '#type' => 'markup',
       '#markup' => "<div class = 'prev-btn hidden button--primary'><span class='button-border'>" . t('Back') . "</span></div>
+      <div class = 'cancel-btn  button--primary'><span class='button-border'>" . t('Cancel') . "</span></div>
         <div class='next-btn button--primary'><span class='button-border'>" . t('Next') . "</div>",
       '#prefix' => "<div class = 'service-next-prev-button'>",
       '#suffix' => "</div>",
@@ -384,25 +394,33 @@ function _erpw_custom_form_user_email_validate(array &$form, FormStateInterface 
  * Implements hook_preprocess_HOOK().
  */
 function erpw_custom_preprocess_page_title(&$variables) {
-  $uid = \Drupal::currentUser()->id();
   $route_name = \Drupal::routeMatch()->getRouteName();
-  if (!$uid && $route_name == 'erpw_custom.sign_up_form') {
-    $variables['title'] = t('Sign up');
-  }
-  if ($route_name == 'node.add') {
-    $type = \Drupal::routeMatch()->getParameter('node_type')->get('type');
-    if ($type == 'organisation') {
-      $variables['title'] = t('Add Organisation');
-    }
-  }
-  elseif ($route_name = "entity.node.canonical") {
-    $node = \Drupal::routeMatch()->getParameter('node');
-    if (!empty($node)) {
-      $typeName = $node->bundle();
-      if ($typeName == 'service_provider') {
-        $variables['title'] = t('Service Information');
+  switch ($route_name) {
+    case 'erpw_custom.sign_up_form':
+      if (!\Drupal::currentUser()->id()) {
+        $variables['title'] = t('Sign up');
       }
-    }
+      break;
+
+    case 'node.add':
+      $type = \Drupal::routeMatch()->getParameter('node_type')->get('type');
+      if ($type == 'organisation') {
+        $variables['title'] = t('Add Organisation');
+      }
+      break;
+
+    case 'entity.node.edit_form':
+      $node = \Drupal::routeMatch()->getParameter('node');
+      if (!empty($node) && $node->bundle() == 'service_provider') {
+        $referral = \Drupal::request()->query->get('referer');
+        if (isset($referral) && $referral == 'rpw') {
+          $variables['title'] = t("Suggest a Change");
+        }
+        else {
+          $variables['title'] = t('Service Information');
+        }
+      }
+      break;
   }
 }
 
