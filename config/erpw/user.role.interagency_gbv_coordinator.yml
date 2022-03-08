@@ -5,6 +5,7 @@ dependencies:
   config:
     - node.type.organisation
     - node.type.referral_path_way
+    - node.type.service_provider
   module:
     - erpw_custom
     - node
@@ -20,8 +21,10 @@ permissions:
   - 'create organisation content'
   - 'create referral_path_way content'
   - 'edit any referral_path_way content'
+  - 'edit any service_provider content'
   - 'edit own organisation content'
   - 'edit own referral_path_way content'
+  - 'edit own service_provider content'
   - 'edit referral pathway of their own location'
   - 'edit users of their own location and organisation'
   - 'update user'
