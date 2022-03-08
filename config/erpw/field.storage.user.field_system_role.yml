@@ -1,17 +1,15 @@
-uuid: 3b81f638-1a6c-4c5c-a999-c2569e8b41b3
+uuid: e48aa658-9462-4ef7-9f9b-07b89da13180
 langcode: en
 status: true
 dependencies:
   module:
     - user
-id: user.field_position
-field_name: field_position
+id: user.field_system_role
+field_name: field_system_role
 entity_type: user
-type: string
+type: entity_reference
 settings:
-  max_length: 255
-  case_sensitive: false
-  is_ascii: false
+  target_type: user_role
 module: core
 locked: false
 cardinality: 1

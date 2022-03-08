@@ -147,7 +147,8 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
           $permission = '';
           break;
       }
-      if ($current_user->hasPermission($permission)) {
+      if ($this->currentUser->id() != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
+
         $location_id = '';
         if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
           $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
