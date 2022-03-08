@@ -78,9 +78,7 @@ p {
   top: 62px;
 }
 
-.button-border, .node-service-type-form .button--primary,
-.node-service-type-quick-node-clone-form .button--primary,
-.node-service-type-edit-form .button--primary {
+.button-border {
   background: none;
   border: 1px solid #A85766;
   border-radius: 4px;
@@ -93,11 +91,7 @@ p {
   text-transform: uppercase;
 }
 
-form input[type=submit].button-border, form .node-service-type-form input[type=submit].button--primary, .node-service-type-form form input[type=submit].button--primary,
-form .node-service-type-quick-node-clone-form input[type=submit].button--primary,
-.node-service-type-quick-node-clone-form form input[type=submit].button--primary,
-form .node-service-type-edit-form input[type=submit].button--primary,
-.node-service-type-edit-form form input[type=submit].button--primary {
+form input[type=submit].button-border {
   background: none;
   border: 1px solid #A85766;
   border-radius: 4px;
@@ -118,7 +112,7 @@ form .node-service-type-edit-form input[type=submit].button--primary,
   border-radius: 20px;
   font-size: 12px;
   line-height: 14px;
-  padding: 7px 15px 7px 57px;
+  padding: 7px 13px 7px 57px;
   position: relative;
   color: #ffffff;
   margin: 20px 0;
@@ -332,8 +326,11 @@ form .node-service-type-edit-form input[type=submit].button--primary,
 }
 .js-form-type-select select + .error {
   position: absolute;
-  bottom: -20px;
+  bottom: 0;
   left: 0;
+}
+.js-form-type-select select + .error + .select2-container {
+  padding-bottom: 20px;
 }
 
 label.error + .select2-container .select2-selection, .service-provider-class [id^=edit-field-transportation-available-wrapper] .error.fieldset-legend + .select2-container .select2-selection,
@@ -411,7 +408,8 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-organisation-form .form-actions,
 .node-service-type-form .form-actions,
 .node-service-type-quick-node-clone-form .form-actions,
-.node-service-type-edit-form .form-actions {
+.node-service-type-edit-form .form-actions,
+.node-service-provider-form .form-actions {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -423,14 +421,16 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-organisation-form .form-actions input[type=submit],
 .node-service-type-form .form-actions input[type=submit],
 .node-service-type-quick-node-clone-form .form-actions input[type=submit],
-.node-service-type-edit-form .form-actions input[type=submit] {
+.node-service-type-edit-form .form-actions input[type=submit],
+.node-service-provider-form .form-actions input[type=submit] {
   padding: 10px 0 !important;
   width: 134px;
 }
 .node-organisation-form .form-actions [id^=edit-submit],
 .node-service-type-form .form-actions [id^=edit-submit],
 .node-service-type-quick-node-clone-form .form-actions [id^=edit-submit],
-.node-service-type-edit-form .form-actions [id^=edit-submit] {
+.node-service-type-edit-form .form-actions [id^=edit-submit],
+.node-service-provider-form .form-actions [id^=edit-submit] {
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
           order: 2;
@@ -442,7 +442,9 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-type-quick-node-clone-form .form-actions [id^=edit-preview],
 .node-service-type-quick-node-clone-form .form-actions [id^=edit-cancel],
 .node-service-type-edit-form .form-actions [id^=edit-preview],
-.node-service-type-edit-form .form-actions [id^=edit-cancel] {
+.node-service-type-edit-form .form-actions [id^=edit-cancel],
+.node-service-provider-form .form-actions [id^=edit-preview],
+.node-service-provider-form .form-actions [id^=edit-cancel] {
   background: none;
   border: 1px solid #A85766;
   border-radius: 4px;
@@ -455,6 +457,12 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   -webkit-box-ordinal-group: 2;
       -ms-flex-order: 1;
           order: 1;
+}
+
+.service-count {
+  color: #9B9B9B;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 form .form-required::after {
@@ -1787,7 +1795,7 @@ header {
 .node-service-type-quick-node-clone-form .icons-selector .fip-box,
 .node-service-type-edit-form .icons-selector .fip-box {
   border: 0;
-  width: 46px;
+  width: 44px;
 }
 .node-service-type-form .icons-selector.fip-grey .selected-icon,
 .node-service-type-quick-node-clone-form .icons-selector.fip-grey .selected-icon,
@@ -1994,7 +2002,7 @@ header {
 .view-referral-pathway-listing .views-field-field-service-type-color {
   display: inline-block;
   padding: 0 10px;
-  vertical-align: top;
+  vertical-align: middle;
 }
 .service-list .service-title, .view-organisations .service-title,
 .view-referral-pathway-listing .service-title,
@@ -2003,7 +2011,7 @@ header {
 .view-referral-pathway-listing .views-field-title {
   display: inline-block;
   padding: 5px 0;
-  width: 77%;
+  width: calc(100% - 70px);
 }
 .service-list .service-title span, .view-organisations .service-title span,
 .view-referral-pathway-listing .service-title span, .service-list .service-title a, .view-organisations .service-title a,
@@ -2184,7 +2192,6 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
 
 .service-provider-class {
   border: 0;
-  margin: 30px 0 0;
   padding: 0;
 }
 .service-provider-class [id^=edit-field-transportation-available-wrapper] .form-type-radio,
@@ -2228,18 +2235,8 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
           justify-content: space-between;
   width: 100%;
 }
-.node-service-provider-form .service-next-prev-button .button-border, .node-service-provider-form .service-next-prev-button .node-service-type-form .button--primary, .node-service-type-form .node-service-provider-form .service-next-prev-button .button--primary,
-.node-service-provider-form .service-next-prev-button .node-service-type-quick-node-clone-form .button--primary,
-.node-service-type-quick-node-clone-form .node-service-provider-form .service-next-prev-button .button--primary,
-.node-service-provider-form .service-next-prev-button .node-service-type-edit-form .button--primary,
-.node-service-type-edit-form .node-service-provider-form .service-next-prev-button .button--primary,
-.node-service-provider-edit-form .service-next-prev-button .button-border,
-.node-service-provider-edit-form .service-next-prev-button .node-service-type-form .button--primary,
-.node-service-type-form .node-service-provider-edit-form .service-next-prev-button .button--primary,
-.node-service-provider-edit-form .service-next-prev-button .node-service-type-quick-node-clone-form .button--primary,
-.node-service-type-quick-node-clone-form .node-service-provider-edit-form .service-next-prev-button .button--primary,
-.node-service-provider-edit-form .service-next-prev-button .node-service-type-edit-form .button--primary,
-.node-service-type-edit-form .node-service-provider-edit-form .service-next-prev-button .button--primary {
+.node-service-provider-form .service-next-prev-button .button-border,
+.node-service-provider-edit-form .service-next-prev-button .button-border {
   background: none;
   border: 1px solid #A85766;
   border-radius: 4px;
@@ -2255,12 +2252,39 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
 .node-service-provider-edit-form .service-next-prev-button .next-btn {
   text-align: right;
 }
-.node-service-provider-form .form-actions,
-.node-service-provider-edit-form .form-actions {
-  display: none;
-  float: right;
-  margin: 0 0 40px;
-  width: 100%;
+.node-service-provider-form details summary,
+.node-service-provider-edit-form details summary {
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
+          box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
+  padding: 14px 17px;
+}
+.node-service-provider-form details summary::after,
+.node-service-provider-edit-form details summary::after {
+  background: url("../images/arrow.svg") right center no-repeat;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+  background-position: inherit;
+  content: "";
+  color: #A85766;
+  display: inline-block;
+  height: 6px;
+  width: 12px;
+}
+.node-service-provider-form details summary[aria-expanded=false]::after,
+.node-service-provider-edit-form details summary[aria-expanded=false]::after {
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+  background-position: right center;
 }
 
 .view-manage-service form .form-type-select,

@@ -44,7 +44,7 @@
 		}
 		.fip-box {
 			border: 0;
-			width: 46px;
+			width: 44px;
 		}
 		&.fip-grey {
 			.selected-icon {
@@ -147,9 +147,7 @@
 			}
 		}
 	}
-	.button--primary {
-		@extend .button-border;
-	}
+
 	.color_field_widget_box__color {
 		border: 1px solid transparent !important;
 		font-size: 0;
@@ -209,13 +207,13 @@
 	.views-field-field-service-type-color {
 		display: inline-block;
 		padding: 0 10px;
-		vertical-align: top;
+		vertical-align: middle;
 	}
 	.service-title,
 	.views-field-title {
 		display: inline-block;
 		padding: 5px 0;
-		width: 77%;
+		width: calc(100% - 70px);
 		span, a {
 			color: $grey-txt-color;
 			font-size: 15px;
