@@ -1,0 +1,24 @@
+uuid: 505d0fea-2c0c-4ab1-9a0f-7021af1ba3a4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_system_role
+  module:
+    - user
+id: user.user.field_system_role
+field_name: field_system_role
+entity_type: user
+bundle: user
+label: 'System Role'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user_role'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference

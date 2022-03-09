@@ -85,10 +85,10 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['location_options']['#empty_option'] = t('Select country');
   }
   if ($form_id == 'sign_up') {
-    if (isset($form['location_options']['#options'])) {
+    if (isset($form['location']['level_0']['#options'])) {
       $permission = 'add new user for their own country';
-      $form['location_options']['#options'] = erpw_filter_locations_permissions($form['location_options']['#options'], $permission, 'location_entity');
-      $form['location_options']['#empty_option'] = t('Select country');
+      $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
+      $form['location']['level_0']['#empty_option'] = t('Select country');
     }
     if (isset($form['system_role']['#options'])) {
       $role_options = $form['system_role']['#options'];
@@ -102,6 +102,33 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
           unset($form['system_role']['#options'][$role_id]);
         }
       }
+      $form['system_role']['#empty_option'] = t('Select System Role');
+    }
+  }
+  if ($form_id == 'user_form') {
+    if (isset($form['location']['level_0']['#options'])) {
+      $permission = 'edit users of their own country';
+      $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
+      $form['location']['level_0']['#empty_option'] = t('Select country');
+    }
+    if (isset($form['field_system_role']['widget']['#options'])) {
+      $role_options = $form['field_system_role']['widget']['#options'];
+      $current_user = \Drupal::currentUser()->getAccount();
+      $role_hierarchy_helper = \Drupal::service('role_hierarchy.helper');
+      foreach ($role_options as $role_id => $role_label) {
+        if ($role_id) {
+          if (!$role_hierarchy_helper->hasRoleEditAccess(
+            $role_hierarchy_helper->getAccountRoleWeight($current_user),
+            $role_hierarchy_helper->getRoleWeight($role_id)) ||
+            $role_id == 'administrator' ||
+            $role_id == 'anonymous' ||
+            $role_id == 'authenticated'
+          ) {
+            unset($form['field_system_role']['widget']['#options'][$role_id]);
+          }
+        }
+      }
+      $form['field_system_role']['widget']['#empty_option'] = t('Select System Role');
     }
   }
   if ($form_id == 'node_organisation_form') {
@@ -232,6 +259,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     unset($form['revision_information']);
     unset($form['revision_log']);
     $form['#title'] = t("Add Service Form");
+    $form['actions']['submit']['#value'] = t('Publish');
     $referral = \Drupal::request()->query->get('referer');
     if (isset($referral) && $referral == 'rpw') {
       $form['#title'] = t("Suggest a Change");
@@ -240,6 +268,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
         '#markup' => t('Your suggestions will be reviewed and further sent for approval.'),
         '#weight' => '-3',
       ];
+      $form['actions']['submit']['#value'] = t('Submit Change');
     }
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     $form['next_link'] = [
@@ -252,7 +281,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       '#weight' => 10,
 
     ];
-    $form['actions']['submit']['#value'] = t('Publish');
+    $form['actions']['delete']['#access'] = FALSE;
     array_unshift($form['actions']['submit']['#submit'], '_erpw_custom_service_provider_form');
   }
 }
