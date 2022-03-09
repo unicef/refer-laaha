@@ -108,14 +108,13 @@ class EntityUserSubscriber implements EventSubscriberInterface {
       if ($access) {
         $permission = 'edit users of their own location and organisation';
         if ($user->hasPermission($permission)) {
-          $form['field_organisation']['#access'] = FALSE;
+          $form['field_organisation']['widget'][0]['target_id']['#attributes']['disabled'] = 'disabled';
         }
         $form['account']['name']['#access'] = FALSE;
         $form['account']['roles']['#access'] = FALSE;
         $form['account']['current_pass']['#access'] = FALSE;
         $form['account']['pass']['#access'] = FALSE;
         $form['account']['status']['#access'] = FALSE;
-        $form['field_location']['#access'] = FALSE;
         $form['account']['notify']['#access'] = FALSE;
         $form['account']['mail']['#description'] = '';
         $parent_list = [];
@@ -137,6 +136,8 @@ class EntityUserSubscriber implements EventSubscriberInterface {
           $parent_list = empty($parent_list) ? array_values($ptids) : $parent_list;
         }
         $form = $this->erpwPathwayService->getLocationForm($form, $form_state, $parent_list, $ptids);
+        $form['field_location'] = $form['location'];
+        unset($form['location']);
         if ($form_id == 'user_form') {
           $form['actions']['back'] = [
             '#type' => 'submit',
@@ -217,12 +218,10 @@ class EntityUserSubscriber implements EventSubscriberInterface {
       $entity = $form_object->getEntity();
       $this->saveLocationFieldUser($entity, $location_level);
     }
-
-    $user = $form_state->getStorage()['user'];
-    if ($user) {
+    if ($entity instanceof UserInterface) {
       $role = $form_state->getValue('field_system_role')[0]['target_id'];
-      $user->addRole($role);
-      $user->save();
+      $entity->roles = [$role];
+      $entity->save();
     }
     return _erpw_custom_redirect('view.user_lists.page_1');
   }

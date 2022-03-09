@@ -5,6 +5,7 @@ dependencies: {  }
 id: local
 label: local
 description: 'Configuration for Local environment'
+weight: 0
 folder: ../config/erpwlocal
 module: {  }
 theme: {  }
@@ -24,4 +25,3 @@ blacklist:
 graylist: {  }
 graylist_dependents: true
 graylist_skip_equal: true
-weight: 0

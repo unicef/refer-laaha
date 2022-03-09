@@ -128,7 +128,10 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
           }
         }
       }
-      $form['field_system_role']['widget']['#empty_option'] = t('Select System Role');
+      $form_object = $form_state->getFormObject();
+      $user = $form_object->getEntity();
+      $roles = $user->getRoles();
+      $form['field_system_role']['widget']['#default_value'] = [end($roles)];
     }
   }
   if ($form_id == 'node_organisation_form') {
@@ -551,6 +554,11 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $permission = 'view service of their own location and organisation';
     $org_condition = 'node__field_select_organisation.field_select_organisation_target_id';
     $query = erpw_view_results_own_location_organisation($query, $condition_field, $org_condition, $permission);
+  }
+  if ($view->id() == "organisations" && $view->current_display == 'page_1') {
+    $permission = 'view user associated organisations';
+    $org_condition = 'node_field_data.nid';
+    $query = erpw_view_results_own_location_organisation($query, NULL, $org_condition, $permission);
   }
 }
 

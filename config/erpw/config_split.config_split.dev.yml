@@ -5,6 +5,7 @@ dependencies: {  }
 id: dev
 label: dev
 description: 'Configuration for Dev Environment'
+weight: 0
 folder: ../config/erpwdev
 module: {  }
 theme: {  }
@@ -24,4 +25,3 @@ blacklist:
 graylist: {  }
 graylist_dependents: true
 graylist_skip_equal: true
-weight: 0
