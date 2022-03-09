@@ -68,6 +68,9 @@
         $("#sign-up #edit-back").hide();
         $("#sign-up .signup-next").hide();
       }
+      else {
+        $('#sign-up #intro-text').hide();
+      }
       $("#sign-up #edit-level-0").on("change", function() {
         if ($(this).val() != '') {
           $('#sign-up #intro-text').hide();
