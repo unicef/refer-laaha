@@ -331,7 +331,8 @@ class LocationListForm extends FormBase {
    */
   public function getLevelFour(array &$form, FormStateInterface $form_state) {
     $parent_level2_tid = $form_state->getValue('level_3');
-    $level_2_options = $this->locationService->getChildrenByTid($parent_level2_tid);
+    $level_2_options[''] = $this->t('Select Level 4 Label');
+    $level_2_options += $this->locationService->getChildrenByTid($parent_level2_tid);
     $form['location']['location_level']['level_4']['#empty_option'] = $this->t("Select Level 4 Label");
     $form['location']['location_level']['level_4']['#options'] = $level_2_options;
     $form['location']['location_level']['level_4']['#empty_value'] = '';
