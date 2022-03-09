@@ -39,8 +39,7 @@ class PodcastTime extends FieldPluginBase {
   public function render(ResultRow $values) {
     $id = $values->field_sub_category_taxonomy_term_field_data_nid;
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
-    $podcast_time = $this->getPodcastTime($id, $langcode);
-    return $podcast_time;
+    return $this->getPodcastTime($id, $langcode);
   }
 
   /**
