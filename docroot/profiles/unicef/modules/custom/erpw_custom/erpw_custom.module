@@ -251,6 +251,18 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
 
   // Form alter for Add new Service Provider form.
   if ($form_id == 'node_service_provider_form' || $form_id == 'node_service_provider_edit_form') {
+    $permission = ($form_id == 'node_service_provider_edit_form') ? 'edit service of their own country' : 'add service of their own country';
+    $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
+    $form['location']['level_0']['#empty_option'] = t('Select country');
+    $uid = \Drupal::currentUser()->id();
+    $current_user = User::load($uid);
+    if ($uid != 1  && !$current_user->hasRole('administrator') &&
+    ($current_user->hasPermission('edit service of their own location and organisation') || $current_user->hasPermission('edit service of their own location and organisation'))) {
+      if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
+        $org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
+        $form['field_select_organisation']['widget']['#default_value'] = $org_id;
+      }
+    }
     unset($form['meta']);
     unset($form['menu']);
     unset($form['path']);
@@ -270,26 +282,34 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       ];
       $form['actions']['submit']['#value'] = t('Submit Change');
     }
-    $form['#attached']['library'][] = 'erpw_custom/erpw_js';
-    $form['next_link'] = [
-      '#type' => 'markup',
-      '#markup' => "<div class = 'prev-btn hidden button--primary'><span class='button-border'>" . t('Back') . "</span></div>
-      <div class = 'cancel-btn  button--primary'><span class='button-border'>" . t('Cancel') . "</span></div>
-        <div class='next-btn button--primary'><span class='button-border'>" . t('Next') . "</div>",
-      '#prefix' => "<div class = 'service-next-prev-button'>",
-      '#suffix' => "</div>",
-      '#weight' => 10,
-
+    $form['actions']['cancel'] = [
+      '#type' => 'submit',
+      '#value' => t('CANCEL'),
+      '#submit' => ['_erpw_custom_cancel_service_provider'],
+      '#weight' => 30,
+      '#limit_validation_errors' => [],
     ];
+    $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     $form['actions']['delete']['#access'] = FALSE;
     array_unshift($form['actions']['submit']['#submit'], '_erpw_custom_service_provider_form');
   }
 }
 
 /**
+ * {@inheritdoc}
+ */
+function _erpw_custom_cancel_service_provider(array &$form, FormStateInterface $form_state) {
+  $url = Url::fromRoute('view.manage_service.page_1');
+  $response = new RedirectResponse($url->toString());
+  $response->send();
+  return $response;
+}
+
+/**
  * Implements checking for p-code.
  */
 function _erpw_custom_service_provider_form(array $form, FormStateInterface $form_state) {
+  $p_code_value = [];
   if (empty($form_state->getValue('field_p_code')[0]['value'])) {
     for ($i = 4; $i >= 0; $i--) {
       $location_level = $form_state->getValue('level_' . $i);
@@ -297,9 +317,15 @@ function _erpw_custom_service_provider_form(array $form, FormStateInterface $for
         break;
       }
     }
-    foreach ($location_level as $key => $value) {
-      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($key);
-      $p_code_value[] = $term->field_p_code->value;
+    if (is_array($location_level)) {
+      foreach ($location_level as $key => $value) {
+        $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($key);
+        $p_code_value[] = !$term->get('field_p_code')->isEmpty() ? $term->field_p_code->value : "";
+      }
+    }
+    else {
+      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($location_level);
+      $p_code_value[] = !$term->get('field_p_code')->isEmpty() ? $term->field_p_code->value : "";
     }
     $p_code_str_value = implode(",", $p_code_value);
     $form['field_p_code']['widget']['0']['value']['#value'] = $p_code_str_value;
@@ -338,6 +364,7 @@ function _erpw_custom_service_handler(array &$form, FormStateInterface $form_sta
 function _erpw_custom_redirect($route_name, $page_type = NULL) {
   $current_language = \Drupal::service('erpw_custom.custom_service')->getCurrentLanguage();
   $user_language = \Drupal::service('erpw_custom.custom_service')->getUserLanguage();
+  $url = Url::fromRoute($route_name)->toString();
   if ($current_language != $user_language) {
     switch ($page_type) {
       case 'service_type':
@@ -348,9 +375,6 @@ function _erpw_custom_redirect($route_name, $page_type = NULL) {
         $url = '/' . $user_language . '/referral-pathway-listing';
         break;
     }
-  }
-  else {
-    $url = Url::fromRoute($route_name)->toString();
   }
   $response = new RedirectResponse($url);
   $response->send();
@@ -517,6 +541,16 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $query = erpw_view_results_own_country_permissions($query, $condition_field, $permission);
     $permission = 'view referral pathway of their own location';
     $query = erpw_view_results_own_location_organisation($query, $condition_field, NULL, $permission);
+  }
+  if ($view->id() == "manage_service" && $view->current_display == 'page_1') {
+    $permission = 'view service of their own country';
+    $condition_field = 'node__field_location.field_location_target_id';
+    $query = erpw_view_results_own_country_permissions($query, $condition_field, $permission);
+    $permission = 'view service of their own location';
+    $query = erpw_view_results_own_location_organisation($query, $condition_field, NULL, $permission);
+    $permission = 'view service of their own location and organisation';
+    $org_condition = 'node__field_select_organisation.field_select_organisation_target_id';
+    $query = erpw_view_results_own_location_organisation($query, $condition_field, $org_condition, $permission);
   }
 }
 

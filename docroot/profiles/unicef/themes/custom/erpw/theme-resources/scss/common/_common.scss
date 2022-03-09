@@ -76,7 +76,7 @@ form input[type=submit] {
 	@include border-radius(20px);
 	font-size: 12px;
 	line-height: 14px;
-	padding: 7px 15px 7px 57px;
+	padding: 7px 13px 7px 57px;
 	position: relative;
 	color: $base-white-color;
 	margin: 20px 0;
@@ -254,8 +254,11 @@ form input[type=submit] {
 	position: relative;
 	select + .error {
     position: absolute;
-    bottom: -20px;
+    bottom: 0;
     left: 0;
+		+ .select2-container {
+			padding-bottom: 20px;
+		}
 	}
 }
 label.error + .select2-container .select2-selection {
@@ -337,7 +340,8 @@ label.error + .select2-container .select2-selection {
 .node-organisation-form,
 .node-service-type-form,
 .node-service-type-quick-node-clone-form,
-.node-service-type-edit-form {
+.node-service-type-edit-form,
+.node-service-provider-form {
 	.form-actions {
 		display: -webkit-box;
 		display: -ms-flexbox;
@@ -367,4 +371,11 @@ label.error + .select2-container .select2-selection {
 			order: 1;
 		}
 	}
+}
+
+//count style
+.service-count {
+	color: #9B9B9B;
+	font-size: 14px;
+	font-weight: 400;
 }

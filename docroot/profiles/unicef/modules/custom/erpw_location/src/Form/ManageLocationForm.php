@@ -302,7 +302,7 @@ class ManageLocationForm extends FormBase {
             $location_details .= '<div class="level">' . $level . " : " . $level_data_name . '</div>';
           }
         }
-        // @todo url routes to be updated.
+
         $clone_url = $this->urlGenerator->generateFromRoute('erpw_location.manage_location');
         $delete_url = $this->urlGenerator->generateFromRoute('erpw_location.delete_location',
            ['tid' => $tid]

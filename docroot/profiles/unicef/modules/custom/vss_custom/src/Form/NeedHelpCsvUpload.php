@@ -120,7 +120,6 @@ class NeedHelpCsvUpload extends FormBase {
 
     if (!empty($errors)) {
       $form_state->setErrorByName('csv', $errors);
-      return;
     }
   }
 
@@ -177,31 +176,6 @@ class NeedHelpCsvUpload extends FormBase {
     }
 
     return $data;
-  }
-
-  /**
-   * Headers.
-   */
-  public function getNeedHelpheaders() {
-    $header = [
-      'Service Name',
-      'Service Provider Name',
-      'Email ID',
-      'Telephone Number',
-      'Hierarchy level 1',
-      'Hierarchy level 2',
-      'Hierarchy level 3',
-      'Hierarchy level 4',
-      'Priority',
-      'Facebook',
-      'Twitter',
-      'LinkedIn',
-      'City',
-      'State',
-      'Country',
-      'Description',
-    ];
-    return $header;
   }
 
 }

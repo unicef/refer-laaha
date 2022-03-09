@@ -124,7 +124,6 @@ class TopPages extends ControllerBase {
     $get_page = \Drupal::request()->query->get('page');
     $page = $get_page ?? 0;
     $i = 0 + $page * $items_per_page;
-    // @todo add links
     foreach ($results as $data) {
       $rows[] = [
         ++$i,
