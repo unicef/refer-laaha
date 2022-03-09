@@ -7,10 +7,10 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\erpw_location\LocationCookie;
+use Drupal\erpw_location\LocationService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -28,9 +28,9 @@ class UserLocationForm extends LocationListForm {
   /**
    * The Messenger service.
    *
-   * @var \Drupal\Core\Messenger\MessengerInterface
+   * @var \Drupal\erpw_location\LocationService
    */
-  protected $messenger;
+  protected $locationService;
 
   /**
    * The form builder.
@@ -60,17 +60,17 @@ class UserLocationForm extends LocationListForm {
     Connection $database,
     EntityTypeManagerInterface $entity_type_manager,
     AccountInterface $current_user,
-    MessengerInterface $messenger,
     FormBuilderInterface $form_builder,
     LocationCookie $location_cookie,
-    PrivateTempStoreFactory $temp_store_factory) {
+    PrivateTempStoreFactory $temp_store_factory,
+    LocationService $location_service) {
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;
     $this->currentUser = $current_user;
-    $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
     $this->locationCookie = $location_cookie;
     $this->tempStoreFactory = $temp_store_factory->get('erpw_location_collection');
+    $this->locationService = $location_service;
   }
 
   /**
@@ -81,10 +81,10 @@ class UserLocationForm extends LocationListForm {
       $container->get('database'),
       $container->get('entity_type.manager'),
       $container->get('current_user'),
-      $container->get('messenger'),
       $container->get('form_builder'),
       $container->get('erpw_location.location_cookie'),
       $container->get('tempstore.private'),
+      $container->get('erpw_location.location_services'),
     );
   }
 
@@ -99,16 +99,7 @@ class UserLocationForm extends LocationListForm {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL, $page = "") {
-    if (!empty($id)) {
-      $location_entity = $this->entityTypeManager->getStorage('location')->loadByProperties(
-        ['field_location_taxonomy_term' => $id]
-      );
-      foreach ($location_entity as $location) {
-        $id = $location->Id();
-      }
-    }
-    $form = parent::buildForm($form, $form_state, $id);
-
+    $form = parent::buildForm($form, $form_state);
     $form['location_level']['button'] = [
       '#type' => 'submit',
       '#title' => "Change",
