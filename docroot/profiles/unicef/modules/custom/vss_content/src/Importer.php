@@ -224,7 +224,6 @@ class Importer implements ImporterInterface {
             $this->graph[$vertex->id]['edges'][$edge->id] = TRUE;
           }
         }
-        // }
       }
       $file_map[$item_uuid] = $file;
 
