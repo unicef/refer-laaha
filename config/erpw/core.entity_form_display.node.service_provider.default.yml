@@ -48,13 +48,14 @@ third_party_settings:
       region: content
       parent_name: ''
       weight: 1
-      format_type: fieldset
+      format_type: details
       format_settings:
         classes: 'service-provider-step1  service-provider-class'
         show_empty_fields: false
         id: service-provider-step1
+        open: true
         description: ''
-        required_fields: true
+        required_fields: false
     group_ste:
       children:
         - field_countrycode
@@ -70,13 +71,14 @@ third_party_settings:
       region: content
       parent_name: ''
       weight: 2
-      format_type: fieldset
+      format_type: details
       format_settings:
-        classes: 'service-provider-step2  service-provider-class hidden'
+        classes: 'service-provider-step2  service-provider-class'
         show_empty_fields: false
         id: service-provider-step2
+        open: false
         description: ''
-        required_fields: true
+        required_fields: false
 id: node.service_provider.default
 targetEntityType: node
 bundle: service_provider
