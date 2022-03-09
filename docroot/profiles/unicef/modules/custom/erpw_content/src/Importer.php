@@ -20,8 +20,6 @@ use Drupal\default_content\Normalizer\ContentEntityNormalizerInterface;
 
 /**
  * A service for handling import of default content.
- *
- * @todo throw useful exceptions
  */
 class Importer implements ImporterInterface {
 
@@ -168,7 +166,6 @@ class Importer implements ImporterInterface {
           continue;
         }
         // Default content uses drupal.org as domain.
-        // @todo Make this use a uri like default-content:.
         $this->linkManager->setLinkDomain($this->linkDomain);
         // Parse all of the files and sort them in order of dependency.
         // foreach ($files as $file) {.
@@ -227,11 +224,9 @@ class Importer implements ImporterInterface {
             $this->graph[$vertex->id]['edges'][$edge->id] = TRUE;
           }
         }
-        // }
       }
       $file_map[$item_uuid] = $file;
 
-      // @todo what if no dependencies?
       $sorted = $this->sortTree($this->graph);
       foreach ($sorted as $link => $details) {
         if (!empty($file_map[$link])) {
