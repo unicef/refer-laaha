@@ -180,7 +180,6 @@ class DeleteLocationForm extends FormBase {
       '#value' => $location_id,
     ];
     if ($mode == 'view') {
-      // @todo url routes to be updated.
       $clone_url = $this->urlGenerator->generateFromRoute('erpw_location.manage_location');
       $delete_url = $this->urlGenerator->generateFromRoute('erpw_location.delete_location',
           ['tid' => $curr_path[2]]
