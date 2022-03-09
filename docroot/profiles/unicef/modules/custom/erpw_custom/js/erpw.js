@@ -62,20 +62,6 @@
       if ($('.user-location').text().length > 0) {
         $('.user-location').addClass('location-theme');
       }
-
-      //Default service form
-      $('.next-btn').click(function(){
-        if($('.service-provider-step1').hasClass('hidden')) {
-          $('.form-actions').show();
-        }
-        $('.service-next-prev-button').css('width', 'inherit');
-      })
-      $('.prev-btn').click(function(){
-        if($('.service-provider-step1').hasClass('hidden')) {
-          $('.form-actions').hide();
-        }
-        $('.service-next-prev-button').css('width', '100%');
-      });
       /** Sign UP form country check Start **/ 
       $("#sign-up .form-item-level-0 > label").text(Drupal.t("Country"));
       if ($("#sign-up #edit-level-0").val() == '') {

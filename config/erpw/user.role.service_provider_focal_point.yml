@@ -2,17 +2,27 @@ uuid: e607f283-a7cf-4568-ae57-70cf89428e97
 langcode: sn
 status: true
 dependencies:
+  config:
+    - node.type.service_provider
   module:
     - erpw_custom
+    - node
 id: service_provider_focal_point
 label: 'Service provider/ focal point'
 weight: -4
 is_admin: null
 permissions:
   - 'add new user'
+  - 'add service of their own country'
   - 'add users of their own location and organisation'
   - 'administer users'
+  - 'create service_provider content'
+  - 'edit any service_provider content'
+  - 'edit service of their own country'
+  - 'edit service of their own location'
+  - 'edit service of their own location and organisation'
   - 'edit users of their own location and organisation'
   - 'update user'
   - 'view dashboard'
+  - 'view service of their own location and organisation'
   - 'view users of their own location and organisation'
