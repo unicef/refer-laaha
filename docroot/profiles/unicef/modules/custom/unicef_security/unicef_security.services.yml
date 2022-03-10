@@ -1,0 +1,5 @@
+services:
+ unicef_security.response_header:
+    class: 'Drupal\unicef_security\EventSubscriber\HeaderResponse'
+    tags:
+      - { name: event_subscriber }
