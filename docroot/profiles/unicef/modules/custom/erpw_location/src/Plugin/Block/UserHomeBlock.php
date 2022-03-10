@@ -131,11 +131,11 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
       $ancestors_prev = $this->locationService->getAllAncestors($tid_array[0]);
       $ancestors = array_reverse($ancestors_prev);
       foreach ($ancestors as $key => $value) {
-        $location .= " " . $this->locationService->getTaxonomyTermById($value);
+        $location .= ", " . $this->locationService->getTaxonomyTermById($value);
       }
       foreach ($tid_array as $key => $value) {
         if ($key != 0) {
-          $location .= " " . $this->locationService->getTaxonomyTermById($value);
+          $location .= ", " . $this->locationService->getTaxonomyTermById($value);
         }
       }
     }
@@ -146,7 +146,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
       '#theme' => 'homepage_user_location',
       '#title' => $title,
       '#description' => $descripton,
-      '#location' => $location,
+      '#location' => ltrim($location, ','),
       '#tid' => !empty($ancestors_prev[0]) ? $ancestors_prev[0] : 0,
       '#cache' => [
         'max-age' => 0,

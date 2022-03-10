@@ -11,14 +11,20 @@ use Drupal\node\NodeInterface;
 use Drupal\user\UserInterface;
 
 /**
- * Implements hook_preprocess_HOOK()
+ * Implements hook_preprocess_block().
  */
 function erpw_preprocess_block(&$variables) {
   $route = \Drupal::routeMatch()->getRawParameter('user');
   if (!empty($route)) {
     $user = \Drupal::service('entity_type.manager')->getStorage('user')->load($route);
     if ($user instanceof UserInterface) {
-      $variables['content']['#title'] = t("User Details");
+      $route = \Drupal::routeMatch()->getRouteName();
+      if ($route == 'entity.user.edit_form') {
+        $variables['content']['#title'] = t("Update User");
+      }
+      else {
+        $variables['content']['#title'] = t("User Details");
+      }
     }
   }
   if (\Drupal::currentUser()->isAuthenticated()) {
@@ -30,7 +36,6 @@ function erpw_preprocess_block(&$variables) {
   $node = \Drupal::routeMatch()->getRouteName();
   if ($variables['plugin_id'] == 'page_title_block' && $node == 'entity.node.canonical') {
     $route = \Drupal::routeMatch()->getParameter('node');
-    $nid = $route->id();
     if ($route->bundle() == 'service_type') {
       $query_path = \Drupal::request()->query->get('action');
       if (!empty($query_path)) {
@@ -89,11 +94,16 @@ function erpw_preprocess_node(&$variables) {
       $variables['#attached']['library'][] = 'erpw_custom/erpw_js';
       $variables['#attached']['drupalSettings']['erpw_custom']['manage_service_type_page'] = $url->toString();
       break;
+
+    case "service_provider":
+      $referral = \Drupal::request()->query->get('referer');
+      $variables['referral'] = $referral;
+      break;
   }
 }
 
 /**
- * Implements hook_preprocess_user()
+ * Implements hook_preprocess_user().
  */
 function erpw_preprocess_user(&$variables) {
   $variables['mail'] = $variables['user']->getEmail();

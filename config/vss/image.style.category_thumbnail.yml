@@ -1,0 +1,16 @@
+uuid: 900d49f2-51b7-4650-8d2b-0d40fd53b0d8
+langcode: en
+status: true
+dependencies: {  }
+name: category_thumbnail
+label: category-thumbnail
+effects:
+  fcd441f7-5a52-412b-a04b-88b7ea636357:
+    uuid: fcd441f7-5a52-412b-a04b-88b7ea636357
+    id: image_scale
+    weight: 1
+    data:
+      width: 40
+      height: 40
+      upscale: false
+pipeline: vss_optimize_image

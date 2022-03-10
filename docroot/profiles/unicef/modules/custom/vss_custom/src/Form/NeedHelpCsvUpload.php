@@ -83,7 +83,6 @@ class NeedHelpCsvUpload extends FormBase {
     $language = $values['language'];
     $errors = '';
     $csv_file = $form_state->getValue('need_help_upload');
-    // $distributor_id = $form_state->getValue('distributor_id');
     /* Load the object of the file by it's fid */
     if (empty($language)) {
       $errors .= 'Select Language in dropdown <br>';
@@ -121,7 +120,6 @@ class NeedHelpCsvUpload extends FormBase {
 
     if (!empty($errors)) {
       $form_state->setErrorByName('csv', $errors);
-      return;
     }
   }
 
@@ -178,31 +176,6 @@ class NeedHelpCsvUpload extends FormBase {
     }
 
     return $data;
-  }
-
-  /**
-   * Headers.
-   */
-  public function getNeedHelpheaders() {
-    $header = [
-      'Service Name',
-      'Service Provider Name',
-      'Email ID',
-      'Telephone Number',
-      'Hierarchy level 1',
-      'Hierarchy level 2',
-      'Hierarchy level 3',
-      'Hierarchy level 4',
-      'Priority',
-      'Facebook',
-      'Twitter',
-      'LinkedIn',
-      'City',
-      'State',
-      'Country',
-      'Description',
-    ];
-    return $header;
   }
 
 }

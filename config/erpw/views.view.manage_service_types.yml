@@ -599,7 +599,7 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: true
-          content: '<div>No service type is available.</p>'
+          content: '<div>No service type is available.</div>'
           tokenize: false
       sorts:
         title:
@@ -720,9 +720,9 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="new-service-type button-with-icon"><a href="/node/add/service_type">Add a new Service type</a></div>'
+            value: '<div class="new-service-type button-with-icon"><a href="{{ path(''node.add'', {''node_type'': ''service_type''}) }}">{{ ''Add a new Service type''|t }}</a></div>'
             format: full_html
-          tokenize: false
+          tokenize: true
         result:
           id: result
           table: views

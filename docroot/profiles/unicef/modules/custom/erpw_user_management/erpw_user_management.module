@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Module file for User Management.
+ */
+
+/**
+ * Access callback.
+ */
+function erpw_user_management_user_form_access() {
+  $user = \Drupal::currentUser();
+  $roles = $user->getRoles(TRUE);
+  if ($user->id() == 1 || in_array('administrator', $roles)) {
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**
+ * Implements hook_entity_form_display_alter().
+ */
+function erpw_user_management_entity_form_display_alter(&$form_display, $context) {
+  if ($context['entity_type'] == 'user' && $context['bundle'] == 'user') {
+    $route = \Drupal::routeMatch()->getRouteName();
+    $permission = erpw_user_management_user_form_access();
+    if ($permission && $route == 'entity.user.edit_form') {
+      $storage = \Drupal::service('entity_type.manager')->getStorage('entity_form_display');
+      $form_display = $storage->load('user.user.update_user_form');
+    }
+  }
+}

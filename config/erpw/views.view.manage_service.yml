@@ -9,11 +9,13 @@ dependencies:
     - field.storage.node.field_phone_number
     - field.storage.node.field_select_organisation
     - node.type.service_provider
+    - taxonomy.vocabulary.country
   module:
     - better_exposed_filters
     - content_translation
     - node
     - options
+    - taxonomy
     - user
 id: manage_service
 label: 'Manage service'
@@ -465,7 +467,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-provider-title\">{{ field_name_focalpoint_referrals }}</div>\r\n<div class=\"service-provider-org\"><span>Organisation: </span>{{ field_select_organisation }} </div>\r\n<div class=\"service-provider-number\"><span>Contact: </span>{{ field_phone_number }} </div>\r\n"
+            text: "<div class=\"service-provider-title\">{{ field_name_focalpoint_referrals }}</div>\r\n<div class=\"service-provider-org\"><span>{{'Organisation'|t}}: </span>{{ field_select_organisation }} </div>\r\n<div class=\"service-provider-number\"><span>{{'Contact'|t}}: </span>{{ field_phone_number }} </div>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -577,7 +579,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-mode\"><span>Mode: </span>{{ field_mode }} </div>\r\n<div class=\"edit-delete-links\"> \r\n<span class=\"edit-link\">{{ edit_node }}</span>\r\n<span class=\"translate-link\">{{ translation_link }}</span>\r\n</div>"
+            text: "<div class=\"service-mode\"><span>{{ 'Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"edit-delete-links\"> \r\n<span class=\"edit-link\">{{ edit_node }}</span>\r\n<span class=\"translate-link\">{{ translation_link }}</span>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -654,7 +656,18 @@ display:
       cache:
         type: tag
         options: {  }
-      empty: {  }
+      empty:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: true
+          content: '<div>No Service is available.</div>'
+          tokenize: false
       sorts:
         created:
           id: created
@@ -780,6 +793,95 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        field_select_organisation_target_id:
+          id: field_select_organisation_target_id
+          table: node__field_select_organisation
+          field: field_select_organisation_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: numeric
+          operator: 'not empty'
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_location_target_id:
+          id: field_location_target_id
+          table: node__field_location
+          field: field_location_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: 'not empty'
+          value: {  }
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: country
+          type: textfield
+          hierarchy: false
+          limit: true
+          error_message: true
       style:
         type: default
         options:
@@ -816,9 +918,9 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="new-service-type button-with-icon"><a href="/node/add/service_provider">Add a new Service</a></div>'
+            value: '<div class="new-service-type button-with-icon"><a href="{{ path(''node.add'', {''node_type'': ''service_provider''}) }}">{{ ''Add a new Service'' | t }}</a></div>'
             format: full_html
-          tokenize: false
+          tokenize: true
         result:
           id: result
           table: views
@@ -837,6 +939,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
@@ -861,6 +964,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:

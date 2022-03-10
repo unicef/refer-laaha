@@ -44,7 +44,7 @@
 		}
 		.fip-box {
 			border: 0;
-			width: 46px;
+			width: 44px;
 		}
 		&.fip-grey {
 			.selected-icon {
@@ -147,9 +147,7 @@
 			}
 		}
 	}
-	.button--primary {
-		@extend .button-border;
-	}
+
 	.color_field_widget_box__color {
 		border: 1px solid transparent !important;
 		font-size: 0;
@@ -209,13 +207,13 @@
 	.views-field-field-service-type-color {
 		display: inline-block;
 		padding: 0 10px;
-		vertical-align: top;
+		vertical-align: middle;
 	}
 	.service-title,
 	.views-field-title {
 		display: inline-block;
 		padding: 5px 0;
-		width: 77%;
+		width: calc(100% - 70px);
 		span, a {
 			color: $grey-txt-color;
 			font-size: 15px;
@@ -310,7 +308,6 @@ div.color_field__swatch input[type=radio]:checked + label span {
 		}
 	}
 }
-
 //Manage org
 .view-organisations,
 .view-referral-pathway-listing {
@@ -352,5 +349,16 @@ div.color_field__swatch input[type=radio]:checked + label span {
 	}
 	.view-content {
     margin-top: 40px;
+	}
+}
+
+//new user listing
+.review-text {
+	margin-top: 10px;
+	a {
+		color: $base-secondary-bgcolor;
+		font-size: 12px;
+		text-transform: uppercase;
+		font-weight: 500;
 	}
 }

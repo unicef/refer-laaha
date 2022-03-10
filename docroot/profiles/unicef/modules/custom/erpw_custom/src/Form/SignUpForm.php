@@ -7,6 +7,7 @@ use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\RedirectCommand;
+use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Url;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormStateInterface;
@@ -17,6 +18,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\erpw_pathway\Services\ErpwPathwayService;
 
 /**
  * Class user signup form.
@@ -59,6 +61,13 @@ class SignUpForm extends FormBase {
   protected $userId;
 
   /**
+   * A erpwpathway variable.
+   *
+   * @var Drupal\erpw_pathway\Services\ErpwPathwayService
+   */
+  protected $erpwpathway;
+
+  /**
    * {@inheritdoc}
    */
   public function getFormId() {
@@ -74,7 +83,8 @@ class SignUpForm extends FormBase {
     AccountProxyInterface $current_user,
     MessengerInterface $messenger,
     FormBuilderInterface $form_builder,
-    LocationService $location_service) {
+    LocationService $location_service,
+    ErpwPathwayService $erpwp_athway) {
 
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;
@@ -82,6 +92,7 @@ class SignUpForm extends FormBase {
     $this->messenger = $messenger;
     $this->formBuilder = $form_builder;
     $this->locationService = $location_service;
+    $this->erpwpathway = $erpwp_athway;
   }
 
   /**
@@ -94,7 +105,8 @@ class SignUpForm extends FormBase {
       $container->get('current_user'),
       $container->get('messenger'),
       $container->get('form_builder'),
-      $container->get('erpw_location.location_services')
+      $container->get('erpw_location.location_services'),
+      $container->get('erpw_pathway.erpw_location_form'),
     );
   }
 
@@ -187,14 +199,27 @@ class SignUpForm extends FormBase {
     if (!empty($form_state->getValue('organisation'))) {
       $organisation = $this->entityTypeManager->getStorage('node')->load($form_state->getValue('organisation'));
     }
-
+    $org = '';
+    $disabled = '';
+    $permission = 'add users of their own location and organisation';
+    $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
+    if ($this->currentUser->id() != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
+      if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
+        $org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
+        $org = $this->entityTypeManager->getStorage('node')->load($org_id);
+        $disabled = 'disabled';
+      }
+    }
     $form['organisation'] = [
       '#type' => 'entity_autocomplete',
       '#target_type' => 'node',
       '#title' => $this->t('Organisation'),
       '#required' => TRUE,
       '#placeholder' => $this->t('Select Organisation'),
-      '#default_value' => $organisation,
+      '#default_value' => $org,
+      '#attributes' => [
+        $disabled => $disabled,
+      ],
       '#selection_settings' => [
         'target_bundles' => ['organisation'],
         'sort' => [
@@ -342,255 +367,45 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function formPageTwo(array &$form, FormStateInterface $form_state, $id = NULL) {
-    $level_four_default = "";
-    $level_three_default = "";
-    $location_levels = [];
-    if ($this->userId == "") {
-      $user_location_array = [];
-      $form['#prefix'] = '<div id="status-message"></div>';
-      $form['progress_step1'] = [
-        '#markup' => '<div class="steps-highlight">
-          <div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') .
-        '</div>',
-      ];
-      $form['progress_step2'] = [
-        '#markup' => '<div class="location-detail-page active step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
-      ];
-      $form['progress_step3'] = [
-        '#markup' => '<div class="password-creation-page step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
-      ];
-
-      $form['message-step'] = [
-        '#markup' => '<div class="step">' . $this->t('Step 2: Geographical coverage of your role') . '</div>',
-      ];
-
+    if (!empty($form_state->getValue('level_0'))) {
+      $form['top_wrapper']['all_wrapper']['#prefix'] = '<div class="location-container">';
+      $form['top_wrapper']['all_wrapper']['#suffix'] = '</div>';
     }
-    else {
-      $user_details = $this->entityTypeManager->getStorage('user')->load($this->userId);
-      $user_saved_location = $user_details->field_location->getValue();
-
-      if (is_array($user_saved_location) && !empty($user_saved_location)) {
-        $user_location_array = $this->locationService->getAllAncestors($user_details->field_location->getValue()[0]['target_id']);
-        foreach ($user_saved_location as $value) {
-          $user_last_location[] = $value['target_id'];
-        }
-      }
-      else {
-        $user_location_array = $this->locationService->getAllAncestors($user_details->field_location->target_id);
-      }
-      if (isset($user_location_array[0])) {
-        $user_location_entity_id = $this->locationService->getLocationSingleEntityIdByTid($user_location_array[0]);
-      }
-
-    }
-    $level_one_default = !empty($user_location_array[1]) ? $user_location_array[1] : "";
-    $level_two_default = !empty($user_location_array[2]) ? $user_location_array[2] : "";
-    if (isset($user_location_array[3])) {
-      $level_three_default = is_array($user_saved_location) && (count($user_location_array) == 4) ? $user_last_location : $user_location_array[3];
-    }
-    if (isset($user_location_array[4])) {
-      $level_four_default = is_array($user_saved_location) && (count($user_location_array) == 5) ? $user_last_location : $user_location_array[4];
-    }
-    $user_location_entity_id = !empty($user_location_entity_id) ? $user_location_entity_id : "";
-    $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
-      ['type' => 'country', 'status' => 1]);
-    $location_options = [];
-    foreach ($location_entities as $location) {
-      $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
-    }
-
-    if (!empty($location_entities)) {
-      $form['location_options'] = [
-        '#type' => 'select',
-        '#options' => $location_options,
-        '#empty_option' => $this->t('Select Country'),
-        '#title' => $this->t('Country'),
-        '#default_value' => !empty($form_state->getValue('location_options', '')) ? $form_state->getValue('location_options', '') : $user_location_entity_id,
-        '#required' => TRUE,
-        '#ajax' => [
-          'callback' => '::getLocationDetail',
-          'event' => 'change',
-          'method' => 'replace',
-          'wrapper' => 'edit-location-details',
-          'progress' => [
-            'type' => 'throbber',
-          ],
-        ],
-      ];
-    }
-    $form['location'] = [
-      '#prefix' => '<div id="edit-location-details" >',
-      '#suffix' => '</div>',
+    $form['#prefix'] = '<div id="status-message"></div>';
+    $form['progress_step1'] = [
+      '#markup' => '<div class="steps-highlight">
+        <div class="personal-detail-page step-circle">' . $this->t('<div class="step-number">1</div>') .
+      '</div>',
     ];
-    $form['all_wrapper'] = [
-      '#type' => 'container',
-      '#attributes' => ['id' => 'all-wrapper'],
+    $form['progress_step2'] = [
+      '#markup' => '<div class="location-detail-page active step-circle">' . $this->t('<div class="step-number">2</div>') . '</div>',
     ];
+    $form['progress_step3'] = [
+      '#markup' => '<div class="password-creation-page step-circle">' . $this->t('<div class="step-number">3</div>') . '</div></div>',
+    ];
+
+    $form['message-step'] = [
+      '#markup' => '<div class="step">' . $this->t('Step 2: Geographical coverage of your role') . '</div>',
+    ];
+    $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
+    $location_id = (!$current_user->get('field_location')->isEmpty()) ?
+      $current_user->get('field_location')->getValue()[0]['target_id'] : '';
+    $ptids = $parent_list = [];
+    if (!isset($form_state->getTriggeringElement()['#level'])
+      && $current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator')) {
+      $parent_list = $this->locationService->getAllAncestors($location_id);
+      if ($current_user->hasPermission('add users of their own location and organisation')) {
+        $ptids = $parent_list;
+      }
+      elseif ($current_user->hasPermission('add location of their own country')) {
+        $ptids = [reset($parent_list)];
+      }
+    }
+    $form = $this->erpwpathway->getLocationForm($form, $form_state, $parent_list, $ptids);
     $form['location']['all_wrapper']['intro_text'] = [
       '#type' => 'markup',
       '#markup' => '<div id="intro-text">' . $this->t('Select country to view its Hierarchy.') . '</div>',
     ];
-    if (!empty($form_state->getValue('location_options'))) {
-      $form['top_wrapper']['all_wrapper']['#prefix'] = '<div class="location-container">';
-      $form['top_wrapper']['all_wrapper']['#suffix'] = '</div>';
-    }
-
-    if (!empty($form_state->getValue('location_options')) || $this->userId != "") {
-      unset($form['location']['all_wrapper']['intro_text']);
-      $location_country_id = !empty($form_state->getValue('location_options')) ? $form_state->getValue('location_options') : $user_location_entity_id;
-      if (!empty($location_country_id)) {
-        $location_entity = $this->entityTypeManager->getStorage('location')->load($location_country_id);
-      }
-      if (!empty($location_entity) && isset($location_entity)) {
-        $location_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
-      }
-      if (!empty($location_country_id)) {
-        $location_levels = $this->locationService->getLocationLevels($location_country_id);
-      }
-      if (!empty($location_tid)) {
-        $childs = $this->locationService->getChildrenByTid($location_tid);
-      }
-      $i = 1;
-      $form['location']['all_wrapper']['location_level'] = [
-        '#prefix' => '<div id="location-levels">',
-        '#suffix' => '</div>',
-      ];
-      $form['location']['all_wrapper']['location_level1'] = [
-        '#prefix' => '<div id="location-level-1"></div>',
-        '#suffix' => '</div>',
-      ];
-      $form['location']['all_wrapper']['location_level2'] = [
-        '#prefix' => '<div id="location-level-2">',
-        '#suffix' => '</div>',
-      ];
-      $form['location']['all_wrapper']['location_level3'] = [
-        '#prefix' => '<div id="location-level-3">',
-        '#suffix' => '</div>',
-      ];
-      $form['location']['all_wrapper']['location_level4'] = [
-        '#prefix' => '<div id="location-level-4">',
-        '#suffix' => '</div>',
-      ];
-      foreach ($location_levels as $key => $level) {
-        if ($key == 0) {
-          $this->level_key = $key;
-          $form['location']['all_wrapper']['location_level']['level_1'] = [
-            '#type' => 'select',
-            '#empty_option' => $this->t("Select Level 1 Label"),
-            '#empty_value' => '',
-            '#options' => $childs,
-            '#title' => $level,
-            '#weight' => 10,
-            '#default_value' => !empty($form_state->getValue('level_1', '')) ? $form_state->getValue('level_1', '') : $level_one_default,
-            '#ajax' => [
-              'callback' => '::getLevelTwo',
-              'event' => 'change',
-              'method' => 'replace',
-              'wrapper' => 'location-levels',
-              'progress' => [
-                'type' => 'throbber',
-              ],
-            ],
-          ];
-        }
-        else {
-          if (!empty($form_state->getValue('level_' . $key)) || $level_two_default != "") {
-            if ($key == 1) {
-              $parent_tid = !empty($form_state->getValue('level_' . $key)) ? $form_state->getValue('level_' . $key) : $level_one_default;
-              $level_1_options = $this->locationService->getChildrenByTid($parent_tid);
-              $form['location']['all_wrapper']['location_level2']['level_2'] = [
-                '#type' => 'select',
-                '#empty_option' => $this->t("Select Level 2 Label"),
-                '#options' => $level_1_options,
-                '#empty_value' => '',
-                '#title' => $level,
-                '#weight' => 20,
-                '#default_value' => !empty($form_state->getValue('level_2', '')) ? $form_state->getValue('level_2', '') : $level_two_default,
-                '#ajax' => [
-                  'callback' => '::getLevelThree',
-                  'event' => 'change',
-                  'method' => 'replace',
-                  'wrapper' => 'location-level-1',
-                  'progress' => [
-                    'type' => 'throbber',
-                  ],
-                ],
-              ];
-              $array_keys = array_keys($location_levels);
-              $last_key = end($array_keys);
-              if ($last_key == $key) {
-                $form['location']['all_wrapper']['location_level2']['level_' . ($key + 1)]['#multiple'] = TRUE;
-              }
-            }
-            else {
-              if (!empty($form_state->getValue('level_' . $key)) || $level_three_default != "") {
-                if ($key == 2) {
-                  $parent_level2_tid = !empty($form_state->getValue('level_' . $key)) ? $form_state->getValue('level_' . $key) : $level_two_default;
-                  $level_2_options = $this->locationService->getChildrenByTid($parent_level2_tid);
-                  $form['location']['all_wrapper']['location_level3']['level_3'] = [
-                    '#type' => 'select',
-                    '#empty_option' => $this->t("Select Level 3 Label"),
-                    '#empty_value' => '',
-                    '#options' => $level_2_options,
-                    '#title' => $level,
-                    '#attributes' => [
-                      'data-placeholder' => $this->t('Select Level 3 Label'),
-                    ],
-                    '#weight' => 30,
-                    '#default_value' => !empty($form_state->getValue('level_3', '')) ? $form_state->getValue('level_3', '') : $level_three_default,
-                  ];
-                  $array_keys = array_keys($location_levels);
-                  $last_key = end($array_keys);
-                  if ($last_key == $key) {
-                    $form['location']['all_wrapper']['location_level3']['level_' . ($key + 1)]['#multiple'] = TRUE;
-                  }
-                  else {
-                    $form['location']['all_wrapper']['location_level3']['level_' . ($key + 1)]['#ajax'] = [
-                      'callback' => '::getLevelFour',
-                      'event' => 'change',
-                      'method' => 'replace',
-                      'wrapper' => 'location-level-4',
-                      'progress' => [
-                        'type' => 'throbber',
-                      ],
-                    ];
-                  }
-                }
-                else {
-                  if (!empty($form_state->getValue('level_' . $key)) || $level_four_default != "") {
-                    if ($key == 3) {
-                      $parent_level3_tid = $form_state->getValues();
-                      if (isset($parent_level3_tid['level_3']) && is_array($parent_level3_tid['level_3'])) {
-                        $parent_level3_tid_array = array_keys($parent_level3_tid['level_3']);
-                        $parent_level_3 = !empty($parent_level3_tid['level_3']) ? $parent_level3_tid_array[0] : $level_three_default;
-                      }
-                      else {
-                        $parent_level_3 = !empty($parent_level3_tid['level_3']) ? $parent_level3_tid['level_3'] : $level_three_default;
-                      }
-                      $level_3_options = $this->locationService->getChildrenByTid($parent_level_3);
-                      $form['location']['all_wrapper']['location_level4']['level_4'] = [
-                        '#type' => 'select',
-                        '#multiple' => TRUE,
-                        '#empty_option' => $this->t("Select Level 4 Label"),
-                        '#empty_value' => '',
-                        '#attributes' => [
-                          'data-placeholder' => $this->t('Select Level 4 Label'),
-                        ],
-                        '#options' => $level_3_options,
-                        '#title' => $level,
-                        '#weight' => 40,
-                        '#default_value' => !empty($form_state->getValue('level_4', '')) ? $form_state->getValue('level_4', '') : $level_four_default,
-                      ];
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        $i++;
-      }
-    }
 
     $form['actions'] = [
       '#type' => 'actions',
@@ -599,99 +414,33 @@ class SignUpForm extends FormBase {
       '#prefix' => '<div id="form-actions" class="sign-buttons">',
       '#suffix' => '</div>',
     ];
-    if (!empty($form_state->getValue('location_options'))) {
-      if ($this->userId == "") {
-        $form['action-wrapper']['actions']['back'] = [
-          '#type' => 'submit',
-          '#value' => $this->t('Back'),
-          '#attributes' => [
-            'class' => [
-              'button-border',
-            ],
-          ],
-          '#submit' => ['::pageOneBack'],
-          '#limit_validation_errors' => [],
-        ];
-      }
-      $form['action-wrapper']['actions']['next'] = [
-        '#type' => 'submit',
-        '#button_type' => 'primary',
-        '#value' => $this->t('Next'),
-        '#attributes' => [
-          'class' => [
-            'signup-next',
-          ],
+    $form['action-wrapper']['actions']['back'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Back'),
+      '#attributes' => [
+        'class' => [
+          'button-border hidden',
         ],
-        '#submit' => ['::submitPageTwo'],
-        '#validate' => ['::validatePageTwo'],
-      ];
-    }
-    if ($this->userId != "") {
-      $form['action-wrapper']['actions']['back'] = [
-        '#type' => 'submit',
-        '#value' => $this->t('Cancel'),
-        '#attributes' => [
-          'class' => [
-            'button-border',
-          ],
-          ['onClick' => 'window.location.reload(); event.preventDefault();'],
+      ],
+      '#submit' => ['::pageOneBack'],
+      '#limit_validation_errors' => [],
+    ];
+    $form['action-wrapper']['actions']['next'] = [
+      '#type' => 'submit',
+      '#button_type' => 'primary',
+      '#value' => $this->t('Next'),
+      '#attributes' => [
+        'class' => [
+          'signup-next hidden',
         ],
-
-      ];
-      $form['action-wrapper']['actions']['next'] = [
-        '#type' => 'submit',
-        '#button_type' => 'primary',
-        '#value' => $this->t('Update'),
-        '#attributes' => [
-          'class' => [
-            'signup-next',
-          ],
-        ],
-        '#submit' => ['::submitPageOne'],
-        '#validate' => ['::validatePageOne'],
-      ];
-    }
+      ],
+      '#submit' => ['::submitPageTwo'],
+      '#validate' => ['::validatePageTwo'],
+    ];
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getLevelTwo(array &$form, FormStateInterface $form_state) {
-    $response = new AjaxResponse();
-    $location_country_id = $form_state->getValue('location_options');
-    $location_levels = $this->locationService->getLocationLevels($location_country_id);
-    $parent_level2_tid = $form_state->getValue('level_1');
-    $level_2_options = $this->locationService->getChildrenByTid($parent_level2_tid);
-    if (!empty($level_2_options)) {
-      $i = 1;
-      foreach ($level_2_options as $key => $value) {
-        if ($i == 1) {
-          $level_2_options_final[''] = $this->t('Select Level 2 Label');
-          $level_2_options_final[$key] = $value;
-        }
-        else {
-          $level_2_options_final[$key] = $value;
-        }
-        $i++;
-      }
-    }
-    else {
-      $level_2_options_final = $level_2_options;
-    }
-    $form['location']['all_wrapper']['location_level2']['level_2']['#empty_option'] = $this->t("Select Level 2 Label");
-    $form['location']['all_wrapper']['location_level3']['level_3']['#options'] = [];
-    $form['location']['all_wrapper']['location_level4']['level_4']['#options'] = [];
-    $form['location']['all_wrapper']['location_level2']['level_2']['#options'] = $level_2_options_final;
-    $form['location']['all_wrapper']['location_level2']['level_2']['#title'] = $location_levels[1];
-    $response = new AjaxResponse();
-    $response->addCommand(new HtmlCommand('#location-level-2', $form['location']['all_wrapper']['location_level2']['level_2']));
-    $response->addCommand(new HtmlCommand('#location-level-3', ''));
-    $response->addCommand(new HtmlCommand('#location-level-4', ''));
-    return $response;
   }
 
   /**
@@ -753,60 +502,11 @@ class SignUpForm extends FormBase {
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public function getLocationDetail(array &$form, FormStateInterface $form_state) {
-    $location_country_id = $form_state->getValue('location_options');
-    $location_entity = $this->entityTypeManager->getStorage('location')->load($location_country_id);
-    $location_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
-    $location_levels = $this->locationService->getLocationLevels($location_country_id);
-    $childs = $this->locationService->getChildrenByTid($location_tid);
-    if (!empty($childs)) {
-      $i = 1;
-      foreach ($childs as $key => $value) {
-        if ($i == 1) {
-          $level_2_options_final[''] = $this->t('Select Level 1 Label');
-          $level_2_options_final[$key] = $value;
-        }
-        else {
-          $level_2_options_final[$key] = $value;
-        }
-        $i++;
-      }
-    }
-    else {
-      $level_2_options_final = $childs;
-    }
-    $response = new AjaxResponse();
-
-    $form['location']['all_wrapper']['location_level']['level_1']['#options'] = $level_2_options_final;
-    $form['location']['all_wrapper']['location_level']['level_1']['#empty_option'] = $this->t("Select Level 1 Label");
-    $form['location']['all_wrapper']['location_level']['level_1']['#empty_value'] = '';
-    $form['location']['all_wrapper']['location_level']['level_1']['#title'] = $location_levels[0];
-    unset($form['location']['all_wrapper']['location_level2']['level_2']);
-    unset($form['location']['all_wrapper']['location_level3']['level_3']);
-    unset($form['location']['all_wrapper']['location_level4']['level_4']);
-    $form_state->setValue('level_2', "");
-    $form_state->setValue('level_3', "");
-    $form_state->setValue('level_4', "");
-    $form_state->setRebuild(TRUE);
-    $response->addCommand(new HtmlCommand('#location-level-2', ''));
-    $response->addCommand(new HtmlCommand('#location-level-3', ''));
-    $response->addCommand(new HtmlCommand('#location-level-4', ''));
-    $response->addCommand(new HtmlCommand('#edit-location-details', $form['location']['all_wrapper']));
-    if ($this->userId == "") {
-      $response->addCommand(new HtmlCommand('#form-actions', $form['action-wrapper']['actions']));
-    }
-    return $response;
-
-  }
-
-  /**
    * Sets an error if supplied fields has not been filled.
    */
   public function validatePageTwo(array &$form, FormStateInterface $form_state) {
-    if (empty($form_state->getValue('location_options'))) {
-      $form_state->setErrorByName('location_options', $this->t('Please fill the required fields'));
+    if (empty($form_state->getValue('level_0'))) {
+      $form_state->setErrorByName('level_0', $this->t('Please fill the required fields'));
     }
   }
 
@@ -826,46 +526,11 @@ class SignUpForm extends FormBase {
    */
   public function submitPageTwo(array &$form, FormStateInterface $form_state) {
     $location_tid = '';
-    if (!empty($form_state->getValue('level_4'))) {
-      if (is_array($form_state->getValue('level_4'))) {
-        $location_tid = array_keys($form_state->getValue('level_4'));
+    for ($i = 4; $i >= 0; $i--) {
+      $location_tid = $form_state->getValue('level_' . $i);
+      if (!empty($location_tid)) {
+        break;
       }
-      else {
-        $location_tid = $form_state->getValue('level_3');
-      }
-
-    }
-    elseif (!empty($form_state->getValue('level_3'))) {
-      if (is_array($form_state->getValue('level_3'))) {
-        $location_tid = array_keys($form_state->getValue('level_3'));
-      }
-      else {
-        $location_tid = $form_state->getValue('level_3');
-      }
-
-    }
-    elseif (!empty($form_state->getValue('level_2'))) {
-      if (is_array($form_state->getValue('level_2'))) {
-        $location_tid = array_keys($form_state->getValue('level_2'));
-      }
-      else {
-        $location_tid = $form_state->getValue('level_2');
-      }
-    }
-    elseif (!empty($form_state->getValue('level_1'))) {
-      if (is_array($form_state->getValue('level_1'))) {
-        $location_tid = array_keys($form_state->getValue('level_1'));
-      }
-      else {
-        $location_tid = $form_state->getValue('level_1');
-      }
-
-    }
-    elseif (!empty($form_state->getValue('location_options'))) {
-
-      $location_country_id = $form_state->getValue('location_options');
-      $location_entity = $this->entityTypeManager->getStorage('location')->load($location_country_id);
-      $location_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
     }
 
     $form_state->set('page_two_values', [
@@ -1028,6 +693,7 @@ class SignUpForm extends FormBase {
         'field_position' => $values['position'],
         'field_location' => $location_values['location_tid'],
         'roles' => $values['system_role'],
+        'field_system_role' => $values['system_role'],
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
       $user->save();
@@ -1068,9 +734,12 @@ class SignUpForm extends FormBase {
         'field_position' => $values['position'],
         'field_location' => $location_values['location_tid'],
         'roles' => $values['system_role'],
+        'field_system_role' => $values['system_role'],
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
       $user->save();
+      $messenge = $this->t('User has been created!');
+      $response->addCommand(new MessageCommand($messenge));
       _user_mail_notify('register_pending_approval', $user);
       $response = new AjaxResponse();
       $url = Url::fromRoute('view.user_lists.page_1')->toString();

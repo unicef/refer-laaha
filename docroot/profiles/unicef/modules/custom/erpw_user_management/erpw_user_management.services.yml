@@ -1,0 +1,15 @@
+services:
+  erpw_user_management.custom_service:
+    class: Drupal\erpw_user_management\EventSubscriber\EntityUserSubscriber
+    arguments:
+      - "@entity_type.manager"
+      - "@erpw_location.location_services"
+      - "@current_route_match"
+      - "@erpw_pathway.erpw_location_form"
+      - "@current_user"
+    tags:
+      - { name: 'event_subscriber' }
+  erpw_user_management.route_subscriber:
+    class: Drupal\erpw_user_management\Routing\UserAlterRouteSubscriber
+    tags:
+      - {name: event_subscriber}

@@ -2,11 +2,37 @@ uuid: 43b193e8-d0d0-4f90-99ff-2d4803a6c8b9
 langcode: sn
 status: true
 dependencies:
+  config:
+    - node.type.service_provider
   module:
+    - content_moderation
     - erpw_custom
+    - node
+    - quick_node_clone
+    - node_view_permissions
+    - system
 id: service_provider_staff
 label: 'Service Provider/ Staff'
 weight: -3
 is_admin: null
 permissions:
+  - 'add service of their own country'
+  - 'add users of their own location and organisation'
+  - 'clone service_provider content'
+  - 'create service_provider content'
+  - 'edit any service_provider content'
+  - 'edit service of their own country'
+  - 'edit service of their own location'
+  - 'edit service of their own location and organisation'
   - 'view dashboard'
+  - 'view service of their own location and organisation'
+  - 'access content'
+  - 'create service_provider content'
+  - 'delete own service_provider content'
+  - 'edit own service_provider content'
+  - 'use service_editorial transition create_new_draft'
+  - 'view all revisions'
+  - 'view dashboard'
+  - 'view latest version'
+  - 'view own service_provider content'
+  - 'view own unpublished content'

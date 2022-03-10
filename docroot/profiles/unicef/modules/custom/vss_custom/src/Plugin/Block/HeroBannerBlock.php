@@ -112,7 +112,6 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
             $parent_id[$term_id] = $term_id;
             $langcode = $this->languageManager->getCurrentLanguage()->getId();
             $vid = 'categories';
-            $parent_tid = $term_id;
             $depth = 1;
             $load_entities = TRUE;
             $arr[$value['target_id']] = $value['target_id'];
@@ -131,7 +130,7 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
             if ($child->hasTranslation($langcode)) {
               $child = $child->getTranslation($langcode);
             }
-            if ((!in_array($child->get('tid')->value, $arr))) {
+            if (!in_array($child->get('tid')->value, $arr)) {
               $subcat_tid = $child->get('tid')->value;
               $subcat_details[$subcat_tid]['subcat_name'] = $child->get('name')->value;
               $file = $this->entityTypeManager->getStorage('file')->load($child->get('field_sub_category_thumbnail')->target_id);
@@ -148,7 +147,6 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
       }
 
     }
-    // dump($subcat_details);
     $build['#theme'] = 'hero_banner_block';
     $build['#content'] = $subcat_details;
     $build['#category'] = $cat_details;

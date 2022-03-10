@@ -7,7 +7,9 @@ dependencies:
     - node.type.referral_path_way
     - node.type.service_provider
     - node.type.service_type
+    - workflows.workflow.service_editorial
   module:
+    - content_moderation
     - content_translation
     - domain_access
     - erpw_custom
@@ -15,16 +17,20 @@ dependencies:
     - node
     - node_view_permissions
     - quick_node_clone
+    - system
 id: country_admin
 label: 'Country Admin'
 weight: -8
 is_admin: null
 permissions:
+  - 'access content'
   - 'add location entity entities'
   - 'add location of their own country'
   - 'add new user'
   - 'add new user for their own country'
   - 'add referral pathway of their own country'
+  - 'administer users'
+  - 'add service of their own country'
   - 'clone referral_path_way content'
   - 'clone service_type content'
   - 'create content translations'
@@ -39,41 +45,60 @@ permissions:
   - 'delete location entity entities'
   - 'delete own organisation content'
   - 'delete own referral_path_way content'
+  - 'delete own service_provider content'
   - 'delete own service_type content'
   - 'delete service_type content on assigned domains'
   - 'edit any organisation content'
   - 'edit any referral_path_way content'
+  - 'edit any service_provider content'
   - 'edit any service_type content'
   - 'edit location entity entities'
   - 'edit location of their own country'
   - 'edit own organisation content'
   - 'edit own referral_path_way content'
+  - 'edit own service_provider content'
   - 'edit own service_type content'
   - 'edit referral pathway of their own country'
+  - 'edit service of their own country'
   - 'edit users of their own country'
   - 'edit users of their own country'
   - 'erpw location add location'
   - 'erpw location delete location'
   - 'erpw location edit location'
   - 'erpw location manage location'
+  - 'erpw location manage location depth'
   - 'erpw location manage location url'
   - 'erpw location open import modal'
   - 'erpw location user location'
   - 'erpw location user location settings'
   - 'erpw location view location'
+  - 'translate service_provider node'
   - 'translate service_type node'
   - 'update content translations'
   - 'update service_type content on assigned domains'
   - 'update user'
+  - 'use service_editorial transition create_new_draft'
+  - 'use service_editorial transition publish'
+  - 'use service_editorial transition reject'
+  - 'use service_editorial transition restore'
+  - 'use service_editorial transition restore_to_draft'
+  - 'view all revisions'
   - 'view any organisation content'
   - 'view any referral_path_way content'
+  - 'view any service_provider content'
   - 'view any service_type content'
+  - 'view any unpublished content'
   - 'view dashboard'
+  - 'view latest version'
   - 'view location of their own country'
   - 'view own organisation content'
   - 'view own referral_path_way content'
+  - 'view own service_provider content'
   - 'view own service_type content'
+  - 'view own unpublished content'
   - 'view published location entity entities'
   - 'view referral pathway of their own country'
+  - 'view service of their own country'
+  - 'view service of their own location'
   - 'view unpublished location entity entities'
   - 'view users of their own country'

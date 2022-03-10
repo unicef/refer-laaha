@@ -1,6 +1,5 @@
 .service-provider-class {
 	border: 0;
-	margin: 30px 0 0;
 	padding: 0;
 	.fieldset-legend {
 		@extend .step;
@@ -43,8 +42,9 @@
 .node-service-provider-form,
 .node-service-provider-edit-form {
 	.service-next-prev-button {
-		display: inline-block;
+		display: flex;
 		margin-top: 30px;
+		justify-content: space-between;
 		width: 100%;
 		.button-border {
 			background: none;
@@ -54,7 +54,7 @@
 			color: $base-secondary-bgcolor;
 			display: inline-block;
 			font-size: 0.875em;
-			margin: 0 15px 1em 0;
+			margin: 0 0 1em 0;
 			padding: 10px 24px;
 			text-transform: uppercase;
 		}
@@ -62,11 +62,29 @@
 			text-align: right;
 		}
 	}
-	.form-actions {
-		display: none;
-		float: right;
-		margin-top: 30px;
-		width: 106px;
+	details summary {
+		@include border-radius(10px);
+		display: flex;
+    justify-content: space-between;
+    align-items: center;
+		box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
+		padding: 14px 17px;
+		&::after {
+			background: url('../images/arrow.svg') right center no-repeat;
+			transform: rotate(180deg);
+			background-position: inherit;
+			content: '';
+			color: $base-secondary-bgcolor;
+			display: inline-block;
+			height: 6px;
+			width: 12px;
+		}
+		&[aria-expanded='false'] {
+			&::after {
+				transform: rotate(0deg);
+				background-position: right center;
+			}
+		}
 	}
 }
 //service provider listing
@@ -89,15 +107,15 @@
 			text-transform: capitalize;
 			a {
 				color: $grey-txt-color;
-				padding-left: 25px;
-			}
-			&::before {
-				background: url('../images/service-provider.svg') 0 0 no-repeat;
-				content: '';
-				display: inline-block;
-				height: 26px;
-				vertical-align: middle;
-				width: 26px;
+				&::before {
+					background: url('../images/service-provider.svg') 0 0 no-repeat;
+					content: '';
+					display: inline-block;
+					height: 26px;
+					padding-right: 25px;
+					vertical-align: middle;
+					width: 26px;
+				}
 			}
 		}
 		.service-provider-org,
@@ -157,6 +175,22 @@
 		}
 	}
 }
+.view-manage-service {
+	.view-header {
+		border-bottom: 2px solid rgba(243, 193, 191, 0.53);
+		margin-bottom: 20px;
+		padding-bottom: 10px;
+		position: relative;
+	}
+	.service-count {
+		color: #9B9B9B;
+		font-size: 14px;
+		font-weight: 400;
+		position: absolute;
+		right: 0;
+		bottom: -30px;
+	}
+}
 .service-list-icons {
 	&::before {
 		display: inline-block;
@@ -197,6 +231,9 @@
 .service-provider-details {
 	@extend .user-personal-details;
 	padding: 0 !important;
+	span span {
+		padding: 0;
+	}
 }
 .service-detail-heading {
 	align-items: flex-end;

@@ -143,11 +143,19 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
           $permission = 'edit referral pathway of their own location';
           break;
 
+        case 'node_service_provider_form':
+          $permission = 'add service of their own location';
+          break;
+
+        case 'node_service_provider_edit_form':
+          $permission = 'edit service of their own location';
+          break;
+
         default:
           $permission = '';
           break;
       }
-      if ($current_user->hasPermission($permission)) {
+      if ($this->currentUser->id() != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
         $location_id = '';
         if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
           $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
@@ -165,7 +173,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       'node_service_provider_form',
       'node_service_provider_edit_form',
     ])) {
-      $form['#validate'][] = [$this, 'serviceProviderValidation'];
+      $form['#validate'][] = [$this, 'erpwCustomServiceProviderValidation'];
     }
     // RPW basic elements alter.
     if (in_array($form_id,
@@ -212,19 +220,19 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   /**
    * Validation for allowing only integer and '+' in phone number fields.
    */
-  public function serviceProviderValidation(&$form, $form_state) {
+  public function erpwCustomServiceProviderValidation(&$form, $form_state) {
     $message = $this->t('Only numberic values are allowed');
-    $field_phone_number = $form_state->getValue('field_phone_number')[0]['value'];
-    if (!preg_match('/^[+-]?\d+$/', $field_phone_number)) {
-      $form_state->setError($form['field_phone_number'], $message);
-    }
-    $field_phone_number_backup_focalp = $form_state->getValue('field_phone_number_backup_focalp')[0]['value'];
-    if (!preg_match('/^[+-]?\d+$/', $field_phone_number_backup_focalp)) {
-      $form_state->setError($form['field_phone_number_backup_focalp'], $message);
-    }
-    $field_phone_number_of_focal_poin = $form_state->getValue('field_phone_number_of_focal_poin')[0]['value'];
-    if (!preg_match('/^[+-]?\d+$/', $field_phone_number_of_focal_poin)) {
-      $form_state->setError($form['field_phone_number_of_focal_poin'], $message);
+    $fields = [
+      'field_phone_number',
+      'field_phone_number_backup_focalp',
+      'field_phone_number_of_focal_poin',
+    ];
+    foreach ($fields as $field) {
+      $field_value = $form_state->getValue($field)[0]['value'];
+      if (!empty($field_value) && !preg_match('/^[+-]?\d+$/', $field_value)) {
+        $form_state->setErrorByName($field, $message);
+        $form_state->setRebuild();
+      }
     }
   }
 
