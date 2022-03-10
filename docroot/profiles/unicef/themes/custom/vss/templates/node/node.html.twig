@@ -76,32 +76,22 @@
   ]
 %}
 
-{{ attach_library('vss/print_pdf') }}
+<article{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {% if label and not page %}
+    <h2{{ title_attributes }}>
+      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h2>
+  {% endif %}
+  {{ title_suffix }}
 
-{# <div class="export-to-pdf">{{ 'Export to PDF'|t }}</div> #}
-<div id="pdf-print-nodes">
-    <article{{ attributes.addClass(classes) }}>
-      {{ title_prefix }}
-      {% if label and not page %}
-        <h2{{ title_attributes }}>
-          <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-        </h2>
-      {% endif %}
-      {{ title_suffix }}
-
-      {% if display_submitted %}
-        <footer>
-          {{ author_picture }}
-          <div{{ author_attributes.addClass('author') }}>
-            {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
-            {{ metadata }}
-          </div>
-        </footer>
-      {% endif %}
-
-      <div id="pdf-content" {{ content_attributes.addClass('content') }}>
-        {{ content }}
+  {% if display_submitted %}
+    <footer>
+      {{ author_picture }}
+      <div{{ author_attributes.addClass('author') }}>
+        {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
+        {{ metadata }}
       </div>
-
-    </article>
-</div>
+    </footer>
+  {% endif %}
+</article>
