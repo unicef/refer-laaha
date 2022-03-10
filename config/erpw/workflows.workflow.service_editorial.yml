@@ -1,0 +1,66 @@
+uuid: 4debd179-544f-4887-bb8e-7668fd1f7971
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.service_provider
+  module:
+    - content_moderation
+id: service_editorial
+label: 'Service Editorial'
+type: content_moderation
+type_settings:
+  states:
+    draft:
+      label: Draft
+      weight: 0
+      published: false
+      default_revision: false
+    published:
+      label: Approve
+      weight: 1
+      published: true
+      default_revision: true
+    reject:
+      label: Reject
+      weight: 2
+      published: false
+      default_revision: true
+  transitions:
+    create_new_draft:
+      label: 'Create New Draft'
+      from:
+        - draft
+        - published
+      to: draft
+      weight: 0
+    publish:
+      label: Approve
+      from:
+        - draft
+        - published
+      to: published
+      weight: 1
+    reject:
+      label: Reject
+      from:
+        - published
+      to: reject
+      weight: 2
+    restore:
+      label: Restore
+      from:
+        - reject
+      to: published
+      weight: 4
+    restore_to_draft:
+      label: 'Restore to Draft'
+      from:
+        - reject
+      to: draft
+      weight: 3
+  entity_types:
+    node:
+      - service_provider
+  default_moderation_state: draft
+  translation_default_moderation_state_behavior: current

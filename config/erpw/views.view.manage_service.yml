@@ -467,7 +467,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-provider-title\">{{ field_name_focalpoint_referrals }}</div>\r\n<div class=\"service-provider-org\"><span>Organisation: </span>{{ field_select_organisation }} </div>\r\n<div class=\"service-provider-number\"><span>Contact: </span>{{ field_phone_number }} </div>\r\n"
+            text: "<div class=\"service-provider-title\">{{ field_name_focalpoint_referrals }}</div>\r\n<div class=\"service-provider-org\"><span>{{'Organisation'|t}}: </span>{{ field_select_organisation }} </div>\r\n<div class=\"service-provider-number\"><span>{{'Contact'|t}}: </span>{{ field_phone_number }} </div>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -579,7 +579,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-mode\"><span>Mode: </span>{{ field_mode }} </div>\r\n<div class=\"edit-delete-links\"> \r\n<span class=\"edit-link\">{{ edit_node }}</span>\r\n<span class=\"translate-link\">{{ translation_link }}</span>\r\n</div>"
+            text: "<div class=\"service-mode\"><span>{{ 'Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"edit-delete-links\"> \r\n<span class=\"edit-link\">{{ edit_node }}</span>\r\n<span class=\"translate-link\">{{ translation_link }}</span>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -656,7 +656,18 @@ display:
       cache:
         type: tag
         options: {  }
-      empty: {  }
+      empty:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: true
+          content: '<div>No Service is available.</div>'
+          tokenize: false
       sorts:
         created:
           id: created
@@ -907,9 +918,9 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="new-service-type button-with-icon"><a href="/node/add/service_provider">Add a new Service</a></div>'
+            value: '<div class="new-service-type button-with-icon"><a href="{{ path(''node.add'', {''node_type'': ''service_provider''}) }}">{{ ''Add a new Service'' | t }}</a></div>'
             format: full_html
-          tokenize: false
+          tokenize: true
         result:
           id: result
           table: views
