@@ -43,6 +43,7 @@ class LocationSelectorForm extends FormBase {
     $instance->languageManager = $container->get('language_manager');
     $instance->vssCommonService = $container->get('vss_common_config.default');
     $instance->pageCacheKillSwitch = $container->get('page_cache_kill_switch');
+    $instance->requestStack = $container->get('request_stack');
     return $instance;
   }
 
@@ -91,8 +92,7 @@ class LocationSelectorForm extends FormBase {
     $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
     foreach ($all_domains as $domain) {
       $domain_status = $domain->get('status');
-      if ($domain_status == TRUE) {
-        $domain_hostname = $domain->get('hostname');
+      if ($domain_status) {
         $domain_name = $domain->get('name');
         $domain_id = $domain->get('id');
         $domain_list[$domain_id] = $domain_name;
@@ -125,9 +125,9 @@ class LocationSelectorForm extends FormBase {
       $selected_domain = $form_state->getValue('country');
       // Get the active languages for the given domain.
       // Update form options.
-      $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($selected_domain);
+      $domain = $this->entityTypeManager->getStorage('domain')->load($selected_domain);
       $lang = \Drupal::configFactory()->get('domain.language.' . $domain->id() . '.language.negotiation');
-      $languages = \Drupal::languageManager()->getLanguages();
+      $languages = $this->languageManager->getLanguages();
       $prefixes = $lang->get('languages');
       foreach ($languages as $langcode => $language) {
         if (array_key_exists($langcode, $prefixes)) {
@@ -162,7 +162,6 @@ class LocationSelectorForm extends FormBase {
     $form['#attached']['drupalSettings']['api_key'] = getenv('opencage_api_key');
     $form['#theme'] = 'location_selector_form';
     $cookie_name = "country-selector";
-    $cookie_langid = $lang_id;
     $cookie_value = $string;
     $cookie_voice = $voice_id;
     setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
@@ -185,15 +184,14 @@ class LocationSelectorForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Get domain path from dropdown.
-    $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($form_state->getValue('country'));
-    $default_lang = \Drupal::configFactory()->get('domain.config.' . $domain->id() . '.system.site');
+    $domain = $this->entityTypeManager->getStorage('domain')->load($form_state->getValue('country'));
     $domain_lang = $form_state->getValue('language');
     $domain_path = $domain->get('path');
 
     // Get selected domain's url.
     $url = $domain_path . $domain_lang . '/home?tour';
     $response = new TrustedRedirectResponse($url);
-    $domain_current_url = explode(".", $_SERVER['SERVER_NAME']);
+    $domain_current_url = explode(".", $this->requestStack->getCurrentRequest()->server->get('SERVER_NAME'));
     $domain_slice = array_slice($domain_current_url, -2);
     $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
     $response->headers->setCookie(new Cookie('country-location-selector', 'TRUE', strtotime('+7 days'), '/', $domain_site, NULL, FALSE));

@@ -39,8 +39,7 @@ class VideoTime extends FieldPluginBase {
   public function render(ResultRow $values) {
     $id = $values->field_sub_category_taxonomy_term_field_data_nid;
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
-    $video_time = $this->getVideoTime($id, $langcode);
-    return $video_time;
+    return $this->getVideoTime($id, $langcode);
   }
 
   /**
