@@ -387,18 +387,19 @@ class SignUpForm extends FormBase {
     $form['message-step'] = [
       '#markup' => '<div class="step">' . $this->t('Step 2: Geographical coverage of your role') . '</div>',
     ];
-    $permission = 'add users of their own location and organisation';
     $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
-    $ptids = [];
-    $location_id = '';
-    $parent_list = [];
-    if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-      $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
+    $location_id = (!$current_user->get('field_location')->isEmpty()) ?
+      $current_user->get('field_location')->getValue()[0]['target_id'] : '';
+    $ptids = $parent_list = [];
+    if (!isset($form_state->getTriggeringElement()['#level'])
+      && $current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator')) {
       $parent_list = $this->locationService->getAllAncestors($location_id);
-    }
-    if ($this->currentUser->id() != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
-      $ptids = $this->locationService->getAllAncestors($location_id);
-      $parent_list = empty($parent_list) ? array_values($ptids) : $parent_list;
+      if ($current_user->hasPermission('add users of their own location and organisation')) {
+        $ptids = $parent_list;
+      }
+      elseif ($current_user->hasPermission('add location of their own country')) {
+        $ptids = [reset($parent_list)];
+      }
     }
     $form = $this->erpwpathway->getLocationForm($form, $form_state, $parent_list, $ptids);
     $form['location']['all_wrapper']['intro_text'] = [
