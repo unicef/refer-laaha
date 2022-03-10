@@ -129,6 +129,10 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
         }
       }
       $form['field_system_role']['widget']['#empty_option'] = t('Select System Role');
+      $form_object = $form_state->getFormObject();
+      $user = $form_object->getEntity();
+      $roles = $user->getRoles();
+      $form['field_system_role']['widget']['#default_value'] = [end($roles)];
     }
   }
   if ($form_id == 'node_organisation_form') {
