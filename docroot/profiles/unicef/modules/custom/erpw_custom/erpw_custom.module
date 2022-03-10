@@ -19,7 +19,7 @@ use Drupal\views\Plugin\views\query\QueryPluginBase;
  * Implements exposed form alter.
  */
 function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  $view_ids = ['manage_service'];
+  $view_ids = ['manage_service', 'manage_unpublished_services'];
   if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
     $form['field_service_type_target_id']['#type'] = 'select';
     $form['field_service_type_target_id']['#options'] = erpw_custom_service_type_options();
