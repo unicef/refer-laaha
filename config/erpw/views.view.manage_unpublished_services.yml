@@ -1,24 +1,29 @@
-uuid: 53281f1e-d056-4fac-8a38-da4d6075ab50
+uuid: 87f628af-bf8e-4827-804e-fcd639ad3179
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_service_type_color
-    - field.storage.node.field_service_type_icon
-    - node.type.service_type
+    - field.storage.node.field_location
+    - field.storage.node.field_mode
+    - field.storage.node.field_name_focalpoint_referrals
+    - field.storage.node.field_phone_number
+    - field.storage.node.field_select_organisation
+    - node.type.service_provider
     - user.role.administrator
     - user.role.country_admin
+    - user.role.interagency_gbv_coordinator
+    - user.role.service_provider_focal_point
     - user.role.super_admin
   module:
-    - color_field
+    - better_exposed_filters
     - content_translation
     - node
-    - quick_node_clone
+    - options
     - user
-id: manage_service_types
-label: 'Manage service types'
+id: manage_unpublished_services
+label: 'Manage Unpublished Services'
 module: views
-description: 'List of service types'
+description: ''
 tag: ''
 base_table: node_field_data
 base_field: nid
@@ -29,138 +34,8 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Manage service types'
+      title: 'Manage Draft Services'
       fields:
-        field_service_type_icon:
-          id: field_service_type_icon
-          table: node__field_service_type_icon
-          field: field_service_type_icon
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: ''
-          exclude: false
-          alter:
-            alter_text: true
-            text: '<i class="{{ field_service_type_icon }} "></i>'
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        field_service_type_color:
-          id: field_service_type_color
-          table: node__field_service_type_color
-          field: field_service_type_color
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: color
-          type: color_field_formatter_swatch_options
-          settings:
-            shape: circle
-            width: '50'
-            height: '50'
-            opacity: false
-            data_attribute: false
-          group_column: ''
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         title:
           id: title
           table: node_field_data
@@ -172,7 +47,7 @@ display:
           entity_field: title
           plugin_id: field
           label: ''
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -205,8 +80,8 @@ display:
           element_label_type: ''
           element_label_class: ''
           element_label_colon: false
-          element_wrapper_type: div
-          element_wrapper_class: service-title
+          element_wrapper_type: ''
+          element_wrapper_class: ''
           element_default_classes: true
           empty: ''
           hide_empty: false
@@ -226,15 +101,202 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        delete_node:
-          id: delete_node
-          table: node
-          field: delete_node
+        field_mode:
+          id: field_mode
+          table: node__field_mode
+          field: field_mode
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          plugin_id: entity_link_delete
+          plugin_id: field
+          label: Mode
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_phone_number:
+          id: field_phone_number
+          table: node__field_phone_number
+          field: field_phone_number
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Contact
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_select_organisation:
+          id: field_select_organisation
+          table: node__field_select_organisation
+          field: field_select_organisation
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Organisation
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_name_focalpoint_referrals:
+          id: field_name_focalpoint_referrals
+          table: node__field_name_focalpoint_referrals
+          field: field_name_focalpoint_referrals
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
           label: ''
           exclude: true
           alter:
@@ -276,11 +338,22 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          text: delete
-          output_url_as_text: false
-          absolute: false
-        edit_node_1:
-          id: edit_node_1
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        edit_node:
+          id: edit_node
           table: node
           field: edit_node
           relationship: none
@@ -332,57 +405,6 @@ display:
           text: edit
           output_url_as_text: false
           absolute: false
-        clone_link:
-          id: clone_link
-          table: node
-          field: clone_link
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          plugin_id: quick_node_clone_link
-          label: ''
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          text: Clone
         translation_link:
           id: translation_link
           table: node
@@ -436,18 +458,65 @@ display:
           text: Translate
           output_url_as_text: 0
           absolute: 0
-        nid:
-          id: nid
-          table: node_field_data
-          field: nid
+        nothing:
+          id: nothing
+          table: views
+          field: nothing
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          entity_field: nid
-          plugin_id: field
+          plugin_id: custom
           label: ''
-          exclude: true
+          exclude: false
+          alter:
+            alter_text: true
+            text: "<div class=\"service-provider-title\">{{ field_name_focalpoint_referrals }}</div>\r\n<div class=\"service-provider-org\"><span>{{ 'Organisation'|t }}: </span>{{ field_select_organisation }} </div>\r\n<div class=\"service-provider-number\"><span>{{ 'Contact'|t }}: </span>{{ field_phone_number }} </div>\r\n"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
+        field_location:
+          id: field_location
+          table: node__field_location
+          field: field_location
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: 'location:'
+          exclude: false
           alter:
             alter_text: false
             text: ''
@@ -487,12 +556,11 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
+          click_sort_column: target_id
+          type: entity_reference_label
           settings:
-            thousand_separator: ''
-            prefix_suffix: false
-          group_column: value
+            link: false
+          group_column: target_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -502,8 +570,8 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        nothing:
-          id: nothing
+        nothing_1:
+          id: nothing_1
           table: views
           field: nothing
           relationship: none
@@ -514,7 +582,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "    <div class=\"edit-delete-links\"> \r\n        <span class=\"clone-service-type\">{{ clone_link }}</span>\r\n        <span class=\"delete-link\"><a href=\"/node/{{ nid }}?action=delete\">delete</a></span>\r\n        <span class=\"edit-link\">{{ edit_node_1 }}</span>\r\n        <span class=\"translate-link\">{{ translation_link }}</span>\r\n    </div>\r\n"
+            text: "<div class=\"service-mode\"><span>{{ 'Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"edit-delete-links\"> \r\n<span class=\"edit-link\">{{ edit_node }}</span>\r\n<span class=\"translate-link\">{{ translation_link }}</span>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -552,25 +620,11 @@ display:
           empty_zero: false
           hide_alter_empty: false
       pager:
-        type: mini
+        type: none
         options:
           offset: 0
-          items_per_page: 10
-          total_pages: null
-          id: 0
-          tags:
-            next: ››
-            previous: ‹‹
-          expose:
-            items_per_page: false
-            items_per_page_label: 'Items per page'
-            items_per_page_options: '5, 10, 25, 50'
-            items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
-            offset: false
-            offset_label: Offset
       exposed_form:
-        type: basic
+        type: bef
         options:
           submit_button: Apply
           reset_button: false
@@ -579,6 +633,25 @@ display:
           expose_sort_order: true
           sort_asc_label: Asc
           sort_desc_label: Desc
+          text_input_required: 'Select any filter and click on Apply to see results'
+          text_input_required_format: basic_html
+          bef:
+            general:
+              autosubmit: true
+              autosubmit_exclude_textfield: false
+              autosubmit_textfield_delay: 500
+              autosubmit_hide: true
+              input_required: false
+              allow_secondary: false
+              secondary_label: 'Advanced options'
+              secondary_open: false
+            filter:
+              field_service_type_target_id:
+                plugin_id: default
+                advanced:
+                  placeholder_text: ''
+                  collapsible: false
+                  is_secondary: false
       access:
         type: role
         options:
@@ -586,6 +659,8 @@ display:
             administrator: administrator
             super_admin: super_admin
             country_admin: country_admin
+            interagency_gbv_coordinator: interagency_gbv_coordinator
+            service_provider_focal_point: service_provider_focal_point
       cache:
         type: tag
         options: {  }
@@ -599,65 +674,80 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: true
-          content: '<div>No service type is available.</div>'
+          content: '<div>No Unpublished Service is available.</div>'
           tokenize: false
       sorts:
-        title:
-          id: title
+        created:
+          id: created
           table: node_field_data
-          field: title
+          field: created
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: node
-          entity_field: title
-          plugin_id: standard
-          order: ASC
+          entity_field: created
+          plugin_id: date
+          order: DESC
           expose:
             label: ''
-            field_identifier: title
+            field_identifier: ''
           exposed: false
+          granularity: second
       arguments: {  }
       filters:
-        type:
-          id: type
-          table: node_field_data
-          field: type
-          entity_type: node
-          entity_field: type
-          plugin_id: bundle
-          value:
-            service_type: service_type
-          group: 1
-          expose:
-            operator_limit_selection: false
-            operator_list: {  }
         status:
           id: status
           table: node_field_data
           field: status
-          entity_type: node
-          entity_field: status
-          plugin_id: boolean
-          value: '1'
-          group: 1
-          expose:
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-        langcode:
-          id: langcode
-          table: node_field_data
-          field: langcode
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: node
-          entity_field: langcode
-          plugin_id: language
+          entity_field: status
+          plugin_id: boolean
+          operator: '='
+          value: '0'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
           operator: in
           value:
-            '***LANGUAGE_language_interface***': '***LANGUAGE_language_interface***'
+            service_provider: service_provider
           group: 1
           exposed: false
           expose:
@@ -687,10 +777,57 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-      filter_groups:
-        operator: AND
-        groups:
-          1: AND
+        field_service_type_target_id:
+          id: field_service_type_target_id
+          table: node__field_service_type
+          field: field_service_type_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: numeric
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_service_type_target_id_op
+            label: 'Select Service Type '
+            description: ''
+            use_operator: false
+            operator: field_service_type_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_service_type_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              administrator: '0'
+              super_admin: '0'
+              country_admin: '0'
+              interagency_gbv_coordinator: '0'
+              anonymous: '0'
+              service_provider_focal_point: '0'
+              service_provider_staff: '0'
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       style:
         type: default
         options:
@@ -699,6 +836,11 @@ display:
           default_row_class: true
       row:
         type: fields
+        options:
+          default_field_elements: true
+          inline: {  }
+          separator: ''
+          hide_empty: false
       query:
         type: views_query
         options:
@@ -708,7 +850,9 @@ display:
           replica: false
           query_tags: {  }
       relationships: {  }
-      css_class: service-list
+      css_class: ''
+      use_ajax: true
+      group_by: false
       header:
         area:
           id: area
@@ -720,7 +864,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="new-service-type button-with-icon"><a href="{{ path(''node.add'', {''node_type'': ''service_type''}) }}">{{ ''Add a new Service type''|t }}</a></div>'
+            value: '<div class="new-service-type button-with-icon"><a href="/node/add/service_provider">Add a new Service</a></div>'
             format: full_html
           tokenize: true
         result:
@@ -732,7 +876,7 @@ display:
           admin_label: ''
           plugin_id: result
           empty: false
-          content: '<div class="service-count more-link">@total Services</div>'
+          content: '<div class="service-count more-link">@total Results</div>'
       footer: {  }
       display_extenders: {  }
     cache_metadata:
@@ -740,32 +884,36 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - url.query_args
+        - url
         - 'user.node_grants:view'
         - user.roles
       tags:
-        - 'config:field.storage.node.field_service_type_color'
-        - 'config:field.storage.node.field_service_type_icon'
+        - 'config:field.storage.node.field_location'
+        - 'config:field.storage.node.field_mode'
+        - 'config:field.storage.node.field_name_focalpoint_referrals'
+        - 'config:field.storage.node.field_phone_number'
+        - 'config:field.storage.node.field_select_organisation'
   page_1:
     id: page_1
-    display_title: 'Manage service types'
+    display_title: Page
     display_plugin: page
     position: 1
     display_options:
-      display_description: ''
+      exposed_block: false
       display_extenders:
-        library_in_views_display_extender:
-          attach_library:
-            attach_library: unicef_iconpicker/unicef-icons
-      path: manage-service-types
+        library_in_views_display_extender: {  }
+      path: manage-draft-service
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - url.query_args
+        - url
         - 'user.node_grants:view'
         - user.roles
       tags:
-        - 'config:field.storage.node.field_service_type_color'
-        - 'config:field.storage.node.field_service_type_icon'
+        - 'config:field.storage.node.field_location'
+        - 'config:field.storage.node.field_mode'
+        - 'config:field.storage.node.field_name_focalpoint_referrals'
+        - 'config:field.storage.node.field_phone_number'
+        - 'config:field.storage.node.field_select_organisation'
