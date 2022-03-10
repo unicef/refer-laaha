@@ -91,8 +91,7 @@ class LocationSelectorForm extends FormBase {
     $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
     foreach ($all_domains as $domain) {
       $domain_status = $domain->get('status');
-      if ($domain_status == TRUE) {
-        $domain_hostname = $domain->get('hostname');
+      if ($domain_status) {
         $domain_name = $domain->get('name');
         $domain_id = $domain->get('id');
         $domain_list[$domain_id] = $domain_name;
@@ -162,7 +161,6 @@ class LocationSelectorForm extends FormBase {
     $form['#attached']['drupalSettings']['api_key'] = getenv('opencage_api_key');
     $form['#theme'] = 'location_selector_form';
     $cookie_name = "country-selector";
-    $cookie_langid = $lang_id;
     $cookie_value = $string;
     $cookie_voice = $voice_id;
     setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
@@ -186,7 +184,6 @@ class LocationSelectorForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Get domain path from dropdown.
     $domain = \Drupal::entityTypeManager()->getStorage('domain')->load($form_state->getValue('country'));
-    $default_lang = \Drupal::configFactory()->get('domain.config.' . $domain->id() . '.system.site');
     $domain_lang = $form_state->getValue('language');
     $domain_path = $domain->get('path');
 
