@@ -55,7 +55,7 @@ function erpw_pathway_field_widget_entity_reference_paragraphs_form_alter(&$elem
  */
 function erpw_pathway_preprocess_views_view_field(&$variables) {
   $view = $variables['view'];
-  if ($view->id() == 'referral_pathway_listing' || $view->id() == 'manage_service' || $view->id() == 'service_list') {
+  if ($view->id() == 'referral_pathway_listing' || $view->id() == 'manage_service' || $view->id() == 'manage_unpublished_services' || $view->id() == 'service_list') {
     if ($variables['field']->field == 'field_location') {
       $row = $variables['field']->getValue($variables['row']);
       $loc_name = [];

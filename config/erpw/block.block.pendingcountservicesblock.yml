@@ -1,4 +1,4 @@
-uuid: e35fc4ea-68f4-4e47-a75d-fc0a39e55760
+uuid: 6940ea86-5b97-481e-8a60-366012be780c
 langcode: en
 status: true
 dependencies:
@@ -7,19 +7,19 @@ dependencies:
     - system
   theme:
     - erpw
-id: selectuserlocation
+id: pendingcountservicesblock
 theme: erpw
 region: content
-weight: -5
+weight: -4
 provider: null
-plugin: select_user_location
+plugin: pending_count_services_block
 settings:
-  id: select_user_location
-  label: 'Select User Location'
+  id: pending_count_services_block
+  label: 'Pending Count Services Block'
   label_display: '0'
   provider: erpw_location
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: '<front>'
+    pages: /dashboard

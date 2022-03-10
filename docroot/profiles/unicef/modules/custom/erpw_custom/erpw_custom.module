@@ -565,6 +565,16 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $org_condition = 'node__field_select_organisation.field_select_organisation_target_id';
     $query = erpw_view_results_own_location_organisation($query, $condition_field, $org_condition, $permission);
   }
+  if ($view->id() == "manage_unpublished_services" && $view->current_display == 'page_1') {
+    $permission = 'view service of their own country';
+    $condition_field = 'node__field_location.field_location_target_id';
+    $query = erpw_view_results_own_country_permissions($query, $condition_field, $permission);
+    $permission = 'view service of their own location';
+    $query = erpw_view_results_own_location_organisation($query, $condition_field, NULL, $permission);
+    $permission = 'view service of their own location and organisation';
+    $org_condition = 'node__field_select_organisation.field_select_organisation_target_id';
+    $query = erpw_view_results_own_location_organisation($query, $condition_field, $org_condition, $permission);
+  }
 }
 
 /**
