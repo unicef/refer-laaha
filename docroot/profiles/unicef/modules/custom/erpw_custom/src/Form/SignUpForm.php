@@ -25,6 +25,8 @@ use Drupal\erpw_pathway\Services\ErpwPathwayService;
  */
 class SignUpForm extends FormBase {
 
+  const MAX_LEVEL = 4;
+
   /**
    * The Current user service.
    *
@@ -435,7 +437,6 @@ class SignUpForm extends FormBase {
         ],
       ],
       '#submit' => ['::submitPageTwo'],
-      '#validate' => ['::validatePageTwo'],
     ];
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
@@ -502,15 +503,6 @@ class SignUpForm extends FormBase {
   }
 
   /**
-   * Sets an error if supplied fields has not been filled.
-   */
-  public function validatePageTwo(array &$form, FormStateInterface $form_state) {
-    if (empty($form_state->getValue('level_0'))) {
-      $form_state->setErrorByName('level_0', $this->t('Please fill the required fields'));
-    }
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function pageOneBack(array &$form, FormStateInterface $form_state) {
@@ -526,13 +518,12 @@ class SignUpForm extends FormBase {
    */
   public function submitPageTwo(array &$form, FormStateInterface $form_state) {
     $location_tid = '';
-    for ($i = 4; $i >= 0; $i--) {
+    for ($i = self::MAX_LEVEL; $i >= 0; $i--) {
       $location_tid = $form_state->getValue('level_' . $i);
       if (!empty($location_tid)) {
         break;
       }
     }
-
     $form_state->set('page_two_values', [
       'personal_details' => $form_state->get('page_values'),
       'location_tid' => $location_tid,
@@ -738,8 +729,6 @@ class SignUpForm extends FormBase {
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
       $user->save();
-      $messenge = $this->t('User has been created!');
-      $response->addCommand(new MessageCommand($messenge));
       _user_mail_notify('register_pending_approval', $user);
       $response = new AjaxResponse();
       $url = Url::fromRoute('view.user_lists.page_1')->toString();
