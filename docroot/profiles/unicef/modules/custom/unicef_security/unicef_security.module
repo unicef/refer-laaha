@@ -5,6 +5,9 @@
  * Contains unicef_security.module.
  */
 
+/**
+ * Implements hook_form_alter().
+ */
 function unicef_security_form_alter(&$form, FormStateInterface &$form_state, $form_id) {
   // Turn off autocomplete on user the forms.
   if ($form_id == 'user_login_form') {
