@@ -2264,7 +2264,9 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
 }
 .node-service-provider-form details summary,
 .node-service-provider-edit-form details summary {
+  background: #A85766;
   border-radius: 10px;
+  color: #ffffff;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2280,7 +2282,9 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
 }
 .node-service-provider-form details summary::after,
 .node-service-provider-edit-form details summary::after {
-  background: url("../images/arrow.svg") right center no-repeat;
+  background: #ffffff;
+  -webkit-mask: url("../images/arrow.svg") center center no-repeat;
+  mask: url("../images/arrow.svg") center center no-repeat;
   -webkit-transform: rotate(180deg);
           transform: rotate(180deg);
   background-position: inherit;
@@ -2295,6 +2299,11 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   -webkit-transform: rotate(0deg);
           transform: rotate(0deg);
   background-position: right center;
+}
+.node-service-provider-form details summary + .details-wrapper,
+.node-service-provider-edit-form details summary + .details-wrapper {
+  border: 1px solid #A85766;
+  margin: -6px 1px;
 }
 
 .view-manage-service form .form-type-select,
