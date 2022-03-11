@@ -355,8 +355,9 @@ div.color_field__swatch input[type=radio]:checked + label span {
 //new user listing
 .review-text {
 	margin-top: 10px;
+	text-align: right;
 	a {
-		color: $base-secondary-bgcolor;
+		color: $base-secondary-bgcolor !important;
 		font-size: 12px;
 		text-transform: uppercase;
 		font-weight: 500;
