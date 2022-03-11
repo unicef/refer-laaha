@@ -27,7 +27,7 @@ class ImportNeedHelpData {
   /**
    * Callback.
    */
-  public static function addImportContentItemCallback($success, $results, $operations) {
+  public static function addImportContentItemCallback($success, $results) {
     if ($success) {
       $message = \Drupal::translation()->formatPlural(
         count($results['items']), 'One item processed.', '@count items processed.'

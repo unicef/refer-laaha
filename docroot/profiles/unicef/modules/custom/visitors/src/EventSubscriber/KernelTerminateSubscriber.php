@@ -69,7 +69,7 @@ class KernelTerminateSubscriber implements EventSubscriberInterface {
           ->execute();
       }
       catch (\Exception $e) {
-
+        // Intentionally do nothing.
       }
     }
   }

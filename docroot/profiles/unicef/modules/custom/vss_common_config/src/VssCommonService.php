@@ -233,10 +233,8 @@ class VssCommonService implements VssCommonInterface {
     $data = [];
 
     $data = $this->getVssDomainWithLanguageConfiguration();
-    if (!empty($data) && $default) {
-      if ($this->checkValueByKey($keys, $data)) {
-        return $data;
-      }
+    if (!empty($data) && $default && ($this->checkValueByKey($keys, $data))) {
+      return $data;
     }
     $data = $this->getVssDomainWithoutLanguageConfiguration();
     if (!empty($data) && $default) {
