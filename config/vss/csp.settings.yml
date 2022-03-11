@@ -23,6 +23,8 @@ report-only:
         - 'https://www.googletagmanager.com'
         - 'https://www.google-analytics.com'
         - 'https://cdn.jsdelivr.net'
+        - 'https://js-agent.newrelic.com'
+        - 'https://bam.nr-data.net'
     style-src:
       base: self
       flags:
@@ -154,6 +156,7 @@ enforce:
         - 'https://www.googletagmanager.com'
         - 'https://www.google-analytics.com'
         - 'https://js-agent.newrelic.com'
+        - 'https://bam.nr-data.net'
     style-src:
       base: self
       flags:
