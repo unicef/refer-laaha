@@ -264,6 +264,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     ($current_user->hasPermission('edit service of their own location and organisation') || $current_user->hasPermission('edit service of their own location and organisation'))) {
       if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
         $org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
+        $form['field_select_organisation']['widget']['#disabled'] = TRUE;
         $form['field_select_organisation']['widget']['#default_value'] = $org_id;
       }
     }
