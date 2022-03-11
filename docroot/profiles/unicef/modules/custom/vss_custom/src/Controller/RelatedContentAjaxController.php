@@ -114,35 +114,27 @@ class RelatedContentAjaxController extends ControllerBase {
           $data[$view_node->id()]['read_time'] = $view_node->get('field_read_time')->value;
         }
         $paragraph_video_time = NULL;
-        if ($view_node->bundle() == 'video') {
-          if ($view_node->hasField('field_content') && !empty($view_node->get('field_content')->first())) {
-            $paragraph_id = $view_node->get('field_content')->getValue();
-            foreach ($paragraph_id as $content_id) {
-              $paragraph_obj = Paragraph::load($content_id['target_id']);
-              $paragraph_type = $paragraph_obj->get('type')->getValue()['0']['target_id'];
-              if ($paragraph_type == "video") {
-                if (!$paragraph_obj->get('field_video_time')->isEmpty()) {
-                  $paragraph_video_time = $paragraph_obj->get('field_video_time')->getValue()['0']['value'];
-                  break;
-                }
-              }
+        if ($view_node->bundle() == 'video' && $view_node->hasField('field_content') && !empty($view_node->get('field_content')->first())) {
+          $paragraph_id = $view_node->get('field_content')->getValue();
+          foreach ($paragraph_id as $content_id) {
+            $paragraph_obj = Paragraph::load($content_id['target_id']);
+            $paragraph_type = $paragraph_obj->get('type')->getValue()['0']['target_id'];
+            if ($paragraph_type == "video" && !$paragraph_obj->get('field_video_time')->isEmpty()) {
+              $paragraph_video_time = $paragraph_obj->get('field_video_time')->getValue()['0']['value'];
+              break;
             }
           }
         }
 
         $paragraph_podcast_time = NULL;
-        if ($view_node->bundle() == 'podcast') {
-          if ($view_node->hasField('field_content') && !empty($view_node->get('field_content')->first())) {
-            $paragraph_podcast = $view_node->get('field_content')->getValue();
-            foreach ($paragraph_podcast as $content_pod_id) {
-              $paragraph_pod_obj = Paragraph::load($content_pod_id['target_id']);
-              $paragraph_pod_type = $paragraph_pod_obj->get('type')->getValue()['0']['target_id'];
-              if ($paragraph_pod_type == "podcast_audio") {
-                if (!$paragraph_pod_obj->get('field_podcast_time')->isEmpty()) {
-                  $paragraph_podcast_time = $paragraph_pod_obj->get('field_podcast_time')->getValue()['0']['value'];
-                  break;
-                }
-              }
+        if ($view_node->bundle() == 'podcast' && $view_node->hasField('field_content') && !empty($view_node->get('field_content')->first())) {
+          $paragraph_podcast = $view_node->get('field_content')->getValue();
+          foreach ($paragraph_podcast as $content_pod_id) {
+            $paragraph_pod_obj = Paragraph::load($content_pod_id['target_id']);
+            $paragraph_pod_type = $paragraph_pod_obj->get('type')->getValue()['0']['target_id'];
+            if ($paragraph_pod_type == "podcast_audio" && !$paragraph_pod_obj->get('field_podcast_time')->isEmpty()) {
+              $paragraph_podcast_time = $paragraph_pod_obj->get('field_podcast_time')->getValue()['0']['value'];
+              break;
             }
           }
         }
