@@ -10,6 +10,7 @@
 
         $('.exit-website-btn').click(function(){
           // Clear local storage.
+          window.speechSynthesis.cancel();
           window.localStorage.clear();
           window.sessionStorage.clear();
           window.location.replace("/exit-website");

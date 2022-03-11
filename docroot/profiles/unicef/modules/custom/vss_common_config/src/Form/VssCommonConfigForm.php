@@ -292,13 +292,7 @@ class VssCommonConfigForm extends ConfigFormBase {
    * Validate phone number.
    */
   public function validatePhoneNumber($phone) {
-    if (preg_match("/[a-z]/i", $phone)) {
-      return FALSE;
-    }
-    if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_¬]/', $phone)) {
-      return FALSE;
-    }
-    if (!filter_var($phone, FILTER_SANITIZE_NUMBER_INT)) {
+    if (preg_match("/[a-z]/i", $phone) || preg_match('/[\'^£$%&*()}{@#~?><>,|=_¬]/', $phone) || !filter_var($phone, FILTER_SANITIZE_NUMBER_INT)) {
       return FALSE;
     }
     // Allow +, - and . in phone number.
@@ -310,9 +304,7 @@ class VssCommonConfigForm extends ConfigFormBase {
     if (strlen($phone_to_check) < 10 || strlen($phone_to_check) > 14) {
       return FALSE;
     }
-    else {
-      return TRUE;
-    }
+    return TRUE;
   }
 
   /**

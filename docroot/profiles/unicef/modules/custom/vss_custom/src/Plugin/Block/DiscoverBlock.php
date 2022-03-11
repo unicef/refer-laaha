@@ -95,37 +95,27 @@ class DiscoverBlock extends BlockBase implements ContainerFactoryPluginInterface
               }
 
               $paragraph_video_time = NULL;
-              if ($node_type == 'video') {
-                if (!$node->get('field_content')->isEmpty()) {
-                  $paragraph = $node->field_content->getValue();
-                  foreach ($paragraph as $content_id) {
-                    $paragraph_obj = Paragraph::load($content_id['target_id']);
-                    $paragraph_type = $paragraph_obj->get('type')->getValue()['0']['target_id'];
-                    if ($paragraph_type == "video") {
-                      if (!$paragraph_obj->get('field_video_time')->isEmpty()) {
-                        $paragraph_video_time = $paragraph_obj->get('field_video_time')->getValue()['0']['value'];
-                        break;
-                      }
-                    }
-
+              if ($node_type == 'video' && !$node->get('field_content')->isEmpty()) {
+                $paragraph = $node->field_content->getValue();
+                foreach ($paragraph as $content_id) {
+                  $paragraph_obj = Paragraph::load($content_id['target_id']);
+                  $paragraph_type = $paragraph_obj->get('type')->getValue()['0']['target_id'];
+                  if ($paragraph_type == "video" && !$paragraph_obj->get('field_video_time')->isEmpty()) {
+                    $paragraph_video_time = $paragraph_obj->get('field_video_time')->getValue()['0']['value'];
+                    break;
                   }
                 }
               }
 
               $paragraph_podcast_time = NULL;
-              if ($node_type == 'podcast') {
-                if (!$node->get('field_content')->isEmpty()) {
-                  $paragraph_podcast = $node->field_content->getValue();
-                  foreach ($paragraph_podcast as $content_pod_id) {
-                    $paragraph_pod_obj = Paragraph::load($content_pod_id['target_id']);
-                    $paragraph_pod_type = $paragraph_pod_obj->get('type')->getValue()['0']['target_id'];
-                    if ($paragraph_pod_type == "podcast_audio") {
-                      if (!$paragraph_pod_obj->get('field_podcast_time')->isEmpty()) {
-                        $paragraph_podcast_time = $paragraph_pod_obj->get('field_podcast_time')->getValue()['0']['value'];
-                        break;
-                      }
-                    }
-
+              if ($node_type == 'podcast' && !$node->get('field_content')->isEmpty()) {
+                $paragraph_podcast = $node->field_content->getValue();
+                foreach ($paragraph_podcast as $content_pod_id) {
+                  $paragraph_pod_obj = Paragraph::load($content_pod_id['target_id']);
+                  $paragraph_pod_type = $paragraph_pod_obj->get('type')->getValue()['0']['target_id'];
+                  if ($paragraph_pod_type == "podcast_audio" && !$paragraph_pod_obj->get('field_podcast_time')->isEmpty()) {
+                    $paragraph_podcast_time = $paragraph_pod_obj->get('field_podcast_time')->getValue()['0']['value'];
+                    break;
                   }
                 }
               }
