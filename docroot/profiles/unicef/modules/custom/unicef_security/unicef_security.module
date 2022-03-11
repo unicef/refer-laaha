@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Contains unicef_security.module.
+ */
+
+function unicef_security_form_alter(&$form, FormStateInterface &$form_state, $form_id) {
+  // Turn off autocomplete on user the forms.
+  if ($form_id == 'user_login_form') {
+    $form['name']['#attributes']['autocomplete'] = 'off';
+    $form['pass']['#attributes']['autocomplete'] = 'off';
+  }
+}
