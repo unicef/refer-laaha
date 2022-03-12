@@ -1,0 +1,30 @@
+uuid: f127f80c-2b5b-4a8e-bb27-a8ea965985a8
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:multiple_block:325b8690-0d13-4fa3-8100-ac9002c3c366'
+  module:
+    - block_content
+    - system
+  theme:
+    - erpw
+id: approvalblocks
+theme: erpw
+region: content
+weight: -9
+provider: null
+plugin: 'block_content:325b8690-0d13-4fa3-8100-ac9002c3c366'
+settings:
+  id: 'block_content:325b8690-0d13-4fa3-8100-ac9002c3c366'
+  label: 'Pending Approval'
+  label_display: visible
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /dashboard
