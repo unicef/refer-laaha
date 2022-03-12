@@ -2,17 +2,14 @@ uuid: 2f33b49e-b898-4252-9927-2475b6f70ab5
 langcode: en
 status: true
 dependencies:
-  content:
-    - 'block_content:cta_buttons_on_rpw_homepage:73c854d0-fd37-4a87-af2d-734018df8862'
   module:
-    - block_content
     - system
   theme:
     - erpw
 id: rpw_cta_buttons_on_homepage
 theme: erpw
 region: content
-weight: 0
+weight: -1
 provider: null
 plugin: 'block_content:73c854d0-fd37-4a87-af2d-734018df8862'
 settings:
