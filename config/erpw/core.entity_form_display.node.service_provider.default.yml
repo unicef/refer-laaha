@@ -26,7 +26,9 @@ dependencies:
     - field.field.node.service_provider.field_target_group
     - field.field.node.service_provider.field_transportation_available
     - node.type.service_provider
+    - workflows.workflow.service_editorial
   module:
+    - content_moderation
     - field_group
 third_party_settings:
   field_group:
@@ -45,7 +47,7 @@ third_party_settings:
       label: 'Step 1: Add service Details'
       region: content
       parent_name: ''
-      weight: 0
+      weight: 1
       format_type: details
       format_settings:
         classes: 'service-provider-step1  service-provider-class'
@@ -56,10 +58,10 @@ third_party_settings:
         required_fields: false
     group_ste:
       children:
-        - title
         - field_countrycode
         - field_phone_number
         - field_mode
+        - title
         - field_phone_number_of_focal_poin
         - field_email_of_focal_point
         - field_name_backup_focalpoint_ref
@@ -84,19 +86,19 @@ mode: default
 content:
   field_accessibility_for_persons_:
     type: options_buttons
-    weight: 9
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
   field_age_group:
     type: options_select
-    weight: 10
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
   field_cost_of_service:
     type: string_textfield
-    weight: 7
+    weight: 8
     region: content
     settings:
       size: 60
@@ -110,15 +112,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_domain_access:
-    type: options_buttons
-    weight: 4
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_email_backup_focal_point:
     type: string_textfield
-    weight: 22
+    weight: 23
     region: content
     settings:
       size: 60
@@ -126,11 +122,21 @@ content:
     third_party_settings: {  }
   field_email_of_focal_point:
     type: string_textfield
-    weight: 19
+    weight: 20
     region: content
     settings:
       size: 60
       placeholder: 'Enter the Email Id of Focal Point'
+    third_party_settings: {  }
+  field_location:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_mode:
     type: options_select
@@ -140,7 +146,7 @@ content:
     third_party_settings: {  }
   field_name_backup_focalpoint_ref:
     type: string_textfield
-    weight: 20
+    weight: 21
     region: content
     settings:
       size: 60
@@ -148,7 +154,7 @@ content:
     third_party_settings: {  }
   field_number_of_staff_providing_:
     type: string_textfield
-    weight: 5
+    weight: 6
     region: content
     settings:
       size: 60
@@ -156,7 +162,7 @@ content:
     third_party_settings: {  }
   field_opening_hours:
     type: string_textfield
-    weight: 6
+    weight: 7
     region: content
     settings:
       size: 60
@@ -164,7 +170,7 @@ content:
     third_party_settings: {  }
   field_p_code:
     type: string_textfield
-    weight: 4
+    weight: 5
     region: content
     settings:
       size: 60
@@ -180,7 +186,7 @@ content:
     third_party_settings: {  }
   field_phone_number_backup_focalp:
     type: string_textfield
-    weight: 21
+    weight: 22
     region: content
     settings:
       size: 60
@@ -214,13 +220,13 @@ content:
     third_party_settings: {  }
   field_transportation_available:
     type: options_buttons
-    weight: 8
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 1
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -234,9 +240,9 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true
-  field_location: true
   langcode: true
   path: true
   promote: true

@@ -275,8 +275,8 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['revision_information']['#access'] = FALSE;
     $form['options']['#access'] = FALSE;
     $form['author']['#access'] = FALSE;
-    $form['moderation_state']['#access'] = FALSE;
     $form['content_translation']['#access'] = FALSE;
+    $form['field_location']['#access'] = FALSE;
     $form['#title'] = t("Add Service Form");
     $form['actions']['submit']['#value'] = t('Publish');
     $referral = \Drupal::request()->query->get('referer');

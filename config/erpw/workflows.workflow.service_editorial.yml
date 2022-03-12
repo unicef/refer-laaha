@@ -44,21 +44,9 @@ type_settings:
     reject:
       label: Reject
       from:
-        - published
+        - draft
       to: reject
       weight: 2
-    restore:
-      label: Restore
-      from:
-        - reject
-      to: published
-      weight: 4
-    restore_to_draft:
-      label: 'Restore to Draft'
-      from:
-        - reject
-      to: draft
-      weight: 3
   entity_types:
     node:
       - service_provider
