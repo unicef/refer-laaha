@@ -7,8 +7,13 @@ dependencies:
     - workflows.workflow.service_editorial
   module:
     - content_moderation
+    - content_translation
     - erpw_custom
+    - erpw_location
     - node
+    - node_view_permissions
+    - quick_node_clone
+    - system
 id: service_provider_focal_point
 label: 'Service provider/ focal point'
 weight: -4
@@ -16,18 +21,22 @@ is_admin: null
 permissions:
   - 'access content'
   - 'add new user'
-  - 'add service of their own country'
+  - 'add service of their own location'
+  - 'add service of their own location and organisation'
   - 'add users of their own location and organisation'
   - 'administer users'
+  - 'clone service_provider content'
   - 'create service_provider content'
-  - 'edit any service_provider content'
-  - 'edit service of their own country'
-  - 'edit service of their own location'
-  - 'edit service of their own location and organisation'
   - 'delete own service_provider content'
+  - 'delete service_provider revisions'
+  - 'edit any service_provider content'
   - 'edit any service_provider content'
   - 'edit own service_provider content'
+  - 'edit service of their own location'
+  - 'edit service of their own location and organisation'
   - 'edit users of their own location and organisation'
+  - 'erpw view pending service block'
+  - 'translate service_provider node'
   - 'update user'
   - 'use service_editorial transition create_new_draft'
   - 'use service_editorial transition publish'
@@ -38,8 +47,10 @@ permissions:
   - 'view any service_provider content'
   - 'view any unpublished content'
   - 'view dashboard'
-  - 'view service of their own location and organisation'
   - 'view latest version'
   - 'view own service_provider content'
   - 'view own unpublished content'
+  - 'view service of their own location'
+  - 'view service of their own location and organisation'
+  - 'view service_provider revisions'
   - 'view users of their own location and organisation'

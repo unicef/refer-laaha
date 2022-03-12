@@ -250,12 +250,6 @@ function vss_custom_send_invite(&$form, FormStateInterface $form_state) {
  * Use form alter.
  */
 function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id) {
-  // Turn off autocomplete on user the forms.
-  if ($form_id == 'user_login_form') {
-    $form['name']['#attributes']['autocomplete'] = 'off';
-    $form['pass']['#attributes']['autocomplete'] = 'off';
-  }
-
   if ($form_id == 'taxonomy_term_categories_form') {
     $form['description']['widget'][0]['#required'] = 'true';
     $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();

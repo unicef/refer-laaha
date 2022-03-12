@@ -264,16 +264,19 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     ($current_user->hasPermission('edit service of their own location and organisation') || $current_user->hasPermission('edit service of their own location and organisation'))) {
       if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
         $org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
+        $form['field_select_organisation']['widget']['#disabled'] = TRUE;
         $form['field_select_organisation']['widget']['#default_value'] = $org_id;
       }
     }
-    unset($form['meta']);
-    unset($form['menu']);
-    unset($form['path']);
-    unset($form['author']);
-    unset($form['options']);
-    unset($form['revision_information']);
-    unset($form['revision_log']);
+
+    $form['advanced']['#access'] = FALSE;
+    $form['meta']['#access'] = FALSE;
+    $form['status']['#access'] = FALSE;
+    $form['revision_information']['#access'] = FALSE;
+    $form['options']['#access'] = FALSE;
+    $form['author']['#access'] = FALSE;
+    $form['content_translation']['#access'] = FALSE;
+    $form['field_location']['#access'] = FALSE;
     $form['#title'] = t("Add Service Form");
     $form['actions']['submit']['#value'] = t('Publish');
     $referral = \Drupal::request()->query->get('referer');
@@ -466,6 +469,13 @@ function erpw_custom_preprocess_page_title(&$variables) {
       }
       break;
 
+    case 'entity.node.canonical':
+      $node = \Drupal::routeMatch()->getParameter('node');
+      if (!empty($node) && $node->bundle() == 'service_provider') {
+        $variables['title'] = t('Service Information');
+      }
+      break;
+
     case 'entity.node.edit_form':
       $node = \Drupal::routeMatch()->getParameter('node');
       if (!empty($node) && $node->bundle() == 'service_provider') {
@@ -474,7 +484,7 @@ function erpw_custom_preprocess_page_title(&$variables) {
           $variables['title'] = t("Suggest a Change");
         }
         else {
-          $variables['title'] = t('Service Information');
+          $variables['title'] = t("Edit Service Form");
         }
       }
       break;
@@ -547,6 +557,16 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $query = erpw_view_results_own_location_organisation($query, $condition_field, NULL, $permission);
   }
   if ($view->id() == "manage_service" && $view->current_display == 'page_1') {
+    $permission = 'view service of their own country';
+    $condition_field = 'node__field_location.field_location_target_id';
+    $query = erpw_view_results_own_country_permissions($query, $condition_field, $permission);
+    $permission = 'view service of their own location';
+    $query = erpw_view_results_own_location_organisation($query, $condition_field, NULL, $permission);
+    $permission = 'view service of their own location and organisation';
+    $org_condition = 'node__field_select_organisation.field_select_organisation_target_id';
+    $query = erpw_view_results_own_location_organisation($query, $condition_field, $org_condition, $permission);
+  }
+  if ($view->id() == "manage_unpublished_services" && $view->current_display == 'page_1') {
     $permission = 'view service of their own country';
     $condition_field = 'node__field_location.field_location_target_id';
     $query = erpw_view_results_own_country_permissions($query, $condition_field, $permission);

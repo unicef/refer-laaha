@@ -1,0 +1,13 @@
+_core:
+  default_config_hash: qxRdknZThnFBudeyxEFSc7ykDN2R19IbEYuIkGwkLa4
+langcode: en
+subject: 'One Time Password'
+body: "Dear [user:name],\r\n    \r\nYour One Time Password for completing your transaction eRPW TFA Verification is: [user:email_tfa]\r\n    \r\nPlease use this Password to complete your transaction. Do not share this password with anyone.\r\n    \r\nThank you,\r\n[site:name] team"
+routes: "email_tfa.verifiy\r\nuser.logout"
+timeouts: 300
+status: true
+tracks: globally_enabled
+user_one: false
+ignore_role:
+  - administrator
+  - super_admin

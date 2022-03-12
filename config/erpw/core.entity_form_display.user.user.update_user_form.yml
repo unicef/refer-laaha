@@ -16,6 +16,7 @@ dependencies:
     - field.field.user.user.field_system_role
     - field.field.user.user.user_picture
   module:
+    - path
     - user
 id: user.user.update_user_form
 targetEntityType: user
@@ -26,6 +27,13 @@ content:
     weight: -5
     region: content
     settings: {  }
+    third_party_settings: {  }
+  email_tfa_status:
+    type: boolean_checkbox
+    weight: 1
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_first_name:
     type: string_textfield
@@ -82,6 +90,12 @@ content:
   field_system_role:
     type: options_select
     weight: -1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
     region: content
     settings: {  }
     third_party_settings: {  }
