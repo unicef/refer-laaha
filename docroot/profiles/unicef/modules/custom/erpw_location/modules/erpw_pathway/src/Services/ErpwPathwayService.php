@@ -167,6 +167,7 @@ class ErpwPathwayService {
           $is_disabled = in_array($default_value, $ptids) ? 'disabled' : '';
         }
         if ($i == self::MAX_LEVEL) {
+          $is_disabled = 'readonly';
           unset($childs[0]);
         }
         $child_location['level_' . $i] = $this->childLocationForm($i, self::$levelLabel[$id][$i], $childs, $default_value, $class, $is_disabled);

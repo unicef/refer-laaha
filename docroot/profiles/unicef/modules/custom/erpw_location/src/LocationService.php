@@ -409,11 +409,9 @@ class LocationService {
     $query->leftJoin('content_moderation_state_field_data', 'cms', 'cms.content_entity_id = n.nid');
     $query->condition('n.type', 'service_provider');
     $query->condition('cms.moderation_state', 'draft');
-    if (isset($roles[1]) && $roles[1] == 'country_admin') {
+    if (isset($roles[1]) && $roles[1] == 'country_admin' || isset($roles[1]) && $roles[1] == 'interagency_gbv_coordinator') {
       $loc_ids = $this->getUserLocationTermIds($uid);
-      $first_tid = reset($loc_ids);
-      $tids = $this->getChildrenByParent($first_tid);
-      $query->condition('fl.field_location_target_id', $tids, 'IN');
+      $query->condition('fl.field_location_target_id', $loc_ids, 'IN');
     }
     elseif (isset($roles[1]) && $roles[1] == 'service_provider_focal_point') {
       $org_id = $this->getUserOragisation($uid);
@@ -436,15 +434,12 @@ class LocationService {
    */
   public function getUserLocationTermIds($uid) {
     $user = $this->entityManager->getStorage('user')->load($uid);
-    $location = [];
     if (!empty($user->field_location) && !empty($user->field_location->getValue())) {
-      $locations = $user->field_location->getValue();
-      foreach ($locations as $value) {
-        $location[] = $value['target_id'];
-      }
+      $tid = $user->field_location->getValue()[0]['target_id'];
+      return $this->getChildrenByParent($tid);
     }
 
-    return $location;
+    return [];
   }
 
   /**
