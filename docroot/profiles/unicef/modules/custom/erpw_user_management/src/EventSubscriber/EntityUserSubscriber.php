@@ -113,8 +113,6 @@ class EntityUserSubscriber implements EventSubscriberInterface {
         $form['account']['name']['#access'] = FALSE;
         $form['account']['roles']['#access'] = FALSE;
         $form['field_location']['#access'] = FALSE;
-        $form['account']['current_pass']['#access'] = FALSE;
-        $form['account']['pass']['#access'] = FALSE;
         $form['account']['status']['#access'] = FALSE;
         $form['account']['notify']['#access'] = FALSE;
         $form['account']['mail']['#description'] = '';
@@ -129,6 +127,11 @@ class EntityUserSubscriber implements EventSubscriberInterface {
         $permission = 'edit users of their own location and organisation';
         $current_user = self::$entityTypeManager->getStorage('user')->load($this->currentUser->id());
         $ptids = [];
+        $form['account']['mail']['#weight'] = "-5";
+        if ($user->get('uid')->value != $current_user->get('uid')->value) {
+          $form['account']['current_pass']['#access'] = FALSE;
+          $form['account']['pass']['#access'] = FALSE;
+        }
         if ($current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
           $location_id = '';
           if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
