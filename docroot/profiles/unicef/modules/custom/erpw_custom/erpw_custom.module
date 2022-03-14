@@ -74,6 +74,15 @@ function erpw_custom_views_pre_render(ViewExecutable $view) {
  * Implements hook_form_FORM_ID_alter().
  */
 function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'user_cancel_form') {
+    $uid = \Drupal::currentUser()->id();
+    $current_user = User::load($uid);
+    if ($uid != 1  && !$current_user->hasRole('administrator')) {
+      $form['user_cancel_method']['#default_value'] = 'user_cancel_delete';
+      $form['user_cancel_method']['#access'] = FALSE;
+      $form['user_cancel_confirm']['#access'] = FALSE;
+    }
+  }
   if ($form_id == 'node_referral_path_way_edit_form' || $form_id == 'node_referral_path_way_form') {
     $permission = ($form_id == 'node_referral_path_way_edit_form') ? 'edit referral pathway of their own country' : 'add referral pathway of their own country';
     $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
@@ -541,7 +550,9 @@ function erpw_custom_preprocess_status_messages(&$variables) {
  * Implements hook_views_query_alter().
  */
 function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
-  if ($view->id() == "user_lists" && $view->current_display == 'page_1') {
+  if (($view->id() == "user_lists" &&
+    ($view->current_display == 'page_1' || $view->current_display == 'page_2')) ||
+    ($view->id() == "user_count_approval_block" && $view->current_display == 'block_1')) {
     $permission = 'view users of their own country';
     $location_condition = 'user__field_location.field_location_target_id';
     $query = erpw_view_results_own_country_permissions($query, $location_condition, $permission);
