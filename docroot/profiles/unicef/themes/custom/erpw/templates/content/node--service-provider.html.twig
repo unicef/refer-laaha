@@ -81,20 +81,21 @@
 {{ attach_library('classy/node') }}
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('service-provider-details') }}>
-  <div class="service-detail-heading">
-    <h3>{{ 'Service Details'|t }}</h3>
-    <div class="edit-delete-links">
-      <span class="edit-link">
-      {% if logged_in %}
-        <a href="{{ path('entity.node.edit_form', {'node': node.nid.value},
-         {'query': {'referer': referral}}) }}">{{ 'Edit'|t }}</a>
-      {% else %}
-      {% endif %}
-      </span>
+    <div class="service-detail-heading">
+      <h3>{{ 'Service Details'|t }}</h3>
+      <div class="edit-delete-links">
+        <span class="edit-link">
+          {% if logged_in %}
+            <a href="{{ path('entity.node.edit_form', {'node': node.nid.value},
+             {'query': {'referer': referral}}) }}">{{ 'Edit'|t }}</a>
+          {% else %}
+            <a href="{{ path('user.login', {'destination': path('entity.node.edit_form', {'node': node.nid.value}, {'query': {'referer': referral}})}) }}">{{ 'Edit'|t }}</a>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+    <div class="margin-space">
+      {{ content }}
     </div>
   </div>
-  <div class="margin-space">
-{{ content }}
-   </div>
-</div>
 </article>

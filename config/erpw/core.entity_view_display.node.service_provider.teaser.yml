@@ -34,17 +34,13 @@ targetEntityType: node
 bundle: service_provider
 mode: teaser
 content:
-  content_moderation_control:
-    settings: {  }
-    third_party_settings: {  }
-    weight: -20
-    region: content
   links:
     settings: {  }
     third_party_settings: {  }
     weight: 0
     region: content
 hidden:
+  content_moderation_control: true
   field_accessibility_for_persons_: true
   field_age_group: true
   field_cost_of_service: true
