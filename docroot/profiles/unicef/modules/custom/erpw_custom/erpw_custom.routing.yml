@@ -54,3 +54,12 @@ erpw_custom.language_selector:
   path: '/select-language'
   defaults:
     _form: '\Drupal\erpw_custom\Form\LanguageSelector'
+erpw_custom.erpw_config_form:
+  path: '/admin/config/erpw-configuration'
+  defaults:
+    _form: '\Drupal\erpw_custom\Form\ErpwConfigForm'
+    _title: 'eRPW Config Form'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE
