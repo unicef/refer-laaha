@@ -8,7 +8,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\erpw_location\LocationService;
+use Drupal\views\Views;
 
 /**
  * Provides a block for counting pending services.
@@ -28,24 +28,15 @@ class PendingServicesBlock extends BlockBase implements ContainerFactoryPluginIn
   protected $currentUser;
 
   /**
-   * The location service.
-   *
-   * @var \Drupal\erpw_location\LocationService
-   */
-  protected $locationService;
-
-  /**
    * {@inheritdoc}
    */
   public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    AccountInterface $current_user,
-    LocationService $location_service) {
+    AccountInterface $current_user) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->currentUser = $current_user;
-    $this->locationService = $location_service;
   }
 
   /**
@@ -71,7 +62,6 @@ class PendingServicesBlock extends BlockBase implements ContainerFactoryPluginIn
       $plugin_id,
       $plugin_definition,
       $container->get('current_user'),
-      $container->get('erpw_location.location_services'),
     );
   }
 
@@ -80,13 +70,16 @@ class PendingServicesBlock extends BlockBase implements ContainerFactoryPluginIn
    */
   public function build() {
     // Get the total pending services.
-    $count = $this->locationService->getPendingServiceCount($this->currentUser->id(), $this->currentUser->getRoles());
+    $view = Views::getView('moderated_content');
+    $view->setDisplay('moderated_content');
+    $view->execute();
+    $count = count($view->result);
 
     return [
       '#theme' => 'pending_service_count',
       '#count' => $count,
       '#description' => $this->t('Service provider information changes'),
-      '#manage_service_link' => Url::fromRoute('view.manage_unpublished_services.page_1')->toString(),
+      '#manage_service_link' => Url::fromRoute('view.moderated_content.moderated_content')->toString(),
       '#cache' => [
         'max-age' => 0,
       ],

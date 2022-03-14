@@ -10,6 +10,7 @@ use Drupal\Core\Url;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\views\ViewExecutable;
 use Drupal\user\Entity\User;
@@ -19,7 +20,7 @@ use Drupal\views\Plugin\views\query\QueryPluginBase;
  * Implements exposed form alter.
  */
 function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  $view_ids = ['manage_service', 'manage_unpublished_services'];
+  $view_ids = ['manage_service', 'moderated_content'];
   if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
     $form['field_service_type_target_id']['#type'] = 'select';
     $form['field_service_type_target_id']['#options'] = erpw_custom_service_type_options();
@@ -268,7 +269,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
         $form['field_select_organisation']['widget']['#default_value'] = $org_id;
       }
     }
-
     $form['advanced']['#access'] = FALSE;
     $form['meta']['#access'] = FALSE;
     $form['status']['#access'] = FALSE;
@@ -281,6 +281,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['submit']['#value'] = t('Publish');
     $referral = \Drupal::request()->query->get('referer');
     if (isset($referral) && $referral == 'rpw') {
+      $form['moderation_state']['#access'] = FALSE;
       $form['#title'] = t("Suggest a Change");
       $form['help'] = [
         '#type' => 'markup',
@@ -338,7 +339,21 @@ function _erpw_custom_service_provider_form(array $form, FormStateInterface $for
     $form['field_p_code']['widget']['0']['value']['#value'] = $p_code_str_value;
     $form_state->setValue('field_p_code', [['value' => $p_code_str_value]]);
   }
-  return _erpw_custom_redirect('view.manage_service.page_1');
+  // Redirecting on detail page if user comes from homepage.
+  $referral = \Drupal::request()->query->get('referer');
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if (isset($referral) && $referral == 'rpw' && $node instanceof NodeInterface) {
+    $url = Url::fromRoute('entity.node.canonical', [
+      'node' => $node->id(),
+      'referer' => 'rpw',
+    ]);
+    $response = new RedirectResponse($url->toString());
+    $response->send();
+    return $response;
+  }
+  else {
+    return _erpw_custom_redirect('view.manage_service.page_1');
+  }
 }
 
 /**
@@ -506,6 +521,21 @@ function erpw_custom_user_logout() {
  */
 function erpw_custom_preprocess_status_messages(&$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
+  // Altering status message for RPW suggest a change.
+  $referral = \Drupal::request()->query->get('referer');
+  if ((isset($referral) && $referral == 'rpw' && $route_name == 'entity.node.canonical') ||
+  $route_name == 'view.manage_service.page_1') {
+    if (isset($variables['message_list']['status'])) {
+      $status_messages = $variables['message_list']['status'];
+      foreach ($status_messages as $delta => $message) {
+        if (strpos((string) $message, 'Service') !== FALSE) {
+          $variables['message_list']['status'][$delta] = t(
+           "You will be notified when the changes have been approved."
+          );
+        }
+      }
+    }
+  }
   // Altering status message for RPW.
   if ($route_name == 'view.referral_pathway_listing.page_1') {
     if (isset($variables['message_list']['status'])) {
@@ -566,14 +596,14 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $org_condition = 'node__field_select_organisation.field_select_organisation_target_id';
     $query = erpw_view_results_own_location_organisation($query, $condition_field, $org_condition, $permission);
   }
-  if ($view->id() == "manage_unpublished_services" && $view->current_display == 'page_1') {
+  if ($view->id() == "moderated_content" && $view->current_display == 'moderated_content') {
     $permission = 'view service of their own country';
-    $condition_field = 'node__field_location.field_location_target_id';
+    $condition_field = 'node_field_data_node_field_revision__node__field_location.field_location_target_id';
     $query = erpw_view_results_own_country_permissions($query, $condition_field, $permission);
     $permission = 'view service of their own location';
     $query = erpw_view_results_own_location_organisation($query, $condition_field, NULL, $permission);
     $permission = 'view service of their own location and organisation';
-    $org_condition = 'node__field_select_organisation.field_select_organisation_target_id';
+    $org_condition = 'node_field_data_node_field_revision__node__field_select_organisation.field_select_organisation_target_id';
     $query = erpw_view_results_own_location_organisation($query, $condition_field, $org_condition, $permission);
   }
 }
