@@ -37,7 +37,7 @@ content:
     third_party_settings: {  }
   field_category_color:
     type: color_field_widget_box
-    weight: 8
+    weight: 9
     region: content
     settings:
       default_colors: '#f8eaef,#dff2f9,#e4f1e2,#e9eafd,#fdf1eb,#fef8df,#e8feff,#f9e2ff'
@@ -61,7 +61,7 @@ content:
             selector: ''
   field_category_reference:
     type: options_select
-    weight: 12
+    weight: 13
     region: content
     settings: {  }
     third_party_settings:
@@ -98,7 +98,7 @@ content:
     third_party_settings: {  }
   field_hero_content:
     type: entity_reference_autocomplete
-    weight: 14
+    weight: 15
     region: content
     settings:
       match_operator: CONTAINS
@@ -125,7 +125,7 @@ content:
             selector: ''
   field_icon:
     type: image_image
-    weight: 7
+    weight: 8
     region: content
     settings:
       progress_indicator: throbber
@@ -166,7 +166,7 @@ content:
             selector: ''
   field_related_content:
     type: entity_reference_autocomplete
-    weight: 9
+    weight: 10
     region: content
     settings:
       match_operator: CONTAINS
@@ -201,7 +201,7 @@ content:
       conditional_fields: {  }
   field_sub_category_thumbnail:
     type: image_image
-    weight: 11
+    weight: 12
     region: content
     settings:
       progress_indicator: throbber
@@ -241,7 +241,7 @@ content:
             selector: ''
   field_tags:
     type: entity_reference_autocomplete
-    weight: 10
+    weight: 11
     region: content
     settings:
       match_operator: CONTAINS
@@ -266,6 +266,13 @@ content:
             effect: show
             effect_options: {  }
             selector: ''
+  langcode:
+    type: language_select
+    weight: 7
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   name:
     type: string_textfield
     weight: 2
@@ -282,7 +289,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 13
+    weight: 14
     region: content
     settings:
       display_label: true
@@ -294,4 +301,3 @@ content:
     third_party_settings: {  }
 hidden:
   domain_access: true
-  langcode: true
