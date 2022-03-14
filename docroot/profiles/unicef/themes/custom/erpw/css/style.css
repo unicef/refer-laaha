@@ -808,6 +808,67 @@ header {
   mask: url("../images/service-provider.svg") center center no-repeat;
 }
 
+[id^=block-pendingapproval] {
+  -webkit-box-shadow: 0px 1px 12px rgba(103, 97, 97, 0.15);
+          box-shadow: 0px 1px 12px rgba(103, 97, 97, 0.15);
+  border-radius: 15px;
+  padding: 15px 18px;
+  margin-bottom: 22px;
+}
+[id^=block-pendingapproval] h2 {
+  color: #444;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 32px;
+  letter-spacing: 0.0015em;
+  margin: 0;
+  padding: 0;
+}
+[id^=block-pendingapproval] .field--name-field-blocks {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  margin: 5px -14px 0 0;
+}
+
+.field__item {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #FCF1F0;
+  color: #444;
+  border-radius: 12px;
+  -ms-flex-preferred-size: 136px;
+      flex-basis: 136px;
+  margin-right: 14px;
+}
+.field__item .pending-service-count {
+  padding: 20px 10px;
+}
+.field__item .pending-count {
+  font-size: 40px;
+}
+.field__item .pending-text {
+  font-size: 10px;
+  line-height: 12px;
+  min-height: 24px;
+}
+.field__item .pending-review-link {
+  border-top: 1px solid #A85766;
+  padding: 5px 10px 10px;
+}
+.field__item .pending-review-link a {
+  color: #A85766;
+  font-size: 11px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-transform: uppercase;
+}
+
 .delete-screen .detail-row {
   display: -webkit-box;
   display: -ms-flexbox;
