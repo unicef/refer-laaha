@@ -253,7 +253,12 @@ function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id
   if ($form_id == 'taxonomy_term_categories_form') {
     $form['description']['widget'][0]['#required'] = 'true';
     $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
-    $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories($langcode);
+    $form['field_category_reference']["widget"]['#states'] = [
+      'visible' => [
+        'input[name="field_sub_category[value]"]' => ['checked' => TRUE],
+      ],
+    ];
+    $form['field_category_reference']["widget"]['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories($langcode);
     $form['#validate'][] = 'validate_category';
     $form['relations']['#access'] = FALSE;
   }
