@@ -395,7 +395,9 @@ class SignUpForm extends FormBase {
     if (!isset($form_state->getTriggeringElement()['#level'])
       && $current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator')) {
       $parent_list = $this->locationService->getAllAncestors($location_id);
-      if ($current_user->hasPermission('add users of their own location and organisation')) {
+      $permission1 = 'add users of their own location and organisation';
+      $permission2 = 'add users of their own location';
+      if ($current_user->hasPermission($permission1) || $current_user->hasPermission($permission2)) {
         $ptids = $parent_list;
       }
       elseif ($current_user->hasPermission('add location of their own country')) {

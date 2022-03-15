@@ -244,6 +244,20 @@ ul.block-menu-item-fieldsfooter-last-menu {
   display: -ms-flexbox;
   display: flex;
 }
+.region-header .logo-wrapper {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 215px;
+      -ms-flex: 215px 0 0px;
+          flex: 215px 0 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
 .region-header #nav_wrap {
   margin-left: auto;
 }
@@ -332,7 +346,6 @@ ul.block-menu-item-fieldsfooter-last-menu {
   padding-right: 12px;
 }
 .region-header .navbar-brand {
-  height: 50px;
   padding: 15px;
 }
 .region-header #block-settingsmenu {

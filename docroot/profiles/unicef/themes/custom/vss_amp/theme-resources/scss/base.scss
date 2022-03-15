@@ -201,6 +201,13 @@ ul.block-menu-item-fieldsfooter-last-menu {
 .region-header {
   display: flex;
 
+  .logo-wrapper {
+    align-items: center;
+    display: flex;
+    flex: 215px 0 0;
+    justify-content: center;
+  }
+
   #nav_wrap {
     margin-left: auto;
   }
@@ -282,7 +289,6 @@ ul.block-menu-item-fieldsfooter-last-menu {
   }
 
 .navbar-brand {
-  height: 50px;
   padding: 15px;
 }
 
