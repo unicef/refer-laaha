@@ -18,6 +18,10 @@ class UserAlterRouteSubscriber extends RouteSubscriberBase {
     if ($permission && $route = $collection->get('entity.user.edit_form')) {
       $route->setOption('_admin_route', FALSE);
     }
+    if ($permission && $route = $collection->get('entity.user.cancel_form')) {
+      $route->setOption('_admin_route', FALSE);
+    }
+
   }
 
 }

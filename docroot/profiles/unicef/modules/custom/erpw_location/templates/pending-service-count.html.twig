@@ -1,5 +1,7 @@
-<div class="pending-service-count" style="border: 2px solid;width:200px;">
-  <div class="service-count">{{ count }}</div>
-  <div class="service-desc">{{ description }}</div>
-  <div class="review-link"><a href="{{ manage_service_link }}">{{ 'Review Now'|t }}</a></div>
+<div class="pending-approvals-box">
+  <div class="pending-service-count">
+    <div class="pending-count">{{ count }}</div>
+    <div class="pending-text">{{ description }}</div>
+  </div>
+  <div class="pending-review-link"><a href="{{ manage_service_link }}">{{ 'Review Now'|t }}</a></div>
 </div>

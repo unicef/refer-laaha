@@ -2,17 +2,9 @@
 
 namespace Drupal\erpw_custom\Form;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\Core\Url;
-use Drupal\domain\DomainNegotiatorInterface;
-use Drupal\erpw_location\LocationCookie;
-use Drupal\erpw_location\LocationService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -77,40 +69,19 @@ class LanguageSelector extends FormBase {
   }
 
   /**
-   * LegalAdminTermsForm constructor.
-   */
-  public function __construct(ConfigFactoryInterface $config_factory,
-    LanguageManagerInterface $language_manager,
-    LocationCookie $location_cookie,
-    DomainNegotiatorInterface $negotiator,
-    PrivateTempStoreFactory $temp_store_factory,
-    LocationService $location_service,
-    AccountProxyInterface $current_user,
-    EntityTypeManagerInterface $entity_manager) {
-    $this->configfactory = $config_factory;
-    $this->languageManager = $language_manager;
-    $this->locationCookie = $location_cookie;
-    $this->domainNegotiator = $negotiator;
-    $this->tempStoreFactory = $temp_store_factory->get('erpw_location_collection');
-    $this->locationService = $location_service;
-    $this->currentUser = $current_user;
-    $this->entityManager = $entity_manager;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('config.factory'),
-      $container->get('language_manager'),
-      $container->get('erpw_location.location_cookie'),
-      $container->get('domain.negotiator'),
-      $container->get('tempstore.private'),
-      $container->get('erpw_location.location_services'),
-      $container->get('current_user'),
-      $container->get('entity_type.manager'),
-    );
+    $instance = parent::create($container);
+    $instance->configfactory = $container->get('config.factory');
+    $instance->languageManager = $container->get('language_manager');
+    $instance->locationCookie = $container->get('erpw_location.location_cookie');
+    $instance->domainNegotiator = $container->get('domain.negotiator');
+    $instance->tempStoreFactory = $container->get('tempstore.private')->get('erpw_location_collection');
+    $instance->locationService = $container->get('erpw_location.location_services');
+    $instance->currentUser = $container->get('current_user');
+    $instance->entityManager = $container->get('entity_type.manager');
+    return $instance;
   }
 
   /**
@@ -123,23 +94,66 @@ class LanguageSelector extends FormBase {
       '#markup' => $this->t('Welcome to eRPW'),
       '#suffix' => '</div>',
     ];
-    $form['description_2'] = [
-      '#type' => 'markup',
-      '#prefix' => '<div class="choose-language-text">',
-      '#markup' => $this->t('Choose your preferred language'),
+
+    $all_domains = $this->entityManager->getStorage('domain')->loadMultipleSorted(NULL);
+    foreach ($all_domains as $domain) {
+      $domain_status = $domain->get('status');
+      if ($domain_status) {
+        $domain_name = $domain->get('name');
+        $domain_id = $domain->get('id');
+        $domain_list[$domain_id] = $domain_name;
+      }
+    }
+
+    $form['domain'] = [
+      '#prefix' => '<div id="domain-wrapper">',
       '#suffix' => '</div>',
     ];
-    $domain = $this->domainNegotiator->getActiveDomain();
-    $active_lang = $this->configfactory->get('domain.language.' . $domain->id() . '.language.negotiation')->getRawData()['languages'];
-    $site_languages = $this->languageManager->getNativeLanguages();
-    $languages = [];
-    foreach ($active_lang as $languagecode => $language_value) {
-      $languages[$languagecode] = $site_languages[$language_value]->getName();
+    $form['domain']['country'] = [
+      '#title' => $this->t('Select Country'),
+      '#type' => 'select',
+      '#options' => ['' => $this->t('Select country')] + $domain_list,
+      '#required' => TRUE,
+      '#id' => 'country-dropdown',
+      '#default_value' => '',
+      '#ajax' => [
+        'callback' => '::getLanguages',
+        'event' => 'change',
+        'method' => 'replace',
+        'wrapper' => 'domain-wrapper',
+        'progress' => [
+          'type' => 'throbber',
+        ],
+      ],
+    ];
+    $form_state->setRebuild();
+    $default_lang = 'en';
+    // Get the domain if country is selected.
+    if ($selected_domain = $form_state->getValue('country')) {
+      $domain = $this->entityManager->getStorage('domain')->load($selected_domain);
     }
-    $form['language_selector'] = [
+    else {
+      $domain = $this->domainNegotiator->getActiveDomain();
+    }
+    $lang = $this->configfactory->get('domain.language.' . $domain->id() . '.language.negotiation');
+    $languages = $this->languageManager->getLanguages();
+    $prefixes = $lang->get('languages');
+    foreach ($languages as $langcode => $language) {
+      if (array_key_exists($langcode, $prefixes)) {
+        $lang_select[$langcode] = $language->getName();
+      }
+    }
+    $form['domain']['description_2'] = [
+      '#type' => 'markup',
+      '#prefix' => '<div class="choose-language-text">',
+      '#suffix' => '</div>',
+      '#markup' => $this->t('Choose your preferred language'),
+    ];
+    $form['domain']['language_selector'] = [
       '#type' => 'radios',
-      '#options' => $languages,
-      '#default_value' => $this->t('en'),
+      '#required' => TRUE,
+      '#options' => $lang_select,
+      '#default_value' => $default_lang,
     ];
     $form['actions']['lang_selector'] = [
       '#type' => 'submit',
@@ -147,6 +161,13 @@ class LanguageSelector extends FormBase {
     ];
     $form['#cache']['max-age'] = 0;
     return $form;
+  }
+
+  /**
+   * Get languages ajax function.
+   */
+  public function getLanguages(array &$form, FormStateInterface $form_state) {
+    return $form['domain'];
   }
 
   /**

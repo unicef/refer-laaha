@@ -2657,7 +2657,8 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  width: 45px; }
+  width: 45px;
+  z-index: 10; }
 
 .podcast-play-icon {
   background: url("../images/play-circle-pod.png") no-repeat center;
@@ -2666,7 +2667,8 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
   height: 36px;
   left: 8px;
   position: absolute;
-  width: 36px; }
+  width: 36px;
+  z-index: 10; }
 
 .video-time {
   background: #000;

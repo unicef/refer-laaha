@@ -7,7 +7,6 @@ use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\RedirectCommand;
-use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Url;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormStateInterface;
@@ -673,7 +672,7 @@ class SignUpForm extends FormBase {
       $values = $form_state->get('page_values');
       $location_values = $form_state->get('page_two_values');
       $user_info = [
-        'status' => 1,
+        'status' => 0,
         'name' => $values['email'],
         'pass' => $form_state->getValue('password'),
         'mail' => $values['email'],
