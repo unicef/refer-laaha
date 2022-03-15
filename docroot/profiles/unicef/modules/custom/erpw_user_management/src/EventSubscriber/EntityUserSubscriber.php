@@ -124,7 +124,8 @@ class EntityUserSubscriber implements EventSubscriberInterface {
           $parent_list = self::getTermParents($locid);
           $parent_list = empty($parent_list) ? array_values($ptids) : $parent_list;
         }
-        $permission = 'edit users of their own location and organisation';
+        $permission1 = 'edit users of their own location';
+        $permission2 = 'edit users of their own location and organisation';
         $current_user = self::$entityTypeManager->getStorage('user')->load($this->currentUser->id());
         $ptids = [];
         $form['account']['mail']['#weight'] = "-5";
@@ -132,7 +133,8 @@ class EntityUserSubscriber implements EventSubscriberInterface {
           $form['account']['current_pass']['#access'] = FALSE;
           $form['account']['pass']['#access'] = FALSE;
         }
-        if ($current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
+        if ($current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator') &&
+          ($current_user->hasPermission($permission1) || $current_user->hasPermission($permission2))) {
           $location_id = '';
           if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
             $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
