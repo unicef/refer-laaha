@@ -53,12 +53,12 @@ class UpdatedServiceType extends FormBase {
     $current_language = $this->erpwCustomService->getCurrentLanguage();
     $user_language = $this->erpwCustomService->getUserLanguage();
     if ($current_language != $user_language) {
-      $url = '/' . $user_language . '/dashboard';
+      $url = '/' . $user_language . '/manage-service-types';
     }
     else {
       $url = Url::fromRoute('view.manage_service_types.page_1')->toString();
     }
-    $external_link = "<a href='$url' class='button-red'>" . $this->t("BACK TO DASHBOARD") . "</a>";
+    $external_link = "<a href='$url' class='button-red'>" . $this->t("Back to Service List") . "</a>";
 
     $form['modal_description_1'] = [
       '#type' => 'markup',
