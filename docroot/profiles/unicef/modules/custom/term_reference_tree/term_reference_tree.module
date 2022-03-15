@@ -200,6 +200,14 @@ function template_preprocess_checkbox_tree_item(array &$variables) {
 function template_preprocess_checkbox_tree_label(array &$variables) {
   $element = $variables['element'];
   $variables['label'] = $element['#value'];
+  $test = rtrim(explode('/', $element['#value'])[2], ')');
+  $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+  if (trim($test) != $active_domain->id()) {
+    $variables['not_active'] = 'not-active';
+  }
+  else {
+    $variables['not_active'] = 'active-parent';
+  }
 }
 
 /**
@@ -376,14 +384,10 @@ function _term_reference_tree_build_item($element, $term, $form_state, $value, $
   $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
   $t = NULL;
   if (\Drupal::moduleHandler()->moduleExists('locale') && !empty($term->tid)) {
-    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-
-    $active_domain_id = $active_domain->id();
     $t = \Drupal::entityTypeManager()->getStorage('taxonomy_term')
       ->loadByProperties([
         'vid' => 'categories',
         'tid' => $term->tid,
-        'field_domain' => $active_domain_id,
       ]);
     $t = reset($t);
     if (!empty($t)) {

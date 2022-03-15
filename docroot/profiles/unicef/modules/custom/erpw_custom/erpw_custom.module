@@ -592,6 +592,8 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $permission = 'view users of their own country';
     $location_condition = 'user__field_location.field_location_target_id';
     $query = erpw_view_results_own_country_permissions($query, $location_condition, $permission);
+    $permission = 'view users of their own location';
+    $query = erpw_view_results_own_location_organisation($query, $location_condition, NULL, $permission);
     $permission = 'view users of their own location and organisation';
     $org_condition = 'user__field_organisation.field_organisation_target_id';
     $query = erpw_view_results_own_location_organisation($query, $location_condition, $org_condition, $permission);

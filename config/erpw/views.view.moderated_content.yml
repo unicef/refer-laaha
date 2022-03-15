@@ -741,22 +741,21 @@ display:
           content: '<div>No service content is available for approval.</div>'
           tokenize: false
       sorts:
-        created:
-          id: created
+        title:
+          id: title
           table: node_field_revision
-          field: created
+          field: title
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: node
-          entity_field: created
-          plugin_id: date
-          order: DESC
+          entity_field: title
+          plugin_id: standard
+          order: ASC
           expose:
             label: ''
             field_identifier: ''
           exposed: false
-          granularity: second
       arguments: {  }
       filters:
         latest_translation_affected_revision:
