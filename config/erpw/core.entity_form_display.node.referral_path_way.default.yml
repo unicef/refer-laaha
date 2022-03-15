@@ -11,19 +11,12 @@ dependencies:
     - field.field.node.referral_path_way.field_section
     - node.type.referral_path_way
   module:
-    - content_moderation
     - paragraphs
 id: node.referral_path_way.default
 targetEntityType: node
 bundle: referral_path_way
 mode: default
 content:
-  field_domain_access:
-    type: options_buttons
-    weight: 4
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_section:
     type: entity_reference_paragraphs
     weight: 1
@@ -35,12 +28,6 @@ content:
       add_mode: dropdown
       form_display_mode: default
       default_paragraph_type: sections
-    third_party_settings: {  }
-  moderation_state:
-    type: moderation_state_default
-    weight: 3
-    region: content
-    settings: {  }
     third_party_settings: {  }
   title:
     type: string_textfield
@@ -58,10 +45,12 @@ content:
 hidden:
   body: true
   created: true
+  field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true
   field_location: true
   langcode: true
+  moderation_state: true
   path: true
   promote: true
   status: true
