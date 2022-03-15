@@ -12,7 +12,6 @@ use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\erpw_location\LocationCookie;
 use Drupal\erpw_location\LocationService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class LocationListForm.
@@ -55,13 +54,6 @@ class UserLocationForm extends LocationListForm {
   protected $tempStoreFactory;
 
   /**
-   * A request stack symfony instance.
-   *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
-   */
-  protected $requestStack;
-
-  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -71,8 +63,7 @@ class UserLocationForm extends LocationListForm {
     FormBuilderInterface $form_builder,
     LocationCookie $location_cookie,
     PrivateTempStoreFactory $temp_store_factory,
-    LocationService $location_service,
-    RequestStack $request_stack) {
+    LocationService $location_service) {
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;
     $this->currentUser = $current_user;
@@ -80,7 +71,6 @@ class UserLocationForm extends LocationListForm {
     $this->locationCookie = $location_cookie;
     $this->tempStoreFactory = $temp_store_factory->get('erpw_location_collection');
     $this->locationService = $location_service;
-    $this->requestStack = $request_stack;
   }
 
   /**
@@ -95,7 +85,6 @@ class UserLocationForm extends LocationListForm {
       $container->get('erpw_location.location_cookie'),
       $container->get('tempstore.private'),
       $container->get('erpw_location.location_services'),
-      $container->get('request_stack'),
     );
   }
 
@@ -166,11 +155,6 @@ class UserLocationForm extends LocationListForm {
       else {
         $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $location_value);
       }
-      $domain_current_url = explode(".", $this->requestStack->getCurrentRequest()->server->get('SERVER_NAME'));
-      $domain_slice = array_slice($domain_current_url, -2);
-      $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
-
-      setcookie('location_tid', $location_value, strtotime('+1 year'), '/', $domain_site, FALSE);
       $url = Url::fromRoute('<front>');
       $form['location_level']['button'] = $form_state->setRedirectUrl($url);
     }
