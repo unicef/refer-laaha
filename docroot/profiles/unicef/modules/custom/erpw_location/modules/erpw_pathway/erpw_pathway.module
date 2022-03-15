@@ -89,11 +89,8 @@ function erpw_pathway_preprocess_views_view_field(&$variables) {
 function erpw_pathway_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
   if ($view->id() == "referral_pathway_on_homepage" || $view->id() == "service_list") {
     $ptids = [];
-    // $location_id = get_user_location();
-
     $location_id = $_COOKIE['location_tid'];
-    // print_r($location_tid);
-    // die;
+
     $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
     if (!empty($ptids)) {
       foreach ($query->where as &$condition_group) {
