@@ -90,6 +90,7 @@ class LanguageSelector extends FormBase {
     $instance->entityManager = $container->get('entity_type.manager');
     $instance->connection = $container->get('database');
     $instance->requestStack = $container->get('request_stack');
+    $instance->session = $container->get('session_manager');
     return $instance;
   }
 
@@ -208,6 +209,10 @@ class LanguageSelector extends FormBase {
         $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
         $default_location = ($this->locationService->getUserDefaultLocation($user)) ?? $default_location;
       }
+      // Require to store value in tempstore for anonymous user.
+      if ($this->currentUser->isAnonymous()) {
+        $this->session->start();
+      }
       if (empty($this->locationCookie->getCookieValue())) {
         $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
         $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
@@ -215,7 +220,6 @@ class LanguageSelector extends FormBase {
       else {
         $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
       }
-      setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $domain_site, FALSE);
       $form_state->setRedirectUrl($redirect_url);
     }
   }
