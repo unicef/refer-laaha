@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.country.field_country_code
     - field.field.taxonomy_term.country.field_p_code
     - taxonomy.vocabulary.country
   module:
@@ -16,6 +17,14 @@ content:
   description:
     type: text_textfield
     weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_country_code:
+    type: string_textfield
+    weight: 102
     region: content
     settings:
       size: 60
