@@ -62,6 +62,13 @@ class LanguageSelector extends FormBase {
   protected $tempStoreFactory;
 
   /**
+   * Database Connection instance.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $connection;
+
+  /**
    * {@inheritdoc}
    */
   public function getFormId() {
@@ -81,6 +88,8 @@ class LanguageSelector extends FormBase {
     $instance->locationService = $container->get('erpw_location.location_services');
     $instance->currentUser = $container->get('current_user');
     $instance->entityManager = $container->get('entity_type.manager');
+    $instance->connection = $container->get('database');
+    $instance->requestStack = $container->get('request_stack');
     return $instance;
   }
 
@@ -181,16 +190,23 @@ class LanguageSelector extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $value = $form_state->getValues();
     if (!empty($value)) {
-      $redirect_url = Url::fromUri('base:/' . $value['language_selector']);
-      setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', NULL, FALSE);
-      setcookie('userLanguage', $value['language_selector'], strtotime('+1 year'), '/', NULL, FALSE);
-      // Storing the value into coookie and temp storage.
+      $domain = $this->entityManager->getStorage('domain')->load($form_state->getValue('country'));
+      $domain_lang = $form_state->getValue('language_selector');
+      $domain_path = $domain->get('path');
+      $redirect_url = Url::fromUri($domain_path . $domain_lang);
+      $domain_current_url = explode(".", $this->requestStack->getCurrentRequest()->server->get('SERVER_NAME'));
+      $domain_slice = array_slice($domain_current_url, -2);
+      $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
+      setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', $domain_site, FALSE);
+      setcookie('userLanguage', $value['language_selector'], strtotime('+1 year'), '/', $domain_site, FALSE);
+      $config = $this->configfactory->getEditable('domain.location.' . $domain->get('id'));
+      if (!$default_location = $config->get('location')) {
+        $default_location = $this->locationService->getDefaultLocation();
+      }
+      // Storing the value into cookie and temp storage.
       if ($this->currentUser->isAuthenticated()) {
         $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
-        $default_location = $this->locationService->getUserDefaultLocation($user);
-      }
-      else {
-        $default_location = $this->locationService->getDefaultLocation();
+        $default_location = ($this->locationService->getUserDefaultLocation($user)) ?? $default_location;
       }
       if (empty($this->locationCookie->getCookieValue())) {
         $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
@@ -199,6 +215,7 @@ class LanguageSelector extends FormBase {
       else {
         $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
       }
+      setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $domain_site, FALSE);
       $form_state->setRedirectUrl($redirect_url);
     }
   }

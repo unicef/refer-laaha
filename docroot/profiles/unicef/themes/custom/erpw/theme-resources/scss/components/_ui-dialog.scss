@@ -8,6 +8,7 @@
 	.ui-dialog-title {
 		float: none;
 		margin-top: 10px;
+		white-space: inherit;
 	}
 	.ui-dialog-titlebar {
 		background: none;
@@ -32,6 +33,23 @@
 		.ui-dialog-buttonset {
 			float: none;
 			text-align: center;
+			&.form-actions {
+				display: flex;
+				justify-content: space-between;
+				margin: 20px 10px 0px;
+				button {
+					background: none;
+					border: 1px solid $base-secondary-bgcolor;
+					color: $base-secondary-bgcolor;
+				}
+				.js-form-submit {
+					order: 1;
+					margin-left: 20px;
+					background: $base-secondary-bgcolor;;
+					border: 1px solid $base-secondary-bgcolor;
+					color: $base-white-color;
+				}
+			}
 		}
 		button {
 			background: $base-secondary-bgcolor;
@@ -77,12 +95,13 @@
 	opacity: 1 !important;
 }
 
-.page-node-type-service-type {
+.page-node-type-service-type,
+.path-user {
 	.ui-dialog-titlebar {
 		background: none;
 		border: 0;
 		font-weight: 400;
-		padding: 20px 0 0;
+		padding: 30px 0 0;
 		.ui-dialog-title {
 			white-space: inherit;
 			width: 100%;
