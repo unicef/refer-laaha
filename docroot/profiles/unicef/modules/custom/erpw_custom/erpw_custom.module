@@ -546,6 +546,20 @@ function erpw_custom_user_logout() {
  */
 function erpw_custom_preprocess_status_messages(&$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
+  // Altering status message for RPW suggest a change.
+  $referral = \Drupal::request()->query->get('referer');
+  if (isset($referral) && $referral == 'rpw' && $route_name == 'entity.node.canonical') {
+    if (isset($variables['message_list']['status'])) {
+      $status_messages = $variables['message_list']['status'];
+      foreach ($status_messages as $delta => $message) {
+        if (strpos((string) $message, 'Service') !== FALSE) {
+          $variables['message_list']['status'][$delta] = t(
+           "You will be notified when the changes have been approved."
+          );
+        }
+      }
+    }
+  }
   // Altering status message for RPW.
   if ($route_name == 'view.referral_pathway_listing.page_1') {
     if (isset($variables['message_list']['status'])) {
