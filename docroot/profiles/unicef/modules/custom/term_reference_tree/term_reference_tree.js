@@ -302,7 +302,7 @@ function checkMaxChoices(item, checkbox) {
       }
     });
     if (check != true) {
-      alert('Sub category field is required')
+      alert('Sub category field is required');
       e.preventDefault();   
     } 
   });  
