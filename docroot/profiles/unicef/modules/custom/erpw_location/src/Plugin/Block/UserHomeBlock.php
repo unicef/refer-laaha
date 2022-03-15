@@ -11,6 +11,7 @@ use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\erpw_location\LocationCookie;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides a block with a simple text.
@@ -65,6 +66,13 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
   protected $currentUser;
 
   /**
+   * Symfony\Component\HttpFoundation\RequestStack definition.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -76,7 +84,8 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
     ConfigFactoryInterface $config_factory,
     LocationCookie $location_cookie,
     PrivateTempStoreFactory $temp_store_factory,
-    AccountProxyInterface $current_user) {
+    AccountProxyInterface $current_user,
+    RequestStack $request_stack) {
 
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->locationService = $location_service;
@@ -85,6 +94,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
     $this->locationCookie = $location_cookie;
     $this->tempStoreFactory = $temp_store_factory->get('erpw_location_collection');
     $this->currentUser = $current_user;
+    $this->requestStack = $request_stack->getCurrentRequest();
   }
 
   /**
@@ -115,6 +125,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
       $container->get('erpw_location.location_cookie'),
       $container->get('tempstore.private'),
       $container->get('current_user'),
+      $container->get('request_stack'),
     );
   }
 
@@ -126,7 +137,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
     $cookie_value = $this->locationCookie->getCookieValue();
     $tid = $this->tempStoreFactory->get(base64_decode($cookie_value));
     if (!$tid) {
-      $tid = $_COOKIE['location_tid'];
+      $tid = $this->requestStack->cookies->get('location_tid')
     }
     $tid_array = explode(",", $tid);
     $location = '';
