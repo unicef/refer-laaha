@@ -9,7 +9,7 @@ use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Url;
 
 /**
- * ModalForm class.
+ * Class to set ModalForm.
  */
 class ModalForm extends FormBase {
 

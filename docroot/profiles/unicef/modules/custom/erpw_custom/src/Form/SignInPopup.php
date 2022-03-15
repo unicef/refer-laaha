@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
- * Class SignInPopup.
+ * Class to handle SignInPopup functionality.
  */
 class SignInPopup extends FormBase {
 

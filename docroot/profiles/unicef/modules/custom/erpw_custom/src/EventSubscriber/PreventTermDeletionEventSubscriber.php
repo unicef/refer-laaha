@@ -7,6 +7,9 @@ use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Class PreventTermDeletionEventSubscriber.
@@ -17,6 +20,8 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
  */
 class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
 
+  use StringTranslationTrait;
+
   /**
    * Database Connection instance.
    *
@@ -25,13 +30,23 @@ class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
   protected $connection;
 
   /**
+   * Database Connection instance.
+   *
+   * @var \Drupal\Core\Config\ConfigFactory
+   */
+  protected $configFactory;
+
+  /**
    * PreventTermDeletionEventSubscriber constructor.
    *
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
+   * @param \Drupal\Core\Config\ConfigFactory $config_factory
+   *   Drupal Configuration Object.
    */
-  public function __construct(Connection $connection) {
+  public function __construct(Connection $connection, ConfigFactory $config_factory) {
     $this->connection = $connection;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -65,6 +80,32 @@ class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
         $form['description']['#markup'] = new TranslatableMarkup('Please first remove the associated entity to this term so it can be deleted.');
         unset($form['actions']['submit']);
       }
+    }
+    if ($form_id == 'domain_edit_form') {
+      $default_value = '';
+      if ($id = $form['id']['#default_value']) {
+        $config = $this->configFactory->getEditable('domain.location.' . $id);
+        $default_value = ($config->get('location')) ? Term::load($config->get('location')) : '';
+      }
+      $form['location'] = [
+        '#type' => 'entity_autocomplete',
+        '#target_type' => 'taxonomy_term',
+        '#title' => $this->t('Location'),
+        '#required' => TRUE,
+        '#default_value' => $default_value,
+        '#placeholder' => $this->t('Select Location'),
+        '#attributes' => [],
+        '#selection_settings' => [
+          'target_bundles' => ['country'],
+          'sort' => [
+            'field' => 'name',
+            'direction' => 'ASC',
+          ],
+          'match_operator' => 'STARTS_WITH',
+          'match_limit' => 10,
+        ],
+      ];
+      $form['actions']['submit']['#submit'][] = [$this, 'erpwDomainMapping'];
     }
 
   }
@@ -147,6 +188,17 @@ class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
     }
 
     return FALSE;
+  }
+
+  /**
+   * Callback to save location in domain.
+   */
+  public function erpwDomainMapping(&$form, $form_state) {
+    $id = $form_state->getValue('id');
+    $location = $form_state->getValue('location');
+    $configuration = $this->configFactory->getEditable('domain.location.' . $id);
+    $configuration->set('location', $location);
+    $configuration->save();
   }
 
 }
