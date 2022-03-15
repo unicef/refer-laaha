@@ -293,6 +293,19 @@ function checkMaxChoices(item, checkbox) {
       }
     }
   }
+  $('.not-active').closest('li').hide();
+  var check;
+  $('form').submit(function (e) {
+    $('.active-parent').each(function(){
+      if($(this).closest('li').find('input').prop('checked') == true){
+        check = true;
+      }
+    });
+    if (check != true) {
+      alert('Sub category field is required')
+      e.preventDefault();   
+    } 
+  });  
 }
 
 })(jQuery);
