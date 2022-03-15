@@ -18,7 +18,7 @@ bundle: service_type
 mode: default
 content:
   field_service_type_color:
-    weight: 2
+    type: color_field_formatter_swatch_options
     label: above
     settings:
       shape: square
@@ -27,21 +27,21 @@ content:
       opacity: false
       data_attribute: false
     third_party_settings: {  }
-    type: color_field_formatter_swatch_options
+    weight: 2
     region: content
   field_service_type_icon:
-    weight: 1
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 1
     region: content
   links:
-    weight: 0
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   field_domain_access: true
   field_domain_all_affiliates: true
