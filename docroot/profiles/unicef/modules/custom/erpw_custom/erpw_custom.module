@@ -16,6 +16,15 @@ use Drupal\views\ViewExecutable;
 use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 
+define('ERPW_COUNTRY_DOMAIN_MAPPING', [
+  'Zimbabwe' => [
+    'code' => 'zw',
+  ],
+  'Bangladesh' => [
+    'code' => 'bn',
+  ],
+]);
+
 /**
  * Implements exposed form alter.
  */
@@ -75,6 +84,15 @@ function erpw_custom_views_pre_render(ViewExecutable $view) {
  * Implements hook_form_FORM_ID_alter().
  */
 function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'user_cancel_form') {
+    $uid = \Drupal::currentUser()->id();
+    $current_user = User::load($uid);
+    if ($uid != 1  && !$current_user->hasRole('administrator')) {
+      $form['user_cancel_method']['#default_value'] = 'user_cancel_delete';
+      $form['user_cancel_method']['#access'] = FALSE;
+      $form['user_cancel_confirm']['#access'] = FALSE;
+    }
+  }
   if ($form_id == 'node_referral_path_way_edit_form' || $form_id == 'node_referral_path_way_form') {
     $permission = ($form_id == 'node_referral_path_way_edit_form') ? 'edit referral pathway of their own country' : 'add referral pathway of their own country';
     $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
@@ -342,6 +360,13 @@ function _erpw_custom_service_provider_form(array $form, FormStateInterface $for
   // Redirecting on detail page if user comes from homepage.
   $referral = \Drupal::request()->query->get('referer');
   $node = \Drupal::routeMatch()->getParameter('node');
+  $moderation_state = $form_state->getValue('moderation_state')[0]['value'] ?? '';
+  if ($moderation_state == 'draft') {
+    \Drupal::messenger()->addMessage(t('You will be notified when the changes have been approved.'), 'status');
+  }
+  elseif ($moderation_state == 'reject') {
+    \Drupal::messenger()->addMessage(t('The service has been rejected.'), 'status');
+  }
   if (isset($referral) && $referral == 'rpw' && $node instanceof NodeInterface) {
     $url = Url::fromRoute('entity.node.canonical', [
       'node' => $node->id(),
@@ -523,8 +548,7 @@ function erpw_custom_preprocess_status_messages(&$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
   // Altering status message for RPW suggest a change.
   $referral = \Drupal::request()->query->get('referer');
-  if ((isset($referral) && $referral == 'rpw' && $route_name == 'entity.node.canonical') ||
-  $route_name == 'view.manage_service.page_1') {
+  if (isset($referral) && $referral == 'rpw' && $route_name == 'entity.node.canonical') {
     if (isset($variables['message_list']['status'])) {
       $status_messages = $variables['message_list']['status'];
       foreach ($status_messages as $delta => $message) {
@@ -571,7 +595,9 @@ function erpw_custom_preprocess_status_messages(&$variables) {
  * Implements hook_views_query_alter().
  */
 function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
-  if ($view->id() == "user_lists" && $view->current_display == 'page_1') {
+  if (($view->id() == "user_lists" &&
+    ($view->current_display == 'page_1' || $view->current_display == 'page_2')) ||
+    ($view->id() == "user_count_approval_block" && $view->current_display == 'block_1')) {
     $permission = 'view users of their own country';
     $location_condition = 'user__field_location.field_location_target_id';
     $query = erpw_view_results_own_country_permissions($query, $location_condition, $permission);

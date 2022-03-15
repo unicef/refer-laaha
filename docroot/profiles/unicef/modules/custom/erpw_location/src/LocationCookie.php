@@ -146,7 +146,10 @@ class LocationCookie implements EventSubscriberInterface {
   public function onResponse(ResponseEvent $event) {
     $response = $event->getResponse();
     if ($this->getShouldUpdateCookie()) {
-      $my_new_cookie = new Cookie($this->getCookieName(), $this->getCookieValue());
+      $domain_current_url = explode(".", $this->request->server->get('SERVER_NAME'));
+      $domain_slice = array_slice($domain_current_url, -2);
+      $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
+      $my_new_cookie = new Cookie($this->getCookieName(), $this->getCookieValue(), strtotime('+7 days'), '/', $domain_site, NULL, FALSE);
       $response->headers->setCookie($my_new_cookie);
     }
     // The "should delete" needs to happen after "should update", or we could

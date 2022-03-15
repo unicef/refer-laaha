@@ -222,7 +222,7 @@ form input[type=submit].button-border {
   color: #ffffff;
 }
 
-.card-shadow, .view-manage-service .views-row, .view-manage-unpublished-services .views-row,
+.card-shadow, .view-manage-service .views-row, .view-moderated-content .views-row,
 .view-service-list .views-row, .node-referral-path-way-form .table-format table .table-format,
 .node-referral-path-way-edit-form .table-format table .table-format {
   -webkit-box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
@@ -231,32 +231,32 @@ form input[type=submit].button-border {
   padding: 5px 10px 10px;
   margin: 13px 0 15px;
 }
-.card-shadow .card-shadow, .view-manage-service .views-row .card-shadow, .view-manage-unpublished-services .views-row .card-shadow,
-.view-service-list .views-row .card-shadow, .card-shadow .view-manage-service .views-row, .card-shadow .view-manage-unpublished-services .views-row, .view-manage-service .card-shadow .views-row, .view-manage-unpublished-services .card-shadow .views-row, .view-manage-service .views-row .views-row, .view-manage-unpublished-services .views-row .views-row,
+.card-shadow .card-shadow, .view-manage-service .views-row .card-shadow, .view-moderated-content .views-row .card-shadow,
+.view-service-list .views-row .card-shadow, .card-shadow .view-manage-service .views-row, .card-shadow .view-moderated-content .views-row, .view-manage-service .card-shadow .views-row, .view-moderated-content .card-shadow .views-row, .view-manage-service .views-row .views-row, .view-moderated-content .views-row .views-row,
 .card-shadow .view-service-list .views-row,
 .view-service-list .card-shadow .views-row,
-.view-service-list .views-row .views-row, .node-referral-path-way-form .table-format table .table-format .card-shadow, .node-referral-path-way-form .table-format table .table-format .view-manage-service .views-row, .node-referral-path-way-form .table-format table .table-format .view-manage-unpublished-services .views-row, .view-manage-service .node-referral-path-way-form .table-format table .table-format .views-row, .view-manage-unpublished-services .node-referral-path-way-form .table-format table .table-format .views-row,
+.view-service-list .views-row .views-row, .node-referral-path-way-form .table-format table .table-format .card-shadow, .node-referral-path-way-form .table-format table .table-format .view-manage-service .views-row, .node-referral-path-way-form .table-format table .table-format .view-moderated-content .views-row, .view-manage-service .node-referral-path-way-form .table-format table .table-format .views-row, .view-moderated-content .node-referral-path-way-form .table-format table .table-format .views-row,
 .node-referral-path-way-form .table-format table .table-format .view-service-list .views-row,
 .view-service-list .node-referral-path-way-form .table-format table .table-format .views-row,
 .node-referral-path-way-edit-form .table-format table .table-format .card-shadow,
 .node-referral-path-way-edit-form .table-format table .table-format .view-manage-service .views-row,
-.node-referral-path-way-edit-form .table-format table .table-format .view-manage-unpublished-services .views-row,
+.node-referral-path-way-edit-form .table-format table .table-format .view-moderated-content .views-row,
 .view-manage-service .node-referral-path-way-edit-form .table-format table .table-format .views-row,
-.view-manage-unpublished-services .node-referral-path-way-edit-form .table-format table .table-format .views-row,
+.view-moderated-content .node-referral-path-way-edit-form .table-format table .table-format .views-row,
 .node-referral-path-way-edit-form .table-format table .table-format .view-service-list .views-row,
-.view-service-list .node-referral-path-way-edit-form .table-format table .table-format .views-row, .card-shadow .node-referral-path-way-form .table-format table .table-format, .view-manage-service .views-row .node-referral-path-way-form .table-format table .table-format, .view-manage-unpublished-services .views-row .node-referral-path-way-form .table-format table .table-format,
-.view-service-list .views-row .node-referral-path-way-form .table-format table .table-format, .node-referral-path-way-form .table-format table .card-shadow .table-format, .node-referral-path-way-form .table-format table .view-manage-service .views-row .table-format, .node-referral-path-way-form .table-format table .view-manage-unpublished-services .views-row .table-format, .view-manage-service .node-referral-path-way-form .table-format table .views-row .table-format, .view-manage-unpublished-services .node-referral-path-way-form .table-format table .views-row .table-format,
+.view-service-list .node-referral-path-way-edit-form .table-format table .table-format .views-row, .card-shadow .node-referral-path-way-form .table-format table .table-format, .view-manage-service .views-row .node-referral-path-way-form .table-format table .table-format, .view-moderated-content .views-row .node-referral-path-way-form .table-format table .table-format,
+.view-service-list .views-row .node-referral-path-way-form .table-format table .table-format, .node-referral-path-way-form .table-format table .card-shadow .table-format, .node-referral-path-way-form .table-format table .view-manage-service .views-row .table-format, .node-referral-path-way-form .table-format table .view-moderated-content .views-row .table-format, .view-manage-service .node-referral-path-way-form .table-format table .views-row .table-format, .view-moderated-content .node-referral-path-way-form .table-format table .views-row .table-format,
 .node-referral-path-way-form .table-format table .view-service-list .views-row .table-format,
 .view-service-list .node-referral-path-way-form .table-format table .views-row .table-format, .node-referral-path-way-form .table-format table .table-format .table-format,
 .card-shadow .node-referral-path-way-edit-form .table-format table .table-format,
 .view-manage-service .views-row .node-referral-path-way-edit-form .table-format table .table-format,
-.view-manage-unpublished-services .views-row .node-referral-path-way-edit-form .table-format table .table-format,
+.view-moderated-content .views-row .node-referral-path-way-edit-form .table-format table .table-format,
 .view-service-list .views-row .node-referral-path-way-edit-form .table-format table .table-format,
 .node-referral-path-way-edit-form .table-format table .card-shadow .table-format,
 .node-referral-path-way-edit-form .table-format table .view-manage-service .views-row .table-format,
-.node-referral-path-way-edit-form .table-format table .view-manage-unpublished-services .views-row .table-format,
+.node-referral-path-way-edit-form .table-format table .view-moderated-content .views-row .table-format,
 .view-manage-service .node-referral-path-way-edit-form .table-format table .views-row .table-format,
-.view-manage-unpublished-services .node-referral-path-way-edit-form .table-format table .views-row .table-format,
+.view-moderated-content .node-referral-path-way-edit-form .table-format table .views-row .table-format,
 .node-referral-path-way-edit-form .table-format table .view-service-list .views-row .table-format,
 .view-service-list .node-referral-path-way-edit-form .table-format table .views-row .table-format,
 .node-referral-path-way-edit-form .table-format table .table-format .table-format {
@@ -473,6 +473,36 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   color: #9B9B9B;
   font-size: 14px;
   font-weight: 400;
+}
+
+.button-block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+.button-block a {
+  color: #A85766;
+}
+.button-block .fill-button {
+  background: #A85766;
+  border: 1px solid #A85766;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 4px;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 0.875em;
+  font-weight: 500;
+  margin: 0 0 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+}
+.button-block .fill-button a {
+  color: #ffffff;
 }
 
 form .form-required::after {
@@ -2047,7 +2077,7 @@ header {
 }
 .service-list .view-content, .view-organisations .view-content,
 .view-referral-pathway-listing .view-content {
-  margin-top: 40px;
+  margin: 40px 0;
 }
 .service-list .title-view, .view-organisations .title-view,
 .view-referral-pathway-listing .title-view {
@@ -2384,31 +2414,31 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   margin: -6px 1px;
 }
 
-.view-manage-service form .form-type-select, .view-manage-unpublished-services form .form-type-select,
+.view-manage-service form .form-type-select, .view-moderated-content form .form-type-select,
 .view-service-list form .form-type-select {
   width: 100%;
 }
-.view-manage-service .views-row, .view-manage-unpublished-services .views-row,
+.view-manage-service .views-row, .view-moderated-content .views-row,
 .view-service-list .views-row {
   color: #444;
   font-size: 12px;
 }
-.view-manage-service .views-row a, .view-manage-unpublished-services .views-row a,
+.view-manage-service .views-row a, .view-moderated-content .views-row a,
 .view-service-list .views-row a {
   color: #444;
 }
-.view-manage-service .views-row .service-provider-title, .view-manage-unpublished-services .views-row .service-provider-title,
+.view-manage-service .views-row .service-provider-title, .view-moderated-content .views-row .service-provider-title,
 .view-service-list .views-row .service-provider-title {
   border-bottom: 0.5px solid #D7D7D7;
   font-weight: 700;
   padding: 6px 0;
   text-transform: capitalize;
 }
-.view-manage-service .views-row .service-provider-title a, .view-manage-unpublished-services .views-row .service-provider-title a,
+.view-manage-service .views-row .service-provider-title a, .view-moderated-content .views-row .service-provider-title a,
 .view-service-list .views-row .service-provider-title a {
   color: #444;
 }
-.view-manage-service .views-row .service-provider-title a::before, .view-manage-unpublished-services .views-row .service-provider-title a::before,
+.view-manage-service .views-row .service-provider-title a::before, .view-moderated-content .views-row .service-provider-title a::before,
 .view-service-list .views-row .service-provider-title a::before {
   background: url("../images/service-provider.svg") 0 0 no-repeat;
   content: "";
@@ -2418,9 +2448,9 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   vertical-align: middle;
   width: 26px;
 }
-.view-manage-service .views-row .service-provider-org, .view-manage-unpublished-services .views-row .service-provider-org,
+.view-manage-service .views-row .service-provider-org, .view-moderated-content .views-row .service-provider-org,
 .view-manage-service .views-row .service-provider-number,
-.view-manage-unpublished-services .views-row .service-provider-number,
+.view-moderated-content .views-row .service-provider-number,
 .view-service-list .views-row .service-provider-org,
 .view-service-list .views-row .service-provider-number {
   display: -webkit-box;
@@ -2430,20 +2460,20 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   padding: 0 5px;
   word-break: break-word;
 }
-.view-manage-service .views-row .service-provider-org span, .view-manage-unpublished-services .views-row .service-provider-org span,
+.view-manage-service .views-row .service-provider-org span, .view-moderated-content .views-row .service-provider-org span,
 .view-manage-service .views-row .service-provider-number span,
-.view-manage-unpublished-services .views-row .service-provider-number span,
+.view-moderated-content .views-row .service-provider-number span,
 .view-service-list .views-row .service-provider-org span,
 .view-service-list .views-row .service-provider-number span {
   max-width: 100px;
   width: 100%;
 }
-.view-manage-service .views-row .views-field, .view-manage-unpublished-services .views-row .views-field,
+.view-manage-service .views-row .views-field, .view-moderated-content .views-row .views-field,
 .view-service-list .views-row .views-field {
   padding: 0 5px;
   margin-top: 10px;
 }
-.view-manage-service .views-row .views-field.views-field-field-location, .view-manage-unpublished-services .views-row .views-field.views-field-field-location,
+.view-manage-service .views-row .views-field.views-field-field-location, .view-moderated-content .views-row .views-field.views-field-field-location,
 .view-service-list .views-row .views-field.views-field-field-location {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2451,17 +2481,17 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   padding: 0 10px;
   word-break: break-word;
 }
-.view-manage-service .views-row .views-field.views-field-field-location span, .view-manage-unpublished-services .views-row .views-field.views-field-field-location span,
+.view-manage-service .views-row .views-field.views-field-field-location span, .view-moderated-content .views-row .views-field.views-field-field-location span,
 .view-service-list .views-row .views-field.views-field-field-location span {
   max-width: 100px;
   width: 100%;
 }
-.view-manage-service .views-row .views-field.views-field-field-location .field-content, .view-manage-unpublished-services .views-row .views-field.views-field-field-location .field-content,
+.view-manage-service .views-row .views-field.views-field-field-location .field-content, .view-moderated-content .views-row .views-field.views-field-field-location .field-content,
 .view-service-list .views-row .views-field.views-field-field-location .field-content {
   display: inline-block;
   width: calc(100% - 100px);
 }
-.view-manage-service .views-row .views-field.views-field-nothing-1 .service-mode, .view-manage-unpublished-services .views-row .views-field.views-field-nothing-1 .service-mode,
+.view-manage-service .views-row .views-field.views-field-nothing-1 .service-mode, .view-moderated-content .views-row .views-field.views-field-nothing-1 .service-mode,
 .view-service-list .views-row .views-field.views-field-nothing-1 .service-mode {
   border-bottom: 0.5px solid #D7D7D7;
   display: -webkit-box;
@@ -2470,22 +2500,22 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   padding: 0 5px 10px;
   word-break: break-word;
 }
-.view-manage-service .views-row .views-field.views-field-nothing-1 .service-mode span, .view-manage-unpublished-services .views-row .views-field.views-field-nothing-1 .service-mode span,
+.view-manage-service .views-row .views-field.views-field-nothing-1 .service-mode span, .view-moderated-content .views-row .views-field.views-field-nothing-1 .service-mode span,
 .view-service-list .views-row .views-field.views-field-nothing-1 .service-mode span {
   max-width: 100px;
   width: 100%;
 }
-.view-manage-service .views-row .more-details-text, .view-manage-unpublished-services .views-row .more-details-text,
+.view-manage-service .views-row .more-details-text, .view-moderated-content .views-row .more-details-text,
 .view-service-list .views-row .more-details-text {
   padding: 10px;
   text-align: right;
 }
-.view-manage-service .views-row .more-details-text a, .view-manage-unpublished-services .views-row .more-details-text a,
+.view-manage-service .views-row .more-details-text a, .view-moderated-content .views-row .more-details-text a,
 .view-service-list .views-row .more-details-text a {
   color: #A85766;
   border-bottom: 1px solid #A85766;
 }
-.view-manage-service .views-row .more-details-text a::after, .view-manage-unpublished-services .views-row .more-details-text a::after,
+.view-manage-service .views-row .more-details-text a::after, .view-moderated-content .views-row .more-details-text a::after,
 .view-service-list .views-row .more-details-text a::after {
   background: url("../images/arrow-small.svg") center right no-repeat;
   content: "";
@@ -2496,13 +2526,13 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   width: 4px;
 }
 
-.view-manage-service .view-header, .view-manage-unpublished-services .view-header {
+.view-manage-service .view-header, .view-moderated-content .view-header {
   border-bottom: 2px solid rgba(243, 193, 191, 0.53);
   margin-bottom: 20px;
   padding-bottom: 10px;
   position: relative;
 }
-.view-manage-service .service-count, .view-manage-unpublished-services .service-count {
+.view-manage-service .service-count, .view-moderated-content .service-count {
   color: #9B9B9B;
   font-size: 14px;
   font-weight: 400;
@@ -2580,9 +2610,6 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   background: url(../images/top_nav_image.svg) no-repeat right -143px top -130px;
 }
 
-.user-personal-details, .service-provider-details {
-  padding: 0 34px;
-}
 .user-personal-details label, .service-provider-details label, .user-personal-details .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .user-personal-details .fieldset-legend, .service-provider-details .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .service-provider-details .fieldset-legend,
 .user-personal-details .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
 .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .user-personal-details .fieldset-legend,
@@ -2637,6 +2664,7 @@ body.path-user {
 .ui-dialog .ui-dialog-title {
   float: none;
   margin-top: 10px;
+  white-space: inherit;
 }
 .ui-dialog .ui-dialog-titlebar {
   background: none;
@@ -2661,6 +2689,29 @@ body.path-user {
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
   float: none;
   text-align: center;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 20px 10px 0px;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions button {
+  background: none;
+  border: 1px solid #A85766;
+  color: #A85766;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions .js-form-submit {
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
+  margin-left: 20px;
+  background: #A85766;
+  border: 1px solid #A85766;
+  color: #ffffff;
 }
 .ui-dialog .ui-dialog-buttonpane button {
   background: #A85766;
@@ -2708,17 +2759,20 @@ body.path-user {
   opacity: 1 !important;
 }
 
-.page-node-type-service-type .ui-dialog-titlebar {
+.page-node-type-service-type .ui-dialog-titlebar,
+.path-user .ui-dialog-titlebar {
   background: none;
   border: 0;
   font-weight: 400;
-  padding: 20px 0 0;
+  padding: 30px 0 0;
 }
-.page-node-type-service-type .ui-dialog-titlebar .ui-dialog-title {
+.page-node-type-service-type .ui-dialog-titlebar .ui-dialog-title,
+.path-user .ui-dialog-titlebar .ui-dialog-title {
   white-space: inherit;
   width: 100%;
 }
-.page-node-type-service-type .ui-dialog-titlebar-close {
+.page-node-type-service-type .ui-dialog-titlebar-close,
+.path-user .ui-dialog-titlebar-close {
   top: 17px;
 }
 /*# sourceMappingURL=style.css.map */

@@ -50,7 +50,19 @@ erpw_custom.node_delete:
     _controller: '\Drupal\erpw_custom\Controller\ModalController::deleteServiceTypeNode'
   requirements:
     _permission: 'access content'
+
 erpw_custom.language_selector:
   path: '/select-language'
   defaults:
     _form: '\Drupal\erpw_custom\Form\LanguageSelector'
+
+rpw_custom.active_user:
+  path: '/user/active/{user}'
+  defaults:
+    _controller: '\Drupal\erpw_custom\Controller\ModalController::activeUser'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      user:
+        type: entity:user
