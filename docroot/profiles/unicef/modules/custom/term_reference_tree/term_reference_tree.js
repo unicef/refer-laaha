@@ -302,7 +302,8 @@ function checkMaxChoices(item, checkbox) {
       }
     });
     if (check != true) {
-      alert('Sub category field is required');
+      $('.region-highlighted').empty().prepend('<div data-drupal-messages=""><div role="contentinfo" aria-label="Error message" class="messages messages--error"><div role="alert"><h2 class="visually-hidden">Error message</h2>Subcategory field is required</div></div></div>')
+      window.scrollTo(0, 0);
       e.preventDefault();   
     } 
   });  
