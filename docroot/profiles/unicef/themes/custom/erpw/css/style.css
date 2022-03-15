@@ -475,6 +475,36 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   font-weight: 400;
 }
 
+.button-block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+.button-block a {
+  color: #A85766;
+}
+.button-block .fill-button {
+  background: #A85766;
+  border: 1px solid #A85766;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 4px;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 0.875em;
+  font-weight: 500;
+  margin: 0 0 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+}
+.button-block .fill-button a {
+  color: #ffffff;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
@@ -2580,9 +2610,6 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   background: url(../images/top_nav_image.svg) no-repeat right -143px top -130px;
 }
 
-.user-personal-details, .service-provider-details {
-  padding: 0 34px;
-}
 .user-personal-details label, .service-provider-details label, .user-personal-details .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .user-personal-details .fieldset-legend, .service-provider-details .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .service-provider-details .fieldset-legend,
 .user-personal-details .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
 .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .user-personal-details .fieldset-legend,
@@ -2637,6 +2664,7 @@ body.path-user {
 .ui-dialog .ui-dialog-title {
   float: none;
   margin-top: 10px;
+  white-space: inherit;
 }
 .ui-dialog .ui-dialog-titlebar {
   background: none;
@@ -2661,6 +2689,29 @@ body.path-user {
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
   float: none;
   text-align: center;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 20px 10px 0px;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions button {
+  background: none;
+  border: 1px solid #A85766;
+  color: #A85766;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions .js-form-submit {
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
+  margin-left: 20px;
+  background: #A85766;
+  border: 1px solid #A85766;
+  color: #ffffff;
 }
 .ui-dialog .ui-dialog-buttonpane button {
   background: #A85766;
@@ -2708,17 +2759,20 @@ body.path-user {
   opacity: 1 !important;
 }
 
-.page-node-type-service-type .ui-dialog-titlebar {
+.page-node-type-service-type .ui-dialog-titlebar,
+.path-user .ui-dialog-titlebar {
   background: none;
   border: 0;
   font-weight: 400;
-  padding: 20px 0 0;
+  padding: 30px 0 0;
 }
-.page-node-type-service-type .ui-dialog-titlebar .ui-dialog-title {
+.page-node-type-service-type .ui-dialog-titlebar .ui-dialog-title,
+.path-user .ui-dialog-titlebar .ui-dialog-title {
   white-space: inherit;
   width: 100%;
 }
-.page-node-type-service-type .ui-dialog-titlebar-close {
+.page-node-type-service-type .ui-dialog-titlebar-close,
+.path-user .ui-dialog-titlebar-close {
   top: 17px;
 }
 /*# sourceMappingURL=style.css.map */
