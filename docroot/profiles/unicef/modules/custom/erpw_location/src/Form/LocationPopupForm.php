@@ -73,9 +73,9 @@ class LocationPopupForm extends FormBase {
         ],
       ],
     ];
-    $url = Url::fromRoute('erpw_custom.dashboard');
+    $url = Url::fromRoute('erpw_location.manage_location');
     $url->setOptions($link_options);
-    $dashboard_url = Link::fromTextAndUrl('BACK TO DASHBOARD', $url)->toString();
+    $dashboard_url = Link::fromTextAndUrl('BACK TO LOCATION', $url)->toString();
     $form['back_to_dashboard'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="use-ajax modal-popup button-red">',
