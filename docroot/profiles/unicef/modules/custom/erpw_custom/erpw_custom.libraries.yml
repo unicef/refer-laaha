@@ -6,3 +6,10 @@ erpw_js:
   dependencies:
     - core/jquery
     - core/drupalSettings
+erpw_geoip:
+  js:
+    js/erpw_geoip.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+    - core/drupal.ajax
