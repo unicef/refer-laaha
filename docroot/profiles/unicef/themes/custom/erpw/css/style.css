@@ -864,8 +864,7 @@ header {
   text-align: center;
   margin: 5px -14px 0 0;
 }
-
-.field__item {
+[id^=block-pendingapproval] .field__item {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -876,22 +875,22 @@ header {
       flex-basis: 100%;
   margin-right: 14px;
 }
-.field__item .pending-service-count {
+[id^=block-pendingapproval] .field__item .pending-service-count {
   padding: 20px 10px;
 }
-.field__item .pending-count {
+[id^=block-pendingapproval] .field__item .pending-count {
   font-size: 40px;
 }
-.field__item .pending-text {
+[id^=block-pendingapproval] .field__item .pending-text {
   font-size: 10px;
   line-height: 12px;
   min-height: 24px;
 }
-.field__item .pending-review-link {
+[id^=block-pendingapproval] .field__item .pending-review-link {
   border-top: 1px solid #A85766;
   padding: 5px 10px 10px;
 }
-.field__item .pending-review-link a {
+[id^=block-pendingapproval] .field__item .pending-review-link a {
   color: #A85766;
   font-size: 11px;
   font-weight: 500;
