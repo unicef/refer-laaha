@@ -23,7 +23,7 @@
           $('#country-dropdown option').each(function(){
               if(this.value != null){
                 const domain_array = this.value.split("_");
-                if(domain_array.indexOf(country_code) >= 0) {
+                if (domain_array.indexOf(country_code) >= 0 || country_code == 'zw' && domain_array[0] == 'zm') {
                   $('#country-dropdown').val(this.value).trigger("change");
                 }
               }
