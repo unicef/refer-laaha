@@ -1169,7 +1169,7 @@ function vss_custom_views_data_alter(&$data) {
  * Node presave.
  */
 function vss_custom_node_presave(EntityInterface $entity) {
-  $new = [];
+  $form_val = [];
   $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
   $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
   $query = \Drupal::database()->select('node__field_sub_category', 'n');
