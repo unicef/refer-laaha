@@ -415,6 +415,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-type-quick-node-clone-form .form-actions,
 .node-service-type-edit-form .form-actions,
 .node-service-provider-form .form-actions,
+.node-service-provider-edit-form .form-actions,
 .user-form .form-actions {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -429,6 +430,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-type-quick-node-clone-form .form-actions input[type=submit],
 .node-service-type-edit-form .form-actions input[type=submit],
 .node-service-provider-form .form-actions input[type=submit],
+.node-service-provider-edit-form .form-actions input[type=submit],
 .user-form .form-actions input[type=submit] {
   padding: 10px 0 !important;
   width: 134px;
@@ -438,6 +440,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-type-quick-node-clone-form .form-actions [id^=edit-submit],
 .node-service-type-edit-form .form-actions [id^=edit-submit],
 .node-service-provider-form .form-actions [id^=edit-submit],
+.node-service-provider-edit-form .form-actions [id^=edit-submit],
 .user-form .form-actions [id^=edit-submit] {
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
@@ -453,6 +456,8 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-type-edit-form .form-actions [id^=edit-cancel],
 .node-service-provider-form .form-actions [id^=edit-preview],
 .node-service-provider-form .form-actions [id^=edit-cancel],
+.node-service-provider-edit-form .form-actions [id^=edit-preview],
+.node-service-provider-edit-form .form-actions [id^=edit-cancel],
 .user-form .form-actions [id^=edit-preview],
 .user-form .form-actions [id^=edit-cancel] {
   background: none;
@@ -620,6 +625,11 @@ input[type=submit].use-ajax.arrow-btn {
   top: 5px;
   right: 0;
   width: 10px;
+}
+.path-sign-up [id^=edit-back] {
+  background: none;
+  color: #A85766;
+  width: 134px;
 }
 
 .password-help-text {
