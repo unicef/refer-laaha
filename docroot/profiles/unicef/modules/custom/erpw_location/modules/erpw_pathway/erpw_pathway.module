@@ -90,7 +90,6 @@ function erpw_pathway_views_query_alter(ViewExecutable $view, QueryPluginBase $q
   if ($view->id() == "referral_pathway_on_homepage" || $view->id() == "service_list") {
     $ptids = [];
     $location_id = get_user_location();
-
     $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
     if (!empty($ptids)) {
       foreach ($query->where as &$condition_group) {
@@ -136,8 +135,6 @@ function set_user_location() {
     $default_location = \Drupal::service('erpw_location.location_services')->getUserDefaultLocation($user);
   }
   else {
-    $session_manager = \Drupal::service('session_manager');
-    $session_manager->start();
     $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
     $config = \Drupal::config('domain.location.' . $domain->get('id'));
     if (!$default_location = $config->get('location')) {
@@ -151,6 +148,10 @@ function set_user_location() {
   else {
     $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
   }
+  $domain_current_url = explode(".", \Drupal::requestStack()->getCurrentRequest()->server->get('SERVER_NAME'));
+  $domain_slice = array_slice($domain_current_url, -2);
+  $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
+  setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $domain_site, FALSE);
 }
 
 /**
@@ -159,7 +160,8 @@ function set_user_location() {
 function get_user_location() {
   $tempstore = \Drupal::service('tempstore.private')->get('erpw_location_collection');
   $cookie_value = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
-  $location_id = $tempstore->get(base64_decode($cookie_value));
+  $location_id = (\Drupal::requestStack()->getCurrentRequest()->cookies->get('location_tid')) ??
+    $tempstore->get(base64_decode($cookie_value));
   if (!empty($location_id)) {
     return $location_id;
   }

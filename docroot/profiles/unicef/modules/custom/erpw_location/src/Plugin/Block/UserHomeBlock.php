@@ -135,7 +135,10 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
   public function build() {
     $form_config = $this->configfactory->get('erpw_location.settings');
     $cookie_value = $this->locationCookie->getCookieValue();
-    $tid = $this->tempStoreFactory->get(base64_decode($cookie_value));
+    $tid = $tid = $this->requestStack->cookies->get('location_tid');
+    if (!$tid) {
+      $this->tempStoreFactory->get(base64_decode($cookie_value));
+    }
     $tid_array = explode(",", $tid);
     $location = '';
     if (!empty($tid)) {

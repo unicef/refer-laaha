@@ -94,8 +94,128 @@
         </span>
       </div>
     </div>
-    <div class="margin-space">
-      {{ content }}
-    </div>
-  </div>
-</article>
+   <div class="margin-space">
+       {% if content.field_service_type.0['#plain_text'] %}
+      <div>
+        <label>{{ 'Type of service'|t }}: </label>
+        <span> {{ content.field_service_type.0['#plain_text'] }}</span>
+      </div>
+      {% endif %}
+      {% if content.field_select_organisation.0['#plain_text'] %}
+      <div>
+        <label> {{ 'Organisation'|t }}: </label>
+        <span>{{ content.field_select_organisation.0['#plain_text'] }}</span>
+      </div>
+      {% endif %}
+       {% if content.field_p_code.0['#context'].value %}
+      <div>
+        <label> {{ 'P-code'|t }}:</label>
+        <span> {{ content.field_p_code.0['#context'].value }}</span>
+      </div>
+      {% endif %}
+    {% if content.field_number_of_staff_providing_.0['#context'].value %}
+      <div>
+        <label> {{ 'Number of staff providing service'|t }}: </label>
+        <span>{{ content.field_number_of_staff_providing_.0['#context'].value}}</span>
+      </div>
+      {% endif %}
+      {% if content.field_opening_hours.0['#context'].value %}
+      <div>
+        <label> {{ 'Opening hours'|t }}: </label>
+        <span> {{ content.field_opening_hours.0['#context'].value }}</span>
+      </div>
+      {% endif %}
+      {% if content.field_cost_of_service.0['#context'].value %}
+      <div>
+        <label> {{ 'Cost of Service'|t }}: </label>
+        <span> {{ content.field_cost_of_service.0['#context'].value }}</span>
+      </div>
+      {% endif %}
+      {% if content.field_transportation_available.0['#markup'] %}
+      <div>
+        <label> {{ 'Transportation Available'|t }}: </label>
+        <span>{{ content.field_transportation_available.0['#markup'] }}</span>
+      </div>
+      {% endif %}
+      {% if content.field_accessibility_for_persons_.0['#markup'] %}
+      <div>
+        <label> {{ 'Accessibility for Persons with disability'|t }}: </label>
+        <span> {{ content.field_accessibility_for_persons_.0['#markup'] }}</span>
+      </div>
+      {% endif %}
+      {% if content.field_age_group.0['#markup']%}
+      <div>
+        <label> {{ 'Age group'|t }}: </label>
+        <span>{{ content.field_age_group.0['#markup'] }}</span>
+      </div>
+      {% endif %}
+      {% if content.field_target_group.0['#markup'] %}
+      <div>
+        <label> {{ 'Target group'|t }}: </label>
+        <span>{{ content.field_target_group.0['#markup'] }}</span>
+      </div>
+      {% endif %}
+      {% if content.field_location.0['#plain_text'] %}
+      <div>
+        <label> {{ 'Location'|t }}: </label>
+        <span>{{ service_location }}</span>
+      </div>
+       {% endif %}
+      {% if content.field_countrycode.0['#context'].value  %}
+      <div>
+        <label> {{ 'Country code'|t }}:</label>
+        <span>{{ content.field_countrycode.0['#context'].value  }}</span>
+      </div>
+      {% endif %}
+      {% if content.field_phone_number.0['#context'].value %}
+      <div>
+        <label> {{ 'Phone Number'|t }}: </label>
+        <span>{{ content.field_phone_number.0['#context'].value }}</span>
+      </div>
+      {% endif %}
+        {% if content.field_mode.0['#markup'] %}
+      <div>
+        <label> {{ 'Mode'|t }}: </label>
+        <span>{{ content.field_mode.0['#markup'] }}</span>
+        </div>
+          {% endif %}
+          {% if label %}
+      <div>
+        <label> {{ 'Name of the Focal Point'|t }}:</label>
+        <span>{{ label }}</span>
+      </div>
+        {% endif %}
+        {% if content.field_phone_number_of_focal_poin.0['#context'].value %}
+      <div>
+        <label> {{ 'Phone Number of focal point'|t }}: </label>
+        <span> {{ content.field_phone_number_of_focal_poin.0['#context'].value }}</span>
+      </div>
+        {% endif %}
+        {% if content.field_email_of_focal_point.0['#context'].value %}
+      <div>
+        <label> {{ 'Email of Focal point'|t }}: </label>
+        <span> {{ content.field_email_of_focal_point.0['#context'].value }}</span>
+      </div>
+        {% endif %}
+        {% if content.field_name_backup_focalpoint_ref.0['#context'].value %}
+      <div>
+        <label> {{ 'Name of back-up focal point'|t }}: </label>
+        <span> {{ content.field_name_backup_focalpoint_ref.0['#context'].value }}</span>
+      </div>
+        {% endif %}
+        {% if content.field_phone_number_backup_focalp.0['#context'].value %}
+      <div>
+        <label> {{ 'Phone Number of back-up focal point'|t }}: </label>
+        <span> {{ content.field_phone_number_backup_focalp.0['#context'].value }}</span>
+      </div>
+        {% endif %}
+        {% if content.field_email_backup_focal_point.0['#context'].value %}
+      <div>
+        <label> {{ 'Email of back-up focal point'|t }}: </label>
+        <span>{{ content.field_email_backup_focal_point.0['#context'].value }}</span>
+      </div>
+       {% endif %}
+       </div>
+    </div>    
+    </article>
+    

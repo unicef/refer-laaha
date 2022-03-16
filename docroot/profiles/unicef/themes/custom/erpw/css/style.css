@@ -13,7 +13,7 @@ main {
 .page-title {
   border-bottom: 1px solid rgba(243, 193, 191, 0.53);
   color: #A85766;
-  padding: 20px 0;
+  padding: 20px 50px;
   text-align: center;
   font-size: 1.125em;
   font-weight: 500;
@@ -415,6 +415,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-type-quick-node-clone-form .form-actions,
 .node-service-type-edit-form .form-actions,
 .node-service-provider-form .form-actions,
+.node-service-provider-edit-form .form-actions,
 .user-form .form-actions {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -429,6 +430,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-type-quick-node-clone-form .form-actions input[type=submit],
 .node-service-type-edit-form .form-actions input[type=submit],
 .node-service-provider-form .form-actions input[type=submit],
+.node-service-provider-edit-form .form-actions input[type=submit],
 .user-form .form-actions input[type=submit] {
   padding: 10px 0 !important;
   width: 134px;
@@ -438,6 +440,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-type-quick-node-clone-form .form-actions [id^=edit-submit],
 .node-service-type-edit-form .form-actions [id^=edit-submit],
 .node-service-provider-form .form-actions [id^=edit-submit],
+.node-service-provider-edit-form .form-actions [id^=edit-submit],
 .user-form .form-actions [id^=edit-submit] {
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
@@ -453,6 +456,8 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-type-edit-form .form-actions [id^=edit-cancel],
 .node-service-provider-form .form-actions [id^=edit-preview],
 .node-service-provider-form .form-actions [id^=edit-cancel],
+.node-service-provider-edit-form .form-actions [id^=edit-preview],
+.node-service-provider-edit-form .form-actions [id^=edit-cancel],
 .user-form .form-actions [id^=edit-preview],
 .user-form .form-actions [id^=edit-cancel] {
   background: none;
@@ -620,6 +625,11 @@ input[type=submit].use-ajax.arrow-btn {
   top: 5px;
   right: 0;
   width: 10px;
+}
+.path-sign-up [id^=edit-back] {
+  background: none;
+  color: #A85766;
+  width: 134px;
 }
 
 .password-help-text {
@@ -864,8 +874,7 @@ header {
   text-align: center;
   margin: 5px -14px 0 0;
 }
-
-.field__item {
+[id^=block-pendingapproval] .field__item {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -876,22 +885,22 @@ header {
       flex-basis: 100%;
   margin-right: 14px;
 }
-.field__item .pending-service-count {
+[id^=block-pendingapproval] .field__item .pending-service-count {
   padding: 20px 10px;
 }
-.field__item .pending-count {
+[id^=block-pendingapproval] .field__item .pending-count {
   font-size: 40px;
 }
-.field__item .pending-text {
+[id^=block-pendingapproval] .field__item .pending-text {
   font-size: 10px;
   line-height: 12px;
   min-height: 24px;
 }
-.field__item .pending-review-link {
+[id^=block-pendingapproval] .field__item .pending-review-link {
   border-top: 1px solid #A85766;
   padding: 5px 10px 10px;
 }
-.field__item .pending-review-link a {
+[id^=block-pendingapproval] .field__item .pending-review-link a {
   color: #A85766;
   font-size: 11px;
   font-weight: 500;
@@ -935,6 +944,35 @@ header {
   display: inline-flex;
   height: 27px;
   width: 26px;
+}
+
+.user-pass .js-form-item + p {
+  margin-bottom: 10px;
+}
+
+[id^=edit-pass] .password-strength {
+  margin-bottom: 10px;
+}
+[id^=edit-pass] .password-strength__meter {
+  background: #FFF6F5;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+[id^=edit-pass] .password-strength__indicator.is-weak, [id^=edit-pass] .password-strength__indicator.is-strong, [id^=edit-pass] .password-strength__indicator.is-fair, [id^=edit-pass] .password-strength__indicator.is-good {
+  border-radius: 10px 0 0 10px;
+}
+[id^=edit-pass] .password-strength__title,
+[id^=edit-pass] .js-password-confirm-message {
+  font-size: 14px;
+}
+[id^=edit-pass] .js-password-confirm-message {
+  margin: 10px 0;
+}
+[id^=edit-pass] .password-suggestions {
+  border: 1px solid #F3C1BF;
+  font-size: 12px;
+  padding-bottom: 5px;
+  margin-top: -20px;
 }
 
 .view-referral-pathway-on-homepage {
