@@ -90,7 +90,6 @@ class LanguageSelector extends FormBase {
     $instance->entityManager = $container->get('entity_type.manager');
     $instance->connection = $container->get('database');
     $instance->requestStack = $container->get('request_stack');
-    $instance->session = $container->get('session_manager');
     return $instance;
   }
 
@@ -114,18 +113,25 @@ class LanguageSelector extends FormBase {
         $domain_list[$domain_id] = $domain_name;
       }
     }
-
     $form['domain'] = [
       '#prefix' => '<div id="domain-wrapper">',
       '#suffix' => '</div>',
     ];
+    $default_lang = 'en';
+    // Get the domain if country is selected.
+    if ($selected_domain = $form_state->getValue('country')) {
+      $domain = $this->entityManager->getStorage('domain')->load($selected_domain);
+    }
+    else {
+      $domain = $this->domainNegotiator->getActiveDomain();
+    }
     $form['domain']['country'] = [
       '#title' => $this->t('Select Country'),
       '#type' => 'select',
       '#options' => ['' => $this->t('Select country')] + $domain_list,
       '#required' => TRUE,
       '#id' => 'country-dropdown',
-      '#default_value' => '',
+      '#default_value' => $domain->id(),
       '#ajax' => [
         'callback' => '::getLanguages',
         'event' => 'change',
@@ -137,14 +143,6 @@ class LanguageSelector extends FormBase {
       ],
     ];
     $form_state->setRebuild();
-    $default_lang = 'en';
-    // Get the domain if country is selected.
-    if ($selected_domain = $form_state->getValue('country')) {
-      $domain = $this->entityManager->getStorage('domain')->load($selected_domain);
-    }
-    else {
-      $domain = $this->domainNegotiator->getActiveDomain();
-    }
     $lang = $this->configfactory->get('domain.language.' . $domain->id() . '.language.negotiation');
     $languages = $this->languageManager->getLanguages();
     $prefixes = $lang->get('languages');
@@ -209,10 +207,6 @@ class LanguageSelector extends FormBase {
         $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
         $default_location = ($this->locationService->getUserDefaultLocation($user)) ?? $default_location;
       }
-      // Require to store value in tempstore for anonymous user.
-      if ($this->currentUser->isAnonymous()) {
-        $this->session->start();
-      }
       if (empty($this->locationCookie->getCookieValue())) {
         $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
         $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
@@ -220,6 +214,7 @@ class LanguageSelector extends FormBase {
       else {
         $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
       }
+      setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $domain_site, FALSE);
       $form_state->setRedirectUrl($redirect_url);
     }
   }
