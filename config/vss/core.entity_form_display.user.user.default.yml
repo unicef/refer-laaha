@@ -24,25 +24,37 @@ content:
   contact:
     weight: 5
     region: content
+  email_tfa_status:
+    type: boolean_checkbox
+    weight: 51
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_domain_access:
     type: options_buttons
     weight: 40
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   field_domain_admin:
     type: options_buttons
     weight: 50
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   field_domain_all_affiliates:
     type: boolean_checkbox
+    weight: 41
+    region: content
     settings:
       display_label: true
-    weight: 41
     third_party_settings: {  }
+  google_analytics:
+    weight: 3
     region: content
+    settings: {  }
+    third_party_settings: {  }
   language:
     weight: 0
     region: content
@@ -57,11 +69,14 @@ content:
     region: content
   user_picture:
     type: image_image
+    weight: -1
+    region: content
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-    weight: -1
-    region: content
 hidden:
+  field_last_password_reset: true
+  field_password_expiration: true
+  field_pending_expire_sent: true
   langcode: true

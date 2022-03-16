@@ -1,11 +1,12 @@
-uuid: 66a2c8f2-a8a9-404d-a94e-a71bde3b8553
+uuid: ec3e88fe-8284-41fd-b207-63eb8b33a54a
 langcode: en
 status: true
 dependencies:
   content:
-    - 'block_content:services_block:d2ceb475-318a-4e78-a997-9ee6b467f323'
+    - 'block_content:services_block:513be6ed-d147-4c50-8133-1aa43462cbf6'
   module:
     - block_content
+    - system
   theme:
     - vss_amp
 id: amp_servicesblock
@@ -13,13 +14,17 @@ theme: vss_amp
 region: content
 weight: -6
 provider: null
-plugin: 'block_content:d2ceb475-318a-4e78-a997-9ee6b467f323'
+plugin: 'block_content:513be6ed-d147-4c50-8133-1aa43462cbf6'
 settings:
-  id: 'block_content:d2ceb475-318a-4e78-a997-9ee6b467f323'
+  id: 'block_content:513be6ed-d147-4c50-8133-1aa43462cbf6'
   label: 'Services block'
-  label_display: visible
+  label_display: '0'
   provider: block_content
   status: true
   info: ''
   view_mode: full
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

@@ -18,16 +18,16 @@ plugin: 'block_content:3edf6481-9a3e-4880-81a2-c5a9c6915c7b'
 settings:
   id: 'block_content:3edf6481-9a3e-4880-81a2-c5a9c6915c7b'
   label: 'Words from Experts'
-  provider: block_content
   label_display: '0'
+  provider: block_content
   status: true
   info: ''
   view_mode: full
 visibility:
   'entity_bundle:taxonomy_term':
     id: 'entity_bundle:taxonomy_term'
-    bundles:
-      categories: categories
     negate: false
     context_mapping:
       taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles:
+      categories: categories

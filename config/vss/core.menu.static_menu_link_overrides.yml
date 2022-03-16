@@ -1,129 +1,129 @@
+_core:
+  default_config_hash: o4bYR9ZupWb3AsOIizTUG4g-nu1mdJqA59UB7QT-ifQ
 definitions:
   system__admin_content:
+    menu_name: admin
+    parent: system.admin
     weight: -99
-    menu_name: admin
-    parent: system.admin
-    enabled: true
     expanded: false
+    enabled: true
   system__admin_structure:
-    weight: -97
     menu_name: admin
     parent: system.admin
+    weight: -97
     expanded: false
     enabled: true
   'admin_toolbar_tools__extra_links:entity__block_content_type__collection':
-    weight: 1
     menu_name: admin
     parent: block.admin_display
+    weight: 1
     expanded: false
     enabled: true
   'admin_toolbar_tools__extra_links:entity__block_content__collection':
-    weight: 3
     menu_name: admin
     parent: block.admin_display
+    weight: 3
     expanded: false
     enabled: true
   'admin_toolbar_tools__extra_links:entity__comment__field_ui_fieldscomment':
-    weight: 3
     menu_name: admin
     parent: 'admin_toolbar_tools.extra_links:entity.comment_type.edit_form.comment'
+    weight: 3
     expanded: false
     enabled: true
   'admin_toolbar_tools__extra_links:entity__entity_form_display__comment__defaultcomment':
-    weight: 4
     menu_name: admin
     parent: 'admin_toolbar_tools.extra_links:entity.comment_type.edit_form.comment'
+    weight: 4
     expanded: false
     enabled: true
   'admin_toolbar_tools__extra_links:entity__entity_view_display__comment__default__comment':
-    weight: 5
     menu_name: admin
     parent: 'admin_toolbar_tools.extra_links:entity.comment_type.edit_form.comment'
+    weight: 5
     expanded: false
     enabled: true
   'admin_toolbar_tools__extra_links:entity__comment_type__devel_load__comment':
-    weight: 6
     menu_name: admin
     parent: 'admin_toolbar_tools.extra_links:entity.comment_type.edit_form.comment'
+    weight: 6
     expanded: false
     enabled: true
   'admin_toolbar_tools__extra_links:entity__comment_type__delete_form__comment':
-    weight: 7
     menu_name: admin
     parent: 'admin_toolbar_tools.extra_links:entity.comment_type.edit_form.comment'
+    weight: 7
     expanded: false
     enabled: true
   system__themes_page:
-    weight: -96
     menu_name: admin
     parent: system.admin
+    weight: -96
     expanded: false
     enabled: true
   system__modules_list:
-    weight: -95
     menu_name: admin
     parent: system.admin
+    weight: -95
     expanded: false
     enabled: true
   system__admin_config:
-    weight: -94
     menu_name: admin
     parent: system.admin
+    weight: -94
     expanded: false
     enabled: true
   entity__user__collection:
-    weight: -93
     menu_name: admin
     parent: system.admin
+    weight: -93
     expanded: false
     enabled: true
   system__admin_reports:
-    weight: -92
     menu_name: admin
     parent: system.admin
+    weight: -92
     expanded: false
     enabled: true
   help__main:
-    weight: -91
     menu_name: admin
     parent: system.admin
+    weight: -91
     expanded: false
     enabled: true
   comment__admin:
-    weight: 1
     menu_name: admin
     parent: system.admin_content
+    weight: 1
     expanded: false
     enabled: true
   'admin_toolbar_tools__extra_links:view__files':
-    weight: 2
     menu_name: admin
     parent: system.admin_content
+    weight: 2
     expanded: false
     enabled: true
   'admin_toolbar_tools__extra_links:media_page':
-    weight: 3
     menu_name: admin
     parent: system.admin_content
+    weight: 3
     expanded: false
     enabled: true
   domain_content__content_list:
-    weight: 4
     menu_name: admin
     parent: system.admin_content
+    weight: 4
     expanded: false
     enabled: true
   domain_content__editors_list:
-    weight: 5
     menu_name: admin
     parent: system.admin_content
+    weight: 5
     expanded: false
     enabled: true
   paragraphs_library__paragraphs_library_item__collection:
-    weight: 6
     menu_name: admin
     parent: system.admin_content
+    weight: 6
     expanded: false
     enabled: true
-_core:
-  default_config_hash: o4bYR9ZupWb3AsOIizTUG4g-nu1mdJqA59UB7QT-ifQ

@@ -15,7 +15,6 @@ mode: amp
 content:
   field_single_image:
     type: amp_media
-    weight: 0
     label: hidden
     settings:
       image_style: ''
@@ -24,6 +23,7 @@ content:
       width: 900
       height: 675
     third_party_settings: {  }
+    weight: 0
     region: content
 hidden:
   search_api_excerpt: true

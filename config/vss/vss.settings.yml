@@ -3,9 +3,6 @@ favicon:
   path: profiles/unicef/themes/custom/vss_amp/images/favicon.png
   url: 'https://vss.lndo.site/sites/default/files/favicon_0.png'
   use_default: false
-schemas:
-  bootstrap: 8000
-  vss: 8000
 features:
   comment_user_picture: true
   comment_user_verification: true
@@ -15,6 +12,9 @@ logo:
   path: ''
   url: ''
   use_default: true
+schemas:
+  bootstrap: 8000
+  vss: 8000
 fluid_container: 1
 table_responsive: '-1'
 cdn_theme: bootstrap

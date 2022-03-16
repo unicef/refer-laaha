@@ -13,29 +13,29 @@ routes:
   -
     route_name: entity.node.canonical
     route_params:
-      node: '301'
+      node: '1311'
 tips:
   exit-website:
     id: exit-website
     plugin: text
     label: 'Exit Website'
     weight: -100
+    position: top-start
     selector: .exit-website-btn
     body: 'Hey! I''m here to help you learn how to quickly "Exit Website"'
-    position: top-start
   language-switcher:
     id: language-switcher
     plugin: text
     label: 'Language Switcher'
     weight: -100
+    position: top-end
     selector: .language-switcher-language-url
     body: 'Hey! I''m here to help you learn how to change your language'
-    position: top-end
   chat:
     id: chat
     plugin: text
     label: Chat
     weight: -100
-    selector: .chatbot
+    position: bottom-end
+    selector: .gethelp
     body: 'Hey! Get in touch with me or ask any question anytime now'
-    position: top
