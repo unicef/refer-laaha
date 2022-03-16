@@ -1192,18 +1192,7 @@ function vss_custom_node_presave(EntityInterface $entity) {
   foreach ($entity->field_sub_category as $val) {
     $form_val[$val->target_id] = $val->target_id;
   }
-
-  if ($cur_dm_res) {
-    if (count($form_val) > count($cur_dm_res)) {
-      $final_arr = array_unique($all_res + $form_val);
-    }
-    else {
-      $final_arr = array_unique(array_merge($all_res, $form_val));
-    }
-  }
-  else {
-    $final_arr = array_unique($all_res + $form_val);
-  }
+  $final_arr = array_unique(array_merge($all_res, $form_val));
 
   $common = array_intersect($all_res, $cur_dm_res);
   if (count($common) > 0) {
