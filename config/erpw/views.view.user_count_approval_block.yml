@@ -8,6 +8,7 @@ dependencies:
     - user.role.interagency_gbv_coordinator
     - user.role.service_provider_focal_point
     - user.role.service_provider_staff
+    - user.role.super_admin
   module:
     - taxonomy
     - user
@@ -237,6 +238,7 @@ display:
         type: role
         options:
           role:
+            super_admin: super_admin
             country_admin: country_admin
             interagency_gbv_coordinator: interagency_gbv_coordinator
             service_provider_focal_point: service_provider_focal_point

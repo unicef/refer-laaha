@@ -580,6 +580,25 @@ function erpw_custom_preprocess_status_messages(&$variables) {
       }
     }
   }
+  // Altering error message for organisation.
+  if ($route_name == 'user.login') {
+    if (isset($variables['message_list']['error'])) {
+      $status_messages = $variables['message_list']['error'];
+      foreach ($status_messages as $delta => $message) {
+        if (strpos((string) $message, 'The user has not been activated yet or is blocked.') !== FALSE) {
+          $variables['message_list']['error'][$delta] = t(
+            "Your registration has been sent for review."
+          );
+        }
+        if (strpos((string) $message, 'has not been activated or is blocked.') !== FALSE) {
+          $variables['message_list']['error'][$delta] = t(
+            "You will be notified via email, once your registration is approved."
+          );
+        }
+      }
+    }
+  }
+
 }
 
 /**
