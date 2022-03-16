@@ -2,17 +2,14 @@ uuid: c54158d3-1606-4725-b4c3-60639d7c3f60
 langcode: en
 status: true
 dependencies:
-  content:
-    - 'block_content:homepage_hero_section:2b803e81-10e8-4e7c-9f4b-b4230a63f4dd'
   module:
-    - block_content
     - system
   theme:
     - vss_amp
 id: amp_homepagecategories
 theme: vss_amp
 region: content
-weight: -8
+weight: -11
 provider: null
 plugin: 'block_content:2b803e81-10e8-4e7c-9f4b-b4230a63f4dd'
 settings:
