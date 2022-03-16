@@ -1313,6 +1313,8 @@ display:
           default_row_class: true
           columns:
             title: title
+            field_service_provider_name: field_service_provider_name
+            field_description: field_description
             field_hierarchy_level_1: field_hierarchy_level_1
             field_hierarchy_level_2: field_hierarchy_level_2
             field_hierarchy_level_3: field_hierarchy_level_3
@@ -1331,62 +1333,74 @@ display:
               default_sort_order: asc
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
+              responsive: ''
+            field_service_provider_name:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            field_description:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: true
               responsive: ''
             field_hierarchy_level_1:
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
             field_hierarchy_level_2:
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
             field_hierarchy_level_3:
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
             field_hierarchy_level_4:
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
             nothing:
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
             field_email_id:
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
             field_telephone_number:
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
             field_facebook:
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
             field_linkedin:
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
             field_twitter:
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
             nothing_1:
               align: ''
               separator: ''
-              empty_column: false
+              empty_column: true
               responsive: ''
           override: true
           sticky: false
