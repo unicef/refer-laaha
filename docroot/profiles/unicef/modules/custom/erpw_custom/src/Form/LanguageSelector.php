@@ -112,6 +112,7 @@ class LanguageSelector extends FormBase {
         $domain_id = str_replace('https://', '', $domain->get('path'));
         $domain_id = str_replace('/', '', $domain_id);
         $domain_id = str_replace('.', '_', $domain_id);
+        $domain_id = str_replace('-', '_', $domain_id);
         $domain_list[$domain_id] = $domain_name;
       }
     }
