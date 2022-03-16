@@ -1,0 +1,37 @@
+.user-pass {
+  .js-form-item + p {
+		margin-bottom: 10px;
+	}
+}
+
+[id^='edit-pass'] {
+	.password-strength {
+		margin-bottom: 10px;
+		&__meter {
+			background: $base-primary-bgcolor;
+			border-radius: 10px;
+			margin-bottom: 10px;
+		}
+		&__indicator {
+			&.is-weak, 
+			&.is-strong,
+			&.is-fair,
+			&.is-good {
+				border-radius: 10px 0 0 10px;
+			}
+		}
+	}
+	.password-strength__title,
+	.js-password-confirm-message {
+		font-size: 14px;
+	}
+	.js-password-confirm-message {
+		margin: 10px 0;
+	}
+	.password-suggestions {
+		border: 1px solid $border;
+		font-size: 12px;
+		padding-bottom: 5px;
+		margin-top: -20px;
+	}
+}

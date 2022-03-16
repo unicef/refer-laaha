@@ -936,6 +936,35 @@ header {
   width: 26px;
 }
 
+.user-pass .js-form-item + p {
+  margin-bottom: 10px;
+}
+
+[id^=edit-pass] .password-strength {
+  margin-bottom: 10px;
+}
+[id^=edit-pass] .password-strength__meter {
+  background: #FFF6F5;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+[id^=edit-pass] .password-strength__indicator.is-weak, [id^=edit-pass] .password-strength__indicator.is-strong, [id^=edit-pass] .password-strength__indicator.is-fair, [id^=edit-pass] .password-strength__indicator.is-good {
+  border-radius: 10px 0 0 10px;
+}
+[id^=edit-pass] .password-strength__title,
+[id^=edit-pass] .js-password-confirm-message {
+  font-size: 14px;
+}
+[id^=edit-pass] .js-password-confirm-message {
+  margin: 10px 0;
+}
+[id^=edit-pass] .password-suggestions {
+  border: 1px solid #F3C1BF;
+  font-size: 12px;
+  padding-bottom: 5px;
+  margin-top: -20px;
+}
+
 .view-referral-pathway-on-homepage {
   margin: 35px 0 20px;
 }
