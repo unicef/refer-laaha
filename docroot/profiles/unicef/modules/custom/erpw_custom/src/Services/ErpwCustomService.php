@@ -57,7 +57,7 @@ class ErpwCustomService {
    *   Return User language id.
    */
   public function getUserLanguage() {
-    return $this->request->cookies->get($this->getCookieName()) ?? 'en';
+    return $this->request->cookies->get($this->getCookieName()) ?? '';
   }
 
   /**
