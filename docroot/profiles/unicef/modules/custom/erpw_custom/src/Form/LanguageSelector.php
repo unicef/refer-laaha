@@ -109,7 +109,9 @@ class LanguageSelector extends FormBase {
       $domain_status = $domain->get('status');
       if ($domain_status) {
         $domain_name = $domain->get('name');
-        $domain_id = $domain->get('id');
+        $domain_id = str_replace('https://', '', $domain->get('path'));
+        $domain_id = str_replace('/', '', $domain_id);
+        $domain_id = str_replace('.', '_', $domain_id);
         $domain_list[$domain_id] = $domain_name;
       }
     }
@@ -168,6 +170,8 @@ class LanguageSelector extends FormBase {
       '#value' => $this->t('SUBMIT'),
     ];
     $form['#cache']['max-age'] = 0;
+    $form['#attached']['library'][] = 'erpw_custom/erpw_geoip';
+    $form['#attached']['drupalSettings']['api_key'] = getenv('opencage_api_key');
     return $form;
   }
 
