@@ -20,7 +20,7 @@
 
       jQuery( ".help-text" ).hover(
         function() {
-          jQuery( this ).append( jQuery( '<span class="password-help-text">Password should contain one Number,  one letter, one special symbol (min Length 8 Character)</span>' ) );
+          jQuery( this ).append( jQuery( '<span class="password-help-text">Password should contain one number,  one lowercase letter, one uppercase letter and one special symbol (min Length 8 Character)</span>' ) );
         }, function() {
           jQuery( this ).find( "span" ).last().remove();
         }
