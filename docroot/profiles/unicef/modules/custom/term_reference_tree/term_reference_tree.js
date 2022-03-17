@@ -293,20 +293,6 @@ function checkMaxChoices(item, checkbox) {
       }
     }
   }
-  $('.not-active').closest('li').hide();
-  var check;
-  $('form').submit(function (e) {
-    $('.active-parent').each(function(){
-      if($(this).closest('li').find('input').prop('checked') == true){
-        check = true;
-      }
-    });
-    if (check != true) {
-      $('.region-highlighted').empty().prepend('<div data-drupal-messages=""><div role="contentinfo" aria-label="Error message" class="messages messages--error"><div role="alert"><h2 class="visually-hidden">Error message</h2>Subcategory field is required</div></div></div>')
-      window.scrollTo(0, 0);
-      e.preventDefault();   
-    } 
-  });  
 }
 
 })(jQuery);
