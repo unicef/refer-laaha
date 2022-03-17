@@ -12,7 +12,7 @@
         return $(this).css('color', '#444');
         }
       });
-      $("form .form-submit").click(function() {
+      $("form [id^='edit-submit'], form [id^='edit-next']").click(function() {
         $("form input[required='required']").each(function() {
           if ($(this).val() == "") {
             $(this).css("border", "2px solid red");
