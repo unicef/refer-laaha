@@ -44,10 +44,11 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
 function erpw_custom_service_type_options() {
   $query = \Drupal::database()->select("node_field_data", "n");
   $query->innerJoin('node__field_service_type', 'ns', 'ns.field_service_type_target_id = n.nid AND ns.langcode = n.langcode');
+  $query->innerJoin('node_field_data', 'nsd', 'nsd.nid = ns.entity_id');
   $query->fields('n', ['nid', 'title']);
   $query->condition('n.type', 'service_type');
   $query->condition('ns.bundle', 'service_provider');
-  $query->condition('n.status', "1");
+  $query->condition('nsd.status', '1');
   $query->orderBy('n.title', 'ASC');
   $query = $query->execute();
   $results = $query->fetchAll();
@@ -63,7 +64,6 @@ function erpw_custom_service_type_options() {
  */
 function erpw_custom_views_pre_render(ViewExecutable $view) {
   if ($view->id() == 'service_list') {
-    $nid = \Drupal::routeMatch()->getRawParameter('node');
     $parameters = \Drupal::routeMatch()->getParameters()->all();
     $nid = $parameters['arg_0'];
     $node = Node::load($nid);
