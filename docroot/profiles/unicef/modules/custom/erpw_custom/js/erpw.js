@@ -84,6 +84,14 @@
         }
       });
        /** Sign UP form country check End **/ 
+
+       //Add condition for border under view header
+       var icon_button = $('.button-with-icon').length;
+       if ($(icon_button).length > 0) {
+          $('.view-header').css('border-bottom', '2px solid #f3c1bf87');
+       } else {
+          $('.view-header').css('border-bottom', 0);
+       }
     }
   };
 }(jQuery, Drupal, drupalSettings));
