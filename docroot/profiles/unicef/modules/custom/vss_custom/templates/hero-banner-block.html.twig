@@ -13,7 +13,7 @@
 <div class="hero_banner full-width">
   <div class="row">
   {% if category.cat_name is not empty %}
-   <h2 class="banner text-center"><img src ="/{{category.cat_icon}}" alt="" />
+   <h2 class="banner text-center"><img src ="/{{category.cat_icon}}" alt="{{category.cat_alt}}" />
    <span>{{ category.cat_name }}</span>
    </h2>
   {% endif %}
@@ -21,7 +21,7 @@
  <div class="row">
 {% for key,value in content %}
   <div class="col-md-3 col-xs-6 hero-col text-center">
-      <a href="/{{lang_code}}/{{value.url}}"><img class="category-imgs" src ="/{{value.sub_category_thumbnail}}" alt="" /><span class="subcat-name">{{ value.subcat_name }}</span></a>
+      <a href="/{{lang_code}}/{{value.url}}"><img class="category-imgs" src ="/{{value.sub_category_thumbnail}}" alt="{{value.sub_category_alt}}" /><span class="subcat-name">{{ value.subcat_name }}</span></a>
     </div>
 {% endfor %}
 </div>
