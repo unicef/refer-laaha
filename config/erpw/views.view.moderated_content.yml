@@ -37,7 +37,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Moderated Service Content'
+      title: 'Reviewer Screen'
       fields:
         nid:
           id: nid
@@ -651,7 +651,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-mode\"><span>{{ 'Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"review-text\"> \r\n<span class=\"edit-link\"><a href=\"{{ path('entity.node.edit_form', {'node': nid}) }}\">{{ 'Review'|t }}</a></span>\r\n</div>"
+            text: "<div class=\"service-mode\"><span>{{ 'Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"review-text\"> \r\n<span class=\"edit-link\"><a href=\"{{ path('entity.node.edit_form', {'node': nid}, {'query':{'referer': 'review' }}) }}\">{{ 'Review'|t }}</a></span>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -1064,19 +1064,6 @@ display:
           plugin_id: standard
           required: false
       header:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<div class="new-service-type button-with-icon"><a href="{{ path(''node.add'', {''node_type'': ''service_provider''}) }}"> {{ "Add a new Service" | t }} </a></div>'
-            format: full_html
-          tokenize: true
         result:
           id: result
           table: views

@@ -10,7 +10,7 @@
       {% if item.uri %}
         <a href="{{ item.link }}">
           <div class="recommended-thumbnail">
-            <img class="recomended-images" src="{{ file_url(item.uri) }}" alt="" />
+            <img class="recomended-images" src="{{ file_url( item.uri | image_style('recommend_opt')) }}" alt="{{ item.alt }}" />
             {% if item.type == 'video' %}
               <img class="play-circle"  src="/{{ base_path ~ directory }}/images/play-circle.png" alt='play btn' />
               {% if item.video_time is not null %}

@@ -193,7 +193,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
     }
     // Only alter for RPW Edit Form.
     if ($form_id == 'node_referral_path_way_edit_form') {
-      $form['#title'] = $this->t('Update RPW');
+      $form['#title'] = $this->t('Update Referral Pathway');
       $form['actions']['submit']['#value'] = $this->t('UPDATE');
       $form['#attached']['library'][] = 'erpw_pathway/erpw_pathway_autocomplete';
     }
@@ -316,13 +316,6 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       $entity->field_location[] = ['target_id' => $location];
     }
     $entity->save();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function eprwCancelHandler(&$form, $form_state) {
-    return _erpw_custom_redirect('view.referral_pathway_listing.page_1', 'rpw_listing');
   }
 
   /**

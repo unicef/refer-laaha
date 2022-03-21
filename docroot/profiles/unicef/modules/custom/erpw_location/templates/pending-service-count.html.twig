@@ -3,5 +3,9 @@
     <div class="pending-count">{{ count }}</div>
     <div class="pending-text">{{ description }}</div>
   </div>
-  <div class="pending-review-link"><a href="{{ manage_service_link }}">{{ 'Review Now'|t }}</a></div>
+  {% if count > 0 %}
+    <div class="pending-review-link">
+      <a href="{{ manage_service_link }}">{{ 'Review Now'|t }}</a>
+    </div>
+  {% endif %}
 </div>
