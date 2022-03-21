@@ -279,6 +279,10 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
         $form['field_select_organisation']['widget']['#default_value'] = $org_id;
       }
     }
+    // Hide moderation state option for staff only.
+    if ($current_user->hasRole('service_provider_staff')) {
+      $form['moderation_state']['#access'] = FALSE;
+    }
     $form['advanced']['#access'] = FALSE;
     $form['meta']['#access'] = FALSE;
     $form['status']['#access'] = FALSE;
@@ -291,13 +295,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['submit']['#value'] = t('Publish');
     $referral = \Drupal::request()->query->get('referer');
     if (isset($referral) && $referral == 'rpw') {
-      $form['moderation_state']['#access'] = FALSE;
       $form['#title'] = t("Suggest a Change");
-      $form['help'] = [
-        '#type' => 'markup',
-        '#markup' => t('Your suggestions will be reviewed and further sent for approval.'),
-        '#weight' => '-3',
-      ];
       $form['actions']['submit']['#value'] = t('Submit Change');
     }
     $form['actions']['cancel'] = [
@@ -317,7 +315,13 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
  * {@inheritdoc}
  */
 function _erpw_custom_cancel_service_provider(array &$form, FormStateInterface $form_state) {
-  $url = Url::fromRoute('view.manage_service.page_1');
+  $referral = \Drupal::request()->query->get('referer');
+  if (isset($referral) && $referral == 'review') {
+    $url = Url::fromRoute('view.moderated_content.moderated_content');
+  }
+  else {
+    $url = Url::fromRoute('view.manage_service.page_1');
+  }
   $response = new RedirectResponse($url->toString());
   $response->send();
   return $response;
@@ -353,7 +357,12 @@ function _erpw_custom_service_provider_form(array $form, FormStateInterface $for
   $referral = \Drupal::request()->query->get('referer');
   $node = \Drupal::routeMatch()->getParameter('node');
   $moderation_state = $form_state->getValue('moderation_state')[0]['value'] ?? '';
-  if ($moderation_state == 'draft') {
+  $roles = \Drupal::currentUser()->getRoles();
+  if ($moderation_state == 'draft' && !in_array($roles[1], [
+    'super_admin',
+    'country_admin',
+    'interagency_gbv_coordinator',
+  ])) {
     \Drupal::messenger()->addMessage(t('You will be notified when the changes have been approved.'), 'status');
   }
   elseif ($moderation_state == 'reject') {
@@ -367,6 +376,9 @@ function _erpw_custom_service_provider_form(array $form, FormStateInterface $for
     $response = new RedirectResponse($url->toString());
     $response->send();
     return $response;
+  }
+  elseif (isset($referral) && $referral == 'review') {
+    return _erpw_custom_redirect('view.moderated_content.moderated_content');
   }
   else {
     return _erpw_custom_redirect('view.manage_service.page_1');
@@ -538,20 +550,6 @@ function erpw_custom_user_logout() {
  */
 function erpw_custom_preprocess_status_messages(&$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
-  // Altering status message for RPW suggest a change.
-  $referral = \Drupal::request()->query->get('referer');
-  if (isset($referral) && $referral == 'rpw' && $route_name == 'entity.node.canonical') {
-    if (isset($variables['message_list']['status'])) {
-      $status_messages = $variables['message_list']['status'];
-      foreach ($status_messages as $delta => $message) {
-        if (strpos((string) $message, 'Service') !== FALSE) {
-          $variables['message_list']['status'][$delta] = t(
-           "You will be notified when the changes have been approved."
-          );
-        }
-      }
-    }
-  }
   // Altering status message for RPW.
   if ($route_name == 'view.referral_pathway_listing.page_1') {
     if (isset($variables['message_list']['status'])) {
