@@ -1,0 +1,30 @@
+uuid: c2f9f7f8-87fe-46b7-8ef4-00244792a7db
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:multiple_block:3bfccc86-bd62-4266-b714-c76ba847ac0c'
+  module:
+    - block_content
+    - system
+  theme:
+    - erpw
+id: pendingapproval
+theme: erpw
+region: content
+weight: -9
+provider: null
+plugin: 'block_content:3bfccc86-bd62-4266-b714-c76ba847ac0c'
+settings:
+  id: 'block_content:3bfccc86-bd62-4266-b714-c76ba847ac0c'
+  label: 'Pending Approval'
+  label_display: visible
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /dashboard

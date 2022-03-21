@@ -41,7 +41,7 @@ content:
       placeholder: 'Enter service type name. eg:  Health care'
     third_party_settings: {  }
   translation:
-    weight: 10
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -51,6 +51,7 @@ hidden:
   field_domain_all_affiliates: true
   field_domain_source: true
   langcode: true
+  moderation_state: true
   path: true
   promote: true
   status: true

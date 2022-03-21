@@ -5,12 +5,37 @@ namespace Drupal\erpw_custom\Form;
 use Drupal\Core\Url;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\erpw_custom\Services\ErpwCustomService;
 
 /**
- * Class SignInPopup.
+ * Class to handle SignInPopup functionality.
  */
 class SignInPopup extends FormBase {
+
+  /**
+   * The custom service.
+   *
+   * @var \Drupal\erpw_custom\Services\ErpwCustomService
+   */
+  protected $erpwCustomService;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(ErpwCustomService $erpw_custom_service) {
+    $this->erpwCustomService = $erpw_custom_service;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('erpw_custom.custom_service')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -59,7 +84,10 @@ class SignInPopup extends FormBase {
       ],
       '#suffix' => '</div>',
     ];
-    return $form;
+
+    if (!empty($this->erpwCustomService->getUserLanguage())) {
+      return $form;
+    }
   }
 
   /**

@@ -2,17 +2,14 @@ uuid: 42cc8b54-4c69-434e-86d6-68a51ed05575
 langcode: en
 status: true
 dependencies:
-  content:
-    - 'block_content:basic:34dc32a3-5ae8-4536-894f-8787de475f25'
   module:
-    - block_content
     - system
   theme:
     - erpw
 id: addnewuserlink
 theme: erpw
 region: content
-weight: -7
+weight: -6
 provider: null
 plugin: 'block_content:34dc32a3-5ae8-4536-894f-8787de475f25'
 settings:

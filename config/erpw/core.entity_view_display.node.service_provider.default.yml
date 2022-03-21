@@ -15,7 +15,6 @@ dependencies:
     - field.field.node.service_provider.field_location
     - field.field.node.service_provider.field_mode
     - field.field.node.service_provider.field_name_backup_focalpoint_ref
-    - field.field.node.service_provider.field_name_focalpoint_referrals
     - field.field.node.service_provider.field_number_of_staff_providing_
     - field.field.node.service_provider.field_opening_hours
     - field.field.node.service_provider.field_p_code
@@ -40,14 +39,14 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 110
+    weight: 5
     region: content
   field_age_group:
     type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 111
+    weight: 6
     region: content
   field_cost_of_service:
     type: string
@@ -55,7 +54,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 4
     region: content
   field_countrycode:
     type: string
@@ -63,7 +62,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 114
+    weight: 8
     region: content
   field_email_backup_focal_point:
     type: string
@@ -71,7 +70,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 122
+    weight: 12
     region: content
   field_email_of_focal_point:
     type: string
@@ -79,22 +78,22 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 119
+    weight: 10
     region: content
   field_location:
     type: entity_reference_label
     label: above
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
-    weight: 125
+    weight: 15
     region: content
   field_mode:
     type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 116
+    weight: 9
     region: content
   field_name_backup_focalpoint_ref:
     type: string
@@ -102,15 +101,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 120
-    region: content
-  field_name_focalpoint_referrals:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 117
+    weight: 11
     region: content
   field_number_of_staff_providing_:
     type: string
@@ -118,7 +109,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 123
+    weight: 13
     region: content
   field_opening_hours:
     type: string
@@ -126,7 +117,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 124
+    weight: 14
     region: content
   field_p_code:
     type: string
@@ -134,7 +125,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 105
+    weight: 2
     region: content
   field_phone_number:
     type: string
@@ -142,7 +133,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 126
+    weight: 16
     region: content
   field_phone_number_backup_focalp:
     type: string
@@ -150,7 +141,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 127
+    weight: 17
     region: content
   field_phone_number_of_focal_poin:
     type: string
@@ -158,45 +149,42 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 128
+    weight: 18
     region: content
   field_select_organisation:
     type: entity_reference_label
     label: above
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
-    weight: 104
+    weight: 1
     region: content
   field_service_type:
     type: entity_reference_label
     label: above
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
-    weight: 103
+    weight: 0
     region: content
   field_target_group:
     type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 112
+    weight: 7
     region: content
   field_transportation_available:
     type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 108
-    region: content
-  links:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 100
+    weight: 3
     region: content
 hidden:
+  content_moderation_control: true
   field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true
   langcode: true
+  links: true

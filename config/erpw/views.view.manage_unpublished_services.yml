@@ -5,20 +5,16 @@ dependencies:
   config:
     - field.storage.node.field_location
     - field.storage.node.field_mode
-    - field.storage.node.field_name_focalpoint_referrals
     - field.storage.node.field_phone_number
     - field.storage.node.field_select_organisation
     - node.type.service_provider
-    - user.role.administrator
-    - user.role.country_admin
-    - user.role.interagency_gbv_coordinator
-    - user.role.service_provider_focal_point
-    - user.role.super_admin
+    - taxonomy.vocabulary.country
   module:
     - better_exposed_filters
     - content_translation
     - node
     - options
+    - taxonomy
     - user
 id: manage_unpublished_services
 label: 'Manage Unpublished Services'
@@ -36,6 +32,72 @@ display:
     display_options:
       title: 'Manage Draft Services'
       fields:
+        nid:
+          id: nid
+          table: node_field_data
+          field: nid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: nid
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         title:
           id: title
           table: node_field_data
@@ -289,69 +351,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_name_focalpoint_referrals:
-          id: field_name_focalpoint_referrals
-          table: node__field_name_focalpoint_referrals
-          field: field_name_focalpoint_referrals
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: ''
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         edit_node:
           id: edit_node
           table: node
@@ -402,7 +401,7 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          text: edit
+          text: Review
           output_url_as_text: false
           absolute: false
         translation_link:
@@ -470,7 +469,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-provider-title\">{{ field_name_focalpoint_referrals }}</div>\r\n<div class=\"service-provider-org\"><span>{{ 'Organisation'|t }}: </span>{{ field_select_organisation }} </div>\r\n<div class=\"service-provider-number\"><span>{{ 'Contact'|t }}: </span>{{ field_phone_number }} </div>\r\n"
+            text: "<div class=\"service-provider-title\">{{ title }}</div>\r\n<div class=\"service-provider-org\"><span>{{ 'Organisation'|t }}: </span>{{ field_select_organisation }} </div>\r\n<div class=\"service-provider-number\"><span>{{ 'Contact'|t }}: </span>{{ field_phone_number }} </div>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -582,7 +581,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-mode\"><span>{{ 'Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"edit-delete-links\"> \r\n<span class=\"edit-link\">{{ edit_node }}</span>\r\n<span class=\"translate-link\">{{ translation_link }}</span>\r\n</div>"
+            text: "<div class=\"service-mode\"><span>{{ 'Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"review-text\"> \r\n<span class=\"edit-link\"><a href=\"{{ path('entity.node.edit_form', {'node': nid}) }}\">{{ 'Review'|t }}</a></span>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -653,14 +652,9 @@ display:
                   collapsible: false
                   is_secondary: false
       access:
-        type: role
+        type: perm
         options:
-          role:
-            administrator: administrator
-            super_admin: super_admin
-            country_admin: country_admin
-            interagency_gbv_coordinator: interagency_gbv_coordinator
-            service_provider_focal_point: service_provider_focal_point
+          perm: 'view any unpublished content'
       cache:
         type: tag
         options: {  }
@@ -828,6 +822,95 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        field_select_organisation_target_id:
+          id: field_select_organisation_target_id
+          table: node__field_select_organisation
+          field: field_select_organisation_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: numeric
+          operator: 'not empty'
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_location_target_id:
+          id: field_location_target_id
+          table: node__field_location
+          field: field_location_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: 'not empty'
+          value: {  }
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: country
+          type: textfield
+          hierarchy: false
+          limit: true
+          error_message: true
       style:
         type: default
         options:
@@ -885,12 +968,12 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - user
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.node.field_location'
         - 'config:field.storage.node.field_mode'
-        - 'config:field.storage.node.field_name_focalpoint_referrals'
         - 'config:field.storage.node.field_phone_number'
         - 'config:field.storage.node.field_select_organisation'
   page_1:
@@ -909,11 +992,11 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - user
         - 'user.node_grants:view'
-        - user.roles
+        - user.permissions
       tags:
         - 'config:field.storage.node.field_location'
         - 'config:field.storage.node.field_mode'
-        - 'config:field.storage.node.field_name_focalpoint_referrals'
         - 'config:field.storage.node.field_phone_number'
         - 'config:field.storage.node.field_select_organisation'

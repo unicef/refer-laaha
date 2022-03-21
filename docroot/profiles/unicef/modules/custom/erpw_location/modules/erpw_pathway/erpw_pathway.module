@@ -55,7 +55,7 @@ function erpw_pathway_field_widget_entity_reference_paragraphs_form_alter(&$elem
  */
 function erpw_pathway_preprocess_views_view_field(&$variables) {
   $view = $variables['view'];
-  if ($view->id() == 'referral_pathway_listing' || $view->id() == 'manage_service' || $view->id() == 'service_list') {
+  if ($view->id() == 'referral_pathway_listing' || $view->id() == 'manage_service' || $view->id() == 'moderated_content' || $view->id() == 'service_list') {
     if ($variables['field']->field == 'field_location') {
       $row = $variables['field']->getValue($variables['row']);
       $loc_name = [];
@@ -135,7 +135,11 @@ function set_user_location() {
     $default_location = \Drupal::service('erpw_location.location_services')->getUserDefaultLocation($user);
   }
   else {
-    $default_location = \Drupal::service('erpw_location.location_services')->getDefaultLocation();
+    $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $config = \Drupal::config('domain.location.' . $domain->get('id'));
+    if (!$default_location = $config->get('location')) {
+      $default_location = \Drupal::service('erpw_location.location_services')->getDefaultLocation();
+    }
   }
   if (empty($cookie->getCookieValue())) {
     $cookie->setCookieValue(base64_encode('country_tid_' . time()));
@@ -144,6 +148,10 @@ function set_user_location() {
   else {
     $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
   }
+  $domain_current_url = explode(".", \Drupal::requestStack()->getCurrentRequest()->server->get('SERVER_NAME'));
+  $domain_slice = array_slice($domain_current_url, -2);
+  $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
+  setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $domain_site, FALSE);
 }
 
 /**
@@ -152,7 +160,8 @@ function set_user_location() {
 function get_user_location() {
   $tempstore = \Drupal::service('tempstore.private')->get('erpw_location_collection');
   $cookie_value = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
-  $location_id = $tempstore->get(base64_decode($cookie_value));
+  $location_id = (\Drupal::requestStack()->getCurrentRequest()->cookies->get('location_tid')) ??
+    $tempstore->get(base64_decode($cookie_value));
   if (!empty($location_id)) {
     return $location_id;
   }

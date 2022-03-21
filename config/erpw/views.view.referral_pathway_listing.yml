@@ -549,9 +549,9 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="new-service-type button-with-icon"><a href="/node/add/referral_path_way">Add new template for RPW</a></div>'
+            value: '<div class="new-service-type button-with-icon"><a href="{{ path(''node.add'', {''node_type'': ''referral_path_way''}) }}">{{ ''Add new template for RPW'' | t }}</a></div>'
             format: full_html
-          tokenize: false
+          tokenize: true
         result:
           id: result
           table: views

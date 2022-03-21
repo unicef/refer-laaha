@@ -9,9 +9,12 @@ dependencies:
     - workflows.workflow.service_editorial
   module:
     - content_moderation
+    - content_translation
     - erpw_custom
+    - erpw_location
     - node
     - node_view_permissions
+    - quick_node_clone
     - system
 id: interagency_gbv_coordinator
 label: 'Interagency GBV Coordinator'
@@ -21,22 +24,24 @@ permissions:
   - 'access content'
   - 'add new user'
   - 'add referral pathway of their own location'
-  - 'add service of their own country'
-  - 'add users of their own location and organisation'
+  - 'add service of their own location'
+  - 'add users of their own location'
   - 'administer users'
+  - 'clone service_provider content'
   - 'create organisation content'
   - 'create referral_path_way content'
   - 'create service_provider content'
+  - 'delete own service_provider content'
   - 'edit any referral_path_way content'
   - 'edit any service_provider content'
   - 'edit own organisation content'
   - 'edit own referral_path_way content'
   - 'edit own service_provider content'
   - 'edit referral pathway of their own location'
-  - 'edit service of their own country'
   - 'edit service of their own location'
-  - 'edit service of their own location and organisation'
-  - 'edit users of their own location and organisation'
+  - 'edit users of their own location'
+  - 'erpw view pending service block'
+  - 'translate service_provider node'
   - 'update user'
   - 'use service_editorial transition create_new_draft'
   - 'use service_editorial transition publish'
@@ -54,6 +59,5 @@ permissions:
   - 'view own service_provider content'
   - 'view own unpublished content'
   - 'view referral pathway of their own location'
-  - 'view service of their own country'
   - 'view service of their own location'
-  - 'view users of their own location and organisation'
+  - 'view users of their own location'

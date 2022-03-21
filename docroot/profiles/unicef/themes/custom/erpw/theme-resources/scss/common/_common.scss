@@ -341,7 +341,9 @@ label.error + .select2-container .select2-selection {
 .node-service-type-form,
 .node-service-type-quick-node-clone-form,
 .node-service-type-edit-form,
-.node-service-provider-form {
+.node-service-provider-form,
+.node-service-provider-edit-form,
+.user-form {
 	.form-actions {
 		display: -webkit-box;
 		display: -ms-flexbox;
@@ -379,3 +381,34 @@ label.error + .select2-container .select2-selection {
 	font-size: 14px;
 	font-weight: 400;
 }
+
+//button left right
+.button-block {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	margin-top: 40px;
+	a {
+		color: $base-secondary-bgcolor;
+	}
+	.fill-button {
+		background: $base-secondary-bgcolor;
+		border: 1px solid $base-secondary-bgcolor;
+		box-sizing: border-box;
+		@include border-radius(4px);
+		color: $base-white-color;
+		display: inline-block;
+		font-size: .875em;
+		font-weight: 500;
+		margin: 0 0 1em 0;
+		padding: 10px 24px;
+		text-transform: uppercase;
+		a {
+			color: $base-white-color;
+		}
+	}
+}
+

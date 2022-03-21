@@ -2,17 +2,9 @@
 
 namespace Drupal\erpw_custom\Form;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\Core\Url;
-use Drupal\domain\DomainNegotiatorInterface;
-use Drupal\erpw_location\LocationCookie;
-use Drupal\erpw_location\LocationService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -70,6 +62,13 @@ class LanguageSelector extends FormBase {
   protected $tempStoreFactory;
 
   /**
+   * Database Connection instance.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $connection;
+
+  /**
    * {@inheritdoc}
    */
   public function getFormId() {
@@ -77,40 +76,21 @@ class LanguageSelector extends FormBase {
   }
 
   /**
-   * LegalAdminTermsForm constructor.
-   */
-  public function __construct(ConfigFactoryInterface $config_factory,
-    LanguageManagerInterface $language_manager,
-    LocationCookie $location_cookie,
-    DomainNegotiatorInterface $negotiator,
-    PrivateTempStoreFactory $temp_store_factory,
-    LocationService $location_service,
-    AccountProxyInterface $current_user,
-    EntityTypeManagerInterface $entity_manager) {
-    $this->configfactory = $config_factory;
-    $this->languageManager = $language_manager;
-    $this->locationCookie = $location_cookie;
-    $this->domainNegotiator = $negotiator;
-    $this->tempStoreFactory = $temp_store_factory->get('erpw_location_collection');
-    $this->locationService = $location_service;
-    $this->currentUser = $current_user;
-    $this->entityManager = $entity_manager;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('config.factory'),
-      $container->get('language_manager'),
-      $container->get('erpw_location.location_cookie'),
-      $container->get('domain.negotiator'),
-      $container->get('tempstore.private'),
-      $container->get('erpw_location.location_services'),
-      $container->get('current_user'),
-      $container->get('entity_type.manager'),
-    );
+    $instance = parent::create($container);
+    $instance->configfactory = $container->get('config.factory');
+    $instance->languageManager = $container->get('language_manager');
+    $instance->locationCookie = $container->get('erpw_location.location_cookie');
+    $instance->domainNegotiator = $container->get('domain.negotiator');
+    $instance->tempStoreFactory = $container->get('tempstore.private')->get('erpw_location_collection');
+    $instance->locationService = $container->get('erpw_location.location_services');
+    $instance->currentUser = $container->get('current_user');
+    $instance->entityManager = $container->get('entity_type.manager');
+    $instance->connection = $container->get('database');
+    $instance->requestStack = $container->get('request_stack');
+    return $instance;
   }
 
   /**
@@ -123,30 +103,81 @@ class LanguageSelector extends FormBase {
       '#markup' => $this->t('Welcome to eRPW'),
       '#suffix' => '</div>',
     ];
-    $form['description_2'] = [
-      '#type' => 'markup',
-      '#prefix' => '<div class="choose-language-text">',
-      '#markup' => $this->t('Choose your preferred language'),
+
+    $all_domains = $this->entityManager->getStorage('domain')->loadMultipleSorted(NULL);
+    foreach ($all_domains as $domain) {
+      $domain_status = $domain->get('status');
+      if ($domain_status) {
+        $domain_name = $domain->get('name');
+        $domain_id = $domain->get('id');
+        $domain_list[$domain_id] = $domain_name;
+      }
+    }
+    $form['domain'] = [
+      '#prefix' => '<div id="domain-wrapper">',
       '#suffix' => '</div>',
     ];
-    $domain = $this->domainNegotiator->getActiveDomain();
-    $active_lang = $this->configfactory->get('domain.language.' . $domain->id() . '.language.negotiation')->getRawData()['languages'];
-    $site_languages = $this->languageManager->getNativeLanguages();
-    $languages = [];
-    foreach ($active_lang as $languagecode => $language_value) {
-      $languages[$languagecode] = $site_languages[$language_value]->getName();
+    $default_lang = 'en';
+    // Get the domain if country is selected.
+    if ($selected_domain = $form_state->getValue('country')) {
+      $domain = $this->entityManager->getStorage('domain')->load($selected_domain);
     }
-    $form['language_selector'] = [
+    else {
+      $domain = $this->domainNegotiator->getActiveDomain();
+    }
+    $form['domain']['country'] = [
+      '#title' => $this->t('Select Country'),
+      '#type' => 'select',
+      '#options' => ['' => $this->t('Select country')] + $domain_list,
+      '#required' => TRUE,
+      '#id' => 'country-dropdown',
+      '#default_value' => $domain->id(),
+      '#ajax' => [
+        'callback' => '::getLanguages',
+        'event' => 'change',
+        'method' => 'replace',
+        'wrapper' => 'domain-wrapper',
+        'progress' => [
+          'type' => 'throbber',
+        ],
+      ],
+    ];
+    $form_state->setRebuild();
+    $lang = $this->configfactory->get('domain.language.' . $domain->id() . '.language.negotiation');
+    $languages = $this->languageManager->getLanguages();
+    $prefixes = $lang->get('languages');
+    foreach ($languages as $langcode => $language) {
+      if (array_key_exists($langcode, $prefixes)) {
+        $lang_select[$langcode] = $language->getName();
+      }
+    }
+    $form['domain']['description_2'] = [
+      '#type' => 'markup',
+      '#prefix' => '<div class="choose-language-text">',
+      '#suffix' => '</div>',
+      '#markup' => $this->t('Choose your preferred language'),
+    ];
+    $form['domain']['language_selector'] = [
       '#type' => 'radios',
-      '#options' => $languages,
-      '#default_value' => $this->t('en'),
+      '#required' => TRUE,
+      '#options' => $lang_select,
+      '#default_value' => $default_lang,
     ];
     $form['actions']['lang_selector'] = [
       '#type' => 'submit',
       '#value' => $this->t('SUBMIT'),
     ];
     $form['#cache']['max-age'] = 0;
+    $form['#attached']['library'][] = 'erpw_custom/erpw_geoip';
+    $form['#attached']['drupalSettings']['api_key'] = getenv('opencage_api_key');
     return $form;
+  }
+
+  /**
+   * Get languages ajax function.
+   */
+  public function getLanguages(array &$form, FormStateInterface $form_state) {
+    return $form['domain'];
   }
 
   /**
@@ -160,16 +191,23 @@ class LanguageSelector extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $value = $form_state->getValues();
     if (!empty($value)) {
-      $redirect_url = Url::fromUri('base:/' . $value['language_selector']);
-      setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', NULL, FALSE);
-      setcookie('userLanguage', $value['language_selector'], strtotime('+1 year'), '/', NULL, FALSE);
-      // Storing the value into coookie and temp storage.
+      $domain = $this->entityManager->getStorage('domain')->load($form_state->getValue('country'));
+      $domain_lang = $form_state->getValue('language_selector');
+      $domain_path = $domain->get('path');
+      $redirect_url = Url::fromUri($domain_path . $domain_lang);
+      $domain_current_url = explode(".", $this->requestStack->getCurrentRequest()->server->get('SERVER_NAME'));
+      $domain_slice = array_slice($domain_current_url, -2);
+      $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
+      setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', $domain_site, FALSE);
+      setcookie('userLanguage', $value['language_selector'], strtotime('+1 year'), '/', $domain_site, FALSE);
+      $config = $this->configfactory->getEditable('domain.location.' . $domain->get('id'));
+      if (!$default_location = $config->get('location')) {
+        $default_location = $this->locationService->getDefaultLocation();
+      }
+      // Storing the value into cookie and temp storage.
       if ($this->currentUser->isAuthenticated()) {
         $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
-        $default_location = $this->locationService->getUserDefaultLocation($user);
-      }
-      else {
-        $default_location = $this->locationService->getDefaultLocation();
+        $default_location = ($this->locationService->getUserDefaultLocation($user)) ?? $default_location;
       }
       if (empty($this->locationCookie->getCookieValue())) {
         $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
@@ -178,6 +216,7 @@ class LanguageSelector extends FormBase {
       else {
         $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
       }
+      setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $domain_site, FALSE);
       $form_state->setRedirectUrl($redirect_url);
     }
   }

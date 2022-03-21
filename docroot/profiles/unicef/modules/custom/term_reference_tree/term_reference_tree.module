@@ -377,13 +377,11 @@ function _term_reference_tree_build_item($element, $term, $form_state, $value, $
   $t = NULL;
   if (\Drupal::moduleHandler()->moduleExists('locale') && !empty($term->tid)) {
     $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-
-    $active_domain_id = $active_domain->id();
     $t = \Drupal::entityTypeManager()->getStorage('taxonomy_term')
       ->loadByProperties([
         'vid' => 'categories',
         'tid' => $term->tid,
-        'field_domain' => $active_domain_id,
+        'field_domain' => $active_domain->id(),
       ]);
     $t = reset($t);
     if (!empty($t)) {

@@ -1,6 +1,6 @@
 body {
   margin-top: 0;
-  font-family: Roboto;
+  font-family: Roboto, serif;
   color: #000;
   font-size: 1.42em;
 }
@@ -59,7 +59,7 @@ body {
 }
 .block-menu-item-fieldsquick-links h2 {
   font-size: 0.85em;
-  font-family: Roboto;
+  font-family: Roboto, serif;
   font-weight: 400;
 }
 .block-menu-item-fieldsquick-links ul {
@@ -90,7 +90,7 @@ body {
 }
 .block-menu-item-fieldsquick-links ul li a {
   font-size: 1.14em;
-  font-family: Roboto;
+  font-family: Roboto, serif;
   font-weight: 500;
   color: #000;
   line-height: 24px;
@@ -115,7 +115,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
 #block-copyright p {
   color: #000;
   font-size: 1em;
-  font-family: Roboto;
+  font-family: Roboto, serif;
   font-weight: 400;
   line-height: 24px;
   margin: 0;
@@ -149,7 +149,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
 #block-footerlastmenu ul li a {
   color: #000;
   font-size: 1em;
-  font-family: Roboto;
+  font-family: Roboto, serif;
   font-weight: 400;
   line-height: 24px;
   margin: 0;
@@ -244,6 +244,20 @@ ul.block-menu-item-fieldsfooter-last-menu {
   display: -ms-flexbox;
   display: flex;
 }
+.region-header .logo-wrapper {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 215px;
+      -ms-flex: 215px 0 0px;
+          flex: 215px 0 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
 .region-header #nav_wrap {
   margin-left: auto;
 }
@@ -298,7 +312,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
 .region-header #block-vss-amp-iraqnavigationheadermenu > ul li a,
 .region-header #block-vss-amp-navigationheadermenu > ul li a {
   font-size: 1em;
-  font-family: Roboto;
+  font-family: Roboto, serif;
   font-weight: 500;
   color: #000;
   line-height: 24px;
@@ -306,7 +320,7 @@ ul.block-menu-item-fieldsfooter-last-menu {
 .region-header #block-vss-amp-iraqnavigationheadermenu > ul li span,
 .region-header #block-vss-amp-navigationheadermenu > ul li span {
   font-size: 1em;
-  font-family: Roboto;
+  font-family: Roboto, serif;
   font-weight: 500;
   color: #000;
   line-height: 24px;
@@ -332,7 +346,6 @@ ul.block-menu-item-fieldsfooter-last-menu {
   padding-right: 12px;
 }
 .region-header .navbar-brand {
-  height: 50px;
   padding: 15px;
 }
 .region-header #block-settingsmenu {
@@ -1163,7 +1176,7 @@ body .absoluteclass {
 }
 
 .button-defult-exit {
-  font-family: Roboto;
+  font-family: Roboto, serif;
   font-weight: 700;
   font-size: 1.14em;
   padding: 12px 16px;
@@ -2124,10 +2137,6 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   right: 28px;
 }
 
-.block-homepage-hero-categories-block {
-  margin-bottom: 48px;
-}
-
 .homepage-hero {
   background-color: #fef4f6;
   margin: 0 -20%;
@@ -2216,7 +2225,7 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
 }
 .block-views-exposed-filter-blocks-block form {
   margin: 0 20%;
-  padding: 30px;
+  padding: 40px 0;
   padding-bottom: 0;
   text-align: center;
 }
@@ -2784,6 +2793,7 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   position: absolute;
   top: 8px;
   width: 32px;
+  z-index: 10;
 }
 
 .icon-video {
@@ -2937,6 +2947,7 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   width: 45px;
+  z-index: 10;
 }
 
 .podcast-play-icon {
@@ -2947,6 +2958,7 @@ html[lang=es] .region-header #block-settingsmenu .dropdown-menu li .form-type-ch
   left: 8px;
   position: absolute;
   width: 36px;
+  z-index: 10;
 }
 
 .video-time {

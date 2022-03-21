@@ -20,7 +20,6 @@ class HeaderResponse implements EventSubscriberInterface {
     $response->headers->remove('Generator');
 
     $response->headers->set("X-XSS-Protection", "1; mode=block");
-    $response->headers->set("cache-control", "no-cache, no-store, must-revalidate");
     $response->headers->set("X-Content-Type-Options", "nosniff always");
     $response->headers->set("Strict-Transport-Security", "max-age=31536000; includeSubDomains always");
     $response->headers->set("Access-Control-Allow-Origin", $event->getRequest()->getHost());

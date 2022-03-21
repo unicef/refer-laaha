@@ -23,8 +23,8 @@ class ModalPopup extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $url = Url::fromRoute('erpw_custom.dashboard');
-    $external_link = Link::fromTextAndUrl('BACK TO DASHBOARD', $url)->toString();
+    $url = Url::fromRoute('erpw_location.manage_location');
+    $external_link = Link::fromTextAndUrl('BACK TO LOCATION', $url)->toString();
     $form['back_to_dashboard'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="use-ajax modal-popup button-red">',

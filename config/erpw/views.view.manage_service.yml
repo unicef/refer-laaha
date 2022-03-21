@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_location
     - field.storage.node.field_mode
-    - field.storage.node.field_name_focalpoint_referrals
     - field.storage.node.field_phone_number
     - field.storage.node.field_select_organisation
     - node.type.service_provider
@@ -286,69 +285,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_name_focalpoint_referrals:
-          id: field_name_focalpoint_referrals
-          table: node__field_name_focalpoint_referrals
-          field: field_name_focalpoint_referrals
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: ''
-          exclude: true
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         edit_node:
           id: edit_node
           table: node
@@ -467,7 +403,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-provider-title\">{{ field_name_focalpoint_referrals }}</div>\r\n<div class=\"service-provider-org\"><span>{{'Organisation'|t}}: </span>{{ field_select_organisation }} </div>\r\n<div class=\"service-provider-number\"><span>{{'Contact'|t}}: </span>{{ field_phone_number }} </div>\r\n"
+            text: "<div class=\"service-provider-title\">{{ title }}</div>\r\n<div class=\"service-provider-org\"><span>{{ 'Organisation'|t }}: </span>{{ field_select_organisation }} </div>\r\n<div class=\"service-provider-number\"><span>{{ 'Contact'|t }}: </span>{{ field_phone_number }} </div>"
             make_link: false
             path: ''
             absolute: false
@@ -666,25 +602,24 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: true
-          content: '<div>No Service is available.</div>'
+          content: '<div>No service is available.</p>'
           tokenize: false
       sorts:
-        created:
-          id: created
+        title:
+          id: title
           table: node_field_data
-          field: created
+          field: title
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: node
-          entity_field: created
-          plugin_id: date
-          order: DESC
+          entity_field: title
+          plugin_id: standard
+          order: ASC
           expose:
             label: ''
             field_identifier: ''
           exposed: false
-          granularity: second
       arguments: {  }
       filters:
         status:
@@ -882,6 +817,48 @@ display:
           hierarchy: false
           limit: true
           error_message: true
+        langcode:
+          id: langcode
+          table: node_field_data
+          field: langcode
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: langcode
+          plugin_id: language
+          operator: in
+          value:
+            '***LANGUAGE_language_interface***': '***LANGUAGE_language_interface***'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       style:
         type: default
         options:
@@ -945,7 +922,6 @@ display:
       tags:
         - 'config:field.storage.node.field_location'
         - 'config:field.storage.node.field_mode'
-        - 'config:field.storage.node.field_name_focalpoint_referrals'
         - 'config:field.storage.node.field_phone_number'
         - 'config:field.storage.node.field_select_organisation'
   page_1:
@@ -970,6 +946,5 @@ display:
       tags:
         - 'config:field.storage.node.field_location'
         - 'config:field.storage.node.field_mode'
-        - 'config:field.storage.node.field_name_focalpoint_referrals'
         - 'config:field.storage.node.field_phone_number'
         - 'config:field.storage.node.field_select_organisation'

@@ -7,7 +7,6 @@ use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\RedirectCommand;
-use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Url;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormStateInterface;
@@ -24,6 +23,8 @@ use Drupal\erpw_pathway\Services\ErpwPathwayService;
  * Class user signup form.
  */
 class SignUpForm extends FormBase {
+
+  const MAX_LEVEL = 4;
 
   /**
    * The Current user service.
@@ -135,16 +136,18 @@ class SignUpForm extends FormBase {
       $email = $user_details->getEmail();
       $system_role = $user_details->getRoles();
     }
-
-    if ($form_state->has('page') && $form_state->get('page') == 2 && $this->userId == "") {
-      return self::formPageTwo($form, $form_state);
+    if ($form_state->has('page') && $this->userId == "") {
+      if ($form_state->get('page') == 3) {
+        return self::formPageThree($form, $form_state);
+      }
+      elseif ($form_state->get('page') == 2) {
+        return self::formPageTwo($form, $form_state);
+      }
+    }
+    else {
+      $form_state->set('page', 1);
     }
 
-    if ($form_state->has('page') && $form_state->get('page') == 3 && $this->userId == "") {
-      return self::formPageThree($form, $form_state);
-    }
-
-    $form_state->set('page', 1);
     if ($this->userId == "") {
       $form['progress_step1'] = [
         '#markup' => '<div class="steps-highlight">
@@ -394,7 +397,9 @@ class SignUpForm extends FormBase {
     if (!isset($form_state->getTriggeringElement()['#level'])
       && $current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator')) {
       $parent_list = $this->locationService->getAllAncestors($location_id);
-      if ($current_user->hasPermission('add users of their own location and organisation')) {
+      $permission1 = 'add users of their own location and organisation';
+      $permission2 = 'add users of their own location';
+      if ($current_user->hasPermission($permission1) || $current_user->hasPermission($permission2)) {
         $ptids = $parent_list;
       }
       elseif ($current_user->hasPermission('add location of their own country')) {
@@ -435,79 +440,11 @@ class SignUpForm extends FormBase {
         ],
       ],
       '#submit' => ['::submitPageTwo'],
-      '#validate' => ['::validatePageTwo'],
     ];
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getLevelThree(array &$form, FormStateInterface $form_state) {
-    $response = new AjaxResponse();
-
-    $parent_level2_tid = $form_state->getValue('level_2');
-    $location_country_id = $form_state->getValue('location_options');
-    $location_levels = $this->locationService->getLocationLevels($location_country_id);
-    $level_2_options = $this->locationService->getChildrenByTid($parent_level2_tid);
-    if (!empty($level_2_options)) {
-      $i = 1;
-      foreach ($level_2_options as $key => $value) {
-        if ($i == 1) {
-          $level_2_options_final[$key] = $value;
-        }
-        else {
-          $level_2_options_final[$key] = $value;
-        }
-        $i++;
-      }
-    }
-    else {
-      $level_2_options_final = $level_2_options;
-    }
-    $form['location']['all_wrapper']['location_level3']['level_3']['#empty_option'] = $this->t("Select Level 3 Label");
-    $form['location']['all_wrapper']['location_level4']['level_4']['#options'] = [];
-    $form['location']['all_wrapper']['location_level3']['level_3']['#options'] = $level_2_options_final;
-    $form['location']['all_wrapper']['location_level3']['level_3']['#empty_value'] = '';
-    $form['location']['all_wrapper']['location_level3']['level_3']['#title'] = $location_levels[2];
-    $response = new AjaxResponse();
-    $response->addCommand(new HtmlCommand('#location-level-3', $form['location']['all_wrapper']['location_level3']['level_3']));
-    $response->addCommand(new HtmlCommand('#location-level-4', ''));
-    return $response;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getLevelFour(array &$form, FormStateInterface $form_state) {
-    $response = new AjaxResponse();
-    $parent_level2_tid = $form_state->getValue('level_3');
-    $level_2_options = $this->locationService->getChildrenByTid($parent_level2_tid);
-    $form['location']['all_wrapper']['location_level4']['level_4']['#empty_option'] = $this->t("Select Level 4 Label");
-    $form['location']['all_wrapper']['location_level4']['level_4']['#options'] = $level_2_options;
-    $form['location']['all_wrapper']['location_level4']['level_4']['#empty_value'] = '';
-    $response = new AjaxResponse();
-    $response->addCommand(new HtmlCommand('#location-level-4', $form['location']['all_wrapper']['location_level4']['level_4']));
-    return $response;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getLevelFourData(array &$form, FormStateInterface $form_state) {
-    return $form['location']['all_wrapper']['location_level']['location_level3'];
-  }
-
-  /**
-   * Sets an error if supplied fields has not been filled.
-   */
-  public function validatePageTwo(array &$form, FormStateInterface $form_state) {
-    if (empty($form_state->getValue('level_0'))) {
-      $form_state->setErrorByName('level_0', $this->t('Please fill the required fields'));
-    }
   }
 
   /**
@@ -526,13 +463,12 @@ class SignUpForm extends FormBase {
    */
   public function submitPageTwo(array &$form, FormStateInterface $form_state) {
     $location_tid = '';
-    for ($i = 4; $i >= 0; $i--) {
+    for ($i = self::MAX_LEVEL; $i >= 0; $i--) {
       $location_tid = $form_state->getValue('level_' . $i);
       if (!empty($location_tid)) {
         break;
       }
     }
-
     $form_state->set('page_two_values', [
       'personal_details' => $form_state->get('page_values'),
       'location_tid' => $location_tid,
@@ -649,8 +585,8 @@ class SignUpForm extends FormBase {
     if ($password && strcmp($password, $confirm_password)) {
       $form_state->setErrorByName('password', $this->t('The specified passwords do not match.'));
     }
-    if ($password && !preg_match("/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,64}$/", $password)) {
-      $form_state->setErrorByName('password', $this->t('Password should contain at least one Number, one Symbol and one alphabet'));
+    if ($password && !preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/", $password)) {
+      $form_state->setErrorByName('password', $this->t('Password should contain at least one number, one symbol, one lowercase and uppercase letter.'));
     }
   }
 
@@ -682,7 +618,7 @@ class SignUpForm extends FormBase {
       $values = $form_state->get('page_values');
       $location_values = $form_state->get('page_two_values');
       $user_info = [
-        'status' => 1,
+        'status' => 0,
         'name' => $values['email'],
         'pass' => $form_state->getValue('password'),
         'mail' => $values['email'],
@@ -723,7 +659,7 @@ class SignUpForm extends FormBase {
       $values = $form_state->get('page_values');
       $location_values = $form_state->get('page_two_values');
       $user_info = [
-        'status' => 0,
+        'status' => 1,
         'name' => $values['email'],
         'pass' => 'password',
         'mail' => $values['email'],
@@ -738,8 +674,6 @@ class SignUpForm extends FormBase {
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
       $user->save();
-      $messenge = $this->t('User has been created!');
-      $response->addCommand(new MessageCommand($messenge));
       _user_mail_notify('register_pending_approval', $user);
       $response = new AjaxResponse();
       $url = Url::fromRoute('view.user_lists.page_1')->toString();

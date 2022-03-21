@@ -180,7 +180,7 @@
 		position: relative;
 	}
 	.view-content {
-		margin-top: 40px;
+		margin: 40px 0;
 	}
 	.title-view {
 		border-top: 2px solid rgba(243, 193, 191, 0.53);
@@ -313,7 +313,9 @@ div.color_field__swatch input[type=radio]:checked + label span {
 .view-referral-pathway-listing {
 
 	@extend .service-list;
-
+	.view-header {
+		border-bottom: 0;
+	}
 	.views-field-title,
 	.views-field-field-location {
 		padding: 5px 10px;
@@ -355,8 +357,9 @@ div.color_field__swatch input[type=radio]:checked + label span {
 //new user listing
 .review-text {
 	margin-top: 10px;
+	text-align: right;
 	a {
-		color: $base-secondary-bgcolor;
+		color: $base-secondary-bgcolor !important;
 		font-size: 12px;
 		text-transform: uppercase;
 		font-weight: 500;

@@ -1,15 +1,15 @@
-uuid: 35fc1290-9541-4bb0-b7c7-d3affc0896e5
+uuid: 269b141f-0f87-4f84-8d31-062eb5da26ba
 langcode: en
 status: true
 dependencies:
   module:
-    - node
-id: node.field_name_focalpoint_referrals
-field_name: field_name_focalpoint_referrals
-entity_type: node
+    - taxonomy
+id: taxonomy_term.field_country_code
+field_name: field_country_code
+entity_type: taxonomy_term
 type: string
 settings:
-  max_length: 255
+  max_length: 2
   case_sensitive: false
   is_ascii: false
 module: core

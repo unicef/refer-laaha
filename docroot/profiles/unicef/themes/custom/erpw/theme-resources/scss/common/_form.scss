@@ -29,6 +29,7 @@ label {
 }
 input[type=text],
 input[type=password],
+input[type=email],
 select {
 	background-position:right;
 	border: 1px solid $border;
@@ -87,18 +88,25 @@ input[type=submit] {
 	position: relative;
 }
 //for password hint
-.description {
-	background: none;
-	border: 1px solid $base-black-color;
-	@include border-radius(50%);
-	font-size: 9px !important;
-	font-style: italic;
-	left: 66px;
-	position: absolute;
-	text-align: center;
-	top: 5px;
-	right: 0;
-	width: 10px;
+.path-sign-up {
+	.description {
+		background: none;
+		border: 1px solid $base-black-color;
+		@include border-radius(50%);
+		font-size: 9px !important;
+		font-style: italic;
+		left: 66px;
+		position: absolute;
+		text-align: center;
+		top: 5px;
+		right: 0;
+		width: 10px;
+	}
+	[id^='edit-back'] {
+		background: none;
+		color: $base-secondary-bgcolor;
+		width: 134px;
+	}
 }
 .password-help-text {
 	box-shadow: 0 2px 20px 6px rgb(0 0 0 / 10%);

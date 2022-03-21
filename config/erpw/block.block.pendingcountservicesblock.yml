@@ -1,0 +1,25 @@
+uuid: 6864cbea-3566-4c77-86ed-2aaf50dd89c1
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_location
+    - system
+  theme:
+    - erpw
+id: pendingcountservicesblock
+theme: erpw
+region: content
+weight: -7
+provider: null
+plugin: pending_count_services_block
+settings:
+  id: pending_count_services_block
+  label: 'Pending Count Services Block'
+  label_display: '0'
+  provider: erpw_location
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /dashboard

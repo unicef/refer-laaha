@@ -250,16 +250,15 @@ function vss_custom_send_invite(&$form, FormStateInterface $form_state) {
  * Use form alter.
  */
 function vss_custom_form_alter(&$form, FormStateInterface &$form_state, $form_id) {
-  // Turn off autocomplete on user the forms.
-  if ($form_id == 'user_login_form') {
-    $form['name']['#attributes']['autocomplete'] = 'off';
-    $form['pass']['#attributes']['autocomplete'] = 'off';
-  }
-
   if ($form_id == 'taxonomy_term_categories_form') {
     $form['description']['widget'][0]['#required'] = 'true';
     $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
-    $form['field_category_reference']['widget']['#options'] = ['_none' => 'Select a value'] + get_all_parent_categories($langcode);
+    $form['field_category_reference']["widget"]['#states'] = [
+      'visible' => [
+        'input[name="field_sub_category[value]"]' => ['checked' => TRUE],
+      ],
+    ];
+    $form['field_category_reference']["widget"]['#options'] = ['' => 'Select a value'] + get_all_parent_categories($langcode);
     $form['#validate'][] = 'validate_category';
     $form['relations']['#access'] = FALSE;
   }
@@ -1164,4 +1163,43 @@ function vss_custom_views_data_alter(&$data) {
       'id' => 'field_podcast_time',
     ],
   ];
+}
+
+/**
+ * Node presave.
+ */
+function vss_custom_node_presave(EntityInterface $entity) {
+  if ($entity->hasField('field_sub_category')) {
+    $form_val = [];
+    $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $query = \Drupal::database()->select('node__field_sub_category', 'n');
+    $query->condition('n.entity_id', $entity->id());
+    $query->condition('n.langcode', $langcode, '=');
+    $query->condition('dm.field_domain_target_id', $active_domain->id(), '!=');
+    $query->join('taxonomy_term__field_domain', 'dm', 'dm.entity_id = n.field_sub_category_target_id');
+    $query->fields('n', ['field_sub_category_target_id']);
+    $all_res = $query->distinct()->execute()->fetchCol();
+
+    $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $query = \Drupal::database()->select('node__field_sub_category', 'n');
+    $query->condition('n.entity_id', $entity->id());
+    $query->condition('n.langcode', $langcode, '=');
+    $query->condition('dm.field_domain_target_id', $active_domain->id(), '=');
+    $query->join('taxonomy_term__field_domain', 'dm', 'dm.entity_id = n.field_sub_category_target_id');
+    $query->fields('n', ['field_sub_category_target_id']);
+    $cur_dm_res = $query->distinct()->execute()->fetchCol();
+
+    foreach ($entity->field_sub_category as $val) {
+      $form_val[$val->target_id] = $val->target_id;
+    }
+    $final_arr = array_unique(array_merge($all_res, $form_val));
+
+    $common = array_intersect($all_res, $cur_dm_res);
+    if (count($common) > 0) {
+      $combined_arr = array_unique(array_merge($all_res, $form_val));
+      $final_arr = array_diff($combined_arr, $common);
+    }
+    $entity->field_sub_category = $final_arr;
+  }
 }

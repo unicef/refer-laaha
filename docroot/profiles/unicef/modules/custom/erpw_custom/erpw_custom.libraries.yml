@@ -3,7 +3,13 @@ erpw_js:
   js:
     js/select2/select2.min.js: {}
     js/erpw.js: {}
-    js/erpw_service_provider.js: {}
   dependencies:
     - core/jquery
     - core/drupalSettings
+erpw_geoip:
+  js:
+    js/erpw_geoip.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+    - core/drupal.ajax
