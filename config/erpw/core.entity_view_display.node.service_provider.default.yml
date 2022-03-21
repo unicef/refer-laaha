@@ -81,10 +81,9 @@ content:
     weight: 10
     region: content
   field_location:
-    type: entity_reference_label
+    type: entity_reference_entity_id
     label: above
-    settings:
-      link: false
+    settings: {  }
     third_party_settings: {  }
     weight: 15
     region: content
