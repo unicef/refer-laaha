@@ -64,7 +64,8 @@ class CategoriesPopupBlock extends BlockBase implements ContainerFactoryPluginIn
           }
           $name = $term->label();
           $cat_popup[$k]['name'] = $name;
-          $cat_popup[$k]['cat_icon'] = $term->get('field_icon')->entity->getFileUri();;
+          $cat_popup[$k]['cat_icon'] = $term->get('field_icon')->entity->getFileUri();
+          ;
           $cat_popup[$k]['cat_color'] = $term->get('field_category_color')->color;
           $cat_popup[$k]['cat_desc'] = strip_tags($term->get('description')->value);
           $cat_popup[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $k), '/');
