@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.service_provider.field_accessibility_for_persons_
+    - field.field.node.service_provider.field_add_more_details_service
     - field.field.node.service_provider.field_age_group
     - field.field.node.service_provider.field_cost_of_service
     - field.field.node.service_provider.field_countrycode
@@ -44,7 +45,7 @@ third_party_settings:
         - field_accessibility_for_persons_
         - field_age_group
         - field_target_group
-      label: 'Step 1: Add service Details'
+      label: 'Step 1: Add Service Details'
       region: content
       parent_name: ''
       weight: 1
@@ -67,6 +68,7 @@ third_party_settings:
         - field_name_backup_focalpoint_ref
         - field_phone_number_backup_focalp
         - field_email_backup_focal_point
+        - field_add_more_details_service
       label: 'Step 2: Contact Fields'
       region: content
       parent_name: ''
@@ -89,6 +91,14 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_add_more_details_service:
+    type: string_textarea
+    weight: 23
+    region: content
+    settings:
+      rows: 5
+      placeholder: 'Add More Details'
     third_party_settings: {  }
   field_age_group:
     type: options_select
@@ -114,19 +124,19 @@ content:
     third_party_settings: {  }
   field_email_backup_focal_point:
     type: string_textfield
-    weight: 23
+    weight: 22
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Enter the Email of Backup Focal Point'
+    third_party_settings: {  }
+  field_email_of_focal_point:
+    type: string_textfield
+    weight: 19
     region: content
     settings:
       size: 60
       placeholder: 'Enter the Email of Focal Point'
-    third_party_settings: {  }
-  field_email_of_focal_point:
-    type: string_textfield
-    weight: 20
-    region: content
-    settings:
-      size: 60
-      placeholder: 'Enter the Email Id of Focal Point'
     third_party_settings: {  }
   field_location:
     type: entity_reference_autocomplete
@@ -146,7 +156,7 @@ content:
     third_party_settings: {  }
   field_name_backup_focalpoint_ref:
     type: string_textfield
-    weight: 21
+    weight: 20
     region: content
     settings:
       size: 60
@@ -182,11 +192,11 @@ content:
     region: content
     settings:
       size: 60
-      placeholder: 'Enter the Phone Number'
+      placeholder: 'Enter the Hotline/Landline Number'
     third_party_settings: {  }
   field_phone_number_backup_focalp:
     type: string_textfield
-    weight: 22
+    weight: 21
     region: content
     settings:
       size: 60
@@ -226,7 +236,7 @@ content:
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 3
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
