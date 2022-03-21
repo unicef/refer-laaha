@@ -21,7 +21,7 @@
  <div class="row">
 {% for key,value in content %}
   <div class="col-md-3 col-xs-6 hero-col text-center">
-      <a href="/{{lang_code}}/{{value.url}}"><img class="category-imgs" src ="/{{value.sub_category_thumbnail}}" alt="{{value.sub_category_alt}}" /><span class="subcat-name">{{ value.subcat_name }}</span></a>
+      <a href="/{{lang_code}}/{{value.url}}"><img class="category-imgs" src ="{{ file_url( value.sub_category_thumbnail | image_style('hero_banner')) }}" alt="{{value.sub_category_alt}}" /><span class="subcat-name">{{ value.subcat_name }}</span></a>
     </div>
 {% endfor %}
 </div>
