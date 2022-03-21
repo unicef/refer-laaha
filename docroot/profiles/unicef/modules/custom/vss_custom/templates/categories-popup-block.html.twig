@@ -5,7 +5,8 @@
 {% for key,value in content %}
   <div class="col-lg-4 col-sm-4 cat-col">
       <a href="/{{lang_code}}/{{value.url}}" target='_blank'>
-        <div class="category-icon" style="background: {{ '#'~ value.cat_color }}"><img class="category-imgs" src ="{{ file_url( value.cat_icon | image_style('category_popup')) }}" alt="{{value.alt}}" /></div>        <div class="subcat-name right-arrow">{{ value.name }}</div>
+        <div class="category-icon" style="background: {{ '#'~ value.cat_color }}"><img class="category-imgs" src ="{{ file_url( value.cat_icon | image_style('category_popup')) }}" alt="{{value.alt}}" /></div>
+        <div class="subcat-name right-arrow">{{ value.name }}</div>
       </a>
       <div class="subcat-desc">{{ value.cat_desc }}</div>
     </div>
