@@ -313,7 +313,9 @@ div.color_field__swatch input[type=radio]:checked + label span {
 .view-referral-pathway-listing {
 
 	@extend .service-list;
-
+	.view-header {
+		border-bottom: 0;
+	}
 	.views-field-title,
 	.views-field-field-location {
 		padding: 5px 10px;
