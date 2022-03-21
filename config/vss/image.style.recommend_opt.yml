@@ -1,0 +1,16 @@
+uuid: cb90ac35-4959-4342-9b3e-ee8d7bd565cd
+langcode: en
+status: true
+dependencies: {  }
+name: recommend_opt
+label: recommend_opt
+effects:
+  ef20f03f-bc15-4f49-a044-a2142222e853:
+    uuid: ef20f03f-bc15-4f49-a044-a2142222e853
+    id: image_scale
+    weight: 1
+    data:
+      width: 234
+      height: 130
+      upscale: false
+pipeline: vss_optimize_image

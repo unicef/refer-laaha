@@ -1,0 +1,16 @@
+uuid: 9709f0b5-6263-4728-a4ae-64c40db6592e
+langcode: en
+status: true
+dependencies: {  }
+name: discover_block
+label: discover_block
+effects:
+  9cd97fbb-377e-4db1-bf2a-5686c59a219f:
+    uuid: 9cd97fbb-377e-4db1-bf2a-5686c59a219f
+    id: image_scale
+    weight: 1
+    data:
+      width: 40
+      height: 40
+      upscale: false
+pipeline: vss_optimize_image

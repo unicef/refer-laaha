@@ -1,0 +1,16 @@
+uuid: a280dd03-1813-4da5-9709-7863b46f3bb8
+langcode: en
+status: true
+dependencies: {  }
+name: category_popup
+label: category-popup
+effects:
+  b78685a2-066b-4cf1-9663-435ffc97d386:
+    uuid: b78685a2-066b-4cf1-9663-435ffc97d386
+    id: image_scale
+    weight: 1
+    data:
+      width: 110
+      height: 110
+      upscale: false
+pipeline: vss_optimize_image
