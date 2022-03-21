@@ -209,7 +209,7 @@ class ManageLocationForm extends FormBase {
         $country_tid = $this->locationService->getLocationSingleEntityIdByTid($upper_ancestors[0]);
       }
       if (!empty($country_tid)) {
-        $link = Link::createFromRoute($this->t('Click to change country'), 'erpw_location.user_location_manage',
+        $link = Link::createFromRoute($this->t('Click to Change Country'), 'erpw_location.user_location_manage',
         ['id' => $country_tid, 'page' => 'location'])->toString();
       }
       else {

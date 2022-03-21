@@ -467,6 +467,31 @@ display:
           field_api_classes: false
       defaults:
         fields: false
+        header: false
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: "<div class=\"plus-icon button-with-icon\"><a href=\"/node/add/organisation?destination=/organisations\">Add new Organisation</a></div>\r\n"
+            format: full_html
+          tokenize: false
+        result:
+          id: result
+          table: views
+          field: result
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: result
+          empty: false
+          content: '<div class="service-count more-link">@total Organisations</div>'
       display_extenders:
         library_in_views_display_extender: {  }
       path: organisations
