@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.full
     - field.field.node.service_provider.field_accessibility_for_persons_
+    - field.field.node.service_provider.field_add_more_details_service
     - field.field.node.service_provider.field_age_group
     - field.field.node.service_provider.field_cost_of_service
     - field.field.node.service_provider.field_countrycode
@@ -188,6 +189,7 @@ content:
     weight: 3
     region: content
 hidden:
+  field_add_more_details_service: true
   field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true
