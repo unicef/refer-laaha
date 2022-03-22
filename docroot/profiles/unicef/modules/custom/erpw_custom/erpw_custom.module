@@ -281,7 +281,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     }
     // Hide moderation state option for staff only.
     if ($current_user->hasRole('service_provider_staff')) {
-      $form['moderation_state']['#access'] = FALSE;
+      $form['moderation_state']['#attributes']['class'][] = 'hidden';
     }
     $form['advanced']['#access'] = FALSE;
     $form['meta']['#access'] = FALSE;
