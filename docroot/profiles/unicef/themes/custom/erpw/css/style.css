@@ -532,6 +532,9 @@ form .form-actions {
 form .form-actions .signup-next {
   width: auto;
 }
+form .form-textarea-wrapper textarea {
+  margin-top: 7px;
+}
 
 label, .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend,
 .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend {
@@ -543,7 +546,8 @@ label, .service-provider-class [id^=edit-field-transportation-available-wrapper]
 input[type=text],
 input[type=password],
 input[type=email],
-select {
+select,
+textarea {
   background-position: right;
   border: 1px solid #F3C1BF;
   border-radius: 5px;
@@ -557,34 +561,39 @@ select {
 input[type=text]:focus,
 input[type=password]:focus,
 input[type=email]:focus,
-select:focus {
+select:focus,
+textarea:focus {
   outline: none;
 }
 input[type=text]::-webkit-input-placeholder,
 input[type=password]::-webkit-input-placeholder,
 input[type=email]::-webkit-input-placeholder,
-select::-webkit-input-placeholder {
+select::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
   color: #E0D7D7;
   font-size: 14px;
 }
 input[type=text]:-moz-placeholder,
 input[type=password]:-moz-placeholder,
 input[type=email]:-moz-placeholder,
-select:-moz-placeholder {
+select:-moz-placeholder,
+textarea:-moz-placeholder {
   color: #E0D7D7;
   font-size: 14px;
 }
 input[type=text]::-moz-placeholder,
 input[type=password]::-moz-placeholder,
 input[type=email]::-moz-placeholder,
-select::-moz-placeholder {
+select::-moz-placeholder,
+textarea::-moz-placeholder {
   color: #E0D7D7;
   font-size: 14px;
 }
 input[type=text]:-ms-input-placeholder,
 input[type=password]:-ms-input-placeholder,
 input[type=email]:-ms-input-placeholder,
-select:-ms-input-placeholder {
+select:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
   color: #E0D7D7;
   font-size: 14px;
 }
