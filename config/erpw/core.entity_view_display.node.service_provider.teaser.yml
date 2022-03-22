@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.service_provider.field_accessibility_for_persons_
+    - field.field.node.service_provider.field_add_more_details_service
     - field.field.node.service_provider.field_age_group
     - field.field.node.service_provider.field_cost_of_service
     - field.field.node.service_provider.field_countrycode
@@ -47,6 +48,7 @@ content:
 hidden:
   content_moderation_control: true
   field_accessibility_for_persons_: true
+  field_add_more_details_service: true
   field_age_group: true
   field_cost_of_service: true
   field_countrycode: true

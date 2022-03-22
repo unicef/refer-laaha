@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.service_provider.field_accessibility_for_persons_
+    - field.field.node.service_provider.field_add_more_details_service
     - field.field.node.service_provider.field_age_group
     - field.field.node.service_provider.field_cost_of_service
     - field.field.node.service_provider.field_countrycode
@@ -40,6 +41,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 5
+    region: content
+  field_add_more_details_service:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 19
     region: content
   field_age_group:
     type: list_default
