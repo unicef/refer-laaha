@@ -229,7 +229,7 @@ class DeleteLocationForm extends FormBase {
       ];
       $msg_note = $this->t('This action cannot be reversed !
         Please note that deleting a location will remove any mapping it
-        has with existing referral pathways and Service providers of application');
+        has with existing referral pathways and Service providers of application.');
       $form['msg_note'] = [
         '#type' => 'markup',
         '#markup' => '<div class="msg-note">' . $msg_note . '</div>',
