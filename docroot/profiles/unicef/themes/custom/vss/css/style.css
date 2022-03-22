@@ -2304,7 +2304,8 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
     margin: 2px;
     padding: 15px; }
   .discover-section .discover-category-description {
-    padding: 5px; }
+    padding: 5px;
+    clear: both; }
   .discover-section .discover-category-name {
     font-size: 16px;
     margin-top: 10px;
@@ -2315,6 +2316,9 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
       background: #fff;
       border-radius: 4px;
       padding: 7px; }
+      @media screen and (max-width: 767px) {
+        .discover-section .discover-category-name a {
+          float: left; } }
   .discover-section .discover-article-name {
     color: #000;
     font-size: 14px;
