@@ -140,3 +140,4 @@ function erpw_preprocess_field__node__service_provider(&$variables) {
     $variables['items'][0]['content']['#markup'] = implode(', ', $age_group);
   }
 }
+
