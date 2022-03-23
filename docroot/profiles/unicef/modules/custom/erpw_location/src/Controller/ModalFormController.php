@@ -9,7 +9,7 @@ use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * ModalFormController class.
+ * {@inheritdoc}
  */
 class ModalFormController extends ControllerBase {
 

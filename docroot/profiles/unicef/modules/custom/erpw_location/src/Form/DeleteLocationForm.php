@@ -3,7 +3,6 @@
 namespace Drupal\erpw_location\Form;
 
 use Drupal\Core\Form\FormBase;
-use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Path\CurrentPathStack;
@@ -247,7 +246,7 @@ class DeleteLocationForm extends FormBase {
     $values = $form_state->getValues();
     if (!empty($values)) {
       $response = new AjaxResponse();
-      $term = Term::load($values['tid']);
+      $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($values['tid']);
       if (!empty($term)) {
         $term->delete();
       }
