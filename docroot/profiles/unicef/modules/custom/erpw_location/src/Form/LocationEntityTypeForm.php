@@ -6,7 +6,7 @@ use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * {@inheritdoc}
+ * Class LocationEntityTypeForm.
  */
 class LocationEntityTypeForm extends EntityForm {
 

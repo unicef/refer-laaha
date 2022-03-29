@@ -3,6 +3,7 @@
 namespace Drupal\erpw_location\Form;
 
 use Drupal\Core\Url;
+use Drupal\file\Entity\File;
 use Drupal\Core\Form\FormBase;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Ajax\HtmlCommand;
@@ -17,10 +18,9 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\erpw_location\Entity\LocationEntity;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
 
 /**
- * {@inheritdoc}
+ * ImportLocationModalForm class.
  */
 class ImportLocationModalForm extends FormBase {
 
@@ -46,13 +46,6 @@ class ImportLocationModalForm extends FormBase {
   protected $entityManager;
 
   /**
-   * The language manager service.
-   *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
-   */
-  protected $languageManager;
-
-  /**
    * ManageLocation constructor.
    *
    * @param \Psr\Log\LoggerChannelFactory $logger
@@ -63,19 +56,16 @@ class ImportLocationModalForm extends FormBase {
    *   EntityManager object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
-   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
-   *   The language manager service.
    */
   public function __construct(LoggerChannelFactory $logger,
     Connection $connection,
     EntityTypeManagerInterface $entity_manager,
-    MessengerInterface $messenger,
-    LanguageManagerInterface $language_manager) {
+    MessengerInterface $messenger) {
+
     $this->logger = $logger;
     $this->connection = $connection;
     $this->entityManager = $entity_manager;
     $this->messenger = $messenger;
-    $this->languageManager = $language_manager;
   }
 
   /**
@@ -86,9 +76,7 @@ class ImportLocationModalForm extends FormBase {
       $container->get('logger.factory'),
       $container->get('database'),
       $container->get('entity_type.manager'),
-      $container->get('messenger'),
-      $container->get('language_manager')
-
+      $container->get('messenger')
     );
   }
 
@@ -152,7 +140,7 @@ class ImportLocationModalForm extends FormBase {
       $response->addCommand(new HtmlCommand('#status-message', ''));
       $file_obj = $form_state->getValue('import_location_csv_file');
       if ($file_obj) {
-        $file_obj_data = $this->entityTypeManager->getStorage('file')->load(reset($file_obj));
+        $file_obj_data = File::load(reset($file_obj));
         $file_path = 'public://location_csv/' . $file_obj_data->getFilename();
         $country_name = explode('.', $file_obj_data->getFilename())[0];
         $imported = $this->handleFileData($file_path, $country_name);
@@ -225,7 +213,7 @@ class ImportLocationModalForm extends FormBase {
       $csv_langcodes[$i] = explode("_", $header_data[$i])[2];
     }
     // Check if the language in the csv is an active language.
-    $active_languages = $this->languageManager->getLanguages();
+    $active_languages = \Drupal::languageManager()->getLanguages();
     $active_languages_list = array_keys($active_languages);
     foreach ($csv_langcodes as $langcode) {
       if (!in_array($langcode, $active_languages_list)) {
@@ -348,7 +336,7 @@ class ImportLocationModalForm extends FormBase {
           }
           if ($term_exists || $k > 0) {
 
-            $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($parent_term_id);
+            $term = Term::load($parent_term_id);
             if (!$term->hasTranslation($lang_code)) {
               $term->addTranslation($lang_code, [
                 'name' => $location[$j + $k],

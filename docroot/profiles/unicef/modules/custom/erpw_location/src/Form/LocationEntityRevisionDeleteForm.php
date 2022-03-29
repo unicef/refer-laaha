@@ -95,7 +95,7 @@ class LocationEntityRevisionDeleteForm extends ConfirmFormBase {
       '%title' => $this->revision->label(),
       '%revision' => $this->revision->getRevisionId(),
     ]);
-    $this->messenger()->addMessage($this->t('Revision from %revision-date of Location Entity %title has been deleted.', [
+    $this->messenger()->addMessage(t('Revision from %revision-date of Location Entity %title has been deleted.', [
       '%revision-date' => \Drupal::service('date.formatter')->format($this->revision->getRevisionCreationTime()),
       '%title' => $this->revision->label(),
     ]));
