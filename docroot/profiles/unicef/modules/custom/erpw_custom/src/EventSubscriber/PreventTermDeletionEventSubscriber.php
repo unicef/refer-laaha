@@ -7,9 +7,9 @@ use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
  * Class PreventTermDeletionEventSubscriber.
@@ -37,16 +37,26 @@ class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
   protected $configFactory;
 
   /**
+   * A entityManager instance.
+   *
+   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityManager;
+
+  /**
    * PreventTermDeletionEventSubscriber constructor.
    *
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
    * @param \Drupal\Core\Config\ConfigFactory $config_factory
    *   Drupal Configuration Object.
+   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   EntityManager object.
    */
-  public function __construct(Connection $connection, ConfigFactory $config_factory) {
+  public function __construct(Connection $connection, ConfigFactory $config_factory, EntityTypeManagerInterface $entity_type_manager) {
     $this->connection = $connection;
     $this->configFactory = $config_factory;
+    $this->entityManager = $entity_type_manager;
   }
 
   /**
@@ -85,7 +95,7 @@ class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
       $default_value = '';
       if ($id = $form['id']['#default_value']) {
         $config = $this->configFactory->getEditable('domain.location.' . $id);
-        $default_value = ($config->get('location')) ? Term::load($config->get('location')) : '';
+        $default_value = ($config->get('location')) ? $this->entityManager->getStorage('taxonomy_term')->load($config->get('location')) : '';
       }
       $form['location'] = [
         '#type' => 'entity_autocomplete',

@@ -62,11 +62,11 @@ class LocationEntityPermissions {
       ],
       "$type_id view revisions" => [
         'title' => $this->t('View %type_name revisions', $type_params),
-        'description' => t('To view a revision, you also need permission to view the entity item.'),
+        'description' => $this->t('To view a revision, you also need permission to view the entity item.'),
       ],
       "$type_id revert revisions" => [
         'title' => $this->t('Revert %type_name revisions', $type_params),
-        'description' => t('To revert a revision, you also need permission to edit the entity item.'),
+        'description' => $this->t('To revert a revision, you also need permission to edit the entity item.'),
       ],
       "$type_id delete revisions" => [
         'title' => $this->t('Delete %type_name revisions', $type_params),
