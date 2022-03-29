@@ -173,7 +173,7 @@ class EntityUserSubscriber implements EventSubscriberInterface {
   public function userValidateForm(array &$form, $form_state) {
     $password = $form_state->getValue('pass');
     if ($password && !preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/", $password)) {
-      $form_state->setErrorByName('pass', $this->t('Password should contain at least one number, one symbol, one lowercase and uppercase letter.'));
+      $form_state->setErrorByName('pass', $this->t('Password must contain at least one number, one symbol, one lowercase and uppercase letter. Minimum length must be 8 characters.'));
     }
   }
 

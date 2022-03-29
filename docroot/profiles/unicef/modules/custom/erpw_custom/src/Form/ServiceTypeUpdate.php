@@ -5,11 +5,47 @@ namespace Drupal\erpw_custom\Form;
 use Drupal\Core\Url;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\UrlGeneratorInterface;
+use Drupal\Core\Path\CurrentPathStack;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * ModalForm class.
  */
 class ServiceTypeUpdate extends FormBase {
+
+  /**
+   * A currentPathStack instance.
+   *
+   * @var Drupal\Core\Path\CurrentPathStack
+   */
+  protected $currentPathStack;
+
+  /**
+   * A UrlService instance.
+   *
+   * @var Drupal\Core\Routing\UrlGeneratorInterface
+   */
+  protected $urlGenerator;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(CurrentPathStack $current_path_stack,
+    UrlGeneratorInterface $url_generator) {
+    $this->currentPathStack = $current_path_stack;
+    $this->urlGenerator = $url_generator;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('path.current'),
+      $container->get('url_generator')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -67,7 +103,7 @@ class ServiceTypeUpdate extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $url = Url::fromRoute(\Drupal::service('path.current')->getPath());
+    $url = $this->urlGenerator->generateFromRoute($this->currentPathStack->getPath());
     $response = new RedirectResponse($url->toString());
     $response->send();
     return $response;

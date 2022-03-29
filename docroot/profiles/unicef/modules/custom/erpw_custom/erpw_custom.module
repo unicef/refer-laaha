@@ -763,6 +763,11 @@ function get_child_term_tid($ptid) {
  * Implements hook_entity_presave().
  */
 function erpw_custom_entity_presave(EntityInterface $entity) {
+
+  if ($entity->getEntityTypeId() == 'node' && $entity->getType() == 'service_provider') {
+    $service_title = $entity->get('title')->value;
+    $entity->set('field_name_of_the_focal_point', $service_title);
+  }
   if (in_array($entity->getentityTypeId(), ['node', 'user']) && $entity->hasField('field_domain_access')) {
     $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
     foreach ($all_domains as $domain) {

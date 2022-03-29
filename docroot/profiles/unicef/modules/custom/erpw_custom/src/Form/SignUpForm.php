@@ -199,10 +199,10 @@ class SignUpForm extends FormBase {
       '#placeholder' => $this->t('**********'),
       '#default_value' => !empty($field_phone) ? $field_phone : $form_state->getValue('phone', ''),
     ];
-    if (!empty($form_state->getValue('organisation'))) {
-      $organisation = $this->entityTypeManager->getStorage('node')->load($form_state->getValue('organisation'));
-    }
     $org = '';
+    if (!empty($form_state->getValue('organisation'))) {
+      $org = $this->entityTypeManager->getStorage('node')->load($form_state->getValue('organisation'));
+    }
     $disabled = '';
     $permission = 'add users of their own location and organisation';
     $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());

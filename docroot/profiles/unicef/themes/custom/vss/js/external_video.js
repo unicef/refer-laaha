@@ -7,9 +7,7 @@
     $(document).ready(function () {
         let tag = document.createElement("script");
         tag.src = "https://www.youtube.com/iframe_api";
-        tag.integrity = "sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"; // Compliant
-        tag.crossOrigin = "anonymous";
-        document.head.appendChild(script);
+        document.head.appendChild(tag);
 
         var player;
         var players = [];
