@@ -7,7 +7,6 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\Path\CurrentPathStack;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * ModalForm class.
