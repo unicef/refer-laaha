@@ -6,6 +6,7 @@ use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\erpw_location\LocationService;
+use Drupal\Core\Language\LanguageManagerInterface;
 
 /**
  * ErpwPathway Service Class.
@@ -44,12 +45,21 @@ class ErpwPathwayService {
   const MAX_LEVEL = 4;
 
   /**
+   * Language of the site.
+   *
+   * @var language
+   */
+  protected static $language = 'en';
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager,
-    LocationService $location_service) {
+    LocationService $location_service,
+    LanguageManagerInterface $language) {
     self::$entityTypeManager = $entity_type_manager;
     self::$locationService = $location_service;
+    self::$language = $language->getCurrentLanguage()->getId();
   }
 
   /**
@@ -68,43 +78,44 @@ class ErpwPathwayService {
    *   Array of form element.
    */
   public function getLocationForm(array $form, $form_state, array $parent_list = [], array $ptids = []) {
-
+    $form['#cache']['max-age'] = 0;
+    $form['#attached']['library'][] = 'erpw_pathway/erpw_pathway';
     // Build location Form.
     $location_entities = self::$entityTypeManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
+    if (empty($location_entities)) {
+      return $form;
+    }
+    self::$levelLabel = $this->getLables($location_entities);
     $location_options = ['' => $this->t("Select country")];
     $form_state->setRebuild(TRUE);
-    if (!empty($location_entities)) {
-      $child_location = [];
-      foreach ($location_entities as $location) {
-        $id = (!$location->get('field_location_taxonomy_term')->isEmpty()) ?
-        $location->get('field_location_taxonomy_term')->getValue()[0]['target_id'] : '';
-        $location_options[$id] = $location->get('name')->getValue()[0]['value'];
-        if (isset($parent_list[0])) {
-          $id = $parent_list[0];
-        }
-        $child = $this->getChildLocation($id, $location, $form, $form_state, $parent_list, $ptids);
-        if (count($child) > count($child_location)) {
-          $child_location = $child;
-        }
+    $child_location = [];
+    foreach ($location_entities as $location) {
+      $id = (!$location->get('field_location_taxonomy_term')->isEmpty()) ?
+      $location->get('field_location_taxonomy_term')->getValue()[0]['target_id'] : '';
+      $location_options[$id] = $location->get('name')->getValue()[0]['value'];
+      if (isset($parent_list[0])) {
+        $id = $parent_list[0];
       }
-      if ($country_id = $form_state->getValue('level_0')) {
-        $level_count = count(self::$levelLabel[$country_id]);
-        unset($child_location['level_' . $level_count]['#ajax']);
-        $child_location['level_' . $level_count]['#attributes']['class'][] = 'add_multiple';
+      $child = $this->getChildLocation($id, $location, $form, $form_state, $parent_list, $ptids);
+      if (count($child) > count($child_location)) {
+        $child_location = $child;
       }
-      $default_value = $parent_list[0] ?? '';
-      $is_disabled = '';
-      if ($ptids) {
-        $is_disabled = in_array($default_value, $ptids) ? 'disabled' : '';
-      }
-      $label = $this->t('Select Country');
-      $form['location']['level_0'] = $this->childLocationForm('0', $label, $location_options, $default_value, '', $is_disabled);
-      $form['location'] += $child_location;
     }
+    if ($country_id = $form_state->getValue('level_0')) {
+      $level_count = count(self::$levelLabel[$country_id]);
+      unset($child_location['level_' . $level_count]['#ajax']);
+      $child_location['level_' . $level_count]['#attributes']['class'][] = 'add_multiple';
+    }
+    $default_value = $parent_list[0] ?? '';
+    $is_disabled = '';
+    if ($ptids) {
+      $is_disabled = in_array($default_value, $ptids) ? 'disabled' : '';
+    }
+    $label = $this->t('Select Country');
+    $form['location']['level_0'] = $this->childLocationForm('0', $label, $location_options, $default_value, '', $is_disabled);
+    $form['location'] += $child_location;
 
-    $form['#cache']['max-age'] = 0;
-    $form['#attached']['library'][] = 'erpw_pathway/erpw_pathway';
     return $form;
   }
 
@@ -150,28 +161,29 @@ class ErpwPathwayService {
    *   Return Child location.
    */
   protected function getChildLocation($id, $location, array $form, $form_state, array $parent_list = [], array $ptids = []) {
+
     for ($i = 1; $i <= self::MAX_LEVEL; $i++) {
       $level_id = 'level_' . $i;
       $childs = ['0' => $this->t("Select") . ' ' . $i . ' ' . $this->t("Label")];
       $class = '';
-      if (isset($location->get($level_id)->getValue()[0])) {
-        self::$levelLabel[$id][$i] = self::$levelLabel[$id][$i] ?? $location->get($level_id)->getValue()[0]['value'];
-        $location_tid = !empty($parent_list[$i - 1]) ? $parent_list[$i - 1] : $form_state->getValue('level_' . ($i - 1));
-        if ($location_tid) {
-          $childs += self::$locationService->getChildrenByTid($location_tid);
-        }
-        $class = (count($childs) <= 1) ? 'hidden' : '';
-        $default_value = $parent_list[$i] ?? '';
-        $is_disabled = '';
-        if ($ptids) {
-          $is_disabled = in_array($default_value, $ptids) ? 'disabled' : '';
-        }
-        if ($i == self::MAX_LEVEL) {
-          $is_disabled = 'readonly';
-          unset($childs[0]);
-        }
-        $child_location['level_' . $i] = $this->childLocationForm($i, self::$levelLabel[$id][$i], $childs, $default_value, $class, $is_disabled);
+      if (!isset($location->get($level_id)->getValue()[0])) {
+        continue;
       }
+      $location_tid = !empty($parent_list[$i - 1]) ? $parent_list[$i - 1] : $form_state->getValue('level_' . ($i - 1));
+      if ($location_tid) {
+        $childs += self::$locationService->getChildrenByTid($location_tid);
+      }
+      $class = (count($childs) <= 1) ? 'hidden' : '';
+      $default_value = $parent_list[$i] ?? '';
+      $is_disabled = '';
+      if ($ptids) {
+        $is_disabled = in_array($default_value, $ptids) ? 'disabled' : '';
+      }
+      if ($i == self::MAX_LEVEL) {
+        $is_disabled = 'readonly';
+        unset($childs[0]);
+      }
+      $child_location['level_' . $i] = $this->childLocationForm($i, self::$levelLabel[$id][$i], $childs, $default_value, $class, $is_disabled);
     }
 
     return $child_location;
@@ -216,6 +228,30 @@ class ErpwPathwayService {
         ],
       ],
     ];
+  }
+
+  /**
+   * Get Lables.
+   */
+  protected function getLables($location_entities) {
+    if (empty($location_entities)) {
+      return [];
+    }
+    foreach ($location_entities as $location) {
+      $id = (!$location->get('field_location_taxonomy_term')->isEmpty()) ?
+      $location->get('field_location_taxonomy_term')->getValue()[0]['target_id'] : '';
+      if ($id) {
+        for ($i = 1; $i <= self::MAX_LEVEL; $i++) {
+          $level_id = 'level_' . $i;
+          if ($location->isTranslatable() && $location->hasTranslation(self::$language)) {
+            $location = $location->getTranslation(self::$language);
+          }
+          $labels[$id][$i] = $location->get($level_id)->getValue()[0]['value'] ?? '';
+        }
+      }
+    }
+
+    return $labels;
   }
 
 }
