@@ -265,7 +265,10 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['submit']['#weight'] = 5;
     $form['actions']['cancel']['#weight'] = 10;
   }
-
+  // Hide the Reject state for service add form.
+  if ($form_id == 'node_service_provider_form') {
+    unset($form['moderation_state']['widget'][0]['state']['#options']['reject']);
+  }
   // Form alter for Add new Service Provider form.
   if ($form_id == 'node_service_provider_form' || $form_id == 'node_service_provider_edit_form') {
     $permission = ($form_id == 'node_service_provider_edit_form') ? 'edit service of their own country' : 'add service of their own country';
@@ -360,16 +363,26 @@ function _erpw_custom_service_provider_form(array $form, FormStateInterface $for
   $node = \Drupal::routeMatch()->getParameter('node');
   $moderation_state = $form_state->getValue('moderation_state')[0]['value'] ?? '';
   $roles = \Drupal::currentUser()->getRoles();
-  if ($moderation_state == 'draft' && !in_array($roles[1], [
+  // List of roles.
+  $role_list = [
     'super_admin',
     'country_admin',
     'interagency_gbv_coordinator',
-  ])) {
+  ];
+  if ($moderation_state == 'draft' && !in_array($roles[1], $role_list)) {
     \Drupal::messenger()->addMessage(t('You will be notified when the changes have been approved.'), 'status');
   }
-  elseif ($moderation_state == 'reject') {
+  elseif ($moderation_state == 'draft' && in_array($roles[1], $role_list)) {
+    \Drupal::messenger()->addMessage(t('The service has been created in draft.'), 'status');
+  }
+  elseif ($moderation_state == 'published' && in_array($roles[1], $role_list)) {
+    \Drupal::messenger()->addMessage(t('The service has been approved.'), 'status');
+  }
+  elseif ($moderation_state == 'reject' && in_array($roles[1], $role_list)) {
     \Drupal::messenger()->addMessage(t('The service has been rejected.'), 'status');
   }
+
+  // Redirecting to service detail page.
   if (isset($referral) && $referral == 'rpw' && $node instanceof NodeInterface) {
     $url = Url::fromRoute('entity.node.canonical', [
       'node' => $node->id(),
@@ -552,6 +565,17 @@ function erpw_custom_user_logout() {
  */
 function erpw_custom_preprocess_status_messages(&$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
+  // Altering status message for service list.
+  if ($route_name == 'view.moderated_content.moderated_content') {
+    if (isset($variables['message_list']['status'])) {
+      $status_messages = $variables['message_list']['status'];
+      foreach ($status_messages as $delta => $message) {
+        if (strpos((string) $message, 'Service') !== FALSE) {
+          unset($variables['message_list']['status'][$delta]);
+        }
+      }
+    }
+  }
   // Altering status message for RPW.
   if ($route_name == 'view.referral_pathway_listing.page_1') {
     if (isset($variables['message_list']['status'])) {
