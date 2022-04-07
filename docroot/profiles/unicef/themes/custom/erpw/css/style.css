@@ -2491,12 +2491,8 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   padding: 6px 0;
   text-transform: capitalize;
 }
-.view-manage-service .views-row .service-provider-title a, .view-moderated-content .views-row .service-provider-title a,
-.view-service-list .views-row .service-provider-title a {
-  color: #444;
-}
-.view-manage-service .views-row .service-provider-title a::before, .view-moderated-content .views-row .service-provider-title a::before,
-.view-service-list .views-row .service-provider-title a::before {
+.view-manage-service .views-row .service-provider-title::before, .view-moderated-content .views-row .service-provider-title::before,
+.view-service-list .views-row .service-provider-title::before {
   background: url("../images/service-provider.svg") 0 0 no-repeat;
   content: "";
   display: inline-block;
@@ -2504,6 +2500,10 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   padding-right: 25px;
   vertical-align: middle;
   width: 26px;
+}
+.view-manage-service .views-row .service-provider-title a, .view-moderated-content .views-row .service-provider-title a,
+.view-service-list .views-row .service-provider-title a {
+  color: #444;
 }
 .view-manage-service .views-row .service-provider-org, .view-moderated-content .views-row .service-provider-org,
 .view-manage-service .views-row .service-provider-number,
