@@ -203,6 +203,14 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    * Validation for duplicate location hierarchy.
    */
   public function eprwValidationHandler(array &$form, $form_state) {
+    $message = $this->t('The selected location is already associated with a RPW.');
+    $this->validationHandler($form, $form_state, $message);
+  }
+
+  /**
+   * Callback for unique location hierarchy validation.
+   */
+  protected function validationHandler($form, $form_state, $message = NULL) {
     for ($i = self::MAX_LEVEL; $i >= 0; $i--) {
       $location_level = $form_state->getValue('level_' . $i);
       if (!empty($location_level)) {
@@ -212,7 +220,6 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
     $current_lang = $this->erpwCustomService->getCurrentLanguage();
     $saved_loc_id = $this->locationEntity->getSavedLocation($location_level, $current_lang);
     if (!empty($saved_loc_id)) {
-      $message = $this->t('The selected location is already associated with a RPW.');
       $form_state->setError($form['location'], $message);
     }
   }
@@ -221,6 +228,10 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    * Validation for allowing only integer and '+' in phone number fields.
    */
   public function erpwCustomServiceProviderValidation(&$form, $form_state) {
+    // Checking unique location hierarchy validation.
+    $message = $this->t('The selected location is already associated with a service.');
+    $this->validationHandler($form, $form_state, $message);
+
     $message = $this->t('Only numberic values are allowed');
     $fields = [
       'field_phone_number',
