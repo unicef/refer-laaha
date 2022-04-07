@@ -210,11 +210,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#prefix'] = '<div id="status-message"></div>';
     $form['actions']['submit']['#attributes']['class'][] = 'use-ajax ok-btn';
     $form['#title'] = t('Update Service Type');
-    $form['actions']['submit']['#ajax'] = [
-      'callback' => '_erpw_custom_update_service_type',
-      'event' => 'click',
-      'wrapper' => 'service_update_form',
-    ];
   }
 
   if ($form_id == 'node_service_type_quick_node_clone_form') {
