@@ -230,7 +230,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       'node_referral_path_way_form',
       'node_service_type_quick_node_clone_form',
     ])) {
-    $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
     $form['actions']['submit']['#value'] = t('PUBLISH');
   }
   // Update the translation buttons for RPW edit form.

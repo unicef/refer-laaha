@@ -377,20 +377,6 @@ class AddLocationForm extends FormBase {
           ],
         ];
       }
-
-      $form['top_wrapper']['submit_wrapper']['save_draft'] = [
-        '#prefix' => '<div class="form-actions">',
-        '#type' => 'submit',
-        '#value' => $this->t('Save as Draft'),
-        '#attributes' => [
-          'class' => [
-            'button-border',
-          ],
-        ],
-        '#ajax' => [
-          'callback' => '::sendMessageForm',
-        ],
-      ];
       $form['top_wrapper']['submit_wrapper']['button'] = [
         '#type' => 'submit',
         '#value' => $this->t('Publish'),
