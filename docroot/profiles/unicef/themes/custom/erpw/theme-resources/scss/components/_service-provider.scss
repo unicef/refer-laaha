@@ -113,17 +113,18 @@
 			font-weight: 700;
 			padding: 6px 0;
 			text-transform: capitalize;
+			&::before {
+				background: url('../images/service-provider.svg') 0 0 no-repeat;
+				content: '';
+				display: inline-block;
+				height: 26px;
+				padding-right: 25px;
+				vertical-align: middle;
+				width: 26px;
+			}
 			a {
 				color: $grey-txt-color;
-				&::before {
-					background: url('../images/service-provider.svg') 0 0 no-repeat;
-					content: '';
-					display: inline-block;
-					height: 26px;
-					padding-right: 25px;
-					vertical-align: middle;
-					width: 26px;
-				}
+			
 			}
 		}
 		.service-provider-org,
