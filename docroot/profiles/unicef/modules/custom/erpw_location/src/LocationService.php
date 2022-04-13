@@ -337,18 +337,20 @@ class LocationService {
    *
    * @param int $location_id
    *   The location id.
+   * @param string $bundle
+   *   The entity bundle.
    * @param string $current_language
    *   The current language.
    *
    * @return int
    *   Return term id of the location.
    */
-  public function getSavedLocation($location_id, $current_language = NULL) {
+  public function getSavedLocation($location_id, $bundle, $current_language = NULL) {
     $language = $current_language ?? 'en';
     $query = $this->connection->select('node__field_location', 'fl');
     $query->fields('fl', ['field_location_target_id']);
     $query->condition('fl.langcode', $language);
-    $query->condition('fl.bundle', 'referral_path_way');
+    $query->condition('fl.bundle', $bundle, '=');
     if (!empty($location_id) && is_array($location_id)) {
       $query->condition('fl.field_location_target_id', $location_id, 'IN');
     }
