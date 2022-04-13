@@ -204,13 +204,13 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    */
   public function eprwValidationHandler(array &$form, $form_state) {
     $message = $this->t('The selected location is already associated with a RPW.');
-    $this->validationHandler($form, $form_state, $message);
+    $this->validationHandler($form, $form_state, 'referral_path_way', $message);
   }
 
   /**
    * Callback for unique location hierarchy validation.
    */
-  protected function validationHandler($form, $form_state, $message = NULL) {
+  protected function validationHandler($form, $form_state, $bundle, $message) {
     for ($i = self::MAX_LEVEL; $i >= 0; $i--) {
       $location_level = $form_state->getValue('level_' . $i);
       if (!empty($location_level)) {
@@ -218,7 +218,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       }
     }
     $current_lang = $this->erpwCustomService->getCurrentLanguage();
-    $saved_loc_id = $this->locationEntity->getSavedLocation($location_level, $current_lang);
+    $saved_loc_id = $this->locationEntity->getSavedLocation($location_level, $bundle, $current_lang);
     if (!empty($saved_loc_id)) {
       $form_state->setError($form['location'], $message);
     }
@@ -229,8 +229,11 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    */
   public function erpwCustomServiceProviderValidation(&$form, $form_state) {
     // Checking unique location hierarchy validation.
-    $message = $this->t('The selected location is already associated with a service.');
-    $this->validationHandler($form, $form_state, $message);
+    $form_id = $form['form_id']['#value'];
+    if (isset($form_id) && $form_id == 'node_service_provider_form') {
+      $message = $this->t('The selected location is already associated with a service.');
+      $this->validationHandler($form, $form_state, 'service_provider', $message);
+    }
 
     $message = $this->t('Only numberic values are allowed');
     $fields = [
