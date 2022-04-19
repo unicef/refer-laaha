@@ -200,6 +200,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
   if (in_array($form_id,
     [
       'node_service_type_form',
+      'node_service_type_edit_form',
       'node_service_type_quick_node_clone_form',
     ])) {
     $form['actions']['submit']['#submit'][] = '_erpw_custom_service_handler';
@@ -230,6 +231,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       'node_referral_path_way_form',
       'node_service_type_quick_node_clone_form',
     ])) {
+    $form['source_langcode']['#access'] = FALSE;
     $form['actions']['submit']['#value'] = t('PUBLISH');
   }
   // Update the translation buttons for RPW edit form.
@@ -261,6 +263,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
   }
   // Hide the Reject state for service add form.
   if ($form_id == 'node_service_provider_form') {
+    $form['source_langcode']['#access'] = FALSE;
     unset($form['moderation_state']['widget'][0]['state']['#options']['reject']);
   }
   // Form alter for Add new Service Provider form.
@@ -422,20 +425,7 @@ function _erpw_custom_service_handler(array &$form, FormStateInterface $form_sta
  * Function to redirect on a given route.
  */
 function _erpw_custom_redirect($route_name, $page_type = NULL) {
-  $current_language = \Drupal::service('erpw_custom.custom_service')->getCurrentLanguage();
-  $user_language = \Drupal::service('erpw_custom.custom_service')->getUserLanguage();
   $url = Url::fromRoute($route_name)->toString();
-  if ($current_language != $user_language) {
-    switch ($page_type) {
-      case 'service_type':
-        $url = '/' . $user_language . '/manage-service-types';
-        break;
-
-      case 'rpw_listing':
-        $url = '/' . $user_language . '/referral-pathway-listing';
-        break;
-    }
-  }
   $response = new RedirectResponse($url);
   $response->send();
 
