@@ -151,8 +151,9 @@ class ImportLocationModalForm extends FormBase {
       '#status-message', 'removeClass', ['messages messages--error']));
       $response->addCommand(new HtmlCommand('#status-message', ''));
       $file_obj = $form_state->getValue('import_location_csv_file');
+
       if ($file_obj) {
-        $file_obj_data = $this->entityTypeManager->getStorage('file')->load(reset($file_obj));
+        $file_obj_data = $this->entityManager->getStorage('file')->load(reset($file_obj));
         $file_path = 'public://location_csv/' . $file_obj_data->getFilename();
         $country_name = explode('.', $file_obj_data->getFilename())[0];
         $imported = $this->handleFileData($file_path, $country_name);
@@ -348,7 +349,7 @@ class ImportLocationModalForm extends FormBase {
           }
           if ($term_exists || $k > 0) {
 
-            $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($parent_term_id);
+            $term = $this->entityManager->getStorage('taxonomy_term')->load($parent_term_id);
             if (!$term->hasTranslation($lang_code)) {
               $term->addTranslation($lang_code, [
                 'name' => $location[$j + $k],
