@@ -339,8 +339,6 @@ class LocationService {
    *   The location id.
    * @param string $bundle
    *   The entity bundle.
-   * @param string $current_language
-   *   The current language.
    * @param int $org
    *   The organisation.
    * @param int $service_type
@@ -349,8 +347,7 @@ class LocationService {
    * @return int
    *   Return term id of the location.
    */
-  public function getSavedLocation($location_id, $bundle, $current_language = NULL, $org = NULL, $service_type = NULL) {
-    $language = $current_language ?? 'en';
+  public function getSavedLocation($location_id, $bundle, $org = NULL, $service_type = NULL) {
     $query = $this->connection->select('node', 'n');
     $query->innerJoin('node__field_location', 'fl', 'fl.entity_id = n.nid');
     if ($bundle == 'service_provider' && !empty($org) && !empty($service_type)) {
@@ -360,7 +357,6 @@ class LocationService {
       $query->condition('org.field_select_organisation_target_id', $org);
     }
     $query->fields('fl', ['field_location_target_id']);
-    $query->condition('n.langcode', $language);
     $query->condition('n.type', $bundle, '=');
     if (!empty($location_id) && is_array($location_id)) {
       $query->condition('fl.field_location_target_id', $location_id, 'IN');
