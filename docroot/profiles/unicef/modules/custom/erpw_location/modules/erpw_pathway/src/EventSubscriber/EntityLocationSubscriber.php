@@ -217,8 +217,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
         break;
       }
     }
-    $current_lang = $this->erpwCustomService->getCurrentLanguage();
-    $saved_loc_id = $this->locationEntity->getSavedLocation($location_level, $bundle, $current_lang, $org, $service_type);
+    $saved_loc_id = $this->locationEntity->getSavedLocation($location_level, $bundle, $org, $service_type);
     if (!empty($saved_loc_id)) {
       $form_state->setError($form['location'], $message);
     }
