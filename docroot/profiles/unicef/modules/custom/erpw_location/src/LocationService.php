@@ -356,7 +356,7 @@ class LocationService {
       $query->condition('st.field_service_type_target_id', $service_type);
       $query->condition('org.field_select_organisation_target_id', $org);
     }
-    $query->fields('fl', ['field_location_target_id']);
+    $query->fields('n', ['nid']);
     $query->condition('n.type', $bundle, '=');
     if (!empty($location_id) && is_array($location_id)) {
       $query->condition('fl.field_location_target_id', $location_id, 'IN');
@@ -365,9 +365,9 @@ class LocationService {
       $query->condition('fl.field_location_target_id', $location_id);
     }
     $result = $query->execute();
-    $saved_loc_id = $result->fetchField();
+    $node_id = $result->fetchField();
 
-    return (isset($saved_loc_id) && is_numeric($saved_loc_id)) ? $saved_loc_id : NULL;
+    return (isset($node_id) && is_numeric($node_id)) ? $node_id : NULL;
   }
 
   /**

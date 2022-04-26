@@ -184,12 +184,12 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       // Change button name of the section.
       $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = $this->t('Add a new section');
       $form['field_section']['widget']['#title'] = '';
+      $form['#validate'][] = [$this, 'eprwValidationHandler'];
     }
     // Only alter for RPW Add Form.
     if ($form_id == 'node_referral_path_way_form') {
       $form['#title'] = $this->t('Add New Referral Pathway');
       $form['actions']['submit']['#value'] = $this->t('Publish');
-      $form['#validate'][] = [$this, 'eprwValidationHandler'];
     }
     // Only alter for RPW Edit Form.
     if ($form_id == 'node_referral_path_way_edit_form') {
@@ -217,9 +217,17 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
         break;
       }
     }
-    $saved_loc_id = $this->locationEntity->getSavedLocation($location_level, $bundle, $org, $service_type);
-    if (!empty($saved_loc_id)) {
-      $form_state->setError($form['location'], $message);
+    $node_id = $this->locationEntity->getSavedLocation($location_level, $bundle, $org, $service_type);
+    $node = $this->routeMatch->getParameter('node');
+    if ($node instanceof NodeInterface) {
+      if (!empty($node_id) && $node_id !== $node->id()) {
+        $form_state->setError($form['location'], $message);
+      }
+    }
+    else {
+      if (isset($node_id) && $node_id != '') {
+        $form_state->setError($form['location'], $message);
+      }
     }
   }
 
@@ -228,13 +236,10 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    */
   public function erpwCustomServiceProviderValidation(&$form, $form_state) {
     // Checking unique location hierarchy validation.
-    $form_id = $form['form_id']['#value'];
-    if (isset($form_id) && $form_id == 'node_service_provider_form') {
-      $message = $this->t('Service is already available for selected Service Type, Location and Organisation. Please try for another.');
-      $org = $form_state->getValue('field_select_organisation')[0]['target_id'] ?? '';
-      $service_type = $form_state->getValue('field_service_type')[0]['target_id'] ?? '';
-      $this->validationHandler($form, $form_state, 'service_provider', $message, $org, $service_type);
-    }
+    $message = $this->t('Service is already available for selected Service Type, Location and Organisation. Please try for another.');
+    $org = $form_state->getValue('field_select_organisation')[0]['target_id'] ?? '';
+    $service_type = $form_state->getValue('field_service_type')[0]['target_id'] ?? '';
+    $this->validationHandler($form, $form_state, 'service_provider', $message, $org, $service_type);
 
     $message = $this->t('Only numberic values are allowed');
     $fields = [
