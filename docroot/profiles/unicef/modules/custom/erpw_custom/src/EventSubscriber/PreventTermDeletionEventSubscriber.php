@@ -70,7 +70,7 @@ class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
     $form_id = $event->getFormId();
     $form_state = $event->getFormState();
     // Checking for Taxonomy delete form.
-    if ($form_id == 'taxonomy_term_country_delete_form_jp') {
+    if ($form_id == 'taxonomy_term_country_delete_form') {
       $entity = $form_state->getFormObject()->getEntity();
       $preventDelete = FALSE;
 
