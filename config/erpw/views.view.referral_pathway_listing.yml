@@ -367,34 +367,22 @@ display:
           content: '<div>No Referral Pathway is available.</p>'
           tokenize: false
       sorts:
-        field_location_target_id:
-          id: field_location_target_id
-          table: node__field_location
-          field: field_location_target_id
+        changed:
+          id: changed
+          table: node_field_data
+          field: changed
           relationship: none
-          group_type: count_distinct
+          group_type: group
           admin_label: ''
-          plugin_id: standard
+          entity_type: node
+          entity_field: changed
+          plugin_id: date
           order: DESC
           expose:
             label: ''
             field_identifier: ''
           exposed: false
-        name:
-          id: name
-          table: taxonomy_term_field_data
-          field: name
-          relationship: field_location
-          group_type: group
-          admin_label: ''
-          entity_type: taxonomy_term
-          entity_field: name
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-            field_identifier: ''
-          exposed: false
+          granularity: second
       arguments: {  }
       filters:
         status:
@@ -508,46 +496,6 @@ display:
           hierarchy: false
           limit: true
           error_message: true
-        default_langcode_1:
-          id: default_langcode_1
-          table: taxonomy_term_field_data
-          field: default_langcode
-          relationship: field_location
-          group_type: group
-          admin_label: ''
-          entity_type: taxonomy_term
-          entity_field: default_langcode
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -569,16 +517,7 @@ display:
           distinct: false
           replica: false
           query_tags: {  }
-      relationships:
-        field_location:
-          id: field_location
-          table: node__field_location
-          field: field_location
-          relationship: none
-          group_type: group
-          admin_label: 'field_location: Taxonomy term'
-          plugin_id: standard
-          required: true
+      relationships: {  }
       css_class: service-list
       group_by: true
       header:
