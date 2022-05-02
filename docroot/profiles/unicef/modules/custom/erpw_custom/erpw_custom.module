@@ -67,7 +67,7 @@ function erpw_custom_views_pre_render(ViewExecutable $view) {
     $parameters = \Drupal::routeMatch()->getParameters()->all();
     $nid = $parameters['arg_0'];
     $node = Node::load($nid);
-    $title = $node->getTitle();
+    $title = ($node) ? $node->getTitle() : t('Services');
     $view->setTitle($title);
   }
 }
