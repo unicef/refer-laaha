@@ -365,6 +365,7 @@ function _erpw_custom_service_provider_form(array $form, FormStateInterface $for
     'super_admin',
     'country_admin',
     'interagency_gbv_coordinator',
+    'administrator',
   ];
   if ($moderation_state == 'draft' && !in_array($roles[1], $role_list)) {
     \Drupal::messenger()->addMessage(t('You will be notified when the changes have been approved.'), 'status');
@@ -560,6 +561,17 @@ function erpw_custom_preprocess_status_messages(&$variables) {
       }
     }
   }
+  // Altering status message for service list.
+  if ($route_name == 'view.manage_service.page_1' || $route_name == 'entity.node.canonical') {
+    if (isset($variables['message_list']['status'])) {
+      $status_messages = $variables['message_list']['status'];
+      foreach ($status_messages as $delta => $message) {
+        if (strpos((string) $message, 'Service') !== FALSE) {
+          $variables['message_list']['status'][$delta] = t("The Service is saved successfully.");
+        }
+      }
+    }
+  }
   // Altering status message for RPW.
   if ($route_name == 'view.referral_pathway_listing.page_1') {
     if (isset($variables['message_list']['status'])) {
@@ -567,7 +579,7 @@ function erpw_custom_preprocess_status_messages(&$variables) {
       foreach ($status_messages as $delta => $message) {
         if (strpos((string) $message, 'Referral Path Way') !== FALSE) {
           $variables['message_list']['status'][$delta] = t(
-           "Saved Successfully"
+           "The Referral Path Way is saved successfully."
           );
         }
       }
