@@ -155,11 +155,11 @@ class DeleteLocationForm extends FormBase {
     $location_details = '';
     foreach ($location_levels as $key => $level) {
 
-      if (!empty($ancestors[$key] + 1)) {
+      if (!empty($ancestors[$key + 1])) {
         $level_data_name = "";
       }
       $level_term = "";
-      if (!empty($ancestors[$key])) {
+      if (!empty($ancestors[$key + 1])) {
         $level_term = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
       }
       if (!empty($level_term)) {
