@@ -8,11 +8,14 @@ dependencies:
     - field.storage.node.field_phone_number
     - field.storage.node.field_select_organisation
     - field.storage.node.field_service_type
+    - field.storage.node.field_service_type_color
+    - field.storage.node.field_service_type_icon
     - node.type.service_provider
     - taxonomy.vocabulary.country
     - workflows.workflow.service_editorial
   module:
     - better_exposed_filters
+    - color_field
     - content_moderation
     - content_translation
     - node
@@ -97,6 +100,136 @@ display:
             thousand_separator: ''
             prefix_suffix: true
           group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_service_type_icon:
+          id: field_service_type_icon
+          table: node__field_service_type_icon
+          field: field_service_type_icon
+          relationship: field_service_type
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: '<i class="{{ field_service_type_icon }} "></i>'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_service_type_color:
+          id: field_service_type_color
+          table: node__field_service_type_color
+          field: field_service_type_color
+          relationship: field_service_type
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: color
+          type: color_field_formatter_swatch_options
+          settings:
+            shape: circle
+            width: '50'
+            height: '50'
+            opacity: false
+            data_attribute: false
+          group_column: ''
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -1127,6 +1260,15 @@ display:
           entity_field: uid
           plugin_id: standard
           required: false
+        field_service_type:
+          id: field_service_type
+          table: node_revision__field_service_type
+          field: field_service_type
+          relationship: none
+          group_type: group
+          admin_label: 'field_service_type: Content'
+          plugin_id: standard
+          required: false
       header:
         result:
           id: result
@@ -1156,6 +1298,8 @@ display:
         - 'config:field.storage.node.field_phone_number'
         - 'config:field.storage.node.field_select_organisation'
         - 'config:field.storage.node.field_service_type'
+        - 'config:field.storage.node.field_service_type_color'
+        - 'config:field.storage.node.field_service_type_icon'
         - 'config:workflow_list'
   moderated_content:
     id: moderated_content
@@ -1165,7 +1309,9 @@ display:
     display_options:
       display_description: ''
       display_extenders:
-        library_in_views_display_extender: {  }
+        library_in_views_display_extender:
+          attach_library:
+            attach_library: unicef_iconpicker/unicef-icons
       path: manage-draft-services
     cache_metadata:
       max-age: -1
@@ -1182,4 +1328,6 @@ display:
         - 'config:field.storage.node.field_phone_number'
         - 'config:field.storage.node.field_select_organisation'
         - 'config:field.storage.node.field_service_type'
+        - 'config:field.storage.node.field_service_type_color'
+        - 'config:field.storage.node.field_service_type_icon'
         - 'config:workflow_list'
