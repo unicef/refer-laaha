@@ -2152,6 +2152,7 @@ header {
 }
 .service-list .views-field-field-service-type-icon, .view-organisations .views-field-field-service-type-icon,
 .view-referral-pathway-listing .views-field-field-service-type-icon {
+  font-size: 1.35em;
   position: absolute;
   top: 24px;
   left: 10px;
@@ -2171,6 +2172,7 @@ header {
 .view-referral-pathway-listing .views-field-title {
   display: inline-block;
   padding: 5px 0;
+  vertical-align: middle;
   width: calc(100% - 70px);
 }
 .service-list .service-title span, .view-organisations .service-title span,
@@ -2471,6 +2473,10 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   margin: -6px 1px;
 }
 
+.view-manage-service .views-row, .view-moderated-content .views-row,
+.view-service-list .views-row {
+  position: relative;
+}
 .view-manage-service form .form-type-select, .view-moderated-content form .form-type-select,
 .view-service-list form .form-type-select {
   width: 100%;
@@ -2529,7 +2535,7 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
 .view-manage-service .views-row .views-field, .view-moderated-content .views-row .views-field,
 .view-service-list .views-row .views-field {
   padding: 0 5px;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .view-manage-service .views-row .views-field.views-field-field-location, .view-moderated-content .views-row .views-field.views-field-field-location,
 .view-service-list .views-row .views-field.views-field-field-location {
@@ -2583,6 +2589,49 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   vertical-align: middle;
   padding-left: 5px;
   width: 4px;
+}
+.view-manage-service .views-field-field-service-type-icon, .view-moderated-content .views-field-field-service-type-icon,
+.view-service-list .views-field-field-service-type-icon {
+  font-size: 1.35em;
+  position: absolute;
+  top: 24px;
+  left: 10px;
+  width: 50px;
+  text-align: center;
+}
+.view-manage-service .views-field-field-service-type-color, .view-moderated-content .views-field-field-service-type-color,
+.view-service-list .views-field-field-service-type-color {
+  display: inline-block;
+  padding: 0 10px;
+  vertical-align: middle;
+}
+.view-manage-service .service-title, .view-moderated-content .service-title,
+.view-manage-service .views-field-title,
+.view-moderated-content .views-field-title,
+.view-service-list .service-title,
+.view-service-list .views-field-title {
+  display: inline-block;
+  padding: 5px 0;
+  vertical-align: middle;
+  width: calc(100% - 70px);
+}
+.view-manage-service .service-title span, .view-moderated-content .service-title span, .view-manage-service .service-title a, .view-moderated-content .service-title a,
+.view-manage-service .views-field-title span,
+.view-moderated-content .views-field-title span,
+.view-manage-service .views-field-title a,
+.view-moderated-content .views-field-title a,
+.view-service-list .service-title span,
+.view-service-list .service-title a,
+.view-service-list .views-field-title span,
+.view-service-list .views-field-title a {
+  color: #444;
+  font-weight: 700;
+  text-transform: capitalize;
+  word-break: break-all;
+}
+.view-manage-service .views-field-nothing, .view-moderated-content .views-field-nothing,
+.view-service-list .views-field-nothing {
+  border-top: 0.5px solid #D7D7D7;
 }
 
 .view-manage-service .view-header, .view-moderated-content .view-header {
