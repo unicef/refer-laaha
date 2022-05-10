@@ -1266,6 +1266,46 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        default_langcode:
+          id: default_langcode
+          table: node_field_revision
+          field: default_langcode
+          relationship: nid
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: default_langcode
+          plugin_id: boolean
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -1283,7 +1323,7 @@ display:
         options:
           query_comment: ''
           disable_sql_rewrite: false
-          distinct: false
+          distinct: true
           replica: false
           query_tags: {  }
       relationships:
@@ -1357,6 +1397,7 @@ display:
     position: 1
     display_options:
       display_description: ''
+      rendering_language: '***LANGUAGE_language_interface***'
       display_extenders:
         library_in_views_display_extender:
           attach_library:
@@ -1365,7 +1406,6 @@ display:
     cache_metadata:
       max-age: -1
       contexts:
-        - 'languages:language_content'
         - 'languages:language_interface'
         - url
         - user
