@@ -3,5 +3,5 @@
   <div class="user-description">{{ description | join | t }}</div>
   <div class="user-location">{{ location }}</div>
 </div>
-  {% set text = 'Click to Change Country' %}
+  {% set text = 'Click to Change Location' %}
   <a href="{{ path('erpw_location.user_location', {'id': tid}) }}">{{ text|t }}</a>
