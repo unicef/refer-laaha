@@ -474,7 +474,7 @@ display:
           click_sort_column: target_id
           type: entity_reference_label
           settings:
-            link: true
+            link: false
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -643,7 +643,7 @@ display:
           click_sort_column: target_id
           type: entity_reference_label
           settings:
-            link: true
+            link: false
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -666,7 +666,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: ' <a href="{{ path(''entity.node.canonical'', {''node'': nid }) }}"> {{ field_select_organisation }} - {{ field_service_type }}</a>'
+            text: ' <a href="{{ path(''entity.node.canonical'', {''node'': nid }, {''query'': {''referer'': ''rpw''}}) }}"> {{ field_select_organisation }} - {{ field_service_type }}</a>'
             make_link: false
             path: ''
             absolute: false
@@ -827,7 +827,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-mode mode-icon service-list-icons\"><span>Mode: </span>{{ field_mode }} </div>\r\n<div class=\"more-details-text\"><a href=\"/node/{{ nid }}?referer=rpw\">More Details</a></div>"
+            text: "<div class=\"service-mode mode-icon service-list-icons\"><span>Mode: </span>{{ field_mode }} </div>\r\n<div class=\"more-details-text\"><a href=\"{{ path('entity.node.canonical', {'node': nid }, {'query': {'referer': 'rpw'}}) }}\">More Details</a></div>"
             make_link: false
             path: ''
             absolute: false
