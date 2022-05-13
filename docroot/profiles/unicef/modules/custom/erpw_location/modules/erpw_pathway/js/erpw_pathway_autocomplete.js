@@ -17,7 +17,8 @@
    remove_tid: function () {
      var field_autocomplete = jQuery('body').find('.form-autocomplete');
      field_autocomplete.each(function (event, node) {
-       var val = $(this).val();
+       var str = $(this).val();
+       var val = str.replace(/("|')/g, "");
        var match = val.match(/\s\(.*?\)/g);
        if (match) {
          $(this).data('real-value', val);
