@@ -249,11 +249,11 @@ display:
           content: '<div>No Referral Pathway is available for the selected locations.</div>'
           tokenize: false
       sorts:
-        field_section_name_value:
-          id: field_section_name_value
-          table: paragraph__field_section_name
-          field: field_section_name_value
-          relationship: field_section
+        delta:
+          id: delta
+          table: node__field_section
+          field: delta
+          relationship: none
           group_type: group
           admin_label: ''
           plugin_id: standard
