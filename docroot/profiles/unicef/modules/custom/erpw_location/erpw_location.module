@@ -108,3 +108,15 @@ function erpw_location_taxonomy_term_delete($term) {
   $query = \Drupal::database()->query($delete_query);
   $query->execute();
 }
+
+/**
+ * Batch callback to dispatch the media entity batch operation to a service.
+ */
+function _import_location_batch_dispatcher() {
+  $args = func_get_args();
+  [$service, $method] = explode(':', array_shift($args));
+  // The second argument (context) is passed by reference.
+  $values = $args[1];
+  $args[1] = &$values;
+  call_user_func_array([\Drupal::service($service), $method], $args);
+}

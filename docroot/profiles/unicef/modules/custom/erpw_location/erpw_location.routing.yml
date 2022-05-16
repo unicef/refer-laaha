@@ -81,3 +81,19 @@ erpw_location.user_location_manage:
     _title: 'Location'
   requirements:
     _permission: 'erpw location user location'
+erpw_location.import_location_file:
+  path: '/import-location'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\ImportLocationForm'
+    _title: 'Import Location'
+  requirements:
+    _permission: 'erpw location open import modal'
+erpw_location.import_location_admin:
+  path: '/admin/config/import-location'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\ImportLocationForm'
+    _title: 'Location Import'
+  options:
+    _admin_route: TRUE
+  requirements:
+    _permission: 'administer site configuration'
