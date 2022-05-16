@@ -160,10 +160,9 @@ class ManageLocationForm extends FormBase {
     $store = $this->tempStoreFactory->get('erpw_location_collection');
     $store->set('location_redirect_url', $current_uri);
     $form['#attributes']['enctype'] = "multipart/form-data";
-    $url = Url::fromRoute('erpw_location.open_import_modal', [], [
+    $url = Url::fromRoute('erpw_location.import_location_file', [], [
       'attributes' => [
         'class' => [
-          'use-ajax',
           'button',
         ],
       ],
