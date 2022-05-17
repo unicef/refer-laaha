@@ -69,12 +69,12 @@ class RpwEntityAutocompleteMatcher extends EntityAutocompleteMatcher {
       $entity_labels = $handler->getReferenceableEntities($string, $match_operator, 10);
       // Loop through the entities and convert them into autocomplete output.
       foreach ($entity_labels as $values) {
-        foreach ($values as $entity_id => $label) {
+        foreach ($values as $label) {
           // If node title matches string, include in results.
           if (stripos($label, $string) !== FALSE) {
-             // Strip like starting/trailing white spaces, line breaks and quotes.
-             $key = preg_replace('/\s\s+/', ' ', str_replace("\n", '', trim(Html::decodeEntities(strip_tags($label)))));
-             $matches[] = ['value' => $key, 'label' => $label];
+            // Strip like starting/trailing white spaces,line breaks and quotes.
+            $key = preg_replace('/\s\s+/', ' ', str_replace("\n", '', trim(Html::decodeEntities(strip_tags($label)))));
+            $matches[] = ['value' => $key, 'label' => $label];
           }
         }
       }
