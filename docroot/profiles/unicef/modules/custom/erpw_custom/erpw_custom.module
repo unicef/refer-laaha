@@ -42,13 +42,14 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
  * Callback to get service type options array.
  */
 function erpw_custom_service_type_options() {
+  $languagecode = \Drupal::languageManager()->getCurrentLanguage()->getId();
   $query = \Drupal::database()->select("node_field_data", "n");
-  $query->innerJoin('node__field_service_type', 'ns', 'ns.field_service_type_target_id = n.nid AND ns.langcode = n.langcode');
-  $query->innerJoin('node_field_data', 'nsd', 'nsd.nid = ns.entity_id');
+  $query->innerJoin('node__field_service_type', 'ns', 'n.nid = ns.field_service_type_target_id AND n.langcode = ns.langcode');
   $query->fields('n', ['nid', 'title']);
   $query->condition('n.type', 'service_type');
   $query->condition('ns.bundle', 'service_provider');
-  $query->condition('nsd.status', '1');
+  $query->condition('ns.langcode', $languagecode);
+  $query->condition('n.status', '1');
   $query->orderBy('n.title', 'ASC');
   $query = $query->execute();
   $results = $query->fetchAll();
@@ -67,7 +68,7 @@ function erpw_custom_views_pre_render(ViewExecutable $view) {
     $parameters = \Drupal::routeMatch()->getParameters()->all();
     $nid = $parameters['arg_0'];
     $node = Node::load($nid);
-    $title = $node->getTitle();
+    $title = ($node) ? $node->getTitle() : t('Services');
     $view->setTitle($title);
   }
 }
@@ -81,6 +82,8 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $current_user = User::load($uid);
     if ($uid != 1  && !$current_user->hasRole('administrator')) {
       $form['user_cancel_method']['#default_value'] = 'user_cancel_delete';
+      // Enable Email notificaiton to the user.
+      $form['user_cancel_notify']['#default_value'] = TRUE;
       $form['user_cancel_method']['#access'] = FALSE;
       $form['user_cancel_confirm']['#access'] = FALSE;
     }
@@ -198,6 +201,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
   if (in_array($form_id,
     [
       'node_service_type_form',
+      'node_service_type_edit_form',
       'node_service_type_quick_node_clone_form',
     ])) {
     $form['actions']['submit']['#submit'][] = '_erpw_custom_service_handler';
@@ -208,11 +212,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#prefix'] = '<div id="status-message"></div>';
     $form['actions']['submit']['#attributes']['class'][] = 'use-ajax ok-btn';
     $form['#title'] = t('Update Service Type');
-    $form['actions']['submit']['#ajax'] = [
-      'callback' => '_erpw_custom_update_service_type',
-      'event' => 'click',
-      'wrapper' => 'service_update_form',
-    ];
   }
 
   if ($form_id == 'node_service_type_quick_node_clone_form') {
@@ -233,7 +232,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       'node_referral_path_way_form',
       'node_service_type_quick_node_clone_form',
     ])) {
-    $form['actions']['preview']['#value'] = t('SAVE AS DRAFT');
+    $form['source_langcode']['#access'] = FALSE;
     $form['actions']['submit']['#value'] = t('PUBLISH');
   }
   // Update the translation buttons for RPW edit form.
@@ -263,9 +262,14 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['submit']['#weight'] = 5;
     $form['actions']['cancel']['#weight'] = 10;
   }
-
+  // Hide the Reject state for service add form.
+  if ($form_id == 'node_service_provider_form') {
+    $form['source_langcode']['#access'] = FALSE;
+    unset($form['moderation_state']['widget'][0]['state']['#options']['reject']);
+  }
   // Form alter for Add new Service Provider form.
   if ($form_id == 'node_service_provider_form' || $form_id == 'node_service_provider_edit_form') {
+    $form['actions']['delete_translation']['#access'] = FALSE;
     $permission = ($form_id == 'node_service_provider_edit_form') ? 'edit service of their own country' : 'add service of their own country';
     $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
     $form['location']['level_0']['#empty_option'] = t('Select country');
@@ -279,6 +283,10 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
         $form['field_select_organisation']['widget']['#default_value'] = $org_id;
       }
     }
+    // Hide moderation state option for staff only.
+    if ($current_user->hasRole('service_provider_staff')) {
+      $form['moderation_state']['#attributes']['class'][] = 'hidden';
+    }
     $form['advanced']['#access'] = FALSE;
     $form['meta']['#access'] = FALSE;
     $form['status']['#access'] = FALSE;
@@ -291,13 +299,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['submit']['#value'] = t('Publish');
     $referral = \Drupal::request()->query->get('referer');
     if (isset($referral) && $referral == 'rpw') {
-      $form['moderation_state']['#access'] = FALSE;
       $form['#title'] = t("Suggest a Change");
-      $form['help'] = [
-        '#type' => 'markup',
-        '#markup' => t('Your suggestions will be reviewed and further sent for approval.'),
-        '#weight' => '-3',
-      ];
       $form['actions']['submit']['#value'] = t('Submit Change');
     }
     $form['actions']['cancel'] = [
@@ -317,7 +319,13 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
  * {@inheritdoc}
  */
 function _erpw_custom_cancel_service_provider(array &$form, FormStateInterface $form_state) {
-  $url = Url::fromRoute('view.manage_service.page_1');
+  $referral = \Drupal::request()->query->get('referer');
+  if (isset($referral) && $referral == 'review') {
+    $url = Url::fromRoute('view.moderated_content.moderated_content');
+  }
+  else {
+    $url = Url::fromRoute('view.manage_service.page_1');
+  }
   $response = new RedirectResponse($url->toString());
   $response->send();
   return $response;
@@ -353,12 +361,28 @@ function _erpw_custom_service_provider_form(array $form, FormStateInterface $for
   $referral = \Drupal::request()->query->get('referer');
   $node = \Drupal::routeMatch()->getParameter('node');
   $moderation_state = $form_state->getValue('moderation_state')[0]['value'] ?? '';
-  if ($moderation_state == 'draft') {
+  $roles = \Drupal::currentUser()->getRoles();
+  // List of roles.
+  $role_list = [
+    'super_admin',
+    'country_admin',
+    'interagency_gbv_coordinator',
+    'administrator',
+  ];
+  if ($moderation_state == 'draft' && !in_array($roles[1], $role_list)) {
     \Drupal::messenger()->addMessage(t('You will be notified when the changes have been approved.'), 'status');
   }
-  elseif ($moderation_state == 'reject') {
+  elseif ($moderation_state == 'draft' && in_array($roles[1], $role_list)) {
+    \Drupal::messenger()->addMessage(t('The service has been created in draft.'), 'status');
+  }
+  elseif ($moderation_state == 'published' && in_array($roles[1], $role_list)) {
+    \Drupal::messenger()->addMessage(t('The service has been approved.'), 'status');
+  }
+  elseif ($moderation_state == 'reject' && in_array($roles[1], $role_list)) {
     \Drupal::messenger()->addMessage(t('The service has been rejected.'), 'status');
   }
+
+  // Redirecting to service detail page.
   if (isset($referral) && $referral == 'rpw' && $node instanceof NodeInterface) {
     $url = Url::fromRoute('entity.node.canonical', [
       'node' => $node->id(),
@@ -367,6 +391,9 @@ function _erpw_custom_service_provider_form(array $form, FormStateInterface $for
     $response = new RedirectResponse($url->toString());
     $response->send();
     return $response;
+  }
+  elseif (isset($referral) && $referral == 'review') {
+    return _erpw_custom_redirect('view.moderated_content.moderated_content');
   }
   else {
     return _erpw_custom_redirect('view.manage_service.page_1');
@@ -401,20 +428,7 @@ function _erpw_custom_service_handler(array &$form, FormStateInterface $form_sta
  * Function to redirect on a given route.
  */
 function _erpw_custom_redirect($route_name, $page_type = NULL) {
-  $current_language = \Drupal::service('erpw_custom.custom_service')->getCurrentLanguage();
-  $user_language = \Drupal::service('erpw_custom.custom_service')->getUserLanguage();
   $url = Url::fromRoute($route_name)->toString();
-  if ($current_language != $user_language) {
-    switch ($page_type) {
-      case 'service_type':
-        $url = '/' . $user_language . '/manage-service-types';
-        break;
-
-      case 'rpw_listing':
-        $url = '/' . $user_language . '/referral-pathway-listing';
-        break;
-    }
-  }
   $response = new RedirectResponse($url);
   $response->send();
 
@@ -538,16 +552,24 @@ function erpw_custom_user_logout() {
  */
 function erpw_custom_preprocess_status_messages(&$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
-  // Altering status message for RPW suggest a change.
-  $referral = \Drupal::request()->query->get('referer');
-  if (isset($referral) && $referral == 'rpw' && $route_name == 'entity.node.canonical') {
+  // Altering status message for service list.
+  if ($route_name == 'view.moderated_content.moderated_content') {
     if (isset($variables['message_list']['status'])) {
       $status_messages = $variables['message_list']['status'];
       foreach ($status_messages as $delta => $message) {
         if (strpos((string) $message, 'Service') !== FALSE) {
-          $variables['message_list']['status'][$delta] = t(
-           "You will be notified when the changes have been approved."
-          );
+          unset($variables['message_list']['status'][$delta]);
+        }
+      }
+    }
+  }
+  // Altering status message for service list.
+  if ($route_name == 'view.manage_service.page_1' || $route_name == 'entity.node.canonical') {
+    if (isset($variables['message_list']['status'])) {
+      $status_messages = $variables['message_list']['status'];
+      foreach ($status_messages as $delta => $message) {
+        if (strpos((string) $message, 'Service') !== FALSE) {
+          $variables['message_list']['status'][$delta] = t("The Service is saved successfully.");
         }
       }
     }
@@ -557,9 +579,9 @@ function erpw_custom_preprocess_status_messages(&$variables) {
     if (isset($variables['message_list']['status'])) {
       $status_messages = $variables['message_list']['status'];
       foreach ($status_messages as $delta => $message) {
-        if (strpos((string) $message, 'Referral Path Way') !== FALSE) {
+        if (strpos((string) $message, 'Referral Pathway') !== FALSE) {
           $variables['message_list']['status'][$delta] = t(
-           "Saved Successfully"
+           "The Referral Path Way is saved successfully."
           );
         }
       }
@@ -765,6 +787,23 @@ function get_child_term_tid($ptid) {
  * Implements hook_entity_presave().
  */
 function erpw_custom_entity_presave(EntityInterface $entity) {
+  // For services content type.
+  if ($entity->getEntityTypeId() == 'node' && $entity->getType() == 'service_provider') {
+    $service_title = $entity->get('title')->value;
+    $entity->set('field_name_of_the_focal_point', $service_title);
+  }
+  // For service type content type.
+  if ($entity->getEntityTypeId() == 'node' && $entity->getType() == 'service_type') {
+    $node_title = trim($entity->get('title')->value);
+    if (strpos($node_title, '(') !== FALSE) {
+      $node_title = preg_replace('/\s+/', '', $node_title);
+    }
+    if (preg_match("/'/u", $node_title)) {
+      $node_title = str_replace("'", '', $node_title);
+    }
+    $entity->set('title', $node_title);
+  }
+  // For assign domain id to domain access field.
   if (in_array($entity->getentityTypeId(), ['node', 'user']) && $entity->hasField('field_domain_access')) {
     $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
     foreach ($all_domains as $domain) {

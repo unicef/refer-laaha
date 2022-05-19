@@ -61,7 +61,6 @@
       display: flex;
       flex-direction: column;
       padding: 15px 5px;
-
       &:hover {
         cursor: pointer;
       }
@@ -105,14 +104,17 @@
         font-weight: 500;
         padding: 5px;
         text-align: center;
+        text-decoration: underline;
       }
     }
   }
 
   .category-name {
+    color: $base-black-color;
     padding-top: 5px;
     text-align: center;
     width: 100px;
+    text-decoration: underline;
   }
 
   @media screen and (min-width: 1366px) {

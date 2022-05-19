@@ -3,7 +3,6 @@
 namespace Drupal\erpw_location\Form;
 
 use Drupal\Core\Form\FormBase;
-use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Path\CurrentPathStack;
@@ -156,11 +155,11 @@ class DeleteLocationForm extends FormBase {
     $location_details = '';
     foreach ($location_levels as $key => $level) {
 
-      if (!empty($ancestors[$key] + 1)) {
+      if (!empty($ancestors[$key + 1])) {
         $level_data_name = "";
       }
       $level_term = "";
-      if (!empty($ancestors[$key])) {
+      if (!empty($ancestors[$key + 1])) {
         $level_term = $this->entityTypeManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
       }
       if (!empty($level_term)) {
@@ -229,7 +228,7 @@ class DeleteLocationForm extends FormBase {
       ];
       $msg_note = $this->t('This action cannot be reversed !
         Please note that deleting a location will remove any mapping it
-        has with existing referral pathways and Service providers of application');
+        has with existing referral pathways and Service providers of application.');
       $form['msg_note'] = [
         '#type' => 'markup',
         '#markup' => '<div class="msg-note">' . $msg_note . '</div>',
@@ -247,7 +246,7 @@ class DeleteLocationForm extends FormBase {
     $values = $form_state->getValues();
     if (!empty($values)) {
       $response = new AjaxResponse();
-      $term = Term::load($values['tid']);
+      $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($values['tid']);
       if (!empty($term)) {
         $term->delete();
       }

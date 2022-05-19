@@ -198,8 +198,9 @@
 		position: relative;
 	}
 	.views-field-field-service-type-icon {
+		font-size: 1.35em;
 		position: absolute;
-    top: 24px;
+    top: 21px;
     left: 10px;
     width: 50px;
     text-align: center;
@@ -213,6 +214,7 @@
 	.views-field-title {
 		display: inline-block;
 		padding: 5px 0;
+		vertical-align: middle;
 		width: calc(100% - 70px);
 		span, a {
 			color: $grey-txt-color;

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "nightwatch",
     "test:browserstack": "nightwatch -c nightwatch.browserstack.conf.js",
+    "parallel": "nightwatch --test ./tests/nightwatch/article.js  --env browserstack.chrome,browserstack.ie,browserstack.safari,browserstack.firefox",
     "single": "nightwatch --test ./tests/nightwatch/nightwatch.browserstack.conf --env browserstack",
     "test:cucumber:e2e": "mkdirp report && cucumber-js --require cucumber.conf.js --require step-definitions --format @cucumber/pretty-formatter --format json:reports/cucumber_report.json --publish-quiet"
   },
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "^7.3.1",
     "nightwatch-allure": "^1.0.4",
-    "nightwatch-html-reporter": "^1.0.8"
+    "nightwatch-html-reporter": "^1.0.8",
+    "browsetack-local": "^1.4.8"
   }
 }

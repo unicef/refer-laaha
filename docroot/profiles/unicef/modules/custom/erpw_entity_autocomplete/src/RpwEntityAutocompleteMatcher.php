@@ -3,7 +3,6 @@
 namespace Drupal\erpw_entity_autocomplete;
 
 use Drupal\Component\Utility\Html;
-use Drupal\Component\Utility\Tags;
 use Drupal\Core\Entity\EntityAutocompleteMatcher;
 use Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -70,13 +69,13 @@ class RpwEntityAutocompleteMatcher extends EntityAutocompleteMatcher {
       $entity_labels = $handler->getReferenceableEntities($string, $match_operator, 10);
       // Loop through the entities and convert them into autocomplete output.
       foreach ($entity_labels as $values) {
-        foreach ($values as $entity_id => $label) {
-          $entity = $this->entityTypeManager->getStorage($target_type)->load($entity_id);
-          $entity = $this->entityRepository->getTranslationFromContext($entity);
-          // Strip things like starting/trailing white spaces, line breaks.
-          $key = preg_replace('/\s\s+/', ' ', str_replace("\n", '', trim(Html::decodeEntities(strip_tags($label)))));
-          $key = Tags::encode($key);
-          $matches[] = ['value' => $key, 'label' => $label];
+        foreach ($values as $label) {
+          // If node title matches string, include in results.
+          if (stripos($label, $string) !== FALSE) {
+            // Strip like starting/trailing white spaces,line breaks and quotes.
+            $key = preg_replace('/\s\s+/', ' ', str_replace("\n", '', trim(Html::decodeEntities(strip_tags($label)))));
+            $matches[] = ['value' => $key, 'label' => $label];
+          }
         }
       }
     }

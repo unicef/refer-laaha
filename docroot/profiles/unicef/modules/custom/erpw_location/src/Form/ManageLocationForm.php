@@ -160,10 +160,9 @@ class ManageLocationForm extends FormBase {
     $store = $this->tempStoreFactory->get('erpw_location_collection');
     $store->set('location_redirect_url', $current_uri);
     $form['#attributes']['enctype'] = "multipart/form-data";
-    $url = Url::fromRoute('erpw_location.open_import_modal', [], [
+    $url = Url::fromRoute('erpw_location.import_location_file', [], [
       'attributes' => [
         'class' => [
-          'use-ajax',
           'button',
         ],
       ],
@@ -209,7 +208,7 @@ class ManageLocationForm extends FormBase {
         $country_tid = $this->locationService->getLocationSingleEntityIdByTid($upper_ancestors[0]);
       }
       if (!empty($country_tid)) {
-        $link = Link::createFromRoute($this->t('Click to change country'), 'erpw_location.user_location_manage',
+        $link = Link::createFromRoute($this->t('Click to Change Country'), 'erpw_location.user_location_manage',
         ['id' => $country_tid, 'page' => 'location'])->toString();
       }
       else {

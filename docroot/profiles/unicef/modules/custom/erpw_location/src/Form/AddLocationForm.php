@@ -215,13 +215,13 @@ class AddLocationForm extends FormBase {
     if (!empty($form_state->getValue('location_options'))) {
       $form['top_wrapper']['all_wrapper']['location-container-heading'] = [
         '#type' => 'markup',
-        '#markup' => '<div class="location-container-heading">' . $this->t('Add the new location details') . '</div>',
+        '#markup' => '<div class="location-container-heading">' . $this->t('Add the new Location Details') . '</div>',
       ];
     }
     if (!empty($location_options) && $id !== "") {
       $form['top_wrapper']['all_wrapper']['location-container-heading'] = [
         '#type' => 'markup',
-        '#markup' => '<div class="location-container-heading">' . $this->t('Update location details') . '</div>',
+        '#markup' => '<div class="location-container-heading">' . $this->t('Update Location Details') . '</div>',
       ];
     }
     $form['top_wrapper']['all_wrapper']['level1_wrapper'] = [
@@ -355,9 +355,8 @@ class AddLocationForm extends FormBase {
       }
       if (isset($location_levels[3]) && !empty($location_levels[3])) {
         if ($id) {
-          if ($id != $ancestors[4]) {
+          if (isset($ancestors[4]) && $id != $ancestors[4]) {
             $readonly_level4 = 'disabled';
-
           }
           else {
             $readonly_level4 = FALSE;
@@ -377,20 +376,6 @@ class AddLocationForm extends FormBase {
           ],
         ];
       }
-
-      $form['top_wrapper']['submit_wrapper']['save_draft'] = [
-        '#prefix' => '<div class="form-actions">',
-        '#type' => 'submit',
-        '#value' => $this->t('Save as Draft'),
-        '#attributes' => [
-          'class' => [
-            'button-border',
-          ],
-        ],
-        '#ajax' => [
-          'callback' => '::sendMessageForm',
-        ],
-      ];
       $form['top_wrapper']['submit_wrapper']['button'] = [
         '#type' => 'submit',
         '#value' => $this->t('Publish'),

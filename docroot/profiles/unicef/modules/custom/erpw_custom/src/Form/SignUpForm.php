@@ -199,10 +199,10 @@ class SignUpForm extends FormBase {
       '#placeholder' => $this->t('**********'),
       '#default_value' => !empty($field_phone) ? $field_phone : $form_state->getValue('phone', ''),
     ];
-    if (!empty($form_state->getValue('organisation'))) {
-      $organisation = $this->entityTypeManager->getStorage('node')->load($form_state->getValue('organisation'));
-    }
     $org = '';
+    if (!empty($form_state->getValue('organisation'))) {
+      $org = $this->entityTypeManager->getStorage('node')->load($form_state->getValue('organisation'));
+    }
     $disabled = '';
     $permission = 'add users of their own location and organisation';
     $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
@@ -503,7 +503,7 @@ class SignUpForm extends FormBase {
 
     if ($this->currentUser->id()) {
       $form['message-info'] = [
-        '#prefix' => '<div class="password-creation">',
+        '#prefix' => '<div id="status-message" class="password-creation">',
         '#markup' => '<div class="notify-messsage">' .
         $this->t('How would you like to send the password creation link to the new user?') .
         '</div>',
@@ -688,6 +688,9 @@ class SignUpForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->messenger->deleteAll();
+    if ($this->currentUser->id()) {
+      $this->messenger->addMessage($this->t('The user is saved successfully.'), 'status');
+    }
   }
 
 }

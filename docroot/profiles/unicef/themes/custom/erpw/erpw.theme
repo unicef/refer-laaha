@@ -116,15 +116,27 @@ function erpw_preprocess_user(&$variables) {
 /**
  * Implements hook_preprocess_node__service_provider().
  */
-function erpw_preprocess_node__service_provider(&$variables) {
-  $location_tid = $variables['elements']['field_location'][0]['#plain_text'];
-  $loc_name = [];
-  if ($location_tid) {
-    $parents = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_tid);
-    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadMultiple(array_reverse($parents));
-    foreach ($terms as $term) {
-      $loc_name[] = $term->label();
+function erpw_preprocess_field__node__service_provider(&$variables) {
+  if ($variables['field_name'] == 'field_location') {
+    $location_tid = $variables['items'][0]['content']['#plain_text'];
+    $loc_name = [];
+    if ($location_tid) {
+      $parents = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_tid);
+      $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadMultiple(array_reverse($parents));
+      foreach ($terms as $term) {
+        $loc_name[] = $term->label();
+      }
     }
+    $variables['items'][0]['content']['#plain_text'] = implode(', ', $loc_name);
   }
-  $variables['service_location'] = implode(', ', $loc_name);
+  if ($variables['field_name'] == 'field_age_group') {
+    $age_group = [];
+    $i = 1;
+    foreach ($variables['items'] as $item) {
+      unset($variables['items'][$i]);
+      $age_group[] = $item['content']['#markup'];
+      $i++;
+    }
+    $variables['items'][0]['content']['#markup'] = implode(', ', $age_group);
+  }
 }

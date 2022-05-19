@@ -25,7 +25,7 @@ type_settings:
       label: Reject
       weight: 2
       published: false
-      default_revision: true
+      default_revision: false
   transitions:
     create_new_draft:
       label: 'Create New Draft'
@@ -47,6 +47,12 @@ type_settings:
         - draft
       to: reject
       weight: 2
+    restore:
+      label: Restore
+      from:
+        - reject
+      to: draft
+      weight: 3
   entity_types:
     node:
       - service_provider

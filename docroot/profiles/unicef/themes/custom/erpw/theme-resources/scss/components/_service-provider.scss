@@ -98,6 +98,9 @@
 //service provider listing
 .view-manage-service,
 .view-service-list {
+	.views-row {
+		position: relative;
+	}
 	form .form-type-select {
 		width: 100%;
 	}
@@ -113,17 +116,18 @@
 			font-weight: 700;
 			padding: 6px 0;
 			text-transform: capitalize;
+			&::before {
+				background: url('../images/service-provider.svg') 0 0 no-repeat;
+				content: '';
+				display: inline-block;
+				height: 26px;
+				padding-right: 25px;
+				vertical-align: middle;
+				width: 26px;
+			}
 			a {
 				color: $grey-txt-color;
-				&::before {
-					background: url('../images/service-provider.svg') 0 0 no-repeat;
-					content: '';
-					display: inline-block;
-					height: 26px;
-					padding-right: 25px;
-					vertical-align: middle;
-					width: 26px;
-				}
+			
 			}
 		}
 		.service-provider-org,
@@ -131,6 +135,7 @@
 			display: flex;
 			margin-top: 10px;
 			padding: 0 5px;
+			text-transform: capitalize;
 			word-break: break-word;
 			span {
 				max-width: 100px;
@@ -139,10 +144,11 @@
 		}
 		.views-field {
 			padding: 0 5px;
-			margin-top: 10px;
+			margin-top: 5px;
 			&.views-field-field-location {
 				display: flex;
 				padding: 0 10px;
+				text-transform: capitalize;
 				word-break: break-word;
 				span {
 					max-width: 100px;
@@ -181,6 +187,35 @@
 				}
 			}
 		}
+	}
+	.views-field-field-service-type-icon {
+		font-size: 1.35em;
+		position: absolute;
+    top: 21px;
+    left: 10px;
+    width: 50px;
+    text-align: center;
+	}
+	.views-field-field-service-type-color {
+		display: inline-block;
+		padding: 0 10px;
+		vertical-align: middle;
+	}
+	.service-title,
+	.views-field-title {
+		display: inline-block;
+		padding: 5px 0;
+		vertical-align: middle;
+		width: calc(100% - 70px);
+		span, a {
+			color: $grey-txt-color;
+			font-weight: 700;
+			text-transform: capitalize;
+			word-break: break-all;
+		}
+	}
+	.views-field-nothing {
+		border-top: 0.5px solid #D7D7D7;
 	}
 }
 .view-manage-service {

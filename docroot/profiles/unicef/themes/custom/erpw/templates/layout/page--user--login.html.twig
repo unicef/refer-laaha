@@ -46,7 +46,7 @@
   <header role="banner">
     {{ page.header }}
     {% if is_front == false %}
-      <button onclick="history.back()" class="back-arrow">{{ 'Back' |t }}</button>
+      {# <button onclick="history.back()" class="back-arrow">{{ 'Back' |t }}</button> #}
     {% endif %}
   </header>
 
@@ -72,12 +72,12 @@
       <div class="signin-or-form">
       <div class="red-text">{{ 'OR' |t }}</div>
         <p>{{ 'Sign in using Phone Number' |t}}</p>
-       
+
         <div class="form-item">
           <label for="edit-password">{{ 'Phone number' |t }}</label>
           <input type="text" id="edit-name" name="name" value="" size="60" maxlength="60" placeholder="+880-44444-55555" class="form-text required" required="required" aria-required="true">
         </div>
-        <input data-drupal-selector="edit-submit" type="submit" id="edit-submit" name="op" value="GET OTP" class="arrow-btn button js-form-submit form-submit"> 
+        <input data-drupal-selector="edit-submit" type="submit" id="edit-submit" name="op" value="GET OTP" class="arrow-btn button js-form-submit form-submit">
     </div>
     </div>
   </main>

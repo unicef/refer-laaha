@@ -1921,11 +1921,14 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
         color: #000;
         font-weight: 500;
         padding: 5px;
-        text-align: center; }
+        text-align: center;
+        text-decoration: underline; }
   .homepage-hero-section--categories .category-name {
+    color: #000;
     padding-top: 5px;
     text-align: center;
-    width: 100px; }
+    width: 100px;
+    text-decoration: underline; }
   @media screen and (min-width: 1366px) {
     .homepage-hero-section--categories {
       background: transparent;
@@ -2301,14 +2304,21 @@ html[lang="es"] .region-header #block-settingsmenu .dropdown-menu li .form-type-
     margin: 2px;
     padding: 15px; }
   .discover-section .discover-category-description {
-    padding: 5px; }
+    padding: 5px;
+    clear: both; }
   .discover-section .discover-category-name {
     font-size: 16px;
     margin-top: 10px;
     padding: 5px; }
     .discover-section .discover-category-name a {
       color: #000;
-      text-decoration: none; }
+      text-decoration: none;
+      background: #fff;
+      border-radius: 4px;
+      padding: 7px; }
+      @media screen and (max-width: 767px) {
+        .discover-section .discover-category-name a {
+          float: left; } }
   .discover-section .discover-article-name {
     color: #000;
     font-size: 14px;

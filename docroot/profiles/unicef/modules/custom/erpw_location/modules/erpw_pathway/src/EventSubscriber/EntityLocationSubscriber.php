@@ -184,16 +184,16 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       // Change button name of the section.
       $form['field_section']['widget']['add_more']['add_more_button_sections']['#value'] = $this->t('Add a new section');
       $form['field_section']['widget']['#title'] = '';
+      $form['#validate'][] = [$this, 'eprwValidationHandler'];
     }
     // Only alter for RPW Add Form.
     if ($form_id == 'node_referral_path_way_form') {
       $form['#title'] = $this->t('Add New Referral Pathway');
       $form['actions']['submit']['#value'] = $this->t('Publish');
-      $form['#validate'][] = [$this, 'eprwValidationHandler'];
     }
     // Only alter for RPW Edit Form.
     if ($form_id == 'node_referral_path_way_edit_form') {
-      $form['#title'] = $this->t('Update RPW');
+      $form['#title'] = $this->t('Update Referral Pathway');
       $form['actions']['submit']['#value'] = $this->t('UPDATE');
       $form['#attached']['library'][] = 'erpw_pathway/erpw_pathway_autocomplete';
     }
@@ -203,17 +203,31 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    * Validation for duplicate location hierarchy.
    */
   public function eprwValidationHandler(array &$form, $form_state) {
+    $message = $this->t('Referral pathway is already available for selected Location. Please try for another.');
+    $this->validationHandler($form, $form_state, 'referral_path_way', $message);
+  }
+
+  /**
+   * Callback for unique location hierarchy validation.
+   */
+  protected function validationHandler($form, $form_state, $bundle, $message, $org = NULL, $service_type = NULL) {
     for ($i = self::MAX_LEVEL; $i >= 0; $i--) {
       $location_level = $form_state->getValue('level_' . $i);
       if (!empty($location_level)) {
         break;
       }
     }
-    $current_lang = $this->erpwCustomService->getCurrentLanguage();
-    $saved_loc_id = $this->locationEntity->getSavedLocation($location_level, $current_lang);
-    if (!empty($saved_loc_id)) {
-      $message = $this->t('The selected location is already associated with a RPW.');
-      $form_state->setError($form['location'], $message);
+    $node_id = $this->locationEntity->getSavedLocation($location_level, $bundle, $org, $service_type);
+    $node = $this->routeMatch->getParameter('node');
+    if ($node instanceof NodeInterface) {
+      if (!empty($node_id) && $node_id !== $node->id()) {
+        $form_state->setError($form['location'], $message);
+      }
+    }
+    else {
+      if (isset($node_id) && $node_id != '') {
+        $form_state->setError($form['location'], $message);
+      }
     }
   }
 
@@ -221,6 +235,12 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    * Validation for allowing only integer and '+' in phone number fields.
    */
   public function erpwCustomServiceProviderValidation(&$form, $form_state) {
+    // Checking unique location hierarchy validation.
+    $message = $this->t('Service is already available for selected Service Type, Location and Organisation. Please try for another.');
+    $org = $form_state->getValue('field_select_organisation')[0]['target_id'] ?? '';
+    $service_type = $form_state->getValue('field_service_type')[0]['target_id'] ?? '';
+    $this->validationHandler($form, $form_state, 'service_provider', $message, $org, $service_type);
+
     $message = $this->t('Only numberic values are allowed');
     $fields = [
       'field_phone_number',
@@ -316,13 +336,6 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       $entity->field_location[] = ['target_id' => $location];
     }
     $entity->save();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function eprwCancelHandler(&$form, $form_state) {
-    return _erpw_custom_redirect('view.referral_pathway_listing.page_1', 'rpw_listing');
   }
 
   /**

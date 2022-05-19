@@ -337,18 +337,27 @@ class LocationService {
    *
    * @param int $location_id
    *   The location id.
-   * @param string $current_language
-   *   The current language.
+   * @param string $bundle
+   *   The entity bundle.
+   * @param int $org
+   *   The organisation.
+   * @param int $service_type
+   *   The service type.
    *
    * @return int
    *   Return term id of the location.
    */
-  public function getSavedLocation($location_id, $current_language = NULL) {
-    $language = $current_language ?? 'en';
-    $query = $this->connection->select('node__field_location', 'fl');
-    $query->fields('fl', ['field_location_target_id']);
-    $query->condition('fl.langcode', $language);
-    $query->condition('fl.bundle', 'referral_path_way');
+  public function getSavedLocation($location_id, $bundle, $org = NULL, $service_type = NULL) {
+    $query = $this->connection->select('node', 'n');
+    $query->innerJoin('node__field_location', 'fl', 'fl.entity_id = n.nid');
+    if ($bundle == 'service_provider' && !empty($org) && !empty($service_type)) {
+      $query->innerJoin('node__field_select_organisation', 'org', 'org.entity_id = n.nid');
+      $query->innerJoin('node__field_service_type', 'st', 'st.entity_id = n.nid');
+      $query->condition('st.field_service_type_target_id', $service_type);
+      $query->condition('org.field_select_organisation_target_id', $org);
+    }
+    $query->fields('n', ['nid']);
+    $query->condition('n.type', $bundle, '=');
     if (!empty($location_id) && is_array($location_id)) {
       $query->condition('fl.field_location_target_id', $location_id, 'IN');
     }
@@ -356,9 +365,9 @@ class LocationService {
       $query->condition('fl.field_location_target_id', $location_id);
     }
     $result = $query->execute();
-    $saved_loc_id = $result->fetchField();
+    $node_id = $result->fetchField();
 
-    return (isset($saved_loc_id) && is_numeric($saved_loc_id)) ? $saved_loc_id : NULL;
+    return (isset($node_id) && is_numeric($node_id)) ? $node_id : NULL;
   }
 
   /**

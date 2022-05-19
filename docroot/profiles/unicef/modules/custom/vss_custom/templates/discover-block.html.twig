@@ -30,7 +30,7 @@
                       <a href="/{{lang_code}}/{{ item_2.node_url }}" class="discover-content-link col-md-6">
                         <div class="discover-content-thumbnail">
                           <span class="thumbnail-icon icon-{{ item_2.node_type|lower }}"></span>
-                          <img src="{{ file_url(item_2.thumbnail_img) }}" alt="{{ item2.thumbnail_alt }}"/>
+                          <img src="{{ file_url(item_2.thumbnail_img| image_style('discover_block')) }}" alt="{{ item2.thumbnail_alt }}"/>
                           {% if item_2.node_type|lower == 'video' %}
                             <span class="video-play-icon"></span>
                             {% if item_2.paragraph_video_time is not null %}
@@ -62,10 +62,12 @@
         {% set item_1 = item_1[0]%}
         <div class="discovery-category-wrapper col-sm-6" style="background-color: {{ '#'~ item_1.color }}">
           <div class="discover-category-item ">
-            <div class="discover-category-thumbnail category-thumbnail" style="background-color: {{ '#'~ item_1.color }}">
-              <img src="{{ file_url( item_1.icon | image_style('category_thumbnail')) }}" alt="{{ item1.icon_alt }}"/>
-            </div>
-            <div class="discover-category-name"><a href="/{{lang_code}}{{ item_1.cat_uri }}">{{ item_1.name }} > </a></div>
+            <a href="/{{lang_code}}{{ item_1.cat_uri }}">
+              <div class="discover-category-thumbnail category-thumbnail" style="background-color: {{ '#'~ item_1.color }}">
+                <img class="category-thumbnail-image" src="{{ file_url( item_1.icon | image_style('thumbnail')) }}"  alt="{{ item1.icon_alt }}"/>
+              </div>
+            </a>
+            <div class="discover-category-name"><a href="/{{lang_code}}{{ item_1.cat_uri }}">{{ item_1.name }} ></a></div>
             <div class="discover-category-description">{{ item_1.description|raw }}</div>
             {% if content_node is not empty %}
             <div class="discovery-articles">
@@ -74,7 +76,7 @@
                       <a href="/{{lang_code}}/{{ item_2.node_url }}" class="discover-content-link col-md-6">
                         <div class="discover-content-thumbnail">
                           <span class="thumbnail-icon icon-{{ item_2.node_type|lower }}"></span>
-                          <img src="{{ file_url(item_2.thumbnail_img) }}" alt="{{ item2.thumbnail_alt }}"/>
+                          <img src="{{ file_url(item_2.thumbnail_img | image_style('discover_block')) }}" alt="{{ item2.thumbnail_alt }}"/>
                           {% if item_2.node_type|lower == 'video' %}
                             <span class="video-play-icon"></span>
                             {% if item_2.paragraph_video_time is not null %}
@@ -101,3 +103,4 @@
   {% endif %}
 </div>
 {% endif %}
+

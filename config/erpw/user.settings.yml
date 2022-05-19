@@ -8,11 +8,11 @@ notify:
   password_reset: true
   status_activated: true
   status_blocked: false
-  status_canceled: false
+  status_canceled: true
   register_admin_created: true
   register_no_approval_required: true
   register_pending_approval: true
 register: visitors_admin_approval
 cancel_method: user_cancel_block
 password_reset_timeout: 86400
-password_strength: true
+password_strength: false

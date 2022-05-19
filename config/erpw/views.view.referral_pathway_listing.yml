@@ -367,34 +367,22 @@ display:
           content: '<div>No Referral Pathway is available.</p>'
           tokenize: false
       sorts:
-        field_location_target_id:
-          id: field_location_target_id
-          table: node__field_location
-          field: field_location_target_id
+        changed:
+          id: changed
+          table: node_field_data
+          field: changed
           relationship: none
-          group_type: count_distinct
+          group_type: group
           admin_label: ''
-          plugin_id: standard
+          entity_type: node
+          entity_field: changed
+          plugin_id: date
           order: DESC
           expose:
             label: ''
             field_identifier: ''
           exposed: false
-        name:
-          id: name
-          table: taxonomy_term_field_data
-          field: name
-          relationship: field_location
-          group_type: group
-          admin_label: ''
-          entity_type: taxonomy_term
-          entity_field: name
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-            field_identifier: ''
-          exposed: false
+          granularity: second
       arguments: {  }
       filters:
         status:
@@ -419,22 +407,22 @@ display:
           plugin_id: bundle
           value:
             referral_path_way: referral_path_way
+          group: 1
           expose:
             operator_limit_selection: false
             operator_list: {  }
-        langcode:
-          id: langcode
+        default_langcode:
+          id: default_langcode
           table: node_field_data
-          field: langcode
+          field: default_langcode
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: node
-          entity_field: langcode
-          plugin_id: language
-          operator: in
-          value:
-            '***LANGUAGE_language_interface***': '***LANGUAGE_language_interface***'
+          entity_field: default_langcode
+          plugin_id: boolean
+          operator: '='
+          value: '1'
           group: 1
           exposed: false
           expose:
@@ -451,7 +439,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -509,6 +496,10 @@ display:
           hierarchy: false
           limit: true
           error_message: true
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       style:
         type: default
       row:
@@ -526,16 +517,7 @@ display:
           distinct: false
           replica: false
           query_tags: {  }
-      relationships:
-        field_location:
-          id: field_location
-          table: node__field_location
-          field: field_location
-          relationship: none
-          group_type: group
-          admin_label: 'field_location: Taxonomy term'
-          plugin_id: standard
-          required: true
+      relationships: {  }
       css_class: service-list
       group_by: true
       header:
@@ -549,7 +531,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="new-service-type button-with-icon"><a href="{{ path(''node.add'', {''node_type'': ''referral_path_way''}) }}">{{ ''Add new template for RPW'' | t }}</a></div>'
+            value: '<div class="new-service-type button-with-icon"><a href="{{ path(''node.add'', {''node_type'': ''referral_path_way''}) }}">{{ ''Add new Referral Pathway'' | t }}</a></div>'
             format: full_html
           tokenize: true
         result:
@@ -581,14 +563,13 @@ display:
     display_plugin: page
     position: 1
     display_options:
-      rendering_language: '***LANGUAGE_entity_translation***'
+      rendering_language: '***LANGUAGE_language_interface***'
       display_extenders:
         library_in_views_display_extender: {  }
       path: referral-pathway-listing
     cache_metadata:
       max-age: -1
       contexts:
-        - 'languages:language_content'
         - 'languages:language_interface'
         - url.query_args
         - user

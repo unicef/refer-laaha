@@ -6,6 +6,6 @@ services:
       - "@request_stack"
   erpw_custom.prevent_term_deletion:
     class: '\Drupal\erpw_custom\EventSubscriber\PreventTermDeletionEventSubscriber'
-    arguments: ['@database', '@config.factory']
+    arguments: ['@database', '@config.factory', '@path.current', '@domain.negotiator', '@entity_type.manager']
     tags:
       - { name: 'event_subscriber' }

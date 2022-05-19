@@ -118,6 +118,7 @@ class EntityUserSubscriber implements EventSubscriberInterface {
         $form['account']['mail']['#description'] = '';
         $form['account']['mail']['#type'] = 'textfield';
         $parent_list = [];
+        $form['#validate'][] = [$this, 'userValidateForm'];
         $ptids = [];
         if (empty($form_state->getTriggeringElement()['#level']) && $user instanceof UserInterface) {
           $locid = $user->get('field_location')->target_id;
@@ -163,6 +164,16 @@ class EntityUserSubscriber implements EventSubscriberInterface {
           ];
         }
       }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function userValidateForm(array &$form, $form_state) {
+    $password = $form_state->getValue('pass');
+    if ($password && !preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/", $password)) {
+      $form_state->setErrorByName('pass', $this->t('Password must contain at least one number, one symbol, one lowercase and uppercase letter. Minimum length must be 8 characters.'));
     }
   }
 

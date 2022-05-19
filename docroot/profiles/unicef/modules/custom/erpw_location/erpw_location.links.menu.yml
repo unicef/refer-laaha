@@ -23,3 +23,9 @@ user_location.settings:
   description: 'Update Data of User Location for HomePage'
   parent: system.admin_config_ui
   weight: 100
+
+erpw_location.import_location_admin:
+  title: 'Import location'
+  description: 'Import location in a Bulk.'
+  route_name: erpw_location.import_location_admin
+  parent: 'system.admin_config_development'

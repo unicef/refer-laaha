@@ -9,7 +9,6 @@ dependencies:
     - workflows.workflow.service_editorial
   module:
     - content_moderation
-    - content_translation
     - erpw_custom
     - erpw_location
     - node
@@ -41,7 +40,6 @@ permissions:
   - 'edit service of their own location'
   - 'edit users of their own location'
   - 'erpw view pending service block'
-  - 'translate service_provider node'
   - 'update user'
   - 'use service_editorial transition create_new_draft'
   - 'use service_editorial transition publish'

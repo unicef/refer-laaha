@@ -75,6 +75,7 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
           if ($file) {
             $cat_ic = $file->getFileUri();
             $cat_ic = str_replace('public://', 'sites/default/files/', $cat_ic);
+            $cat_alt = $term->get('field_icon')->getValue()[0]['alt'];
           }
         }
         foreach ($child_terms as $k => $child) {
@@ -86,13 +87,11 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
             }
             $cat_details['cat_name'] = $name;
             $cat_details['cat_icon'] = $cat_ic;
+            $cat_details['cat_alt'] = $cat_alt;
             $cat_details['cat_color'] = $cat_color;
             $subcat_details[$k]['subcat_name'] = $child->get('name')->value;
-            $file = $this->entityTypeManager->getStorage('file')->load($child->get('field_sub_category_thumbnail')->target_id);
-            if ($file) {
-              $file_url = $file->getFileUri();
-              $subcat_details[$k]['sub_category_thumbnail'] = str_replace('public://', 'sites/default/files/', $file_url);
-            }
+            $subcat_details[$k]['sub_category_thumbnail'] = $child->get('field_sub_category_thumbnail')->entity->getFileUri();
+            $subcat_details[$k]['sub_category_alt'] = $child->get('field_sub_category_thumbnail')->getValue()[0]['alt'];
             $subcat_details[$k]['url'] = ltrim($this->aliaspath->getAliasByPath('/taxonomy/term/' . $child->get('tid')->value), '/');
           }
         }
@@ -133,11 +132,8 @@ class HeroBannerBlock extends BlockBase implements ContainerFactoryPluginInterfa
             if (!in_array($child->get('tid')->value, $arr)) {
               $subcat_tid = $child->get('tid')->value;
               $subcat_details[$subcat_tid]['subcat_name'] = $child->get('name')->value;
-              $file = $this->entityTypeManager->getStorage('file')->load($child->get('field_sub_category_thumbnail')->target_id);
-              if ($file) {
-                $file_url = $file->getFileUri();
-                $subcat_details[$subcat_tid]['sub_category_thumbnail'] = str_replace('public://', 'sites/default/files/', $file_url);
-              }
+              $subcat_details[$subcat_tid]['sub_category_thumbnail'] = $child->get('field_sub_category_thumbnail')->entity->getFileUri();
+              $subcat_details[$subcat_tid]['sub_category_alt'] = $child->get('field_sub_category_thumbnail')->getValue()[0]['alt'];
               $subcat_details[$subcat_tid]['url'] = ltrim(
                 $this->aliaspath->getAliasByPath('/taxonomy/term/' . $child->get('tid')->value), '/'
               );

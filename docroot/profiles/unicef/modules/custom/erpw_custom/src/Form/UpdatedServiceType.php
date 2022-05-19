@@ -58,12 +58,12 @@ class UpdatedServiceType extends FormBase {
     else {
       $url = Url::fromRoute('view.manage_service_types.page_1')->toString();
     }
-    $external_link = "<a href='$url' class='button-red'>" . $this->t("Back to Service List") . "</a>";
+    $external_link = "<a href='$url' class='button-red'>" . $this->t("Back to Service Type") . "</a>";
 
     $form['modal_description_1'] = [
       '#type' => 'markup',
       '#prefix' => '<div class="review-msg">',
-      '#markup' => $this->t('Update successful'),
+      '#markup' => $this->t('Update Successful'),
       '#suffix' => '</div>',
     ];
     $form['modal_description_2'] = [

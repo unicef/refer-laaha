@@ -6,9 +6,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Class LocationEntitySettingsForm.
- *
- * @ingroup erpw_location
+ * {@inheritdoc}
  */
 class LocationEntitySettingsForm extends FormBase {
 
