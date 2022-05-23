@@ -53,16 +53,16 @@
         // Clear the session storage
         window.signinPopup.clear()
       });
-      
+
       //Add select 2 for multiselect
       $('.form-select.add_multiple').attr('multiple','multiple');
       $('.form-select').select2();
-      
+
       //Home page country field
       if ($('.user-location').text().length > 0) {
         $('.user-location').addClass('location-theme');
       }
-      /** Sign UP form country check Start **/ 
+      /** Sign UP form country check Start **/
       $("#sign-up .form-item-level-0 > label").text(Drupal.t("Country"));
       if ($("#sign-up #edit-level-0").val() == '') {
         $("#sign-up #edit-back").hide();
@@ -83,7 +83,7 @@
           $("#sign-up .signup-next").hide();
         }
       });
-       /** Sign UP form country check End **/ 
+       /** Sign UP form country check End **/
 
        //Add condition for border under view header
        var icon_button = $('.button-with-icon').length;
@@ -94,4 +94,32 @@
        }
     }
   };
+
+  // Removing nid from autocomplete of user forms.
+  Drupal.behaviors.user_location_autocomplete = {
+    attach: function(context) {
+      // Remove TID's onload.
+      Drupal.user_location_autocomplete.remove_tid();
+      // Remove TID's onchange.
+      jQuery('body').find('.form-autocomplete').on('autocompleteclose', function() {
+        Drupal.user_location_autocomplete.remove_tid();
+      });
+    }
+  };
+
+  Drupal.user_location_autocomplete = {
+    remove_tid: function () {
+      let field_autocomplete = jQuery('body').find('.form-autocomplete');
+      field_autocomplete.each(function (event, node) {
+        let str = $(this).val();
+        let val = str.replace(/("|')/g, "");
+        let match = val.match(/\s\(.*?\)/g);
+        if (match) {
+          $(this).data('real-value', val);
+          $(this).val(val.replace(/\s\(.*?\)/g, '' ));
+        }
+      });
+    }
+  };
+
 }(jQuery, Drupal, drupalSettings));
