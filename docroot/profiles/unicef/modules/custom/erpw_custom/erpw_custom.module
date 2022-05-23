@@ -94,7 +94,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['location']['level_0']['#empty_option'] = t('Select country');
   }
   if ($form_id == 'user_location_form') {
-    $permission = 'edit location of their own country';
+    $permission = 'view location of their own country';
     $form['location_options']['#options'] = erpw_filter_locations_permissions($form['location_options']['#options'], $permission, 'location_entity');
     $form['location_options']['#empty_option'] = t('Select country');
   }
