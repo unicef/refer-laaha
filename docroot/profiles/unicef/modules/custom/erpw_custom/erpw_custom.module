@@ -18,6 +18,21 @@ use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function erpw_custom_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['#submit'][] = 'erpw_custom_user_login_form_submit';
+}
+
+/**
+ * Custom submit handler for the login form.
+ */
+function erpw_custom_user_login_form_submit($form, FormStateInterface $form_state) {
+  $url = Url::fromRoute('<front>');
+  $form_state->setRedirectUrl($url);
+}
+
+/**
  * Implements exposed form alter.
  */
 function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
