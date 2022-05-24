@@ -170,7 +170,7 @@ class SignUpForm extends FormBase {
     }
     $form['first_name'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('First name'),
+      '#title' => $this->t('First Name'),
       '#required' => TRUE,
       '#placeholder' => $this->t('Enter first name'),
       '#default_value' => !empty($first_name) ? $first_name : $form_state->getValue('first_name', ''),
@@ -178,7 +178,7 @@ class SignUpForm extends FormBase {
 
     $form['last_name'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Last name'),
+      '#title' => $this->t('Last Name'),
       '#required' => TRUE,
       '#placeholder' => $this->t('Enter last name'),
       '#default_value' => !empty($last_name) ? $last_name : $form_state->getValue('last_name', ''),
@@ -245,8 +245,8 @@ class SignUpForm extends FormBase {
     $form['system_role'] = [
       '#type' => 'select',
       '#options' => $system_roles,
-      '#empty_option' => $this->t('Select system role'),
-      '#title' => $this->t('System role'),
+      '#empty_option' => $this->t('Select System Role'),
+      '#title' => $this->t('System Role'),
       '#required' => TRUE,
       '#default_value' => !empty($system_role) ? $system_role : $form_state->getValue('system_role', ''),
     ];

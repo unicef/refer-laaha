@@ -85,7 +85,7 @@ class LocationImportProcess {
 
     $this->importLocationData($location, $header, $csv_langcodes, $country_term_id, $level_count);
 
-    $context['message'] = 'Imporitng Location Items...';
+    $context['message'] = 'Importing Location Items...';
     $context['results'][] = $items;
 
   }
