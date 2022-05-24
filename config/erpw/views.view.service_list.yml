@@ -827,7 +827,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-mode mode-icon service-list-icons\"><span>Mode: </span>{{ field_mode }} </div>\r\n<div class=\"more-details-text\"><a href=\"{{ path('entity.node.canonical', {'node': nid }, {'query': {'referer': 'rpw'}}) }}\">More Details</a></div>"
+            text: "<div class=\"service-mode mode-icon service-list-icons\"><span>{{ 'Service Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"more-details-text\"><a href=\"{{ path('entity.node.canonical', {'node': nid }, {'query': {'referer': 'rpw'}}) }}\">{{ 'More Details'|t }}</a></div>"
             make_link: false
             path: ''
             absolute: false
