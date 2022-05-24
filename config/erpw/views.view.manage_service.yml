@@ -827,7 +827,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-mode\"><span>{{ 'Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"edit-delete-links\"> \r\n<span class=\"edit-link\">{{ edit_node }}</span>\r\n<span class=\"translate-link\">{{ translation_link }}</span>\r\n</div>"
+            text: "<div class=\"service-mode\"><span>{{ 'Service Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"edit-delete-links\"> \r\n<span class=\"edit-link\">{{ edit_node }}</span>\r\n<span class=\"translate-link\">{{ translation_link }}</span>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -1214,7 +1214,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="new-service-type button-with-icon"><a href="{{ path(''node.add'', {''node_type'': ''service_provider''}) }}">{{ ''Add a new Service'' | t }}</a></div>'
+            value: '<div class="new-service-type button-with-icon"><a href="{{ path(''node.add'', {''node_type'': ''service_provider''}) }}">{{ ''Add a New Service'' | t }}</a></div>'
             format: full_html
           tokenize: true
         result:
