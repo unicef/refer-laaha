@@ -633,6 +633,7 @@ class SignUpForm extends FormBase {
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
       $user->save();
+      _user_mail_notify('register_pending_approval', $user);
       $response = new AjaxResponse();
       $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\ModalForm');
       // Add an AJAX command to open a modal dialog with the form as content.
