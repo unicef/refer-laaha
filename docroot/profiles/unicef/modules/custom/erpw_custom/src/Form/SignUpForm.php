@@ -675,7 +675,7 @@ class SignUpForm extends FormBase {
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
       $user->save();
-      _user_mail_notify('register_pending_approval', $user);
+      _user_mail_notify('register_admin_created', $user);
       $response = new AjaxResponse();
       $url = Url::fromRoute('view.user_lists.page_1')->toString();
       $command = new RedirectCommand($url);
