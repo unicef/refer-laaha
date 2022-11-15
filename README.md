@@ -1,85 +1,91 @@
-<img alt="Drupal Logo" src="https://www.drupal.org/files/Wordmark_blue_RGB.png" height="60px">
+# Laaha.org
 
-Welcome to Unicef VSS - eRPW Multisite repository
+The Virtual Safe Space.  Formerly virtualsafespace.net
 
-## VSS Urls:
-__Local:__ https://vss.lndo.site
-__Dev:__ https://dev.virtualsafespace.net
-__Stage:__ https://stage.virtualsafespace.net
-__Prod:__ https://virtualsafespace.net
+## Urls
 
-## eRPW Urls:
-__Local:__ https://erpw.lndo.site
-__Dev:__ https://dev.erefer.org
-__Stage:__ https://stage.erefer.org
-__Prod:__ https://erefer.org
+__Local:__ https://laaha-org.ddev.site  
+__Dev:__ https://dev.laaha.org  
+__Test/Stage:__ https://test.laaha.org  
+__Live/Prod:__ https://laaha.org
 
-## Site Setup on Local.
-- Clone the unicef/eRPW repo on your local machine
-- Download latest stable release for lando
-- Run `lando start`
-- Run `lando composer install`
-- For VSS,
-   - Copy the `example.settings.local.php` from docroot/sites/default location and rename it as settings.local.php
-   - Add the below lines in your settings.local.php
-    ```
-       $databases['default'] = array (
-        'default' => array (
-          'driver' => 'mysql',
-          'database' => 'acquia',
-          'username' => 'acquia',
-          'password' => 'acquia',
-          'prefix' => '',
-          'port' => 3306,
-        )
-      );
-      // The only thing to add from the out-of-the-box Lando db is the special host for each subsite
-      $databases['default']['default']['host'] = 'database';
-      $settings["config_sync_directory"] = "../config/vss";
-      $config['config_split.config_split.local']['status'] = TRUE;
-      $config['environment_indicator.indicator']['bg_color'] = '#6aa84f';
-      $config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
-      $config['environment_indicator.indicator']['name'] = 'Local Development';
-      $config['shield.settings']['shield_enable'] = 0;
-      $config['sheild.settings']['credentials.shield.user'] = '';
-      $config['sheild.settings']['credentials.shield.pass'] = '';
-    ```
-- For eRPW,
-   - Copy the `example.settings.local.php` from docroot/sites/default location and rename it as settings.local.php
-   - Add the below lines in your settings.local.php
-    ```
-     $databases['default'] = array (
-      'default' => array (
-        'driver' => 'mysql',
-        'database' => 'erpw',
-        'username' => 'erpw',
-        'password' => 'erpw',
-        'prefix' => '',
-        'port' => 3306,
-      )
-    );
-    // The only thing to add from the out-of-the-box Lando db is the special host for each subsite
-    $databases['default']['default']['host'] = 'database';
-    $settings["config_sync_directory"] = "../config/erpw";
-    $config['config_split.config_split.local']['status'] = TRUE;
-    $config['environment_indicator.indicator']['bg_color'] = '#6aa84f';
-    $config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
-    $config['environment_indicator.indicator']['name'] = 'eRPW Local Development';
-    $config['shield.settings']['shield_enable'] = 0;
-    $config['sheild.settings']['credentials.shield.user'] = '';
-    $config['sheild.settings']['credentials.shield.pass'] = '';
-    ```
-    - Run `lando mysql`
-    - Inside mysql, run `create database erpw;`
-    - Run `CREATE USER 'erpw'@'%' IDENTIFIED BY 'erpw';`
-    - Run `GRANT ALL PRIVILEGES ON erpw.* TO 'erpw'@'%';`
-- You may choose to run drush site install via following command to import existing config
-  - `lando drush <local-site-alias> si -y --existing-config --sites-subdir=<site-folder-name>` 
 
-# Local environment Drush site alias
-- VSS -> @vss2.vsslocal
-- eRPW -> @vss2.erpwlocal
+## Whenever a new country is added to the live site
+
+Add to and follow the pattern for `docroot/sites/default/settings.test.php`:
+
+```php
+// Override domain hostnames.  These need to be updated for each country added
+// to production or else test/dev/local may send browsers to the live site.
+
+$config['domain.record.ec_virtualsafespace_net']['hostname'] = 'ec.test.laaha.org';
+$config['domain.record.iq_virtualsafespace_net']['hostname'] = 'iq.test.laaha.org';
+```
+
+And the same section at `docroot/sites/default/settings.local-dev-shared.php`.
+
+## Local setup
+
+Prerequisites: Git and [DDEV](https://ddev.readthedocs.io/en/stable/#installation)
+
+```bash
+git clone git@github.com:unicef/laaha-org.git
+cd laaha-org
+ddev start
+ddev auth ssh
+ddev composer update
+```
+
+## Get live database
+
+If needed, `mkdir backups` (an ignored directory) first.
+
+The database can be retrieved from nightly backups, for example:
+
+```bash
+ddev drush sql-dump > backups/local-paranoia-backup-2022-09-07.sql
+scp erpw.dev@erpwcfg84izyh6.ssh.devcloud.acquia-sites.com:/home/erpw/dev/backups/on-demand/backup-2022-10-17-17-05-erpw-146875152.sql.gz backups/
+ddev import-db --src backups/backup-2022-10-17-17-05-erpw-146875152.sql.gz
+ddev drush cr
+```
+
+## Configure local Solr
+
+Configuration overrides for the acquia_search_server are provided in settings.local-dev-shared.php, and included in a development environment by default. A solr instance is configured by ddev already, and is used by these overrides. The collection's configuration is not auto-configured however, so these commands will perform this action (which can also be done from https://laaha-org.ddev.site/en/admin/config/search/search-api/server/acquia_search_server if the search_api_solr_admin module is enabled).
+
+```bash
+ddev drush pm:enable search_api_solr_admin
+ddev drush cr
+ddev drush solr-upload-conf acquia_server_test_support --numShards=1
+ddev drush pm:uninstall search_api_solr_admin   # the admin module is not needed for normal use
+ddev drush sapi-i acquia_live_search_index      # rebuild the index (or just use UI)
+```
 
 ## Configuration Management
-Drupal stores all your site's configuration data in a consistent manner. All of your site configuration from the list of enabled modules, through to content types, taxonomy vocabularies, fields, views, and so on, is stored with this system. The system is designed to make it easy to make changes, export site configuration to files, and import those changes back into the site. This allows your site's configuration to be stored as part of your site's codebase, and thus integrated in your version control system and your deployment process.
-- `lando drush <site-alias> cex -y`
+
+Make local changes and export with:
+
+- `ddev drush cex -y`
+
+Pull down changes made directly on an Acquia environment with, for dev:
+
+- `ddev drush cpull @laaha-org.dev @self`
+
+## Deploy to Acquia dev environment
+
+```bash
+ddev ssh
+blt artifact:deploy --commit-msg "Deploy to build" --branch "build"
+```
+
+When that eventually finishes (Acquia's approach is very slow) these additional steps are needed:
+
+```bash
+ddev drush @laaha-org.dev cr
+ddev drush @laaha-org.dev -y updb
+ddev drush @laaha-org.dev -y cim
+```
+
+
+
+(From the hosted dev environment, further code deployments to test and prod are done through the cloud.acquia.com dashboard.)
