@@ -1,35 +1,21 @@
-# Laaha.org
+# Erefer.org
 
-The Virtual Safe Space.  Formerly virtualsafespace.net
+Refer.laaha.org.  Formerly erefer.org
 
 ## Urls
 
-__Local:__ https://laaha-org.ddev.site  
-__Dev:__ https://dev.laaha.org  
-__Test/Stage:__ https://test.laaha.org  
-__Live/Prod:__ https://laaha.org
+__Local:__ https://refer-laaha.ddev.site  
+__Dev:__ https://refer-laaha.org  
+__Test/Stage:__ https://test-refer.laaha.org  
+__Live/Prod:__ https://refer.laaha.org
 
-
-## Whenever a new country is added to the live site
-
-Add to and follow the pattern for `docroot/sites/default/settings.test.php`:
-
-```php
-// Override domain hostnames.  These need to be updated for each country added
-// to production or else test/dev/local may send browsers to the live site.
-
-$config['domain.record.ec_virtualsafespace_net']['hostname'] = 'ec.test.laaha.org';
-$config['domain.record.iq_virtualsafespace_net']['hostname'] = 'iq.test.laaha.org';
-```
-
-And the same section at `docroot/sites/default/settings.local-dev-shared.php`.
 
 ## Local setup
 
 Prerequisites: Git and [DDEV](https://ddev.readthedocs.io/en/stable/#installation)
 
 ```bash
-git clone git@github.com:unicef/laaha-org.git
+git clone git@github.com:unicef/refer-laaha.git
 cd laaha-org
 ddev start
 ddev auth ssh
