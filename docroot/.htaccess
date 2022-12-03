@@ -124,6 +124,11 @@ AddEncoding gzip svgz
   # Rewrite install.php during installation to see if mod_rewrite is working
   RewriteRule ^core/install\.php core/install.php?rewrite=ok [QSA,L]
 
+  # VirtualSafeSpace -> laaha
+  # Keep before the rewrite to index.php to preserve the path passed through.
+  RewriteCond %{HTTP_HOST} ^(.+\.)?virtualsafespace\.net$ [NC]
+  RewriteRule ^ https://%1laaha.org%{REQUEST_URI} [L,R=301]
+
   # Pass all requests not referring directly to files in the filesystem to
   # index.php.
   RewriteCond %{REQUEST_FILENAME} !-f
