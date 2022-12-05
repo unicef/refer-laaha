@@ -1,4 +1,4 @@
-# Application 'vss2', environment 'dev'.
+# Application 'refer-laaha (aka vss2)', environment 'dev'.
 dev:
   root: /var/www/html/vss2.dev/docroot
   ac-site: vss2
@@ -11,38 +11,36 @@ dev:
   host: vss2r9rhtjfnzn.ssh.devcloud.acquia-sites.com
   user: vss2.dev
   paths:
-    drush-script: drush9
+    drush-script: /var/www/html/vss2.dev/vendor/bin/drush
 
 
-# Application 'vss2', environment 'prod'.
-prod:
+# Application 'refer-laaha (aka vss2)', environment 'prod'.
+live:
   root: /var/www/html/vss2.prod/docroot
   ac-site: vss2
   ac-env: prod
   ac-realm: devcloud
-  uri: vss2fp9ktap4b5.devcloud.acquia-sites.com
+  uri: https://erefer.org # vss2fp9ktap4b5.devcloud.acquia-sites.com
   prod.livedev:
     parent: '@vss2.prod'
     root: /mnt/gfs/vss2.prod/livedev/docroot
   host: vss2fp9ktap4b5.ssh.devcloud.acquia-sites.com
   user: vss2.prod
   paths:
-    drush-script: drush9
+    drush-script: /var/www/html/vss2.prod/vendor/bin/drush
 
 
-# Application 'vss2', environment 'test'.
+# Application 'refer-laaha (aka vss2)', environment 'stage'.
 test:
   root: /var/www/html/vss2.test/docroot
   ac-site: vss2
   ac-env: test
   ac-realm: devcloud
-  uri: vss26ctymneew2.devcloud.acquia-sites.com
+  uri: https://test.laaha.org # vss26ctymneew2.devcloud.acquia-sites.com
   test.livedev:
     parent: '@vss2.test'
     root: /mnt/gfs/vss2.test/livedev/docroot
   host: vss26ctymneew2.ssh.devcloud.acquia-sites.com
   user: vss2.test
   paths:
-    drush-script: drush9
-
-
+    drush-script: /var/www/html/vss2.test/vendor/bin/drush
