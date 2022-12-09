@@ -1,19 +1,22 @@
-uuid: 42cc8b54-4c69-434e-86d6-68a51ed05575
+uuid: 929ad83b-12dc-485b-a1c5-6dbf471bae9a
 langcode: en
 status: true
 dependencies:
+  content:
+    - 'block_content:basic:54f4b388-a73a-4d42-b530-8f61eac6aade'
   module:
+    - block_content
     - system
   theme:
     - erpw
 id: addnewuserlink
 theme: erpw
 region: content
-weight: -6
+weight: -8
 provider: null
-plugin: 'block_content:34dc32a3-5ae8-4536-894f-8787de475f25'
+plugin: 'block_content:54f4b388-a73a-4d42-b530-8f61eac6aade'
 settings:
-  id: 'block_content:34dc32a3-5ae8-4536-894f-8787de475f25'
+  id: 'block_content:54f4b388-a73a-4d42-b530-8f61eac6aade'
   label: 'Add new user link'
   label_display: '0'
   provider: block_content

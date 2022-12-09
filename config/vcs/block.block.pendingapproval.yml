@@ -1,12 +1,13 @@
-uuid: 953a5161-97c8-4bb1-ba16-534bcad4d180
+uuid: 75a21a8b-e84e-4952-9cf9-0b09900d3919
 langcode: en
 status: true
 dependencies:
   content:
-    - 'block_content:multiple_block:f3a9076d-3f64-44bd-addb-4c3ff44ab5c4'
+    - 'block_content:multiple_block:527727ee-ba52-4e83-9715-0d4859a386b3'
   module:
     - block_content
     - system
+    - user
   theme:
     - erpw
 id: pendingapproval
@@ -14,10 +15,10 @@ theme: erpw
 region: content
 weight: -9
 provider: null
-plugin: 'block_content:f3a9076d-3f64-44bd-addb-4c3ff44ab5c4'
+plugin: 'block_content:527727ee-ba52-4e83-9715-0d4859a386b3'
 settings:
-  id: 'block_content:f3a9076d-3f64-44bd-addb-4c3ff44ab5c4'
-  label: 'Pending Approval'
+  id: 'block_content:527727ee-ba52-4e83-9715-0d4859a386b3'
+  label: 'Pending Approvals'
   label_display: visible
   provider: block_content
   status: true
@@ -28,3 +29,14 @@ visibility:
     id: request_path
     negate: false
     pages: /dashboard
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      administrator: administrator
+      super_admin: super_admin
+      country_admin: country_admin
+      interagency_gbv_coordinator: interagency_gbv_coordinator
+      service_provider_focal_point: service_provider_focal_point
