@@ -6,13 +6,14 @@ dependencies:
     - views.view.user_count_approval_block
   module:
     - system
+    - user
     - views
   theme:
     - erpw
 id: views_block__user_count_approval_block_block_2
 theme: erpw
 region: content
-weight: 1
+weight: -4
 provider: null
 plugin: 'views_block:user_count_approval_block-block_2'
 settings:
@@ -28,3 +29,12 @@ visibility:
     id: request_path
     negate: false
     pages: '/user/*'
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      administrator: administrator
+      country_admin: country_admin
+      interagency_gbv_coordinator: interagency_gbv_coordinator
