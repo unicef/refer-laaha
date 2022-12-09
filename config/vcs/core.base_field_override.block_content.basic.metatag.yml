@@ -1,18 +1,18 @@
-uuid: a8b9a4c8-bdf6-48bd-ae77-231e8367069c
+uuid: 45f14a2e-a138-4a7d-b5e6-3e8062869f5c
 langcode: en
 status: true
 dependencies:
   config:
     - block_content.type.basic
-id: block_content.basic.changed
-field_name: changed
+id: block_content.basic.metatag
+field_name: metatag
 entity_type: block_content
 bundle: basic
-label: Changed
-description: 'The time that the custom block was last edited.'
+label: 'Metatags (Hidden field for JSON support)'
+description: 'The meta tags for the entity.'
 required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: changed
+field_type: map

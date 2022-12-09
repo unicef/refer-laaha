@@ -1,13 +1,13 @@
-uuid: e60d760e-4ef2-4e37-986d-5adfd275f166
+uuid: b7ec75f0-4749-4c63-8fd6-95d4bc2913bf
 langcode: en
 status: true
 dependencies:
   config:
-    - block_content.type.basic
-id: block_content.basic.status
+    - block_content.type.multiple_block
+id: block_content.multiple_block.status
 field_name: status
 entity_type: block_content
-bundle: basic
+bundle: multiple_block
 label: Published
 description: ''
 required: false

@@ -1,19 +1,19 @@
-uuid: 6cb756f0-1a73-4809-83ce-060ae37c9145
+uuid: 85cfe719-d464-46ca-a741-4fe28c27fcbb
 langcode: en
 status: true
 dependencies:
   config:
     - node.type.article
-id: node.article.uid
-field_name: uid
+id: node.article.menu_link
+field_name: menu_link
 entity_type: node
 bundle: article
-label: 'Authored by'
-description: 'The username of the content author.'
+label: 'Menu link'
+description: 'Computed menu link for the node (only available during node saving).'
 required: false
 translatable: true
 default_value: {  }
-default_value_callback: 'Drupal\node\Entity\Node::getDefaultEntityOwner'
+default_value_callback: ''
 settings:
   handler: default
   handler_settings: {  }

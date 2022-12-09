@@ -1,13 +1,13 @@
-uuid: ce3552f6-0dbc-445d-93ac-bcb62b053f92
+uuid: 5e5422a0-fdfc-4703-a302-81e9ae45b4a9
 langcode: en
 status: true
 dependencies:
   config:
-    - block_content.type.basic
-id: block_content.basic.info
+    - block_content.type.user_frontpage_content
+id: block_content.user_frontpage_content.info
 field_name: info
 entity_type: block_content
-bundle: basic
+bundle: user_frontpage_content
 label: 'Block description'
 description: 'A brief description of your block.'
 required: true

@@ -1,13 +1,13 @@
-uuid: a8b9a4c8-bdf6-48bd-ae77-231e8367069c
+uuid: de53bb16-eed9-43f2-b23f-1b6d1d62f048
 langcode: en
 status: true
 dependencies:
   config:
-    - block_content.type.basic
-id: block_content.basic.changed
+    - block_content.type.user_frontpage_content
+id: block_content.user_frontpage_content.changed
 field_name: changed
 entity_type: block_content
-bundle: basic
+bundle: user_frontpage_content
 label: Changed
 description: 'The time that the custom block was last edited.'
 required: false
