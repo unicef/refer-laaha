@@ -24,6 +24,10 @@ $config['search_api.server.acquia_server_test_support'] = [
   ],
 ];
 
+$config['acquia_connector.settings']['site_environment'] = 'dev';
+$config['acquia_connector.settings']['env_detection_enabled'] = TRUE;
+
+
 $settings['config_sync_directory'] = '../config/vcs';
 /**
  * Assertions.
