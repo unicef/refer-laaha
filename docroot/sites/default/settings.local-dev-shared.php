@@ -6,7 +6,7 @@
 // to production or else test/dev/local may send browsers to the live site.
 
 $config['domain.record.bn_erefer_org']['hostname'] = 'bn.refer-laaha.ddev.site';
-$config['domain.record.zm_erefer_org']['hostname'] = 'zm.refer-laaha.ddev.site';
+$config['domain.record.zm_erefer_org']['hostname'] = 'zw.refer-laaha.ddev.site';
 
 // Local environment indicator
 $config['environment_indicator.indicator']['name'] = 'Local Development';
