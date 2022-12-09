@@ -1,0 +1,68 @@
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Filter
+      fields:
+        status:
+          label: Status
+          settings:
+            format_custom_true: Published
+        operations:
+          label: Operations
+      filters:
+        status:
+          expose:
+            label: Status
+          group_info:
+            group_items:
+              1:
+                title: Published
+        type:
+          expose:
+            label: Type
+        langcode:
+          expose:
+            label: Language
+      arguments:
+        field_domain_access_target_id:
+          exception:
+            title: All
+  page_1:
+    display_options:
+      menu:
+        title: Content
+      tab_options:
+        title: Content
+      filters:
+        status:
+          expose:
+            label: Status
+          group_info:
+            group_items:
+              1:
+                title: Published
+        type:
+          expose:
+            label: Type
+        langcode:
+          expose:
+            label: Language
+      title: Content
+  page_2:
+    display_options:
+      filters:
+        status:
+          expose:
+            label: Status
+          group_info:
+            group_items:
+              1:
+                title: Published
+        type:
+          expose:
+            label: Type
+        langcode:
+          expose:
+            label: Language

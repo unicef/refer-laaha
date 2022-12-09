@@ -1,0 +1,14 @@
+label: 'Moderated content'
+display:
+  default:
+    display_title: Default
+    display_options:
+      title: 'Moderated content'
+      exposed_form:
+        options:
+          submit_button: Filter
+      empty:
+        area_text_custom:
+          content: '<div>No service content is available for approval.</div>'
+  moderated_content:
+    display_title: 'Moderated content'

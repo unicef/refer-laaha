@@ -1,0 +1,22 @@
+display:
+  default:
+    display_title: Default
+    display_options:
+      fields:
+        name:
+          label: Username
+        status:
+          label: Status
+        operations:
+          label: Operations
+      exposed_form:
+        options:
+          submit_button: Filter
+      filters:
+        status:
+          group_info:
+            label: Status
+  page_1:
+    display_options:
+      menu:
+        title: List
