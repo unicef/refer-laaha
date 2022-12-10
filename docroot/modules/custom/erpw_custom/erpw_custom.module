@@ -81,7 +81,13 @@ function erpw_custom_service_type_options() {
 function erpw_custom_views_pre_render(ViewExecutable $view) {
   if ($view->id() == 'service_list') {
     $parameters = \Drupal::routeMatch()->getParameters()->all();
-    $nid = $parameters['arg_0'];
+    // Conditionals are here to stop a fatal error, including when previewing
+    // the view when editing it.  @TODO get the parameter the Views way.
+    // Alternatively, use views to provide the title
+    $nid = $parameters['arg_0'] ?: NULL;
+    if (!$nid) {
+      return;
+    }
     $node = Node::load($nid);
     $title = ($node) ? $node->getTitle() : t('Services');
     $view->setTitle($title);
