@@ -37,7 +37,6 @@ third_party_settings:
       children:
         - field_service_type
         - field_select_organisation
-        - field_p_code
         - field_number_of_staff_providing_
         - field_opening_hours
         - field_cost_of_service
@@ -87,13 +86,13 @@ mode: default
 content:
   field_accessibility_for_persons_:
     type: options_buttons
-    weight: 10
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
   field_add_more_details_service:
     type: string_textarea
-    weight: 23
+    weight: 24
     region: content
     settings:
       rows: 5
@@ -101,13 +100,13 @@ content:
     third_party_settings: {  }
   field_age_group:
     type: options_select
-    weight: 11
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
   field_cost_of_service:
     type: string_textfield
-    weight: 8
+    weight: 6
     region: content
     settings:
       size: 60
@@ -115,7 +114,7 @@ content:
     third_party_settings: {  }
   field_email_backup_focal_point:
     type: string_textfield
-    weight: 22
+    weight: 23
     region: content
     settings:
       size: 60
@@ -155,7 +154,7 @@ content:
     third_party_settings: {  }
   field_number_of_staff_providing_:
     type: string_textfield
-    weight: 6
+    weight: 4
     region: content
     settings:
       size: 60
@@ -163,19 +162,11 @@ content:
     third_party_settings: {  }
   field_opening_hours:
     type: string_textfield
-    weight: 7
-    region: content
-    settings:
-      size: 60
-      placeholder: 'Enter Opening Hours'
-    third_party_settings: {  }
-  field_p_code:
-    type: string_textfield
     weight: 5
     region: content
     settings:
       size: 60
-      placeholder: 'Enter P-code'
+      placeholder: 'Enter Opening Hours'
     third_party_settings: {  }
   field_phone_number:
     type: string_textfield
@@ -215,13 +206,13 @@ content:
     third_party_settings: {  }
   field_target_group:
     type: options_select
-    weight: 12
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
   field_transportation_available:
     type: options_buttons
-    weight: 9
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -245,6 +236,7 @@ hidden:
   field_domain_all_affiliates: true
   field_domain_source: true
   field_name_of_the_focal_point: true
+  field_p_code: true
   langcode: true
   path: true
   promote: true
