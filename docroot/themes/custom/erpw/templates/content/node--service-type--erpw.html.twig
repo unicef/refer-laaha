@@ -90,10 +90,7 @@
     </label>
     <span class="service-title">
     <a href="{{ path('view.service_list.page_1',
-      {'arg_0': node.nid.value },
-      {'query': {
-        'location': location
-      }}
+      {'arg_0': node.nid.value, 'arg_1': location }
     )}}">{{ node.title.value }}</a></span>
 
   </div>
