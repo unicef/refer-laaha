@@ -171,7 +171,7 @@ class UserLocationForm extends LocationListForm {
       $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
 
       setcookie('location_tid', $location_value, strtotime('+1 year'), '/', $domain_site, FALSE);
-      $url = Url::fromRoute('<front>');
+      $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $location_value]]);
       $form['location_level']['button'] = $form_state->setRedirectUrl($url);
     }
   }
