@@ -87,6 +87,7 @@ function erpw_preprocess_node(&$variables) {
       $query_path = \Drupal::request()->query->get('action');
       $variables['nid'] = !empty($nid) ? $nid : '';
       $variables['query'] = !empty($query_path) ? $query_path : '';
+      $variables['location'] = \Drupal::request()->query->get('location');
 
       $variables['#cache']['contexts'][] = 'url.query_args';
 
