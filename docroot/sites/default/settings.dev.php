@@ -14,4 +14,4 @@ $config['domain.record.zm_erefer_org']['hostname'] = 'zw-dev.erefer.org';
 // Local environment indicator
 $config['environment_indicator.indicator']['bg_color'] = '#6aa84f';
 $config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
-$config['environment_indicator.indicator']['name'] = 'VSS Development';
+$config['environment_indicator.indicator']['name'] = 'eRPW Development';
