@@ -89,7 +89,12 @@
       <i class="{{ node.field_service_type_icon.entity.field_service_type_icon.value }}"></i>
     </label>
     <span class="service-title">
-    <a href="{{ path('view.service_list.page_1', {'arg_0': node.nid.value }) }}">{{ node.title.value }}</a></span>
+    <a href="{{ path('view.service_list.page_1',
+      {'arg_0': node.nid.value },
+      {'query': {
+        'location': location
+      }}
+    )}}">{{ node.title.value }}</a></span>
 
   </div>
 </div>
