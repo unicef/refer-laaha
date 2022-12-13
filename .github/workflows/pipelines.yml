@@ -63,7 +63,7 @@ jobs:
         
       # This will be run when a tag added on main
       - name: Trigger BLT script to deploy to Acquia Dev env on tag
-        if: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name == 'main' }}
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run:  ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch main --ignore-dirty --no-interaction --verbose
 
       # This will be run when code pushed into Stage Env
