@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php_version: ['7.4']
+        php_version: ['8.1']
         node-version: [15.x]
 
 
