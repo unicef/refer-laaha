@@ -64,38 +64,39 @@ jobs:
       # - name: Get Modifield files list
       #   run: files= $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }});
         
-      # This will be run when code pushed into the dev env  
-      - name: Trigger BLT script to deploy to Acquia Dev env
-        if: ${{ startsWith(github.ref, 'refs/heads/dev'  ) }}
+      # This will be run when a tag added on main
+      - name: Trigger BLT script to deploy to Acquia Dev env on tag
+        if: ${{ startsWith(github.ref, 'refs/tags/tags') && github.ref_name == 'main' }}
         run:  ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/})  --ignore-dirty --no-interaction --verbose
+
       # This will be run when code pushed into Stage Env
-      - name: Trigger BLT script to deploy to Acquia Stage ENV
-        if: ${{ startsWith(github.ref, 'refs/heads/stage'  ) }}
-        run:  ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/})  --ignore-dirty --no-interaction --verbose
+      # - name: Trigger BLT script to deploy to Acquia Stage ENV
+      #   if: ${{ startsWith(github.ref, 'refs/heads/stage'  ) }}
+      #   run:  ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch $(echo ${GITHUB_REF#refs/heads/})  --ignore-dirty --no-interaction --verbose
       # This will be run when Tag is created and deployed into the PROD infra
-      - name: Run when tag is created and Deployed code into the Acquia ENV.
-        if: ${{ startsWith(github.ref, 'refs/tags/tags') }}
-        run: |
-          ./vendor/bin/blt artifact:deploy --commit-msg "Creating Automated commit by BLT for Build" --tag $(echo ${GITHUB_REF#refs/tags/})  --ignore-dirty --no-interaction --verbose
-          curl -OL https://github.com/acquia/cli/releases/latest/download/acli.phar
-          chmod +x acli.phar
-          mv acli.phar /usr/local/bin/acli
-          acli login -k ${{ secrets.API_KEY }} -s ${{ secrets.API_SECRET }}
-          acli api:environments:code-switch  vss2.prod  "tags/$(echo ${GITHUB_REF#refs/tags/})"
-          sleep 30s
-      # Run Drush command After deployment
-      - name: Run when tag is created after Deployment run Drush Commands
-        if: ${{ startsWith(github.ref, 'refs/tags/tags') }}
-        run: |
-          ./vendor/bin/drush @vss2.prod cr -y; ./vendor/bin/drush @vss2.prod cr -l https://erefer.org; ./vendor/bin/drush @vss2.prod updb -y; ./vendor/bin/drush @vss2.prod updb -y -l https://erefer.org; ./vendor/bin/drush @vss2.prod cim -y; ./vendor/bin/drush @vss2.prod cim -y -l https://erefer.org; ./vendor/bin/drush @vss2.prod cr -y; ./vendor/bin/drush @vss2.prod cr -l https://erefer.org;
+      # - name: Run when tag is created and Deployed code into the Acquia ENV.
+      #   if: ${{ startsWith(github.ref, 'refs/tags/tags') }}
+      #   run: |
+      #     ./vendor/bin/blt artifact:deploy --commit-msg "Creating Automated commit by BLT for Build" --tag $(echo ${GITHUB_REF#refs/tags/})  --ignore-dirty --no-interaction --verbose
+      #     curl -OL https://github.com/acquia/cli/releases/latest/download/acli.phar
+      #     chmod +x acli.phar
+      #     mv acli.phar /usr/local/bin/acli
+      #     acli login -k ${{ secrets.API_KEY }} -s ${{ secrets.API_SECRET }}
+      #     acli api:environments:code-switch  vss2.prod  "tags/$(echo ${GITHUB_REF#refs/tags/})"
+      #     sleep 30s
+      # # Run Drush command After deployment
+      # - name: Run when tag is created after Deployment run Drush Commands
+      #   if: ${{ startsWith(github.ref, 'refs/tags/tags') }}
+      #   run: |
+      #     ./vendor/bin/drush @vss2.prod cr -y; ./vendor/bin/drush @vss2.prod cr -l https://erefer.org; ./vendor/bin/drush @vss2.prod updb -y; ./vendor/bin/drush @vss2.prod updb -y -l https://erefer.org; ./vendor/bin/drush @vss2.prod cim -y; ./vendor/bin/drush @vss2.prod cim -y -l https://erefer.org; ./vendor/bin/drush @vss2.prod cr -y; ./vendor/bin/drush @vss2.prod cr -l https://erefer.org;
       
-      - name: Excecute Drush Commands at Dev
-        if: github.ref == 'refs/heads/develop'
-        run : ./vendor/bin/drush @vss2.dev cr -y; ./vendor/bin/drush @vss2.dev cr -l https://dev.erefer.org; ./vendor/bin/drush @vss2.dev updb -y; ./vendor/bin/drush @vss2.dev updb -y -l https://dev.erefer.org; ./vendor/bin/drush @vss2.dev cim -y; ./vendor/bin/drush @vss2.dev cim -y -l https://dev.erefer.org; ./vendor/bin/drush @vss2.dev cr -y; ./vendor/bin/drush @vss2.dev cr -l https://dev.erefer.org;
+      # - name: Excecute Drush Commands at Dev
+      #   if: github.ref == 'refs/heads/develop'
+      #   run : ./vendor/bin/drush @vss2.dev cr -y; ./vendor/bin/drush @vss2.dev cr -l https://dev.erefer.org; ./vendor/bin/drush @vss2.dev updb -y; ./vendor/bin/drush @vss2.dev updb -y -l https://dev.erefer.org; ./vendor/bin/drush @vss2.dev cim -y; ./vendor/bin/drush @vss2.dev cim -y -l https://dev.erefer.org; ./vendor/bin/drush @vss2.dev cr -y; ./vendor/bin/drush @vss2.dev cr -l https://dev.erefer.org;
        
-      - name: Excecute Drush Commands at Stage
-        if: github.ref == 'refs/heads/stage'
-        run : ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cr -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test updb -y; ./vendor/bin/drush @vss2.test updb -y -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cim -y -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cr -l https://stage.erefer.org;
+      # - name: Excecute Drush Commands at Stage
+      #   if: github.ref == 'refs/heads/stage'
+      #   run : ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cr -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test updb -y; ./vendor/bin/drush @vss2.test updb -y -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cim -y -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cr -l https://stage.erefer.org;
       #- name: Use Node.js for Night watch test cases ${{ matrix.node-version }}
       #  if: ${{ startsWith(github.ref, 'refs/heads/develop'  ) }} || ${{ startsWith(github.ref, 'refs/heads/stage'  ) }} || ${{ startsWith(github.ref, 'refs/tags/tags'  ) }} || ${{ startsWith(github.ref, 'refs/heads/master'  ) }}
       #  uses: actions/setup-node@v1
