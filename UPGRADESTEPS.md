@@ -6,8 +6,10 @@ https://cloud.acquia.com/a/environments/325120-249931c2-c947-4980-b6e4-953c42061
 **Also before** deploy to live:
 
 ```
-drush @live thun vss
-drush @live pmu shield
+ssh vss2.dev@vss2r9rhtjfnzn.ssh.devcloud.acquia-sites.com
+cd /mnt/www/html/vss2.prod/
+drush --uri=https://erefer.org thun vss
+drush --uri=https://erefer.org pmu shield
 ```
 
 Like literally the shield module is so messed up that with *no* configuration present it claims it cannot uninstall because shield.settings is incoming.
