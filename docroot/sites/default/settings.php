@@ -18,7 +18,7 @@
  * directory in the public files path. The setting below allows you to set
  * its location.
  */
-$settings['config_sync_directory'] = '../config/default';
+$settings['config_sync_directory'] = '../config/vcs';
 $settings['config_vcs_directory'] = '../config/vcs';
 
 /**
