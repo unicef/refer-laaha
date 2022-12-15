@@ -132,7 +132,3 @@ $ddev_settings = dirname(__FILE__) . '/settings.ddev.php';
 if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
   require $ddev_settings;
 }
-
-// Repeat this at the bottom so it knows we really need business.
-$settings['config_sync_directory'] = '../config/vcs';
-$settings['config_vcs_directory'] = '../config/vcs';
