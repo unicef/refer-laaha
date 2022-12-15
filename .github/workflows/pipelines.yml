@@ -6,7 +6,6 @@ name: Acquia application run security check and deployed Application
 on:
   # Triggers the workflow on pushed tags on main
   push:
-    branches: [ main ]
     tags: [ '*' ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -23,6 +22,10 @@ jobs:
 
 
     steps:
+      - name: Exit if not on main branch
+        if: endsWith(github.event.base_ref, 'main') == false
+        run: exit -1
+
       - name: Check out code
         uses: actions/checkout@v3
 
