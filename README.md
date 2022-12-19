@@ -16,7 +16,7 @@ Prerequisites: Git and [DDEV](https://ddev.readthedocs.io/en/stable/#installatio
 
 ```bash
 git clone git@github.com:unicef/refer-laaha.git
-cd laaha-org
+cd refer-laaha
 ddev start
 ddev auth ssh
 ddev composer update
