@@ -55,23 +55,33 @@ Make local changes and export with:
 
 Pull down changes made directly on an Acquia environment with, for dev:
 
-- `ddev drush cpull @laaha-org.dev @self`
+- `ddev drush cpull @dev @self`
 
 ## Deploy to Acquia dev environment
 
-```bash
-ddev ssh
-blt artifact:deploy --commit-msg "Deploy to build" --branch "build"
-```
-
-When that eventually finishes (Acquia's approach is very slow) these additional steps are needed:
+Push a tag to the main branch, and GitHub will use `blt artifact:deploy`.  Acquia's approach is very slow; when that eventually finishes (visit https://github.com/unicef/laaha-org/actions/ to watch progress or https://cloud.acquia.com/a/applications/1453586a-0bf5-4dce-a39c-c53e788c86f7 to see the result in the Task Log) these additional steps are needed:
 
 ```bash
-ddev drush @laaha-org.dev cr
-ddev drush @laaha-org.dev -y updb
-ddev drush @laaha-org.dev -y cim
+ddev drush @dev cr
+ddev drush @dev -y updb
+ddev drush @dev -y cim
 ```
 
+From the hosted dev environment, further code deployments to test and prod are done through the cloud.acquia.com dashboard.  After each code deployment through the UI, the database update and the configuration import are still needed.
 
 
-(From the hosted dev environment, further code deployments to test and prod are done through the cloud.acquia.com dashboard.)
+For test:
+
+```bash
+ddev drush @test cr
+ddev drush @test -y updb
+ddev drush @test -y cim
+```
+
+And live:
+
+```bash
+ddev drush @live cr
+ddev drush @live -y updb
+ddev drush @live -y cim
+```
