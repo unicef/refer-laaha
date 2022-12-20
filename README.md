@@ -29,7 +29,7 @@ If needed, `mkdir backups` (an ignored directory) first.
 The database can be retrieved from nightly backups, for example:
 
 ```bash
-ddev drush sql-dump > backups/local-paranoia-backup-2022-09-07.sql
+ddev export-db > backups/local-paranoia-backup-2022-09-07.sql.gz
 scp erpw.dev@erpwcfg84izyh6.ssh.devcloud.acquia-sites.com:/home/erpw/dev/backups/on-demand/backup-2022-10-17-17-05-erpw-146875152.sql.gz backups/
 ddev import-db --src backups/backup-2022-10-17-17-05-erpw-146875152.sql.gz
 ddev drush cr
