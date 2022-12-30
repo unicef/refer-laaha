@@ -120,3 +120,44 @@ function _import_location_batch_dispatcher() {
   $args[1] = &$values;
   call_user_func_array([\Drupal::service($service), $method], $args);
 }
+
+/**
+ * Load country code from location taxonomy term.
+ *
+ * We do this in one shot because the machine names for domains *and* domain
+ * locations are both wrong but if we get the domain directly we can ignore
+ * that horror.  (This is only for Zimbabwe but still.)
+ */
+function erpw_location_country_code_from_tid($tid) {
+  // this doesn't work but https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21ConfigFactory.php/function/ConfigFactory%3A%3AlistAll/8.2.x should
+  // $locations = \Drupal::config('domain.location');
+  // @TODO unhard-code-this but probably save it in an alternate config rather than iterating through configs, ugh.
+  // Also TODO we probably want to take any tid and find the root one.
+  if ($tid === 10401) {
+    return 'bn';
+  }
+  elseif ($tid === 1) {
+    return 'zw';
+  }
+  else {
+    return '';
+  }
+}
+
+/**
+ * Utility function to recombine the parts of a parsed URL.
+ *
+ * Via https://www.php.net/manual/en/function.parse-url.php#106731
+ */
+function erpw_location_unparse_url($parsed_url) {
+  $scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
+  $host     = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+  $port     = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+  $user     = isset($parsed_url['user']) ? $parsed_url['user'] : '';
+  $pass     = isset($parsed_url['pass']) ? ':' . $parsed_url['pass']  : '';
+  $pass     = ($user || $pass) ? "$pass@" : '';
+  $path     = isset($parsed_url['path']) ? $parsed_url['path'] : '';
+  $query    = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : '';
+  $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
+  return "$scheme$user$pass$host$port$path$query$fragment";
+}
