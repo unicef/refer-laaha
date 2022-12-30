@@ -161,11 +161,8 @@ class UserLocationForm extends LocationListForm {
     else {
       if (empty($this->locationCookie->getCookieValue())) {
         $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
-        $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $location_value);
       }
-      else {
-        $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $location_value);
-      }
+      $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $location_value);
       $domain_current_url = explode(".", $this->requestStack->getCurrentRequest()->server->get('SERVER_NAME'));
       $domain_slice = array_slice($domain_current_url, -2);
       $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
