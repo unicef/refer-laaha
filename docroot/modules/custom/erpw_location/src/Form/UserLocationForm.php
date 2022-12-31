@@ -135,6 +135,15 @@ class UserLocationForm extends LocationListForm {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $levels = $form_state->getValues();
 
+    // We need this for the redirect, even if we have a higher level.
+    $country_tid = NULL;
+    if (!empty($levels['location_options'])) {
+      $location_entity = $this->entityTypeManager->getStorage('location')->load($levels['location_options']);
+      if (!empty($location_entity->get('field_location_taxonomy_term')->getValue())) {
+        $country_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+      }
+    }
+
     if (!empty($levels['level_4'])) {
       $location_value = $levels['level_4'];
     }
@@ -147,11 +156,8 @@ class UserLocationForm extends LocationListForm {
     elseif (!empty($levels['level_1'])) {
       $location_value = $levels['level_1'];
     }
-    elseif (!empty($levels['location_options'])) {
-      $location_entity = $this->entityTypeManager->getStorage('location')->load($levels['location_options']);
-      if (!empty($location_entity->get('field_location_taxonomy_term')->getValue())) {
-        $location_value = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
-      }
+    else {
+      $location_value = $country_tid;
     }
 
     if ($levels['location_level_page'] == 'location') {
@@ -172,13 +178,12 @@ class UserLocationForm extends LocationListForm {
       $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $location_value]]);
       // First level is the country taxonomy term; if we have it we want to
       // modify the redirect to include the matching subdomain.
-      if (!empty($levels['level_1'])) {
-        $tid = $levels['level_1'];
+      if ($country_tid) {
         // Ridiculous Drupal has no apparent way to change the domain/subdomain in its URL
         $url->setAbsolute();
         $url_string = $url->toString();
         $url_array = parse_url($url_string);
-        $url_host = erpw_location_country_code_from_tid($tid) . '.' . $url_array['host'];
+        $url_host = erpw_location_country_code_from_tid($country_tid) . '.' . $url_array['host'];
         $url_array['host'] = $url_host;
         $url_string = erpw_location_unparse_url($url_array);
         $url = Url::fromUri($url_string);

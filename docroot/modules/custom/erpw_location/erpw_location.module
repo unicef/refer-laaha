@@ -133,10 +133,10 @@ function erpw_location_country_code_from_tid($tid) {
   // $locations = \Drupal::config('domain.location');
   // @TODO unhard-code-this but probably save it in an alternate config rather than iterating through configs, ugh.
   // Also TODO we probably want to take any tid and find the root one.
-  if ($tid === 10401) {
+  if ($tid == 10401) {
     return 'bn';
   }
-  elseif ($tid === 1) {
+  elseif ($tid == 1) {
     return 'zw';
   }
   else {
