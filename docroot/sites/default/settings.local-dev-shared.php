@@ -4,9 +4,14 @@
 
 // Override domain hostnames.  These need to be updated for each country added
 // to production or else test/dev/local may send browsers to the live site.
-
 $config['domain.record.bn_erefer_org']['hostname'] = 'bn.refer-laaha.ddev.site';
 $config['domain.record.zm_erefer_org']['hostname'] = 'zw.refer-laaha.ddev.site';
+
+// Include subdomains in trusted host patterns.
+$settings['trusted_host_patterns'] = [
+  '^refer-laaha\.ddev\.site$',
+  '^*\.refer-laaha\.ddev\.site$',
+];
 
 // Local environment indicator
 $config['environment_indicator.indicator']['name'] = 'Local Development';
