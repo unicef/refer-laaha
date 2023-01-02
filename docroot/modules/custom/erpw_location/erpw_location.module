@@ -128,19 +128,21 @@ function _import_location_batch_dispatcher() {
  * locations are both wrong but if we get the domain directly we can ignore
  * that horror.  (This is only for Zimbabwe but still.)
  */
-function erpw_location_country_code_from_tid($tid) {
+function erpw_location_country_domain_from_tid($tid) {
   // this doesn't work but https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21ConfigFactory.php/function/ConfigFactory%3A%3AlistAll/8.2.x should
   // $locations = \Drupal::config('domain.location');
-  // @TODO unhard-code-this but probably save it in an alternate config rather than iterating through configs, ugh.
+  // @TODO Save in an alternate config rather than iterating through configs?
   // Also TODO we probably want to take any tid and find the root one.
-  if ($tid == 10401) {
-    return 'bn';
-  }
-  elseif ($tid == 1) {
-    return 'zw';
-  }
-  else {
-    return '';
+  $cf = \Drupal::service('config.factory');
+  $domain_locations = $cf->loadMultiple($cf->listAll('domain.location'));
+  foreach ($domain_locations as $name => $domain_location) {
+    if ($domain_location->get('location') == $tid) {
+      // Name will be something like domain.location.bn_erefer_org
+      // Need to load corresponding for example domain.record.bn_erefer_org.yml
+      // Replace 'location' with 'record' in configuration name:
+      $record_name = substr_replace($name, 'record', 7, 8);
+      return $cf->get($record_name)->get('hostname');
+    }
   }
 }
 

@@ -183,8 +183,7 @@ class UserLocationForm extends LocationListForm {
         $url->setAbsolute();
         $url_string = $url->toString();
         $url_array = parse_url($url_string);
-        $url_host = erpw_location_country_code_from_tid($country_tid) . '.' . $url_array['host'];
-        $url_array['host'] = $url_host;
+        $url_array['host'] = erpw_location_country_domain_from_tid($country_tid);
         $url_string = erpw_location_unparse_url($url_array);
         \Drupal::logger('erpw_location')->notice('Attempting to redirect to URL: %url.', ['%url' => $url_string]);
         $url = Url::fromUri($url_string);
