@@ -8,8 +8,8 @@
 // Override domain hostnames.  These need to be updated for each country added
 // to production or else test/dev/local may send browsers to the live site.
 
-$config['domain.record.bn_erefer_org']['hostname'] = 'bn.stage.erefer.org'; // $config['domain.record.bn_erefer_org']['hostname'] = 'bn.test.refer.laaha.org';
-$config['domain.record.zm_erefer_org']['hostname'] = 'zw.stage.erefer.org'; // $config['domain.record.zm_erefer_org']['hostname'] = 'zw.test.refer.laaha.org';
+$config['domain.record.bn_erefer_org']['hostname'] = 'bn-stage.erefer.org'; // $config['domain.record.bn_erefer_org']['hostname'] = 'bn.test.refer.laaha.org';
+$config['domain.record.zm_erefer_org']['hostname'] = 'zw-stage.erefer.org'; // $config['domain.record.zm_erefer_org']['hostname'] = 'zw.test.refer.laaha.org';
 
 // Local environment indicator
 $config['environment_indicator.indicator']['bg_color'] = '#2986cc';
