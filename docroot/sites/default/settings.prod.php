@@ -15,7 +15,7 @@ $config['environment_indicator.indicator']['name'] = 'eRPW Production';
 // Include subdomains in trusted host patterns.
 $settings['trusted_host_patterns'] = [
   '^erefer\.org$',
-  '^*\.erefer\.org$',
+  '^.+\.erefer\.org$',
   '^refer\.laaha\.org$',
-  '^*\.refer\.laaha\.org$',
+  '^.+\.refer\.laaha\.org$',
 ];
