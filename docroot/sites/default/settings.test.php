@@ -20,6 +20,7 @@ $config['environment_indicator.indicator']['name'] = 'eRPW Stage';
 $settings['trusted_host_patterns'] = [
   '^stage\.erefer\.org$',
   '^.+\.stage\.erefer\.org$',
+  '^.+-stage\.erefer\.org$', // zw-stage.erefer.org
   '^test\.refer\.laaha\.org$',
   '^.+\.test\.refer\.laaha\.org$',
 ];
