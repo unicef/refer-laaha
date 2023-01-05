@@ -10,7 +10,7 @@ $config['domain.record.zm_erefer_org']['hostname'] = 'zw.refer-laaha.ddev.site';
 // Include subdomains in trusted host patterns.
 $settings['trusted_host_patterns'] = [
   '^refer-laaha\.ddev\.site$',
-  '^*\.refer-laaha\.ddev\.site$',
+  '^.+\.refer-laaha\.ddev\.site$',
 ];
 
 // Local environment indicator
