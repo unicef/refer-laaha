@@ -28,7 +28,7 @@ type_settings:
       default_revision: false
   transitions:
     create_new_draft:
-      label: 'Create New Draft'
+      label: 'Save as Draft'
       from:
         - draft
         - published

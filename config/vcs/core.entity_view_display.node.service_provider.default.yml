@@ -35,26 +35,31 @@ targetEntityType: node
 bundle: service_provider
 mode: default
 content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -1
+    region: content
   field_accessibility_for_persons_:
     type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 7
+    weight: 8
     region: content
   field_add_more_details_service:
     type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 19
+    weight: 20
     region: content
   field_age_group:
     type: list_key
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 8
+    weight: 9
     region: content
   field_cost_of_service:
     type: string
@@ -62,7 +67,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 5
+    weight: 6
     region: content
   field_email_backup_focal_point:
     type: string
@@ -70,7 +75,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 17
+    weight: 18
     region: content
   field_email_of_focal_point:
     type: string
@@ -78,21 +83,21 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 15
+    weight: 16
     region: content
   field_location:
     type: entity_reference_entity_id
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 10
+    weight: 11
     region: content
   field_mode:
     type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 12
+    weight: 13
     region: content
   field_name_backup_focalpoint_ref:
     type: string
@@ -100,7 +105,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 16
+    weight: 17
     region: content
   field_name_of_the_focal_point:
     type: string
@@ -108,7 +113,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 13
+    weight: 14
     region: content
   field_number_of_staff_providing_:
     type: string
@@ -124,7 +129,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 4
+    weight: 5
     region: content
   field_p_code:
     type: string
@@ -140,7 +145,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 11
+    weight: 12
     region: content
   field_phone_number_backup_focalp:
     type: string
@@ -148,7 +153,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 18
+    weight: 19
     region: content
   field_phone_number_of_focal_poin:
     type: string
@@ -156,7 +161,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 14
+    weight: 15
     region: content
   field_select_organisation:
     type: entity_reference_label
@@ -179,17 +184,16 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 9
+    weight: 10
     region: content
   field_transportation_available:
     type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 6
+    weight: 7
     region: content
 hidden:
-  content_moderation_control: true
   field_domain_access: true
   field_domain_all_affiliates: true
   field_domain_source: true

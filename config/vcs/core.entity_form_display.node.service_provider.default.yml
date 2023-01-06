@@ -27,10 +27,9 @@ dependencies:
     - field.field.node.service_provider.field_target_group
     - field.field.node.service_provider.field_transportation_available
     - node.type.service_provider
-    - workflows.workflow.service_editorial
   module:
-    - content_moderation
     - field_group
+    - workflow_buttons
 third_party_settings:
   field_group:
     group_step_1_add_service_details:
@@ -217,10 +216,11 @@ content:
     settings: {  }
     third_party_settings: {  }
   moderation_state:
-    type: moderation_state_default
+    type: workflow_buttons
     weight: 3
     region: content
-    settings: {  }
+    settings:
+      show_current_state: '1'
     third_party_settings: {  }
   title:
     type: string_textfield
