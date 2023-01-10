@@ -824,15 +824,17 @@ function erpw_custom_entity_presave(EntityInterface $entity) {
     }
     $entity->set('title', $node_title);
   }
+  // This is madness, why force every single piece of content to be in all
+  // (current!  Not future! pure madness) domains on save?
   // For assign domain id to domain access field.
-  if (in_array($entity->getentityTypeId(), ['node', 'user']) && $entity->hasField('field_domain_access')) {
-    $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
-    foreach ($all_domains as $domain) {
-      $domain_status = $domain->get('status');
-      if ($domain_status) {
-        $domain_id[] = $domain->get('id');
-      }
-    }
-    $entity->set('field_domain_access', $domain_id);
-  }
+  // if (in_array($entity->getentityTypeId(), ['node', 'user']) && $entity->hasField('field_domain_access')) {
+  //  $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
+  //  foreach ($all_domains as $domain) {
+  //    $domain_status = $domain->get('status');
+  //    if ($domain_status) {
+  //      $domain_id[] = $domain->get('id');
+  //    }
+  //  }
+  //  $entity->set('field_domain_access', $domain_id);
+  // }
 }
