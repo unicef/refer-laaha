@@ -111,6 +111,18 @@ content:
       size: 60
       placeholder: 'Enter Cost of Service'
     third_party_settings: {  }
+  field_domain_access:
+    type: options_buttons
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_domain_source:
+    type: options_buttons
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_email_backup_focal_point:
     type: string_textfield
     weight: 23
@@ -232,9 +244,7 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
-  field_domain_access: true
   field_domain_all_affiliates: true
-  field_domain_source: true
   field_name_of_the_focal_point: true
   field_p_code: true
   langcode: true
