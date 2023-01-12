@@ -9,6 +9,7 @@ dependencies:
     - node.type.service_type
     - workflows.workflow.service_editorial
   module:
+    - administerusersbyrole
     - content_moderation
     - content_translation
     - domain_access
@@ -20,7 +21,7 @@ dependencies:
     - system
 id: country_admin
 label: 'Country Admin'
-weight: -8
+weight: 8
 is_admin: null
 permissions:
   - 'access content'
@@ -31,6 +32,8 @@ permissions:
   - 'add referral pathway of their own country'
   - 'add service of their own country'
   - 'administer users'
+  - 'cancel users by role'
+  - 'cancel users with role service_provider_staff'
   - 'clone referral_path_way content'
   - 'clone service_type content'
   - 'create content translations'
