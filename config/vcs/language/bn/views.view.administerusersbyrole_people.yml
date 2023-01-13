@@ -1,17 +1,17 @@
-label: ব্যবহারকারীবৃন্দ
 display:
   default:
-    display_title: ডিফল্ট
     display_options:
-      title: ব্যবহারকারীবৃন্দ
+      exposed_form:
+        options:
+          submit_button: Filter
       fields:
         name:
           label: 'ব্যবহারকারীর নাম'
         status:
           label: স্ট্যাটাস
           settings:
-            format_custom_false: নিষ্ক্রিয়
             format_custom_true: সক্রিয়
+            format_custom_false: নিষ্ক্রিয়
         roles_target_id:
           label: ভূমিকা
         created:
@@ -20,9 +20,6 @@ display:
           label: 'সর্বশেষ ব্যবহার'
         operations:
           label: কার্যাবলী
-      exposed_form:
-        options:
-          submit_button: Filter
       filters:
         status:
           group_info:
@@ -32,6 +29,7 @@ display:
                 title: সক্রিয়
               2:
                 title: নিষ্ক্রিয়
+      title: ব্যবহারকারীবৃন্দ
   page_1:
     display_options:
       menu:

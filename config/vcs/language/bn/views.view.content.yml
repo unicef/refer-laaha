@@ -1,33 +1,45 @@
-label: Content
+label: কনটেন্ট
 display:
   default:
-    display_title: Default
+    display_title: ডিফল্ট
     display_options:
-      title: Content
+      title: কনটেন্ট
       fields:
+        type:
+          label: 'কন্টেন্টের ধরণ'
+        name:
+          label: লেখক
         status:
-          label: Status
+          label: স্ট্যাটাস
           settings:
-            format_custom_true: Published
+            format_custom_true: প্রকাশিত
+        changed:
+          label: আপডেটকৃত
         operations:
-          label: Operations
+          label: কার্যাবলী
       exposed_form:
         options:
           submit_button: Filter
+      empty:
+        area_text_custom:
+          content: 'কোন কন্টেন্ট নেই।'
       filters:
+        type:
+          expose:
+            label: 'কন্টেন্টের ধরণ'
         status:
           expose:
-            label: Status
+            label: স্ট্যাটাস
           group_info:
             group_items:
               1:
-                title: Published
+                title: প্রকাশিত
         langcode:
           expose:
-            label: Language
+            label: ভাষা
   page_1:
     display_options:
       menu:
-        title: Content
+        title: কনটেন্ট
       tab_options:
-        title: Content
+        title: কনটেন্ট

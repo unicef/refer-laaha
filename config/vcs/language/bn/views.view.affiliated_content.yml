@@ -5,64 +5,71 @@ display:
         options:
           submit_button: Filter
       fields:
+        name:
+          label: লেখক
         status:
-          label: Status
+          label: স্ট্যাটাস
           settings:
-            format_custom_true: Published
+            format_custom_true: প্রকাশিত
+        changed:
+          label: আপডেটকৃত
         operations:
-          label: Operations
+          label: কার্যাবলী
       filters:
         status:
           expose:
-            label: Status
+            label: স্ট্যাটাস
           group_info:
             group_items:
               1:
-                title: Published
+                title: প্রকাশিত
         type:
           expose:
-            label: Type
+            label: টাইপ
         langcode:
           expose:
-            label: Language
+            label: ভাষা
+      empty:
+        area_text_custom:
+          content: 'কোন কন্টেন্ট নেই।'
       arguments:
         field_domain_access_target_id:
           exception:
-            title: All
+            title: সমস্ত
   page_1:
     display_options:
       menu:
-        title: Content
+        title: কনটেন্ট
       tab_options:
-        title: Content
+        title: কনটেন্ট
       filters:
         status:
           expose:
-            label: Status
+            label: স্ট্যাটাস
           group_info:
             group_items:
               1:
-                title: Published
+                title: প্রকাশিত
         type:
           expose:
-            label: Type
+            label: টাইপ
         langcode:
           expose:
-            label: Language
-      title: Content
+            label: ভাষা
+      title: কনটেন্ট
   page_2:
     display_options:
       filters:
         status:
           expose:
-            label: Status
+            label: স্ট্যাটাস
           group_info:
             group_items:
               1:
-                title: Published
+                title: প্রকাশিত
         type:
           expose:
-            label: Type
+            label: টাইপ
         langcode:
           expose:
-            label: Language
+            label: ভাষা

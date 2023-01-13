@@ -1,23 +1,61 @@
+label: মন্তব্যসমূহ
 display:
   default:
-    display_title: Default
+    display_title: ডিফল্ট
     display_options:
+      title: মন্তব্যসমূহ
       fields:
+        subject:
+          label: বিষয়
+        name:
+          label: লেখক
+        entity_id:
+          label: 'যেখানে পোস্ট করা হয়েছে'
+        changed:
+          label: আপডেটকৃত
         operations:
-          label: Operations
+          label: কার্যাবলী
+      pager:
+        options:
+          tags:
+            next: 'পরবর্তী ›'
+            previous: '‹ পূর্ববর্তী'
+            first: '« প্রথম'
+            last: 'শেষ »'
       exposed_form:
         options:
           submit_button: Filter
+      empty:
+        area_text_custom:
+          content: 'কোন মন্তব্য নেই।'
       filters:
+        subject:
+          expose:
+            label: বিষয়
         langcode:
           expose:
-            label: Language
+            label: ভাষা
+  page_published:
+    display_options:
+      menu:
+        title: মন্তব্যসমূহ
   page_unapproved:
     display_options:
       fields:
+        subject:
+          label: বিষয়
+        name:
+          label: লেখক
+        entity_id:
+          label: 'যেখানে পোস্ট করা হয়েছে'
+        changed:
+          label: আপডেটকৃত
         operations:
-          label: Operations
+          label: কার্যাবলী
       filters:
+        subject:
+          expose:
+            label: বিষয়
         langcode:
           expose:
-            label: Language
+            label: ভাষা
