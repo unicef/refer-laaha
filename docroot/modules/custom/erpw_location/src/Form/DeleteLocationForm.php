@@ -179,7 +179,6 @@ class DeleteLocationForm extends FormBase {
       '#value' => $location_id,
     ];
     if ($mode == 'view') {
-      $clone_url = $this->urlGenerator->generateFromRoute('erpw_location.manage_location');
       $delete_url = $this->urlGenerator->generateFromRoute('erpw_location.delete_location',
           ['tid' => $curr_path[2]]
       );
@@ -188,7 +187,6 @@ class DeleteLocationForm extends FormBase {
       );
 
       $location_operations = '<div class="edit-delete-links margin-space">
-        <span class="clone-service-type"><a href="' . $clone_url . '">' . $this->t('Clone') . '</a></span>
         <span class="delete-link"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>
         <span class="edit-link"><a href="' . $edit_url . '">' . $this->t('Edit') . '</a></span>
       </div>';
