@@ -9,11 +9,13 @@ id: node.organisation.field_domain_all_affiliates
 field_name: field_domain_all_affiliates
 entity_type: node
 bundle: organisation
-label: 'Send to all affiliates'
-description: 'Make this content available on all domains.'
+label: 'Operates everywhere'
+description: 'This organisation is potentially active in all future countries and should show on all domains.'
 required: false
-translatable: true
-default_value: {  }
+translatable: false
+default_value:
+  -
+    value: 0
 default_value_callback: ''
 settings:
   on_label: 'On'
