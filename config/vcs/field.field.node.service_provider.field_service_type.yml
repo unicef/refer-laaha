@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_service_type
     - node.type.service_provider
-    - node.type.service_type
 id: node.service_provider.field_service_type
 field_name: field_service_type
 entity_type: node
@@ -13,17 +12,14 @@ bundle: service_provider
 label: 'Type of Service'
 description: ''
 required: true
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:node'
+  handler: views
   handler_settings:
-    target_bundles:
-      service_type: service_type
-    sort:
-      field: title
-      direction: ASC
-    auto_create: false
-    auto_create_bundle: ''
+    view:
+      view_name: service_types_entity_reference
+      display_name: org_entity_reference
+      arguments: {  }
 field_type: entity_reference
