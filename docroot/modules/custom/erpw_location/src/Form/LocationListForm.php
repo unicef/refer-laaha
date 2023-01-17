@@ -89,6 +89,18 @@ class LocationListForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
+    if (!$id) {
+      $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+      if ($active_domain) {
+        $domain_location_id = 'domain.location.' . $active_domain->id();
+        $cf = \Drupal::service('config.factory');
+        $tid = $cf->get($domain_location_id)->get('location');
+        $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(['field_location_taxonomy_term' => $tid]);
+        $id = key($location_entities);
+      }
+      $location_entity = $this->entityTypeManager->getStorage('location')->load(6);
+
+    }
     $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
     $location_options = [];
