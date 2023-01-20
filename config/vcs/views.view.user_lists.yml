@@ -1293,6 +1293,59 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        edit_user:
+          id: edit_user
+          table: users
+          field: edit_user
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          plugin_id: entity_link_edit
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          text: edit
+          output_url_as_text: true
+          absolute: false
         nothing:
           id: nothing
           table: views
@@ -1305,7 +1358,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"location-card\">\r\n\t<div class=\"title-with-icons\">\r\n\t\t<a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div id=\"location-title\" class=\"location-title\">{{ field_first_name }} {{ field_last_name }} </div></a>\r\n\t\t<div class=\"location-operations\"><div class=\"edit-delete-links\"> \r\n\t\t\t<span class=\"edit-link\"><a href=\"{{ path('entity.user.edit_form', {'user': uid}, {'query': {'destination': path('<current>') }}) }}\">{{ 'Edit'|t }}</a></span>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n\t<a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div><div class=\"level\">{{ 'Organisation'|t }} : {{ field_organisation }}</div><div class=\"level\">{{ 'Role'|t }} : {{ roles_target_id }}</div><div class=\"level\">{{ 'Contact No.'|t }} : {{ field_phone }}</div></div></a>\r\n</div>"
+            text: "<div class=\"location-card\">\r\n  <div class=\"title-with-icons\">\r\n    <a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div id=\"location-title\" class=\"location-title\">{{ field_first_name }} {{ field_last_name }} </div></a>\r\n    <div class=\"location-operations\"><div class=\"edit-delete-links\">\r\n      {% if edit_user %}\r\n        <span class=\"edit-link\"><a href=\"{{ path('entity.user.edit_form', {'user': uid}, {'query': {'destination': path('<current>') }}) }}\">{{ 'Edit'|t }}</a></span>\r\n        <span class=\"delete-link\"><a href=\"{{ path('entity.user.cancel_form', {'user': uid}, {'query': {'destination': path('<current>') }}) }}\">{{ 'Cancel'|t }}</a></span>\r\n      {% endif %}\r\n    </div>\r\n  </div>\r\n</div>\r\n  <a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div><div class=\"level\">{{ 'Organisation'|t }} : {{ field_organisation }}</div><div class=\"level\">{{ 'Role'|t }} : {{ roles_target_id }}</div><div class=\"level\">{{ 'Contact No.'|t }} : {{ field_phone }}</div></div></a>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
