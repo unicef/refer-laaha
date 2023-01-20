@@ -17,10 +17,22 @@ settings:
     -
       value: 'No'
       label: 'No'
+    -
+      value: autism
+      label: 'Autism spectrum disorder'
+    -
+      value: deaf
+      label: 'Deaf or hard of hearing'
+    -
+      value: mental
+      label: 'Mental health conditions'
+    -
+      value: physical
+      label: 'Physical disability'
   allowed_values_function: ''
 module: options
 locked: false
-cardinality: 1
+cardinality: -1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false
