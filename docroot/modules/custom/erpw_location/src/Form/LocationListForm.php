@@ -98,8 +98,6 @@ class LocationListForm extends FormBase {
         $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(['field_location_taxonomy_term' => $tid]);
         $id = key($location_entities);
       }
-      $location_entity = $this->entityTypeManager->getStorage('location')->load(6);
-
     }
     $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
