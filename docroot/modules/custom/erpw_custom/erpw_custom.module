@@ -102,8 +102,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $uid = \Drupal::currentUser()->id();
     $current_user = User::load($uid);
     if ($uid != 1  && !$current_user->hasRole('administrator')) {
-      $form['user_cancel_method']['#default_value'] = 'user_cancel_delete';
-      // Enable Email notificaiton to the user.
+      // Enable Email notification to the user.
       $form['user_cancel_notify']['#default_value'] = TRUE;
       $form['user_cancel_method']['#access'] = FALSE;
       $form['user_cancel_confirm']['#access'] = FALSE;
