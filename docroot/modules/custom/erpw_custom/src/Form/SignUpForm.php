@@ -124,6 +124,14 @@ class SignUpForm extends FormBase {
       }
       $system_roles[$role->id()] = $role->label();
     }
+    $organisation_nodes = $this->entityTypeManager->getStorage('node')->loadByProperties([
+      'type' => 'organisation',
+      'status' => TRUE,
+      'langcode' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
+    ]);
+    foreach ($organisation_nodes as $node) {
+      $organisations[$node->id()] = $node->label();
+    }
 
     if ($this->userId != "") {
       $user_details = $this->entityTypeManager->getStorage('user')->load($this->userId);
@@ -214,23 +222,14 @@ class SignUpForm extends FormBase {
       }
     }
     $form['organisation'] = [
-      '#type' => 'entity_autocomplete',
-      '#target_type' => 'node',
+      '#type' => 'select',
+      '#options' => $organisations,
       '#title' => $this->t('Organisation'),
       '#required' => TRUE,
-      '#placeholder' => $this->t('Select Organisation'),
-      '#default_value' => $org,
+      '#empty_option' => $this->t('Select Organisation'),
+      '#default_value' => $org ? $org : $form_state->getValue('organisation', ''),
       '#attributes' => [
         $disabled => $disabled,
-      ],
-      '#selection_settings' => [
-        'target_bundles' => ['organisation'],
-        'sort' => [
-          'field' => 'title',
-          'direction' => 'ASC',
-        ],
-        'match_operator' => 'STARTS_WITH',
-        'match_limit' => 10,
       ],
     ];
 
