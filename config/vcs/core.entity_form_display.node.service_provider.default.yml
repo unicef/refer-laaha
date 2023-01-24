@@ -29,6 +29,7 @@ dependencies:
     - node.type.service_provider
   module:
     - field_group
+    - workflow_buttons
 third_party_settings:
   field_group:
     group_step_1_add_service_details:
@@ -220,6 +221,13 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  moderation_state:
+    type: workflow_buttons
+    weight: 4
+    region: content
+    settings:
+      show_current_state: '1'
+    third_party_settings: {  }
   title:
     type: string_textfield
     weight: 17
@@ -235,7 +243,6 @@ hidden:
   field_name_of_the_focal_point: true
   field_p_code: true
   langcode: true
-  moderation_state: true
   path: true
   promote: true
   status: true
