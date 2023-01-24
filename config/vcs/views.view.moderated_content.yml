@@ -18,6 +18,7 @@ dependencies:
     - color_field
     - content_moderation
     - content_translation
+    - diff_moderate
     - node
     - options
     - taxonomy
@@ -724,6 +725,57 @@ display:
           text: Translate
           output_url_as_text: 0
           absolute: 0
+        diff_moderate:
+          id: diff_moderate
+          table: node_field_revision
+          field: diff_moderate
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: diff__moderate
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          text: 'Review changes and moderate'
         nothing_2:
           id: nothing_2
           table: views
@@ -897,7 +949,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-mode\"><span>{{ 'Service Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"review-text\"> \r\n<span class=\"edit-link\"><a href=\"{{ path('entity.node.edit_form', {'node': nid}, {'query':{'referer': 'review' }}) }}\">{{ 'Review'|t }}</a></span>\r\n</div>"
+            text: "<div class=\"service-mode\"><span>{{ 'Service Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"review-text\"> \r\n<span class=\"edit-link\">{{ diff_moderate }}</span>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
