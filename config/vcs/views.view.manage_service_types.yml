@@ -769,7 +769,7 @@ display:
           admin_label: ''
           plugin_id: result
           empty: false
-          content: '<div class="service-count more-link">@total Services</div>'
+          content: '<div class="service-count more-link">@total Service types</div>'
       footer: {  }
       display_extenders: {  }
     cache_metadata:
@@ -778,6 +778,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url.query_args
+        - url.site
         - 'user.node_grants:view'
         - user.roles
       tags:
@@ -801,6 +802,7 @@ display:
       contexts:
         - 'languages:language_interface'
         - url.query_args
+        - url.site
         - 'user.node_grants:view'
         - user.roles
       tags:
