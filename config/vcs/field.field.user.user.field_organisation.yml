@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.storage.user.field_organisation
-    - node.type.organisation
   module:
     - user
 id: user.user.field_organisation
@@ -18,13 +17,10 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:node'
+  handler: views
   handler_settings:
-    target_bundles:
-      organisation: organisation
-    sort:
-      field: _none
-      direction: ASC
-    auto_create: false
-    auto_create_bundle: ''
+    view:
+      view_name: organisations
+      display_name: org_entity_reference
+      arguments: {  }
 field_type: entity_reference
