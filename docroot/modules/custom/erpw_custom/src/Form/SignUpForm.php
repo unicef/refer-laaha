@@ -124,11 +124,11 @@ class SignUpForm extends FormBase {
       }
       $system_roles[$role->id()] = $role->label();
     }
-    $organisation_nodes = $this->entityTypeManager->getStorage('node')->loadByProperties([
-      'type' => 'organisation',
-      'status' => TRUE,
-      'langcode' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
-    ]);
+    $storage = $this->entityTypeManager->getStorage('node');
+    $query = $storage->getQuery();
+    $query->condition('type', 'organisation');
+    $org_nids = $query->execute();
+    $organisation_nodes = $storage->loadMultiple($org_nids);
     foreach ($organisation_nodes as $node) {
       $organisations[$node->id()] = $node->label();
     }
