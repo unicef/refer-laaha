@@ -73,12 +73,10 @@
       $("#sign-up #edit-level-0").on("change", function() {
         if ($(this).val() != '') {
           $('#sign-up #intro-text').hide();
-          $("#sign-up #edit-back").show();
           $("#sign-up .signup-next").show();
         }
         else {
           $('#sign-up #intro-text').show();
-          $("#sign-up #edit-back").hide();
           $("#sign-up .signup-next").hide();
         }
       });
