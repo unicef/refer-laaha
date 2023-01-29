@@ -117,11 +117,8 @@ class SignUpForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
     $this->userId = $id;
     $organisation = "";
-    $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple();
+    $this->entityTypeManager->getStorage('user_role')->loadMultiple(['service_provider_staff', 'service_provider_focal_point']);
     foreach ($roles as $role) {
-      if ($role->id() == 'administrator' || $role->id() == 'anonymous' || $role->id() == 'authenticated') {
-        continue;
-      }
       $system_roles[$role->id()] = $role->label();
     }
     $storage = $this->entityTypeManager->getStorage('node');

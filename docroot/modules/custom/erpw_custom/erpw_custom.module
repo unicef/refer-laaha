@@ -124,20 +124,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
       $form['location']['level_0']['#empty_option'] = t('Select country');
     }
-    if (isset($form['system_role']['#options'])) {
-      $role_options = $form['system_role']['#options'];
-      $current_user = \Drupal::currentUser()->getAccount();
-      $role_hierarchy_helper = \Drupal::service('role_hierarchy.helper');
-      foreach ($role_options as $role_id => $role_label) {
-        if (!$role_hierarchy_helper->hasRoleEditAccess(
-          $role_hierarchy_helper->getAccountRoleWeight($current_user),
-          $role_hierarchy_helper->getRoleWeight($role_id))
-        ) {
-          unset($form['system_role']['#options'][$role_id]);
-        }
-      }
-      $form['system_role']['#empty_option'] = t('Select System Role');
-    }
   }
   if ($form_id == 'user_form') {
     if (isset($form['location']['level_0']['#options'])) {
