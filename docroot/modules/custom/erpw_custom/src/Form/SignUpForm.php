@@ -117,7 +117,8 @@ class SignUpForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
     $this->userId = $id;
     $organisation = "";
-    $this->entityTypeManager->getStorage('user_role')->loadMultiple(['service_provider_staff', 'service_provider_focal_point']);
+    $system_roles = [];
+    $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple(['service_provider_staff', 'service_provider_focal_point']);
     foreach ($roles as $role) {
       $system_roles[$role->id()] = $role->label();
     }
