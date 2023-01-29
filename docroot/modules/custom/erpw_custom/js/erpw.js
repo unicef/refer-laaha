@@ -65,7 +65,6 @@
       /** Sign UP form country check Start **/
       $("#sign-up .form-item-level-0 > label").text(Drupal.t("Country"));
       if ($("#sign-up #edit-level-0").val() == '') {
-        $("#sign-up #edit-back").hide();
         $("#sign-up .signup-next").hide();
       }
       else {

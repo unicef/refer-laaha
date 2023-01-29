@@ -421,7 +421,7 @@ class SignUpForm extends FormBase {
       '#value' => $this->t('Back'),
       '#attributes' => [
         'class' => [
-          'button-border hidden',
+          'button-border',
         ],
       ],
       '#submit' => ['::pageOneBack'],
