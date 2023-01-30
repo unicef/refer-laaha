@@ -122,6 +122,27 @@ function _import_location_batch_dispatcher() {
 }
 
 /**
+ * Return country entity ID based on current subdomain.
+ *
+ * If not currently on a subdomain, return FALSE.
+ */
+function erpw_location_country_id_from_domain() {
+  $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+  if ($active_domain) {
+    $domain_location_id = 'domain.location.' . $active_domain->id();
+    $cf = \Drupal::service('config.factory');
+    $tid = $cf->get($domain_location_id)->get('location');
+    $location_entities = \Drupal::entityTypeManager()->getStorage('location')->loadByProperties([
+      'field_location_taxonomy_term' => $tid,
+    ]);
+    return key($location_entities);
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
  * Load country code from location taxonomy term.
  *
  * We do this in one shot because the machine names for domains *and* domain
