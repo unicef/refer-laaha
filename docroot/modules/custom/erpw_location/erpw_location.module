@@ -147,7 +147,7 @@ function erpw_location_country_id_from_domain() {
  *
  * We do this in one shot because the machine names for domains *and* domain
  * locations are both wrong but if we get the domain directly we can ignore
- * that horror.  (This is only for Zimbabwe but still.)
+ * that horror.  (That's only Zimbabwe but still.)
  */
 function erpw_location_country_domain_from_tid($tid) {
   // this doesn't work but https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21ConfigFactory.php/function/ConfigFactory%3A%3AlistAll/8.2.x should
