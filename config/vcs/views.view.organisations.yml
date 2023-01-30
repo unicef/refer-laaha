@@ -506,11 +506,7 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-      access:
-        type: none
-        options: {  }
       defaults:
-        access: false
         fields: false
         header: false
       header:
@@ -548,4 +544,5 @@ display:
         - url.query_args
         - url.site
         - 'user.node_grants:view'
+        - user.roles
       tags: {  }
