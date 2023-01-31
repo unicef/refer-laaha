@@ -63,7 +63,7 @@ class SignInPopup extends FormBase {
         If you are a GBV SP, Click Sign Up to Register and then Sign In. If you are not a GBV service provider, select Skip.'
       ),
     ];
-    $form['actions']['run_reco'] = [
+    $form['actions']['skip'] = [
       '#type' => 'submit',
       '#value' => $this->t('SKIP'),
       '#attributes' => [
@@ -74,7 +74,7 @@ class SignInPopup extends FormBase {
       ],
     ];
 
-    $form['actions']['export_csv'] = [
+    $form['actions']['signin'] = [
       '#type' => 'submit',
       '#value' => $this->t('SIGN IN'),
       '#attributes' => [
