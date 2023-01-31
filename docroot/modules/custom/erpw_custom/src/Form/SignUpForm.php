@@ -205,17 +205,12 @@ class SignUpForm extends FormBase {
       '#placeholder' => $this->t('**********'),
       '#default_value' => !empty($field_phone) ? $field_phone : $form_state->getValue('phone', ''),
     ];
-    $org = '';
-    if (!empty($form_state->getValue('organisation'))) {
-      $org = $this->entityTypeManager->getStorage('node')->load($form_state->getValue('organisation'));
-    }
     $disabled = '';
     $permission = 'add users of their own location and organisation';
     $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
     if ($this->currentUser->id() != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
       if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
         $org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
-        $org = $this->entityTypeManager->getStorage('node')->load($org_id);
         $disabled = 'disabled';
       }
     }
@@ -225,7 +220,7 @@ class SignUpForm extends FormBase {
       '#title' => $this->t('Organisation'),
       '#required' => TRUE,
       '#empty_option' => $this->t('Select Organisation'),
-      '#default_value' => $org ? $org : $form_state->getValue('organisation', ''),
+      '#default_value' => $org_id ?? $form_state->getValue('organisation', ''),
       '#attributes' => [
         $disabled => $disabled,
       ],
