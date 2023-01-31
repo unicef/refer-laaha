@@ -60,7 +60,8 @@ class SignInPopup extends FormBase {
       '#suffix' => '</div>',
       '#markup' => $this->t(
         'This app allows GBV service providers to update the RPW with correct information on the services they provide.
-        If you are a GBV SP, Click Sign Up to Register and then Sign In. If you are not a GBV service provider, select Skip.'
+        If you are a GBV SP, Click <a href=":signup">Sign Up</a> to Register and then Sign In. If you are not a GBV service provider, select Skip.',
+        [':signup' => Url::fromRoute('erpw_custom.sign_up_form')->toString()]
       ),
     ];
     $form['actions']['skip'] = [
