@@ -114,7 +114,7 @@ gulp.task('concatvendor', function () {
 
 gulp.task('concatapp', function () {
   console.log("JS created at " + '/js');
-  return gulp.src(scripts.app)
+  return gulp.src(scripts.app, {"allowEmpty": true})
     .pipe(concat('app.js'))
     .on('error', console.error.bind(console))
     .pipe(uglify())
