@@ -59,8 +59,8 @@ class SignInPopup extends FormBase {
       '#prefix' => '<div class="popup-content">',
       '#suffix' => '</div>',
       '#markup' => $this->t(
-        'Interested in suggesting the change or manage the RPW, Sign in into the application.
-        You can either click on sign in below or go to <b>menu</b><span class="menu-icon-popup"></span> to sign in or register later.'
+        'This app allows GBV service providers to update the RPW with correct information on the services they provide.
+        If you are a GBV SP, Click Sign Up to Register and then Sign In. If you are not a GBV service provider, select Skip.'
       ),
     ];
     $form['actions']['run_reco'] = [
