@@ -8,6 +8,8 @@ dependencies:
     - user.role.administrator
     - user.role.country_admin
     - user.role.interagency_gbv_coordinator
+    - user.role.service_provider_focal_point
+    - user.role.service_provider_staff
     - user.role.super_admin
   module:
     - domain_access
@@ -191,9 +193,11 @@ display:
         options:
           role:
             administrator: administrator
-            super_admin: super_admin
-            country_admin: country_admin
+            service_provider_staff: service_provider_staff
+            service_provider_focal_point: service_provider_focal_point
             interagency_gbv_coordinator: interagency_gbv_coordinator
+            country_admin: country_admin
+            super_admin: super_admin
       cache:
         type: tag
         options: {  }
