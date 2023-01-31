@@ -170,6 +170,12 @@ class ErpwPathwayService {
         continue;
       }
       $location_tid = !empty($parent_list[$i - 1]) ? $parent_list[$i - 1] : $form_state->getValue('level_' . ($i - 1));
+      // Not sure why this would be needed but see #1367
+      // An alternative should be to use $ptids (which is all numeric) instead
+      // of $parent_list which can have a strange array in array for the fourth item.
+      if (is_array($location_tid)) {
+        $location_tid = current($location_tid);
+      }
       if ($location_tid) {
         $childs += self::$locationService->getChildrenByTid($location_tid);
       }
