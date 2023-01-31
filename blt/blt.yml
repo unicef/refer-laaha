@@ -41,10 +41,13 @@ drush:
 # and deploy contexts.
 # modules:
 
-# command-hooks:
-#   post-deploy-build:
-#     dir: '${repo.root}'
-#     command: ./scripts/frontend-setup.sh && ./scripts/frontend-build.sh
+command-hooks:
+  frontend-reqs:
+    dir: '${repo.root}/docroot/themes/custom/erpw'
+    command: npm ci
+  frontend-assets:
+    dir: '${repo.root}/docroot/themes/custom/erpw'
+    command: npm run gulp
 
 validate:
   twig:
