@@ -277,7 +277,9 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
   if ($form_id == 'node_service_provider_form' || $form_id == 'node_service_provider_edit_form') {
     $form['actions']['delete_translation']['#access'] = FALSE;
     $permission = ($form_id == 'node_service_provider_edit_form') ? 'edit service of their own country' : 'add service of their own country';
-    $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
+    if (isset($form['location']['level_0']['#options'])) {
+      $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
+    }
     $form['location']['level_0']['#empty_option'] = t('Select country');
     $uid = \Drupal::currentUser()->id();
     $current_user = User::load($uid);
