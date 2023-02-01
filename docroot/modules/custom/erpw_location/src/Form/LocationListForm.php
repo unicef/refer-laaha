@@ -169,7 +169,7 @@ class LocationListForm extends FormBase {
           $this->level_key = $key;
           $form['location']['location_level']['level_1'] = [
             '#type' => 'select',
-            '#empty_option' => $this->t("Select Level 1 Label"),
+            '#empty_option' => $this->t("Select province/district"),
             '#empty_value' => '',
             '#options' => $childs,
             '#title' => $level,
@@ -192,7 +192,7 @@ class LocationListForm extends FormBase {
               $level_1_options = $this->locationService->getChildrenByTid($parent_tid);
               $form['location']['location_level']['level_2'] = [
                 '#type' => 'select',
-                '#empty_option' => $this->t("Select Level 2 Label"),
+                '#empty_option' => $this->t("Select district/upazila"),
                 '#options' => $level_1_options,
                 '#empty_value' => '',
                 '#title' => $level,
@@ -287,7 +287,7 @@ class LocationListForm extends FormBase {
     $location_levels = $this->locationService->getLocationLevels($location_country_id);
     $parent_level2_tid = $form_state->getValue('level_1');
     $level_2_options = $this->locationService->getChildrenByTid($parent_level2_tid);
-    $level_2_options_final[''] = $this->t('Select Level 2 Label');
+    $level_2_options_final[''] = $this->t('Select district/upazila');
     if (!empty($level_2_options)) {
       foreach ($level_2_options as $key => $value) {
         $level_2_options_final[$key] = $value;
@@ -295,7 +295,7 @@ class LocationListForm extends FormBase {
     }
     $form['location']['location_level']['level_3']['#options'] = [];
     $form['location']['location_level']['level_4']['#options'] = [];
-    $form['location']['location_level']['level_2']['#empty_option'] = $this->t("Select Level 2 Label");
+    $form['location']['location_level']['level_2']['#empty_option'] = $this->t("Select district/upazila");
     $form['location']['location_level']['level_2']['#options'] = $level_2_options_final;
     $form['location']['location_level']['level_2']['#title'] = $location_levels[1];
     $response = new AjaxResponse();
@@ -363,7 +363,7 @@ class LocationListForm extends FormBase {
     $location_levels = $this->locationService->getLocationLevels($location_country_id);
     $childs = $this->locationService->getChildrenByTid($location_tid);
 
-    $level_2_options_final[''] = $this->t('Select Level 1 Label');
+    $level_2_options_final[''] = $this->t('Select province/district');
     if (!empty($childs)) {
       foreach ($childs as $key => $value) {
         $level_2_options_final[$key] = $value;
@@ -371,7 +371,7 @@ class LocationListForm extends FormBase {
     }
     $response = new AjaxResponse();
     $form['location']['location_level']['level_1']['#options'] = $level_2_options_final;
-    $form['location']['location_level']['level_1']['#empty_option'] = $this->t("Select Level 1 Label");
+    $form['location']['location_level']['level_1']['#empty_option'] = $this->t("Select province/district");
     $form['location']['location_level']['level_1']['#empty_value'] = '';
     $form['location']['location_level']['level_1']['#title'] = $location_levels[0];
     unset($form['location']['location_level']['level_2']);
