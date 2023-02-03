@@ -131,6 +131,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
       $form['location']['level_0']['#empty_option'] = t('Select country');
     }
+    $form['field_system_role']['widget']['#options'] = erpw_custom_current_user_assignable_system_roles(\Drupal::currentUser()->id());
   }
   if ($form_id == 'node_organisation_form') {
     $form['revision_information']['#access'] = FALSE;
@@ -268,6 +269,12 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
         $form['field_select_organisation']['widget']['#default_value'] = $org_id;
       }
     }
+    $form['field_system_role']['widget']['#options'] = erpw_custom_current_user_assignable_system_roles(\Drupal::currentUser()->id());
+    $form['field_system_role']['widget']['#empty_option'] = t('Select System Role');
+    $form_object = $form_state->getFormObject();
+    $user = $form_object->getEntity();
+    $roles = $user->getRoles();
+    $form['field_system_role']['widget']['#default_value'] = [end($roles)];
     // Hide moderation state option for staff only.
     if ($current_user->hasRole('service_provider_staff')) {
       $form['moderation_state']['#attributes']['class'][] = 'hidden';
@@ -298,6 +305,22 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['actions']['delete']['#access'] = FALSE;
     array_unshift($form['actions']['submit']['#submit'], '_erpw_custom_service_provider_form');
   }
+}
+
+/**
+ * Returns roles which present user can assigne, suitable for form options.
+ */
+function erpw_custom_current_user_assignable_system_roles($uid) {
+  $system_roles = [];
+  $roles = \Drupal::entityTypeManager()->getStorage('user_role')->loadMultiple();
+  $current_user = \Drupal::entityTypeManager()->getStorage('user')->load($uid);
+  foreach ($roles as $role) {
+    $permission = "role-assign users with role " . $role->id();
+    if ($current_user->hasPermission($permission) && !in_array($role->id(), ['anonymous', 'authenticated', 'administrator'])) {
+      $system_roles[$role->id()] = $role->label();
+    }
+  }
+  return $system_roles;
 }
 
 /**

@@ -117,15 +117,6 @@ class SignUpForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
     $this->userId = $id;
     $organisation = "";
-    $system_roles = [];
-    $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple();
-    $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
-    foreach ($roles as $role) {
-      $permission = "role-assign users with role " . $role->id();
-      if ($current_user->hasPermission($permission)) {
-        $system_roles[$role->id()] = $role->label();
-      }
-    }
     $storage = $this->entityTypeManager->getStorage('node');
     $query = $storage->getQuery();
     $query->condition('type', 'organisation');
@@ -240,7 +231,7 @@ class SignUpForm extends FormBase {
 
     $form['system_role'] = [
       '#type' => 'select',
-      '#options' => $system_roles,
+      '#options' => erpw_custom_current_user_assignable_system_roles($this->currentUser->id()),
       '#empty_option' => $this->t('Select System Role'),
       '#title' => $this->t('System Role'),
       '#required' => TRUE,
