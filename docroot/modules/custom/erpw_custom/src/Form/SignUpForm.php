@@ -118,9 +118,13 @@ class SignUpForm extends FormBase {
     $this->userId = $id;
     $organisation = "";
     $system_roles = [];
-    $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple(['service_provider_staff', 'service_provider_focal_point']);
+    $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple();
+    $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
     foreach ($roles as $role) {
-      $system_roles[$role->id()] = $role->label();
+      $permission = "role-assign users with role " . $role->id();
+      if ($current_user->hasPermission($permission)) {
+        $system_roles[$role->id()] = $role->label();
+      }
     }
     $storage = $this->entityTypeManager->getStorage('node');
     $query = $storage->getQuery();
