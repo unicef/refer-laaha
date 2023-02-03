@@ -6,6 +6,7 @@ dependencies:
     - node.type.service_provider
     - workflows.workflow.service_editorial
   module:
+    - administerusersbyrole
     - content_moderation
     - erpw_custom
     - erpw_location
@@ -15,7 +16,7 @@ dependencies:
     - system
 id: service_provider_focal_point
 label: 'Service Provider - Focal Point'
-weight: 6
+weight: -7
 is_admin: null
 permissions:
   - 'access content'
@@ -23,7 +24,6 @@ permissions:
   - 'add service of their own location'
   - 'add service of their own location and organisation'
   - 'add users of their own location and organisation'
-  - 'administer users'
   - 'clone service_provider content'
   - 'create service_provider content'
   - 'delete own service_provider content'
@@ -33,8 +33,13 @@ permissions:
   - 'edit own service_provider content'
   - 'edit service of their own location'
   - 'edit service of their own location and organisation'
+  - 'edit users by role'
   - 'edit users of their own location and organisation'
+  - 'edit users with role service_provider_staff'
   - 'erpw view pending service block'
+  - 'role-assign users by role'
+  - 'role-assign users with role service_provider_focal_point'
+  - 'role-assign users with role service_provider_staff'
   - 'translate service_provider node'
   - 'update user'
   - 'use service_editorial transition create_new_draft'

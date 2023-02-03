@@ -5,6 +5,7 @@ dependencies:
   config:
     - filter.format.restricted_html
   module:
+    - administerusersbyrole
     - comment
     - contact
     - erpw_custom
@@ -15,7 +16,7 @@ _core:
   default_config_hash: pq_mEIu_B4widZN7Ap81iCJSjShFFdcL0jEiCi8VrDk
 id: anonymous
 label: 'Anonymous user'
-weight: -5
+weight: -10
 is_admin: false
 permissions:
   - 'access comments'
@@ -23,5 +24,8 @@ permissions:
   - 'access pwa'
   - 'access site-wide contact form'
   - 'add new user'
+  - 'role-assign users by role'
+  - 'role-assign users with role service_provider_focal_point'
+  - 'role-assign users with role service_provider_staff'
   - 'search content'
   - 'use text format restricted_html'

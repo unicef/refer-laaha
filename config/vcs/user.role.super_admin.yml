@@ -21,7 +21,7 @@ dependencies:
     - system
 id: super_admin
 label: 'Super Admin'
-weight: 9
+weight: -4
 is_admin: null
 permissions:
   - 'access content'
@@ -30,6 +30,9 @@ permissions:
   - 'add new user'
   - 'administer users'
   - 'cancel users by role'
+  - 'cancel users with role country_admin'
+  - 'cancel users with role interagency_gbv_coordinator'
+  - 'cancel users with role service_provider_focal_point'
   - 'cancel users with role service_provider_staff'
   - 'clone referral_path_way content'
   - 'clone service_type content'
@@ -57,6 +60,11 @@ permissions:
   - 'edit own referral_path_way content'
   - 'edit own service_provider content'
   - 'edit own service_type content'
+  - 'edit users by role'
+  - 'edit users with role country_admin'
+  - 'edit users with role interagency_gbv_coordinator'
+  - 'edit users with role service_provider_focal_point'
+  - 'edit users with role service_provider_staff'
   - 'erpw location add location'
   - 'erpw location delete location'
   - 'erpw location edit location'
@@ -69,6 +77,7 @@ permissions:
   - 'erpw location view location'
   - 'erpw view pending service block'
   - 'revert all revisions'
+  - 'role-assign users by role'
   - 'translate referral_path_way node'
   - 'translate service_provider node'
   - 'translate service_type node'

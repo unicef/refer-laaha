@@ -21,7 +21,7 @@ dependencies:
     - system
 id: country_admin
 label: 'Country Admin'
-weight: 8
+weight: -5
 is_admin: null
 permissions:
   - 'access content'
@@ -31,8 +31,8 @@ permissions:
   - 'add new user for their own country'
   - 'add referral pathway of their own country'
   - 'add service of their own country'
-  - 'administer users'
   - 'cancel users by role'
+  - 'cancel users with role service_provider_focal_point'
   - 'cancel users with role service_provider_staff'
   - 'clone referral_path_way content'
   - 'clone service_type content'
@@ -62,8 +62,11 @@ permissions:
   - 'edit own service_type content'
   - 'edit referral pathway of their own country'
   - 'edit service of their own country'
+  - 'edit users by role'
   - 'edit users of their own country'
   - 'edit users of their own country'
+  - 'edit users with role service_provider_focal_point'
+  - 'edit users with role service_provider_staff'
   - 'erpw location add location'
   - 'erpw location delete location'
   - 'erpw location edit location'
@@ -75,6 +78,11 @@ permissions:
   - 'erpw location user location settings'
   - 'erpw location view location'
   - 'erpw view pending service block'
+  - 'role-assign users by role'
+  - 'role-assign users with role country_admin'
+  - 'role-assign users with role interagency_gbv_coordinator'
+  - 'role-assign users with role service_provider_focal_point'
+  - 'role-assign users with role service_provider_staff'
   - 'translate referral_path_way node'
   - 'translate service_provider node'
   - 'translate service_type node'

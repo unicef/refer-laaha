@@ -18,7 +18,7 @@ dependencies:
     - system
 id: interagency_gbv_coordinator
 label: 'Interagency GBV Coordinator'
-weight: 7
+weight: -6
 is_admin: null
 permissions:
   - 'access content'
@@ -26,8 +26,8 @@ permissions:
   - 'add referral pathway of their own location'
   - 'add service of their own location'
   - 'add users of their own location'
-  - 'administer users'
   - 'cancel users by role'
+  - 'cancel users with role service_provider_focal_point'
   - 'cancel users with role service_provider_staff'
   - 'clone service_provider content'
   - 'create organisation content'
@@ -41,8 +41,16 @@ permissions:
   - 'edit own service_provider content'
   - 'edit referral pathway of their own location'
   - 'edit service of their own location'
+  - 'edit users by role'
   - 'edit users of their own location'
+  - 'edit users with role service_provider_focal_point'
+  - 'edit users with role service_provider_staff'
   - 'erpw view pending service block'
+  - 'role-assign users by role'
+  - 'role-assign users with role country_admin'
+  - 'role-assign users with role interagency_gbv_coordinator'
+  - 'role-assign users with role service_provider_focal_point'
+  - 'role-assign users with role service_provider_staff'
   - 'update user'
   - 'use service_editorial transition create_new_draft'
   - 'use service_editorial transition publish'
