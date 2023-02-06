@@ -19,11 +19,11 @@ use_dns_when_possible: true
 composer_version: "2"
 web_environment: []
 nodejs_version: "14"
-hooks:
-  post-start:
-    - exec-host: ddev nvm install v14.17.3 && ddev nvm use v14.17.3
-    - exec: cat /var/www/html/.ddev/blt.example > /var/www/html/.ddev/commands/web/blt
-        && chmod +x /var/www/html/.ddev/commands/web/blt
+# hooks:
+#  post-start:
+#    - exec-host: ddev nvm install v14.17.3 && ddev nvm use v14.17.3
+#    - exec: cat /var/www/html/.ddev/blt.example > /var/www/html/.ddev/commands/web/blt
+#        && chmod +x /var/www/html/.ddev/commands/web/blt
 
 # Key features of ddev's config.yaml:
 
