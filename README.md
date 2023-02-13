@@ -4,9 +4,9 @@ Refer.laaha.org.  Formerly erefer.org
 
 ## Urls
 
-__Local:__ https://refer-laaha.ddev.site  
-__Dev:__ https://refer-laaha.org  
-__Test/Stage:__ https://test-refer.laaha.org  
+__Local:__ https://refer-laaha.ddev.site
+__Dev:__ https://refer-laaha.org
+__Test/Stage:__ https://test-refer.laaha.org
 __Live/Prod:__ https://refer.laaha.org
 
 
@@ -85,3 +85,30 @@ ddev drush @live cr
 ddev drush @live -y updb
 ddev drush @live -y cim
 ```
+## Whenever a new country is added to the live site
+
+Add to and follow the pattern for `docroot/sites/default/settings.test.php`:
+
+```php
+// Override domain hostnames.  These need to be updated for each country added
+// to production or else test/dev/local may send browsers to the live site.
+
+$config['domain.record.ec_virtualsafespace_net']['hostname'] = 'ec-test.laaha.org';
+$config['domain.record.iq_virtualsafespace_net']['hostname'] = 'iq-test.laaha.org';
+```
+
+Edit the same section at `docroot/sites/default/settings.local-dev-shared.php`.
+
+And you must [add the domain on Acquia to the Stage domains configuration](https://cloud.acquia.com/a/environments/324867-1453586a-0bf5-4dce-a39c-c53e788c86f7/domain-management/domains).
+
+(The dash in "ec-test" allows us to have a valid security sertificate while testing,
+but does require these subdomains be added manually to Acquia stage environment.)
+
+1) Add a new domain record at /admin/config/domain.
+2) Override the domain hostnames in settings.local-dev-shared.php , settings.test.php.
+3) Add the new domain hostname in .ddev/config.yml under additional_hostnames.
+4) Configure settings such as language detection and selection,languages and so on for the new domain from operations on /admin/config/domain.
+5) Re-arrange the detection methods under Content language detection from /admin/config/domain/language-detect-select/<new domain>
+6) From /admin/content , enable the content of type homepage and basic page for the the new domain , and you can perform the same for the other required contents.
+7) From /admin/structure/block/manage/navigationheadermenu , configure the navigation menu block to appear on the new domain.
+8) Add new content under /admin/structure/taxonomy/manage/categories/overview for the hero categories to be displayed.
