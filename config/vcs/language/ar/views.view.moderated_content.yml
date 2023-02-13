@@ -1,0 +1,21 @@
+label: 'محتوى خاضع للإشراف'
+display:
+  default:
+    display_title: الافتراضي
+    display_options:
+      title: 'محتوى خاضع للإشراف'
+      fields:
+        title:
+          label: العنوان
+          separator: ', '
+        moderation_state:
+          separator: ', '
+      exposed_form:
+        options:
+          submit_button: انتقاء
+          reset_button_label: 'إعادة الضبط'
+          exposed_sorts_label: 'الترتيب حسب'
+          sort_asc_label: تصاعدي
+          sort_desc_label: تنازلي
+  moderated_content:
+    display_title: 'محتوى خاضع للإشراف'
