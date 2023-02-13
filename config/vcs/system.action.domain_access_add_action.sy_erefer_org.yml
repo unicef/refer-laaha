@@ -1,0 +1,14 @@
+uuid: b6ca74ad-3a28-43a5-b2a3-88ff9d97756d
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.sy_erefer_org
+  module:
+    - domain_access
+id: domain_access_add_action.sy_erefer_org
+label: 'Add selected content to the Syria (sy) domain'
+type: node
+plugin: domain_access_add_action
+configuration:
+  domain_id: sy_erefer_org

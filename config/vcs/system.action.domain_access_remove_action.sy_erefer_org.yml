@@ -1,0 +1,14 @@
+uuid: 3219250c-bb51-433e-a18d-c9f7dab6abad
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.sy_erefer_org
+  module:
+    - domain_access
+id: domain_access_remove_action.sy_erefer_org
+label: 'Remove selected content from the Syria (sy) domain'
+type: node
+plugin: domain_access_remove_action
+configuration:
+  domain_id: sy_erefer_org

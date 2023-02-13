@@ -1,0 +1,14 @@
+uuid: f3957388-e277-4be4-9629-c25bac016cd4
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.sy_erefer_org
+  module:
+    - domain_access
+id: domain_access_add_editor_action.sy_erefer_org
+label: 'Add editors to the Syria (sy) domain'
+type: user
+plugin: domain_access_add_editor_action
+configuration:
+  domain_id: sy_erefer_org
