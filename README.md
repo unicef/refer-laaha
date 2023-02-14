@@ -93,13 +93,12 @@ Add to and follow the pattern for `docroot/sites/default/settings.test.php`:
 // Override domain hostnames.  These need to be updated for each country added
 // to production or else test/dev/local may send browsers to the live site.
 
-$config['domain.record.ec_virtualsafespace_net']['hostname'] = 'ec-test.laaha.org';
-$config['domain.record.iq_virtualsafespace_net']['hostname'] = 'iq-test.laaha.org';
+$config['domain.record.bn_erefer_org']['hostname'] = 'bn-stage.erefer.org';
 ```
 
 Edit the same section at `docroot/sites/default/settings.local-dev-shared.php`.
 
-And you must [add the domain on Acquia to the Stage domains configuration](https://cloud.acquia.com/a/environments/324867-1453586a-0bf5-4dce-a39c-c53e788c86f7/domain-management/domains).
+And you must [add the domain on Acquia to the Stage domains configuration](https://cloud.acquia.com/a/environments/325121-249931c2-c947-4980-b6e4-953c4206177c/domain-management/domains).
 
 (The dash in "ec-test" allows us to have a valid security sertificate while testing,
 but does require these subdomains be added manually to Acquia stage environment.)
