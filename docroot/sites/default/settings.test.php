@@ -11,7 +11,7 @@
 $config['domain.record.bn_erefer_org']['hostname'] = 'bn-stage.erefer.org'; // $config['domain.record.bn_erefer_org']['hostname'] = 'bn.test.refer.laaha.org';
 $config['domain.record.zm_erefer_org']['hostname'] = 'zw-stage.erefer.org'; // $config['domain.record.zm_erefer_org']['hostname'] = 'zw.test.refer.laaha.org';
 $config['domain.record.sl_erefer_org']['hostname'] = 'sl-stage.erefer.org';
-$config['domain.record.sy_erefer_org']['hostname'] = 'sy-stage.erefer.org';
+$config['domain.record.txb_erefer_org']['hostname'] = 'txb-stage.erefer.org';
 
 // Local environment indicator
 $config['environment_indicator.indicator']['bg_color'] = '#2986cc';

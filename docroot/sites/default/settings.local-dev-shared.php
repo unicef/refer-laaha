@@ -7,7 +7,7 @@
 $config['domain.record.bn_erefer_org']['hostname'] = 'bn.refer-laaha.ddev.site';
 $config['domain.record.zm_erefer_org']['hostname'] = 'zw.refer-laaha.ddev.site';
 $config['domain.record.sl_erefer_org']['hostname'] = 'sl.refer-laaha.ddev.site';
-$config['domain.record.sy_erefer_org']['hostname'] = 'sy.refer-laaha.ddev.site';
+$config['domain.record.txb_erefer_org']['hostname'] = 'txb.refer-laaha.ddev.site';
 
 // Include subdomains in trusted host patterns.
 $settings['trusted_host_patterns'] = [

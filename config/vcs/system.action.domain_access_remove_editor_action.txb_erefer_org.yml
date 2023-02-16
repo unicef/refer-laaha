@@ -1,0 +1,14 @@
+uuid: 2ad35379-8f51-443c-9aa6-8e34e45e46fa
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.txb_erefer_org
+  module:
+    - domain_access
+id: domain_access_remove_editor_action.txb_erefer_org
+label: 'Remove editors from the Turkey cross-border domain'
+type: user
+plugin: domain_access_remove_editor_action
+configuration:
+  domain_id: txb_erefer_org
