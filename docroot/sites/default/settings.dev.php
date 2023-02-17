@@ -10,6 +10,8 @@
 
 $config['domain.record.bn_erefer_org']['hostname'] = 'bn-dev.erefer.org';
 $config['domain.record.zm_erefer_org']['hostname'] = 'zw-dev.erefer.org';
+$config['domain.record.sl_erefer_org']['hostname'] = 'sl-dev.erefer.org';
+$config['domain.record.txb_erefer_org']['hostname'] = 'txb-dev.erefer.org';
 
 // Local environment indicator
 $config['environment_indicator.indicator']['bg_color'] = '#6aa84f';
