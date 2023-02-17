@@ -131,7 +131,14 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
       $form['location']['level_0']['#empty_option'] = t('Select country');
     }
-    $form['field_system_role']['widget']['#options'] = erpw_custom_current_user_assignable_system_roles(\Drupal::currentUser()->id());
+    // WARNING we are in a weird parallel user role system where user roles are assigned to a regular field.
+    $allowed_user_roles = erpw_custom_current_user_assignable_system_roles(\Drupal::currentUser()->id());
+    if ($allowed_user_roles) {
+      $form['field_system_role']['widget']['#options'] = $allowed_user_roles;
+    }
+    else {
+      $form['field_system_role']['#access'] = FALSE;
+    }
   }
   if ($form_id == 'node_organisation_form') {
     $form['revision_information']['#access'] = FALSE;
