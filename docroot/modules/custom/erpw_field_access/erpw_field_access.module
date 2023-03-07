@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Contains erpw_location.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_alter().
+ */
+function erpw_field_access_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+//  dump($form);
+//  dump(\Drupal::routeMatch()->getRouteName());
+}
+
+/**
+ * Implements hook_menu_links_discovered_alter().
+ */
+function erpw_field_access_menu_links_discovered_alter(&$links) {
+//  dump($links);
+}

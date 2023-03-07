@@ -1,0 +1,7 @@
+erpw_field_access.settings:
+  path: '/admin/structure/types/manage/{node_type}/erpw-field-access'
+  defaults:
+    _title: 'eRPW Field Access Settings'
+    _form: 'Drupal\erpw_field_access\Form\FieldAccessSettingsForm'
+  requirements:
+    _permission: 'administer field access settings'
