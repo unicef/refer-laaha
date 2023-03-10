@@ -39,6 +39,8 @@ class FieldAccessSettingsForm extends ConfigFormBase {
     // Get NodeType form configurations.
     $nodeTypeConfig = \Drupal::config('erpw_field_access.nodetype_settings')->get('nodeTypeConfig');
     $nodeConfig = array_key_exists($node_type->id(), $nodeTypeConfig) ? array_filter($nodeTypeConfig[$node_type->id()][$node_type->get('name')]) : NULL;
+    // Get FieldAccess third party settings for default value.
+    $settings = $node_type->getThirdPartySettings('erpw_field_access');
     /** @var \Drupal\domain\DomainStorage $domain_storage */
     $domain_storage = \Drupal::entityTypeManager()->getStorage('domain');
     $domains = $domain_storage->loadMultiple();
@@ -81,6 +83,7 @@ class FieldAccessSettingsForm extends ConfigFormBase {
               '#title' => $label,
               '#type' => 'checkboxes',
               '#options' => $options,
+              '#default_value' => isset($settings['field_access'][$field->getName()]["{$field->getName()}_countries"][$domain->id()][$id]) ? $settings['field_access'][$field->getName()]["{$field->getName()}_countries"][$domain->id()][$id] : $options,
             ];
           }
         }
@@ -94,13 +97,9 @@ class FieldAccessSettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Loop through each field and store the settings in it's third party settings.
-    $settingsArray = \Drupal::service('erpw_field_access.settings_array')->minify($form_state->getValue('fields'));
     $node_type = $form_state->get('node_type');
-    $node_type->setThirdPartySetting('erpw_field_access', 'field_access', $settingsArray);
+    $node_type->setThirdPartySetting('erpw_field_access', 'field_access', $form_state->getValue('fields'));
     $node_type->save();
-    $this->config('erpw_field_access.settings')
-      ->set('example', $form_state->getValue('example'))
-      ->save();
     parent::submitForm($form, $form_state);
   }
 
