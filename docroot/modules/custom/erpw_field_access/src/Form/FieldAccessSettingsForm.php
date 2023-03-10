@@ -5,6 +5,8 @@ namespace Drupal\erpw_field_access\Form;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Configure Erpw field access settings for this site.
@@ -34,7 +36,9 @@ class FieldAccessSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Fields'),
       '#tree' => TRUE,
     ];
-
+    // Get NodeType form configurations.
+    $nodeTypeConfig = \Drupal::config('erpw_field_access.nodetype_settings')->get('nodeTypeConfig');
+    $nodeConfig = array_key_exists($node_type->id(), $nodeTypeConfig) ? array_filter($nodeTypeConfig[$node_type->id()][$node_type->get('name')]) : NULL;
     /** @var \Drupal\domain\DomainStorage $domain_storage */
     $domain_storage = \Drupal::entityTypeManager()->getStorage('domain');
     $domains = $domain_storage->loadMultiple();
@@ -43,37 +47,44 @@ class FieldAccessSettingsForm extends ConfigFormBase {
     $fields = $entityFieldManager->getFieldDefinitions('node', $node_type->id());
     $form_state->set('node_type', $node_type);
     $roles = \Drupal::entityTypeManager()->getStorage('user_role')->loadMultiple();
-    foreach ($fields as $field) {
-      $form['fields'][$field->getName()] = [
-        '#type' => 'details',
-        '#title' => $field->getName(),
-        '#description' => $field->getLabel(),
-        '#group' => 'fields',
-      ];
-      $form['fields'][$field->getName()]["{$field->getName()}_countries"] = [
-        '#type' => 'horizontal_tabs',
-        '#title' => $field->getLabel(),
-      ];
-      foreach ($domains as $domain) {
-        $form['fields'][$field->getName()]["{$field->getName()}_countries"][$domain->id()] = [
+    $visibleFields = array_diff_key($fields, $nodeConfig);
+    if (empty($visibleFields)) {
+      $url = Url::fromRoute('system.403');
+      $response = new RedirectResponse($url->toString());
+      $response->send();
+      return;
+    }
+    else {
+      foreach ($visibleFields as $field) {
+        $form['fields'][$field->getName()] = [
           '#type' => 'details',
-          '#title' => $domain->label(),
-          '#group' => "{$field->getName()}_countries",
+          '#title' => $field->getLabel(),
+          '#group' => 'fields',
         ];
-        $operations = ['form' => 'Form Access', 'view' => 'View Access'];
-        $options = [];
-        foreach ($roles as $role) {
-          $options[$role->id()] = $role->label();
-        }
-        foreach ($operations as $id => $label) {
-          $form['fields'][$field->getName()]["{$field->getName()}_countries"][$domain->id()][$id] = [
-            '#title' => $label,
-            '#type' => 'checkboxes',
-            '#options' => $options
+        $form['fields'][$field->getName()]["{$field->getName()}_countries"] = [
+          '#type' => 'horizontal_tabs',
+          '#title' => $field->getLabel(),
+        ];
+        foreach ($domains as $domain) {
+          $form['fields'][$field->getName()]["{$field->getName()}_countries"][$domain->id()] = [
+            '#type' => 'details',
+            '#title' => $domain->label(),
+            '#group' => "{$field->getName()}_countries",
           ];
+          $operations = ['form' => 'Form Access - Field visibility to the selected user(s) role will be forbidden on the create/edit pages.', 'view' => 'View Access - Field visibility to the selected user(s) role will be forbidden on the view/listing page(s).'];
+          $options = [];
+          foreach ($roles as $role) {
+            $options[$role->id()] = $role->label();
+          }
+          foreach ($operations as $id => $label) {
+            $form['fields'][$field->getName()]["{$field->getName()}_countries"][$domain->id()][$id] = [
+              '#title' => $label,
+              '#type' => 'checkboxes',
+              '#options' => $options,
+            ];
+          }
         }
       }
-
     }
     return parent::buildForm($form, $form_state);
   }
