@@ -2,22 +2,69 @@
 
 /**
  * @file
- * Contains erpw_location.module.
+ * Contains erpw_field_access.module.
  */
 
-use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Access\AccessResult;
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_entity_field_access().
  */
-function erpw_field_access_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-//  dump($form);
-//  dump(\Drupal::routeMatch()->getRouteName());
+function erpw_field_access_entity_field_access($operation, FieldDefinitionInterface $field_definition, AccountInterface $account, FieldItemListInterface $items = NULL) {
+  $bundle = $field_definition->getTargetBundle();
+  $currentDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+  $current_user_role = \Drupal::currentUser()->getRoles();
+  if ($operation == 'edit' || $operation == 'update' || $operation == 'view') {
+    if ($bundle != NULL) {
+      $node_type = \Drupal::entityTypeManager()->getStorage('node_type')->load($bundle);
+      if ($node_type) {
+        $settings = $node_type->getThirdPartySettings('erpw_field_access');
+      }
+    }
+    if (isset($settings) && isset($settings['field_access'])) {
+      foreach ($settings['field_access'] as $field => $setting) {
+        if ($field_definition->getName() == $field) {
+          if (array_key_exists($currentDomain, $setting)) {
+            foreach ($current_user_role as $role) {
+              if ($operation == 'view') {
+                if (!is_null($setting[$currentDomain]['view'])) {
+                  if (array_key_exists($role, $setting[$currentDomain]['view'])) {
+                    return AccessResult::forbidden();
+                  }
+                  else {
+                    return AccessResult::allowed();
+                  }
+                }
+              }
+              else {
+                if (!is_null($setting[$currentDomain]['form'])) {
+                  if (array_key_exists($role, $setting[$currentDomain]['form'])) {
+                    return AccessResult::forbidden();
+                  }
+                  else {
+                    return AccessResult::allowed();
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return AccessResult::neutral();
 }
 
+
 /**
- * Implements hook_menu_links_discovered_alter().
+ * Implements hook_form_BASE_FORM_ID_alter() for field access form.
  */
-function erpw_field_access_menu_links_discovered_alter(&$links) {
-//  dump($links);
+function erpw_field_access_form_erpw_field_access_field_access_settings_alter(&$form, $form_state, $form_id) {
+  // If the current user has the permission, show the form.
+  if (!\Drupal::currentUser()->hasPermission('administer field access settings')) {
+    return;
+  }
 }

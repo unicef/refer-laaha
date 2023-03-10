@@ -41,6 +41,7 @@ class FieldAccessSettingsForm extends ConfigFormBase {
     $entityFieldManager = \Drupal::service('entity_field.manager');
     /** @var \Drupal\Core\Field\FieldDefinitionInterface[] $fields */
     $fields = $entityFieldManager->getFieldDefinitions('node', $node_type->id());
+    $form_state->set('node_type', $node_type);
     $roles = \Drupal::entityTypeManager()->getStorage('user_role')->loadMultiple();
     foreach ($fields as $field) {
       $form['fields'][$field->getName()] = [
@@ -82,7 +83,10 @@ class FieldAccessSettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Loop through each field and store the settings in it's third party settings.
-    dump($form_state->getValue('fields'));
+    $settingsArray = \Drupal::service('erpw_field_access.settings_array')->minify($form_state->getValue('fields'));
+    $node_type = $form_state->get('node_type');
+    $node_type->setThirdPartySetting('erpw_field_access', 'field_access', $settingsArray);
+    $node_type->save();
     $this->config('erpw_field_access.settings')
       ->set('example', $form_state->getValue('example'))
       ->save();
