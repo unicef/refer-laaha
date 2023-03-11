@@ -780,7 +780,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-provider-org\"><span>{{ 'Organisation'|t }}: </span>{{ field_select_organisation }} </div>\r\n<div class=\"service-provider-org\"><span>{{ 'Focal Point'|t }}: </span>{{ field_name_of_the_focal_point }} </div>\r\n<div class=\"service-provider-number\"><span>{{ 'Contact'|t }}: </span>{{ field_phone_number }} </div>"
+            text: "{% if field_select_organisation %}\r\n<div class=\"service-provider-org\"><span>Organisation:</span> {{ field_select_organisation }} </div>\r\n {% endif %}\r\n{% if field_name_of_the_focal_point %}\r\n<div class=\"service-provider-org\"><span>{{ 'Focal Point'|t }}: </span>{{ field_name_of_the_focal_point }} </div>\r\n {% endif %}\r\n{% if field_phone_number %}\r\n<div class=\"service-provider-number\"><span>{{ 'Contact'|t }}: </span>{{ field_phone_number }} </div>\r\n {% endif %}"
             make_link: false
             path: ''
             absolute: false
@@ -892,7 +892,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-mode\"><span>{{ 'Service Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"edit-delete-links\"> \r\n<span class=\"edit-link\">{{ edit_node }}</span>\r\n<span class=\"translate-link\">{{ translation_link }}</span>\r\n</div>"
+            text: "{% if field_mode %}\r\n<div class=\"service-mode\"><span>{{ 'Service Mode'|t }}: </span>{{ field_mode }} </div>\r\n {% endif %}\r\n\r\n<div class=\"edit-delete-links\"> \r\n<span class=\"edit-link\">{{ edit_node }}</span>\r\n<span class=\"translate-link\">{{ translation_link }}</span>\r\n</div>"
             make_link: false
             path: ''
             absolute: false

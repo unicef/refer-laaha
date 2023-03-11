@@ -469,7 +469,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-provider-title\">{{ title }}</div>\r\n<div class=\"service-provider-org\"><span>{{ 'Organisation'|t }}: </span>{{ field_select_organisation }} </div>\r\n<div class=\"service-provider-number\"><span>{{ 'Contact'|t }}: </span>{{ field_phone_number }} </div>\r\n"
+            text: "{% if title %}\r\n<div class=\"service-provider-title\">{{ title }}</div>\r\n {% endif %}\r\n{% if field_select_organisation %}\r\n<div class=\"service-provider-org\"><span>{{ 'Organisation'|t }}: </span>{{ field_select_organisation }} </div>\r\n {% endif %}\r\n{% if field_phone_number %}\r\n<div class=\"service-provider-number\"><span>{{ 'Contact'|t }}: </span>{{ field_phone_number }} </div>\r\n {% endif %}\r\n\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -581,7 +581,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"service-mode\"><span>{{ 'Mode'|t }}: </span>{{ field_mode }} </div>\r\n<div class=\"review-text\"> \r\n<span class=\"edit-link\"><a href=\"{{ path('entity.node.edit_form', {'node': nid}) }}\">{{ 'Review'|t }}</a></span>\r\n</div>"
+            text: "{% if field_mode %}\r\n<div class=\"service-mode\"><span>{{ 'Mode'|t }}: </span>{{ field_mode }} </div>\r\n {% endif %}\r\n<div class=\"review-text\"> \r\n<span class=\"edit-link\"><a href=\"{{ path('entity.node.edit_form', {'node': nid}) }}\">{{ 'Review'|t }}</a></span>\r\n</div>"
             make_link: false
             path: ''
             absolute: false

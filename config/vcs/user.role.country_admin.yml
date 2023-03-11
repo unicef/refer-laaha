@@ -14,6 +14,7 @@ dependencies:
     - content_translation
     - domain_access
     - erpw_custom
+    - erpw_field_access
     - erpw_location
     - node
     - node_view_permissions
@@ -31,6 +32,7 @@ permissions:
   - 'add new user for their own country'
   - 'add referral pathway of their own country'
   - 'add service of their own country'
+  - 'administer field access settings'
   - 'cancel users by role'
   - 'cancel users with role service_provider_focal_point'
   - 'cancel users with role service_provider_staff'
