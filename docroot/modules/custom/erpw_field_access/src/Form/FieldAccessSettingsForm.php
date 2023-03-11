@@ -73,7 +73,7 @@ class FieldAccessSettingsForm extends ConfigFormBase {
             '#title' => $domain->label(),
             '#group' => "{$field->getName()}_countries",
           ];
-          $operations = ['form' => 'Form Access - Field visibility to the selected user(s) role will be forbidden on the create/edit pages.', 'view' => 'View Access - Field visibility to the selected user(s) role will be forbidden on the view/listing page(s).'];
+          $operations = ['form' => 'Form Access - Field visibility to the selected user(s) role will be forbidden on the create/edit page(s).', 'view' => 'View Access - Field visibility to the selected user(s) role will be forbidden on the view/listing page(s).'];
           $options = [];
           foreach ($roles as $role) {
             $options[$role->id()] = $role->label();

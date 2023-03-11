@@ -280,7 +280,7 @@ form input[type=submit].button-border {
   overflow-x: scroll;
 }
 .table-format table {
-  border: 1px solid #F3C1BF;
+  border: 1px solid #f3c1bf;
   border-radius: 5px;
   border-collapse: collapse;
   width: 100%;
@@ -290,7 +290,7 @@ form input[type=submit].button-border {
   text-align: left;
 }
 .table-format table thead th {
-  border-bottom: 1px solid #F3C1BF;
+  border-bottom: 1px solid #f3c1bf;
 }
 .table-format table td,
 .table-format table th {
@@ -305,7 +305,7 @@ form input[type=submit].button-border {
 }
 
 .ui-autocomplete {
-  border: 1px solid #F3C1BF !important;
+  border: 1px solid #f3c1bf !important;
   border-radius: 5px;
   height: 194px;
   width: calc(100% - 40px) !important;
@@ -355,19 +355,19 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 }
 .select2-container--default .select2-selection--multiple,
 .select2-container--default .select2-selection--single {
-  border: 1px solid #F3C1BF !important;
+  border: 1px solid #f3c1bf !important;
   margin-top: 7px;
   padding: 5px 6px 7px !important;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice,
 .select2-container--default .select2-selection--single .select2-selection__choice {
   background: #fff !important;
-  border: 1px solid #F3C1BF !important;
+  border: 1px solid #f3c1bf !important;
   margin-top: 0 !important;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove,
 .select2-container--default .select2-selection--single .select2-selection__choice__remove {
-  border-right: 1px solid #F3C1BF !important;
+  border-right: 1px solid #f3c1bf !important;
   color: #A85766 !important;
 }
 .select2-container--default .select2-selection--single {
@@ -389,7 +389,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 }
 .select2-container--default.select2-container--focus .select2-selection--multiple,
 .select2-container--default.select2-container--focus .select2-selection--single {
-  border: 1px solid #F3C1BF;
+  border: 1px solid #f3c1bf;
 }
 .select2-container--default .select2-results__option--selected {
   background: #ffffff !important;
@@ -403,7 +403,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   padding-left: 11px;
 }
 .select2-container .select2-dropdown {
-  border: 1px solid #F3C1BF;
+  border: 1px solid #f3c1bf;
 }
 .select2-container .ui-state-active {
   background: none;
@@ -478,7 +478,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 }
 
 .service-count {
-  color: #9B9B9B;
+  color: #9b9b9b;
   font-size: 14px;
   font-weight: 400;
 }
@@ -511,6 +511,35 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 }
 .button-block .fill-button a {
   color: #ffffff;
+}
+
+.erpw-field-access-field-access-settings .details-wrapper fieldset {
+  padding: 15px;
+  border: 1.5px solid gray;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+.erpw-field-access-field-access-settings .details-wrapper fieldset .fieldset-wrapper .form-checkboxes {
+  grid-column-gap: 1rem;
+  grid-row-gap: 0.3rem;
+}
+.erpw-field-access-field-access-settings .details-wrapper fieldset .fieldset-wrapper .form-checkboxes .js-form-type-checkbox {
+  padding: 10px;
+  border: 1.2px solid gray;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.erpw-field-access-field-access-settings .details-wrapper fieldset .fieldset-wrapper .form-checkboxes .js-form-type-checkbox .option {
+  color: black;
+  opacity: 0.8;
 }
 
 form .form-required::after {
