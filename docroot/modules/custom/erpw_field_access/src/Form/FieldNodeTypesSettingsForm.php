@@ -5,11 +5,46 @@ namespace Drupal\erpw_field_access\Form;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 
 /**
  * Configure Erpw field access settings for different node types.
  */
 class FieldNodeTypesSettingsForm extends ConfigFormBase {
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   */
+  protected $entityFieldManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, EntityFieldManagerInterface $entityFieldManager) {
+    $this->entityTypeManager = $entityTypeManager;
+    $this->entityFieldManager = $entityFieldManager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity_type.manager'),
+      $container->get('entity_field.manager')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -38,9 +73,8 @@ class FieldNodeTypesSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Content Types'),
       '#tree' => TRUE,
     ];
-    $entityFieldManager = \Drupal::service('entity_field.manager');
     /** @var \Drupal\Core\Field\FieldDefinitionInterface[] $fields */
-    $nodeTypes = \Drupal::entityTypeManager()->getStorage('node_type')->loadMultiple();
+    $nodeTypes = $this->entityTypeManager->getStorage('node_type')->loadMultiple();
     foreach ($nodeTypes as $nodeType => $node) {
       $form['fields'][$nodeType] = [
         '#type' => 'details',
@@ -61,7 +95,7 @@ class FieldNodeTypesSettingsForm extends ConfigFormBase {
           '#default_value' => 0,
         ];
       }
-      $fields = $entityFieldManager->getFieldDefinitions('node', $node->id());
+      $fields = $this->entityFieldManager->getFieldDefinitions('node', $node->id());
       foreach ($fields as $field) {
         $options[$field->getFieldStorageDefinition()->getName()] = $field->getName();
       }

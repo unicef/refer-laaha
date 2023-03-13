@@ -7,11 +7,56 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 
 /**
  * Configure Erpw field access settings for this site.
  */
 class FieldAccessSettingsForm extends ConfigFormBase {
+
+  /**
+   * Configuration Factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactory
+   */
+  protected $configFactory;
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   */
+  protected $entityFieldManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(ConfigFactoryInterface $configFactory, EntityTypeManagerInterface $entityTypeManager, EntityFieldManagerInterface $entityFieldManager) {
+    $this->configFactory = $configFactory;
+    $this->entityTypeManager = $entityTypeManager;
+    $this->entityFieldManager = $entityFieldManager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('entity_type.manager'),
+      $container->get('entity_field.manager')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -37,18 +82,17 @@ class FieldAccessSettingsForm extends ConfigFormBase {
       '#tree' => TRUE,
     ];
     // Get NodeType form configurations.
-    $nodeTypeConfig = \Drupal::config('erpw_field_access.nodetype_settings')->get('nodeTypeConfig');
+    $nodeTypeConfig = $this->configFactory->getEditable('erpw_field_access.nodetype_settings')->get('nodeTypeConfig');
     $nodeConfig = array_key_exists($node_type->id(), $nodeTypeConfig) ? array_filter($nodeTypeConfig[$node_type->id()][$node_type->get('name')]) : NULL;
     // Get FieldAccess third party settings for default value.
     $settings = $node_type->getThirdPartySettings('erpw_field_access');
     /** @var \Drupal\domain\DomainStorage $domain_storage */
-    $domain_storage = \Drupal::entityTypeManager()->getStorage('domain');
+    $domain_storage = $this->entityTypeManager->getStorage('domain');
     $domains = $domain_storage->loadMultiple();
-    $entityFieldManager = \Drupal::service('entity_field.manager');
     /** @var \Drupal\Core\Field\FieldDefinitionInterface[] $fields */
-    $fields = $entityFieldManager->getFieldDefinitions('node', $node_type->id());
+    $fields = $this->entityFieldManager->getFieldDefinitions('node', $node_type->id());
     $form_state->set('node_type', $node_type);
-    $roles = \Drupal::entityTypeManager()->getStorage('user_role')->loadMultiple();
+    $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple();
     $visibleFields = array_diff_key($fields, $nodeConfig);
     if (empty($visibleFields)) {
       $url = Url::fromRoute('system.403');
@@ -83,7 +127,7 @@ class FieldAccessSettingsForm extends ConfigFormBase {
               '#title' => $label,
               '#type' => 'checkboxes',
               '#options' => $options,
-              '#default_value' => isset($settings['field_access'][$field->getName()]["{$field->getName()}_countries"][$domain->id()][$id]) ? $settings['field_access'][$field->getName()]["{$field->getName()}_countries"][$domain->id()][$id] : $options,
+              '#default_value' => $settings['field_access'][$field->getName()]["{$field->getName()}_countries"][$domain->id()][$id] ?? $options,
             ];
           }
         }
