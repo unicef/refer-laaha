@@ -417,6 +417,9 @@ label.error + .select2-container .select2-selection {
 }
 
 .erpw-field-access-field-access-settings {
+  .hide-group-field {
+    display: none !important;
+  }
   .details-wrapper {
     fieldset {
       padding: 15px;
@@ -425,6 +428,8 @@ label.error + .select2-container .select2-selection {
       margin-bottom: 2rem;
       .fieldset-wrapper {
         .form-checkboxes {
+          display: grid;
+          grid-template-columns: auto auto auto;
           grid-column-gap: 1rem;
           grid-row-gap: 0.3rem;
           .js-form-type-checkbox {

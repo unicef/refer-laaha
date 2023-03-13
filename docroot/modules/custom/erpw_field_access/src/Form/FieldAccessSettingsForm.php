@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Session\AccountInterface;
 
 /**
  * Configure Erpw field access settings for this site.
@@ -39,12 +40,20 @@ class FieldAccessSettingsForm extends ConfigFormBase {
   protected $entityFieldManager;
 
   /**
+   * The current user.
+   *
+   * @var \Drupal\Core\Session\AccountInterface
+   */
+  protected $currentUser;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(ConfigFactoryInterface $configFactory, EntityTypeManagerInterface $entityTypeManager, EntityFieldManagerInterface $entityFieldManager) {
+  public function __construct(ConfigFactoryInterface $configFactory, EntityTypeManagerInterface $entityTypeManager, EntityFieldManagerInterface $entityFieldManager, AccountInterface $currentUser) {
     $this->configFactory = $configFactory;
     $this->entityTypeManager = $entityTypeManager;
     $this->entityFieldManager = $entityFieldManager;
+    $this->currentUser = $currentUser;
   }
 
   /**
@@ -54,7 +63,8 @@ class FieldAccessSettingsForm extends ConfigFormBase {
     return new static(
       $container->get('config.factory'),
       $container->get('entity_type.manager'),
-      $container->get('entity_field.manager')
+      $container->get('entity_field.manager'),
+      $container->get('current_user')
     );
   }
 
@@ -94,6 +104,11 @@ class FieldAccessSettingsForm extends ConfigFormBase {
     $form_state->set('node_type', $node_type);
     $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple();
     $visibleFields = array_diff_key($fields, $nodeConfig);
+    $user = $this->entityTypeManager->getStorage('user')->load(($this->currentUser->id()));
+    $userDomains = [];
+    foreach ($user->toArray()['field_domain_admin'] as $key => $domain) {
+      $userDomains[$domain['target_id']] = $domain['target_id'];
+    }
     if (empty($visibleFields)) {
       $url = Url::fromRoute('system.403');
       $response = new RedirectResponse($url->toString());
@@ -111,13 +126,30 @@ class FieldAccessSettingsForm extends ConfigFormBase {
           '#type' => 'horizontal_tabs',
           '#title' => $field->getLabel(),
         ];
+
         foreach ($domains as $domain) {
-          $form['fields'][$field->getName()]["{$field->getName()}_countries"][$domain->id()] = [
-            '#type' => 'details',
-            '#title' => $domain->label(),
-            '#group' => "{$field->getName()}_countries",
+          if (array_key_exists($domain->id(), $userDomains)) {
+            $form['fields'][$field->getName()]["{$field->getName()}_countries"][$domain->id()] = [
+              '#type' => 'details',
+              '#title' => $domain->label(),
+              '#group' => "{$field->getName()}_countries",
+            ];
+          }
+          else {
+            $form['fields'][$field->getName()]["{$field->getName()}_countries"][$domain->id()] = [
+              '#type' => 'details',
+              '#title' => $domain->label(),
+              '#group' => "{$field->getName()}_countries",
+              '#disabled' => TRUE,
+              '#prefix' => '<div class="hide-group-field">',
+              '#suffix' => '</div>',
+              '#attributes' => ['class' => ['hide-group-field']],
+            ];
+          }
+          $operations = [
+            'form' => 'Form Access - Field visibility to the selected user(s) role will be forbidden on the create/edit page(s).',
+            'view' => 'View Access - Field visibility to the selected user(s) role will be forbidden on the view/listing page(s).',
           ];
-          $operations = ['form' => 'Form Access - Field visibility to the selected user(s) role will be forbidden on the create/edit page(s).', 'view' => 'View Access - Field visibility to the selected user(s) role will be forbidden on the view/listing page(s).'];
           $options = [];
           foreach ($roles as $role) {
             $options[$role->id()] = $role->label();

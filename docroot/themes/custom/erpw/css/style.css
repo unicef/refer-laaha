@@ -513,6 +513,9 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   color: #ffffff;
 }
 
+.erpw-field-access-field-access-settings .hide-group-field {
+  display: none !important;
+}
 .erpw-field-access-field-access-settings .details-wrapper fieldset {
   padding: 15px;
   border: 1.5px solid gray;
@@ -520,6 +523,8 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   margin-bottom: 2rem;
 }
 .erpw-field-access-field-access-settings .details-wrapper fieldset .fieldset-wrapper .form-checkboxes {
+  display: grid;
+  grid-template-columns: auto auto auto;
   grid-column-gap: 1rem;
   grid-row-gap: 0.3rem;
 }
