@@ -1,0 +1,24 @@
+uuid: 4bf09989-97e3-4744-b18c-38c2b3b4cf74
+langcode: en
+status: true
+dependencies:
+  module:
+    - pwa_a2hs
+  theme:
+    - erpw
+id: pwaaddtohomescreen
+theme: erpw
+region: header
+weight: 0
+provider: null
+plugin: pwa_add_to_home_screen
+settings:
+  id: pwa_add_to_home_screen
+  label: 'PWA Add to Home Screen'
+  label_display: '0'
+  provider: pwa_a2hs
+  button_text: Install
+  intro_text:
+    value: "<img alt=\"icon\" src=\"https://refer-laaha.ddev.site/themes/custom/erpw/images/cross-white.svg\" />\r\n\r\n<p>eRPW<br />\r\nClick here to install the eRPW app on your phone</p>\r\n"
+    format: full_html
+visibility: {  }
