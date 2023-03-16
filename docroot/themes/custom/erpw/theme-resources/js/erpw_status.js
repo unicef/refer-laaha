@@ -3,12 +3,20 @@
     attach: function (context, settings) {
       //Update user status
       function updateConnectionStatus(msg, connected) {
+        var current_status = document.getElementById("status");
+        var current_dot = document.getElementById("dot");
         if (connected) {
-          document.body.classList.add("online");
-          document.body.classList.remove("offline");
+          current_status.innerHTML = "Online";
+          current_status.classList.add("online");
+          current_status.classList.remove("offline");
+          current_dot.classList.add("green-dot");
+          current_dot.classList.remove("red-dot");
         } else {
-          document.body.classList.add("offline");
-          document.body.classList.remove("online");
+          current_status.innerHTML = "Offline";
+          current_status.classList.add("offline");
+          current_status.classList.remove("online");
+          current_dot.classList.add("red-dot");
+          current_dot.classList.remove("green-dot");
         }
       }
       window.addEventListener(

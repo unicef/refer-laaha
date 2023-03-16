@@ -86,3 +86,27 @@
 		}
 	}
 }
+
+.current-status {
+	padding: 15px 7px;
+
+	.red-dot {
+		height: 13px;
+    width: 13px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+	}
+	.green-dot {
+		height: 13px;
+    width: 13px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+	}
+	#status {
+		color: $base-secondary-bgcolor;
+    font-size: 16px;
+    padding-left: 9px;
+	}
+}

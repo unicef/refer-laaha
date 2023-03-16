@@ -38,7 +38,11 @@
   {% if user_logged_in_name %}
   You are logged in as 
   <br><b>{{ user_logged_in_name }}</b>
-   {% endif %}
+  {% endif %}
+  <div class="current-status">
+    <span id="dot"></span>
+    <span id="status"></span>
+  </div>
     {{ content }}
   {% endblock %}
 </div>
