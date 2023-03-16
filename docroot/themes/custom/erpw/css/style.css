@@ -1391,6 +1391,29 @@ header {
   background: url("../images/language-translate.png") top left no-repeat;
 }
 
+.current-status {
+  padding: 15px 7px;
+}
+.current-status .red-dot {
+  height: 13px;
+  width: 13px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+}
+.current-status .green-dot {
+  height: 13px;
+  width: 13px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+}
+.current-status #status {
+  color: #A85766;
+  font-size: 16px;
+  padding-left: 9px;
+}
+
 .path-select-language {
   background: url("../images/language-selector-bg.svg") center center no-repeat, url("../images/language-selector-dot-bg.svg") right top 120px no-repeat;
 }
