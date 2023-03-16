@@ -47,3 +47,28 @@ header {
     padding: 0;
 	}
 }
+
+.block-pwa-add-to-home-screen {
+  position: relative;
+  background: $base-secondary-bgcolor;
+  padding: 20px;
+  .pwa-a2hs-active {
+    display: flex;
+    img {
+      cursor: pointer;
+    }
+    p {
+      font-size: 18px;
+      color: $base-white-color;
+      margin: 0 30px;
+    }
+    button {
+      border: 0;
+      border-radius: 100px;
+      box-sizing: border-box;
+      background: $base-white-color;
+      color: $base-secondary-bgcolor;
+      padding: 5px 20px;
+    }
+  }
+}

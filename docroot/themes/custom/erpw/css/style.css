@@ -793,6 +793,34 @@ header {
   padding: 0;
 }
 
+.block-pwa-add-to-home-screen {
+  position: relative;
+  background: #A85766;
+  padding: 20px;
+}
+.block-pwa-add-to-home-screen .pwa-a2hs-active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.block-pwa-add-to-home-screen .pwa-a2hs-active img {
+  cursor: pointer;
+}
+.block-pwa-add-to-home-screen .pwa-a2hs-active p {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 0 30px;
+}
+.block-pwa-add-to-home-screen .pwa-a2hs-active button {
+  border: 0;
+  border-radius: 100px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background: #ffffff;
+  color: #A85766;
+  padding: 5px 20px;
+}
+
 .dashboard {
   list-style-type: none;
   margin: 0;
