@@ -18,11 +18,11 @@
       }).appendTo($(document.body));
 
       $('#block-pwaaddtohomescreen img').click(function() {
-        document.cookie = "mycookie=true";
-        localStorage.setItem("mycookie", "true");
+        document.cookie = "pwacookie=true";
+        localStorage.setItem("pwacookie", "true");
         $('.block-pwa-add-to-home-screen').addClass('hidden');
       });
-      var cookiestatus = localStorage.getItem("mycookie");
+      var cookiestatus = localStorage.getItem("pwacookie");
       if(cookiestatus == "true") {
         $('.block-pwa-add-to-home-screen').addClass('hidden');
       }
