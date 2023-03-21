@@ -169,11 +169,10 @@ class UserLocationForm extends LocationListForm {
         $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
       }
       $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $location_value);
-      $domain_current_url = explode(".", $this->requestStack->getCurrentRequest()->server->get('SERVER_NAME'));
-      $domain_slice = array_slice($domain_current_url, -2);
-      $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
+      $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+      $full_url = $domain->get('hostname');
 
-      setcookie('location_tid', $location_value, strtotime('+1 year'), '/', $domain_site, FALSE);
+      setcookie('location_tid', $location_value, strtotime('+1 year'), '/', $full_url, FALSE);
 
       $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $location_value]]);
       // First level is the country taxonomy term; if we have it we want to
