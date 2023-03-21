@@ -147,29 +147,26 @@ class LocationCookie implements EventSubscriberInterface {
    */
   public function onResponse(ResponseEvent $event) {
     $response = $event->getResponse();
+    $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $full_url = $domain->get('hostname');
     if ($this->getShouldUpdateCookie()) {
-      $domain_current_url = explode(".", $this->request->server->get('SERVER_NAME'));
-      $domain_slice = array_slice($domain_current_url, -2);
-      $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
-      $my_new_cookie = new Cookie($this->getCookieName(), $this->getCookieValue(), strtotime('+7 days'), '/', $domain_site, NULL, FALSE);
+      $my_new_cookie = new Cookie($this->getCookieName(), $this->getCookieValue(), strtotime('+7 days'), '/', $full_url, NULL, FALSE);
       $response->headers->setCookie($my_new_cookie);
     }
     else {
       // Case where sub - domain is changed from URL
-      $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
       $config = \Drupal::config('domain.location.' . $domain->get('id'));
       $domain_tid = $config->get('location');
-      $domain_current_url = explode(".", $this->request->server->get('SERVER_NAME'));
-      $domain_slice = array_slice($domain_current_url, -2);
-      $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
 
       //Check if the current location cookie tid value matches with the domain tid value.
-      if ($_COOKIE['location_tid'] != $domain_tid) {
-        setcookie('location_tid', $domain_tid, strtotime('+1 year'), '/', $domain_site, FALSE);
-        $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $domain_tid]]);
-        $url->setAbsolute();
-        $response = new RedirectResponse($url->toString());
-        $event->setResponse($response);
+      if (isset($_COOKIE['location_tid'])) {
+        if($_COOKIE['location_tid'] != $domain_tid){
+          setcookie('location_tid', $domain_tid, strtotime('+1 year'), '/', $full_url, FALSE);
+          $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $domain_tid]]);
+          $url->setAbsolute();
+          $response = new RedirectResponse($url->toString());
+          $event->setResponse($response);
+        }
       }
     }
     // The "should delete" needs to happen after "should update", or we could
