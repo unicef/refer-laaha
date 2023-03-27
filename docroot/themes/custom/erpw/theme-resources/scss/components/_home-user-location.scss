@@ -41,7 +41,7 @@
 		font-size: 13px;
     line-height: 20px;
 		margin-bottom: 13px;
-		padding: 8px 18px 8px 45px;
+		padding: 8px 45px 8px 45px;
 		text-transform: capitalize;
 	}
 }
@@ -52,4 +52,21 @@
 }
 .user-change-link {
 	@extend .block-select-user-location;
+}
+
+html[dir="rtl"] {
+	.block-select-user-location {
+		text-align: left;
+		.user-location-list {
+			text-align: right;
+		  .location-theme {
+				background: url('../images/location.svg') top 8px right 18px no-repeat
+			}
+		}
+		a {
+			&::after {
+				background: url('../images/arrow-small.svg') center left no-repeat;
+			}
+		}
+	}
 }
