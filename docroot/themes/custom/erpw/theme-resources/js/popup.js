@@ -18,8 +18,17 @@
       }).appendTo($(document.body));
 
       $('#block-pwaaddtohomescreen img').click(function() {
-        $('.pwa-a2hs-active').removeClass('pwa-a2hs-active show').addClass('pwa-a2hs hidden');
+        document.cookie = "pwacookie=true";
+        localStorage.setItem("pwacookie", "true");
+        $('.block-pwa-add-to-home-screen').addClass('hidden');
       });
+      var cookiestatus = localStorage.getItem("pwacookie");
+      if(cookiestatus == "true") {
+        $('.block-pwa-add-to-home-screen').addClass('hidden');
+      }
+      else {
+        $('.block-pwa-add-to-home-screen').removeClass('hidden');
+      }
     }
   };
 }(jQuery, Drupal, drupalSettings));
