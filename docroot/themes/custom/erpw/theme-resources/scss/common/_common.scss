@@ -297,7 +297,7 @@ label.error + .select2-container .select2-selection {
 			}
 			.select2-selection__arrow {
 				top: 11px !important;
-    		right: 17px !important;
+				right: 17px !important;
 				b {
 					background: url('../images/arrow.svg') 0 0 no-repeat transparent;
 					border: 0 !important;
@@ -414,3 +414,13 @@ label.error + .select2-container .select2-selection {
 	}
 }
 
+html[dir="rtl"] {
+	.select2-container--default {
+		.select2-selection--single {
+			.select2-selection__arrow {
+				left: 8px;
+				right: auto !important;
+			}
+		}
+	}
+}

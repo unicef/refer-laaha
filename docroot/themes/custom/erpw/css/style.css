@@ -513,6 +513,11 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   color: #ffffff;
 }
 
+html[dir=rtl] .select2-container--default .select2-selection--single .select2-selection__arrow {
+  left: 8px;
+  right: auto !important;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
@@ -948,6 +953,13 @@ header {
   text-transform: uppercase;
 }
 
+html[dir=rtl] .dashboard .dashboard-link span {
+  margin-left: 15px;
+}
+html[dir=rtl] .dashboard .dashboard-link a {
+  background: url("../images/arrow-right.svg") left center no-repeat;
+}
+
 .delete-screen .detail-row {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1147,6 +1159,19 @@ header {
   font-size: 9px;
 }
 
+html[dir=rtl] .view-referral-pathway-on-homepage .views-row {
+  border-right: 1px dashed #CD0000;
+  border-left: none;
+}
+html[dir=rtl] .view-referral-pathway-on-homepage .views-row::before {
+  margin-right: -8px;
+}
+html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail label, html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend,
+html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend {
+  margin-left: 14px;
+}
+
 .block-select-user-location, .user-change-link {
   margin-bottom: 30px;
   text-align: right;
@@ -1192,12 +1217,25 @@ header {
   font-size: 13px;
   line-height: 20px;
   margin-bottom: 13px;
-  padding: 8px 18px 8px 45px;
+  padding: 8px 45px 8px 45px;
   text-transform: capitalize;
 }
 
 .user-location-form input[type=submit].use-ajax.arrow-btn {
   background-position: calc(50% + 50px) center;
+}
+
+html[dir=rtl] .block-select-user-location, html[dir=rtl] .user-change-link {
+  text-align: left;
+}
+html[dir=rtl] .block-select-user-location .user-location-list, html[dir=rtl] .user-change-link .user-location-list {
+  text-align: right;
+}
+html[dir=rtl] .block-select-user-location .user-location-list .location-theme, html[dir=rtl] .user-change-link .user-location-list .location-theme {
+  background: url("../images/location.svg") top 8px right 18px no-repeat;
+}
+html[dir=rtl] .block-select-user-location a::after, html[dir=rtl] .user-change-link a::after {
+  background: url("../images/arrow-small.svg") center left no-repeat;
 }
 
 .manage-list {
