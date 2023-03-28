@@ -239,7 +239,14 @@ class EntityUserSubscriber implements EventSubscriberInterface {
       $entity->roles = [$role];
       $entity->save();
     }
-    return _erpw_custom_redirect('view.user_lists.page_1');
+    $current_user_id = \Drupal::currentUser()->id();
+    $form_user_id = \Drupal::request()->attributes->get('user')->id();
+    if ($current_user_id == $form_user_id) {
+      return _erpw_custom_redirect('user.page');
+    }
+    else {
+      return _erpw_custom_redirect('view.user_lists.page_1');
+    }
   }
 
   /**

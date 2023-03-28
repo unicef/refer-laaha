@@ -523,17 +523,10 @@ class SignUpForm extends FormBase {
         '#default_value' => $values['email'],
       ];
       $form['password'] = [
-        '#type' => 'password',
-        '#title' => $this->t('Password'),
+        '#type' => 'password_confirm',
         '#required' => TRUE,
         '#placeholder' => $this->t('**********'),
         '#description' => '<span class="help-text">' . $this->t('i') . '</span>',
-      ];
-      $form['confirm_password'] = [
-        '#type' => 'password',
-        '#title' => $this->t('Confirm password'),
-        '#required' => TRUE,
-        '#placeholder' => $this->t('**********'),
       ];
       $form['back'] = [
         '#type' => 'submit',
@@ -561,20 +554,6 @@ class SignUpForm extends FormBase {
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    $password = $form_state->getValue('password');
-    $confirm_password = $form_state->getValue('confirm_password');
-    if ($password && strcmp($password, $confirm_password)) {
-      $form_state->setErrorByName('password', $this->t('The specified passwords do not match.'));
-    }
-    if ($password && !preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/", $password)) {
-      $form_state->setErrorByName('password', $this->t('Password should contain at least one number, one symbol, one lowercase and uppercase letter.'));
-    }
   }
 
   /**
