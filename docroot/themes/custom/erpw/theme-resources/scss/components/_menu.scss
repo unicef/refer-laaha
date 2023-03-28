@@ -85,28 +85,44 @@
 			background: url('../images/language-translate.png') top left no-repeat;
 		}
 	}
+	.current-status {
+		padding: 15px 7px;
+		.red-dot {
+			height: 13px;
+			width: 13px;
+			background-color: red;
+			border-radius: 50%;
+			display: inline-block;
+		}
+		.green-dot {
+			height: 13px;
+			width: 13px;
+			background-color: green;
+			border-radius: 50%;
+			display: inline-block;
+		}
+		#status {
+			color: $base-secondary-bgcolor;
+			font-size: 16px;
+			padding-left: 9px;
+		}
+	}
 }
 
-.current-status {
-	padding: 15px 7px;
-
-	.red-dot {
-		height: 13px;
-    width: 13px;
-    background-color: red;
-    border-radius: 50%;
-    display: inline-block;
-	}
-	.green-dot {
-		height: 13px;
-    width: 13px;
-    background-color: green;
-    border-radius: 50%;
-    display: inline-block;
-	}
-	#status {
-		color: $base-secondary-bgcolor;
-    font-size: 16px;
-    padding-left: 9px;
+html[dir="rtl"] {
+	[id^='block-erpw-main-menu'] {
+		.menu-item {
+			a {
+				background-position: right;
+				padding-right: 30px;
+				padding-left: 0;
+			}
+		}
+		.current-status {
+			margin-right: 30px;
+			#status {
+				padding-right: 9px;
+			}
+		}
 	}
 }
