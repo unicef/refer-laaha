@@ -824,7 +824,9 @@ header {
   background: #ffffff;
   color: #A85766;
   padding: 5px 20px;
-  height: 32px;
+  height: 43px;
+  -ms-flex-item-align: center;
+      align-self: center;
 }
 
 .dashboard {
@@ -1429,28 +1431,39 @@ html[dir=rtl] .block-select-user-location a::after, html[dir=rtl] .user-change-l
 [id^=block-erpw-main-menu] .menu-item .location-change {
   background: url("../images/language-translate.png") top left no-repeat;
 }
-
-.current-status {
+[id^=block-erpw-main-menu] .current-status {
   padding: 15px 7px;
 }
-.current-status .red-dot {
+[id^=block-erpw-main-menu] .current-status .red-dot {
   height: 13px;
   width: 13px;
   background-color: red;
   border-radius: 50%;
   display: inline-block;
 }
-.current-status .green-dot {
+[id^=block-erpw-main-menu] .current-status .green-dot {
   height: 13px;
   width: 13px;
   background-color: green;
   border-radius: 50%;
   display: inline-block;
 }
-.current-status #status {
+[id^=block-erpw-main-menu] .current-status #status {
   color: #A85766;
   font-size: 16px;
   padding-left: 9px;
+}
+
+html[dir=rtl] [id^=block-erpw-main-menu] .menu-item a {
+  background-position: right;
+  padding-right: 30px;
+  padding-left: 0;
+}
+html[dir=rtl] [id^=block-erpw-main-menu] .current-status {
+  margin-right: 30px;
+}
+html[dir=rtl] [id^=block-erpw-main-menu] .current-status #status {
+  padding-right: 9px;
 }
 
 .path-select-language {
