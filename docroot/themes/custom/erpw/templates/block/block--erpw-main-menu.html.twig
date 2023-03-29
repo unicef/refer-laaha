@@ -45,4 +45,8 @@
   </div>
     {{ content }}
   {% endblock %}
+  <div class="language-block">
+    <h2>{{ 'Select language'|t }}</h2>
+    {{ drupal_block('language_block:language_interface', wrapper=false) }}
+  </div>
 </div>
