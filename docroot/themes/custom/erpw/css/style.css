@@ -1381,9 +1381,9 @@ html[dir=rtl] .block-select-user-location a::after, html[dir=rtl] .user-change-l
   display: block;
   margin-top: 5px;
 }
-[id^=block-erpw-main-menu] .menu {
+[id^=block-erpw-main-menu] .menu, [id^=block-erpw-main-menu] .language-switcher-language-url {
   margin: 0 0 0 -10px;
-  padding-bottom: 100px;
+  padding-bottom: 50px;
   width: 212px;
 }
 [id^=block-erpw-main-menu] .menu-item {
@@ -1464,6 +1464,22 @@ html[dir=rtl] [id^=block-erpw-main-menu] .current-status {
 }
 html[dir=rtl] [id^=block-erpw-main-menu] .current-status #status {
   padding-right: 9px;
+}
+
+.language-switcher-language-url li {
+  padding: 15px 0 15px 15px;
+  margin: 0 20px 0 0;
+  list-style-type: none;
+}
+.language-switcher-language-url li a {
+  color: #A85766;
+}
+
+.language-block h2 {
+  color: #A85766;
+  font-size: 16px;
+  background: url("../images/language-translate.png") top left no-repeat;
+  padding-left: 30px;
 }
 
 .path-select-language {

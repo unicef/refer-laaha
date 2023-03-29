@@ -35,9 +35,9 @@
 		display: block;
 		margin-top: 5px;
 	}
-	.menu {	
+	.menu , .language-switcher-language-url{	
 		margin: 0 0 0 -10px;
-		padding-bottom: 100px;
+		padding-bottom: 50px;
 		width: 212px;
 	}
 	.menu-item {
@@ -125,4 +125,19 @@ html[dir="rtl"] {
 			}
 		}
 	}
+}
+
+.language-switcher-language-url li {
+	padding:15px 0 15px 15px;
+	margin: 0 20px 0 0;
+	list-style-type: none;
+	a {
+		color: $base-secondary-bgcolor;
+	}
+}
+.language-block h2{
+	color: $base-secondary-bgcolor;
+	font-size: 16px;
+	background: url('../images/language-translate.png') top left no-repeat;
+	padding-left: 30px;
 }
