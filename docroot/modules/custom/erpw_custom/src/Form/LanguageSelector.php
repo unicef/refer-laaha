@@ -194,6 +194,7 @@ class LanguageSelector extends FormBase {
       $domain = $this->entityManager->getStorage('domain')->load($form_state->getValue('country'));
       $domain_lang = $form_state->getValue('language_selector');
       $domain_path = $domain->get('path');
+      // dump($domain_path);
       $redirect_url = Url::fromUri($domain_path . $domain_lang);
       
       // Get full domain for setting Location cookie
