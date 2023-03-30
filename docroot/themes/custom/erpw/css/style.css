@@ -513,6 +513,11 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   color: #ffffff;
 }
 
+html[dir=rtl] .select2-container--default .select2-selection--single .select2-selection__arrow {
+  left: 8px;
+  right: auto !important;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
@@ -819,6 +824,9 @@ header {
   background: #ffffff;
   color: #A85766;
   padding: 5px 20px;
+  height: 43px;
+  -ms-flex-item-align: center;
+      align-self: center;
 }
 
 .dashboard {
@@ -946,6 +954,13 @@ header {
   font-weight: 500;
   text-decoration: underline;
   text-transform: uppercase;
+}
+
+html[dir=rtl] .dashboard .dashboard-link span {
+  margin-left: 15px;
+}
+html[dir=rtl] .dashboard .dashboard-link a {
+  background: url("../images/arrow-right.svg") left center no-repeat;
 }
 
 .delete-screen .detail-row {
@@ -1147,6 +1162,19 @@ header {
   font-size: 9px;
 }
 
+html[dir=rtl] .view-referral-pathway-on-homepage .views-row {
+  border-right: 1px dashed #CD0000;
+  border-left: none;
+}
+html[dir=rtl] .view-referral-pathway-on-homepage .views-row::before {
+  margin-right: -8px;
+}
+html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail label, html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend,
+html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend {
+  margin-left: 14px;
+}
+
 .block-select-user-location, .user-change-link {
   margin-bottom: 30px;
   text-align: right;
@@ -1192,12 +1220,25 @@ header {
   font-size: 13px;
   line-height: 20px;
   margin-bottom: 13px;
-  padding: 8px 18px 8px 45px;
+  padding: 8px 45px 8px 45px;
   text-transform: capitalize;
 }
 
 .user-location-form input[type=submit].use-ajax.arrow-btn {
   background-position: calc(50% + 50px) center;
+}
+
+html[dir=rtl] .block-select-user-location, html[dir=rtl] .user-change-link {
+  text-align: left;
+}
+html[dir=rtl] .block-select-user-location .user-location-list, html[dir=rtl] .user-change-link .user-location-list {
+  text-align: right;
+}
+html[dir=rtl] .block-select-user-location .user-location-list .location-theme, html[dir=rtl] .user-change-link .user-location-list .location-theme {
+  background: url("../images/location.svg") top 8px right 18px no-repeat;
+}
+html[dir=rtl] .block-select-user-location a::after, html[dir=rtl] .user-change-link a::after {
+  background: url("../images/arrow-small.svg") center left no-repeat;
 }
 
 .manage-list {
@@ -1340,9 +1381,9 @@ header {
   display: block;
   margin-top: 5px;
 }
-[id^=block-erpw-main-menu] .menu {
+[id^=block-erpw-main-menu] .menu, [id^=block-erpw-main-menu] .language-switcher-language-url {
   margin: 0 0 0 -10px;
-  padding-bottom: 100px;
+  padding-bottom: 50px;
   width: 212px;
 }
 [id^=block-erpw-main-menu] .menu-item {
@@ -1390,28 +1431,55 @@ header {
 [id^=block-erpw-main-menu] .menu-item .location-change {
   background: url("../images/language-translate.png") top left no-repeat;
 }
-
-.current-status {
+[id^=block-erpw-main-menu] .current-status {
   padding: 15px 7px;
 }
-.current-status .red-dot {
+[id^=block-erpw-main-menu] .current-status .red-dot {
   height: 13px;
   width: 13px;
   background-color: red;
   border-radius: 50%;
   display: inline-block;
 }
-.current-status .green-dot {
+[id^=block-erpw-main-menu] .current-status .green-dot {
   height: 13px;
   width: 13px;
   background-color: green;
   border-radius: 50%;
   display: inline-block;
 }
-.current-status #status {
+[id^=block-erpw-main-menu] .current-status #status {
   color: #A85766;
   font-size: 16px;
   padding-left: 9px;
+}
+
+html[dir=rtl] [id^=block-erpw-main-menu] .menu-item a {
+  background-position: right;
+  padding-right: 30px;
+  padding-left: 0;
+}
+html[dir=rtl] [id^=block-erpw-main-menu] .current-status {
+  margin-right: 30px;
+}
+html[dir=rtl] [id^=block-erpw-main-menu] .current-status #status {
+  padding-right: 9px;
+}
+
+.language-switcher-language-url li {
+  padding: 15px 0 15px 15px;
+  margin: 0 20px 0 0;
+  list-style-type: none;
+}
+.language-switcher-language-url li a {
+  color: #A85766;
+}
+
+.language-block h2 {
+  color: #A85766;
+  font-size: 16px;
+  background: url("../images/language-translate.png") top left no-repeat;
+  padding-left: 30px;
 }
 
 .path-select-language {
