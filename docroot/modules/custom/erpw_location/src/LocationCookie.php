@@ -2,6 +2,7 @@
 
 namespace Drupal\erpw_location;
 
+use Drupal\domain\DomainNegotiatorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -53,13 +54,26 @@ class LocationCookie implements EventSubscriberInterface {
   protected $shouldDeleteCookie = FALSE;
 
   /**
+   * The Domain negotiator.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
    * LocationCookie constructor.
    *
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   Request stack service.
+   * 
+   * @param \Drupal\domain\DomainNegotiatorInterface $negotiator
+   *   Domain negotiator service.
    */
-  public function __construct(RequestStack $request_stack) {
+  public function __construct(
+    RequestStack $request_stack, 
+    DomainNegotiatorInterface $domain_negotiator) {
     $this->request = $request_stack->getCurrentRequest();
+    $this->domainNegotiator = $domain_negotiator;
   }
 
   /**
@@ -147,7 +161,7 @@ class LocationCookie implements EventSubscriberInterface {
    */
   public function onResponse(ResponseEvent $event) {
     $response = $event->getResponse();
-    $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $domain = $this->domainNegotiator->getActiveDomain();
     $full_url = $domain->get('hostname');
     if ($this->getShouldUpdateCookie()) {
       $my_new_cookie = new Cookie($this->getCookieName(), $this->getCookieValue(), strtotime('+7 days'), '/', $full_url, NULL, FALSE);
