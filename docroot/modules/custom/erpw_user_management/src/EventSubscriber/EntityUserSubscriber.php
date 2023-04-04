@@ -14,6 +14,7 @@ use Drupal\erpw_location\LocationService;
 use Drupal\erpw_pathway\Services\ErpwPathwayService;
 use Drupal\user\UserInterface;
 use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class EntityLocationSubscriber.
@@ -77,18 +78,27 @@ class EntityUserSubscriber implements EventSubscriberInterface {
   protected $currentUser;
 
   /**
+   * Request Stack.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager,
     LocationService $location_service,
     RouteMatchInterface $route_match,
     ErpwPathwayService $erpw_pathway_service,
-    AccountProxyInterface $current_user) {
+    AccountProxyInterface $current_user,
+    RequestStack $requestStack) {
     self::$entityTypeManager = $entity_type_manager;
     self::$locationService = $location_service;
     $this->erpwPathwayService = $erpw_pathway_service;
     $this->routeMatch = $route_match;
     $this->currentUser = $current_user;
+    $this->requestStack = $requestStack;
   }
 
   /**
@@ -143,7 +153,21 @@ class EntityUserSubscriber implements EventSubscriberInterface {
           $ptids = self::$locationService->getAllAncestors($location_id);
           $parent_list = empty($parent_list) ? array_values($ptids) : $parent_list;
         }
-        $form = $this->erpwPathwayService->getLocationForm($form, $form_state, $parent_list, $ptids);
+        if (!$this->requestStack->getCurrentRequest()->query->get('pass-reset-token')) {
+          if ($this->routeMatch->getRouteName() == 'entity.user.edit_form') {
+            $current_user_id = $this->currentUser->id();
+            $roles = $this->currentUser->getRoles();
+            $form_user_id = $this->requestStack->getCurrentRequest()->attributes->get('user')->id();
+            foreach ($roles as $role) {
+              if ($role != 'administrator' && $role != 'country_admin') {
+                if (!$current_user_id == $form_user_id) {
+                  $form = $this->erpwPathwayService->getLocationForm($form, $form_state, $parent_list, $ptids);
+                }
+              }
+            }
+          }
+        }
+
         if ($form_id == 'user_form') {
           $form['actions']['back'] = [
             '#type' => 'submit',
@@ -239,8 +263,8 @@ class EntityUserSubscriber implements EventSubscriberInterface {
       $entity->roles = [$role];
       $entity->save();
     }
-    $current_user_id = \Drupal::currentUser()->id();
-    $form_user_id = \Drupal::request()->attributes->get('user')->id();
+    $current_user_id = $this->currentUser->id();
+    $form_user_id = $this->requestStack->getCurrentRequest()->attributes->get('user')->id();
     if ($current_user_id == $form_user_id) {
       return _erpw_custom_redirect('user.page');
     }
