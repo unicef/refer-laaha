@@ -47,6 +47,9 @@
 			<label>{{ 'Location'|t }} * </label>
 			<span class='user-location'>{{ location }}</span>
 		</div>
-		<a href="{{ url('view.user_lists.page_1') }}" class="button button-border">{{ 'Return to user list'|t }}</a>
+		{% if not hide_list_button %}
+			<a href="{{ url('view.user_lists.page_1') }}" class="button button-border">{{ 'Return to user list'|t }}</a>
+		{% endif %}
+		<a href="/user/edit" class="button button-border">{{ 'Edit Details'|t }}</a>
   </div>
 </article>

@@ -112,6 +112,14 @@ function erpw_preprocess_user(&$variables) {
   $user = \Drupal::service('entity_type.manager')->getStorage('user')->load($route);
   $location = \Drupal::service('erpw_location.location_services')->getUserLocation($user);
   $variables['location'] = $location;
+  $current_user_id = \Drupal::currentUser()->id();
+  $form_user_id = \Drupal::request()->attributes->get('user')->id();
+  if ($current_user_id == $form_user_id) {
+    $variables['hide_list_button'] = TRUE;
+  }
+  else {
+    $variables['hide_list_button'] = FALSE;
+  }
 }
 
 /**

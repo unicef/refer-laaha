@@ -7,6 +7,7 @@ services:
       - "@current_route_match"
       - "@erpw_pathway.erpw_location_form"
       - "@current_user"
+      - "@request_stack"
     tags:
       - { name: 'event_subscriber' }
   erpw_user_management.route_subscriber:
