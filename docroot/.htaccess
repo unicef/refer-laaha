@@ -88,6 +88,12 @@ AddEncoding gzip svgz
   # downloaded.
   RewriteRule "/\.|^\.(?!well-known/)" - [F]
 
+  RewriteEngine On
+  # ensure https
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
   # If your site can be accessed both with and without the 'www.' prefix, you
   # can use one of the following settings to redirect users to your preferred
   # URL, either WITH or WITHOUT the 'www.' prefix. Choose ONLY one option:
@@ -102,8 +108,8 @@ AddEncoding gzip svgz
   # To redirect all users to access the site WITHOUT the 'www.' prefix,
   # (http://www.example.com/foo will be redirected to http://example.com/foo)
   # uncomment the following:
-  # RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-  # RewriteRule ^ http%{ENV:protossl}://%1%{REQUEST_URI} [L,R=301]
+   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+   RewriteRule ^ http%{ENV:protossl}://%1%{REQUEST_URI} [L,R=301]
 
   # Modify the RewriteBase if you are using Drupal in a subdirectory or in a
   # VirtualDocumentRoot and the rewrite rules are not working properly.
@@ -151,6 +157,25 @@ AddEncoding gzip svgz
   # Deny access to any other PHP files that do not match the rules above.
   # Specifically, disallow autoload.php from being served directly.
   RewriteRule "^(.+/.*|autoload)\.php($|/)" - [F]
+  
+  Redirect 403 /update.php
+  Redirect 403 /install.php
+  Redirect 403 /rebuild.php
+  Redirect 403 /web.config
+  RedirectMatch 403 ^/core/?$
+  RedirectMatch 403 ^/core/.*\.php$
+  RedirectMatch 403 ^/core/.*\.sh$
+  RedirectMatch 403 ^/core/.*\.sh$
+  RedirectMatch 403 ^/core/.*\.txt$
+  RedirectMatch 403 ^/core/.*\.yml$
+  RedirectMatch 403 ^/core/.*\.json$
+  RedirectMatch 403 ^/core/.*\.lock$
+  RedirectMatch 403 ^/core/.*\.script$
+  Redirect 403 /.ht.router.php
+  Redirect 403 /.gitattributes
+  RedirectMatch 403 ^/themes\/custom\/.*\/package.json$
+  RedirectMatch 403 ^/themes\/custom\/.*\/package-lock.json$
+  RedirectMatch 403 ^/themes\/custom\/.*\/gulpfile.js$
 
   # Rules to correctly serve gzip compressed CSS and JS files.
   # Requires both mod_rewrite and mod_headers to be enabled.
@@ -184,8 +209,3 @@ AddEncoding gzip svgz
   RequestHeader unset Proxy
 </IfModule>
 
-RewriteEngine On
-# ensure https
-RewriteCond %{HTTP:X-Forwarded-Proto} !https
-RewriteCond %{HTTPS} off
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
