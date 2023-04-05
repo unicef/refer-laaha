@@ -280,7 +280,7 @@ form input[type=submit].button-border {
   overflow-x: scroll;
 }
 .table-format table {
-  border: 1px solid #F3C1BF;
+  border: 1px solid #f3c1bf;
   border-radius: 5px;
   border-collapse: collapse;
   width: 100%;
@@ -290,7 +290,7 @@ form input[type=submit].button-border {
   text-align: left;
 }
 .table-format table thead th {
-  border-bottom: 1px solid #F3C1BF;
+  border-bottom: 1px solid #f3c1bf;
 }
 .table-format table td,
 .table-format table th {
@@ -305,7 +305,7 @@ form input[type=submit].button-border {
 }
 
 .ui-autocomplete {
-  border: 1px solid #F3C1BF !important;
+  border: 1px solid #f3c1bf !important;
   border-radius: 5px;
   height: 194px;
   width: calc(100% - 40px) !important;
@@ -355,19 +355,19 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 }
 .select2-container--default .select2-selection--multiple,
 .select2-container--default .select2-selection--single {
-  border: 1px solid #F3C1BF !important;
+  border: 1px solid #f3c1bf !important;
   margin-top: 7px;
   padding: 5px 6px 7px !important;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice,
 .select2-container--default .select2-selection--single .select2-selection__choice {
   background: #fff !important;
-  border: 1px solid #F3C1BF !important;
+  border: 1px solid #f3c1bf !important;
   margin-top: 0 !important;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove,
 .select2-container--default .select2-selection--single .select2-selection__choice__remove {
-  border-right: 1px solid #F3C1BF !important;
+  border-right: 1px solid #f3c1bf !important;
   color: #A85766 !important;
 }
 .select2-container--default .select2-selection--single {
@@ -389,7 +389,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 }
 .select2-container--default.select2-container--focus .select2-selection--multiple,
 .select2-container--default.select2-container--focus .select2-selection--single {
-  border: 1px solid #F3C1BF;
+  border: 1px solid #f3c1bf;
 }
 .select2-container--default .select2-results__option--selected {
   background: #ffffff !important;
@@ -403,7 +403,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   padding-left: 11px;
 }
 .select2-container .select2-dropdown {
-  border: 1px solid #F3C1BF;
+  border: 1px solid #f3c1bf;
 }
 .select2-container .ui-state-active {
   background: none;
@@ -478,7 +478,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 }
 
 .service-count {
-  color: #9B9B9B;
+  color: #9b9b9b;
   font-size: 14px;
   font-weight: 400;
 }
@@ -516,6 +516,10 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 html[dir=rtl] .select2-container--default .select2-selection--single .select2-selection__arrow {
   left: 8px;
   right: auto !important;
+}
+
+[id^=edit-pass] .password-suggestions {
+  margin-top: 0px !important;
 }
 
 form .form-required::after {

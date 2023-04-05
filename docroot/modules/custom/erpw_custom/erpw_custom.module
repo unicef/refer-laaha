@@ -83,7 +83,7 @@ function erpw_custom_views_pre_render(ViewExecutable $view) {
     $parameters = \Drupal::routeMatch()->getParameters()->all();
     // Conditionals are here to stop a fatal error, including when previewing
     // the view when editing it.  @TODO get the parameter the Views way.
-    // Alternatively, use views to provide the title
+    // Alternatively, use views to provide the title.
     $nid = $parameters['arg_0'] ?: NULL;
     if (!$nid) {
       return;
@@ -100,6 +100,7 @@ function erpw_custom_views_pre_render(ViewExecutable $view) {
 function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if ($form_id == 'user_cancel_form') {
     $uid = \Drupal::currentUser()->id();
+
     $current_user = User::load($uid);
     if ($uid != 1  && !$current_user->hasRole('administrator')) {
       // Enable Email notification to the user.
@@ -305,6 +306,23 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     $form['actions']['delete']['#access'] = FALSE;
     array_unshift($form['actions']['submit']['#submit'], '_erpw_custom_service_provider_form');
+  }
+  if (!\Drupal::request()->get('pass-reset-token')) {
+    if (\Drupal::routeMatch()->getRouteName() == 'entity.user.edit_form') {
+      $current_user_id = \Drupal::currentUser()->id();
+      $roles = \Drupal::currentUser()->getRoles();
+      $form_user_id = \Drupal::request()->attributes->get('user')->id();
+      foreach ($roles as $role) {
+        if ($role != 'administrator' && $role != 'country_admin') {
+          if ($current_user_id == $form_user_id) {
+            $form['field_location']['#disabled'] = 'true';
+            $form['field_organisation']['#disabled'] = 'true';
+            $form['field_position']['#disabled'] = 'true';
+            $form['field_system_role']['#disabled'] = 'true';
+          }
+        }
+      }
+    }
   }
 }
 
@@ -541,6 +559,12 @@ function erpw_custom_preprocess_page_title(&$variables) {
         else {
           $variables['title'] = t("Edit Service Form");
         }
+      }
+      break;
+
+    case 'entity.user.edit_form':
+      if (\Drupal::request()->get('pass-reset-token')) {
+        $variables['title'] = t('Set User Password');
       }
       break;
   }
@@ -804,9 +828,9 @@ function erpw_custom_entity_presave(EntityInterface $entity) {
   // For service type content type.
   if ($entity->getEntityTypeId() == 'node' && $entity->getType() == 'service_type') {
     $node_title = trim($entity->get('title')->value);
-    // if (strpos($node_title, '(') !== FALSE) {
+    // If (strpos($node_title, '(') !== FALSE) {
     //   $node_title = preg_replace('/\s+/', '', $node_title);
-    // }
+    // }.
     if (preg_match("/'/u", $node_title)) {
       $node_title = str_replace("'", '', $node_title);
     }
@@ -824,5 +848,17 @@ function erpw_custom_entity_presave(EntityInterface $entity) {
   //    }
   //  }
   //  $entity->set('field_domain_access', $domain_id);
-  // }
+  // }.
+}
+
+/**
+ * Implements hook_entity_form_mode_alter().
+ */
+function erpw_custom_entity_form_display_alter(&$form_display, $context) {
+  if ($context['entity_type'] == 'user' && $context['bundle'] == 'user') {
+    if (\Drupal::request()->get('pass-reset-token')) {
+      $storage = \Drupal::service('entity_type.manager')->getStorage('entity_form_display');
+      $form_display = $storage->load('user.user.user_password_reset');
+    }
+  }
 }

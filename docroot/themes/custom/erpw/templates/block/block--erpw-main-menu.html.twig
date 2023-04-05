@@ -36,8 +36,8 @@
   {{ title_suffix }}
   {% block content %}
   {% if user_logged_in_name %}
-  You are logged in as 
-  <br><b>{{ user_logged_in_name }}</b>
+  You are logged in as
+  <br><b><a class="user-link-dashboard" href="/user">{{ user_logged_in_name }}</a></b>
   {% endif %}
   <div class="current-status">
     <span id="dot"></span>
