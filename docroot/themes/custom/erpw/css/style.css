@@ -1965,6 +1965,11 @@ html[dir=rtl] [id^=block-erpw-main-menu] .current-status #status {
   text-align: center;
 }
 
+html[dir=rtl] .eye-close {
+  left: 40px;
+  right: unset;
+}
+
 .node-service-type-form label, .node-service-type-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-form .fieldset-legend,
 .node-service-type-form .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
 .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .node-service-type-form .fieldset-legend,
@@ -2490,6 +2495,12 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   font-weight: 500;
 }
 
+html[dir=rtl] .service-list .views-field-field-service-type-icon, html[dir=rtl] .view-organisations .views-field-field-service-type-icon,
+html[dir=rtl] .view-referral-pathway-listing .views-field-field-service-type-icon {
+  left: unset;
+  right: 10px;
+}
+
 .service-provider-class {
   border: 0;
   padding: 0;
@@ -2829,6 +2840,11 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   margin: 0 0 7px;
   padding: 0;
   font-weight: 400;
+}
+
+html[dir=rtl] .view-manage-service .views-field-field-service-type-icon, html[dir=rtl] .view-moderated-content .views-field-field-service-type-icon {
+  left: unset;
+  right: 10px;
 }
 
 .user-logged-in.path-user {
