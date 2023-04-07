@@ -19,9 +19,50 @@
         });
         const select = document.getElementById("select");
       });
-      const termsArray = drupalSettings.erpw_location.locations_array;
+
+      var termsArray = [];
+      // Add array to browser local storage.
+      $(document).ready(function () {
+        localStorage.setItem(
+          "termArray",
+          JSON.stringify(drupalSettings.erpw_location.locations_array)
+        );
+      });
+
+      window.addEventListener(
+        "load",
+        function (e) {
+          if (navigator.onLine) {
+            termsArray = drupalSettings.erpw_location.locations_array;
+          } else {
+            termsArray = JSON.parse(localStorage.getItem("termArray") || "[]");
+          }
+        },
+        false
+      );
+      window.addEventListener(
+        "online",
+        function (e) {
+          termsArray = drupalSettings.erpw_location.locations_array;
+        },
+        false
+      );
+
+      window.addEventListener(
+        "offline",
+        function (e) {
+          termsArray = JSON.parse(localStorage.getItem("termArray") || "[]");
+        },
+        false
+      );
+
+      // Adding options to the select lists.
       $("#edit-location-options").change(function (event) {
         event.preventDefault();
+        $("#location-level-1 #edit-level-1").empty();
+        $("#location-level-2 #edit-level-2").empty();
+        $("#location-level-3 #edit-level-3").empty();
+        $("#location-level-4 #edit-level-4").empty();
         var zeroTid = event.target.value;
         for (const zeroKey in termsArray) {
           const zeroValue = termsArray[zeroKey];
@@ -35,8 +76,12 @@
                   display: "block",
                 });
                 var select = $("#location-level-1 #edit-level-1")[0];
+                var level_1 = Drupal.t("Select " + zeroValue["level_label"]);
+                document.querySelector(
+                  '#location-level-1 label[for="edit-level-1"]'
+                ).textContent = level_1;
                 $("#location-level-1 #edit-level-1").empty();
-                select.add(new Option("Select Option", 0));
+                select.add(new Option(level_1, 0));
                 for (const valueKey in oneValue) {
                   for (const name in oneValue[valueKey]) {
                     if (name == "name") {
@@ -66,7 +111,13 @@
             });
             var select = $("#location-level-2 #edit-level-2")[0];
             $("#location-level-2 #edit-level-2").empty();
-            select.add(new Option("Select Option", 0));
+            var level_2 = Drupal.t(
+              "Select " + termsArray[zeroKey]["children"][oneTid]["level_label"]
+            );
+            document.querySelector(
+              '#location-level-2 label[for="edit-level-2"]'
+            ).textContent = level_2;
+            select.add(new Option(level_2, 0));
             for (const newKey in newoptions) {
               select.add(new Option(newoptions[newKey]["name"], newKey));
             }
@@ -94,7 +145,16 @@
             });
             var select = $("#location-level-3 #edit-level-3")[0];
             $("#location-level-3 #edit-level-3").empty();
-            select.add(new Option("Select Option", 0));
+            var level_3 = Drupal.t(
+              "Select " +
+                termsArray[zeroKey]["children"][oneTid]["children"][twoTid][
+                  "level_label"
+                ]
+            );
+            document.querySelector(
+              '#location-level-3 label[for="edit-level-3"]'
+            ).textContent = level_3;
+            select.add(new Option(level_3, 0));
             for (const newKey in newoptions) {
               select.add(new Option(newoptions[newKey]["name"], newKey));
             }
@@ -122,7 +182,16 @@
                 });
                 var select = $("#location-level-4 #edit-level-4")[0];
                 $("#location-level-4 #edit-level-4").empty();
-                select.add(new Option("Select Option", 0));
+                var level_4 = Drupal.t(
+                  "Select " +
+                    termsArray[zeroKey]["children"][oneTid]["children"][twoTid][
+                      "children"
+                    ][threeTid]["level_label"]
+                );
+                document.querySelector(
+                  '#location-level-4 label[for="edit-level-4"]'
+                ).textContent = level_4;
+                select.add(new Option(level_4, 0));
                 for (const newKey in newoptions[keys]) {
                   select.add(
                     new Option(newoptions[keys][newKey]["name"], newKey)
