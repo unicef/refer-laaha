@@ -34,31 +34,3 @@ use Drupal\Core\Form\FormStateInterface;
   
   return $form;
 }
-
-// /**
-//  * Implements hook_form_alter().
-//  */
-// function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_id)
-// {
-//   // Check if it is webform template selection form.
-//   if ($form_id === 'webform_templates_filter_form') {
-//     // Load the webform templates list.
-    // $templates = \Drupal::service('entity_type.manager')
-    //   ->getStorage('webform')
-    //   ->loadMultiple();
-//     // Remove all templates except eRPW template.
-//     $rows_to_remove = [
-//       'title',
-//       'description',
-//       'category'
-//     ];
-//     foreach ($templates as $template) {
-//       if ($template->id() !== 'template_erpw_workflow') {
-//         foreach ($rows_to_remove as $row) {
-//           unset($form[$row]);
-//         }
-//       }
-//     }
-//   }
-// }
-
