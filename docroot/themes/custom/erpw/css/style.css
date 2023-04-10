@@ -579,7 +579,7 @@ input[type=password]::-webkit-input-placeholder,
 input[type=email]::-webkit-input-placeholder,
 select::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
-  color: #E0D7D7;
+  color: #e0d7d7;
   font-size: 14px;
 }
 input[type=text]:-moz-placeholder,
@@ -587,7 +587,7 @@ input[type=password]:-moz-placeholder,
 input[type=email]:-moz-placeholder,
 select:-moz-placeholder,
 textarea:-moz-placeholder {
-  color: #E0D7D7;
+  color: #e0d7d7;
   font-size: 14px;
 }
 input[type=text]::-moz-placeholder,
@@ -595,7 +595,7 @@ input[type=password]::-moz-placeholder,
 input[type=email]::-moz-placeholder,
 select::-moz-placeholder,
 textarea::-moz-placeholder {
-  color: #E0D7D7;
+  color: #e0d7d7;
   font-size: 14px;
 }
 input[type=text]:-ms-input-placeholder,
@@ -603,7 +603,7 @@ input[type=password]:-ms-input-placeholder,
 input[type=email]:-ms-input-placeholder,
 select:-ms-input-placeholder,
 textarea:-ms-input-placeholder {
-  color: #E0D7D7;
+  color: #e0d7d7;
   font-size: 14px;
 }
 
@@ -678,6 +678,19 @@ input[type=submit].use-ajax.arrow-btn {
 }
 
 .signin-or-form {
+  display: none;
+}
+
+#edit-location-details #location-level-1 {
+  display: none;
+}
+#edit-location-details #location-level-2 {
+  display: none;
+}
+#edit-location-details #location-level-3 {
+  display: none;
+}
+#edit-location-details #location-level-4 {
   display: none;
 }
 
