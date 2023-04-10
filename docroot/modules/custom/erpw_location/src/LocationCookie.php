@@ -2,11 +2,14 @@
 
 namespace Drupal\erpw_location;
 
+use Drupal\domain\DomainNegotiatorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class LocationCookie.
@@ -51,13 +54,26 @@ class LocationCookie implements EventSubscriberInterface {
   protected $shouldDeleteCookie = FALSE;
 
   /**
+   * The Domain negotiator.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
    * LocationCookie constructor.
    *
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   Request stack service.
+   * 
+   * @param \Drupal\domain\DomainNegotiatorInterface $negotiator
+   *   Domain negotiator service.
    */
-  public function __construct(RequestStack $request_stack) {
+  public function __construct(
+    RequestStack $request_stack, 
+    DomainNegotiatorInterface $domain_negotiator) {
     $this->request = $request_stack->getCurrentRequest();
+    $this->domainNegotiator = $domain_negotiator;
   }
 
   /**
@@ -145,12 +161,27 @@ class LocationCookie implements EventSubscriberInterface {
    */
   public function onResponse(ResponseEvent $event) {
     $response = $event->getResponse();
+    $domain = $this->domainNegotiator->getActiveDomain();
+    $full_url = $domain->get('hostname');
     if ($this->getShouldUpdateCookie()) {
-      $domain_current_url = explode(".", $this->request->server->get('SERVER_NAME'));
-      $domain_slice = array_slice($domain_current_url, -2);
-      $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
-      $my_new_cookie = new Cookie($this->getCookieName(), $this->getCookieValue(), strtotime('+7 days'), '/', $domain_site, NULL, FALSE);
+      $my_new_cookie = new Cookie($this->getCookieName(), $this->getCookieValue(), strtotime('+7 days'), '/', $full_url, NULL, FALSE);
       $response->headers->setCookie($my_new_cookie);
+    }
+    else {
+      // Case where sub - domain is changed from URL
+      $config = \Drupal::config('domain.location.' . $domain->get('id'));
+      $domain_tid = $config->get('location');
+
+      //Check if the current location cookie tid value matches with the domain tid value.
+      if (isset($_COOKIE['location_tid'])) {
+        if($_COOKIE['location_tid'] != $domain_tid){
+          setcookie('location_tid', $domain_tid, strtotime('+1 year'), '/', $full_url, FALSE);
+          $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $domain_tid]]);
+          $url->setAbsolute();
+          $response = new RedirectResponse($url->toString());
+          $event->setResponse($response);
+        }
+      }
     }
     // The "should delete" needs to happen after "should update", or we could
     // find ourselves in a situation where we are unable to delete the cookie

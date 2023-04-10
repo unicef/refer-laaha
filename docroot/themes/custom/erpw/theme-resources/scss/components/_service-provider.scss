@@ -297,3 +297,12 @@
 .view-moderated-content {
 	@extend .view-manage-service;
 }
+
+html[dir="rtl"] {
+	.view-manage-service {
+		.views-field-field-service-type-icon {
+			left: unset;
+			right: 10px;
+		}
+	}
+}
