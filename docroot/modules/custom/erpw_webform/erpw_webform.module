@@ -1,0 +1,64 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * @file
+ * Contains erpw_webform.module.
+ */
+
+
+/**
+ * Implements hook_webform_add_form().
+ */
+ function erpw_webform_webform_add_form(array &$form, FormStateInterface $form_state, $webform_type = NULL) {
+  // Load the appropriate webform template.
+  if ($webform_type == 'default') {
+    $webform = \Drupal\webform\Entity\Webform::create([]);
+  }
+  elseif ($webform_type == 'eRPW') {
+    $webform = \Drupal\webform\Entity\Webform::create([
+      'template' => 'template_erpw_workflow',
+    ]);
+  }
+  
+  // Set the webform values.
+  $form_state->set('webform', $webform);
+  $form_state->set('template', $webform->get('template')->value);
+  
+  // Build the webform form.
+  $form_object = \Drupal::entityTypeManager()
+    ->getFormObject('webform', 'default')
+    ->setEntity($webform);
+  $form = \Drupal::formBuilder()->getForm($form_object);
+  
+  return $form;
+}
+
+// /**
+//  * Implements hook_form_alter().
+//  */
+// function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_id)
+// {
+//   // Check if it is webform template selection form.
+//   if ($form_id === 'webform_templates_filter_form') {
+//     // Load the webform templates list.
+    // $templates = \Drupal::service('entity_type.manager')
+    //   ->getStorage('webform')
+    //   ->loadMultiple();
+//     // Remove all templates except eRPW template.
+//     $rows_to_remove = [
+//       'title',
+//       'description',
+//       'category'
+//     ];
+//     foreach ($templates as $template) {
+//       if ($template->id() !== 'template_erpw_workflow') {
+//         foreach ($rows_to_remove as $row) {
+//           unset($form[$row]);
+//         }
+//       }
+//     }
+//   }
+// }
+
