@@ -135,10 +135,31 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
   public function build() {
     $form_config = $this->configfactory->get('erpw_location.settings');
     $cookie_value = $this->locationCookie->getCookieValue();
-    $tid = $tid = $this->requestStack->cookies->get('location_tid');
+    $tid = \Drupal::request()->cookies->get('location_tid');
     if (!$tid) {
+      // Find out if the URL has sub-domain:
+      $domain_current_url = explode(".", \Drupal::request()->server->get('SERVER_NAME'));
+      $domain_slice = array_slice($domain_current_url, -4);
+      $location = $domain_slice[0];
+
+      // Load domains and their ids
+      $domains = \Drupal::entityTypeManager()->getStorage('domain')->loadMultiple();
+      $domains_array = array();
+      foreach($domains as $domain){
+        $domain_id = \Drupal::config('domain.location.' . $domain->id());
+        $domain_id_slice = explode(".", $domain->get('hostname'));
+        $subdomain = $domain_id_slice[0];
+        $domain_tid = $domain_id->get('location');
+        $domains_array[$subdomain] = $domain_tid;
+      }
+      if($location){
+        $tid = $domains_array[$location];
+      }
+     else{
       $this->tempStoreFactory->get(base64_decode($cookie_value));
+     }
     }
+
     $tid_array = explode(",", $tid);
     $location = '';
     if (!empty($tid)) {
