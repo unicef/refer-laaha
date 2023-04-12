@@ -15,6 +15,7 @@ dependencies:
     - domain_access
     - erpw_custom
     - erpw_location
+    - field_permissions
     - node
     - node_view_permissions
     - quick_node_clone
@@ -108,3 +109,8 @@ permissions:
   - 'view own unpublished content'
   - 'view published location entity entities'
   - 'view unpublished location entity entities'
+  - 'create field_domain_access'
+  - 'edit own field_domain_access'
+  - 'edit field_domain_access'
+  - 'view own field_domain_access'
+  - 'view field_domain_access'
