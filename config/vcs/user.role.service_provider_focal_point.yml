@@ -14,6 +14,7 @@ dependencies:
     - node_view_permissions
     - quick_node_clone
     - system
+    - webform
 id: service_provider_focal_point
 label: 'Service Provider - Focal Point'
 weight: -7
@@ -58,3 +59,11 @@ permissions:
   - 'view service of their own location and organisation'
   - 'view service_provider revisions'
   - 'view users of their own location and organisation'
+  - 'access webform submission user'
+  - 'administer webform submission'
+  - 'delete any webform submission'
+  - 'delete own webform submission'
+  - 'edit any webform submission'
+  - 'edit own webform submission'
+  - 'view any webform submission'
+  - 'view own webform submission'

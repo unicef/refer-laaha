@@ -16,6 +16,7 @@ dependencies:
     - node_view_permissions
     - quick_node_clone
     - system
+    - webform
 id: interagency_gbv_coordinator
 label: 'Interagency GBV Coordinator'
 weight: -6
@@ -70,3 +71,11 @@ permissions:
   - 'view referral pathway of their own location'
   - 'view service of their own location'
   - 'view users of their own location'
+  - 'access webform submission user'
+  - 'administer webform submission'
+  - 'delete any webform submission'
+  - 'delete own webform submission'
+  - 'edit any webform submission'
+  - 'edit own webform submission'
+  - 'view any webform submission'
+  - 'view own webform submission'
