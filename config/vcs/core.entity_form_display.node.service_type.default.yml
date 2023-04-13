@@ -18,28 +18,21 @@ bundle: service_type
 mode: default
 content:
   field_domain_access:
-    type: options_buttons
-    weight: 4
+    type: options_select
+    weight: 0
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_domain_all_affiliates:
-    type: boolean_checkbox
-    weight: 5
-    region: content
-    settings:
-      display_label: true
-    third_party_settings: {  }
   field_service_type_color:
     type: color_field_widget_box
-    weight: 2
+    weight: 3
     region: content
     settings:
       default_colors: '#f9d14a,#f4cbca,#b2a0d9,#7fbc72'
     third_party_settings: {  }
   field_service_type_icon:
     type: unicef_iconpicker
-    weight: 1
+    weight: 2
     region: content
     settings:
       size: 60
@@ -47,19 +40,20 @@ content:
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 0
+    weight: 1
     region: content
     settings:
       size: 60
       placeholder: 'Enter service type name. eg:  Health care'
     third_party_settings: {  }
   translation:
-    weight: 3
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
 hidden:
   created: true
+  field_domain_all_affiliates: true
   field_domain_source: true
   langcode: true
   moderation_state: true
