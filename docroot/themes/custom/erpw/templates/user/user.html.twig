@@ -16,40 +16,81 @@
  * @see template_preprocess_user()
  */
 #}
-<article{{ attributes.addClass('profile') }}>
-  <div class="user-personal-details">
-	  <h2>{{ 'Personal Details'|t }}</h2>
-    <div class='n-label'>
-      <label>{{ 'First Name'|t }} * </label>
-      <span class='f-name'>{{ user.field_first_name.0.value }}</span>
-    </div>
-    <div class='n-label'>
-			<label>{{ 'Last Name '|t }} * </label>
-			<span class='l-name'>{{ user.field_last_name.0.value }}</span>
-		</div>
-    <div class='n-label'>
-			<label>{{ 'Email'|t }} * </label>
-			<span class='mail'>{{ mail }}</span>
-		</div>
-    <div class='n-label'>
-			<label>{{ 'Phone'|t }} * </label>
-			<span class='phone-num'>{{ user.field_phone.0.value }}</span>
-		</div>
-    <div class='n-label'>
-			<label>{{ 'Organisation'|t }} *</label>
-			<span class='f-organisation'>{{ user.field_organisation.entity.title.0.value }}</span>
-		 </div>
-    <div class='n-label'>
-			<label>{{ 'Position'|t }} * </label>
-			<span class='f-position'>{{ user.field_position.0.value }}</span>
-		</div>
-    <div class='n-label'>
-			<label>{{ 'Location'|t }} * </label>
-			<span class='user-location'>{{ location }}</span>
-		</div>
+<article{{attributes.addClass('profile')}}>
+	<div class="user-personal-details">
+		<h2>{{ 'Personal Details'|t }}</h2>
+		{% if user.field_first_name.0.value is not null and user.field_first_name.0.value is not empty %}
+			<div class='n-label'>
+				<label>{{ 'First Name'|t }}
+					*
+				</label>
+				<span class='f-name'>{{ user.field_first_name.0.value }}</span>
+			</div>
+		{% endif %}
+		{% if user.field_last_name.0.value is not null and user.field_last_name.0.value is not empty %}
+			<div class='n-label'>
+				<label>{{ 'Last Name '|t }}
+					*
+				</label>
+				<span class='l-name'>{{ user.field_last_name.0.value }}</span>
+			</div>
+		{% endif %}
+		{% if mail is not null and mail is not empty %}
+			<div class='n-label'>
+				<label>{{ 'Email'|t }}
+					*
+				</label>
+				<span class='mail'>{{ mail }}</span>
+			</div>
+		{% endif %}
+		{% if user.field_phone.0.value is not null and user.field_phone.0.value is not empty %}
+			<div class='n-label'>
+				<label>{{ 'Phone'|t }}
+					*
+				</label>
+				<span class='phone-num'>{{ user.field_phone.0.value }}</span>
+			</div>
+		{% endif %}
+		{% if user.field_organisation.entity.title.0.value is not null and user.field_organisation.entity.title.0.value is not empty %}
+			<div class='n-label'>
+				<label>{{ 'Organisation'|t }}
+					*</label>
+				<span class='f-organisation'>{{ user.field_organisation.entity.title.0.value }}</span>
+			</div>
+		{% endif %}
+		{% if user.field_position.0.value is not null and user.field_position.0.value is not empty %}
+			<div class='n-label'>
+				<label>{{ 'Position'|t }}
+					*
+				</label>
+				<span class='f-position'>{{ user.field_position.0.value }}</span>
+			</div>
+		{% endif %}
+		{% if roles is not null and roles is not empty %}
+			<div class='n-label'>
+				<label>{{ 'App Role'|t }}
+					*
+				</label>
+				<span class='f-position'>
+					<ul>
+						{% for role in roles %}
+							<li>{{ role }}</li>
+						{% endfor %}
+					</ul>
+				</span>
+			</div>
+		{% endif %}
+		{% if location is not null and location is not empty %}
+			<div class='n-label'>
+				<label>{{ 'Location'|t }}
+					*
+				</label>
+				<span class='user-location'>{{ location }}</span>
+			</div>
+		{% endif %}
 		{% if not hide_list_button %}
 			<a href="{{ url('view.user_lists.page_1') }}" class="button button-border">{{ 'Return to user list'|t }}</a>
 		{% endif %}
 		<a href="/user/edit" class="button button-border">{{ 'Edit Details'|t }}</a>
-  </div>
+	</div>
 </article>

@@ -123,6 +123,16 @@ function erpw_preprocess_user(&$variables) {
   $variables['location'] = $location;
   $current_user_id = \Drupal::currentUser()->id();
   $form_user_id = \Drupal::request()->attributes->get('user')->id();
+  $roles_ar = \Drupal::currentUser()->getRoles();
+  $roles = [];
+  foreach ($roles_ar as $key => $role) {
+    if ($role != 'authenticated') {
+      $arr = explode("_", $role);
+      $role = implode(" ", $arr);
+      $roles[] = ucfirst(strtolower($role));
+    }
+  }
+  $variables['roles'] = $roles;
   if ($current_user_id == $form_user_id) {
     $variables['hide_list_button'] = TRUE;
   }
