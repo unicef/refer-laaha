@@ -7,16 +7,16 @@ seckit_xss:
       x: false
       webkit: false
     report-only: false
-    default-src: '''self'' *.erefer.org:* ''unsafe-inline'' ''unsafe-eval'' *.sharethis.com:* *.cloudflare.com:* *.google-analytics.com:* *.googletagmanager.com:* *.gstatic.com:* *.googleapis.com:* *.fontawesome.com:* *.addtoany.com:* *.disqus.com:* *.facebook.com:* *.facebook.net:* *.google.com:* *.linkedin.com:* *.twitter.com:* *.youtube.com:* *.vimeo.com:* *.instagram.com *.newrelic.com:* *.nr-data.net:* *.jquery.js:* *.chosen.css:* *.opencagedata.com:* *.jsdelivr.net:* data:'
-    script-src: '''self'' ''unsafe-inline'' ''unsafe-eval'' *.erefer.org:* *.google-analytics.com:* *.googletagmanager.com:* *.jsdelivr.net:*'
+    default-src: '''self'' *.erefer.org:* ''unsafe-inline'' ''unsafe-eval'' *.sharethis.com:* *.cloudflare.com:* *.google-analytics.com:* *.googletagmanager.com:* *.gstatic.com:* *.googleapis.com:* *.fontawesome.com:* *.addtoany.com:* *.disqus.com:* *.facebook.com:* *.facebook.net:* *.google.com:* *.linkedin.com:* *.twitter.com:* *.youtube.com:* *.vimeo.com:* *.instagram.com *.newrelic.com:* *.nr-data.net:* *.jquery.js:* *.chosen.css:* *.opencagedata.com:* *.jsdelivr.net:* *.unpkg.com:* https://unpkg.com/@fonticonpicker/fonticonpicker@3.1.1/dist/js/jquery.fonticonpicker.min.js https://unpkg.com/@fonticonpicker/fonticonpicker@3.1.1/dist/css/base/jquery.fonticonpicker.min.css https://unpkg.com/@fonticonpicker/fonticonpicker@3.1.1/dist/css/themes/grey-theme/jquery.fonticonpicker.grey.min.css https://unpkg.com/@fonticonpicker/fonticonpicker@3.1.1/dist/fonts/iconpicker.woff?90190138 data:'
+    script-src: '''self'' ''unsafe-inline'' ''unsafe-eval'' *.erefer.org:* *.google-analytics.com:* *.googletagmanager.com:* *.jsdelivr.net:* https://unpkg.com/@fonticonpicker/fonticonpicker@3.1.1/dist/js/jquery.fonticonpicker.min.js'
     object-src: ''
-    style-src: '''self'' ''unsafe-inline'' *.jsdelivr.net:* *.googleapis.com:* *.cloudflare.com:*'
+    style-src: '''self'' ''unsafe-inline'' *.jsdelivr.net:* *.googleapis.com:* *.cloudflare.com:* https://unpkg.com/@fonticonpicker/fonticonpicker@3.1.1/dist/css/base/jquery.fonticonpicker.min.css https://unpkg.com/@fonticonpicker/fonticonpicker@3.1.1/dist/css/themes/grey-theme/jquery.fonticonpicker.grey.min.css'
     img-src: '''self'' data:'
     media-src: ''
     frame-src: ''
     frame-ancestors: '''self'''
     child-src: ''
-    font-src: '''self'' ''unsafe-inline'' ''unsafe-eval'' *.gstatic.com:* *.googleusercontent.com:* *.googleapis.com:* *.googleapis.com:* *.fontawesome.com:* *.jsdelivr.net:* *.cloudflare.com:* data:'
+    font-src: '''self'' ''unsafe-inline'' ''unsafe-eval'' *.gstatic.com:* *.googleusercontent.com:* *.googleapis.com:* *.googleapis.com:* *.fontawesome.com:* *.jsdelivr.net:* *.cloudflare.com:* data: https://unpkg.com/@fonticonpicker/fonticonpicker@3.1.1/dist/fonts/iconpicker.woff?90190138'
     connect-src: ''
     report-uri: report-csp-violation
     upgrade-req: false
@@ -37,7 +37,7 @@ seckit_clickjacking:
   x_frame_allow_from: ''
 seckit_ssl:
   hsts: true
-  hsts_subdomains: true
+  hsts_subdomains: false
   hsts_max_age: 31536000
   hsts_preload: false
 seckit_ct:
