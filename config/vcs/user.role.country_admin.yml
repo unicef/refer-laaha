@@ -19,6 +19,8 @@ dependencies:
     - node_view_permissions
     - quick_node_clone
     - system
+    - webform
+    - webform_submission_log
 id: country_admin
 label: 'Country Admin'
 weight: -5
@@ -111,3 +113,18 @@ permissions:
   - 'view service of their own country'
   - 'view unpublished location entity entities'
   - 'view users of their own country'
+  - 'access webform submission user'
+  - 'administer webform element access'
+  - 'administer webform submission'
+  - 'administer webform'
+  - 'create webform'
+  - 'delete any webform submission'
+  - 'delete own webform submission'
+  - 'edit any webform'
+  - 'edit any webform submission'
+  - 'edit own webform'
+  - 'edit own webform submission'
+  - 'edit webform source'
+  - 'view any webform submission'
+  - 'view own webform submission'
+  - 'access webform submission log'

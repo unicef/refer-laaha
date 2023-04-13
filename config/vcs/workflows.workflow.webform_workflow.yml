@@ -1,0 +1,48 @@
+uuid: 2a87573e-8d14-4336-bf51-fcdf6c8f9717
+langcode: en
+status: true
+dependencies:
+  module:
+    - webform_workflows_element
+id: webform_workflow
+label: 'Webform Workflow'
+type: webform_workflows_element
+type_settings:
+  initial_state: draft
+  states:
+    approve:
+      label: Approve
+      weight: 1
+    draft:
+      label: Draft
+      weight: 0
+    reject:
+      label: Reject
+      weight: 2
+  transitions:
+    approve:
+      label: Approve
+      from:
+        - approve
+        - draft
+      to: approve
+      weight: 1
+    reject:
+      label: Reject
+      from:
+        - draft
+      to: reject
+      weight: 2
+    restore:
+      label: Restore
+      from:
+        - reject
+      to: draft
+      weight: 3
+    save_as_draft:
+      label: 'Save as Draft'
+      from:
+        - approve
+        - draft
+      to: draft
+      weight: 0

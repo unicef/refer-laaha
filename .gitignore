@@ -53,6 +53,9 @@ Thumbs.db
 /docroot/sites/default/settings.ddev.php
 /docroot/sites/default/local.services.yml
 
+# Ignore webform config files
+/config/vcs/webform.webform*
+
 # Ignore paths that may contain user-generated content
 /docroot/sites/*/files
 /docroot/sites/*/public
