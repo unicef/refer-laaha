@@ -10,7 +10,6 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\erpw_location\LocationService;
 use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
@@ -100,13 +99,13 @@ class AddLocationForm extends FormBase {
    *   The current user.
    */
   public function __construct(LoggerChannelFactory $logger,
-    Connection $connection,
-    EntityTypeManagerInterface $entity_type_manager,
-    MessengerInterface $messenger,
-    FormBuilderInterface $form_builder,
-    LocationService $location_service,
-    UrlGeneratorInterface $url_generator,
-    AccountProxyInterface $current_user) {
+  Connection $connection,
+  EntityTypeManagerInterface $entity_type_manager,
+  MessengerInterface $messenger,
+  FormBuilderInterface $form_builder,
+  LocationService $location_service,
+  UrlGeneratorInterface $url_generator,
+  AccountProxyInterface $current_user) {
 
     $this->logger = $logger;
     $this->connection = $connection;
@@ -123,14 +122,14 @@ class AddLocationForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('logger.factory'),
-      $container->get('database'),
-      $container->get('entity_type.manager'),
-      $container->get('messenger'),
-      $container->get('form_builder'),
-      $container->get('erpw_location.location_services'),
-      $container->get('url_generator'),
-      $container->get('current_user'),
+    $container->get('logger.factory'),
+    $container->get('database'),
+    $container->get('entity_type.manager'),
+    $container->get('messenger'),
+    $container->get('form_builder'),
+    $container->get('erpw_location.location_services'),
+    $container->get('url_generator'),
+    $container->get('current_user'),
     );
   }
 
@@ -446,124 +445,54 @@ class AddLocationForm extends FormBase {
       $this->t('Please select the country to fill the location details.')));
       $response->addCommand(new InvokeCommand('#intro-text',
       'css', ["color", "red"]));
-      return $response;
+    }
+    else {
+      $response->addCommand(new HtmlCommand('#intro-text', ''));
     }
     if (empty($form_state->getValue('level1'))) {
       $response->addCommand(new HtmlCommand('#error-text',
-      $form['top_wrapper']['all_wrapper']['level1_wrapper']['level1']['#title'] . "  " . $this->t('field is required.')));
+      $form['top_wrapper']['all_wrapper']['level1_wrapper']['level1']['#title'] . " " . $this->t('field is required.')));
       $response->addCommand(new InvokeCommand('#error-text',
       'css', ["color", "#A85766"]));
-      return $response;
-    }
-    if (empty($form_state->getValue('level2'))) {
-      $response->addCommand(new HtmlCommand('#error-text', ''));
-      $response->addCommand(new HtmlCommand('#error-text2',
-      $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('field is required.')));
-      $response->addCommand(new InvokeCommand('#error-text2',
-      'css', ["color", "#A85766"]));
-      return $response;
-    }
-    if (empty($form_state->getValue('level3'))) {
-      $response->addCommand(new HtmlCommand('#error-text', ''));
-      $response->addCommand(new HtmlCommand('#error-text2', ''));
-      $response->addCommand(new HtmlCommand('#error-text3',
-      $form['top_wrapper']['all_wrapper']['level3_wrapper']['level3']['#title'] . " " . $this->t('field is required.')));
-      $response->addCommand(new InvokeCommand('#error-text3',
-      'css', ["color", "#A85766"]));
-      return $response;
-    }
-    $level4 = $form_state->getValue('level4');
-    if (isset($level4)) {
-      if (empty($form_state->getValue('level4'))) {
-        $response->addCommand(new HtmlCommand('#error-text', ''));
-        $response->addCommand(new HtmlCommand('#error-text2', ''));
-        $response->addCommand(new HtmlCommand('#error-text3', ''));
-        $response->addCommand(new HtmlCommand('#error-text4',
-        $form['top_wrapper']['all_wrapper']['level4_wrapper']['level4']['#title'] . " " . $this->t('field is required.')));
-        $response->addCommand(new InvokeCommand('#error-text4',
-        'css', ["color", "red"]));
-        return $response;
-      }
-    }
-
-    // State.
-    if ($form_state->getValue('level1')) {
-      $level1_tid = $this->locationService->processTaxonomyData($form_state->getValue('level1'), $this->cid);
-    }
-
-    // City.
-    if ($form_state->getValue('level2')) {
-      $level2_tid = $this->locationService->processTaxonomyData($form_state->getValue('level2'), $level1_tid);
-      $last_level_tid = $level2_tid;
-      // Update case.
-      if ($this->tid) {
-        if ($this->tid == $last_level_tid) {
-          $response->addCommand(new HtmlCommand('#error-text3',
-          $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('already exist.')));
-          $response->addCommand(new InvokeCommand('#error-text3',
-          'css', ["color", "red"]));
-          return $response;
-        }
-      }
-    }
-    // District.
-    if ($form_state->getValue('level3')) {
-      if ($this->tid) {
-        $level3_tid = $this->locationService->processTaxonomyData($form_state->getValue('level3'), $level2_tid, 0, 'update', $this->tid);
-      }
-      else {
-        $level3_tid = $this->locationService->processTaxonomyData($form_state->getValue('level3'), $level2_tid);
-      }
-      $last_level_tid = $level3_tid;
-      // Update case.
-      if ($this->tid) {
-        if ($this->tid == $last_level_tid || $last_level_tid == 0) {
-          $response->addCommand(new HtmlCommand('#error-text3',
-          $this->t('Location entity is created with the values filled, Please change the values and Publish it.')));
-          $response->addCommand(new InvokeCommand('#error-text3',
-          'css', ["color", "red"]));
-          return $response;
-        }
-      }
-    }
-    if ($form_state->getValue('level4')) {
-      if ($this->tid) {
-        $level4_tid = $this->locationService->processTaxonomyData($form_state->getValue('level4'), $level3_tid, 4, 'update', $this->tid);
-      }
-      else {
-        $level4_tid = $this->locationService->processTaxonomyData($form_state->getValue('level4'), $level3_tid);
-      }
-      // Update case.
-      $last_level_tid = $level4_tid;
-      if ($this->tid) {
-        if ($this->tid == $last_level_tid || $last_level_tid == 0) {
-          $response->addCommand(new HtmlCommand('#error-text4',
-          $this->t('Location entity is created with the values filled, Please change the values and Publish it.')));
-          $response->addCommand(new InvokeCommand('#error-text4',
-          'css', ["color", "red"]));
-          return $response;
-        }
-      }
-    }
-
-    if (empty($this->tid) && $this->tid == "") {
-      $this->locationService->addEprwLocation($last_level_tid, $this->cid);
-      $modal_form = $this->formBuilder->getForm(
-        'Drupal\erpw_custom\Form\AddLocationPopup',
-        $this->t('Location added successfully'),
-        $this->t('The location has been added successfully. You can now access it in the application.')
-      );
     }
     else {
-      $modal_form = $this->formBuilder->getForm(
-        'Drupal\erpw_custom\Form\AddLocationPopup',
-        $this->t('Updated successfully'),
-        $this->t('The details have been successfully updated.'),
-        'update'
-      );
+      $response->addCommand(new HtmlCommand('#error-text', ''));
     }
-
-    $response->addCommand(new OpenModalDialogCommand('', $modal_form, ['width' => '400']));
+    if (empty($form_state->getValue('level2'))) {
+      if (!empty($form_state->getValue('level3'))) {
+        $response->addCommand(new HtmlCommand('#error-text2',
+        $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('field is required.')));
+        $response->addCommand(new InvokeCommand('#error-text2',
+        'css', ["color", "#A85766"]));
+      }
+      else {
+        $response->addCommand(new HtmlCommand('#error-text2', ''));
+      }
+      if (isset($level4)) {
+        if (!empty($form_state->getValue('level4'))) {
+          $response->addCommand(new HtmlCommand('#error-text2',
+          $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('field is required.')));
+          $response->addCommand(new InvokeCommand('#error-text2',
+          'css', ["color", "#A85766"]));
+        }
+        else {
+          $response->addCommand(new HtmlCommand('#error-text2', ''));
+        }
+      }
+    }
+    if (empty($form_state->getValue('level3'))) {
+      if (isset($level4)) {
+        if (!empty($form_state->getValue('level4'))) {
+          $response->addCommand(new HtmlCommand('#error-text3',
+          $form['top_wrapper']['all_wrapper']['level3_wrapper']['level3']['#title'] . " " . $this->t('field is required.')));
+          $response->addCommand(new InvokeCommand('#error-text3',
+          'css', ["color", "#A85766"]));
+        }
+        else {
+          $response->addCommand(new HtmlCommand('#error-text3', ''));
+        }
+      }
+    }
     return $response;
   }
 
