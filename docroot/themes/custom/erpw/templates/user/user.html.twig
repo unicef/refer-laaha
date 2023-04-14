@@ -71,13 +71,9 @@
 				<label>{{ 'App Role'|t }}
 					*
 				</label>
-				<span class='f-position'>
-					<ul>
-						{% for role in roles %}
-							<li>{{ role }}</li>
-						{% endfor %}
-					</ul>
-				</span>
+				{% for role in roles %}
+					<span class='f-position'>{{ role }}</span>
+				{% endfor %}
 			</div>
 		{% endif %}
 		{% if location is not null and location is not empty %}
