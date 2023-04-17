@@ -12,6 +12,7 @@ use Drupal\webform\Plugin\WebformElementBase;
  *   label = @Translation("Location list"),
  *   description = @Translation("Integrates an existing form into a webform."),
  *   category = @Translation("Custom"),
+ *   submit = "submitUserLocationListElement",
  * )
  */
 class UserLocationListElement extends WebformElementBase {
@@ -39,6 +40,21 @@ class UserLocationListElement extends WebformElementBase {
     $existing_form = \Drupal::formBuilder()->getForm('Drupal\erpw_location\Form\LocationListForm');
     $form['existing_form'] = \Drupal::service('renderer')->render($existing_form);
     return $form;
+  }
+
+  /**
+   * Submit handler for UserLocationListElement.
+   */
+  public function submitUserLocationListElement(array &$element, &$form_state) {
+    // Retrieve the value of the submitted form element.
+    $value = $form_state->getValue($element['#webform_id']);
+    dump($form_state);
+    // Perform any necessary processing on the value.
+    // ...
+    // Store the processed value in the webform submission.
+    // $submission = $form_state->getFormObject()->getSubmission();
+    // $submission->setData([$element['#webform_key'] => $value]);
+    // $submission->save();
   }
 
 }
