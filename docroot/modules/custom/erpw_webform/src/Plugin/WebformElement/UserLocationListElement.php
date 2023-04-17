@@ -2,47 +2,43 @@
 
 namespace Drupal\erpw_webform\Plugin\WebformElement;
 
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Element\RenderElement;
+use Drupal\webform\Plugin\WebformElementBase;
 
 /**
- * Provides a 'user_location_list_element' webform element.
+ * Provides a custom webform element that integrates an existing form.
  *
  * @WebformElement(
  *   id = "user_location_list_element",
- *   label = @Translation("Location List Form"),
- *   description = @Translation("Renders the location list form"),
+ *   label = @Translation("Location list"),
+ *   description = @Translation("Integrates an existing form into a webform."),
  *   category = @Translation("Custom"),
  * )
  */
-class UserLocationListElement extends RenderElement {
+class UserLocationListElement extends WebformElementBase {
 
   /**
    * {@inheritdoc}
    */
-  public function getInfo() {
-    $class = get_class($this);
+  protected function defineDefaultProperties() {
+    // Here you define your webform element's default properties,
+    // which can be inherited.
+    //
+    // @see \Drupal\webform\Plugin\WebformElementBase::defaultProperties
+    // @see \Drupal\webform\Plugin\WebformElementBase::defaultBaseProperties
     return [
-      '#input' => TRUE,
-      '#process' => [
-        [$class, 'processUserLocationListElement'],
-      ],
-      '#theme' => 'webform_user_location_list_element',
-      '#theme_wrappers' => ['form_element'],
-    ];
+      'form_id' => 'user_location_list_element',
+      'default' => '',
+    ] + parent::defineDefaultProperties();
   }
 
   /**
-   * Processes a 'user_location_list_element' element.
+   * {@inheritdoc}
    */
-  public static function processUserLocationListElement(&$element, FormStateInterface $form_state, &$complete_form) {
-    // Call your custom form and pass any necessary arguments.
-    $form = \Drupal::formBuilder()->getForm('Drupal\erpw_location\Form\LocationListForm');
-
-    // Add the custom form to the element's children array.
-    $element['#children'] = \Drupal::service('renderer')->render($form);
-
-    return $element;
+  public function getForm(array $form, array &$form_state, $webform, $element) {
+    // Load and render your existing form here.
+    $existing_form = \Drupal::formBuilder()->getForm('Drupal\erpw_location\Form\LocationListForm');
+    $form['existing_form'] = \Drupal::service('renderer')->render($existing_form);
+    return $form;
   }
 
 }

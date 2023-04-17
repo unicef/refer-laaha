@@ -22,8 +22,17 @@ class UserLocationListElement extends RenderElement {
       '#process' => [
         [$class, 'processUserLocationListElement'],
       ],
-      '#theme' => 'webform_user_location_list_element',
+      '#pre_render' => [
+        [$class, 'preRenderUserLocationListElement'],
+      ],
+      '#webform_submission' => [
+        [$class, 'submitUserLocationListElement'],
+      ],
+      '#theme' => 'form_element__webform_user_location_list_element',
       '#theme_wrappers' => ['form_element'],
+      '#submit' => [
+        [$class, 'submitUserLocationListElement'],
+      ],
     ];
   }
 
@@ -36,8 +45,26 @@ class UserLocationListElement extends RenderElement {
 
     // Add the custom form to the element's children array.
     $element['#children'] = \Drupal::service('renderer')->render($form);
-
+    dump($element);
     return $element;
+  }
+
+  /**
+   *
+   */
+  public static function preRenderUserLocationListElement(array $element) {
+    return $element;
+  }
+
+  /**
+   * Custom submit handler for 'user_location_list_element' element.
+   */
+  public static function submitUserLocationListElement(&$element, FormStateInterface $form_state, &$complete_form) {
+    // Perform some action with the submitted data.
+    $submitted_values = $form_state->getValues();
+    // ...
+    die('submitUserLocationListElement called');
+    exit;
   }
 
 }
