@@ -5,7 +5,6 @@ namespace Drupal\erpw_webform\Form;
 use Drupal\webform\WebformEntityAddForm;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\webform\Entity\Webform;
 
 /**
  * Provides an overrided webform add form.
@@ -77,7 +76,7 @@ class WebformAddForm extends WebformEntityAddForm {
       "#empty_option" => t('- Select -'),
       '#options' => $service_type_options,
     ];
-    $form['current_domain_webform'] = $current_domain;
+    $form_state->set('current_domain_webform', $current_domain);
     return parent::form($form, $form_state);
   }
 
@@ -87,8 +86,8 @@ class WebformAddForm extends WebformEntityAddForm {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $query = $this->entityTypeManager->getStorage('webform')->getQuery();
     $webform_ids = $query->condition('category', 'eRPW')->execute();
-    $webforms = Webform::loadMultiple($webform_ids);
-    $current_domain = $form_state->getCompleteForm()['current_domain_webform'];
+    $webforms = $this->entityTypeManager->getStorage('webform')->loadMultiple($webform_ids);
+    $current_domain = $form_state->get('current_domain_webform');
     foreach ($webforms as $webform) {
       $settings = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
       if (isset($settings[$current_domain])) {
@@ -110,7 +109,7 @@ class WebformAddForm extends WebformEntityAddForm {
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    $current_domain = $form_state->getCompleteForm()['current_domain_webform'];
+    $current_domain = $form_state->get('current_domain_webform');
     $webform = $this->getEntity();
     $checkArray[$current_domain][] = $form_state->getValues()['service_type'];
     $webform->setThirdPartySetting('erpw_webform', 'webform_service_type_map', $checkArray);

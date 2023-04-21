@@ -48,6 +48,6 @@ function erpw_webform_entity_type_build(array &$entity_types) {
 
   // Add a form for a custom node form without overriding the default
   // node form. To override the default node form, use hook_entity_type_alter().
-  $entity_types['webform']
-    ->setFormClass('add', 'Drupal\erpw_webform\Form\WebformAddForm');
+  $entity_types['webform']->setFormClass('duplicate', 'Drupal\erpw_webform\Form\WebformAddForm');
+  $entity_types['webform']->setFormClass('add', 'Drupal\erpw_webform\Form\WebformAddForm');
 }
