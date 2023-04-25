@@ -378,8 +378,14 @@ class SignUpForm extends FormBase {
       '#markup' => '<div class="step">' . $this->t('Step 2: Geographical coverage of your role') . '</div>',
     ];
     $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
+
+    //Get active domain's tid
+    $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $config = \Drupal::config('domain.location.' . $domain->get('id'));
+    $domain_tid = $config->get('location');
+
     $location_id = (!$current_user->get('field_location')->isEmpty()) ?
-      $current_user->get('field_location')->getValue()[0]['target_id'] : '';
+      $current_user->get('field_location')->getValue()[0]['target_id'] : $domain_tid;
     $ptids = $parent_list = [];
     if (!isset($form_state->getTriggeringElement()['#level'])
       && $current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator')) {
@@ -389,7 +395,7 @@ class SignUpForm extends FormBase {
       if ($current_user->hasPermission($permission1) || $current_user->hasPermission($permission2)) {
         $ptids = $parent_list;
       }
-      elseif ($current_user->hasPermission('add location of their own country')) {
+      else {
         $ptids = [reset($parent_list)];
       }
     }
