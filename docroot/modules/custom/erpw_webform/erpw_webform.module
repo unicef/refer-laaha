@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ */
+
+use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -7,30 +12,52 @@ use Drupal\Core\Form\FormStateInterface;
  * Contains erpw_webform.module.
  */
 
-
 /**
  * Implements hook_webform_add_form().
  */
- function erpw_webform_webform_add_form(array &$form, FormStateInterface $form_state, $webform_type = NULL) {
+function erpw_webform_webform_add_form(array &$form, FormStateInterface $form_state, $webform_type = NULL) {
   // Load the appropriate webform template.
   if ($webform_type == 'default') {
-    $webform = \Drupal\webform\Entity\Webform::create([]);
+    $webform = Webform::create([]);
   }
   elseif ($webform_type == 'eRPW') {
-    $webform = \Drupal\webform\Entity\Webform::create([
+    $webform = Webform::create([
       'template' => 'template_erpw_workflow',
     ]);
   }
-  
+
   // Set the webform values.
   $form_state->set('webform', $webform);
   $form_state->set('template', $webform->get('template')->value);
-  
+
   // Build the webform form.
   $form_object = \Drupal::entityTypeManager()
     ->getFormObject('webform', 'default')
     ->setEntity($webform);
   $form = \Drupal::formBuilder()->getForm($form_object);
-  
+
   return $form;
+}
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function erpw_webform_entity_type_build(array &$entity_types) {
+
+  /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
+
+  // Add a form for a custom node form without overriding the default
+  // node form. To override the default node form, use hook_entity_type_alter().
+  $entity_types['webform']->setFormClass('duplicate', 'Drupal\erpw_webform\Form\WebformAddForm');
+  $entity_types['webform']->setFormClass('add', 'Drupal\erpw_webform\Form\WebformAddForm');
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function erpw_webform_preprocess_page(&$variables) {
+  $currentRoute = \Drupal::routeMatch()->getRouteName();
+  if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form') {
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
+  }
 }
