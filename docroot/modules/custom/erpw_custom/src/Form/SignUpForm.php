@@ -10,6 +10,7 @@ use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Url;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\erpw_location\LocationService;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
@@ -55,6 +56,13 @@ class SignUpForm extends FormBase {
   protected $locationService;
 
   /**
+   * The Domain negotiator.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
    * A userId variable.
    *
    * @var Drupal\erpw_custom
@@ -77,6 +85,9 @@ class SignUpForm extends FormBase {
 
   /**
    * {@inheritdoc}
+   * 
+   * * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
+   *   The domain negotiator service.
    */
   public function __construct(
     Connection $database,
@@ -85,7 +96,8 @@ class SignUpForm extends FormBase {
     MessengerInterface $messenger,
     FormBuilderInterface $form_builder,
     LocationService $location_service,
-    ErpwPathwayService $erpwp_athway) {
+    ErpwPathwayService $erpwp_athway,
+    DomainNegotiatorInterface $domain_negotiator,) {
 
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;
@@ -94,6 +106,7 @@ class SignUpForm extends FormBase {
     $this->formBuilder = $form_builder;
     $this->locationService = $location_service;
     $this->erpwpathway = $erpwp_athway;
+    $this->domainNegotiator = $domain_negotiator;
   }
 
   /**
@@ -108,6 +121,7 @@ class SignUpForm extends FormBase {
       $container->get('form_builder'),
       $container->get('erpw_location.location_services'),
       $container->get('erpw_pathway.erpw_location_form'),
+      $container->get('domain.negotiator')
     );
   }
 
@@ -378,8 +392,14 @@ class SignUpForm extends FormBase {
       '#markup' => '<div class="step">' . $this->t('Step 2: Geographical coverage of your role') . '</div>',
     ];
     $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
+
+    //Get active domain's tid
+    $domain = $this->domainNegotiator->getActiveDomain();
+    $config = \Drupal::config('domain.location.' . $domain->get('id'));
+    $domain_tid = $config->get('location');
+
     $location_id = (!$current_user->get('field_location')->isEmpty()) ?
-      $current_user->get('field_location')->getValue()[0]['target_id'] : '';
+      $current_user->get('field_location')->getValue()[0]['target_id'] : $domain_tid;
     $ptids = $parent_list = [];
     if (!isset($form_state->getTriggeringElement()['#level'])
       && $current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator')) {
@@ -389,7 +409,7 @@ class SignUpForm extends FormBase {
       if ($current_user->hasPermission($permission1) || $current_user->hasPermission($permission2)) {
         $ptids = $parent_list;
       }
-      elseif ($current_user->hasPermission('add location of their own country')) {
+      else {
         $ptids = [reset($parent_list)];
       }
     }
