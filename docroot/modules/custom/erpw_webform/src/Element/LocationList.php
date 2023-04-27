@@ -212,7 +212,7 @@ class LocationList extends WebformCompositeBase {
 
     $elements['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $elements['#attached']['library'][] = 'erpw_custom/erpw_js';
-    $elements['#attached']['drupalSettings']['erpw_location']['locations_array'] = $terms_array;
+    $elements['#attached']['drupalSettings']['erpw_webform']['termsArray'] = $terms_array;
     $elements['#attached']['library'][] = 'erpw_location/erpw_location_js';
     return $elements;
   }

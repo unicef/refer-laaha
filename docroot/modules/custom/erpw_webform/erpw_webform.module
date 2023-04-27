@@ -106,3 +106,21 @@ function erpw_webform_composite_theme() {
     ],
   ];
 }
+
+/**
+ * Implements hook_form_alter().
+ */
+function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Check if this is the webform submission edit form.
+  $currentRoute = \Drupal::routeMatch()->getRouteName();
+  if ($currentRoute == 'entity.webform_submission.edit_form') {
+    // Set default values for the 'field_name' and 'field_email' fields.
+    $elements = $form['elements'];
+    foreach ($elements as $element) {
+      if ($element["#type"] == "location_list_element" && isset($element["#default_value"])) {
+        $form['#attached']['drupalSettings']['erpw_webform']['default_location_values'] = $element["#default_value"];
+      }
+    }
+  }
+
+}

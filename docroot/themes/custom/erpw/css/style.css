@@ -685,17 +685,18 @@ input[type=submit].use-ajax.arrow-btn {
   display: none;
 }
 
-#edit-location-details #location-level-1 {
-  display: none;
-}
-#edit-location-details #location-level-2 {
-  display: none;
-}
-#edit-location-details #location-level-3 {
-  display: none;
-}
+#edit-location-details #location-level-1,
+#edit-location-details #location-level-2,
+#edit-location-details #location-level-3,
 #edit-location-details #location-level-4 {
   display: none;
+}
+
+.webform-submission-edit-form #edit-location-details #location-level-1,
+.webform-submission-edit-form #edit-location-details #location-level-2,
+.webform-submission-edit-form #edit-location-details #location-level-3,
+.webform-submission-edit-form #edit-location-details #location-level-4 {
+  display: block;
 }
 
 footer {

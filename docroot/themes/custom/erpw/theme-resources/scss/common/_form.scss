@@ -141,16 +141,20 @@ input[type="submit"] {
 }
 
 #edit-location-details {
-  #location-level-1 {
-    display: none;
-  }
-  #location-level-2 {
-    display: none;
-  }
-  #location-level-3 {
-    display: none;
-  }
+  #location-level-1,
+  #location-level-2,
+  #location-level-3,
   #location-level-4 {
     display: none;
+  }
+}
+.webform-submission-edit-form {
+  #edit-location-details {
+    #location-level-1,
+    #location-level-2,
+    #location-level-3,
+    #location-level-4 {
+      display: block;
+    }
   }
 }
