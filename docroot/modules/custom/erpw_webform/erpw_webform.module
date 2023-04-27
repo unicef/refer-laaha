@@ -6,6 +6,7 @@
 
 use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * @file
@@ -59,5 +60,37 @@ function erpw_webform_preprocess_page(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
   if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function erpw_webform_entity_insert(EntityInterface $entity) {
+  // Check if the entity is a Webform.
+  if ($entity->getEntityTypeId() == 'webform') {
+    // Enable content locking for the new webform.
+    $webform_id = $entity->id();
+    $config_factory = \Drupal::configFactory();
+    $config = $config_factory->getEditable('content_lock.settings');
+    $webforms_array = $config->get('types')['webform_submission'];
+    $webforms_array[$webform_id] = $webform_id;
+    $config->set('types', ['webform_submission' => $webforms_array]);
+    $config->save();
+
+    // Cache the url of the webform.
+    $url = $entity->toUrl()->setAbsolute()->toString();
+    $path = preg_replace('/^\/\w{2}\b/', '', parse_url($url, PHP_URL_PATH));
+    // Get the PWA URLs to cache configuration object.
+    $configFactory = \Drupal::service('config.factory');
+    $config = $configFactory->getEditable('pwa.config');
+    // Get the current URLs to cache array.
+    $urls_to_cache = $config->get('urls_to_cache');
+    $urls_to_cache = explode("\r\n", $urls_to_cache);
+    $urls_to_cache[] = $path;
+    $urls_to_cache = implode("\r\n", $urls_to_cache);
+    // Add the webform URL to the URLs to cache array if it's not already present.
+    // Save the updated URLs to cache array.
+    $config->set('urls_to_cache', $urls_to_cache)->save();
   }
 }
