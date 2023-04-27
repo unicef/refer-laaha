@@ -71,6 +71,7 @@ function erpw_webform_entity_insert(EntityInterface $entity) {
   if ($entity->getEntityTypeId() == 'webform') {
     // Enable content locking for the new webform.
     $webform_id = $entity->id();
+
     $config_factory = \Drupal::configFactory();
     $config = $config_factory->getEditable('content_lock.settings');
     $webforms_array = $config->get('types')['webform_submission'];
@@ -93,4 +94,15 @@ function erpw_webform_entity_insert(EntityInterface $entity) {
     // Save the updated URLs to cache array.
     $config->set('urls_to_cache', $urls_to_cache)->save();
   }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function erpw_webform_composite_theme() {
+  return [
+    'location_list' => [
+      'render element' => 'element',
+    ],
+  ];
 }
