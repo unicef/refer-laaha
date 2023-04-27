@@ -2,12 +2,14 @@
 
 namespace Drupal\erpw_pathway\EventSubscriber;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\node\NodeInterface;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -92,14 +94,32 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   protected $currentUser;
 
   /**
+   * The domain negotiator service.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager,
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
     LocationService $location_service,
     RouteMatchInterface $route_match,
     ErpwPathwayService $erpw_pathway_service,
     AccountProxyInterface $current_user,
-    ErpwCustomService $erpw_custom_service) {
+    ErpwCustomService $erpw_custom_service,
+    DomainNegotiatorInterface $domain_negotiator,
+    ConfigFactoryInterface $config_factory
+  ) {
     self::$entityTypeManager = $entity_type_manager;
     self::$locationService = $location_service;
     $this->erpwPathwayService = $erpw_pathway_service;
@@ -107,6 +127,8 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
     $this->currentUser = $current_user;
     $this->locationEntity = $location_service;
     $this->erpwCustomService = $erpw_custom_service;
+    $this->domainNegotiator = $domain_negotiator;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -119,13 +141,12 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
     $form = &$event->getForm();
     $form_id = $event->getFormId();
     $form_state = $event->getFormState();
-
+    
+    // For Referral Path and Service Provider Edit form, bring saved location.
     if (in_array($form_id,
-      [
-        'node_referral_path_way_form',
-        'node_referral_path_way_edit_form',
-        'node_service_provider_form',
-        'node_service_provider_edit_form',
+        [
+          'node_referral_path_way_edit_form',
+          'node_service_provider_edit_form',
       ])) {
       $parent_list = [];
       $node = $this->routeMatch->getParameter('node');
@@ -162,11 +183,68 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
         }
         $ptids = self::$locationService->getAllAncestors($location_id);
         $parent_list = empty($parent_list) ? array_values($ptids) : $parent_list;
-      }
+        }
       $form = $this->erpwPathwayService->getLocationForm($form, $form_state, $parent_list, $ptids);
       // Form submit handler.
       $form['actions']['submit']['#submit'][] = [$this, 'eprwSubmitHandler'];
     }
+
+    // For Referral Path and Service Provider Add form, bring user location.
+    if (in_array($form_id,
+        [
+          'node_referral_path_way_form',
+          'node_service_provider_form',
+        ]
+      )
+    ) {
+      $parent_list = [];
+      $node = $this->routeMatch->getParameter('node');
+      if (empty($form_state->getTriggeringElement()['#level']) && $node instanceof NodeInterface) {
+        $parent_list = $this->getTermParents($node);
+      }
+      $current_user = self::$entityTypeManager->getStorage('user')->load($this->currentUser->id());
+      $ptids = [];
+      switch ($form_id) {
+        case 'node_referral_path_way_form':
+          $permission = 'add referral pathway of their own location';
+          break;
+
+        case 'node_service_provider_form':
+          $permission = 'add service of their own location';
+          break;
+
+        default:
+          $permission = '';
+          break;
+      }
+
+      // Get active domain's tid.
+      $domain = $this->domainNegotiator->getActiveDomain();
+      $config = $this->configFactory->get('domain.location.' . $domain->get('id'));
+      $domain_tid = $config->get('location');
+
+      // Check if location is set for user, else use current location.
+      $location_id = (!$current_user->get('field_location')->isEmpty()) ?
+        $current_user->get('field_location')->getValue()[0]['target_id'] : $domain_tid;
+      $ptids = $parent_list = [];
+      if (!isset($form_state->getTriggeringElement()['#level'])
+      && $current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator')) {
+        $parent_list = self::$locationService->getAllAncestors($location_id);
+        if ($current_user->hasPermission($permission)) {
+          $ptids = $parent_list;
+        }
+        else {
+          $ptids = [reset($parent_list)];
+        }
+      }
+
+      $form = $this->erpwPathwayService->getLocationForm($form, $form_state, $parent_list, $ptids);
+      // Form submit handler.
+      $form['actions']['submit']['#submit'][] = [$this, 'eprwSubmitHandler'];
+    }
+
+
+
     // Manage service validation.
     if (in_array($form_id,
     [

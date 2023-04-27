@@ -2,6 +2,7 @@
 
 namespace Drupal\erpw_location\Form;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormStateInterface;
@@ -13,6 +14,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\domain\DomainNegotiatorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\Core\Session\AccountProxyInterface;
@@ -80,6 +82,20 @@ class ManageLocationForm extends FormBase {
   protected $tempStoreFactory;
 
   /**
+   * The Domain negotiator.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * ManageLocation constructor.
    *
    * @param \Psr\Log\LoggerChannelFactory $logger
@@ -102,6 +118,10 @@ class ManageLocationForm extends FormBase {
    *   The current user.
    * @param \Drupal\erpw_location\LocationService $location_service
    *   The location service.
+   * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
+   *   The domain negotiator service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory service.
    */
   public function __construct(
     LoggerChannelFactory $logger,
@@ -113,7 +133,10 @@ class ManageLocationForm extends FormBase {
     LanguageManagerInterface $language_manager,
     PrivateTempStoreFactory $temp_store_factory,
     AccountProxyInterface $current_user,
-    LocationService $location_service) {
+    LocationService $location_service,
+    DomainNegotiatorInterface $domain_negotiator,
+    ConfigFactoryInterface $configFactory
+  ) {
 
     $this->logger = $logger;
     $this->connection = $connection;
@@ -125,6 +148,8 @@ class ManageLocationForm extends FormBase {
     $this->tempStoreFactory = $temp_store_factory;
     $this->currentUser = $current_user;
     $this->locationService = $location_service;
+    $this->domainNegotiator = $domain_negotiator;
+    $this->configFactory = $configFactory;
   }
 
   /**
@@ -141,7 +166,9 @@ class ManageLocationForm extends FormBase {
       $container->get('language_manager'),
       $container->get('tempstore.private'),
       $container->get('current_user'),
-      $container->get('erpw_location.location_services')
+      $container->get('erpw_location.location_services'),
+      $container->get('domain.negotiator'),
+      $container->get('config.factory')
     );
   }
 
@@ -186,15 +213,10 @@ class ManageLocationForm extends FormBase {
     }
     if (!$form_state->getUserInput()) {
       $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
-
-      $location_value = '';
-      if ($user->hasField('field_location') && !$user->get('field_location')->isEmpty()) {
-        $location_value = $user->field_location->getValue()[0]['target_id'];
-      }
-
-      if (!empty($location_levels_tid)) {
-        $location_value = $location_levels_tid;
-      }
+      // Get active domain's tid.
+      $domain = $this->domainNegotiator->getActiveDomain();
+      $config = $this->configFactory->get('domain.location.' . $domain->get('id'));
+      $location_value = $config->get('location');
 
       $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($location_value);
       $upper_ancestors = array_reverse(array_keys($ancestors));
@@ -208,8 +230,11 @@ class ManageLocationForm extends FormBase {
         $country_tid = $this->locationService->getLocationSingleEntityIdByTid($upper_ancestors[0]);
       }
       if (!empty($country_tid)) {
-        $link = Link::createFromRoute($this->t('Click to Change Country'), 'erpw_location.user_location_manage',
-        ['id' => $country_tid, 'page' => 'location'])->toString();
+        $link = Link::createFromRoute(
+          $this->t('Click to Change Country'),
+          'erpw_location.user_location_manage',
+          ['id' => $country_tid, 'page' => 'location']
+        )->toString();
       }
       else {
         $link = "";
@@ -302,14 +327,17 @@ class ManageLocationForm extends FormBase {
           }
         }
 
-        $delete_url = $this->urlGenerator->generateFromRoute('erpw_location.delete_location',
-           ['tid' => $tid]
-         );
-        $edit_url = $this->urlGenerator->generateFromRoute('erpw_location.edit_location',
-           ['id' => $tid]
-         );
-        $view_url = $this->urlGenerator->generateFromRoute('erpw_location.view_location',
-           ['tid' => $tid, 'mode' => 'view']
+        $delete_url = $this->urlGenerator->generateFromRoute(
+          'erpw_location.delete_location',
+          ['tid' => $tid]
+        );
+        $edit_url = $this->urlGenerator->generateFromRoute(
+          'erpw_location.edit_location',
+          ['id' => $tid]
+        );
+        $view_url = $this->urlGenerator->generateFromRoute(
+          'erpw_location.view_location',
+          ['tid' => $tid, 'mode' => 'view']
         );
         $location_operations = '<div class="edit-delete-links">
           <span class="delete-link"><a href="' . $delete_url . '">' . $this->t('Delete') . '</a></span>
