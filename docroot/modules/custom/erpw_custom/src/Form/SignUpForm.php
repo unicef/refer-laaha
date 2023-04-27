@@ -2,6 +2,7 @@
 
 namespace Drupal\erpw_custom\Form;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\AjaxResponse;
@@ -63,6 +64,13 @@ class SignUpForm extends FormBase {
   protected $domainNegotiator;
 
   /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * A userId variable.
    *
    * @var Drupal\erpw_custom
@@ -85,9 +93,11 @@ class SignUpForm extends FormBase {
 
   /**
    * {@inheritdoc}
-   * 
-   * * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
+   *
+   * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
    *   The domain negotiator service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory service.
    */
   public function __construct(
     Connection $database,
@@ -97,7 +107,8 @@ class SignUpForm extends FormBase {
     FormBuilderInterface $form_builder,
     LocationService $location_service,
     ErpwPathwayService $erpwp_athway,
-    DomainNegotiatorInterface $domain_negotiator,) {
+    DomainNegotiatorInterface $domain_negotiator,
+    ConfigFactoryInterface $configFactory) {
 
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;
@@ -107,6 +118,7 @@ class SignUpForm extends FormBase {
     $this->locationService = $location_service;
     $this->erpwpathway = $erpwp_athway;
     $this->domainNegotiator = $domain_negotiator;
+    $this->configFactory = $configFactory;
   }
 
   /**
@@ -121,7 +133,8 @@ class SignUpForm extends FormBase {
       $container->get('form_builder'),
       $container->get('erpw_location.location_services'),
       $container->get('erpw_pathway.erpw_location_form'),
-      $container->get('domain.negotiator')
+      $container->get('domain.negotiator'),
+      $container->get('config.factory')
     );
   }
 
@@ -393,9 +406,9 @@ class SignUpForm extends FormBase {
     ];
     $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
 
-    //Get active domain's tid
+    // Get active domain's tid.
     $domain = $this->domainNegotiator->getActiveDomain();
-    $config = \Drupal::config('domain.location.' . $domain->get('id'));
+    $config = $this->configFactory->get('domain.location.' . $domain->get('id'));
     $domain_tid = $config->get('location');
 
     $location_id = (!$current_user->get('field_location')->isEmpty()) ?
