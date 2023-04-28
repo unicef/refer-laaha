@@ -1,0 +1,11 @@
+uuid: 4c53f4be-47ee-4fc3-948e-42428e5fb6ac
+langcode: en
+status: true
+dependencies:
+  module:
+    - content_lock
+id: webform_submission_break_lock_action
+label: 'Break lock webform_submission'
+type: webform_submission
+plugin: 'entity:break_lock:webform_submission'
+configuration: {  }
