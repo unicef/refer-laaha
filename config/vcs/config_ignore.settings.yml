@@ -2,6 +2,8 @@ _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 ignored_config_entities:
   - pwa.config
-  - 'webform.webform*'
+  - 'webform.webform.*'
   - ~webform.webform.template_erpw_workflow
+  - ~webform.settings
   - content_lock.settings
+

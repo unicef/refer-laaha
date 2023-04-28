@@ -18,7 +18,11 @@ id: template_erpw_workflow
 title: 'eRPW Webform'
 description: 'A webform with eRPW Workflow.'
 category: eRPW
-elements: |
+elements: |-
+  location:
+    '#type': location_list_element
+    '#title': Location
+    '#required': true
   erpw_workflow:
     '#type': webform_workflows_element
     '#title': 'eRPW Workflow'

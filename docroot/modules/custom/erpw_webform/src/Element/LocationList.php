@@ -1,141 +1,59 @@
 <?php
 
-namespace Drupal\erpw_location\Form;
+namespace Drupal\erpw_webform\Element;
 
 use Drupal\Core\Cache\CacheBackendInterface;
-use Drupal\Core\Form\FormBase;
-use Drupal\Core\Database\Connection;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\erpw_location\LocationService;
-use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Render\Element\FormElement;
+use Drupal\webform\Element\WebformCompositeBase;
 
 /**
- * Class Location List Form.
+ * Provides a 'webform_example_composite'.
+ *
+ * Webform composites contain a group of sub-elements.
+ *
+ *
+ * IMPORTANT:
+ * Webform composite can not contain multiple value elements (i.e. checkboxes)
+ * or composites (i.e. webform_address)
+ *
+ * @FormElement("location_list_element")
+ *
+ * @see \Drupal\webform\Element\WebformCompositeBase
+ * @see \Drupal\webform_example_composite\Element\WebformExampleComposite
  */
-class LocationListForm extends FormBase {
-
-  /**
-   * The Current user service.
-   *
-   * @var \Drupal\Core\Messenger\MessengerInterface
-   */
-  protected $currentUser;
-
-  /**
-   * The Messenger service.
-   *
-   * @var \Drupal\Core\Messenger\MessengerInterface
-   */
-  protected $messenger;
-
-  /**
-   * The form builder.
-   *
-   * @var \Drupal\Core\Form\FormBuilderInterface
-   */
-  protected $formBuilder;
-
-  /**
-   * A LocationService instance.
-   *
-   * @var Drupal\erpw_location\LocationService
-   */
-  protected $locationService;
-
-  /**
-   * The cache bin to cache terms.
-   *
-   * @var \Drupal\Core\Cache\CacheBackendInterface
-   */
-  protected $defaultCache;
-
-  /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The database service.
-   *
-   * @var \Drupal\Core\Database\Connection
-   */
-  protected $database;
+class LocationList extends WebformCompositeBase {
 
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
-    return 'location_list_form';
+  public function getInfo() {
+    return parent::getInfo() + ['#theme' => 'location_list'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function __construct(Connection $database,
-  EntityTypeManagerInterface $entity_type_manager,
-  AccountProxyInterface $current_user,
-  MessengerInterface $messenger,
-  FormBuilderInterface $form_builder,
-  LocationService $location_service,
-  CacheBackendInterface $cacheBackend) {
-    $this->database = $database;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->currentUser = $current_user;
-    $this->messenger = $messenger;
-    $this->formBuilder = $form_builder;
-    $this->locationService = $location_service;
-    $this->defaultCache = $cacheBackend;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('database'),
-      $container->get('entity_type.manager'),
-      $container->get('current_user'),
-      $container->get('messenger'),
-      $container->get('form_builder'),
-      $container->get('erpw_location.location_services'),
-      $container->get('cache.default')
-    );
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
-    $location_country_id = $form_state->getValue('location_options');
-    if (!$id && !$location_country_id) {
-      $id = erpw_location_country_id_from_domain();
-      $form_state->setValue('location_options', $id);
-    }
-    $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
+  public static function getCompositeElements(array $element) {
+    $elements = [];
+    $location_entities = \Drupal::entityTypeManager()->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
     $location_options = [];
     foreach ($location_entities as $location) {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
     }
     asort($location_options);
-    // Terms array.
-    $level_zero_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
-      'country',
-      0,
-      1,
-      TRUE
-    );
-    if ($terms_array = $this->defaultCache->get('erpw_locations_list')) {
+    if ($terms_array = \Drupal::cache()->get('erpw_locations_list')) {
       $terms_array = $terms_array->data;
     }
     else {
       $terms_array = [];
+      // Terms array.
+      $level_zero_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+        'country',
+        0,
+        1,
+        TRUE
+      );
       foreach ($level_zero_tree as $level_zero) {
         $termid = $level_zero->get('tid')->value;
         foreach ($location_options as $key => $value) {
@@ -217,85 +135,86 @@ class LocationListForm extends FormBase {
           }
         }
       }
-      $this->defaultCache->set('erpw_locations_list', $terms_array, CacheBackendInterface::CACHE_PERMANENT, ['erpw_locations_list']);
+      \Drupal::cache()->set('erpw_locations_list', $terms_array, CacheBackendInterface::CACHE_PERMANENT, ['erpw_locations_list']);
     }
-    if (!empty($location_entities)) {
-      $form['location_options'] = [
-        '#type' => 'select',
-        '#options' => $location_options,
-        '#empty_option' => $this->t('Select Country'),
-        '#title' => $this->t('Country'),
-        '#required' => TRUE,
-        '#weight' => -109,
-        '#attributes' => [
-          'class' => ['location_options'],
-        ],
-      ];
-    }
-    $form['level_1'] = [
+    $elements['location_options'] = [
       '#type' => 'select',
-      '#empty_option' => $this->t("Select province/district"),
+      '#options' => $location_options ?? [],
+      '#empty_option' => t('Select Country'),
+      '#title' => t('Country'),
+      '#required' => TRUE,
+      '#weight' => -109,
+      '#attributes' => [
+        'class' => ['location_options'],
+      ],
+      '#default_value' => $element['#default_value']['location_options'] ?? '',
+    ];
+    $elements['level_1'] = [
+      '#type' => 'select',
+      '#empty_option' => t("Select province/district"),
       '#empty_value' => '',
+      '#options' => [],
       '#title' => t("Select province/district"),
       '#weight' => -108,
       '#validated' => TRUE,
+      '#default_value' => $element['#default_value']['level_1'] ?? '',
       '#prefix' => '<div id="edit-location-details" ><div id="location-level-1">',
       '#suffix' => '</div>',
       '#attributes' => [
         'class' => ['level_1'],
       ],
     ];
-    $form['level_2'] = [
+    $elements['level_2'] = [
       '#type' => 'select',
-      '#empty_option' => $this->t("Select district/upazila"),
+      '#empty_option' => t("Select district/upazila"),
       '#empty_value' => '',
+      '#options' => [],
       '#title' => t("Select district/upazila"),
       '#weight' => -106,
       '#validated' => TRUE,
+      '#default_value' => $element['#default_value']['level_2'] ?? '',
       '#prefix' => '<div id="location-level-2">',
       '#suffix' => '</div>',
       '#attributes' => [
         'class' => ['level_2'],
       ],
     ];
-    $form['level_3'] = [
+    $elements['level_3'] = [
       '#type' => 'select',
-      '#empty_option' => $this->t("Select Level 3 Label"),
+      '#empty_option' => t("Select Level 3 Label"),
       '#empty_value' => '',
+      '#options' => [],
       '#title' => t("Select Level 3 Label"),
       '#weight' => -104,
       '#validated' => TRUE,
       '#prefix' => '<div id="location-level-3">',
       '#suffix' => '</div>',
+      '#default_value' => $element['#default_value']['level_3'] ?? '',
       '#attributes' => [
         'class' => ['level_3'],
       ],
     ];
-    $form['level_4'] = [
+    $elements['level_4'] = [
       '#type' => 'select',
-      '#empty_option' => $this->t("Select Level 4 Label"),
+      '#empty_option' => t("Select Level 4 Label"),
       '#empty_value' => '',
+      '#options' => [],
       '#title' => t("Select Level 4 Label"),
       '#weight' => -102,
       '#validated' => TRUE,
+      '#default_value' => $element['#default_value']['level_4'] ?? '',
       '#prefix' => '<div id="location-level-4">',
       '#suffix' => '</div></div>',
       '#attributes' => [
         'class' => ['level_4'],
       ],
     ];
-    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
-    $form['#attached']['library'][] = 'erpw_custom/erpw_js';
-    $form['#attached']['drupalSettings']['erpw_location']['locations_array'] = $terms_array;
-    $form['#attached']['library'][] = 'erpw_location/erpw_location_js';
-    return $form;
-  }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->messenger->deleteAll();
+    $elements['#attached']['library'][] = 'core/drupal.dialog.ajax';
+    $elements['#attached']['library'][] = 'erpw_custom/erpw_js';
+    $elements['#attached']['drupalSettings']['erpw_webform']['termsArray'] = $terms_array;
+    $elements['#attached']['library'][] = 'erpw_location/erpw_location_js';
+    return $elements;
   }
 
 }
