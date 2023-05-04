@@ -31,13 +31,16 @@ elements: |-
       - authenticated
     '#access_create_workflow_enabled': true
     '#access_view_roles':
+      - authenticated
+    '#access_transition_save_as_draft_roles':
+      - authenticated
+    '#access_transition_review_roles':		
+      - service_provider_staff
       - service_provider_focal_point
       - interagency_gbv_coordinator
       - country_admin
       - super_admin
       - administrator
-    '#access_transition_save_as_draft_roles':
-      - authenticated
     '#access_transition_approve_roles':
       - service_provider_focal_point
       - interagency_gbv_coordinator
@@ -54,8 +57,13 @@ elements: |-
       - authenticated
     '#workflow': webform_workflow
     '#require_transition_if_available': true
-    '#log_public_setting': Optional
+    '#log_public_setting': Disabled
     '#log_admin_setting': Disabled
+    '#transition_element_type': radios
+    '#state_draft_color': Yellow
+    '#state_in_review_color': Blue
+    '#state_approve_color': Green
+    '#state_reject_color': Red
     '#transition_save_as_draft_run_on_edit': anyone
 css: ''
 javascript: ''
@@ -240,5 +248,14 @@ access:
     roles: {  }
     users: {  }
     permissions: {  }
-handlers: {  }
+handlers:
+  redirect_to_drafts:
+    id: redirect_to_drafts
+    handler_id: redirect_to_drafts
+    label: 'Redirect to Drafts'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings: {  }
 variants: {  }
