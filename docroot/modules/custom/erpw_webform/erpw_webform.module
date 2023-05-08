@@ -8,7 +8,6 @@ use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Url;
-use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\user\Entity\User;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
@@ -193,19 +192,6 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
       return AccessResult::forbidden();
     }
   }
-}
-
-/**
- * Implements hook_update_N().
- */
-function erpw_webform_update_9005() {
-  $menu_link = MenuLinkContent::create([
-    'title' => 'Add Service',
-    'link' => ['uri' => 'internal:/service-webforms'],
-    'menu_name' => 'main',
-    'parent' => 'system.admin_content',
-  ]);
-  $menu_link->save();
 }
 
 /**
