@@ -7,6 +7,7 @@
 use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\menu_link_content\Entity\MenuLinkContent;
 
 /**
  * @file
@@ -123,4 +124,17 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     }
   }
 
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function erpw_webform_update_9001() {
+  $menu_link = MenuLinkContent::create([
+    'title' => 'Add Service',
+    'link' => ['uri' => 'internal:/service-webforms'],
+    'menu_name' => 'main',
+    'parent' => 'system.admin_content',
+  ]);
+  $menu_link->save();
 }
