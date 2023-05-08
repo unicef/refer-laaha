@@ -59,12 +59,8 @@ function erpw_webform_entity_type_build(array &$entity_types) {
  */
 function erpw_webform_preprocess_html(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
-  $current_user = \Drupal::currentUser();
-  $roles = $current_user->getRoles();
-  if ($currentRoute == 'entity.webform_submission.canonical') {
-    if (!(in_array('administrator', $roles) || in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles) || in_array('super_admin', $roles))) {
-      $variables['attributes']['class'][] = 'hide-summary-webform-submission';
-    }
+  if ($currentRoute == 'erpw_webform.service_content') {
+    $variables['attributes']['class'][] = 'view-page-webform-submission';
   }
 }
 
@@ -73,7 +69,7 @@ function erpw_webform_preprocess_html(&$variables) {
  */
 function erpw_webform_preprocess_page(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
-  if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'entity.webform_submission.canonical') {
+  if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
   }
 }

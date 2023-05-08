@@ -25,20 +25,23 @@
 .webform-submission-add-form #edit-location-details #location-level-4 {
   display: block !important;
 }
-.hide-summary-webform-submission .webform-submission .webform-submission-navigation {
-  display: none;
-}
-.hide-summary-webform-submission .webform-submission .webform-submission-information {
-  display: none;
-}
-.hide-summary-webform-submission .webform-submission details {
-  display: none;
-}
-.webform-submission .webform-element {
+.view-page-webform-submission .pair-container {
   display: flex;
   flex-direction: column;
 }
-.webform-submission .webform-element label {
+.view-page-webform-submission .pair-container .label {
   width: 100%;
-  margin-bottom: 8px;
+  display: block;
+  font-size: 14px;
+  color: #a85766;
+  font-weight: 500;
+  font-family: Roboto;
+}
+.view-page-webform-submission .pair-container .value {
+  width: 100%;
+  display: block;
+  font-family: Roboto;
+  font-size: 12px;
+  padding: 15px 0;
+  word-break: break-word;
 }
