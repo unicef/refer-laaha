@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
+use Drupal\Core\Session\AccountInterface;
 
 /**
  * Generate key value pair of elements in the webform submission view page.
@@ -20,10 +21,18 @@ class ServiceSubmissionsView extends ControllerBase {
   protected $entityTypeManager;
 
   /**
+   * The current user account.
+   *
+   * @var \Drupal\Core\Session\AccountInterface
+   */
+  protected $currentUser;
+
+  /**
    * Constructs a new ServiceWebforms object.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser) {
     $this->entityTypeManager = $entityTypeManager;
+    $this->currentUser = $currentUser;
   }
 
   /**
@@ -32,6 +41,7 @@ class ServiceSubmissionsView extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
     $container->get('entity_type.manager'),
+    $container->get('current_user'),
     );
   }
 
@@ -131,17 +141,27 @@ class ServiceSubmissionsView extends ControllerBase {
       'webform' => $webformSubmission->getWebform()->id(),
       'webform_submission' => $id,
     ])->toString();
-    $markup = '
-    <div class="service-provider-details">
-      <div class="service-detail-heading">
-        <h3>Service Details</h3>
-        <div class="edit-delete-links">
-          <span class="edit-link">
-            <a href=' . $edit_url . '>Edit</a>
-          </span>
-        </div>
-      </div>
-    </div>';
+    if ($this->currentUser->isAnonymous()) {
+      $markup = '
+        <div class="service-provider-details">
+          <div class="service-detail-heading">
+            <h3>Service Details</h3>
+          </div>
+        </div>';
+    }
+    else {
+      $markup = '
+        <div class="service-provider-details">
+          <div class="service-detail-heading">
+            <h3>Service Details</h3>
+            <div class="edit-delete-links">
+              <span class="edit-link">
+                <a href=' . $edit_url . '>Edit</a>
+              </span>
+            </div>
+          </div>
+        </div>';
+    }
     foreach ($output as $item) {
       foreach ($item as $key => $value) {
         $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
