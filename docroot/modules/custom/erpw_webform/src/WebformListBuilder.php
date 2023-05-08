@@ -76,7 +76,7 @@ class WebformListBuilder extends WebformEntityListBuilder {
     $tpa = $entity->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
     $domainAccess = $user->get('field_domain_access')->getValue();
     foreach ($user_roles as $key_r => $role) {
-      if ($role['target_id'] == "country_admin") {
+      if ($role['target_id'] == "country_admin" || $role['target_id'] == 'interagency_gbv_coordinator') {
         foreach ($domainAccess as $key => $domain) {
           if (array_key_exists($domain['target_id'], $tpa)) {
             return parent::buildRow($entity);
