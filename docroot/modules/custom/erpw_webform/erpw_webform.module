@@ -7,6 +7,8 @@
 use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Url;
+use Drupal\user\Entity\User;
 
 /**
  * @file
@@ -133,4 +135,102 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     }
   }
 
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function erpw_webform_views_data_alter(array &$data) {
+  $data['webform_submission']['webform_submission_focal_point_field'] = [
+    'title' => t('Webform Submission Focal Point field.'),
+    'help' => t('Generic field for displaying focal point name for all submissions.'),
+    'field' => [
+      'id' => 'webform_submission_focal_point_field',
+      'entity type' => 'webform_submission',
+      'label' => t('Webform Submission Focal Point field.'),
+      'real field' => 'webform_submission_focal_point_field',
+    ],
+  ];
+
+  return $data;
+}
+
+/**
+ * Implements hook_entity_operation_alter().
+ */
+function erpw_webform_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  if ($entity->getEntityTypeId() == 'webform_submission') {
+    // Add custom operation.
+    $sid = $entity->get('sid')->getValue()[0]['value'];
+    $operations['view']['url'] = Url::fromRoute('erpw_webform.service_content', ['webform_submission' => intval($sid)]);
+  }
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function erpw_webform_menu_local_tasks_alter(&$data, $route_name) {
+  // Override local task links for webform submissions.
+  foreach ($data as $key => $value) {
+    if ($key == 'tabs') {
+      foreach ($value as $subKey => $routes) {
+        foreach ($routes as $route_name => $properties) {
+          if ($route_name == 'entity.webform_submission.canonical') {
+            $sid = intval($properties['#link']['url']->getRouteParameters()['webform_submission']);
+            $data[$key][$subKey][$route_name]['#link']['url'] = Url::fromRoute('erpw_webform.service_content', ['webform_submission' => intval($sid)]);
+          }
+          if ($route_name == 'entity.webform_submission.notes_form') {
+            unset($data[$key][$subKey][$route_name]);
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_menu_views_pre_render().
+ */
+function erpw_webform_views_pre_render(&$view) {
+  if ($view->id() == 'webform_submissions') {
+    foreach ($view->result as $key => $row) {
+      $sid = $row->sid;
+      $keys_exists = [];
+      $keys_na = [];
+      $user = User::load(\Drupal::currentUser()->id());
+      $user_roles = $user->getRoles();
+      $domainAccess = $user->get('field_domain_access')->getValue();
+      $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
+      $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
+      $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+      foreach ($user_roles as $key_r => $role) {
+        if ($role == "super_admin" ||$role == "administrator") {
+          return;
+        }
+        else {
+          foreach ($domainAccess as $domain) {
+            if (array_key_exists($domain['target_id'], $tpa)) {
+              dump($tpa);
+              $keys_exists[] = $key;
+            }
+            else {
+              dump("NA");
+              dump($tpa);
+              $keys_na[] = $key;
+            }
+          }
+        }
+      }
+    }
+    dump($keys_exists);
+    dump($keys_na);
+    // foreach ($view->result as $key => $row) {
+    //   if (!isset($keys[$key])) {
+    //     unset($view->result[$key]);
+    //   }
+    // }
+  }
+
+  return $view;
 }
