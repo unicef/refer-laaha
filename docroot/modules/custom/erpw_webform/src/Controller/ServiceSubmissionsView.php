@@ -42,7 +42,7 @@ class ServiceSubmissionsView extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
     $container->get('entity_type.manager'),
-    $container->get('current_user')
+    $container->get('current_user'),
     );
   }
 
@@ -62,80 +62,163 @@ class ServiceSubmissionsView extends ControllerBase {
       foreach ($fields as $key => $content) {
         $element = $this->entityTypeManager->getStorage('webform')->load($webform_submission->getWebform()->id())->getElement($key);
         if ($key != 'erpw_workflow') {
-          if ($key == 'location') {
-            if ($content['location_options'] != '') {
-              $country = $this->entityTypeManager()->getStorage('location')->load($content['location_options'])->getName();
-              $location = $country . '.';
-            }
-            if ($content['level_1'] != '') {
-              $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_1'])->getName();
-              $location = $level_1 . ', ' . $location;
-            }
-            if ($content['level_2'] != '') {
-              $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_2'])->getName();
-              $location = $level_2 . ', ' . $location;
-            }
-            if ($content['level_3'] != '') {
-              $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_3'])->getName();
-              $location = $level_3 . ', ' . $location;
-            }
-            if ($content['level_4'] != '') {
-              $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_4'])->getName();
-              $location = $level_4 . ', ' . $location;
-            }
-            $output[] = ['Location' => $location];
-          }
-          elseif ($element['#type'] == 'checkbox' && $element['#webform_key'] == $key) {
-            if ($content != NULL) {
-              if ($content == 1) {
-                $output[] = [$element['#title'] => 'Yes'];
-              }
-              else {
-                $output[] = [$element['#title'] => 'No'];
-              }
-            }
-          }
-          elseif ($element['#type'] == 'checkboxes' && $element['#webform_key'] == $key) {
-            $values = [];
-            if (gettype($content) == 'array' & $content != NULL) {
-              foreach ($content as $key) {
-                if ($element['#options'][$key] != NULL) {
-                  array_push($values, $element['#options'][$key]);
+          $roles = $this->currentUser->getRoles();
+          if (isset($element['#access_view_roles'])) {
+            foreach ($roles as $role) {
+              if (in_array($role, $element['#access_view_roles'])) {
+                if ($key == 'location') {
+                  if ($content['location_options'] != '') {
+                    $country = $this->entityTypeManager()->getStorage('location')->load($content['location_options'])->getName();
+                    $location = $country . '.';
+                  }
+                  if ($content['level_1'] != '') {
+                    $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_1'])->getName();
+                    $location = $level_1 . ', ' . $location;
+                  }
+                  if ($content['level_2'] != '') {
+                    $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_2'])->getName();
+                    $location = $level_2 . ', ' . $location;
+                  }
+                  if ($content['level_3'] != '') {
+                    $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_3'])->getName();
+                    $location = $level_3 . ', ' . $location;
+                  }
+                  if ($content['level_4'] != '') {
+                    $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_4'])->getName();
+                    $location = $level_4 . ', ' . $location;
+                  }
+                  $output[] = ['Location' => $location];
                 }
-              }
-              $output[] = [$element['#title'] => $values];
-            }
-            else {
-              if ($content != NULL) {
-                $output[] = [$element['#title'] => $element['#options'][$content]];
-              }
-            }
-          }
-          elseif ($element['#type'] == 'radios' && $element['#webform_key'] == $key) {
-            if ($element['#options'][$content] != NULL) {
-              $output[] = [$element['#title'] => $element['#options'][$content]];
-            }
-          }
-          elseif ($element['#type'] == 'select' && $element['#webform_key'] == $key) {
-            $values = [];
-            if (gettype($content) == 'array' & $content != NULL) {
-              foreach ($content as $key) {
-                if ($element['#options'][$key] != NULL) {
-                  array_push($values, $element['#options'][$key]);
+                elseif ($element['#type'] == 'checkbox') {
+                  if ($content != NULL) {
+                    if ($content == 1) {
+                      $output[] = [$element['#title'] => t('Yes')];
+                    }
+                    else {
+                      $output[] = [$element['#title'] => t('No')];
+                    }
+                  }
                 }
-              }
-              $output[] = [$element['#title'] => $values];
-            }
-            else {
-              if ($content != NULL) {
-                $output[] = [$element['#title'] => $element['#options'][$content]];
+                elseif ($element['#type'] == 'checkboxes') {
+                  $values = [];
+                  if (gettype($content) == 'array' & $content != NULL) {
+                    foreach ($content as $key) {
+                      if ($element['#options'][$key] != NULL) {
+                        array_push($values, $element['#options'][$key]);
+                      }
+                    }
+                    $output[] = [$element['#title'] => $values];
+                  }
+                  else {
+                    if ($content != NULL) {
+                      $output[] = [$element['#title'] => $element['#options'][$content]];
+                    }
+                  }
+                }
+                elseif ($element['#type'] == 'radios') {
+                  if ($element['#options'][$content] != NULL) {
+                    $output[] = [$element['#title'] => $element['#options'][$content]];
+                  }
+                }
+                elseif ($element['#type'] == 'select') {
+                  $values = [];
+                  if (gettype($content) == 'array' & $content != NULL) {
+                    foreach ($content as $key) {
+                      if ($element['#options'][$key] != NULL) {
+                        array_push($values, $element['#options'][$key]);
+                      }
+                    }
+                    $output[] = [$element['#title'] => $values];
+                  }
+                  else {
+                    if ($content != NULL) {
+                      $output[] = [$element['#title'] => $element['#options'][$content]];
+                    }
+                  }
+                }
+                else {
+                  $output[] = [$element['#title'] => $content];
+                }
               }
             }
           }
           else {
-            $output[] = [$element['#title'] => $content];
+            if ($key == 'location') {
+              if ($content['location_options'] != '') {
+                $country = $this->entityTypeManager()->getStorage('location')->load($content['location_options'])->getName();
+                $location = $country . '.';
+              }
+              if ($content['level_1'] != '') {
+                $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_1'])->getName();
+                $location = $level_1 . ', ' . $location;
+              }
+              if ($content['level_2'] != '') {
+                $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_2'])->getName();
+                $location = $level_2 . ', ' . $location;
+              }
+              if ($content['level_3'] != '') {
+                $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_3'])->getName();
+                $location = $level_3 . ', ' . $location;
+              }
+              if ($content['level_4'] != '') {
+                $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_4'])->getName();
+                $location = $level_4 . ', ' . $location;
+              }
+              $output[] = ['Location' => $location];
+            }
+            elseif ($element['#type'] == 'checkbox') {
+              if ($content != NULL) {
+                if ($content == 1) {
+                  $output[] = [$element['#title'] => t('Yes')];
+                }
+                else {
+                  $output[] = [$element['#title'] => t('No')];
+                }
+              }
+            }
+            elseif ($element['#type'] == 'checkboxes') {
+              $values = [];
+              if (gettype($content) == 'array' & $content != NULL) {
+                foreach ($content as $key) {
+                  if ($element['#options'][$key] != NULL) {
+                    array_push($values, $element['#options'][$key]);
+                  }
+                }
+                $output[] = [$element['#title'] => $values];
+              }
+              else {
+                if ($content != NULL) {
+                  $output[] = [$element['#title'] => $element['#options'][$content]];
+                }
+              }
+            }
+            elseif ($element['#type'] == 'radios') {
+              if ($element['#options'][$content] != NULL) {
+                $output[] = [$element['#title'] => $element['#options'][$content]];
+              }
+            }
+            elseif ($element['#type'] == 'select') {
+              $values = [];
+              if (gettype($content) == 'array' & $content != NULL) {
+                foreach ($content as $key) {
+                  if ($element['#options'][$key] != NULL) {
+                    array_push($values, $element['#options'][$key]);
+                  }
+                }
+                $output[] = [$element['#title'] => $values];
+              }
+              else {
+                if ($content != NULL) {
+                  $output[] = [$element['#title'] => $element['#options'][$content]];
+                }
+              }
+            }
+            else {
+              $output[] = [$element['#title'] => $content];
+            }
           }
         }
+
       }
       $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
         'webform' => $webform_submission->getWebform()->id(),
@@ -146,7 +229,7 @@ class ServiceSubmissionsView extends ControllerBase {
         $markup = '
           <div class="service-provider-details">
             <div class="service-detail-heading">
-              <h3>Service Details</h3>
+            <h3>' . t('Service Details') . '</h3>
             </div>
           </div>';
       }
@@ -154,7 +237,7 @@ class ServiceSubmissionsView extends ControllerBase {
         $markup = '
           <div class="service-provider-details">
             <div class="service-detail-heading">
-              <h3>Service Details</h3>
+              <h3>' . t('Service Details') . '</h3>
               <div class="edit-delete-links">
                 <span class="edit-link">
                   <a href=' . $edit_url . '>Edit</a>
@@ -183,7 +266,7 @@ class ServiceSubmissionsView extends ControllerBase {
     else {
       return [
         '#type' => 'markup',
-        '#markup' => '<h3>No submission found</h3>',
+        '#markup' => '<h3>' . t('No submission found.') . '</h3>',
       ];
     }
   }
