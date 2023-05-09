@@ -9,9 +9,15 @@ erpw_webform.service_webforms:
     _permission: 'access content'
 
 erpw_webform.service_content:
-  path: '/service/{id}'
+  path: '/service/{webform_submission}'
   defaults:
     _controller: '\Drupal\erpw_webform\Controller\ServiceSubmissionsView::content'
     _title: 'Service Information'
   requirements:
     _permission: 'access content'
+    id: '\d+'
+  options:
+    parameters:
+      id:
+        type: entity:webform_submission
+        parameter_conversion: true
