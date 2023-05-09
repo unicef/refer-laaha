@@ -7,7 +7,6 @@
 use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\menu_link_content\Entity\MenuLinkContent;
 
 /**
  * @file
@@ -55,11 +54,21 @@ function erpw_webform_entity_type_build(array &$entity_types) {
 }
 
 /**
+ * Implements hook_preprocess_html().
+ */
+function erpw_webform_preprocess_html(&$variables) {
+  $currentRoute = \Drupal::routeMatch()->getRouteName();
+  if ($currentRoute == 'erpw_webform.service_content') {
+    $variables['attributes']['class'][] = 'view-page-webform-submission';
+  }
+}
+
+/**
  * Implements hook_preprocess_page().
  */
 function erpw_webform_preprocess_page(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
-  if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form') {
+  if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
   }
 }
@@ -124,17 +133,4 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     }
   }
 
-}
-
-/**
- * Implements hook_update_N().
- */
-function erpw_webform_update_9001() {
-  $menu_link = MenuLinkContent::create([
-    'title' => 'Add Service',
-    'link' => ['uri' => 'internal:/service-webforms'],
-    'menu_name' => 'main',
-    'parent' => 'system.admin_content',
-  ]);
-  $menu_link->save();
 }

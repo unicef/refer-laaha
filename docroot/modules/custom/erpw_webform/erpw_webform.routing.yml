@@ -7,3 +7,17 @@ erpw_webform.service_webforms:
     _description: 'Select the type of service for which you need to provide a submission.'
   requirements:
     _permission: 'access content'
+
+erpw_webform.service_content:
+  path: '/service/{webform_submission}'
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\ServiceSubmissionsView::content'
+    _title: 'Service Information'
+  requirements:
+    _permission: 'access content'
+    id: '\d+'
+  options:
+    parameters:
+      id:
+        type: entity:webform_submission
+        parameter_conversion: true
