@@ -23,6 +23,49 @@ elements: |-
     '#type': location_list_element
     '#title': Location
     '#required': true
+  type_of_service:
+    '#type': webform_entity_select
+    '#title': 'Type of Service'
+    '#target_type': node
+    '#selection_handler': 'default:node'
+    '#selection_settings':
+      target_bundles:
+        service_type: service_type
+      sort:
+        field: title
+        direction: ASC
+    '#required': true
+  organisation:
+    '#type': webform_entity_select
+    '#title': Organisation
+    '#target_type': node
+    '#selection_handler': 'default:node'
+    '#selection_settings':
+      target_bundles:
+        organisation: organisation
+      sort:
+        field: title
+        direction: ASC
+    '#required': true
+  transportation_available:
+    '#type': radios
+    '#title': 'Transportation Available'
+    '#options':
+      'Yes': 'Yes'
+      'No': 'No'
+  accessibility_for_persons:
+    '#type': checkboxes
+    '#title': 'Has the ability to support the following disabilities:'
+    '#options': support_for_disabilities
+  age_group:
+    '#type': select
+    '#title': 'Age Group'
+    '#options': age_group
+  target_group:
+    '#type': select
+    '#title': 'Target Group'
+    '#options': target_group
+    '#required': true
   field_number_of_staff_providing_:
     '#type': textfield
     '#title': 'Number of Staff Providing Service'
