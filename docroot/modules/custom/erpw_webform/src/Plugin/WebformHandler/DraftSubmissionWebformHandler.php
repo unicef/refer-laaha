@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\erpw_webform\Plugin\WebformHandler;
 
 use Drupal\Core\Form\FormStateInterface;
@@ -18,29 +19,27 @@ use Drupal\webform\WebformSubmissionInterface;
  *   submission = \Drupal\webform\Plugin\WebformHandlerInterface::SUBMISSION_OPTIONAL,
  * )
  */
+class DraftSubmissionWebformHandler extends WebformHandlerBase {
 
-class DraftSubmissionWebformHandler extends WebformHandlerBase{
-  
   /**
    * Implements Drupal\webform\Plugin\WebformHandlerInterface::confirmForm().
    */
-
-  public function confirmForm(array &$form, FormStateInterface $form_state, WebformSubmissionInterface $webform_submission){
+  public function confirmForm(array &$form, FormStateInterface $form_state, WebformSubmissionInterface $webform_submission) {
 
     $workflow_selected = $webform_submission->getElementData('erpw_workflow');
-    
-    // Redirect the user to the submission results page if transition is Save as Draft
-    if($workflow_selected['transition'] == "save_as_draft"){
+
+    // Redirect the user to the submission results page if transition is Save as Draft.
+    if ($workflow_selected['transition'] == "save_as_draft") {
       $form_state->setRedirect('entity.webform.results_submissions',
       ['webform' => $webform_submission->getWebform()->id()],
       ['query' => ['workflow-erpw_workflow' => 'draft']]
-    );
+      );
     }
     else {
-      // Default behavior for all other transitions
+      // Default behavior for all other transitions.
       parent::submitForm($form, $form_state, $webform_submission);
     }
-    
+
   }
 
 }
