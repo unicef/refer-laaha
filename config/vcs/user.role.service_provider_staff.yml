@@ -12,6 +12,7 @@ dependencies:
     - node_view_permissions
     - quick_node_clone
     - system
+    - webform
 id: service_provider_staff
 label: 'Service Provider - Staff'
 weight: -8
@@ -39,3 +40,7 @@ permissions:
   - 'view own unpublished content'
   - 'view service of their own location'
   - 'view service of their own location and organisation'
+  - 'access webform submission user'
+  - 'delete own webform submission'
+  - 'edit own webform submission'
+  - 'view own webform submission'
