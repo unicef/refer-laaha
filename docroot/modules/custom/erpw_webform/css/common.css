@@ -26,7 +26,6 @@
   display: block !important;
 }
 
-
 /* Convert webform workflow transitions into CTA  */
 .erpw-workflow-cta-button {
   background: #A85766;
@@ -45,11 +44,24 @@
   cursor: pointer;
 }
 
-/* #edit-erpw-workflow-transition--2 input[type="radio"] {
-  display: none;
-} */
-
-/* #block-erpw-content .webform-button--submit {
-  display: none;
-} */
+.view-page-webform-submission .pair-container {
+  display: flex;
+  flex-direction: column;
+}
+.view-page-webform-submission .pair-container .label {
+  width: 100%;
+  display: block;
+  font-size: 14px;
+  color: #a85766;
+  font-weight: 500;
+  font-family: Roboto;
+}
+.view-page-webform-submission .pair-container .value {
+  width: 100%;
+  display: block;
+  font-family: Roboto;
+  font-size: 12px;
+  padding: 15px 0;
+  word-break: break-word;
+}
 
