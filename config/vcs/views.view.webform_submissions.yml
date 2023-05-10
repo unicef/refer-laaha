@@ -11,6 +11,7 @@ dependencies:
     - user.role.service_provider_staff
     - user.role.super_admin
   module:
+    - better_exposed_filters
     - erpw_webform
     - user
     - webform
@@ -93,7 +94,7 @@ display:
           admin_label: ''
           entity_type: webform_submission
           plugin_id: webform_submission_focal_point_field
-          label: 'Name of focal point for referrals.'
+          label: 'Name of focal point for referrals'
           exclude: false
           alter:
             alter_text: false
@@ -199,71 +200,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        entity_type:
-          id: entity_type
-          table: webform_submission
-          field: entity_type
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: webform_submission
-          entity_field: entity_type
-          plugin_id: field
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         webform_id:
           id: webform_id
           table: webform_submission
@@ -344,15 +280,37 @@ display:
             offset_label: Offset
           quantity: 9
       exposed_form:
-        type: basic
+        type: bef
         options:
           submit_button: Apply
-          reset_button: false
+          reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
           sort_asc_label: Asc
           sort_desc_label: Desc
+          text_input_required: 'Select any filter and click on Apply to see results'
+          text_input_required_format: basic_html
+          bef:
+            general:
+              autosubmit: false
+              autosubmit_exclude_textfield: false
+              autosubmit_textfield_delay: 500
+              autosubmit_hide: false
+              input_required: false
+              allow_secondary: false
+              secondary_label: 'Advanced options'
+              secondary_open: false
+              reset_button_always_show: false
+            filter:
+              webform_id:
+                plugin_id: default
+                advanced:
+                  sort_options: true
+                  rewrite:
+                    filter_rewrite_values: ''
+                  collapsible: false
+                  is_secondary: false
       access:
         type: role
         options:
@@ -396,7 +354,7 @@ display:
           exposed: true
           expose:
             operator_id: webform_id_op
-            label: Webform
+            label: 'Filter Service Type'
             description: ''
             use_operator: false
             operator: webform_id_op
@@ -498,6 +456,8 @@ display:
           replica: false
           query_tags: {  }
       relationships: {  }
+      css_class: services-webform-submissions-list
+      use_ajax: true
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -518,7 +478,9 @@ display:
     position: 1
     display_options:
       display_extenders:
-        library_in_views_display_extender: {  }
+        library_in_views_display_extender:
+          attach_library:
+            attach_library: 'erpw_custom/erpw_js,erpw_webform/erpw_webform_js'
     cache_metadata:
       max-age: 0
       contexts:

@@ -45,3 +45,76 @@
   padding: 15px 0;
   word-break: break-word;
 }
+
+/* Webform submissions list page. */
+.services-webform-submissions-list .view-filters .form--inline .js-form-item {
+  width: 40%;
+}
+.services-webform-submissions-list .view-filters .form--inline .form-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.services-webform-submissions-list
+  .view-filters
+  .form--inline
+  .form-actions
+  input {
+  width: 20%;
+  margin-right: 12px;
+}
+.services-webform-submissions-list
+  .views-form
+  #edit-webform-submission-bulk-form--2
+  .js-form-item {
+  width: 40%;
+}
+.services-webform-submissions-list
+  .views-form
+  #edit-webform-submission-bulk-form--2
+  .form-actions {
+  width: 20%;
+  margin-right: 12px;
+}
+.services-webform-submissions-list .views-form #edit-actions--2 {
+  display: none;
+}
+.services-webform-submissions-list .views-table {
+  width: 100%;
+  border: 1px solid black;
+}
+.services-webform-submissions-list table thead th {
+  padding: 10px;
+}
+
+.services-webform-submissions-list table th {
+  border: 0.5px solid black;
+  text-align: left;
+}
+.services-webform-submissions-list table td {
+  border: 0.5px solid black;
+  padding: 10px;
+  text-align: left;
+}
+.services-webform-submissions-list
+  table
+  td.views-field-webform-submission-bulk-form {
+  text-align: center;
+}
+.services-webform-submissions-list
+  table
+  th.views-field-webform-submission-bulk-form {
+  text-align: center;
+}
+.services-webform-submissions-list table th.views-field-operations {
+  text-align: center;
+}
+.services-webform-submissions-list
+  table
+  td.views-field-operations
+  .dropbutton-wrapper {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}

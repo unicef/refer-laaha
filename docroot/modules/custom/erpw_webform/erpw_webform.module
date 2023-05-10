@@ -192,44 +192,63 @@ function erpw_webform_menu_local_tasks_alter(&$data, $route_name) {
  * Implements hook_menu_views_pre_render().
  */
 function erpw_webform_views_pre_render(&$view) {
+
+  // Alter webform submissions view.
   if ($view->id() == 'webform_submissions') {
+    $user = User::load(\Drupal::currentUser()->id());
+    $user_roles = $user->getRoles();
+    $domainAccess = $user->get('field_domain_access')->getValue();
+
+    // Unset rows that are do not have domain specific
+    // access for the current user.
     foreach ($view->result as $key => $row) {
+      $c = 0;
       $sid = $row->sid;
-      $keys_exists = [];
-      $keys_na = [];
-      $user = User::load(\Drupal::currentUser()->id());
-      $user_roles = $user->getRoles();
-      $domainAccess = $user->get('field_domain_access')->getValue();
       $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
       $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
       $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
       $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
       foreach ($user_roles as $key_r => $role) {
-        if ($role == "super_admin" ||$role == "administrator") {
+        if ($role == 'super_admin' || $role == 'administrator') {
           return;
         }
         else {
           foreach ($domainAccess as $domain) {
             if (array_key_exists($domain['target_id'], $tpa)) {
-              dump($tpa);
-              $keys_exists[] = $key;
-            }
-            else {
-              dump("NA");
-              dump($tpa);
-              $keys_na[] = $key;
+              $c++;
             }
           }
         }
       }
+      if ($c == 0) {
+        unset($view->result[$key]);
+      }
     }
-    dump($keys_exists);
-    dump($keys_na);
-    // foreach ($view->result as $key => $row) {
-    //   if (!isset($keys[$key])) {
-    //     unset($view->result[$key]);
-    //   }
-    // }
+
+    // Unset domain name options for exposed filter that are do not
+    // have domain specific access for the current user.
+    foreach ($view->exposed_widgets['webform_id']['#options'] as $webformID => $label) {
+      $c = 0;
+      $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+      if (!is_null($tpa)) {
+        foreach ($user_roles as $key_r => $role) {
+          if ($role == 'super_admin' || $role == 'administrator') {
+            return;
+          }
+          else {
+            foreach ($domainAccess as $domain) {
+              if (array_key_exists($domain['target_id'], $tpa)) {
+                $c++;
+              }
+            }
+          }
+        }
+        if ($c == 0) {
+          unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
+        }
+      }
+    }
   }
 
   return $view;
