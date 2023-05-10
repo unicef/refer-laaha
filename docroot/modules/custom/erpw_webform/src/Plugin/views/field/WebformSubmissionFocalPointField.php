@@ -26,7 +26,7 @@ class WebformSubmissionFocalPointField extends FieldPluginBase {
       $output = $values->_entity->getData()['field_name_of_the_focal_point'];
     }
     else {
-      $output = 'Not available.';
+      $output = t('Not available.');
     }
     return $output;
   }
