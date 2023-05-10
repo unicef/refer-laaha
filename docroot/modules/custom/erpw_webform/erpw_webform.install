@@ -19,3 +19,16 @@ function erpw_webform_update_9001() {
   ]);
   $menu_link->save();
 }
+
+/**
+ * Implements hook_update_N().
+ */
+function erpw_webform_update_9002() {
+  $menu_link = MenuLinkContent::create([
+    'title' => 'View Services',
+    'link' => ['uri' => 'internal:/service-webforms-submissions'],
+    'menu_name' => 'main',
+    'parent' => 'system.admin_content',
+  ]);
+  $menu_link->save();
+}

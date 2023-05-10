@@ -23,6 +23,27 @@ elements: |-
     '#type': location_list_element
     '#title': Location
     '#required': true
+  field_number_of_staff_providing_:
+    '#type': textfield
+    '#title': 'Number of Staff Providing Service'
+    '#title_display': before
+    '#autocomplete': 'off'
+  field_opening_hours:
+    '#type': textfield
+    '#title': 'Opening Hours'
+    '#title_display': before
+    '#autocomplete': 'off'
+  field_cost_of_service:
+    '#type': textfield
+    '#title': 'Cost of Service'
+    '#title_display': before
+    '#autocomplete': 'off'
+  field_name_of_the_focal_point:
+    '#type': textfield
+    '#title': 'Name of focal point for referrals (first/last name)'
+    '#title_display': before
+    '#required': true
+    '#required_error': 'This field is required'
   erpw_workflow:
     '#type': webform_workflows_element
     '#title': 'eRPW Workflow'
