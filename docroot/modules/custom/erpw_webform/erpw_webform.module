@@ -9,6 +9,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Url;
 use Drupal\user\Entity\User;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
 
 /**
  * @file
@@ -53,6 +55,15 @@ function erpw_webform_entity_type_build(array &$entity_types) {
   // node form. To override the default node form, use hook_entity_type_alter().
   $entity_types['webform']->setFormClass('duplicate', 'Drupal\erpw_webform\Form\WebformAddForm');
   $entity_types['webform']->setFormClass('add', 'Drupal\erpw_webform\Form\WebformAddForm');
+  $entity_types['webform']->setListBuilderClass('Drupal\erpw_webform\WebformListBuilder');
+  $entity_types['webform_submission']->setListBuilderClass('Drupal\erpw_webform\ErpwWebformSubmissionListBuilder');
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function erpw_webform_entity_type_alter(array &$entity_types) {
+  $entity_types['webform_submission']->setListBuilderClass('Drupal\erpw_webform\ErpwWebformSubmissionListBuilder');
 }
 
 /**
@@ -134,7 +145,59 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       }
     }
   }
+}
 
+/**
+ * Implements hook__entity_access().
+ */
+function erpw_webform_entity_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  $user_roles = $account->getRoles();
+  $user = User::load(\Drupal::currentUser()->id());
+  $domainAccess = $user->get('field_domain_access')->getValue();
+  $x = 0;
+  if ($entity->getEntityTypeId() == 'webform') {
+    $tpa = $entity->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+    foreach ($user_roles as $key_r => $role) {
+      if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator') {
+        foreach ($domainAccess as $key => $domain) {
+          if (array_key_exists($domain['target_id'], $tpa)) {
+            $x++;
+            return AccessResult::allowed();
+          }
+        }
+      }
+      if ($role == 'super_admin' ||$role == 'administrator') {
+        $x++;
+        return AccessResult::allowed();
+      }
+    }
+    if ($x == 0) {
+      return AccessResult::forbidden();
+    }
+  }
+  $s = 0;
+  if ($entity->getEntityTypeId() == 'webform_submission') {
+    $webformID = $entity->get('webform_id')->getValue()[0]['target_id'];
+    $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+    $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+    foreach ($user_roles as $key_r => $role) {
+      if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator' || $role == 'service_provider_staff' || $role == 'service_provider_focal_point') {
+        foreach ($domainAccess as $key => $domain) {
+          if (array_key_exists($domain['target_id'], $tpa)) {
+            $s++;
+            return AccessResult::allowed();
+          }
+        }
+      }
+      if ($role == 'super_admin' || $role == 'administrator') {
+        $s++;
+        return AccessResult::allowed();
+      }
+    }
+    if ($s == 0) {
+      return AccessResult::forbidden();
+    }
+  }
 }
 
 /**
