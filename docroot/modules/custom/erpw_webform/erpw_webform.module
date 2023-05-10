@@ -271,20 +271,22 @@ function erpw_webform_views_pre_render(&$view) {
       $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
       $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
       $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-      foreach ($user_roles as $key_r => $role) {
-        if ($role == 'super_admin' || $role == 'administrator') {
-          return;
-        }
-        else {
-          foreach ($domainAccess as $domain) {
-            if (array_key_exists($domain['target_id'], $tpa)) {
-              $c++;
+      if (!is_null($tpa)) {
+        foreach ($user_roles as $key_r => $role) {
+          if ($role == 'super_admin' || $role == 'administrator') {
+            return;
+          }
+          else {
+            foreach ($domainAccess as $domain) {
+              if (array_key_exists($domain['target_id'], $tpa)) {
+                $c++;
+              }
             }
           }
         }
-      }
-      if ($c == 0) {
-        unset($view->result[$key]);
+        if ($c == 0) {
+          unset($view->result[$key]);
+        }
       }
     }
 
