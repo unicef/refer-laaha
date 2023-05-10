@@ -7,6 +7,10 @@
 use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Url;
+use Drupal\user\Entity\User;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
 
 /**
  * @file
@@ -51,6 +55,15 @@ function erpw_webform_entity_type_build(array &$entity_types) {
   // node form. To override the default node form, use hook_entity_type_alter().
   $entity_types['webform']->setFormClass('duplicate', 'Drupal\erpw_webform\Form\WebformAddForm');
   $entity_types['webform']->setFormClass('add', 'Drupal\erpw_webform\Form\WebformAddForm');
+  $entity_types['webform']->setListBuilderClass('Drupal\erpw_webform\WebformListBuilder');
+  $entity_types['webform_submission']->setListBuilderClass('Drupal\erpw_webform\ErpwWebformSubmissionListBuilder');
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function erpw_webform_entity_type_alter(array &$entity_types) {
+  $entity_types['webform_submission']->setListBuilderClass('Drupal\erpw_webform\ErpwWebformSubmissionListBuilder');
 }
 
 /**
@@ -132,5 +145,174 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       }
     }
   }
+}
 
+/**
+ * Implements hook__entity_access().
+ */
+function erpw_webform_entity_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  $user_roles = $account->getRoles();
+  $user = User::load(\Drupal::currentUser()->id());
+  $domainAccess = $user->get('field_domain_access')->getValue();
+  $x = 0;
+  if ($entity->getEntityTypeId() == 'webform') {
+    $tpa = $entity->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+    foreach ($user_roles as $key_r => $role) {
+      if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator') {
+        foreach ($domainAccess as $key => $domain) {
+          if (array_key_exists($domain['target_id'], $tpa)) {
+            $x++;
+            return AccessResult::allowed();
+          }
+        }
+      }
+      if ($role == 'super_admin' ||$role == 'administrator') {
+        $x++;
+        return AccessResult::allowed();
+      }
+    }
+    if ($x == 0) {
+      return AccessResult::forbidden();
+    }
+  }
+  $s = 0;
+  if ($entity->getEntityTypeId() == 'webform_submission') {
+    $webformID = $entity->get('webform_id')->getValue()[0]['target_id'];
+    $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+    $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+    foreach ($user_roles as $key_r => $role) {
+      if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator' || $role == 'service_provider_staff' || $role == 'service_provider_focal_point') {
+        foreach ($domainAccess as $key => $domain) {
+          if (array_key_exists($domain['target_id'], $tpa)) {
+            $s++;
+            return AccessResult::allowed();
+          }
+        }
+      }
+      if ($role == 'super_admin' || $role == 'administrator') {
+        $s++;
+        return AccessResult::allowed();
+      }
+    }
+    if ($s == 0) {
+      return AccessResult::forbidden();
+    }
+  }
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function erpw_webform_views_data_alter(array &$data) {
+  $data['webform_submission']['webform_submission_focal_point_field'] = [
+    'title' => t('Webform Submission Focal Point field.'),
+    'help' => t('Generic field for displaying focal point name for all submissions.'),
+    'field' => [
+      'id' => 'webform_submission_focal_point_field',
+      'entity type' => 'webform_submission',
+      'label' => t('Webform Submission Focal Point field.'),
+      'real field' => 'webform_submission_focal_point_field',
+    ],
+  ];
+
+  return $data;
+}
+
+/**
+ * Implements hook_entity_operation_alter().
+ */
+function erpw_webform_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  if ($entity->getEntityTypeId() == 'webform_submission') {
+    // Add custom operation.
+    $sid = $entity->get('sid')->getValue()[0]['value'];
+    $operations['view']['url'] = Url::fromRoute('erpw_webform.service_content', ['webform_submission' => intval($sid)]);
+  }
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function erpw_webform_menu_local_tasks_alter(&$data, $route_name) {
+  // Override local task links for webform submissions.
+  foreach ($data as $key => $value) {
+    if ($key == 'tabs') {
+      foreach ($value as $subKey => $routes) {
+        foreach ($routes as $route_name => $properties) {
+          if ($route_name == 'entity.webform_submission.canonical') {
+            $sid = intval($properties['#link']['url']->getRouteParameters()['webform_submission']);
+            $data[$key][$subKey][$route_name]['#link']['url'] = Url::fromRoute('erpw_webform.service_content', ['webform_submission' => intval($sid)]);
+          }
+          if ($route_name == 'entity.webform_submission.notes_form') {
+            unset($data[$key][$subKey][$route_name]);
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_menu_views_pre_render().
+ */
+function erpw_webform_views_pre_render(&$view) {
+
+  // Alter webform submissions view.
+  if ($view->id() == 'webform_submissions') {
+    $user = User::load(\Drupal::currentUser()->id());
+    $user_roles = $user->getRoles();
+    $domainAccess = $user->get('field_domain_access')->getValue();
+
+    // Unset rows that are do not have domain specific
+    // access for the current user.
+    foreach ($view->result as $key => $row) {
+      $c = 0;
+      $sid = $row->sid;
+      $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
+      $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
+      $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+      foreach ($user_roles as $key_r => $role) {
+        if ($role == 'super_admin' || $role == 'administrator') {
+          return;
+        }
+        else {
+          foreach ($domainAccess as $domain) {
+            if (array_key_exists($domain['target_id'], $tpa)) {
+              $c++;
+            }
+          }
+        }
+      }
+      if ($c == 0) {
+        unset($view->result[$key]);
+      }
+    }
+
+    // Unset domain name options for exposed filter that are do not
+    // have domain specific access for the current user.
+    foreach ($view->exposed_widgets['webform_id']['#options'] as $webformID => $label) {
+      $c = 0;
+      $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+      if (!is_null($tpa)) {
+        foreach ($user_roles as $key_r => $role) {
+          if ($role == 'super_admin' || $role == 'administrator') {
+            return;
+          }
+          else {
+            foreach ($domainAccess as $domain) {
+              if (array_key_exists($domain['target_id'], $tpa)) {
+                $c++;
+              }
+            }
+          }
+        }
+        if ($c == 0) {
+          unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
+        }
+      }
+    }
+  }
+
+  return $view;
 }
