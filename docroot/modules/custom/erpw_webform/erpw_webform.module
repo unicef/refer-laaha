@@ -11,7 +11,6 @@ use Drupal\Core\Url;
 use Drupal\user\Entity\User;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\menu_link_content\Entity\MenuLinkContent;
 
 /**
  * @file
@@ -57,7 +56,14 @@ function erpw_webform_entity_type_build(array &$entity_types) {
   $entity_types['webform']->setFormClass('duplicate', 'Drupal\erpw_webform\Form\WebformAddForm');
   $entity_types['webform']->setFormClass('add', 'Drupal\erpw_webform\Form\WebformAddForm');
   $entity_types['webform']->setListBuilderClass('Drupal\erpw_webform\WebformListBuilder');
-  $entity_types['webform_submission']->setListBuilderClass('Drupal\erpw_webform\WebformSubmissionList');
+  $entity_types['webform_submission']->setListBuilderClass('Drupal\erpw_webform\ErpwWebformSubmissionListBuilder');
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function erpw_webform_entity_type_alter(array &$entity_types) {
+  $entity_types['webform_submission']->setListBuilderClass('Drupal\erpw_webform\ErpwWebformSubmissionListBuilder');
 }
 
 /**
@@ -152,7 +158,7 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
   if ($entity->getEntityTypeId() == 'webform') {
     $tpa = $entity->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
     foreach ($user_roles as $key_r => $role) {
-      if ($role == "country_admin" || $role == "interagency_gbv_coordinator") {
+      if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator') {
         foreach ($domainAccess as $key => $domain) {
           if (array_key_exists($domain['target_id'], $tpa)) {
             $x++;
@@ -160,7 +166,7 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
           }
         }
       }
-      if ($role == "super_admin" ||$role == "administrator") {
+      if ($role == 'super_admin' ||$role == 'administrator') {
         $x++;
         return AccessResult::allowed();
       }
@@ -175,7 +181,7 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
     $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
     $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
     foreach ($user_roles as $key_r => $role) {
-      if ($role == "country_admin" || $role == "interagency_gbv_coordinator" || $role == "service_provider_staff" || $role == "service_provider_focal_point") {
+      if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator' || $role == 'service_provider_staff' || $role == 'service_provider_focal_point') {
         foreach ($domainAccess as $key => $domain) {
           if (array_key_exists($domain['target_id'], $tpa)) {
             $s++;
@@ -183,7 +189,7 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
           }
         }
       }
-      if ($role == "super_admin" ||$role == "administrator") {
+      if ($role == 'super_admin' || $role == 'administrator') {
         $s++;
         return AccessResult::allowed();
       }
