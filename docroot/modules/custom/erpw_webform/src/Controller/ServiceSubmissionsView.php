@@ -136,6 +136,12 @@ class ServiceSubmissionsView extends ControllerBase {
                     }
                   }
                 }
+                elseif ($element['#type'] == 'webform_entity_select') {
+                  if ($element['#title'] = 'Organisation') {
+                    $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                    $output[] = [$element['#title'] => $orgLabel];
+                  }
+                }
                 else {
                   $output[] = [$element['#title'] => $content];
                 }
@@ -211,6 +217,12 @@ class ServiceSubmissionsView extends ControllerBase {
                 if ($content != NULL) {
                   $output[] = [$element['#title'] => $element['#options'][$content]];
                 }
+              }
+            }
+            elseif ($element['#type'] == 'webform_entity_select') {
+              if ($element['#title'] = 'Organisation') {
+                $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                $output[] = [$element['#title'] => $orgLabel];
               }
             }
             else {

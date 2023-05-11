@@ -1,22 +1,13 @@
-uuid: c8f4525e-66f7-49af-b15b-f89a7e74b24a
+uuid: a38e78e1-4c90-411b-9c74-6b0e77d41d00
 langcode: en
 status: true
 dependencies:
-  config:
-    - user.role.administrator
-    - user.role.authenticated
-    - user.role.country_admin
-    - user.role.interagency_gbv_coordinator
-    - user.role.service_provider_focal_point
-    - user.role.service_provider_staff
-    - user.role.super_admin
   module:
     - better_exposed_filters
     - erpw_webform
-    - user
     - webform
-id: webform_submissions
-label: 'Webform Submissions'
+id: manage_webform_services
+label: 'Manage webform services'
 module: views
 description: ''
 tag: ''
@@ -29,19 +20,18 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Webform Submissions'
+      title: 'Manage webform services'
       fields:
-        webform_submission_bulk_form:
-          id: webform_submission_bulk_form
+        webform_submission_organisation_field:
+          id: webform_submission_organisation_field
           table: webform_submission
-          field: webform_submission_bulk_form
+          field: webform_submission_organisation_field
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: null
-          entity_field: null
-          plugin_id: webform_submission_bulk_form
-          label: ''
+          entity_type: webform_submission
+          plugin_id: webform_submission_organisation_field
+          label: Organisation
           exclude: false
           alter:
             alter_text: false
@@ -82,9 +72,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          action_title: Action
-          include_exclude: exclude
-          selected_actions: {  }
         webform_submission_focal_point_field:
           id: webform_submission_focal_point_field
           table: webform_submission
@@ -94,123 +81,7 @@ display:
           admin_label: ''
           entity_type: webform_submission
           plugin_id: webform_submission_focal_point_field
-          label: 'Name of focal point for referrals'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-        uid:
-          id: uid
-          table: webform_submission
-          field: uid
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: webform_submission
-          entity_field: uid
-          plugin_id: field
-          label: 'Submitted by'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        webform_id:
-          id: webform_id
-          table: webform_submission
-          field: webform_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: webform_submission
-          entity_field: webform_id
-          plugin_id: field
-          label: 'Service Type'
+          label: 'Focal Point'
           exclude: false
           alter:
             alter_text: false
@@ -251,30 +122,16 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        operations:
-          id: operations
+        webform_submission_hotline_contact_field:
+          id: webform_submission_hotline_contact_field
           table: webform_submission
-          field: operations
+          field: webform_submission_hotline_contact_field
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: webform_submission
-          plugin_id: entity_operations
-          label: 'Operations links'
+          plugin_id: webform_submission_hotline_contact_field
+          label: Contact
           exclude: false
           alter:
             alter_text: false
@@ -315,12 +172,111 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          destination: false
+        webform_submission_location_field:
+          id: webform_submission_location_field
+          table: webform_submission
+          field: webform_submission_location_field
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          plugin_id: webform_submission_location_field
+          label: Location
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+        webform_submission_mode_field:
+          id: webform_submission_mode_field
+          table: webform_submission
+          field: webform_submission_mode_field
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          plugin_id: webform_submission_mode_field
+          label: 'Service Mode'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
       pager:
         type: full
         options:
           offset: 0
-          items_per_page: 15
+          items_per_page: 10
           total_pages: null
           id: 0
           tags:
@@ -341,7 +297,7 @@ display:
         type: bef
         options:
           submit_button: Apply
-          reset_button: true
+          reset_button: false
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
@@ -351,10 +307,10 @@ display:
           text_input_required_format: basic_html
           bef:
             general:
-              autosubmit: false
-              autosubmit_exclude_textfield: false
+              autosubmit: true
+              autosubmit_exclude_textfield: true
               autosubmit_textfield_delay: 500
-              autosubmit_hide: false
+              autosubmit_hide: true
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
@@ -370,29 +326,12 @@ display:
                   collapsible: false
                   is_secondary: false
       access:
-        type: role
-        options:
-          role:
-            authenticated: authenticated
-            service_provider_staff: service_provider_staff
-            service_provider_focal_point: service_provider_focal_point
-            interagency_gbv_coordinator: interagency_gbv_coordinator
-            country_admin: country_admin
-            super_admin: super_admin
-            administrator: administrator
+        type: none
+        options: {  }
       cache:
         type: tag
         options: {  }
-      empty:
-        messages:
-          id: messages
-          table: views
-          field: messages
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: messages
-          empty: true
+      empty: {  }
       sorts: {  }
       arguments: {  }
       filters:
@@ -412,16 +351,16 @@ display:
           exposed: true
           expose:
             operator_id: webform_id_op
-            label: 'Filter Service Type'
+            label: 'Select Service Type'
             description: ''
             use_operator: false
             operator: webform_id_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: service_type
+            identifier: webform_id
             required: false
             remember: false
-            multiple: true
+            multiple: false
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
@@ -445,66 +384,9 @@ display:
             default_group_multiple: {  }
             group_items: {  }
       style:
-        type: table
-        options:
-          grouping: {  }
-          row_class: ''
-          default_row_class: true
-          uses_fields: true
-          columns:
-            webform_submission_bulk_form: webform_submission_bulk_form
-            sid: sid
-            uid: uid
-            entity_type: entity_type
-            webform_id: webform_id
-          default: '-1'
-          info:
-            webform_submission_bulk_form:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            sid:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            uid:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            entity_type:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            webform_id:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-          override: true
-          sticky: false
-          summary: ''
-          empty_table: false
-          caption: ''
-          description: ''
+        type: default
       row:
         type: fields
-        options:
-          default_field_elements: true
-          inline: {  }
-          separator: ''
-          hide_empty: false
       query:
         type: views_query
         options:
@@ -514,20 +396,23 @@ display:
           replica: false
           query_tags: {  }
       relationships: {  }
-      css_class: services-webform-submissions-list
+      css_class: erpw-webform-manage-services
       use_ajax: true
+      use_more: false
+      use_more_always: true
+      use_more_text: Next
+      link_display: '0'
+      link_url: ''
       header: {  }
       footer: {  }
       display_extenders: {  }
     cache_metadata:
-      max-age: 0
+      max-age: -1
       contexts:
-        - 'languages:language_content'
         - 'languages:language_interface'
         - url
         - url.query_args
         - user
-        - user.roles
       tags: {  }
   block_1:
     id: block_1
@@ -538,14 +423,12 @@ display:
       display_extenders:
         library_in_views_display_extender:
           attach_library:
-            attach_library: 'erpw_custom/erpw_js,erpw_webform/erpw_webform_js'
+            attach_library: 'erpw_webform/erpw_webform_js,erpw_custom/erpw_js,unicef_iconpicker/unicef-iconpicker'
     cache_metadata:
-      max-age: 0
+      max-age: -1
       contexts:
-        - 'languages:language_content'
         - 'languages:language_interface'
         - url
         - url.query_args
         - user
-        - user.roles
       tags: {  }
