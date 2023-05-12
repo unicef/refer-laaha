@@ -75,7 +75,7 @@ function erpw_preprocess_form_element_label(&$variables) {
 }
 
 /**
- * Implements hook_theme_suggestions_HOOK() for dashboard.
+ * Implements hook_preprocess_node() for dashboard.
  */
 function erpw_preprocess_node(&$variables) {
   $node = $variables["node"];

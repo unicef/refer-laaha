@@ -214,6 +214,46 @@ function erpw_webform_views_data_alter(array &$data) {
       'real field' => 'webform_submission_focal_point_field',
     ],
   ];
+  $data['webform_submission']['webform_submission_hotline_contact_field'] = [
+    'title' => t('Webform Submission Hotline contact field.'),
+    'help' => t('Generic field for displaying hotline contact for all submissions.'),
+    'field' => [
+      'id' => 'webform_submission_hotline_contact_field',
+      'entity type' => 'webform_submission',
+      'label' => t('Webform Submission hotline contact field.'),
+      'real field' => 'webform_submission_hotline_contact_field',
+    ],
+  ];
+  $data['webform_submission']['webform_submission_organisation_field'] = [
+    'title' => t('Webform Submission Organisation field.'),
+    'help' => t('Generic field for displaying organisation for all submissions.'),
+    'field' => [
+      'id' => 'webform_submission_organisation_field',
+      'entity type' => 'webform_submission',
+      'label' => t('Webform Submission Organisation field.'),
+      'real field' => 'webform_submission_organisation_field',
+    ],
+  ];
+  $data['webform_submission']['webform_submission_mode_field'] = [
+    'title' => t('Webform Submission Service Mode field.'),
+    'help' => t('Generic field for displaying service mode for all submissions.'),
+    'field' => [
+      'id' => 'webform_submission_mode_field',
+      'entity type' => 'webform_submission',
+      'label' => t('Webform Submission Sevice Mode field.'),
+      'real field' => 'webform_submission_mode_field',
+    ],
+  ];
+  $data['webform_submission']['webform_submission_location_field'] = [
+    'title' => t('Webform Submission location field.'),
+    'help' => t('Generic field for displaying location for all submissions.'),
+    'field' => [
+      'id' => 'webform_submission_location_field',
+      'entity type' => 'webform_submission',
+      'label' => t('Webform Submission location field.'),
+      'real field' => 'webform_submission_location_field',
+    ],
+  ];
 
   return $data;
 }
@@ -257,7 +297,7 @@ function erpw_webform_menu_local_tasks_alter(&$data, $route_name) {
 function erpw_webform_views_pre_render(&$view) {
 
   // Alter webform submissions view.
-  if ($view->id() == 'webform_submissions') {
+  if ($view->id() == 'webform_submissions' || $view->id() == 'manage_webform_services') {
     $user = User::load(\Drupal::currentUser()->id());
     $user_roles = $user->getRoles();
     $domainAccess = $user->get('field_domain_access')->getValue();
@@ -295,26 +335,71 @@ function erpw_webform_views_pre_render(&$view) {
     foreach ($view->exposed_widgets['webform_id']['#options'] as $webformID => $label) {
       $c = 0;
       $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
-      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-      if (!is_null($tpa)) {
-        foreach ($user_roles as $key_r => $role) {
-          if ($role == 'super_admin' || $role == 'administrator') {
-            return;
-          }
-          else {
-            foreach ($domainAccess as $domain) {
-              if (array_key_exists($domain['target_id'], $tpa)) {
-                $c++;
+      if ($webformID != 'All' && $webformID != 'template_erpw_workflow') {
+        $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+        if (!is_null($tpa)) {
+          foreach ($user_roles as $key_r => $role) {
+            if ($role == 'super_admin' || $role == 'administrator') {
+              return;
+            }
+            else {
+              foreach ($domainAccess as $domain) {
+                if (array_key_exists($domain['target_id'], $tpa)) {
+                  $c++;
+                }
               }
             }
           }
+          if ($c == 0) {
+            unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
+          }
         }
-        if ($c == 0) {
-          unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
-        }
+      }
+      if ($webformID == 'template_erpw_workflow') {
+        unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
+      }
+      if ($webformID == 'All') {
+        $view->exposed_widgets['webform_id']['#options'][$webformID] = 'All';
       }
     }
   }
 
   return $view;
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function erpw_webform_theme_suggestions_views_view_fields_alter(array &$suggestions, array $variables) {
+  if (isset($variables['view'])) {
+    $suggestions[] = 'views_view_fields__' . $variables['view']->storage->id();
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view_fields() for views-view-fields.html.twig.
+ */
+function erpw_webform_preprocess_views_view_fields(&$variables) {
+  // Get the fields for the current View.
+  if ($variables['view']->storage->id() == 'manage_webform_services') {
+    $sid = $variables['row']->sid;
+    $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
+    $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
+    $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+    $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+    foreach ($tpa as $settings) {
+      if ($settings[0] != NULL) {
+        $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($settings[0]));
+        $variables['servicetype'] = $servicetype->get('title')->getValue()[0]['value'];
+        $variables['servicetype_color'] = $servicetype->get('field_service_type_color')->getValue()[0]['color'];
+        $variables['servicetype_icon'] = $servicetype->get('field_service_type_icon')->getValue()[0]['value'];
+        $variables['organisation'] = \Drupal::entityTypeManager()->getStorage('node')->load($variables['row']->_entity->getData()['organisation'])->get('title')->getValue()[0]['value'];
+        $variables['sid'] = $variables['row']->sid;
+        $variables['edit_url'] = Url::fromRoute('entity.webform_submission.edit_form', [
+          'webform' => $webformID,
+          'webform_submission' => $variables['row']->sid,
+        ])->toString();
+      }
+    }
+  }
 }

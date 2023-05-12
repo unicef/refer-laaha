@@ -28,8 +28,8 @@
 
 /* Convert webform workflow transitions into CTA  */
 .erpw-workflow-cta-button {
-  background: #A85766;
-  border: 1px solid #A85766;
+  background: #a85766;
+  border: 1px solid #a85766;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 4px;
@@ -138,3 +138,96 @@
   justify-content: center;
 }
 
+.service-providers-submission-row {
+  box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
+  border-radius: 10px;
+  padding: 5px 10px 10px;
+  margin: 13px 0 15px;
+}
+
+.service-providers-submission-row .row-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 0.5px solid #d7d7d7;
+  margin-bottom: 5px;
+  padding-bottom: 10px;
+}
+.service-providers-submission-row
+  .row-header
+  .service-type-color-logo-container {
+  display: flex;
+  width: fit-content;
+  position: relative;
+}
+.service-providers-submission-row
+  .row-header
+  .service-type-color-logo-container
+  .service-type-color {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}
+.service-providers-submission-row
+  .row-header
+  .service-type-color-logo-container
+  .service-type-logo {
+  top: 17px;
+  position: relative;
+  height: fit-content;
+  right: 33px;
+}
+.service-providers-submission-row .row-header .service-type-org a {
+  font-family: Roboto;
+  font-size: 12px;
+  color: #444;
+  font-weight: 700;
+  text-transform: capitalize;
+  word-break: break-all;
+}
+.service-providers-submission-row .views-field {
+  display: flex;
+  margin-top: 10px;
+  padding: 0 5px;
+  text-transform: capitalize;
+  word-break: break-word;
+}
+.service-providers-submission-row .views-field .views-label {
+  max-width: 100px;
+  width: 100%;
+  color: #444;
+  font-size: 12px;
+  font-family: Roboto;
+}
+
+.service-providers-submission-row .views-field .field-content {
+  color: #444;
+  font-size: 12px;
+  font-family: Roboto;
+}
+.service-providers-submission-row
+  .service-provider-details
+  .service-detail-heading {
+  border-bottom: none;
+  border-top: 0.5px solid #d7d7d7;
+  margin-top: 15px;
+  margin-bottom: 0;
+  justify-content: flex-end;
+}
+.service-providers-submission-row .service-provider-details span {
+  padding: 0;
+}
+
+.erpw-webform-manage-services .view-filters {
+  padding-top: 10px;
+  margin-top: 15px;
+  border-top: 2px solid rgba(243, 193, 191, 0.53);
+}
+
+.erpw-webform-manage-services .view-filters .form--inline {
+  margin-top: 15px;
+}
+.erpw-webform-manage-services .view-filters .form--inline .js-form-item {
+  margin-right: 0;
+  width: 100%;
+}

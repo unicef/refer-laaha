@@ -17,6 +17,7 @@ dependencies:
     - quick_node_clone
     - system
     - webform
+    - webform_submission_log
 id: interagency_gbv_coordinator
 label: 'Interagency GBV Coordinator'
 weight: -6
@@ -36,6 +37,7 @@ permissions:
   - 'create organisation content'
   - 'create referral_path_way content'
   - 'create service_provider content'
+  - 'create webform'
   - 'delete any webform submission'
   - 'delete own service_provider content'
   - 'delete own webform submission'
@@ -45,6 +47,7 @@ permissions:
   - 'edit own organisation content'
   - 'edit own referral_path_way content'
   - 'edit own service_provider content'
+  - 'edit own webform'
   - 'edit own webform submission'
   - 'edit referral pathway of their own location'
   - 'edit service of their own location'
@@ -79,5 +82,14 @@ permissions:
   - 'view referral pathway of their own location'
   - 'view service of their own location'
   - 'view users of their own location'
-  - 'create webform'
-  - 'edit own webform'
+  - 'access own webform configuration'
+  - 'access webform help'
+  - 'access webform overview'
+  - 'administer webform element access'
+  - 'administer webform'
+  - 'delete any webform'
+  - 'delete own webform'
+  - 'edit webform assets'
+  - 'edit any webform'
+  - 'edit webform source'
+  - 'access webform submission log'
