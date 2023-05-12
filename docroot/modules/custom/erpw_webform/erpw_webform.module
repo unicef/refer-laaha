@@ -297,7 +297,7 @@ function erpw_webform_menu_local_tasks_alter(&$data, $route_name) {
 function erpw_webform_views_pre_render(&$view) {
 
   // Alter webform submissions view.
-  if ($view->id() == 'webform_submissions') {
+  if ($view->id() == 'webform_submissions' || $view->id() == 'manage_webform_services') {
     $user = User::load(\Drupal::currentUser()->id());
     $user_roles = $user->getRoles();
     $domainAccess = $user->get('field_domain_access')->getValue();
@@ -335,23 +335,31 @@ function erpw_webform_views_pre_render(&$view) {
     foreach ($view->exposed_widgets['webform_id']['#options'] as $webformID => $label) {
       $c = 0;
       $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
-      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-      if (!is_null($tpa)) {
-        foreach ($user_roles as $key_r => $role) {
-          if ($role == 'super_admin' || $role == 'administrator') {
-            return;
-          }
-          else {
-            foreach ($domainAccess as $domain) {
-              if (array_key_exists($domain['target_id'], $tpa)) {
-                $c++;
+      if ($webformID != 'All' && $webformID != 'template_erpw_workflow') {
+        $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+        if (!is_null($tpa)) {
+          foreach ($user_roles as $key_r => $role) {
+            if ($role == 'super_admin' || $role == 'administrator') {
+              return;
+            }
+            else {
+              foreach ($domainAccess as $domain) {
+                if (array_key_exists($domain['target_id'], $tpa)) {
+                  $c++;
+                }
               }
             }
           }
+          if ($c == 0) {
+            unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
+          }
         }
-        if ($c == 0) {
-          unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
-        }
+      }
+      if ($webformID == 'template_erpw_workflow') {
+        unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
+      }
+      if ($webformID == 'All') {
+        $view->exposed_widgets['webform_id']['#options'][$webformID] = 'All';
       }
     }
   }
