@@ -295,13 +295,34 @@ function erpw_webform_menu_local_tasks_alter(&$data, $route_name) {
  * Implements hook_menu_views_pre_render().
  */
 function erpw_webform_views_pre_render(&$view) {
-
   // Alter webform submissions view.
-  if ($view->id() == 'webform_submissions' || $view->id() == 'manage_webform_services') {
+  if ($view->id() == 'webform_submissions' || $view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing') {
     $user = User::load(\Drupal::currentUser()->id());
     $user_roles = $user->getRoles();
     $domainAccess = $user->get('field_domain_access')->getValue();
 
+    if ($view->id() == 'service_based_service_providers_listing') {
+      foreach ($view->result as $key => $row) {
+        $c = 0;
+        $sid = $row->sid;
+        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
+        $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
+        $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+        $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+        if (!is_null($tpa)) {
+          $currentRequest = \Drupal::request();
+          // Get the current page URL.
+          $currentUrl = $currentRequest->getRequestUri();
+          $stID = explode('/', $currentUrl)[3];
+          foreach ($tpa as $domain => $value) {
+            $servicetypeID = $value[0];
+            if ($stID != $servicetypeID) {
+              unset($view->result[$key]);
+            }
+          }
+        }
+      }
+    }
     // Unset rows that are do not have domain specific
     // access for the current user.
     foreach ($view->result as $key => $row) {
@@ -331,39 +352,40 @@ function erpw_webform_views_pre_render(&$view) {
     }
 
     // Unset domain name options for exposed filter that are do not
-    // have domain specific access for the current user.
-    foreach ($view->exposed_widgets['webform_id']['#options'] as $webformID => $label) {
-      $c = 0;
-      $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
-      if ($webformID != 'All' && $webformID != 'template_erpw_workflow') {
-        $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-        if (!is_null($tpa)) {
-          foreach ($user_roles as $key_r => $role) {
-            if ($role == 'super_admin' || $role == 'administrator') {
-              return;
-            }
-            else {
-              foreach ($domainAccess as $domain) {
-                if (array_key_exists($domain['target_id'], $tpa)) {
-                  $c++;
+    // have domain specific access for the current user.(.
+    if (!is_null($view->exposed_widgets)) {
+      foreach ($view->exposed_widgets['webform_id']['#options'] as $webformID => $label) {
+        $c = 0;
+        $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+        if ($webformID != 'All' && $webformID != 'template_erpw_workflow') {
+          $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+          if (!is_null($tpa)) {
+            foreach ($user_roles as $key_r => $role) {
+              if ($role == 'super_admin' || $role == 'administrator') {
+                return;
+              }
+              else {
+                foreach ($domainAccess as $domain) {
+                  if (array_key_exists($domain['target_id'], $tpa)) {
+                    $c++;
+                  }
                 }
               }
             }
-          }
-          if ($c == 0) {
-            unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
+            if ($c == 0) {
+              unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
+            }
           }
         }
-      }
-      if ($webformID == 'template_erpw_workflow') {
-        unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
-      }
-      if ($webformID == 'All') {
-        $view->exposed_widgets['webform_id']['#options'][$webformID] = 'All';
+        if ($webformID == 'template_erpw_workflow') {
+          unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
+        }
+        if ($webformID == 'All') {
+          $view->exposed_widgets['webform_id']['#options'][$webformID] = 'All';
+        }
       }
     }
   }
-
   return $view;
 }
 
@@ -381,7 +403,7 @@ function erpw_webform_theme_suggestions_views_view_fields_alter(array &$suggesti
  */
 function erpw_webform_preprocess_views_view_fields(&$variables) {
   // Get the fields for the current View.
-  if ($variables['view']->storage->id() == 'manage_webform_services') {
+  if ($variables['view']->storage->id() == 'manage_webform_services' || $variables['view']->storage->id() == 'service_based_service_providers_listing') {
     $sid = $variables['row']->sid;
     $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
     $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
@@ -400,6 +422,22 @@ function erpw_webform_preprocess_views_view_fields(&$variables) {
           'webform_submission' => $variables['row']->sid,
         ])->toString();
       }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for page_title template.
+ */
+function erpw_webform_preprocess_page_title(&$variables) {
+  $route_match = \Drupal::routeMatch();
+  if ($route_match->getRouteName() === 'view.service_based_service_providers_listing.page_1') {
+    $nodeID = $route_match->getParameter('node');
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($nodeID);
+    if ($node->bundle() === 'service_type') {
+      $variables['title'] = t('@title', [
+        '@title' => $node->getTitle(),
+      ]);
     }
   }
 }
