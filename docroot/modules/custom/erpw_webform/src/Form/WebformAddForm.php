@@ -68,9 +68,22 @@ class WebformAddForm extends WebformEntityAddForm {
         }
       }
     }
+
+    // Filter out the list and remove existing service types.
+    $existingServiceTypes = $this->entityTypeManager->getStorage('webform')
+      ->loadMultiple();
+    foreach ($existingServiceTypes as $indivisualWebform) {
+      $tpa = $indivisualWebform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+      if (!is_null($tpa) && array_key_exists($current_domain, $tpa)) {
+        if ($tpa[$current_domain] != NULL) {
+          unset($service_type_options[$tpa[$current_domain][0]]);
+        }
+      }
+    }
     $form['service_type'] = [
       '#title' => t('Select Service Type'),
       '#type' => 'select',
+      '#weight' => -10,
       '#required' => TRUE,
       '#description' => "Select the service type for which the webform is being created.",
       "#empty_option" => t('- Select -'),

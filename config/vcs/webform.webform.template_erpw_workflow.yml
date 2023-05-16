@@ -41,16 +41,19 @@ elements: |-
     '#type': textfield
     '#title': 'Number of Staff Providing Service'
     '#title_display': before
+    '#placeholder': 'Enter Number of Staff'
     '#autocomplete': 'off'
   field_opening_hours:
     '#type': textfield
     '#title': 'Opening Hours'
     '#title_display': before
+    '#placeholder': 'Enter Opening Hours'
     '#autocomplete': 'off'
   field_cost_of_service:
     '#type': textfield
     '#title': 'Cost of Service'
     '#title_display': before
+    '#placeholder': 'Enter Cost of Service'
     '#autocomplete': 'off'
   transportation_available:
     '#type': radios
@@ -88,6 +91,7 @@ elements: |-
     '#type': textfield
     '#title': 'Name of focal point for referrals (first/last name)'
     '#title_display': before
+    '#placeholder': 'Enter Name of focal point'
     '#required': true
     '#required_error': 'This field is required'
   field_phone_number_of_focal_poin:

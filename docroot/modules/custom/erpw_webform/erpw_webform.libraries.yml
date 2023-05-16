@@ -11,3 +11,11 @@ erpw_webform_js:
   dependencies:
     - core/jquery
     - core/drupalSettings
+
+erpw_webform_template:
+  version: 1.0
+  js:
+    js/erpwWebformTemplate.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings

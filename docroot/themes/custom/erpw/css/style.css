@@ -555,6 +555,7 @@ label, .service-provider-class [id^=edit-field-transportation-available-wrapper]
 input[type=text],
 input[type=password],
 input[type=email],
+input[type=tel],
 select,
 textarea {
   background-position: right;
@@ -570,6 +571,7 @@ textarea {
 input[type=text]:focus,
 input[type=password]:focus,
 input[type=email]:focus,
+input[type=tel]:focus,
 select:focus,
 textarea:focus {
   outline: none;
@@ -577,6 +579,7 @@ textarea:focus {
 input[type=text]::-webkit-input-placeholder,
 input[type=password]::-webkit-input-placeholder,
 input[type=email]::-webkit-input-placeholder,
+input[type=tel]::-webkit-input-placeholder,
 select::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
   color: #e0d7d7;
@@ -585,6 +588,7 @@ textarea::-webkit-input-placeholder {
 input[type=text]:-moz-placeholder,
 input[type=password]:-moz-placeholder,
 input[type=email]:-moz-placeholder,
+input[type=tel]:-moz-placeholder,
 select:-moz-placeholder,
 textarea:-moz-placeholder {
   color: #e0d7d7;
@@ -593,6 +597,7 @@ textarea:-moz-placeholder {
 input[type=text]::-moz-placeholder,
 input[type=password]::-moz-placeholder,
 input[type=email]::-moz-placeholder,
+input[type=tel]::-moz-placeholder,
 select::-moz-placeholder,
 textarea::-moz-placeholder {
   color: #e0d7d7;
@@ -601,6 +606,7 @@ textarea::-moz-placeholder {
 input[type=text]:-ms-input-placeholder,
 input[type=password]:-ms-input-placeholder,
 input[type=email]:-ms-input-placeholder,
+input[type=tel]:-ms-input-placeholder,
 select:-ms-input-placeholder,
 textarea:-ms-input-placeholder {
   color: #e0d7d7;
@@ -686,6 +692,45 @@ input[type=submit].use-ajax.arrow-btn {
 #edit-location-details #location-level-3,
 #edit-location-details #location-level-4 {
   display: none;
+}
+
+.js-webform-type-radios legend,
+.form-composite legend {
+  color: #A85766;
+  font-size: 0.75em;
+  font-weight: 500;
+}
+
+.js-webform-radios {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+.js-webform-radios .js-form-type-radio {
+  border: 1px solid #f3c1bf;
+  border-radius: 4px;
+  display: block;
+  padding: 5px 10px;
+  margin-right: 20px;
+  width: auto;
+}
+.js-webform-radios .js-form-type-radio input {
+  margin-right: 5px;
+}
+
+.webform-submission-add-form {
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid #a85766;
+}
+
+#edit-erpw-workflow--wrapper {
+  visibility: hidden;
+  height: 0;
 }
 
 footer {

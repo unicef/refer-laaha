@@ -33,6 +33,7 @@ label {
 input[type="text"],
 input[type="password"],
 input[type="email"],
+input[type="tel"],
 select,
 textarea {
   background-position: right;
@@ -149,3 +150,38 @@ input[type="submit"] {
   }
 }
 
+.js-webform-type-radios,
+.form-composite {
+  legend {
+    color: $base-secondary-bgcolor;
+    font-size: 0.75em;
+    font-weight: 500;
+  }
+}
+
+.js-webform-radios {
+  display: flex;
+  flex-direction: row;
+  .js-form-type-radio {
+    border: 1px solid #f3c1bf;
+    border-radius: 4px;
+    display: block;
+    padding: 5px 10px;
+    margin-right: 20px;
+    width: auto;
+    input {
+      margin-right: 5px;
+    }
+  }
+}
+
+.webform-submission-add-form {
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid #a85766;
+}
+
+#edit-erpw-workflow--wrapper {
+  visibility: hidden;
+  height: 0;
+}
