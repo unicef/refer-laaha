@@ -1,3 +1,21 @@
+:root {
+  --mustardyellow: #f9d14a;
+  --peach: #f4cbca;
+  --lavender: #b2a0d9;
+  --green: #7fbc72;
+}
+.apply-mustard-yellow {
+  background-color: var(--mustardyellow);
+}
+.apply-peach {
+  background-color: var(--peach);
+}
+.apply-lavender {
+  background-color: var(--lavender);
+}
+.apply-green {
+  background-color: var(--green);
+}
 .simple-status-messages {
   display: block !important;
 }

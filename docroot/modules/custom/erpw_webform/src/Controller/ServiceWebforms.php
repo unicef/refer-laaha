@@ -61,26 +61,53 @@ class ServiceWebforms extends ControllerBase {
    */
   public function listForms() {
     // Build an array of links of all the webforms of the current domain.
-    $links = [];
     $currentDomain = $this->domainNegotiator->getActiveDomain()->id();
     $webforms = $this->entityTypeManager->getStorage('webform')->loadMultiple();
+    $markup = '<div class="service-providers-submission-row">';
     // Loop through $webform.
     foreach ($webforms as $webform) {
       $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
       if (!is_null($tpa)) {
-
         if (array_key_exists($currentDomain, $tpa)) {
-          $url = Url::fromRoute('entity.webform.canonical', ['webform' => $webform->id()]);
-          $links[] = $this->linkGenerator->generate($webform->label(), $url);
+          $url = Url::fromRoute('entity.webform.canonical', ['webform' => $webform->id()])->toString();
+          $serviceType = $this->entityTypeManager->getStorage('node')->load($tpa[$currentDomain][0]);
+          $bgcolor = $serviceType->get('field_service_type_color')->getValue()[0]['color'];
+          if ($bgcolor == '#B2A0D9') {
+            $bgclass = 'apply-lavender';
+          }
+          elseif ($bgcolor == '#F4CBCa') {
+            $bgclass = 'apply-peach';
+          }
+          elseif ($bgcolor == '#7FBC72') {
+            $bgclass = 'apply-green';
+          }
+          elseif ($bgcolor == '#F9D14A') {
+            $bgclass = 'apply-mustard-yellow';
+          }
+          else {
+            $bgclass = '';
+          }
+          $markup = $markup . '
+          <div class="row-header">
+            <div class="service-type-color-logo-container">
+              <div class="service-type-color ' . $bgclass . '"></div>
+              <div class="service-type-logo">
+                <i class="' . $serviceType->get('field_service_type_icon')->getValue()[0]['value'] . '"></i>
+              </div>
+              <div class="service-type-org">
+                <a href="' . $url . '">' . $serviceType->get('title')->getValue()[0]['value'] . '</a>
+              </div>
+            </div>
+          </div>';
         }
       }
     }
+    $markup = $markup . '</div>';
 
-    $build = [
-      '#theme' => 'item_list',
-      '#items' => $links,
+    return [
+      '#type' => 'markup',
+      '#markup' => $markup,
     ];
-    return $build;
   }
 
 }
