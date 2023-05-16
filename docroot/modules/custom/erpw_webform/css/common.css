@@ -231,3 +231,29 @@
   margin-right: 0;
   width: 100%;
 }
+.service-provider-details
+  .service-detail-heading
+  .view-delete-links
+  .view-link
+  a {
+  color: #a85766;
+  border-bottom: 1px solid #a85766;
+  text-decoration: none;
+  font-size: 12px;
+  margin: 10px 0;
+  display: block;
+  margin-right: 10px;
+}
+.service-provider-details
+  .service-detail-heading
+  .view-delete-links
+  .view-link
+  a::after {
+  background: url(/themes/custom/erpw/images/arrow-small.svg) center right
+    no-repeat;
+  content: "";
+  height: 7px;
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 10px;
+}
