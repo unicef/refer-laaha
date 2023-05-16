@@ -83,7 +83,6 @@ function erpw_webform_preprocess_page(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
   if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
-    $variables['#attached']['library'][] = 'erpw/global';
   }
   if ($currentRoute == 'entity.webform.add_form' || $currentRoute == 'entity.webform.templates') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_template';
@@ -92,6 +91,9 @@ function erpw_webform_preprocess_page(&$variables) {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
     $variables['#attached']['library'][] = 'erpw_custom/erpw_js';
     $variables['#attached']['library'][] = 'unicef_iconpicker/unicef-iconpicker';
+  }
+  if ($currentRoute == "entity.webform.canonical") {
+    $variables['#attached']['library'][] = 'erpw/global';
   }
 }
 

@@ -522,6 +522,24 @@ html[dir=rtl] .select2-container--default .select2-selection--single .select2-se
   margin-top: 0px !important;
 }
 
+#edit-unlock {
+  background: #a85766;
+  border: 1px solid #a85766;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 4px;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 0.875em;
+  font-weight: 500;
+  margin: 0 0 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
@@ -720,12 +738,6 @@ input[type=submit].use-ajax.arrow-btn {
 }
 .js-webform-radios .js-form-type-radio input {
   margin-right: 5px;
-}
-
-.webform-submission-add-form {
-  padding: 15px;
-  border-radius: 15px;
-  border: 1px solid #a85766;
 }
 
 #edit-erpw-workflow--wrapper {

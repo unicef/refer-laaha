@@ -63,7 +63,7 @@ class ServiceWebforms extends ControllerBase {
     // Build an array of links of all the webforms of the current domain.
     $currentDomain = $this->domainNegotiator->getActiveDomain()->id();
     $webforms = $this->entityTypeManager->getStorage('webform')->loadMultiple();
-    $markup = '<div class="service-providers-submission-row">';
+    $markup = '<h4 class="details-heading">' . t('Select the service type for which you want to enter the service provider details.') . '</h4>';
     // Loop through $webform.
     foreach ($webforms as $webform) {
       $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
@@ -88,21 +88,24 @@ class ServiceWebforms extends ControllerBase {
             $bgclass = '';
           }
           $markup = $markup . '
-          <div class="row-header">
-            <div class="service-type-color-logo-container">
-              <div class="service-type-color ' . $bgclass . '"></div>
-              <div class="service-type-logo">
-                <i class="' . $serviceType->get('field_service_type_icon')->getValue()[0]['value'] . '"></i>
+          <div class="service-providers-submission-row select-service-type-webform">
+            <a href="' . $url . '">
+              <div class="row-header">
+                <div class="service-type-color-logo-container">
+                  <div class="service-type-color ' . $bgclass . '"></div>
+                  <div class="service-type-logo">
+                    <i class="' . $serviceType->get('field_service_type_icon')->getValue()[0]['value'] . '"></i>
+                  </div>
+                  <div class="service-type-org">
+                    ' . $serviceType->get('title')->getValue()[0]['value'] . '
+                  </div>
+                </div>
               </div>
-              <div class="service-type-org">
-                <a href="' . $url . '">' . $serviceType->get('title')->getValue()[0]['value'] . '</a>
-              </div>
-            </div>
+            </a>
           </div>';
         }
       }
     }
-    $markup = $markup . '</div>';
 
     return [
       '#type' => 'markup',

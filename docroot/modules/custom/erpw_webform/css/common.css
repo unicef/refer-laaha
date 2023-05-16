@@ -275,3 +275,108 @@
   vertical-align: middle;
   padding-left: 10px;
 }
+.select-service-type-webform .row-header {
+  border-bottom: none;
+  width: 100%;
+  padding: 0;
+}
+.select-service-type-webform .row-header .service-type-color-logo-container {
+  align-items: center;
+  width: 100%;
+}
+.select-service-type-webform
+  .row-header
+  .service-type-color-logo-container
+  .service-type-logo
+  i {
+  color: black;
+}
+.select-service-type-webform
+  .row-header
+  .service-type-color-logo-container
+  .service-type-org {
+  color: #a85766;
+  font-family: Roboto;
+  font-size: 14px;
+  display: block;
+  width: 100%;
+  background: url(/themes/custom/erpw/images/arrow-right.svg) right center
+    no-repeat;
+  margin-right: 9px;
+}
+.select-service-type-webform
+  .row-header
+  .service-type-color-logo-container
+  .service-type-logo {
+  top: unset;
+}
+.select-service-type-webform
+  .row-header
+  .service-type-color-logo-container
+  .service-type-color {
+  max-width: 50px;
+  width: 100%;
+}
+.details-heading {
+  border-bottom: 1px solid rgba(243, 193, 191, 0.53);
+  color: #a85766;
+  padding: 20px 50px;
+  padding-left: 0px;
+  margin: 0;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+#edit-unlock {
+  background: #a85766;
+  border: 1px solid #a85766;
+  box-sizing: border-box;
+  border-radius: 4px;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 0.875em;
+  font-weight: 500;
+  margin: 0 0 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+.webform-details-toggle-state-wrapper {
+  visibility: hidden;
+  height: 0px;
+}
+.webform-submission-form .node-service-provider-form summary {
+  background: #a85766;
+  border-radius: 10px;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
+  padding: 14px 17px;
+}
+.webform-submission-form .node-service-provider-form summary::after {
+  background: #ffffff;
+  -webkit-mask: url(/themes/custom/erpw/images/arrow.svg) center center
+    no-repeat;
+  mask: url(/themes/custom/erpw/images/arrow.svg) center center no-repeat;
+  transform: rotate(180deg);
+  background-position: inherit;
+  content: "";
+  color: #a85766;
+  display: inline-block;
+  height: 6px;
+  width: 12px;
+}
+.webform-submission-form
+  .node-service-provider-form
+  summary[aria-expanded="false"]::after {
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  background-position: right center;
+}
+.webform-submission-form .node-service-provider-form {
+  border-radius: 15px;
+  border: 1px solid #a85766;
+}

@@ -17,7 +17,7 @@ uid: null
 template: true
 archive: false
 id: template_erpw_workflow
-title: 'eRPW Webform'
+title: 'eRPW Service Provider Form'
 description: 'A webform with eRPW Workflow.'
 category: eRPW
 elements: |-
@@ -25,12 +25,14 @@ elements: |-
     '#type': location_list_element
     '#title': Location
     '#required': true
+    '#location_options__title': 'Select Country'
   step_1_add_service_details:
     '#type': details
     '#title': 'Step 1: Add Service Details'
     '#attributes':
       class:
         - node-service-provider-form
+        - default-open-summary
     organisation:
       '#type': webform_entity_select
       '#title': Organisation

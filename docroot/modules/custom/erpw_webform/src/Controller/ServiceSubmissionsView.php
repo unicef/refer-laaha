@@ -143,7 +143,9 @@ class ServiceSubmissionsView extends ControllerBase {
                   }
                 }
                 else {
-                  $output[] = [$element['#title'] => $content];
+                  if ($content != "") {
+                    $output[] = [$element['#title'] => $content];
+                  }
                 }
               }
             }
@@ -226,7 +228,9 @@ class ServiceSubmissionsView extends ControllerBase {
               }
             }
             else {
-              $output[] = [$element['#title'] => $content];
+              if ($content != "") {
+                $output[] = [$element['#title'] => $content];
+              }
             }
           }
         }
