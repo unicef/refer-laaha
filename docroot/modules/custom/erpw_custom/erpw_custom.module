@@ -81,6 +81,11 @@ function erpw_custom_service_type_options() {
 function erpw_custom_views_pre_render(ViewExecutable $view) {
   if ($view->id() == 'service_list') {
     $parameters = \Drupal::routeMatch()->getParameters()->all();
+    // Add active tid from cookies as a fallback,
+    // when there is no query parameter from referral_pathway_on_homepage view.
+    if (!$parameters['arg_1']) {
+      $parameters['arg_1'] = $_COOKIE['location_tid'];
+    }
     // Conditionals are here to stop a fatal error, including when previewing
     // the view when editing it.  @TODO get the parameter the Views way.
     // Alternatively, use views to provide the title
@@ -656,6 +661,47 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $permission = 'view referral pathway of their own location';
     $query = erpw_view_results_own_location_organisation($query, $condition_field, NULL, $permission);
   }
+
+  if ($view->id() == "referral_pathway_on_homepage") {
+    /*
+     * Modify referral pathways to show results
+     * from the nearest lower level of the active location,
+     * if there is no referral pathway for the active location.
+     */
+
+    // Load active tid from the location field.
+    foreach ($query->where[1]['conditions'] as $condition) {
+      if (isset($condition['field']) && $condition['field'] === 'node__field_location.field_location_target_id') {
+        $current_tid = $condition['value'];
+      }
+    }
+    // Load the taxonomy term and get the next terms.
+    $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
+    $parent_term = $term_storage->load($current_tid);
+    $tree = $term_storage->loadTree($parent_term->bundle(), $current_tid);
+    $child_tids = [];
+    foreach ($tree as $term) {
+      $child_tids[] = $term->tid;
+    }
+
+    // Check if there is content for the current ID or any of its child terms.
+    $has_content = erpw_custom_has_content_for_terms(
+      [$current_tid, ...$child_tids], 'referral_path_way', 'field_location');
+
+    // Use the first term with content found as the current term.
+    if ($has_content) {
+      $current_tid = $has_content;
+    }
+
+    // Modify the tid value based on the above conditions.
+    $conditions = &$query->where[1]['conditions'];
+    foreach ($conditions as $index => $condition) {
+      if (isset($condition['field']) && $condition['field'] == 'node__field_location.field_location_target_id') {
+        $query->where[1]['conditions'][$index]['value'] = $current_tid;
+      }
+    }
+  }
+
   if ($view->id() == "manage_service" && $view->current_display == 'page_1') {
     $permission = 'view service of their own country';
     $condition_field = 'node__field_location.field_location_target_id';
@@ -676,6 +722,34 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $org_condition = 'node_field_data_node_field_revision__node__field_select_organisation.field_select_organisation_target_id';
     $query = erpw_view_results_own_location_organisation($query, $condition_field, $org_condition, $permission);
   }
+}
+
+/**
+ * Checks if there is content for any of the given taxonomy term IDs.
+ *
+ * @param array $termIds
+ *   An array of taxonomy term IDs.
+ * @param string $contentType
+ *   The machine name of the content type.
+ * @param string $taxonomyField
+ *   The machine name of the taxonomy term field.
+ *
+ * @return int|false
+ *   The taxonomy term ID with content, or false if no content is found.
+ */
+function erpw_custom_has_content_for_terms(array $termIds, $contentType, $taxonomyField) {
+  foreach ($termIds as $tid) {
+    $has_content = \Drupal::entityQuery('node')
+      ->condition('type', $contentType)
+      ->condition($taxonomyField, $tid)
+      ->range(0, 1)
+      ->execute();
+    if ($has_content) {
+      return $tid;
+    }
+  }
+
+  return FALSE;
 }
 
 /**
