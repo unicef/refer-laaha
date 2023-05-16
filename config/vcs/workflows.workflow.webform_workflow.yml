@@ -11,7 +11,7 @@ type_settings:
   initial_state: draft
   states:
     approve:
-      label: Approve
+      label: Approved
       weight: 0
     draft:
       label: Draft
@@ -20,7 +20,7 @@ type_settings:
       label: 'In - Review'
       weight: -1
     reject:
-      label: Reject
+      label: Rejected
       weight: 1
   transitions:
     approve:
