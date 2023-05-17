@@ -75,7 +75,7 @@ class ServiceWebforms extends ControllerBase {
           if ($bgcolor == '#B2A0D9') {
             $bgclass = 'apply-lavender';
           }
-          elseif ($bgcolor == '#F4CBCa') {
+          elseif ($bgcolor == '#F4CBCA') {
             $bgclass = 'apply-peach';
           }
           elseif ($bgcolor == '#7FBC72') {
