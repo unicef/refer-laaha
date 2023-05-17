@@ -17,7 +17,7 @@ uid: null
 template: true
 archive: false
 id: template_erpw_workflow
-title: 'eRPW Webform'
+title: 'eRPW Service Provider Form'
 description: 'A webform with eRPW Workflow.'
 category: eRPW
 elements: |-
@@ -25,99 +25,113 @@ elements: |-
     '#type': location_list_element
     '#title': Location
     '#required': true
-  organisation:
-    '#type': webform_entity_select
-    '#title': Organisation
-    '#target_type': node
-    '#selection_handler': 'default:node'
-    '#selection_settings':
-      target_bundles:
-        organisation: organisation
-      sort:
-        field: title
-        direction: ASC
-    '#required': true
-  field_number_of_staff_providing_:
-    '#type': textfield
-    '#title': 'Number of Staff Providing Service'
-    '#title_display': before
-    '#placeholder': 'Enter Number of Staff'
-    '#autocomplete': 'off'
-  field_opening_hours:
-    '#type': textfield
-    '#title': 'Opening Hours'
-    '#title_display': before
-    '#placeholder': 'Enter Opening Hours'
-    '#autocomplete': 'off'
-  field_cost_of_service:
-    '#type': textfield
-    '#title': 'Cost of Service'
-    '#title_display': before
-    '#placeholder': 'Enter Cost of Service'
-    '#autocomplete': 'off'
-  transportation_available:
-    '#type': radios
-    '#title': 'Transportation Available'
-    '#options':
-      'Yes': 'Yes'
-      'No': 'No'
-  accessibility_for_persons:
-    '#type': checkboxes
-    '#title': 'Has the ability to support the following disabilities:'
-    '#options': support_for_disabilities
-  age_group:
-    '#type': select
-    '#title': 'Age Group'
-    '#options': age_group
-  target_group:
-    '#type': select
-    '#title': 'Target Group'
-    '#options': target_group
-    '#required': true
-  field_phone_number:
-    '#type': tel
-    '#title': 'Hotline/Landline Number'
-    '#required': true
-    '#required_error': 'This field is required.'
-  field_mode:
-    '#type': select
-    '#title': 'Service Mode'
-    '#options':
-      'In person': 'In Person'
-      Remote: Remote
-    '#select2': true
-    '#required': true
-  field_name_of_the_focal_point:
-    '#type': textfield
-    '#title': 'Name of focal point for referrals (first/last name)'
-    '#title_display': before
-    '#placeholder': 'Enter Name of focal point'
-    '#required': true
-    '#required_error': 'This field is required'
-  field_phone_number_of_focal_poin:
-    '#type': tel
-    '#title': 'Phone number of focal point'
-    '#placeholder': 'Enter the phone number of focal point'
-  field_email_of_focal_point:
-    '#type': email
-    '#title': 'Email of focal point'
-    '#placeholder': 'Enter email of focal point.'
-  field_name_backup_focalpoint_ref:
-    '#type': textfield
-    '#title': 'Name of Back-up Focal Point'
-    '#placeholder': 'Enter name of Back-up Focal Point.'
-  field_phone_number_backup_focalp:
-    '#type': tel
-    '#title': 'Phone number of back-up focal point'
-    '#placeholder': 'Enter phone number of back-up focal point.'
-  field_email_backup_focal_point:
-    '#type': email
-    '#title': 'Email of back-up focal point'
-    '#placeholder': 'Enter email of back-up focal point.'
-  field_add_more_details_service:
-    '#type': textarea
-    '#title': 'Add More Details'
-    '#placeholder': 'Add More Details'
+    '#location_options__title': 'Select Country'
+  step_1_add_service_details:
+    '#type': details
+    '#title': 'Step 1: Add Service Details'
+    '#attributes':
+      class:
+        - node-service-provider-form
+        - default-open-summary
+    organisation:
+      '#type': webform_entity_select
+      '#title': Organisation
+      '#target_type': node
+      '#selection_handler': 'default:node'
+      '#selection_settings':
+        target_bundles:
+          organisation: organisation
+        sort:
+          field: title
+          direction: ASC
+      '#required': true
+    field_number_of_staff_providing_:
+      '#type': textfield
+      '#title': 'Number of Staff Providing Service'
+      '#title_display': before
+      '#placeholder': 'Enter Number of Staff'
+      '#autocomplete': 'off'
+    field_opening_hours:
+      '#type': textfield
+      '#title': 'Opening Hours'
+      '#title_display': before
+      '#placeholder': 'Enter Opening Hours'
+      '#autocomplete': 'off'
+    field_cost_of_service:
+      '#type': textfield
+      '#title': 'Cost of Service'
+      '#title_display': before
+      '#placeholder': 'Enter Cost of Service'
+      '#autocomplete': 'off'
+    transportation_available:
+      '#type': radios
+      '#title': 'Transportation Available'
+      '#options':
+        'Yes': 'Yes'
+        'No': 'No'
+    accessibility_for_persons:
+      '#type': checkboxes
+      '#title': 'Has the ability to support the following disabilities:'
+      '#options': support_for_disabilities
+    age_group:
+      '#type': select
+      '#title': 'Age Group'
+      '#options': age_group
+    target_group:
+      '#type': select
+      '#title': 'Target Group'
+      '#options': target_group
+      '#required': true
+  step_2_contact_fields:
+    '#type': details
+    '#title': 'Step 2: Contact Fields'
+    '#attributes':
+      class:
+        - node-service-provider-form
+    field_phone_number:
+      '#type': tel
+      '#title': 'Hotline/Landline Number'
+      '#required': true
+      '#required_error': 'This field is required.'
+    field_mode:
+      '#type': select
+      '#title': 'Service Mode'
+      '#options':
+        'In person': 'In Person'
+        Remote: Remote
+      '#select2': true
+      '#required': true
+    field_name_of_the_focal_point:
+      '#type': textfield
+      '#title': 'Name of focal point for referrals (first/last name)'
+      '#title_display': before
+      '#placeholder': 'Enter Name of focal point'
+      '#required': true
+      '#required_error': 'This field is required'
+    field_phone_number_of_focal_poin:
+      '#type': tel
+      '#title': 'Phone number of focal point'
+      '#placeholder': 'Enter the phone number of focal point'
+    field_email_of_focal_point:
+      '#type': email
+      '#title': 'Email of focal point'
+      '#placeholder': 'Enter email of focal point.'
+    field_name_backup_focalpoint_ref:
+      '#type': textfield
+      '#title': 'Name of Back-up Focal Point'
+      '#placeholder': 'Enter name of Back-up Focal Point.'
+    field_phone_number_backup_focalp:
+      '#type': tel
+      '#title': 'Phone number of back-up focal point'
+      '#placeholder': 'Enter phone number of back-up focal point.'
+    field_email_backup_focal_point:
+      '#type': email
+      '#title': 'Email of back-up focal point'
+      '#placeholder': 'Enter email of back-up focal point.'
+    field_add_more_details_service:
+      '#type': textarea
+      '#title': 'Add More Details'
+      '#placeholder': 'Add More Details'
   erpw_workflow:
     '#type': webform_workflows_element
     '#title': 'eRPW Workflow'
