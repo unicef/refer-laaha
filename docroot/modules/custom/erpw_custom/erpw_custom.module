@@ -676,17 +676,19 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       }
     }
     // Load the taxonomy term and get the next terms.
-    $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
-    $parent_term = $term_storage->load($current_tid);
-    $tree = $term_storage->loadTree($parent_term->bundle(), $current_tid);
-    $child_tids = [];
-    foreach ($tree as $term) {
-      $child_tids[] = $term->tid;
+    if (isset($_COOKIE['location_tid'])) {
+      $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
+      $parent_term = $term_storage->load($current_tid);
+      $tree = $term_storage->loadTree($parent_term->bundle(), $current_tid);
+      $child_tids = [];
+      foreach ($tree as $term) {
+        $child_tids[] = $term->tid;
+      }
+      
+      // Check if there is content for the current ID or any of its child terms.
+      $has_content = erpw_custom_has_content_for_terms(
+        [$current_tid, ...$child_tids], 'referral_path_way', 'field_location');
     }
-
-    // Check if there is content for the current ID or any of its child terms.
-    $has_content = erpw_custom_has_content_for_terms(
-      [$current_tid, ...$child_tids], 'referral_path_way', 'field_location');
 
     // Use the first term with content found as the current term.
     if ($has_content) {
