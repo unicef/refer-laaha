@@ -172,9 +172,18 @@ class LocationCookie implements EventSubscriberInterface {
       $config = \Drupal::config('domain.location.' . $domain->get('id'));
       $domain_tid = $config->get('location');
 
-      //Check if the current location cookie tid value matches with the domain tid value.
+      //Check if the current location cookie tid value matches with the tree of domain tid value.
       if (isset($_COOKIE['location_tid'])) {
-        if($_COOKIE['location_tid'] != $domain_tid){
+        // Get the full taxonomy tree for current domain
+        $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
+        $parent_term = $term_storage->load($domain_tid);
+        $tree = $term_storage->loadTree($parent_term->bundle(), $domain_tid);
+        $child_tids = [];
+        foreach ($tree as $term) {
+          $child_tids[] = $term->tid;
+        }
+        $domain_tree = [$domain_tid, ...$child_tids];
+        if (!in_array($_COOKIE['location_tid'], $domain_tree)) {
           setcookie('location_tid', $domain_tid, strtotime('+1 year'), '/', $full_url, FALSE);
           $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $domain_tid]]);
           $url->setAbsolute();
