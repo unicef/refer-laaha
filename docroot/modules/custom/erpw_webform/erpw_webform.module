@@ -471,3 +471,20 @@ function erpw_webform_preprocess_page_title(&$variables) {
     }
   }
 }
+
+/**
+ * Implements hook_webform_submission_presave().
+ */
+function erpw_webform_webform_submission_presave($webform_submission) {
+  $values = $webform_submission->getData();
+  $composite_value = $values['location'];
+  $last_non_empty_value = '';
+  foreach (array_reverse($composite_value) as $value) {
+    if (!empty($value)) {
+      $last_non_empty_value = $value;
+      break;
+    }
+  }
+  $values['location']['location_tid'] = $last_non_empty_value;
+  $webform_submission->setData($values);
+}
