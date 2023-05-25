@@ -209,6 +209,13 @@ class LocationList extends WebformCompositeBase {
         'class' => ['level_4'],
       ],
     ];
+    $elements['location_tid'] = [
+      '#type' => 'hidden',
+      '#weight' => -100,
+      '#attributes' => [
+        'class' => ['location_tid_hidden'],
+      ],
+    ];
 
     $elements['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $elements['#attached']['library'][] = 'erpw_custom/erpw_js';
