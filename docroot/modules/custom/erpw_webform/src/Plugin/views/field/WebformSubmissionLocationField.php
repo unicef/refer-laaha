@@ -30,19 +30,19 @@ class WebformSubmissionLocationField extends FieldPluginBase {
         $country = \Drupal::entityTypeManager()->getStorage('location')->load($location['location_options'])->getName();
         $output = $country . '.';
       }
-      if ($location['level_1'] != '') {
+      if (!empty($location['level_1'])) {
         $level_1 = $loadTerm->load($location['level_1'])->getName();
         $output = $level_1 . ', ' . $output;
       }
-      if ($location['level_2'] != '') {
+      if (!empty($location['level_2'])) {
         $level_2 = $loadTerm->load($location['level_2'])->getName();
         $output = $level_2 . ', ' . $output;
       }
-      if ($location['level_3'] != '') {
+      if (!empty($location['level_3'])) {
         $level_3 = $loadTerm->load($location['level_3'])->getName();
         $output = $level_3 . ', ' . $output;
       }
-      if ($location['level_4'] != '') {
+      if (!empty($location['level_4'])) {
         $level_4 = $loadTerm->load($location['level_4'])->getName();
         $output = $level_4 . ', ' . $output;
       }
