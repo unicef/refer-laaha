@@ -19,3 +19,14 @@ erpw_webform_template:
   dependencies:
     - core/jquery
     - core/drupalSettings
+
+erpw_webform_workflow:
+  version: 1.0
+  css:
+    theme:
+      css/workflowLabel.css: {}
+  js:
+    js/erpwWebformWorkflowLabel.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings

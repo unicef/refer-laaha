@@ -265,6 +265,106 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        webform_submission_organisation_field:
+          id: webform_submission_organisation_field
+          table: webform_submission
+          field: webform_submission_organisation_field
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          plugin_id: webform_submission_organisation_field
+          label: Organisation
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+        webform_submission_workflow:
+          id: webform_submission_workflow
+          table: webform_submission
+          field: webform_submission_workflow
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          plugin_id: webform_submission_workflow
+          label: Workflow
+          exclude: false
+          alter:
+            alter_text: true
+            text: '<div class=''workflow-label-class''>{{ webform_submission_workflow }}</div>'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
         operations:
           id: operations
           table: webform_submission
@@ -538,7 +638,7 @@ display:
       display_extenders:
         library_in_views_display_extender:
           attach_library:
-            attach_library: 'erpw_custom/erpw_js,erpw_webform/erpw_webform_js'
+            attach_library: 'erpw_custom/erpw_js,erpw_webform/erpw_webform_js,erpw_webform/erpw_webform_workflow'
     cache_metadata:
       max-age: 0
       contexts:

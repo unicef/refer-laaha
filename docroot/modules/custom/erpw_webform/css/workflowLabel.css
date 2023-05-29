@@ -1,0 +1,31 @@
+.workflow-label-class {
+  font-weight: bold;
+  padding: 4px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 14px;
+}
+.approved-workflow {
+  background-color: #c2f7bc !important;
+  fill: #c2f7bc;
+  color: #324e2b !important;
+  stroke: #324e2b;
+}
+.rejected-workflow {
+  background-color: #f4b8bf !important;
+  fill: #f4b8bf;
+  color: #5e2128 !important;
+  stroke: #5e2128;
+}
+.in-review-workflow {
+  background-color: #cde3fa !important;
+  fill: #cde3fa;
+  color: #2b4d7a !important;
+  stroke: #2b4d7a;
+}
+.draft-workflow {
+  background-color: #f7df92 !important;
+  fill: #f7df92;
+  color: #6c530f !important;
+  stroke: #6c530f;
+}

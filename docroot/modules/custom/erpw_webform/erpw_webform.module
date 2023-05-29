@@ -322,11 +322,13 @@ function erpw_webform_views_pre_render(&$view) {
     $domainAccess = $user->get('field_domain_access')->getValue();
 
     // Unset rows that are not approve in workflow state.
-    foreach ($view->result as $key => $row) {
-      $sid = $row->sid;
-      $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-      if ($webformSubmission->getData()['erpw_workflow']['workflow_state'] != 'approve') {
-        unset($view->result[$key]);
+    if ($view->id() != 'webform_submissions') {
+      foreach ($view->result as $key => $row) {
+        $sid = $row->sid;
+        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
+        if ($webformSubmission->getData()['erpw_workflow']['workflow_state'] != 'approve') {
+          unset($view->result[$key]);
+        }
       }
     }
 
