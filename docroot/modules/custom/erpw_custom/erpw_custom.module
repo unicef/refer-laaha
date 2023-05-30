@@ -5,14 +5,12 @@
  * Contains erpw_custom.module.
  */
 
-use Drupal\Core\Cache\Cache;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\node\NodeInterface;
-use Drupal\webform\Entity\Webform;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\views\ViewExecutable;
 use Drupal\user\Entity\User;
@@ -83,14 +81,9 @@ function erpw_custom_service_type_options() {
 function erpw_custom_views_pre_render(ViewExecutable $view) {
   if ($view->id() == 'service_list') {
     $parameters = \Drupal::routeMatch()->getParameters()->all();
-    // Add active tid from cookies as a fallback,
-    // when there is no query parameter from referral_pathway_on_homepage view.
-    if (!$parameters['arg_1']) {
-      $parameters['arg_1'] = $_COOKIE['location_tid'];
-    }
     // Conditionals are here to stop a fatal error, including when previewing
     // the view when editing it.  @TODO get the parameter the Views way.
-    // Alternatively, use views to provide the title.
+    // Alternatively, use views to provide the title
     $nid = $parameters['arg_0'] ?: NULL;
     if (!$nid) {
       return;
@@ -107,7 +100,6 @@ function erpw_custom_views_pre_render(ViewExecutable $view) {
 function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if ($form_id == 'user_cancel_form') {
     $uid = \Drupal::currentUser()->id();
-
     $current_user = User::load($uid);
     if ($uid != 1  && !$current_user->hasRole('administrator')) {
       // Enable Email notification to the user.
@@ -313,23 +305,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     $form['actions']['delete']['#access'] = FALSE;
     array_unshift($form['actions']['submit']['#submit'], '_erpw_custom_service_provider_form');
-  }
-  if (!\Drupal::request()->get('pass-reset-token')) {
-    if (\Drupal::routeMatch()->getRouteName() == 'entity.user.edit_form') {
-      $current_user_id = \Drupal::currentUser()->id();
-      $roles = \Drupal::currentUser()->getRoles();
-      $form_user_id = \Drupal::request()->attributes->get('user')->id();
-      foreach ($roles as $role) {
-        if ($role != 'administrator' && $role != 'country_admin') {
-          if ($current_user_id == $form_user_id) {
-            $form['field_location']['#disabled'] = 'true';
-            $form['field_organisation']['#disabled'] = 'true';
-            $form['field_position']['#disabled'] = 'true';
-            $form['field_system_role']['#disabled'] = 'true';
-          }
-        }
-      }
-    }
   }
 }
 
@@ -568,12 +543,6 @@ function erpw_custom_preprocess_page_title(&$variables) {
         }
       }
       break;
-
-    case 'entity.user.edit_form':
-      if (\Drupal::request()->get('pass-reset-token')) {
-        $variables['title'] = t('Set User Password');
-      }
-      break;
   }
 }
 
@@ -687,49 +656,6 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $permission = 'view referral pathway of their own location';
     $query = erpw_view_results_own_location_organisation($query, $condition_field, NULL, $permission);
   }
-
-  if ($view->id() == "referral_pathway_on_homepage") {
-    /*
-     * Modify referral pathways to show results
-     * from the nearest lower level of the active location,
-     * if there is no referral pathway for the active location.
-     */
-
-    // Load active tid from the location field.
-    foreach ($query->where[1]['conditions'] as $condition) {
-      if (isset($condition['field']) && $condition['field'] === 'node__field_location.field_location_target_id') {
-        $current_tid = $condition['value'];
-      }
-    }
-    // Load the taxonomy term and get the next terms.
-    if (isset($_COOKIE['location_tid'])) {
-      $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
-      $parent_term = $term_storage->load($current_tid);
-      $tree = $term_storage->loadTree($parent_term->bundle(), $current_tid);
-      $child_tids = [];
-      foreach ($tree as $term) {
-        $child_tids[] = $term->tid;
-      }
-      
-      // Check if there is content for the current ID or any of its child terms.
-      $has_content = erpw_custom_has_content_for_terms(
-        [$current_tid, ...$child_tids], 'referral_path_way', 'field_location');
-    }
-
-    // Use the first term with content found as the current term.
-    if ($has_content) {
-      $current_tid = $has_content;
-    }
-
-    // Modify the tid value based on the above conditions.
-    $conditions = &$query->where[1]['conditions'];
-    foreach ($conditions as $index => $condition) {
-      if (isset($condition['field']) && $condition['field'] == 'node__field_location.field_location_target_id') {
-        $query->where[1]['conditions'][$index]['value'] = $current_tid;
-      }
-    }
-  }
-
   if ($view->id() == "manage_service" && $view->current_display == 'page_1') {
     $permission = 'view service of their own country';
     $condition_field = 'node__field_location.field_location_target_id';
@@ -750,111 +676,6 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $org_condition = 'node_field_data_node_field_revision__node__field_select_organisation.field_select_organisation_target_id';
     $query = erpw_view_results_own_location_organisation($query, $condition_field, $org_condition, $permission);
   }
-}
-
-/**
- * Get the webform titles based on a given taxonomy term.
- *
- * @param int $taxonomy_term_id
- *   Taxonomy term ID.
- *
- * @return array
- *   Array of webform submission titles.
- */
-function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
-  
-  // Fetch all parent term ids of the Country vocabulary
-  $query = \Drupal::entityQuery('taxonomy_term');
-  $query->condition('vid', 'country');
-  $query->condition('parent', 0);
-  $term_ids = $query->execute();
-
-  // Get webform ids which contain approved services for given tid.
-  $query = \Drupal::database()->select('webform_submission_data', 'wsd');
-  $query->fields('wsd', ['sid', 'webform_id']);
-  $query->condition('wsd.name', 'location');
-  // For Country level, all the webforms with given country should be displayed.
-  if (in_array($taxonomy_term_id, $term_ids)) {
-    $location_entity_id = \Drupal::service('erpw_location.location_services')->getLocationSingleEntityIdByTid($taxonomy_term_id);
-    // Location entity id is stored for Country level instead of tid.
-    $query->condition('wsd.property', 'location_options');
-    $query->condition('wsd.value', $location_entity_id);
-  }
-  else {
-    $query->condition('wsd.property', 'location_tid');
-    $query->condition('wsd.value', $taxonomy_term_id);
-
-  }
-  $query->join('webform_submission_data', 'wsd2', 'wsd.sid = wsd2.sid');
-  $query->condition('wsd2.property', 'workflow_state');
-  $query->condition('wsd2.value', 'approve');
-  $results = $query->execute()->fetchAll();
-
-  $webform_ids = [];
-  foreach ($results as $result) {
-    $webform_ids[] = $result->webform_id;
-  }
-
-  $webform_titles = [];
-  // Fetch webform/Service Type titles using webform ids.
-  if (!empty($webform_ids)) {
-    $webform = Webform::loadMultiple($webform_ids);
-    foreach($webform as $webforms){
-        $webform_titles[] = $webforms->get('title');
-    }
-  }
-  return $webform_titles;
-}
-
-/**
- * Implements hook_theme().
- */
-function erpw_custom_theme($existing, $type, $theme, $path) {
-  return [
-    'node__service_type__erpw' => [
-      'variables' => ['service_types' => NULL],
-    ],
-  ];
-}
-
-
-/**
- * Implements hook_preprocess_node().
- */
-function erpw_custom_preprocess_node(&$variables) {
-  // Invalidate cache based on node id cache tags.
-  $cacheTags = ['node:' . $variables['node']->id()];
-  Cache::invalidateTags($cacheTags);
-  $service_types = erpw_custom_load_submissions_by_term($_COOKIE['location_tid']);
-  $variables['service_types'] = $service_types;
-}
-
-/**
- * Checks if there is content for any of the given taxonomy term IDs.
- *
- * @param array $termIds
- *   An array of taxonomy term IDs.
- * @param string $contentType
- *   The machine name of the content type.
- * @param string $taxonomyField
- *   The machine name of the taxonomy term field.
- *
- * @return int|false
- *   The taxonomy term ID with content, or false if no content is found.
- */
-function erpw_custom_has_content_for_terms(array $termIds, $contentType, $taxonomyField) {
-  foreach ($termIds as $tid) {
-    $has_content = \Drupal::entityQuery('node')
-      ->condition('type', $contentType)
-      ->condition($taxonomyField, $tid)
-      ->range(0, 1)
-      ->execute();
-    if ($has_content) {
-      return $tid;
-    }
-  }
-
-  return FALSE;
 }
 
 /**
@@ -983,9 +804,9 @@ function erpw_custom_entity_presave(EntityInterface $entity) {
   // For service type content type.
   if ($entity->getEntityTypeId() == 'node' && $entity->getType() == 'service_type') {
     $node_title = trim($entity->get('title')->value);
-    // If (strpos($node_title, '(') !== FALSE) {
+    // if (strpos($node_title, '(') !== FALSE) {
     //   $node_title = preg_replace('/\s+/', '', $node_title);
-    // }.
+    // }
     if (preg_match("/'/u", $node_title)) {
       $node_title = str_replace("'", '', $node_title);
     }
@@ -1003,17 +824,5 @@ function erpw_custom_entity_presave(EntityInterface $entity) {
   //    }
   //  }
   //  $entity->set('field_domain_access', $domain_id);
-  // }.
-}
-
-/**
- * Implements hook_entity_form_mode_alter().
- */
-function erpw_custom_entity_form_display_alter(&$form_display, $context) {
-  if ($context['entity_type'] == 'user' && $context['bundle'] == 'user') {
-    if (\Drupal::request()->get('pass-reset-token')) {
-      $storage = \Drupal::service('entity_type.manager')->getStorage('entity_form_display');
-      $form_display = $storage->load('user.user.user_password_reset');
-    }
-  }
+  // }
 }

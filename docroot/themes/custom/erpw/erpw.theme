@@ -9,7 +9,6 @@ use Drupal\Core\Url;
 use Drupal\user\Entity\User;
 use Drupal\node\NodeInterface;
 use Drupal\user\UserInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_preprocess_block().
@@ -75,7 +74,7 @@ function erpw_preprocess_form_element_label(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_node() for dashboard.
+ * Implements hook_theme_suggestions_HOOK() for dashboard.
  */
 function erpw_preprocess_node(&$variables) {
   $node = $variables["node"];
@@ -100,14 +99,6 @@ function erpw_preprocess_node(&$variables) {
     case "service_provider":
       $referral = \Drupal::request()->query->get('referer');
       $variables['referral'] = $referral;
-      // Check if current domain is "txb".
-      if (\Drupal::service('domain.negotiator')->getActiveId() == 'txb_erefer_org' && \Drupal::currentUser()->isAnonymous()) {
-        // Check if user is logged in.
-        // Redirect to user login page.
-        $url = Url::fromRoute('user.login')->toString();
-        $response = new RedirectResponse($url);
-        $response->send();
-      }
       break;
   }
 }
@@ -121,24 +112,6 @@ function erpw_preprocess_user(&$variables) {
   $user = \Drupal::service('entity_type.manager')->getStorage('user')->load($route);
   $location = \Drupal::service('erpw_location.location_services')->getUserLocation($user);
   $variables['location'] = $location;
-  $current_user_id = \Drupal::currentUser()->id();
-  $form_user_id = \Drupal::request()->attributes->get('user')->id();
-  $roles_ar = \Drupal::currentUser()->getRoles();
-  $roles = [];
-  foreach ($roles_ar as $key => $role) {
-    if ($role != 'authenticated') {
-      $arr = explode("_", $role);
-      $role = implode(" ", $arr);
-      $roles[] = ucfirst(strtolower($role));
-    }
-  }
-  $variables['roles'] = $roles;
-  if ($current_user_id == $form_user_id) {
-    $variables['hide_list_button'] = TRUE;
-  }
-  else {
-    $variables['hide_list_button'] = FALSE;
-  }
 }
 
 /**
@@ -166,22 +139,5 @@ function erpw_preprocess_field__node__service_provider(&$variables) {
       $i++;
     }
     $variables['items'][0]['content']['#markup'] = implode(', ', $age_group);
-  }
-}
-
-/**
- * Implements hook_preprocess_page().
- */
-function erpw_preprocess_page(&$variables) {
-  $url_array = explode("/", Url::fromRoute('<current>', [], ['absolute' => TRUE])->toString());
-  if (\Drupal::service('domain.negotiator')->getActiveId() == 'txb_erefer_org' && \Drupal::currentUser()->isAnonymous()) {
-    foreach ($url_array as $key => $url) {
-      if ($url == "manage-service" || $url == 'services') {
-        // Redirect to user login page.
-        $url = Url::fromRoute('user.login')->toString();
-        $response = new RedirectResponse($url);
-        $response->send();
-      }
-    }
   }
 }

@@ -165,9 +165,10 @@ function set_user_location() {
   else {
     $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
   }
-  $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-  $full_url = $domain->get('hostname');
-  setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $full_url, FALSE);
+  $domain_current_url = explode(".", \Drupal::requestStack()->getCurrentRequest()->server->get('SERVER_NAME'));
+  $domain_slice = array_slice($domain_current_url, -2);
+  $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
+  setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $domain_site, FALSE);
 }
 
 /**

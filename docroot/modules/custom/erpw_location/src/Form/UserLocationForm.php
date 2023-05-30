@@ -2,7 +2,6 @@
 
 namespace Drupal\erpw_location\Form;
 
-use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormStateInterface;
@@ -73,7 +72,6 @@ class UserLocationForm extends LocationListForm {
     LocationCookie $location_cookie,
     PrivateTempStoreFactory $temp_store_factory,
     LocationService $location_service,
-    CacheBackendInterface $cacheBackend,
     RequestStack $request_stack) {
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;
@@ -82,7 +80,6 @@ class UserLocationForm extends LocationListForm {
     $this->locationCookie = $location_cookie;
     $this->tempStoreFactory = $temp_store_factory->get('erpw_location_collection');
     $this->locationService = $location_service;
-    $this->defaultCache = $cacheBackend;
     $this->requestStack = $request_stack;
   }
 
@@ -98,7 +95,6 @@ class UserLocationForm extends LocationListForm {
       $container->get('erpw_location.location_cookie'),
       $container->get('tempstore.private'),
       $container->get('erpw_location.location_services'),
-      $container->get('cache.default'),
       $container->get('request_stack'),
     );
   }
@@ -163,6 +159,7 @@ class UserLocationForm extends LocationListForm {
     else {
       $location_value = $country_tid;
     }
+
     if ($levels['location_level_page'] == 'location') {
       $url = Url::fromUri('internal:/manage-location/' . $levels['location_options'] . '/' . $location_value);
       $form['location_level']['button'] = $form_state->setRedirectUrl($url);
@@ -172,10 +169,11 @@ class UserLocationForm extends LocationListForm {
         $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
       }
       $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $location_value);
-      $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-      $full_url = $domain->get('hostname');
+      $domain_current_url = explode(".", $this->requestStack->getCurrentRequest()->server->get('SERVER_NAME'));
+      $domain_slice = array_slice($domain_current_url, -2);
+      $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
 
-      setcookie('location_tid', $location_value, strtotime('+1 year'), '/', $full_url, FALSE);
+      setcookie('location_tid', $location_value, strtotime('+1 year'), '/', $domain_site, FALSE);
 
       $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $location_value]]);
       // First level is the country taxonomy term; if we have it we want to

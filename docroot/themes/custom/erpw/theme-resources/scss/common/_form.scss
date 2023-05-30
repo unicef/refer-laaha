@@ -1,181 +1,140 @@
 form {
-  .form-required {
-    &::after {
-      background-image: none;
-      content: "*";
-      vertical-align: inherit;
-    }
-  }
-  select {
-    outline: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    background: url("../images/arrow.svg") right 10px center no-repeat;
-  }
-  .form-actions {
-    text-align: right;
-    margin: 0;
-    .signup-next {
-      width: auto;
-    }
-  }
-  .form-textarea-wrapper textarea {
-    margin-top: 7px;
-  }
+	.form-required {
+		&::after {
+			background-image: none;
+			content: '*';
+			vertical-align: inherit;
+		}
+	}
+	select {
+		outline: none;
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		appearance: none;
+		background: url('../images/arrow.svg') right 10px center no-repeat;
+	}
+	.form-actions {
+		text-align: right;
+		margin: 0;
+		.signup-next {
+			width: auto;
+		}
+	}
+	.form-textarea-wrapper textarea {
+		margin-top: 7px;
+	}
 }
 
 label {
-  color: $base-secondary-bgcolor;
-  font-size: 0.75em;
-  font-weight: 500;
+	color: $base-secondary-bgcolor;
+	font-size: .75em;
+	font-weight: 500;	
 }
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="tel"],
+input[type=text],
+input[type=password],
+input[type=email],
 select,
 textarea {
-  background-position: right;
-  border: 1px solid $border;
-  @include border-radius(5px);
-  box-sizing: border-box;
-  display: inline-block;
-  padding: 8px 11px;
-  margin-top: 7px;
-  width: 100%;
-  &:focus {
-    outline: none;
-  }
-  &::-webkit-input-placeholder {
-    color: #e0d7d7;
-    font-size: 14px;
-  }
+	background-position:right;
+	border: 1px solid $border;
+	@include border-radius(5px);
+	box-sizing: border-box;
+	display: inline-block;
+	padding: 8px 11px;
+	margin-top: 7px;
+	width: 100%;
+	&:focus {
+		outline: none;
+	}
+	&::-webkit-input-placeholder {
+		color: #E0D7D7;
+		font-size: 14px;
+	}
 
-  &:-moz-placeholder {
-    color: #e0d7d7;
-    font-size: 14px;
-  }
+	&:-moz-placeholder {
+		color: #E0D7D7;
+		font-size: 14px;
+	}
 
-  &::-moz-placeholder {
-    color: #e0d7d7;
-    font-size: 14px;
-  }
+	&::-moz-placeholder {
+		color: #E0D7D7;
+		font-size: 14px;
+	}
 
-  &:-ms-input-placeholder {
-    color: #e0d7d7;
-    font-size: 14px;
-  }
+	&:-ms-input-placeholder {
+		color: #E0D7D7;
+		font-size: 14px;
+	}
 }
-input[type="submit"] {
-  background: $base-secondary-bgcolor;
-  border: 1px solid $base-secondary-bgcolor;
-  box-sizing: border-box;
-  @include border-radius(4px);
-  color: $base-white-color;
-  display: inline-block;
-  font-size: 0.875em;
-  font-weight: 500;
-  margin: 0 0 1em 0;
-  padding: 10px 24px;
-  text-transform: uppercase;
-  width: 100%;
-  &.arrow-btn {
-    background: url("../images/arrow-white.svg") calc(50% - -50px) center
-      no-repeat $base-secondary-bgcolor;
-    margin: 20px 0 40px;
-  }
-  &.use-ajax.arrow-btn {
-    background-position: calc(50% - -100px) center;
-  }
+input[type=submit] {
+	background: $base-secondary-bgcolor;
+	border: 1px solid $base-secondary-bgcolor;
+	box-sizing: border-box;
+	@include border-radius(4px);
+	color: $base-white-color;
+	display: inline-block;
+	font-size: .875em;
+	font-weight: 500;
+	margin: 0 0 1em 0;
+	padding: 10px 24px;
+	text-transform: uppercase;
+	width: 100%;
+	&.arrow-btn {
+		background: url('../images/arrow-white.svg') calc(50% - -50px) center no-repeat $base-secondary-bgcolor;
+		margin: 20px 0 40px;
+	}
+	&.use-ajax.arrow-btn {
+		background-position: calc(50% - -100px) center;
+	}
 }
 
 .form-type-password {
-  position: relative;
+	position: relative;
 }
 //for password hint
 .path-sign-up {
-  .description {
-    background: none;
-    border: 1px solid $base-black-color;
-    @include border-radius(50%);
-    font-size: 9px !important;
-    font-style: italic;
-    left: 66px;
-    position: absolute;
-    text-align: center;
-    top: 5px;
-    right: 0;
-    width: 10px;
-  }
-  [id^="edit-back"] {
-    background: none;
-    color: $base-secondary-bgcolor;
-    width: 134px;
-  }
+	.description {
+		background: none;
+		border: 1px solid $base-black-color;
+		@include border-radius(50%);
+		font-size: 9px !important;
+		font-style: italic;
+		left: 66px;
+		position: absolute;
+		text-align: center;
+		top: 5px;
+		right: 0;
+		width: 10px;
+	}
+	[id^='edit-back'] {
+		background: none;
+		color: $base-secondary-bgcolor;
+		width: 134px;
+	}
 }
 .password-help-text {
-  box-shadow: 0 2px 20px 6px rgb(0 0 0 / 10%);
-  background: $base-secondary-bgcolor;
-  color: $base-white-color;
-  left: 20px;
-  padding: 5px;
-  position: absolute;
-  top: -15px;
-  width: 160px;
-  &::before {
+	box-shadow: 0 2px 20px 6px rgb(0 0 0 / 10%);
+	background: $base-secondary-bgcolor;
+	color: $base-white-color;
+	left: 20px;
+	padding: 5px;
+	position: absolute;
+	top: -15px;
+	width: 160px;
+	&::before {
     border-bottom: 5px solid transparent;
     border-top: 5px solid transparent;
     border-right: 5px solid $base-secondary-bgcolor;
-    content: "";
+		content: "";
     height: 0;
     left: -5px;
     position: absolute;
     top: 15px;
     width: 0;
     z-index: 9;
-  }
+	}
 }
 //hide OR sign in form.
 .signin-or-form {
-  display: none;
-}
-
-#edit-location-details {
-  #location-level-1,
-  #location-level-2,
-  #location-level-3,
-  #location-level-4 {
-    display: none;
-  }
-}
-
-.js-webform-type-radios,
-.form-composite {
-  legend {
-    color: $base-secondary-bgcolor;
-    font-size: 0.75em;
-    font-weight: 500;
-  }
-}
-
-.js-webform-radios {
-  display: flex;
-  flex-direction: row;
-  .js-form-type-radio {
-    border: 1px solid #f3c1bf;
-    border-radius: 4px;
-    display: block;
-    padding: 5px 10px;
-    margin-right: 20px;
-    width: auto;
-    input {
-      margin-right: 5px;
-    }
-  }
-}
-
-#edit-erpw-workflow--wrapper {
-  visibility: hidden;
-  height: 0;
+	display: none;
 }

@@ -7,7 +7,7 @@ body {
 
 main {
   padding: 20px;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }
 
 .page-title {
@@ -22,7 +22,7 @@ main {
 }
 
 .path-frontpage {
-  background: #fffdfd;
+  background: #FFFDFD;
 }
 
 .link-text {
@@ -280,7 +280,7 @@ form input[type=submit].button-border {
   overflow-x: scroll;
 }
 .table-format table {
-  border: 1px solid #f3c1bf;
+  border: 1px solid #F3C1BF;
   border-radius: 5px;
   border-collapse: collapse;
   width: 100%;
@@ -290,7 +290,7 @@ form input[type=submit].button-border {
   text-align: left;
 }
 .table-format table thead th {
-  border-bottom: 1px solid #f3c1bf;
+  border-bottom: 1px solid #F3C1BF;
 }
 .table-format table td,
 .table-format table th {
@@ -305,7 +305,7 @@ form input[type=submit].button-border {
 }
 
 .ui-autocomplete {
-  border: 1px solid #f3c1bf !important;
+  border: 1px solid #F3C1BF !important;
   border-radius: 5px;
   height: 194px;
   width: calc(100% - 40px) !important;
@@ -355,19 +355,19 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 }
 .select2-container--default .select2-selection--multiple,
 .select2-container--default .select2-selection--single {
-  border: 1px solid #f3c1bf !important;
+  border: 1px solid #F3C1BF !important;
   margin-top: 7px;
   padding: 5px 6px 7px !important;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice,
 .select2-container--default .select2-selection--single .select2-selection__choice {
   background: #fff !important;
-  border: 1px solid #f3c1bf !important;
+  border: 1px solid #F3C1BF !important;
   margin-top: 0 !important;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove,
 .select2-container--default .select2-selection--single .select2-selection__choice__remove {
-  border-right: 1px solid #f3c1bf !important;
+  border-right: 1px solid #F3C1BF !important;
   color: #A85766 !important;
 }
 .select2-container--default .select2-selection--single {
@@ -389,7 +389,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 }
 .select2-container--default.select2-container--focus .select2-selection--multiple,
 .select2-container--default.select2-container--focus .select2-selection--single {
-  border: 1px solid #f3c1bf;
+  border: 1px solid #F3C1BF;
 }
 .select2-container--default .select2-results__option--selected {
   background: #ffffff !important;
@@ -403,7 +403,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   padding-left: 11px;
 }
 .select2-container .select2-dropdown {
-  border: 1px solid #f3c1bf;
+  border: 1px solid #F3C1BF;
 }
 .select2-container .ui-state-active {
   background: none;
@@ -478,7 +478,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 }
 
 .service-count {
-  color: #9b9b9b;
+  color: #9B9B9B;
   font-size: 14px;
   font-weight: 400;
 }
@@ -511,33 +511,6 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 }
 .button-block .fill-button a {
   color: #ffffff;
-}
-
-html[dir=rtl] .select2-container--default .select2-selection--single .select2-selection__arrow {
-  left: 8px;
-  right: auto !important;
-}
-
-[id^=edit-pass] .password-suggestions {
-  margin-top: 0px !important;
-}
-
-#edit-unlock {
-  background: #a85766;
-  border: 1px solid #a85766;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  border-radius: 4px;
-  color: #ffffff;
-  display: inline-block;
-  font-size: 0.875em;
-  font-weight: 500;
-  margin: 0 0 1em 0;
-  padding: 10px 24px;
-  text-transform: uppercase;
-  width: 100%;
-  text-align: center;
-  cursor: pointer;
 }
 
 form .form-required::after {
@@ -573,7 +546,6 @@ label, .service-provider-class [id^=edit-field-transportation-available-wrapper]
 input[type=text],
 input[type=password],
 input[type=email],
-input[type=tel],
 select,
 textarea {
   background-position: right;
@@ -589,7 +561,6 @@ textarea {
 input[type=text]:focus,
 input[type=password]:focus,
 input[type=email]:focus,
-input[type=tel]:focus,
 select:focus,
 textarea:focus {
   outline: none;
@@ -597,37 +568,33 @@ textarea:focus {
 input[type=text]::-webkit-input-placeholder,
 input[type=password]::-webkit-input-placeholder,
 input[type=email]::-webkit-input-placeholder,
-input[type=tel]::-webkit-input-placeholder,
 select::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
-  color: #e0d7d7;
+  color: #E0D7D7;
   font-size: 14px;
 }
 input[type=text]:-moz-placeholder,
 input[type=password]:-moz-placeholder,
 input[type=email]:-moz-placeholder,
-input[type=tel]:-moz-placeholder,
 select:-moz-placeholder,
 textarea:-moz-placeholder {
-  color: #e0d7d7;
+  color: #E0D7D7;
   font-size: 14px;
 }
 input[type=text]::-moz-placeholder,
 input[type=password]::-moz-placeholder,
 input[type=email]::-moz-placeholder,
-input[type=tel]::-moz-placeholder,
 select::-moz-placeholder,
 textarea::-moz-placeholder {
-  color: #e0d7d7;
+  color: #E0D7D7;
   font-size: 14px;
 }
 input[type=text]:-ms-input-placeholder,
 input[type=password]:-ms-input-placeholder,
 input[type=email]:-ms-input-placeholder,
-input[type=tel]:-ms-input-placeholder,
 select:-ms-input-placeholder,
 textarea:-ms-input-placeholder {
-  color: #e0d7d7;
+  color: #E0D7D7;
   font-size: 14px;
 }
 
@@ -703,46 +670,6 @@ input[type=submit].use-ajax.arrow-btn {
 
 .signin-or-form {
   display: none;
-}
-
-#edit-location-details #location-level-1,
-#edit-location-details #location-level-2,
-#edit-location-details #location-level-3,
-#edit-location-details #location-level-4 {
-  display: none;
-}
-
-.js-webform-type-radios legend,
-.form-composite legend {
-  color: #A85766;
-  font-size: 0.75em;
-  font-weight: 500;
-}
-
-.js-webform-radios {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-}
-.js-webform-radios .js-form-type-radio {
-  border: 1px solid #f3c1bf;
-  border-radius: 4px;
-  display: block;
-  padding: 5px 10px;
-  margin-right: 20px;
-  width: auto;
-}
-.js-webform-radios .js-form-type-radio input {
-  margin-right: 5px;
-}
-
-#edit-erpw-workflow--wrapper {
-  visibility: hidden;
-  height: 0;
 }
 
 footer {
@@ -892,9 +819,6 @@ header {
   background: #ffffff;
   color: #A85766;
   padding: 5px 20px;
-  height: 43px;
-  -ms-flex-item-align: center;
-      align-self: center;
 }
 
 .dashboard {
@@ -1022,13 +946,6 @@ header {
   font-weight: 500;
   text-decoration: underline;
   text-transform: uppercase;
-}
-
-html[dir=rtl] .dashboard .dashboard-link span {
-  margin-left: 15px;
-}
-html[dir=rtl] .dashboard .dashboard-link a {
-  background: url("../images/arrow-right.svg") left center no-repeat;
 }
 
 .delete-screen .detail-row {
@@ -1230,19 +1147,6 @@ html[dir=rtl] .dashboard .dashboard-link a {
   font-size: 9px;
 }
 
-html[dir=rtl] .view-referral-pathway-on-homepage .views-row {
-  border-right: 1px dashed #CD0000;
-  border-left: none;
-}
-html[dir=rtl] .view-referral-pathway-on-homepage .views-row::before {
-  margin-right: -8px;
-}
-html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail label, html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend,
-html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
-.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend {
-  margin-left: 14px;
-}
-
 .block-select-user-location, .user-change-link {
   margin-bottom: 30px;
   text-align: right;
@@ -1288,25 +1192,12 @@ html[dir=rtl] .view-referral-pathway-on-homepage .listing-detail .service-provid
   font-size: 13px;
   line-height: 20px;
   margin-bottom: 13px;
-  padding: 8px 45px 8px 45px;
+  padding: 8px 18px 8px 45px;
   text-transform: capitalize;
 }
 
 .user-location-form input[type=submit].use-ajax.arrow-btn {
   background-position: calc(50% + 50px) center;
-}
-
-html[dir=rtl] .block-select-user-location, html[dir=rtl] .user-change-link {
-  text-align: left;
-}
-html[dir=rtl] .block-select-user-location .user-location-list, html[dir=rtl] .user-change-link .user-location-list {
-  text-align: right;
-}
-html[dir=rtl] .block-select-user-location .user-location-list .location-theme, html[dir=rtl] .user-change-link .user-location-list .location-theme {
-  background: url("../images/location.svg") top 8px right 18px no-repeat;
-}
-html[dir=rtl] .block-select-user-location a::after, html[dir=rtl] .user-change-link a::after {
-  background: url("../images/arrow-small.svg") center left no-repeat;
 }
 
 .manage-list {
@@ -1449,9 +1340,9 @@ html[dir=rtl] .block-select-user-location a::after, html[dir=rtl] .user-change-l
   display: block;
   margin-top: 5px;
 }
-[id^=block-erpw-main-menu] .menu, [id^=block-erpw-main-menu] .language-switcher-language-url {
+[id^=block-erpw-main-menu] .menu {
   margin: 0 0 0 -10px;
-  padding-bottom: 50px;
+  padding-bottom: 100px;
   width: 212px;
 }
 [id^=block-erpw-main-menu] .menu-item {
@@ -1499,55 +1390,28 @@ html[dir=rtl] .block-select-user-location a::after, html[dir=rtl] .user-change-l
 [id^=block-erpw-main-menu] .menu-item .location-change {
   background: url("../images/language-translate.png") top left no-repeat;
 }
-[id^=block-erpw-main-menu] .current-status {
+
+.current-status {
   padding: 15px 7px;
 }
-[id^=block-erpw-main-menu] .current-status .red-dot {
+.current-status .red-dot {
   height: 13px;
   width: 13px;
   background-color: red;
   border-radius: 50%;
   display: inline-block;
 }
-[id^=block-erpw-main-menu] .current-status .green-dot {
+.current-status .green-dot {
   height: 13px;
   width: 13px;
   background-color: green;
   border-radius: 50%;
   display: inline-block;
 }
-[id^=block-erpw-main-menu] .current-status #status {
+.current-status #status {
   color: #A85766;
   font-size: 16px;
   padding-left: 9px;
-}
-
-html[dir=rtl] [id^=block-erpw-main-menu] .menu-item a {
-  background-position: right;
-  padding-right: 30px;
-  padding-left: 0;
-}
-html[dir=rtl] [id^=block-erpw-main-menu] .current-status {
-  margin-right: 30px;
-}
-html[dir=rtl] [id^=block-erpw-main-menu] .current-status #status {
-  padding-right: 9px;
-}
-
-.language-switcher-language-url li {
-  padding: 15px 0 15px 15px;
-  margin: 0 20px 0 0;
-  list-style-type: none;
-}
-.language-switcher-language-url li a {
-  color: #A85766;
-}
-
-.language-block h2 {
-  color: #A85766;
-  font-size: 16px;
-  background: url("../images/language-translate.png") top left no-repeat;
-  padding-left: 30px;
 }
 
 .path-select-language {
@@ -2027,11 +1891,6 @@ html[dir=rtl] [id^=block-erpw-main-menu] .current-status #status {
   line-height: 22px;
   margin-bottom: 18px;
   text-align: center;
-}
-
-html[dir=rtl] .eye-close {
-  left: 40px;
-  right: unset;
 }
 
 .node-service-type-form label, .node-service-type-form .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] .node-service-type-form .fieldset-legend,
@@ -2559,12 +2418,6 @@ div.color_field__swatch .service-provider-class [id^=edit-field-accessibility-fo
   font-weight: 500;
 }
 
-html[dir=rtl] .service-list .views-field-field-service-type-icon, html[dir=rtl] .view-organisations .views-field-field-service-type-icon,
-html[dir=rtl] .view-referral-pathway-listing .views-field-field-service-type-icon {
-  left: unset;
-  right: 10px;
-}
-
 .service-provider-class {
   border: 0;
   padding: 0;
@@ -2906,11 +2759,6 @@ html[dir=rtl] .view-referral-pathway-listing .views-field-field-service-type-ico
   font-weight: 400;
 }
 
-html[dir=rtl] .view-manage-service .views-field-field-service-type-icon, html[dir=rtl] .view-moderated-content .views-field-field-service-type-icon {
-  left: unset;
-  right: 10px;
-}
-
 .user-logged-in.path-user {
   background: none;
 }
@@ -3087,7 +2935,3 @@ body.path-user {
   top: 17px;
 }
 /*# sourceMappingURL=style.css.map */
-.no-service a{
-  color: gray!important;
-  pointer-events: none;
-}

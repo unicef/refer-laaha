@@ -2,7 +2,6 @@
 
 namespace Drupal\erpw_custom\Form;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\AjaxResponse;
@@ -11,7 +10,6 @@ use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Url;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\erpw_location\LocationService;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
@@ -57,20 +55,6 @@ class SignUpForm extends FormBase {
   protected $locationService;
 
   /**
-   * The Domain negotiator.
-   *
-   * @var \Drupal\domain\DomainNegotiatorInterface
-   */
-  protected $domainNegotiator;
-
-  /**
-   * The config factory service.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
    * A userId variable.
    *
    * @var Drupal\erpw_custom
@@ -93,11 +77,6 @@ class SignUpForm extends FormBase {
 
   /**
    * {@inheritdoc}
-   *
-   * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
-   *   The domain negotiator service.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The config factory service.
    */
   public function __construct(
     Connection $database,
@@ -106,9 +85,7 @@ class SignUpForm extends FormBase {
     MessengerInterface $messenger,
     FormBuilderInterface $form_builder,
     LocationService $location_service,
-    ErpwPathwayService $erpwp_athway,
-    DomainNegotiatorInterface $domain_negotiator,
-    ConfigFactoryInterface $configFactory) {
+    ErpwPathwayService $erpwp_athway) {
 
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;
@@ -117,8 +94,6 @@ class SignUpForm extends FormBase {
     $this->formBuilder = $form_builder;
     $this->locationService = $location_service;
     $this->erpwpathway = $erpwp_athway;
-    $this->domainNegotiator = $domain_negotiator;
-    $this->configFactory = $configFactory;
   }
 
   /**
@@ -133,8 +108,6 @@ class SignUpForm extends FormBase {
       $container->get('form_builder'),
       $container->get('erpw_location.location_services'),
       $container->get('erpw_pathway.erpw_location_form'),
-      $container->get('domain.negotiator'),
-      $container->get('config.factory')
     );
   }
 
@@ -405,14 +378,8 @@ class SignUpForm extends FormBase {
       '#markup' => '<div class="step">' . $this->t('Step 2: Geographical coverage of your role') . '</div>',
     ];
     $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
-
-    // Get active domain's tid.
-    $domain = $this->domainNegotiator->getActiveDomain();
-    $config = $this->configFactory->get('domain.location.' . $domain->get('id'));
-    $domain_tid = $config->get('location');
-
     $location_id = (!$current_user->get('field_location')->isEmpty()) ?
-      $current_user->get('field_location')->getValue()[0]['target_id'] : $domain_tid;
+      $current_user->get('field_location')->getValue()[0]['target_id'] : '';
     $ptids = $parent_list = [];
     if (!isset($form_state->getTriggeringElement()['#level'])
       && $current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator')) {
@@ -422,7 +389,7 @@ class SignUpForm extends FormBase {
       if ($current_user->hasPermission($permission1) || $current_user->hasPermission($permission2)) {
         $ptids = $parent_list;
       }
-      else {
+      elseif ($current_user->hasPermission('add location of their own country')) {
         $ptids = [reset($parent_list)];
       }
     }
@@ -556,10 +523,17 @@ class SignUpForm extends FormBase {
         '#default_value' => $values['email'],
       ];
       $form['password'] = [
-        '#type' => 'password_confirm',
+        '#type' => 'password',
+        '#title' => $this->t('Password'),
         '#required' => TRUE,
         '#placeholder' => $this->t('**********'),
         '#description' => '<span class="help-text">' . $this->t('i') . '</span>',
+      ];
+      $form['confirm_password'] = [
+        '#type' => 'password',
+        '#title' => $this->t('Confirm password'),
+        '#required' => TRUE,
+        '#placeholder' => $this->t('**********'),
       ];
       $form['back'] = [
         '#type' => 'submit',
@@ -587,6 +561,20 @@ class SignUpForm extends FormBase {
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    $password = $form_state->getValue('password');
+    $confirm_password = $form_state->getValue('confirm_password');
+    if ($password && strcmp($password, $confirm_password)) {
+      $form_state->setErrorByName('password', $this->t('The specified passwords do not match.'));
+    }
+    if ($password && !preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$/", $password)) {
+      $form_state->setErrorByName('password', $this->t('Password should contain at least one number, one symbol, one lowercase and uppercase letter.'));
+    }
   }
 
   /**

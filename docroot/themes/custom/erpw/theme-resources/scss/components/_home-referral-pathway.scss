@@ -111,19 +111,3 @@
 		font-size: 9px;
 	}
 }
-html[dir="rtl"] {
-	.view-referral-pathway-on-homepage {
-		.views-row {
-			border-right: 1px dashed #CD0000;
-			border-left: none;
-			&::before {
-				margin-right: -8px;
-			}
-		}
-		.listing-detail {
-			label {
-				margin-left: 14px;
-			}
-		}
-	}
-}

@@ -8,8 +8,6 @@ services:
       - "@erpw_pathway.erpw_location_form"
       - "@current_user"
       - "@erpw_custom.custom_service"
-      - "@domain.negotiator"
-      - "@config.factory"
     tags:
       - { name: 'event_subscriber' }
   erpw_pathway.erpw_location_form:

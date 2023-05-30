@@ -35,9 +35,9 @@
 		display: block;
 		margin-top: 5px;
 	}
-	.menu , .language-switcher-language-url{	
+	.menu {	
 		margin: 0 0 0 -10px;
-		padding-bottom: 50px;
+		padding-bottom: 100px;
 		width: 212px;
 	}
 	.menu-item {
@@ -85,59 +85,28 @@
 			background: url('../images/language-translate.png') top left no-repeat;
 		}
 	}
-	.current-status {
-		padding: 15px 7px;
-		.red-dot {
-			height: 13px;
-			width: 13px;
-			background-color: red;
-			border-radius: 50%;
-			display: inline-block;
-		}
-		.green-dot {
-			height: 13px;
-			width: 13px;
-			background-color: green;
-			border-radius: 50%;
-			display: inline-block;
-		}
-		#status {
-			color: $base-secondary-bgcolor;
-			font-size: 16px;
-			padding-left: 9px;
-		}
-	}
 }
 
-html[dir="rtl"] {
-	[id^='block-erpw-main-menu'] {
-		.menu-item {
-			a {
-				background-position: right;
-				padding-right: 30px;
-				padding-left: 0;
-			}
-		}
-		.current-status {
-			margin-right: 30px;
-			#status {
-				padding-right: 9px;
-			}
-		}
-	}
-}
+.current-status {
+	padding: 15px 7px;
 
-.language-switcher-language-url li {
-	padding:15px 0 15px 15px;
-	margin: 0 20px 0 0;
-	list-style-type: none;
-	a {
+	.red-dot {
+		height: 13px;
+    width: 13px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+	}
+	.green-dot {
+		height: 13px;
+    width: 13px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+	}
+	#status {
 		color: $base-secondary-bgcolor;
+    font-size: 16px;
+    padding-left: 9px;
 	}
-}
-.language-block h2{
-	color: $base-secondary-bgcolor;
-	font-size: 16px;
-	background: url('../images/language-translate.png') top left no-repeat;
-	padding-left: 30px;
 }
