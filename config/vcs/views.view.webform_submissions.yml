@@ -74,7 +74,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -82,9 +82,11 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          action_title: Action
-          include_exclude: exclude
-          selected_actions: {  }
+          action_title: 'Bulk Action'
+          include_exclude: include
+          selected_actions:
+            - webform_submission_break_lock_action
+            - webform_submission_delete_action
         webform_submission_focal_point_field:
           id: webform_submission_focal_point_field
           table: webform_submission
@@ -544,6 +546,54 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        webform_submission_workflow_filter:
+          id: webform_submission_workflow_filter
+          table: webform_submission
+          field: webform_submission_workflow_filter
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          plugin_id: webform_submission_workflow_filter
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: 'Workflow Status'
+            description: ''
+            use_operator: false
+            operator: webform_submission_workflow_filter_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: webform_submission_workflow_filter
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              service_provider_staff: '0'
+              service_provider_focal_point: '0'
+              interagency_gbv_coordinator: '0'
+              country_admin: '0'
+              super_admin: '0'
+              administrator: '0'
+            reduce: 0
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: 0
       style:
         type: table
         options:
@@ -615,7 +665,7 @@ display:
           query_tags: {  }
       relationships: {  }
       css_class: services-webform-submissions-list
-      use_ajax: true
+      use_ajax: false
       header: {  }
       footer: {  }
       display_extenders: {  }

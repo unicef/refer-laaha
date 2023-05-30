@@ -275,6 +275,15 @@ function erpw_webform_views_data_alter(array &$data) {
       'real field' => 'webform_submission_workflow',
     ],
   ];
+  $data['webform_submission']['webform_submission_workflow_filter'] = [
+    'title' => t('Webform Submission Workflow Filter'),
+    'filter' => [
+      'title' => t('Webform Submission Workflow Filter'),
+      'help' => t('Provides a custom filter for workflow status.'),
+      'field' => 'webform_submission_workflow',
+      'id' => 'webform_submission_workflow_filter',
+    ],
+  ];
   return $data;
 }
 
@@ -316,6 +325,15 @@ function erpw_webform_menu_local_tasks_alter(&$data, $route_name) {
  */
 function erpw_webform_views_pre_render(&$view) {
   // Alter webform submissions view.
+  if ($view->id() == 'webform_submissions') {
+    foreach ($view->field as $field_id => $fieldone) {
+      if ($field_id == 'webform_submission_bulk_form') {
+        // um($fieldone);
+        // $fieldone->setActionLabel('webform_submission_break_lock_action', 'Break lock for service provider');
+        // $fieldone->setActionLabel('webform_submission_delete_action', 'Delete service provider');
+      }
+    }
+  }
   if ($view->id() == 'webform_submissions' || $view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing') {
     $user = User::load(\Drupal::currentUser()->id());
     $user_roles = $user->getRoles();
