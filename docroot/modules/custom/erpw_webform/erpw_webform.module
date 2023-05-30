@@ -325,15 +325,6 @@ function erpw_webform_menu_local_tasks_alter(&$data, $route_name) {
  */
 function erpw_webform_views_pre_render(&$view) {
   // Alter webform submissions view.
-  if ($view->id() == 'webform_submissions') {
-    foreach ($view->field as $field_id => $fieldone) {
-      if ($field_id == 'webform_submission_bulk_form') {
-        // um($fieldone);
-        // $fieldone->setActionLabel('webform_submission_break_lock_action', 'Break lock for service provider');
-        // $fieldone->setActionLabel('webform_submission_delete_action', 'Delete service provider');
-      }
-    }
-  }
   if ($view->id() == 'webform_submissions' || $view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing') {
     $user = User::load(\Drupal::currentUser()->id());
     $user_roles = $user->getRoles();
@@ -452,7 +443,7 @@ function erpw_webform_theme_suggestions_views_view_fields_alter(array &$suggesti
  */
 function erpw_webform_preprocess_views_view_fields(&$variables) {
   // Get the fields for the current View.
-  if ($variables['view']->storage->id() == 'manage_webform_services' || $variables['view']->storage->id() == 'service_based_service_providers_listing') {
+  if ($variables['view']->storage->id() == 'manage_webform_services' || $variables['view']->storage->id() == 'service_based_service_providers_listing' || $variables['view']->storage->id() == 'webform_submissions') {
     $sid = $variables['row']->sid;
     $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
     $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];

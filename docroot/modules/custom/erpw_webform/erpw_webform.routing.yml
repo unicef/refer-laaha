@@ -2,7 +2,7 @@ erpw_webform.service_webforms:
   path: '/add-service-provider'
   defaults:
     _controller: '\Drupal\erpw_webform\Controller\ServiceWebforms::listForms'
-    _title: 'Service Webforms'
+    _title: 'Add a service'
   options:
     _description: 'Select the type of service for which you need to provide a submission.'
   requirements:

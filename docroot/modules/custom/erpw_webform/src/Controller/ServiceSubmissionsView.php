@@ -156,19 +156,19 @@ class ServiceSubmissionsView extends ControllerBase {
                 $country = $this->entityTypeManager()->getStorage('location')->load($content['location_options'])->getName();
                 $location = $country . '.';
               }
-              if ($content['level_1'] != '') {
+              if (!empty($location['level_1'])) {
                 $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_1'])->getName();
                 $location = $level_1 . ', ' . $location;
               }
-              if ($content['level_2'] != '') {
+              if (!empty($location['level_2'])) {
                 $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_2'])->getName();
                 $location = $level_2 . ', ' . $location;
               }
-              if ($content['level_3'] != '') {
+              if (!empty($location['level_3'])) {
                 $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_3'])->getName();
                 $location = $level_3 . ', ' . $location;
               }
-              if ($content['level_4'] != '') {
+              if (!empty($location['level_4'])) {
                 $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_4'])->getName();
                 $location = $level_4 . ', ' . $location;
               }
