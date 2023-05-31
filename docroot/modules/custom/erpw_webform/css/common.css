@@ -84,11 +84,18 @@
 }
 
 /* Webform submissions list page. */
+.services-webform-submissions-list .view-filters {
+  border-top: 0px !important;
+  margin: 0px !important;
+  padding: 0px !important;
+}
 .services-webform-submissions-list .view-filters .form--inline .js-form-item {
-  width: 40%;
+  width: 40% !important;
+  margin-right: 20px !important;
 }
 .services-webform-submissions-list .view-filters .form--inline .form-actions {
   width: 100%;
+  margin-bottom: 40px;
   display: flex;
   flex-direction: row;
 }
@@ -99,61 +106,6 @@
   input {
   width: 20%;
   margin-right: 12px;
-}
-.services-webform-submissions-list
-  .views-form
-  #edit-webform-submission-bulk-form--2
-  .js-form-item {
-  width: 40%;
-}
-.services-webform-submissions-list
-  .views-form
-  #edit-webform-submission-bulk-form--2
-  .form-actions {
-  width: 20%;
-  margin-right: 12px;
-}
-.services-webform-submissions-list .views-form #edit-actions--2 {
-  display: none;
-}
-.services-webform-submissions-list .views-table {
-  width: 100%;
-  border: 1px solid black;
-}
-.services-webform-submissions-list table thead th {
-  padding: 10px;
-}
-
-.services-webform-submissions-list table th {
-  border: 0.5px solid black;
-  text-align: left;
-}
-.services-webform-submissions-list table td {
-  border: 0.5px solid black;
-  padding: 10px;
-  text-align: left;
-}
-.services-webform-submissions-list
-  table
-  td.views-field-webform-submission-bulk-form {
-  text-align: center;
-}
-.services-webform-submissions-list
-  table
-  th.views-field-webform-submission-bulk-form {
-  text-align: center;
-}
-.services-webform-submissions-list table th.views-field-operations {
-  text-align: center;
-}
-.services-webform-submissions-list
-  table
-  td.views-field-operations
-  .dropbutton-wrapper {
-  padding: 0;
-  margin: 0;
-  display: flex;
-  justify-content: center;
 }
 
 .service-providers-submission-row {
@@ -341,6 +293,7 @@
   width: 100%;
   text-align: center;
   cursor: pointer;
+  text-shadow: none !important;
 }
 .webform-details-toggle-state-wrapper {
   visibility: hidden;
@@ -379,4 +332,31 @@
 .webform-submission-form .node-service-provider-form {
   border-radius: 15px;
   border: 1px solid #a85766;
+}
+#block-changes-submissions {
+  box-shadow: 0px 1px 12px rgba(103, 97, 97, 0.15);
+  border-radius: 15px;
+  padding: 15px 18px;
+  margin-bottom: 22px;
+  color: rgb(68, 68, 68);
+  display: block;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+}
+#block-changes-submissions a {
+  color: #a85766;
+  font-size: 11px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-transform: uppercase;
+  background: #fcf1f0;
+  display: block;
+  width: auto;
+  max-width: 100%;
+  padding: 30px;
+  text-align: center;
+  border-radius: 11px;
+  text-decoration: underline;
+  margin-top: 10px;
 }

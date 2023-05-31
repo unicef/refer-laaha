@@ -63,7 +63,7 @@ class ServiceWebforms extends ControllerBase {
     // Build an array of links of all the webforms of the current domain.
     $currentDomain = $this->domainNegotiator->getActiveDomain()->id();
     $webforms = $this->entityTypeManager->getStorage('webform')->loadMultiple();
-    $markup = '<h4 class="details-heading">' . t('Select the service type for which you want to enter the service provider details.') . '</h4>';
+    $markup = '<h4 class="details-heading">' . t('Select the service type.') . '</h4>';
     // Loop through $webform.
     foreach ($webforms as $webform) {
       $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');

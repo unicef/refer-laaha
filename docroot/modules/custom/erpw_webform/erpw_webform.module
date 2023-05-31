@@ -275,6 +275,15 @@ function erpw_webform_views_data_alter(array &$data) {
       'real field' => 'webform_submission_workflow',
     ],
   ];
+  $data['webform_submission']['webform_submission_workflow_filter'] = [
+    'title' => t('Webform Submission Workflow Filter'),
+    'filter' => [
+      'title' => t('Webform Submission Workflow Filter'),
+      'help' => t('Provides a custom filter for workflow status.'),
+      'field' => 'webform_submission_workflow',
+      'id' => 'webform_submission_workflow_filter',
+    ],
+  ];
   return $data;
 }
 
@@ -322,11 +331,13 @@ function erpw_webform_views_pre_render(&$view) {
     $domainAccess = $user->get('field_domain_access')->getValue();
 
     // Unset rows that are not approve in workflow state.
-    foreach ($view->result as $key => $row) {
-      $sid = $row->sid;
-      $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-      if ($webformSubmission->getData()['erpw_workflow']['workflow_state'] != 'approve') {
-        unset($view->result[$key]);
+    if ($view->id() != 'webform_submissions') {
+      foreach ($view->result as $key => $row) {
+        $sid = $row->sid;
+        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
+        if ($webformSubmission->getData()['erpw_workflow']['workflow_state'] != 'approve') {
+          unset($view->result[$key]);
+        }
       }
     }
 
@@ -432,7 +443,7 @@ function erpw_webform_theme_suggestions_views_view_fields_alter(array &$suggesti
  */
 function erpw_webform_preprocess_views_view_fields(&$variables) {
   // Get the fields for the current View.
-  if ($variables['view']->storage->id() == 'manage_webform_services' || $variables['view']->storage->id() == 'service_based_service_providers_listing') {
+  if ($variables['view']->storage->id() == 'manage_webform_services' || $variables['view']->storage->id() == 'service_based_service_providers_listing' || $variables['view']->storage->id() == 'webform_submissions') {
     $sid = $variables['row']->sid;
     $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
     $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];

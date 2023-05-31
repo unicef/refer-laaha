@@ -31,17 +31,16 @@ display:
     display_options:
       title: 'Webform Submissions'
       fields:
-        webform_submission_bulk_form:
-          id: webform_submission_bulk_form
+        webform_submission_focal_point_field:
+          id: webform_submission_focal_point_field
           table: webform_submission
-          field: webform_submission_bulk_form
+          field: webform_submission_focal_point_field
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: null
-          entity_field: null
-          plugin_id: webform_submission_bulk_form
-          label: ''
+          entity_type: webform_submission
+          plugin_id: webform_submission_focal_point_field
+          label: 'Focal point'
           exclude: false
           alter:
             alter_text: false
@@ -75,59 +74,6 @@ display:
           element_label_type: ''
           element_label_class: ''
           element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          action_title: Action
-          include_exclude: exclude
-          selected_actions: {  }
-        webform_submission_focal_point_field:
-          id: webform_submission_focal_point_field
-          table: webform_submission
-          field: webform_submission_focal_point_field
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: webform_submission
-          plugin_id: webform_submission_focal_point_field
-          label: 'Name of focal point for referrals'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -178,7 +124,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: false
+          element_label_colon: true
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -189,7 +135,7 @@ display:
           click_sort_column: target_id
           type: entity_reference_label
           settings:
-            link: true
+            link: false
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -254,7 +200,7 @@ display:
           click_sort_column: target_id
           type: entity_reference_label
           settings:
-            link: true
+            link: false
           group_column: target_id
           group_columns: {  }
           group_rows: true
@@ -265,16 +211,16 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        operations:
-          id: operations
+        webform_submission_organisation_field:
+          id: webform_submission_organisation_field
           table: webform_submission
-          field: operations
+          field: webform_submission_organisation_field
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: webform_submission
-          plugin_id: entity_operations
-          label: 'Operations links'
+          plugin_id: webform_submission_organisation_field
+          label: Organisation
           exclude: false
           alter:
             alter_text: false
@@ -315,28 +261,60 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          destination: false
+        webform_submission_workflow:
+          id: webform_submission_workflow
+          table: webform_submission
+          field: webform_submission_workflow
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          plugin_id: webform_submission_workflow
+          label: Status
+          exclude: false
+          alter:
+            alter_text: true
+            text: '<div class=''workflow-label-class''>{{ webform_submission_workflow }}</div>'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
       pager:
-        type: full
+        type: none
         options:
           offset: 0
-          items_per_page: 15
-          total_pages: null
-          id: 0
-          tags:
-            next: 'Next ›'
-            previous: '‹ Previous'
-            first: '« First'
-            last: 'Last »'
-          expose:
-            items_per_page: false
-            items_per_page_label: 'Items per page'
-            items_per_page_options: '5, 10, 25, 50'
-            items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
-            offset: false
-            offset_label: Offset
-          quantity: 9
       exposed_form:
         type: bef
         options:
@@ -412,7 +390,7 @@ display:
           exposed: true
           expose:
             operator_id: webform_id_op
-            label: 'Filter Service Type'
+            label: 'Service Type'
             description: ''
             use_operator: false
             operator: webform_id_op
@@ -444,60 +422,61 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        webform_submission_workflow_filter:
+          id: webform_submission_workflow_filter
+          table: webform_submission
+          field: webform_submission_workflow_filter
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          plugin_id: webform_submission_workflow_filter
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: Status
+            description: ''
+            use_operator: false
+            operator: webform_submission_workflow_filter_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: webform_submission_workflow_filter
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              service_provider_staff: '0'
+              service_provider_focal_point: '0'
+              interagency_gbv_coordinator: '0'
+              country_admin: '0'
+              super_admin: '0'
+              administrator: '0'
+            reduce: 0
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: 0
       style:
-        type: table
+        type: default
         options:
           grouping: {  }
           row_class: ''
           default_row_class: true
           uses_fields: true
-          columns:
-            webform_submission_bulk_form: webform_submission_bulk_form
-            sid: sid
-            uid: uid
-            entity_type: entity_type
-            webform_id: webform_id
-          default: '-1'
-          info:
-            webform_submission_bulk_form:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            sid:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            uid:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            entity_type:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            webform_id:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-          override: true
-          sticky: false
-          summary: ''
-          empty_table: false
-          caption: ''
-          description: ''
       row:
         type: fields
         options:
@@ -514,8 +493,13 @@ display:
           replica: false
           query_tags: {  }
       relationships: {  }
-      css_class: services-webform-submissions-list
-      use_ajax: true
+      css_class: 'services-webform-submissions-list erpw-webform-manage-services'
+      use_ajax: false
+      use_more: false
+      use_more_always: false
+      use_more_text: Next
+      link_display: '0'
+      link_url: ''
       header: {  }
       footer: {  }
       display_extenders: {  }
@@ -525,7 +509,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.query_args
         - user
         - user.roles
       tags: {  }
@@ -538,14 +521,13 @@ display:
       display_extenders:
         library_in_views_display_extender:
           attach_library:
-            attach_library: 'erpw_custom/erpw_js,erpw_webform/erpw_webform_js'
+            attach_library: 'erpw_custom/erpw_js,erpw_webform/erpw_webform_js,erpw_webform/erpw_webform_workflow,unicef_iconpicker/unicef-iconpicker'
     cache_metadata:
       max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.query_args
         - user
         - user.roles
       tags: {  }
