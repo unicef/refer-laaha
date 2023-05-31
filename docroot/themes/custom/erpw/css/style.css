@@ -538,6 +538,7 @@ html[dir=rtl] .select2-container--default .select2-selection--single .select2-se
   width: 100%;
   text-align: center;
   cursor: pointer;
+  text-shadow: none;
 }
 
 form .form-required::after {
@@ -962,6 +963,10 @@ header {
   content: "";
   -webkit-mask: url("../images/service-provider.svg") center center no-repeat;
   mask: url("../images/service-provider.svg") center center no-repeat;
+}
+
+.dashboard li:last-child img {
+  width: 20px;
 }
 
 [id^=block-pendingapproval] {
@@ -3087,7 +3092,3 @@ body.path-user {
   top: 17px;
 }
 /*# sourceMappingURL=style.css.map */
-.no-service a{
-  color: gray!important;
-  pointer-events: none;
-}

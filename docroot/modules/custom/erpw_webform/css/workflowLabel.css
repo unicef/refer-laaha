@@ -29,3 +29,16 @@
   color: #6c530f !important;
   stroke: #6c530f;
 }
+
+.hide-webform-action-links .block-local-tasks-block nav ul li.tabs__tab {
+  display: none !important;
+}
+.hide-webform-action-links .block-local-tasks-block nav ul li.is-active {
+  display: block !important;
+}
+.hide-webform-action-links #drupal-modal .webform-filter-form {
+  display: none;
+}
+.hide-webform-action-links #drupal-modal table tbody td a:nth-child(2) {
+  display: none;
+}
