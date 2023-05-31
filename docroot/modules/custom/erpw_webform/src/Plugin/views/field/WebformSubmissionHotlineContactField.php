@@ -22,8 +22,8 @@ class WebformSubmissionHotlineContactField extends FieldPluginBase {
    * {@inheritdoc}
    */
   public function render(ResultRow $values) {
-    if (isset($values->_entity->getData()['field_phone_number'])) {
-      $output = $values->_entity->getData()['field_phone_number'];
+    if (!empty($values->_entity->getData()['field_phone_number_of_focal_poin'])) {
+      $output = $values->_entity->getData()['field_phone_number_of_focal_poin'];
     }
     else {
       $output = t('Not available.');
