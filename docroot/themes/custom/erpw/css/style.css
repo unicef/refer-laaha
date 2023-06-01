@@ -541,6 +541,11 @@ html[dir=rtl] .select2-container--default .select2-selection--single .select2-se
   text-shadow: none;
 }
 
+span.service-title.no-service a {
+  color: gray !important;
+  pointer-events: none;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
