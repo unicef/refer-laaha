@@ -3086,8 +3086,10 @@ body.path-user {
 .path-user .ui-dialog-titlebar-close {
   top: 17px;
 }
-/*# sourceMappingURL=style.css.map */
-.no-service a{
+
+/* Grey out the Service-types which do not have services. */
+span.service-title.no-service a {
   color: gray!important;
   pointer-events: none;
 }
+/*# sourceMappingURL=style.css.map */

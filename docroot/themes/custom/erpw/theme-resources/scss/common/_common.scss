@@ -445,3 +445,9 @@ html[dir="rtl"] {
   text-align: center;
   cursor: pointer;
 }
+
+/* Grey out the Service-types which do not have services. */
+span.service-title.no-service a {
+  color: gray!important;
+  pointer-events: none;
+}
