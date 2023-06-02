@@ -18,13 +18,56 @@
         return match ? match[1] : null;
       }
 
-      jQuery( ".help-text" ).hover(
-        function() {
-          jQuery( this ).append( jQuery( '<span class="password-help-text">Password should contain one number,  one lowercase letter, one uppercase letter and one special symbol (min Length 8 Character)</span>' ) );
-        }, function() {
-          jQuery( this ).find( "span" ).last().remove();
-        }
-      );
+      // Password Suggestions and check
+        var $passwordField = $('#edit-password-pass1');
+        var $suggestionsElement = $('#password-suggestions-check');
+        $passwordField.on('keyup', function() {
+          var password = $passwordField.val();
+          var suggestions = [];
+          if (!password.match(/^(?=.*[a-z])/)) {
+            suggestions.push('Please add at least 1 lowercase character');
+          }
+          if (!password.match(/^(?=.*[A-Z])/)) {
+            suggestions.push('Please add at least 1 uppercase character');
+          }
+          if (!password.match(/^(?=.*\d)/)) {
+            suggestions.push('Please add at least 1 numeric character');
+          }
+          if (!password.match(/^(?=.*[@$!%*#?&])/)) {
+            suggestions.push('Please add at least 1 special character');
+          }
+          if (password.length < 8) {
+            suggestions.push('Minimum of 8 characters are required');
+          }
+        
+          var $suggestionsContainer = $suggestionsElement;
+          $suggestionsContainer.empty();
+          if (suggestions.length > 0) {
+            $suggestionsContainer.addClass('show');
+            var $ul = $('<ul>');
+            suggestions.forEach(function(suggestion) {
+              var $li = $('<li>').text(suggestion);
+              $ul.append($li);
+            });
+            var $span = $('<span>');
+            $span.text('Recommendations to make your password stronger:');
+            $suggestionsContainer.append($span);
+            $suggestionsContainer.append($ul);
+            $suggestionsContainer.css('display', 'block');
+          } else {
+            $suggestionsContainer.css('display', 'none');
+          }
+        
+          // Remove individual suggestions as criteria are met
+          var $suggestionItems = $suggestionsContainer.find('li');
+          $suggestionItems.each(function() {
+            var suggestion = $(this).text();
+            if (password.match(suggestion.replace(/^Please add /, ''))) {
+              $(this).remove();
+            }
+          });
+        });            
+
       $(document).ready(function() {
         $(".page-node-type-service-type .ui-icon-closethick").on("click", function(event){
           event.preventDefault();
