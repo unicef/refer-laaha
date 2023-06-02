@@ -142,14 +142,50 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
     $form_id = $event->getFormId();
     $form_state = $event->getFormState();
 
-    if (
-      in_array(
-        $form_id,
+    // For Referral Path and Service Provider Edit form, bring saved location.
+    if (in_array($form_id,
+        [
+          'node_referral_path_way_edit_form',
+          'node_service_provider_edit_form',
+      ])) {
+      $parent_list = [];
+      $node = $this->routeMatch->getParameter('node');
+      if (empty($form_state->getTriggeringElement()['#level']) && $node instanceof NodeInterface) {
+        $parent_list = $this->getTermParents($node);
+      }
+      $current_user = self::$entityTypeManager->getStorage('user')->load($this->currentUser->id());
+      $ptids = [];
+      switch ($form_id) {
+        case 'node_referral_path_way_edit_form':
+          $permission = 'edit referral pathway of their own location';
+          break;
+
+        case 'node_service_provider_edit_form':
+          $permission = 'edit service of their own location';
+          break;
+
+        default:
+          $permission = '';
+          break;
+      }
+      if ($this->currentUser->id() != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
+        $location_id = '';
+        if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
+          $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
+        }
+        $ptids = self::$locationService->getAllAncestors($location_id);
+        $parent_list = empty($parent_list) ? array_values($ptids) : $parent_list;
+        }
+      $form = $this->erpwPathwayService->getLocationForm($form, $form_state, $parent_list, $ptids);
+      // Form submit handler.
+      $form['actions']['submit']['#submit'][] = [$this, 'eprwSubmitHandler'];
+    }
+
+    // For Referral Path and Service Provider Add form, bring user location.
+    if (in_array($form_id,
         [
           'node_referral_path_way_form',
-          'node_referral_path_way_edit_form',
           'node_service_provider_form',
-          'node_service_provider_edit_form',
         ]
       )
     ) {
@@ -165,16 +201,8 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
           $permission = 'add referral pathway of their own location';
           break;
 
-        case 'node_referral_path_way_edit_form':
-          $permission = 'edit referral pathway of their own location';
-          break;
-
         case 'node_service_provider_form':
           $permission = 'add service of their own location';
-          break;
-
-        case 'node_service_provider_edit_form':
-          $permission = 'edit service of their own location';
           break;
 
         default:
@@ -206,6 +234,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       // Form submit handler.
       $form['actions']['submit']['#submit'][] = [$this, 'eprwSubmitHandler'];
     }
+
     // Manage service validation.
     if (in_array($form_id,
     [
