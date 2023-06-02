@@ -132,6 +132,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
       $form['location']['level_0']['#empty_option'] = t('Select country');
     }
+    $form['#attached']['library'][] = "erpw_custom/vss2_css";
   }
   if ($form_id == 'user_form') {
     if (isset($form['location']['level_0']['#options'])) {
@@ -529,6 +530,15 @@ function _erpw_custom_form_user_email_validate(array &$form, FormStateInterface 
     }
   }
 }
+
+
+// function erpw_custom_preprocess_html(&$variables) {
+//   $currentRoute = \Drupal::routeMatch()->getRouteName();
+//   if ($currentRoute == 'erpw_custom.sign_up_form') {
+//           $variables['#attached']['library'][] = 'erpw_custom/erpw_css';
+        
+//   }
+// }
 
 /**
  * Implements hook_preprocess_HOOK().

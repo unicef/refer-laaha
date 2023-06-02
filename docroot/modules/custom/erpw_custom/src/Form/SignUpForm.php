@@ -559,8 +559,11 @@ class SignUpForm extends FormBase {
         '#type' => 'password_confirm',
         '#required' => TRUE,
         '#placeholder' => $this->t('**********'),
-        '#description' => '<span class="help-text">' . $this->t('i') . '</span>',
       ];
+      $form['password_suggestions_check'] = [
+        '#type' => 'markup',
+        '#markup' => '<div id="password-suggestions-check"></div>',
+      ]; 
       $form['back'] = [
         '#type' => 'submit',
         '#value' => $this->t('Back'),
