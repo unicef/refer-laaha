@@ -43,9 +43,9 @@
 				{{ servicetype }}</a>
 		</div>
 	</div>
-	{% for field in fields -%}
+	{% for key, field in fields -%}
 		{% for label, value in access_view_roles %}
-			{% if label == field.label and value == 'TRUE' %}
+			{% if label == key and value == 'TRUE' %}
 				{{ field.separator }}
 				{%- if field.wrapper_element -%}
 					<{{field.wrapper_element}}{{field.wrapper_attributes}}>

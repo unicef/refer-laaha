@@ -472,27 +472,27 @@ function erpw_webform_preprocess_views_view_fields(&$variables) {
     $elements = $webform->getElementsDecoded();
     $allowed_view_fields = [];
     $label = '';
-    foreach ($elements as $element) {
-      if ($element['#title'] == 'Step 1: Add Service Details' || $element['#title'] == 'Step 2: Contact Fields') {
-        foreach ($element as $value) {
+    foreach ($elements as $key => $element) {
+      if ($key == 'step_1_add_service_details' || $key == 'step_2_contact_fields') {
+        foreach ($element as $vkey => $value) {
           if (isset($value['#title'])) {
-            if ($value['#title'] == 'Organisation') {
-              $label = 'Organisation';
+            if ($vkey == 'organisation') {
+              $label = 'webform_submission_organisation_field';
             }
-            elseif ($value['#title'] == 'Name of focal point for referrals (first/last name)') {
-              $label = 'Focal Point';
+            elseif ($vkey == 'field_name_of_the_focal_point') {
+              $label = 'webform_submission_focal_point_field';
             }
-            elseif ($value['#title'] == 'Phone number of focal point') {
-              $label = 'Contact';
+            elseif ($vkey == 'field_phone_number_of_focal_poin') {
+              $label = 'webform_submission_hotline_contact_field';
             }
-            elseif ($value['#title'] == 'Location') {
-              $label = 'Location';
+            elseif ($vkey == 'location') {
+              $label = 'webform_submission_location_field';
             }
-            elseif ($value['#title'] == 'Service Mode') {
-              $label = 'Service Mode';
+            elseif ($vkey == 'field_mode') {
+              $label = 'webform_submission_mode_field';
             }
             else {
-              $label = $value['#title'];
+              $label = $vkey;
             }
             if (isset($value['#access_view_roles'])) {
               $counter = 0;
@@ -514,23 +514,23 @@ function erpw_webform_preprocess_views_view_fields(&$variables) {
           }
         }
       }
-      if ($element['#title'] == 'Organisation') {
-        $label = 'Organisation';
+      if ($key == 'organisation') {
+        $label = 'webform_submission_organisation_field';
       }
-      elseif ($element['#title'] == 'Name of focal point for referrals (first/last name)') {
-        $label = 'Focal Point';
+      elseif ($key == 'field_name_of_the_focal_point') {
+        $label = 'webform_submission_focal_point_field';
       }
-      elseif ($element['#title'] == 'Phone number of focal point') {
-        $label = 'Contact';
+      elseif ($key == 'field_phone_number_of_focal_poin') {
+        $label = 'webform_submission_hotline_contact_field';
       }
-      elseif ($element['#title'] == 'Location') {
-        $label = 'Location';
+      elseif ($key == 'location') {
+        $label = 'webform_submission_location_field';
       }
-      elseif ($element['#title'] == 'Service Mode') {
-        $label = 'Service Mode';
+      elseif ($key == 'field_mode') {
+        $label = 'webform_submission_mode_field';
       }
       else {
-        $label = $element['#title'];
+        $label = $key;
       }
       if (isset($element['#access_view_roles'])) {
         $counter = 0;
