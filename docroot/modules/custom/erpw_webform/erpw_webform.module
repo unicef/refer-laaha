@@ -74,6 +74,20 @@ function erpw_webform_preprocess_html(&$variables) {
   if ($currentRoute == 'erpw_webform.service_content') {
     $variables['attributes']['class'][] = 'view-page-webform-submission';
   }
+  if ($currentRoute == 'entity.webform.templates' || $currentRoute == 'entity.webform.collection') {
+    $current_user = \Drupal::currentUser();
+    if ($current_user->isAuthenticated()) {
+      $uid = $current_user->id();
+      $user = User::load($uid);
+      if ($user) {
+        $roles = $user->getRoles();
+        if (!in_array('administrator', array_values($roles))) {
+          $variables['attributes']['class'][] = 'hide-webform-action-links';
+          $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_workflow';
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -498,4 +512,13 @@ function erpw_webform_webform_submission_presave($webform_submission) {
   }
   $values['location']['location_tid'] = $last_non_empty_value;
   $webform_submission->setData($values);
+}
+
+/**
+ * Implements hook_local_tasks_alter().
+ */
+function erpw_webform_menu_local_actions_alter(&$local_tasks) {
+  // Check if the contributed module's link needs to be altered.
+  $local_tasks['entity.webform.add_form']['title'] = t('Add new service form');
+  $local_tasks['entity.webform.add_form']['route_name'] = 'entity.webform.templates';
 }
