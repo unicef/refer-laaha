@@ -184,11 +184,17 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
     $tpa = $entity->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
     foreach ($user_roles as $key_r => $role) {
       if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator') {
-        foreach ($domainAccess as $key => $domain) {
-          if (is_array($tpa)) {
-            if (array_key_exists($domain['target_id'], $tpa)) {
-              $x++;
-              return AccessResult::allowed();
+        if (is_null($tpa)) {
+          $x++;
+          return AccessResult::allowed();
+        }
+        else {
+          foreach ($domainAccess as $key => $domain) {
+            if (is_array($tpa)) {
+              if (array_key_exists($domain['target_id'], $tpa)) {
+                $x++;
+                return AccessResult::allowed();
+              }
             }
           }
         }
