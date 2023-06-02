@@ -444,4 +444,9 @@ html[dir="rtl"] {
   width: 100%;
   text-align: center;
   cursor: pointer;
+  text-shadow: none;
+}
+span.service-title.no-service a {
+  color: gray !important;
+  pointer-events: none;
 }
