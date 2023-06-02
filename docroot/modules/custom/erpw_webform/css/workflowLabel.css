@@ -42,3 +42,58 @@
 .hide-webform-action-links #drupal-modal table tbody td a:nth-child(2) {
   display: none;
 }
+.hide-webform-action-links .ui-dialog {
+  width: 700px !important;
+}
+.hide-webform-action-links .ui-dialog form .form-item {
+  text-align: left;
+}
+.hide-webform-action-links a.webform-ajax-link {
+  position: relative;
+  color: #fff;
+  font-size: 12px;
+  padding-left: 60px;
+  position: relative;
+  z-index: 1;
+  background-color: #a85766;
+  padding-right: 15px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+}
+.hide-webform-action-links a.webform-ajax-link::before {
+  background: url("/themes/custom/erpw/images/plus.svg") center center no-repeat
+    #a85766;
+  content: "*";
+  border-radius: 50%;
+  height: 57px;
+  width: 57px;
+  position: absolute;
+  left: 0;
+  top: -15px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #fff;
+}
+.hide-webform-action-links #block-erpw-help {
+  display: none;
+}
+
+.hide-webform-action-links .ui-dialog a.webform-ajax-link::before {
+  display: none;
+}
+.hide-webform-action-links .ui-dialog a.webform-ajax-link {
+  padding: 0px;
+  border-radius: 5px;
+  width: 100%;
+  display: block;
+  margin: 0;
+  padding: 3px;
+}
+.hide-webform-action-links
+  .ui-dialog
+  .ui-dialog-buttonpane
+  .ui-dialog-buttonset.form-actions
+  .js-form-submit {
+  margin: auto !important;
+  margin-bottom: 30px !important;
+}
