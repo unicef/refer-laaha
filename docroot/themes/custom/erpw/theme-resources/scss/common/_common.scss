@@ -446,3 +446,7 @@ html[dir="rtl"] {
   cursor: pointer;
   text-shadow: none;
 }
+span.service-title.no-service a {
+  color: gray !important;
+  pointer-events: none;
+}

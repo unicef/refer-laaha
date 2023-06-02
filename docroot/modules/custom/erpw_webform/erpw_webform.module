@@ -185,9 +185,11 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
     foreach ($user_roles as $key_r => $role) {
       if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator') {
         foreach ($domainAccess as $key => $domain) {
-          if (array_key_exists($domain['target_id'], $tpa)) {
-            $x++;
-            return AccessResult::allowed();
+          if (is_array($tpa)) {
+            if (array_key_exists($domain['target_id'], $tpa)) {
+              $x++;
+              return AccessResult::allowed();
+            }
           }
         }
       }
@@ -208,9 +210,11 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
     foreach ($user_roles as $key_r => $role) {
       if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator' || $role == 'service_provider_staff' || $role == 'service_provider_focal_point') {
         foreach ($domainAccess as $key => $domain) {
-          if (array_key_exists($domain['target_id'], $tpa)) {
-            $s++;
-            return AccessResult::allowed();
+          if (is_array($tpa)) {
+            if (array_key_exists($domain['target_id'], $tpa)) {
+              $s++;
+              return AccessResult::allowed();
+            }
           }
         }
       }
@@ -463,13 +467,97 @@ function erpw_webform_preprocess_views_view_fields(&$variables) {
     $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
     $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
     $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+    // Access view rules.
+    $userRoles = \Drupal::currentUser()->getRoles();
+    $elements = $webform->getElementsDecoded();
+    $allowed_view_fields = [];
+    $label = '';
+    foreach ($elements as $key => $element) {
+      if ($key == 'step_1_add_service_details' || $key == 'step_2_contact_fields') {
+        foreach ($element as $vkey => $value) {
+          if (isset($value['#title'])) {
+            if ($vkey == 'organisation') {
+              $label = 'webform_submission_organisation_field';
+            }
+            elseif ($vkey == 'field_name_of_the_focal_point') {
+              $label = 'webform_submission_focal_point_field';
+            }
+            elseif ($vkey == 'field_phone_number_of_focal_poin') {
+              $label = 'webform_submission_hotline_contact_field';
+            }
+            elseif ($vkey == 'location') {
+              $label = 'webform_submission_location_field';
+            }
+            elseif ($vkey == 'field_mode') {
+              $label = 'webform_submission_mode_field';
+            }
+            else {
+              $label = $vkey;
+            }
+            if (isset($value['#access_view_roles'])) {
+              $counter = 0;
+              foreach ($value['#access_view_roles'] as $allowedRole) {
+                if (in_array($allowedRole, array_values($userRoles))) {
+                  $counter++;
+                }
+                if ($counter != 0) {
+                  $allowed_view_fields[$label] = 'TRUE';
+                }
+                else {
+                  $allowed_view_fields[$label] = 'FALSE';
+                }
+              }
+            }
+            else {
+              $allowed_view_fields[$label] = 'TRUE';
+            }
+          }
+        }
+      }
+      if ($key == 'organisation') {
+        $label = 'webform_submission_organisation_field';
+      }
+      elseif ($key == 'field_name_of_the_focal_point') {
+        $label = 'webform_submission_focal_point_field';
+      }
+      elseif ($key == 'field_phone_number_of_focal_poin') {
+        $label = 'webform_submission_hotline_contact_field';
+      }
+      elseif ($key == 'location') {
+        $label = 'webform_submission_location_field';
+      }
+      elseif ($key == 'field_mode') {
+        $label = 'webform_submission_mode_field';
+      }
+      else {
+        $label = $key;
+      }
+      if (isset($element['#access_view_roles'])) {
+        $counter = 0;
+        foreach ($element['#access_view_roles'] as $allowedRole) {
+          if (in_array($allowedRole, array_values($userRoles))) {
+            $counter++;
+          }
+          if ($counter != 0) {
+            $allowed_view_fields[$label] = 'TRUE';
+          }
+          else {
+            $allowed_view_fields[$label] = 'FALSE';
+          }
+        }
+      }
+      else {
+        $allowed_view_fields[$label] = 'TRUE';
+      }
+    }
+    $variables['access_view_roles'] = $allowed_view_fields;
     foreach ($tpa as $settings) {
       if ($settings[0] != NULL) {
         $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($settings[0]));
         $variables['servicetype'] = $servicetype->get('title')->getValue()[0]['value'];
         $variables['servicetype_color'] = $servicetype->get('field_service_type_color')->getValue()[0]['color'];
         $variables['servicetype_icon'] = $servicetype->get('field_service_type_icon')->getValue()[0]['value'];
-        $variables['organisation'] = \Drupal::entityTypeManager()->getStorage('node')->load($variables['row']->_entity->getData()['organisation'])->get('title')->getValue()[0]['value'];
+        $variables['organisation'] = $variables['row']->_entity->getData()['organisation'] == NULL ? 'not available' : \Drupal::entityTypeManager()->getStorage('node')->load($variables['row']->_entity->getData()['organisation'])->get('title')->getValue()[0]['value'];
         $variables['sid'] = $variables['row']->sid;
         $variables['edit_url'] = Url::fromRoute('entity.webform_submission.edit_form', [
           'webform' => $webformID,
@@ -504,10 +592,12 @@ function erpw_webform_webform_submission_presave($webform_submission) {
   $values = $webform_submission->getData();
   $composite_value = $values['location'];
   $last_non_empty_value = '';
-  foreach (array_reverse($composite_value) as $value) {
-    if (!empty($value)) {
-      $last_non_empty_value = $value;
-      break;
+  if (is_array($composite_value)) {
+    foreach (array_reverse($composite_value) as $value) {
+      if (!empty($value)) {
+        $last_non_empty_value = $value;
+        break;
+      }
     }
   }
   $values['location']['location_tid'] = $last_non_empty_value;
