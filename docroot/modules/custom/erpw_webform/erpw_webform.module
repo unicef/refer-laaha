@@ -71,7 +71,7 @@ function erpw_webform_entity_type_alter(array &$entity_types) {
  */
 function erpw_webform_preprocess_html(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
-  if ($currentRoute == 'erpw_webform.service_content') {
+  if ($currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_moderate_content') {
     $variables['attributes']['class'][] = 'view-page-webform-submission';
   }
   if ($currentRoute == 'entity.webform.templates' || $currentRoute == 'entity.webform.collection') {
@@ -95,7 +95,7 @@ function erpw_webform_preprocess_html(&$variables) {
  */
 function erpw_webform_preprocess_page(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
-  if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content') {
+  if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_moderate_content') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
   }
   if ($currentRoute == 'entity.webform.add_form' || $currentRoute == 'entity.webform.templates') {
@@ -467,7 +467,7 @@ function erpw_webform_theme_suggestions_views_view_fields_alter(array &$suggesti
  */
 function erpw_webform_preprocess_views_view_fields(&$variables) {
   // Get the fields for the current View.
-  if ($variables['view']->storage->id() == 'manage_webform_services' || $variables['view']->storage->id() == 'service_based_service_providers_listing' || $variables['view']->storage->id() == 'webform_submissions') {
+  if ($variables['view']->storage->id() == 'manage_webform_services' || $variables['view']->storage->id() == 'service_based_service_providers_listing' || $variables['view']->storage->id() == 'webform_submissions' || $variables['view']->storage->id() == 'manage_in_review_webform_services_listing') {
     $sid = $variables['row']->sid;
     $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
     $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
@@ -570,6 +570,7 @@ function erpw_webform_preprocess_views_view_fields(&$variables) {
           'webform_submission' => $variables['row']->sid,
         ])->toString();
         $variables['view_url'] = Url::fromRoute('erpw_webform.service_content', ['webform_submission' => intval($variables['sid'])]);
+        $variables['moderate_url'] = Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => intval($variables['sid'])]);
       }
     }
   }
@@ -608,6 +609,9 @@ function erpw_webform_webform_submission_presave($webform_submission) {
   }
   $values['location']['location_tid'] = $last_non_empty_value;
   $webform_submission->setData($values);
+  // Set a different value for the original data.
+  $originalData = $webform_submission->getOriginalData();
+  $webform_submission->setOriginalData($originalData);
 }
 
 /**
