@@ -25,7 +25,8 @@
         localStorage.setItem(
           'termArray',
           JSON.stringify(drupalSettings.erpw_location.locations_array)
-        );
+          );
+        termsArray = drupalSettings.erpw_location.locations_array;
       });
 
       window.addEventListener(

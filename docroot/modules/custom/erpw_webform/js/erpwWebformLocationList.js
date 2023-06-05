@@ -137,7 +137,45 @@
             display: 'none',
           });
         }
-        termsArray = drupalSettings.erpw_webform.termsArray;
+        var termsArray = [];
+        // Add array to browser local storage.
+        $(document).ready(function () {
+          localStorage.setItem(
+            'termArray',
+            JSON.stringify(drupalSettings.erpw_webform.termsArray)
+          );
+          termsArray = drupalSettings.erpw_webform.termsArray;
+        });
+
+        window.addEventListener(
+          'load',
+          function (e) {
+            if (navigator.onLine) {
+              termsArray = drupalSettings.erpw_webform.termsArray;
+            } else {
+              termsArray = JSON.parse(
+                localStorage.getItem('termArray') || '[]'
+              );
+            }
+          },
+          false
+        );
+        window.addEventListener(
+          'online',
+          function (e) {
+            termsArray = drupalSettings.erpw_webform.termsArray;
+          },
+          false
+        );
+
+        window.addEventListener(
+          'offline',
+          function (e) {
+            termsArray = JSON.parse(localStorage.getItem('termArray') || '[]');
+          },
+          false
+        );
+
         // Level zero country.
         // Adding options to the select lists.
         $('select.location_options').change(function (event) {
