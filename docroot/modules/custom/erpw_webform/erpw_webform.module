@@ -349,17 +349,48 @@ function erpw_webform_menu_local_tasks_alter(&$data, $route_name) {
  */
 function erpw_webform_views_pre_render(&$view) {
   // Alter webform submissions view.
-  if ($view->id() == 'webform_submissions' || $view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing') {
+  if ($view->id() == 'webform_submissions' || $view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing' || $view->id() == 'manage_in_review_webform_services_listing') {
     $user = User::load(\Drupal::currentUser()->id());
     $user_roles = $user->getRoles();
     $domainAccess = $user->get('field_domain_access')->getValue();
 
     // Unset rows that are not approve in workflow state.
-    if ($view->id() != 'webform_submissions') {
+    if ($view->id() != 'webform_submissions' && $view->id() != 'manage_in_review_webform_services_listing') {
       foreach ($view->result as $key => $row) {
         $sid = $row->sid;
         $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
         if ($webformSubmission->getData()['erpw_workflow']['workflow_state'] != 'approve') {
+          unset($view->result[$key]);
+        }
+      }
+    }
+    // Unset rows that are not in review workflow states as per roles.
+    // TODO replace this code with query alter.
+    if ($view->id() == 'manage_in_review_webform_services_listing') {
+      foreach ($view->result as $key => $row) {
+        $sid = $row->sid;
+        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
+        $state = $webformSubmission->getData()['erpw_workflow']['workflow_state'];
+        $current_user = User::load(\Drupal::currentUser()->id());
+
+        // Get the user's roles.
+        $roles = $current_user->getRoles();
+        if (in_array('interagency_gbv_coordinator', $roles)) {
+          if ($state != 'in_review_with_gbvi_coordinator') {
+            unset($view->result[$key]);
+          }
+        }
+        elseif (in_array('country_admin', $roles)) {
+          if ($state != 'in_review') {
+            unset($view->result[$key]);
+          }
+        }
+        elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
+          if ($state != 'in_review_with_gbvi_coordinator' && $state != 'in_review') {
+            unset($view->result[$key]);
+          }
+        }
+        else {
           unset($view->result[$key]);
         }
       }
