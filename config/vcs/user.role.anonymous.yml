@@ -12,6 +12,7 @@ dependencies:
     - filter
     - search
     - system
+    - webform
 _core:
   default_config_hash: pq_mEIu_B4widZN7Ap81iCJSjShFFdcL0jEiCi8VrDk
 id: anonymous
@@ -29,3 +30,5 @@ permissions:
   - 'role-assign users with role service_provider_staff'
   - 'search content'
   - 'use text format restricted_html'
+  - 'view any webform submission'
+  - 'view own webform submission'
