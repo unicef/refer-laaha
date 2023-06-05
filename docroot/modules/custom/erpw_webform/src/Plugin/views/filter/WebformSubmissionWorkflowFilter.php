@@ -44,7 +44,8 @@ class WebformSubmissionWorkflowFilter extends ManyToOne {
     $states = [
       'approve' => 'Approved',
       'draft' => 'Draft',
-      'in_review' => 'In review',
+      'in_review_with_gbvi_coordinator' => 'In Review with GBVi Coordinator',
+      'in_review' => 'In Review with Country Admin',
       'reject' => 'Rejected',
     ];
     // You can add your custom code here to add custom labels for state transitions.
