@@ -12,6 +12,7 @@ dependencies:
     - search
     - shortcut
     - system
+    - webform
 _core:
   default_config_hash: btW6TFHajhy7Eo6YUvdFiPh4TcPggo8GBXYctjV6zag
 id: authenticated
@@ -28,3 +29,5 @@ permissions:
   - 'search content'
   - 'skip comment approval'
   - 'use text format basic_html'
+  - 'view any webform submission'
+  - 'view own webform submission'
