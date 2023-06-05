@@ -15,10 +15,13 @@ type_settings:
       weight: 0
     draft:
       label: Draft
-      weight: -2
+      weight: -3
     in_review:
-      label: 'In - Review'
+      label: 'In - Review with Country Admin'
       weight: -1
+    in_review_with_gbvi_coordinator:
+      label: 'In - Review with GBVi Coordinator'
+      weight: -2
     reject:
       label: Rejected
       weight: 1
@@ -28,29 +31,43 @@ type_settings:
       from:
         - in_review
       to: approve
-      weight: -1
+      weight: 0
     reject:
-      label: Reject
+      label: 'Rejected by Country Admin'
       from:
         - in_review
       to: reject
-      weight: 0
+      weight: 1
+    rejected_by_gbvi_coordinator:
+      label: 'Rejected by GBVi Coordinator'
+      from:
+        - in_review_with_gbvi_coordinator
+      to: reject
+      weight: -2
     restore:
-      label: Restore
+      label: 'Request for edits'
       from:
         - reject
       to: draft
-      weight: 1
-    review:
-      label: 'Submit for Review'
-      from:
-        - draft
-        - reject
-      to: in_review
-      weight: -2
+      weight: 2
     save_as_draft:
       label: 'Save as Draft'
       from:
         - draft
       to: draft
+      weight: -4
+    submit_for_review_to_country_admin:
+      label: 'Submit for Review to Country Admin'
+      from:
+        - draft
+        - in_review_with_gbvi_coordinator
+        - reject
+      to: in_review
+      weight: -1
+    submit_for_review_to_gbvi_coordinator:
+      label: 'Submit for Review to GBVi Coordinator'
+      from:
+        - draft
+        - reject
+      to: in_review_with_gbvi_coordinator
       weight: -3

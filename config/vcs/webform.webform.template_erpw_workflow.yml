@@ -143,22 +143,25 @@ elements: |-
       - authenticated
     '#access_transition_save_as_draft_roles':
       - authenticated
-    '#access_transition_review_roles':
+    '#access_transition_submit_for_review_to_gbvi_coordinator_roles':
       - service_provider_staff
+      - super_admin
+      - administrator
+    '#access_transition_rejected_by_gbvi_coordinator_roles':
+      - interagency_gbv_coordinator
+      - super_admin
+      - administrator
+    '#access_transition_submit_for_review_to_country_admin_roles':
       - service_provider_focal_point
       - interagency_gbv_coordinator
       - country_admin
       - super_admin
       - administrator
     '#access_transition_approve_roles':
-      - service_provider_focal_point
-      - interagency_gbv_coordinator
       - country_admin
       - super_admin
       - administrator
     '#access_transition_reject_roles':
-      - service_provider_focal_point
-      - interagency_gbv_coordinator
       - country_admin
       - super_admin
       - administrator
@@ -169,11 +172,20 @@ elements: |-
     '#log_public_setting': Disabled
     '#log_admin_setting': Disabled
     '#transition_element_type': radios
+    '#show_log_view': false
+    '#transition_save_as_draft_run_on_edit': anyone
     '#state_draft_color': Yellow
+    '#state_in_review_with_gbvi_coordinator_color': Orange
     '#state_in_review_color': Blue
     '#state_approve_color': Green
     '#state_reject_color': Red
-    '#transition_save_as_draft_run_on_edit': anyone
+    '#access_transition_review_roles':
+      - service_provider_staff
+      - service_provider_focal_point
+      - interagency_gbv_coordinator
+      - country_admin
+      - super_admin
+      - administrator
 css: ''
 javascript: ''
 settings:
