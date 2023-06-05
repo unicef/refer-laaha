@@ -67,25 +67,27 @@ class ServiceSubmissionsView extends ControllerBase {
             foreach ($roles as $role) {
               if (in_array($role, $element['#access_view_roles'])) {
                 if ($key == 'location') {
-                  if ($content['location_options'] != '') {
-                    $country = $this->entityTypeManager()->getStorage('location')->load($content['location_options'])->getName();
-                    $location = $country . '.';
-                  }
-                  if ($content['level_1'] != '') {
-                    $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_1'])->getName();
-                    $location = $level_1 . ', ' . $location;
-                  }
-                  if ($content['level_2'] != '') {
-                    $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_2'])->getName();
-                    $location = $level_2 . ', ' . $location;
-                  }
-                  if ($content['level_3'] != '') {
-                    $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_3'])->getName();
-                    $location = $level_3 . ', ' . $location;
-                  }
-                  if ($content['level_4'] != '') {
-                    $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_4'])->getName();
-                    $location = $level_4 . ', ' . $location;
+                  foreach ($content as $lkey => $lvalue) {
+                    if ($lkey == 'location_options' && ($lvalue != '' || $lvalue != NULL)) {
+                      $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
+                      $location = $country . '.';
+                    }
+                    if ($lkey == 'level_1' && $lvalue != '') {
+                      $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                      $location = $level_1 . ', ' . $location;
+                    }
+                    if ($lkey == 'level_2' && $lvalue != '') {
+                      $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                      $location = $level_2 . ', ' . $location;
+                    }
+                    if ($lkey == 'level_3' && $lvalue != '') {
+                      $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                      $location = $level_3 . ', ' . $location;
+                    }
+                    if ($lkey == 'level_4' && $lvalue != '') {
+                      $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                      $location = $level_4 . ', ' . $location;
+                    }
                   }
                   $output[] = ['Location' => $location];
                 }
@@ -142,6 +144,9 @@ class ServiceSubmissionsView extends ControllerBase {
                     $output[] = [$element['#title'] => $orgLabel];
                   }
                 }
+                elseif ($key == 'orignal_data') {
+
+                }
                 else {
                   if ($content != "") {
                     $output[] = [$element['#title'] => $content];
@@ -152,25 +157,27 @@ class ServiceSubmissionsView extends ControllerBase {
           }
           else {
             if ($key == 'location') {
-              if ($content['location_options'] != '') {
-                $country = $this->entityTypeManager()->getStorage('location')->load($content['location_options'])->getName();
-                $location = $country . '.';
-              }
-              if (!empty($location['level_1'])) {
-                $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_1'])->getName();
-                $location = $level_1 . ', ' . $location;
-              }
-              if (!empty($location['level_2'])) {
-                $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_2'])->getName();
-                $location = $level_2 . ', ' . $location;
-              }
-              if (!empty($location['level_3'])) {
-                $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_3'])->getName();
-                $location = $level_3 . ', ' . $location;
-              }
-              if (!empty($location['level_4'])) {
-                $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($content['level_4'])->getName();
-                $location = $level_4 . ', ' . $location;
+              foreach ($content as $lkey => $lvalue) {
+                if ($lkey == 'location_options' && ($lvalue != '' || $lvalue != NULL)) {
+                  $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
+                  $location = $country . '.';
+                }
+                if ($lkey == 'level_1' && $lvalue != '') {
+                  $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                  $location = $level_1 . ', ' . $location;
+                }
+                if ($lkey == 'level_2' && $lvalue != '') {
+                  $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                  $location = $level_2 . ', ' . $location;
+                }
+                if ($lkey == 'level_3' && $lvalue != '') {
+                  $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                  $location = $level_3 . ', ' . $location;
+                }
+                if ($lkey == 'level_4' && $lvalue != '') {
+                  $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                  $location = $level_4 . ', ' . $location;
+                }
               }
               $output[] = ['Location' => $location];
             }
@@ -226,6 +233,9 @@ class ServiceSubmissionsView extends ControllerBase {
                 $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
                 $output[] = [$element['#title'] => $orgLabel];
               }
+            }
+            elseif ($key == 'orignal_data') {
+
             }
             else {
               if ($content != "") {

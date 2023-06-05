@@ -608,10 +608,8 @@ function erpw_webform_webform_submission_presave($webform_submission) {
     }
   }
   $values['location']['location_tid'] = $last_non_empty_value;
+  $values['orignal_data'] = json_encode($webform_submission->getOriginalData());
   $webform_submission->setData($values);
-  // Set a different value for the original data.
-  $originalData = $webform_submission->getOriginalData();
-  $webform_submission->setOriginalData($originalData);
 }
 
 /**
