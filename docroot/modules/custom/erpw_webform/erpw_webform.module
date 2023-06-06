@@ -370,7 +370,7 @@ function erpw_webform_views_pre_render(&$view) {
       }
     }
     // Unset rows that are not in review workflow states as per roles.
-    // TODO replace this code with query alter.
+    // @todo replace this code with query alter.
     if ($view->id() == 'manage_in_review_webform_services_listing') {
       foreach ($view->result as $key => $row) {
         $sid = $row->sid;
@@ -434,13 +434,21 @@ function erpw_webform_views_pre_render(&$view) {
       $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
       if (!is_null($tpa)) {
         foreach ($user_roles as $key_r => $role) {
-          if ($role == 'super_admin' || $role == 'administrator') {
-            return;
+          if ($view->id() == 'service_based_service_providers_listing') {
+            $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+            if (array_key_exists($activeDomain, $tpa)) {
+              $c++;
+            }
           }
           else {
-            foreach ($domainAccess as $domain) {
-              if (array_key_exists($domain['target_id'], $tpa)) {
-                $c++;
+            if ($role == 'super_admin' || $role == 'administrator') {
+              return;
+            }
+            else {
+              foreach ($domainAccess as $domain) {
+                if (array_key_exists($domain['target_id'], $tpa)) {
+                  $c++;
+                }
               }
             }
           }
@@ -480,9 +488,9 @@ function erpw_webform_views_pre_render(&$view) {
         if ($webformID == 'template_erpw_workflow') {
           unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
         }
-        if ($webformID == 'All') {
-          $view->exposed_widgets['webform_id']['#options'][$webformID] = 'All';
-        }
+        // If ($webformID == 'All') {
+        //   $view->exposed_widgets['webform_id']['#options'][$webformID] = 'All';
+        // }.
       }
     }
   }
