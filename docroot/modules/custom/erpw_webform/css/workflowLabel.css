@@ -97,3 +97,13 @@
   margin: auto !important;
   margin-bottom: 30px !important;
 }
+
+.hide-webform-action-links .webform-filter-form .js-form-type-search input {
+  max-width: 100%;
+  width: 100%;
+}
+@media only screen and (max-width: 768px) {
+  .hide-webform-action-links .ui-dialog {
+    width: 100% !important;
+  }
+}

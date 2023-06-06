@@ -407,3 +407,18 @@
   margin: 0px !important;
   padding: 0px !important;
 }
+.manage-services-filters .view-filters .form--inline {
+  display: flex;
+  justify-content: space-between;
+}
+.manage-services-filters .view-filters .form--inline .js-form-item {
+  width: 45%;
+}
+@media only screen and (max-width: 768px) {
+  .manage-services-filters .view-filters .form--inline {
+    flex-direction: column;
+  }
+  .manage-services-filters .view-filters .form--inline .js-form-item {
+    width: 100%;
+  }
+}
