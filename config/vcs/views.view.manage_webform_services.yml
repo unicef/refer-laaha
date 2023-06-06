@@ -273,26 +273,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
       pager:
-        type: full
+        type: none
         options:
           offset: 0
-          items_per_page: 10
-          total_pages: null
-          id: 0
-          tags:
-            next: 'Next ›'
-            previous: '‹ Previous'
-            first: '« First'
-            last: 'Last »'
-          expose:
-            items_per_page: false
-            items_per_page_label: 'Items per page'
-            items_per_page_options: '5, 10, 25, 50'
-            items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
-            offset: false
-            offset_label: Offset
-          quantity: 9
       exposed_form:
         type: bef
         options:
@@ -321,6 +304,14 @@ display:
                 plugin_id: default
                 advanced:
                   sort_options: true
+                  rewrite:
+                    filter_rewrite_values: ''
+                  collapsible: false
+                  is_secondary: false
+              webform_submission_organisation_filter:
+                plugin_id: default
+                advanced:
+                  sort_options: false
                   rewrite:
                     filter_rewrite_values: ''
                   collapsible: false
@@ -383,6 +374,54 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        webform_submission_organisation_filter:
+          id: webform_submission_organisation_filter
+          table: webform_submission
+          field: webform_submission_organisation_filter
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          plugin_id: webform_submission_organisation_filter
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: webform_submission_organisation_filter_op
+            label: 'Select Organisation'
+            description: ''
+            use_operator: false
+            operator: webform_submission_organisation_filter_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: webform_submission_organisation_filter
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              service_provider_staff: '0'
+              service_provider_focal_point: '0'
+              interagency_gbv_coordinator: '0'
+              country_admin: '0'
+              super_admin: '0'
+              administrator: '0'
+            reduce: 0
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: 0
       style:
         type: default
       row:
@@ -396,7 +435,7 @@ display:
           replica: false
           query_tags: {  }
       relationships: {  }
-      css_class: erpw-webform-manage-services
+      css_class: 'erpw-webform-manage-services manage-services-filters'
       use_ajax: true
       use_more: false
       use_more_always: true
@@ -411,7 +450,6 @@ display:
       contexts:
         - 'languages:language_interface'
         - url
-        - url.query_args
         - user
       tags: {  }
   block_1:
@@ -429,6 +467,5 @@ display:
       contexts:
         - 'languages:language_interface'
         - url
-        - url.query_args
         - user
       tags: {  }

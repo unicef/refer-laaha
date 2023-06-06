@@ -313,6 +313,15 @@ function erpw_webform_views_data_alter(array &$data) {
       'id' => 'webform_submission_workflow_filter',
     ],
   ];
+  $data['webform_submission']['webform_submission_organisation_filter'] = [
+    'title' => t('Webform Submission Organisation Filter'),
+    'filter' => [
+      'title' => t('Webform Submission Organisation Filter'),
+      'help' => t('Provides a custom filter for organisation.'),
+      'field' => 'webform_submission_organisation_field',
+      'id' => 'webform_submission_organisation_filter',
+    ],
+  ];
   return $data;
 }
 
