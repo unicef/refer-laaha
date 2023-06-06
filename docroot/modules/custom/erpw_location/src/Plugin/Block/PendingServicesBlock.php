@@ -9,6 +9,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\views\Views;
+use Drupal\user\Entity\User;
 
 /**
  * Provides a block for counting pending services.
@@ -70,16 +71,44 @@ class PendingServicesBlock extends BlockBase implements ContainerFactoryPluginIn
    */
   public function build() {
     // Get the total pending services.
-    $view = Views::getView('moderated_content');
-    $view->setDisplay('moderated_content');
+    $view = Views::getView('manage_in_review_webform_services_listing');
+    $view->setDisplay('page_1');
     $view->execute();
+    // Unset rows that are not in review workflow states as per roles.
+    // TODO replace this code with query alter.
+    foreach ($view->result as $key => $row) {
+      $sid = $row->sid;
+      $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
+      $state = $webformSubmission->getData()['erpw_workflow']['workflow_state'];
+      $current_user = User::load(\Drupal::currentUser()->id());
+      // Get the user's roles.
+      $roles = $current_user->getRoles();
+      if (in_array('interagency_gbv_coordinator', $roles)) {
+        if ($state != 'in_review_with_gbvi_coordinator') {
+          unset($view->result[$key]);
+        }
+      }
+      elseif (in_array('country_admin', $roles)) {
+        if ($state != 'in_review') {
+          unset($view->result[$key]);
+        }
+      }
+      elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
+        if ($state != 'in_review_with_gbvi_coordinator' && $state != 'in_review') {
+          unset($view->result[$key]);
+        }
+      }
+      else {
+        unset($view->result[$key]);
+      }
+    }
     $count = count($view->result);
 
     return [
       '#theme' => 'pending_service_count',
       '#count' => $count,
       '#description' => $this->t('Service provider information changes'),
-      '#manage_service_link' => Url::fromRoute('view.moderated_content.moderated_content')->toString(),
+      '#manage_service_link' => Url::fromRoute('view.manage_in_review_webform_services_listing.page_1')->toString(),
       '#cache' => [
         'max-age' => 0,
       ],
