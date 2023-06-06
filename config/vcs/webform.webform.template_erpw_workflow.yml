@@ -379,4 +379,13 @@ handlers:
     conditions: {  }
     weight: 0
     settings: {  }
+  duplicate_services_handler:
+    id: handle_duplicate_services
+    handler_id: duplicate_services_handler
+    label: 'Duplicate Services Handler'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings: {  }
 variants: {  }
