@@ -180,6 +180,7 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
   $user = User::load(\Drupal::currentUser()->id());
   $domainAccess = $user->get('field_domain_access')->getValue();
   $x = 0;
+  $currentRoute = \Drupal::routeMatch()->getRouteName();
   if ($entity->getEntityTypeId() == 'webform') {
     $tpa = $entity->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
     foreach ($user_roles as $key_r => $role) {
@@ -200,6 +201,10 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
         }
       }
       if ($role == 'super_admin' ||$role == 'administrator') {
+        $x++;
+        return AccessResult::allowed();
+      }
+      if (($role == 'service_provider_focal_point' || $role == 'service_provider_staff') && $currentRoute == 'entity.webform.canonical') {
         $x++;
         return AccessResult::allowed();
       }
