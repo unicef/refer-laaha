@@ -75,11 +75,11 @@
   font-family: Roboto;
 }
 .view-page-webform-submission .pair-container .value {
-  width: 100%;
+  width: max-content;
   display: block;
   font-family: Roboto;
   font-size: 12px;
-  padding: 15px 0;
+  margin: 15px 0;
   word-break: break-word;
 }
 
@@ -359,4 +359,51 @@
   border-radius: 11px;
   text-decoration: underline;
   margin-top: 10px;
+}
+.service-provider-comparing-box {
+  background-color: rgb(255, 246, 245);
+  padding: 10px;
+  width: 100%;
+  color: #a85766;
+  border-radius: 5px;
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: bold;
+}
+.service-provider-comparing-box .content {
+  padding-top: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.service-provider-comparing-box .content .row a {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: 15px;
+  width: max-content;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: rgb(0, 0, 238);
+  font-weight: normal;
+}
+.pair-container .pair-container-moderated {
+  display: flex;
+  flex-direction: row;
+}
+.pair-container .pair-container-moderated .value-moderated {
+  background-color: #fcc;
+  text-decoration: line-through;
+  width: max-content;
+  display: block;
+  font-family: Roboto;
+  font-size: 12px;
+  margin: 15px 0;
+  word-break: break-word;
+}
+.pair-container .pair-container-moderated .value {
+  background-color: #cfc;
+}
+.view-manage-in-review-webform-services-listing .view-filters {
+  border-top: 0px !important;
+  margin: 0px !important;
+  padding: 0px !important;
 }
