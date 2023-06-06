@@ -378,6 +378,19 @@ function erpw_webform_views_pre_render(&$view) {
         }
       }
     }
+    
+    // Only show users their own Drafts
+    if ($view->id() == 'webform_submissions') {
+      $current_user = \Drupal::currentUser();
+      foreach ($view->result as $key => $row) {
+        $sid = $row->sid;
+        $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
+        if ($webform_submission->getData()['erpw_workflow']['workflow_state'] == 'draft') {
+          if ($current_user->id() != $webform_submission->getOwnerId())
+            unset($view->result[$key]);
+        }
+      }
+    }
     // Unset rows that are not in review workflow states as per roles.
     // TODO replace this code with query alter.
     if ($view->id() == 'manage_in_review_webform_services_listing') {

@@ -34,7 +34,10 @@ class WebformSubmissionWorkflow extends FieldPluginBase {
         $output = 'Draft';
       }
       elseif ($output == 'in_review') {
-        $output = 'In review';
+        $output = 'In Review with Country Admin';
+      }
+      elseif ($output == 'in_review_with_gbvi_coordinator'){
+        $output = 'In Review with GBVi Coordinator';
       }
     }
     else {

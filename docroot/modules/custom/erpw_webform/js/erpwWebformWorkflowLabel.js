@@ -14,8 +14,12 @@
           tdElement.classList.add("approved-workflow"); // Add the class "approved-workflow"
         } else if (tdElement.textContent.trim().toLowerCase() === "rejected") {
           tdElement.classList.add("rejected-workflow"); // Add the class "rejected-workflow"
-        } else if (tdElement.textContent.trim().toLowerCase() === "in review") {
-          tdElement.classList.add("in-review-workflow"); // Add the class "in-review-workflow"
+        } else if (tdElement.textContent.trim().toLowerCase() === "in review with country admin") {
+          tdElement.classList.add("in-review-cadmin-workflow"); 
+          // Add the class "in-review-cadmin-workflow"
+        } else if (tdElement.textContent.trim().toLowerCase() === "in review with gbvi coordinator") {
+          tdElement.classList.add("in-review-coordinator-workflow");
+          // Add the class "in-review-coordinator-workflow"
         } else if (tdElement.textContent.trim().toLowerCase() === "draft") {
           tdElement.classList.add("draft-workflow"); // Add the class "draft-workflow"
         }
