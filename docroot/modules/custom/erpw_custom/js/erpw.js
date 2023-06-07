@@ -34,7 +34,7 @@
             suggestions.push('Please add at least 1 numeric character');
           }
           if (!password.match(/^(?=.*[@$!%*#?&])/)) {
-            suggestions.push('Please add at least 1 special character');
+            suggestions.push('Please add at least 1 special character, eg. * & # %');
           }
           if (password.length < 8) {
             suggestions.push('Minimum of 8 characters are required');

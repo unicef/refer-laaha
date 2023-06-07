@@ -805,26 +805,22 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
     $webform_ids[] = $result->webform_id;
   }
 
-  $webform_titles = [];
+  $service_type_titles = [];
   // Fetch webform/Service Type titles using webform ids.
   if (!empty($webform_ids)) {
-    $webform = Webform::loadMultiple($webform_ids);
-    foreach($webform as $webforms){
-        $webform_titles[] = $webforms->get('title');
+    $webforms = Webform::loadMultiple($webform_ids);
+    foreach ($webforms as $webform) {
+      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+      $service_type_array = array_values($tpa);
+      $service_type_id = $service_type_array[0][0];
+      $entity_type_manager = \Drupal::service('entity_type.manager');
+      $nodes = $entity_type_manager->getStorage('node')->loadMultiple([$service_type_id]);
+      foreach ($nodes as $node) {
+        $service_type_titles[] = $node->label();
+      }
     }
   }
-  return $webform_titles;
-}
-
-/**
- * Implements hook_theme().
- */
-function erpw_custom_theme($existing, $type, $theme, $path) {
-  return [
-    'node__service_type__erpw' => [
-      'variables' => ['service_types' => NULL],
-    ],
-  ];
+  return $service_type_titles;
 }
 
 
@@ -832,11 +828,9 @@ function erpw_custom_theme($existing, $type, $theme, $path) {
  * Implements hook_preprocess_node().
  */
 function erpw_custom_preprocess_node(&$variables) {
-  // Invalidate cache based on node id cache tags.
-  $cacheTags = ['node:' . $variables['node']->id()];
-  Cache::invalidateTags($cacheTags);
   $service_types = erpw_custom_load_submissions_by_term($_COOKIE['location_tid']);
   $variables['service_types'] = $service_types;
+  $variables['#cache']['contexts'][] = 'user.roles';
 }
 
 /**

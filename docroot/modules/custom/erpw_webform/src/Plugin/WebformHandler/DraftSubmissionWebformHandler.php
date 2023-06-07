@@ -15,9 +15,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @WebformHandler(
  *   id = "redirect_to_drafts",
- *   label = @Translation("Redirect to Drafts"),
+ *   label = @Translation("Redirect on Transition changes."),
  *   category = @Translation("eRPW Webform Handler"),
- *   description = @Translation("Redirect to Drafts on a 'Save as Draft' submission."),
+ *   description = @Translation("Redirect to Drafts or Services Listing page based on transition."),
  *   cardinality = \Drupal\webform\Plugin\WebformHandlerInterface::CARDINALITY_UNLIMITED,
  *   results = \Drupal\webform\Plugin\WebformHandlerInterface::RESULTS_PROCESSED,
  *   submission = \Drupal\webform\Plugin\WebformHandlerInterface::SUBMISSION_OPTIONAL,
