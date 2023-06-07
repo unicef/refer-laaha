@@ -104,25 +104,27 @@ function erpw_pathway_views_query_alter(ViewExecutable $view, QueryPluginBase $q
       }
     }
   }
-  elseif ($view->id() == "service_list") {
-    $ptids = [];
-    $location_id = get_user_location();
-    $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
-    if (!empty($ptids)) {
-      foreach ($query->where as &$condition_group) {
-        foreach ($condition_group['conditions'] as &$condition) {
-          if ($condition['field'] == 'node__field_location.field_location_target_id') {
-            $condition = [
-              'field' => 'node__field_location.field_location_target_id',
-              'value' => $ptids,
-              'operator' => 'IN',
-            ];
-            break;
-          }
-        }
-      }
-    }
-  }
+  // Service List View no longer in use
+  
+  // elseif ($view->id() == "service_list") {
+  //   $ptids = [];
+  //   $location_id = get_user_location();
+  //   $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
+  //   if (!empty($ptids)) {
+  //     foreach ($query->where as &$condition_group) {
+  //       foreach ($condition_group['conditions'] as &$condition) {
+  //         if ($condition['field'] == 'node__field_location.field_location_target_id') {
+  //           $condition = [
+  //             'field' => 'node__field_location.field_location_target_id',
+  //             'value' => $ptids,
+  //             'operator' => 'IN',
+  //           ];
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 /**
