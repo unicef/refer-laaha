@@ -72,19 +72,19 @@ class ServiceSubmissionsView extends ControllerBase {
                       $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
                       $location = $country . '.';
                     }
-                    if ($lkey == 'level_1' && $lvalue != '') {
+                    if ($lkey == 'level_1' && ($lvalue != '' || $lvalue != NULL)) {
                       $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                       $location = $level_1 . ', ' . $location;
                     }
-                    if ($lkey == 'level_2' && $lvalue != '') {
+                    if ($lkey == 'level_2' && ($lvalue != '' || $lvalue != NULL)) {
                       $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                       $location = $level_2 . ', ' . $location;
                     }
-                    if ($lkey == 'level_3' && $lvalue != '') {
+                    if ($lkey == 'level_3' && ($lvalue != '' || $lvalue != NULL)) {
                       $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                       $location = $level_3 . ', ' . $location;
                     }
-                    if ($lkey == 'level_4' && $lvalue != '') {
+                    if ($lkey == 'level_4' && ($lvalue != '' || $lvalue != NULL)) {
                       $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                       $location = $level_4 . ', ' . $location;
                     }
@@ -162,19 +162,19 @@ class ServiceSubmissionsView extends ControllerBase {
                   $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
                   $location = $country . '.';
                 }
-                if ($lkey == 'level_1' && $lvalue != '') {
+                if ($lkey == 'level_1' && ($lvalue != '' || $lvalue != NULL)) {
                   $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                   $location = $level_1 . ', ' . $location;
                 }
-                if ($lkey == 'level_2' && $lvalue != '') {
+                if ($lkey == 'level_2' && ($lvalue != '' || $lvalue != NULL)) {
                   $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                   $location = $level_2 . ', ' . $location;
                 }
-                if ($lkey == 'level_3' && $lvalue != '') {
+                if ($lkey == 'level_3' && ($lvalue != '' || $lvalue != NULL)) {
                   $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                   $location = $level_3 . ', ' . $location;
                 }
-                if ($lkey == 'level_4' && $lvalue != '') {
+                if ($lkey == 'level_4' && ($lvalue != '' || $lvalue != NULL)) {
                   $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                   $location = $level_4 . ', ' . $location;
                 }

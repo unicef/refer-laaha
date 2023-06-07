@@ -56,7 +56,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
       $orginalData = json_decode($fields['orignal_data'], TRUE);
       $changedData = !is_null($orginalData) ? array_diff_assoc($orginalData, $fields) : '';
       $changedUser = !is_null($orginalData) ? $orginalData['erpw_workflow']['changed_user'] : '';
-      $oldUserMail = !is_null($orginalData) ? $this->entityTypeManager->getStorage('user')->load($orginalData['erpw_workflow']['changed_user'])->getEmail() : '';
+      $oldUserMail = !is_null($orginalData['erpw_workflow']['changed_user']) ? $this->entityTypeManager->getStorage('user')->load($orginalData['erpw_workflow']['changed_user'])->getEmail() : '';
       $newUserMail = !is_null($fields['erpw_workflow']['changed_user']) ? $this->entityTypeManager->getStorage('user')->load($fields['erpw_workflow']['changed_user'])->getEmail() : '';
       $orgTime = !is_null($orginalData) ? date("d/m/Y - H:i", $orginalData['erpw_workflow']['changed_timestamp']) : '';
       $newTime = date("d/m/Y - H:i", $fields['erpw_workflow']['changed_timestamp']);
