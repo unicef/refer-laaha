@@ -5,8 +5,6 @@
  * Contains erpw_custom.module.
  */
 
-use Drupal\Core\Cache\Cache;
-use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Form\FormStateInterface;
@@ -80,26 +78,28 @@ function erpw_custom_service_type_options() {
 /**
  * Implements hook_views_pre_render().
  */
-function erpw_custom_views_pre_render(ViewExecutable $view) {
-  if ($view->id() == 'service_list') {
-    $parameters = \Drupal::routeMatch()->getParameters()->all();
-    // Add active tid from cookies as a fallback,
-    // when there is no query parameter from referral_pathway_on_homepage view.
-    if (!$parameters['arg_1']) {
-      $parameters['arg_1'] = $_COOKIE['location_tid'];
-    }
-    // Conditionals are here to stop a fatal error, including when previewing
-    // the view when editing it.  @TODO get the parameter the Views way.
-    // Alternatively, use views to provide the title.
-    $nid = $parameters['arg_0'] ?: NULL;
-    if (!$nid) {
-      return;
-    }
-    $node = Node::load($nid);
-    $title = ($node) ? $node->getTitle() : t('Services');
-    $view->setTitle($title);
-  }
-}
+// This is no longer required as service_list view is not used now.
+
+// function erpw_custom_views_pre_render(ViewExecutable $view) {
+//   if ($view->id() == 'service_list') {
+//     $parameters = \Drupal::routeMatch()->getParameters()->all();
+//     // Add active tid from cookies as a fallback,
+//     // when there is no query parameter from referral_pathway_on_homepage view.
+//     if (!$parameters['arg_1']) {
+//       $parameters['arg_1'] = $_COOKIE['location_tid'];
+//     }
+//     // Conditionals are here to stop a fatal error, including when previewing
+//     // the view when editing it.  @TODO get the parameter the Views way.
+//     // Alternatively, use views to provide the title.
+//     $nid = $parameters['arg_0'] ?: NULL;
+//     if (!$nid) {
+//       return;
+//     }
+//     $node = Node::load($nid);
+//     $title = ($node) ? $node->getTitle() : t('Services');
+//     $view->setTitle($title);
+//   }
+// }
 
 /**
  * Implements hook_form_alter().
@@ -531,15 +531,6 @@ function _erpw_custom_form_user_email_validate(array &$form, FormStateInterface 
   }
 }
 
-
-// function erpw_custom_preprocess_html(&$variables) {
-//   $currentRoute = \Drupal::routeMatch()->getRouteName();
-//   if ($currentRoute == 'erpw_custom.sign_up_form') {
-//           $variables['#attached']['library'][] = 'erpw_custom/erpw_css';
-        
-//   }
-// }
-
 /**
  * Implements hook_preprocess_HOOK().
  */
@@ -806,7 +797,7 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
   }
 
   $service_type_titles = [];
-  // Fetch webform/Service Type titles using webform ids.
+  // Fetch Service Type titles using webform ids.
   if (!empty($webform_ids)) {
     $webforms = Webform::loadMultiple($webform_ids);
     foreach ($webforms as $webform) {

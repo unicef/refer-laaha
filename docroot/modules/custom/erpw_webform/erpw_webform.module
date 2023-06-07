@@ -378,6 +378,54 @@ function erpw_webform_views_pre_render(&$view) {
         }
       }
     }
+
+    // Unset services which do not belong to the active location or its lower levels
+    if ($view->id() == 'service_based_service_providers_listing') {
+      foreach ($view->result as $key => $row) {
+        $sid = $row->sid;
+        $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
+        $location_country = $webform_submission->getData()['location']['location_options'];
+        
+        // Unset submissions which do not have the country of active domain
+        $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+        $config = \Drupal::config('domain.location.' . $domain->get('id'));
+        $domain_tid = $config->get('location');
+        // Location id of active domain
+        $location_entity_id = \Drupal::service('erpw_location.location_services')->getLocationSingleEntityIdByTid($domain_tid);
+        if ($location_country != $location_entity_id) {
+          unset($view->result[$key]);
+        }
+        else {
+          $location_of_domain = $webform_submission->getData()['location']['location_tid'];
+        }
+
+        // If lower levels of domain are selected then,
+        // only show locations for its own lower levels.
+        $request = \Drupal::request();
+        $cookie_tid = $request->cookies->get('location_tid');
+        if ($cookie_tid != $domain_tid) {
+          // Remove rows which have only domain selected
+          if ($location_of_domain == $location_entity_id || $location_of_domain == null) {
+            unset($view->result[$key]);
+          }
+          else {
+            $location_of_level = $webform_submission->getData()['location']['location_tid'];
+          }
+          $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
+          $parent_term = $term_storage->load($cookie_tid);
+          $tree = $term_storage->loadTree($parent_term->bundle(), $cookie_tid);
+          $lower_level_tids = [];
+          foreach ($tree as $term) {
+            $lower_level_tids[] = $term->tid;
+          }
+          $location_tree = [$cookie_tid, ...$lower_level_tids];
+          // Also remove all others which are not in its lower levels
+          if (!in_array($location_of_level, $location_tree)) {
+            unset($view->result[$key]);
+          }
+        }
+      }
+    }
     
     // Only show users their own Drafts
     if ($view->id() == 'webform_submissions') {
