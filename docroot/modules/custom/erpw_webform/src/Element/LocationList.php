@@ -3,8 +3,8 @@
 namespace Drupal\erpw_webform\Element;
 
 use Drupal\Core\Cache\CacheBackendInterface;
-use Drupal\Core\Render\Element\FormElement;
 use Drupal\webform\Element\WebformCompositeBase;
+use Drupal\user\Entity\User;
 
 /**
  * Provides a 'webform_example_composite'.
@@ -35,11 +35,35 @@ class LocationList extends WebformCompositeBase {
    */
   public static function getCompositeElements(array $element) {
     $elements = [];
+    $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $account = User::load(\Drupal::currentUser()->id());
+    $userRoles = $account->getRoles();
+    $defaultReqd = '';
+    if (in_array('administrator', $userRoles) ||in_array('super_admin', $userRoles)) {
+      $defaultReqd = 'No';
+    }
+    else {
+      $defaultReqd = 'Yes';
+    }
+    $allowedDomain = empty($account->get('field_domain_access')->getValue()) ? $activeDomain : $account->get('field_domain_access')->getValue()[0]['target_id'];
+    $allowedDomainID = 0;
     $location_entities = \Drupal::entityTypeManager()->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
     $location_options = [];
     foreach ($location_entities as $location) {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
+      if ($allowedDomain == 'zm_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Zimbabwe') {
+        $allowedDomainID = $location->id();
+      }
+      elseif ($allowedDomain == 'bn_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Bangladesh') {
+        $allowedDomainID = $location->id();
+      }
+      elseif ($allowedDomain == 'txb_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Turkey Cross Border') {
+        $allowedDomainID = $location->id();
+      }
+      elseif ($allowedDomain == 'sl_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Sierra Leone') {
+        $allowedDomainID = $location->id();
+      }
     }
     asort($location_options);
     if ($terms_array = \Drupal::cache()->get('erpw_locations_list')) {
@@ -216,10 +240,11 @@ class LocationList extends WebformCompositeBase {
         'class' => ['location_tid_hidden'],
       ],
     ];
-
     $elements['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $elements['#attached']['library'][] = 'erpw_custom/erpw_js';
     $elements['#attached']['drupalSettings']['erpw_webform']['termsArray'] = $terms_array;
+    $elements['#attached']['drupalSettings']['erpw_webform']['defaultDomain'] = $allowedDomainID;
+    $elements['#attached']['drupalSettings']['erpw_webform']['defaultDomainRequired'] = $defaultReqd;
     $elements['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
     return $elements;
   }

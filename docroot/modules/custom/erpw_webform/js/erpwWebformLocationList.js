@@ -3,6 +3,95 @@
     attach: function (context, settings) {
       $(document).ready(function () {
         var currentPath = drupalSettings.path.currentPath;
+        if (drupalSettings.erpw_webform.defaultDomainRequired == 'Yes') {
+          $(document).ready(function () {
+            localStorage.setItem(
+              'termArray',
+              JSON.stringify(drupalSettings.erpw_webform.termsArray)
+            );
+            localStorage.setItem(
+              'defaultDomain',
+              drupalSettings.erpw_webform.defaultDomain
+            );
+            termsArray = drupalSettings.erpw_webform.termsArray;
+            defaultDomain = drupalSettings.erpw_webform.defaultDomain;
+          });
+
+          window.addEventListener(
+            'load',
+            function (e) {
+              if (navigator.onLine) {
+                termsArray = drupalSettings.erpw_webform.termsArray;
+                defaultDomain = drupalSettings.erpw_webform.defaultDomain;
+              } else {
+                termsArray = JSON.parse(
+                  localStorage.getItem('termArray') || '[]'
+                );
+                defaultDomain = localStorage.getItem('defaultDomain');
+              }
+            },
+            false
+          );
+          window.addEventListener(
+            'online',
+            function (e) {
+              termsArray = drupalSettings.erpw_webform.termsArray;
+              defaultDomain = drupalSettings.erpw_webform.defaultDomain;
+            },
+            false
+          );
+
+          window.addEventListener(
+            'offline',
+            function (e) {
+              termsArray = JSON.parse(
+                localStorage.getItem('termArray') || '[]'
+              );
+              defaultDomain = localStorage.getItem('defaultDomain');
+            },
+            false
+          );
+        } else {
+          // Add array to browser local storage.
+          $(document).ready(function () {
+            localStorage.setItem(
+              'termArray',
+              JSON.stringify(drupalSettings.erpw_webform.termsArray)
+            );
+            termsArray = drupalSettings.erpw_webform.termsArray;
+          });
+
+          window.addEventListener(
+            'load',
+            function (e) {
+              if (navigator.onLine) {
+                termsArray = drupalSettings.erpw_webform.termsArray;
+              } else {
+                termsArray = JSON.parse(
+                  localStorage.getItem('termArray') || '[]'
+                );
+              }
+            },
+            false
+          );
+          window.addEventListener(
+            'online',
+            function (e) {
+              termsArray = drupalSettings.erpw_webform.termsArray;
+            },
+            false
+          );
+
+          window.addEventListener(
+            'offline',
+            function (e) {
+              termsArray = JSON.parse(
+                localStorage.getItem('termArray') || '[]'
+              );
+            },
+            false
+          );
+        }
         if (currentPath.includes('admin/structure/webform/')) {
           defaultValues = drupalSettings.erpw_webform.default_location_values;
           termsArray = drupalSettings.erpw_webform.termsArray;
@@ -10,6 +99,9 @@
           LevelOneID = defaultValues['level_1'];
           LevelTwoID = defaultValues['level_2'];
           LevelThreeID = defaultValues['level_3'];
+          if (drupalSettings.erpw_webform.defaultDomainRequired == 'Yes') {
+            $('select.location_options').prop('disabled', true);
+          }
           // Country
           if (defaultValues['location_options'] != '') {
             $('select.level_1').parent().css({
@@ -124,58 +216,81 @@
             $('select.level_4').val(LevelFourID);
           }
         } else {
-          $('select.level_1').parent().css({
-            display: 'none',
-          });
-          $('select.level_2').parent().css({
-            display: 'none',
-          });
-          $('select.level_3').parent().css({
-            display: 'none',
-          });
-          $('select.level_4').parent().css({
-            display: 'none',
-          });
-        }
-        var termsArray = [];
-        // Add array to browser local storage.
-        $(document).ready(function () {
-          localStorage.setItem(
-            'termArray',
-            JSON.stringify(drupalSettings.erpw_webform.termsArray)
-          );
-          termsArray = drupalSettings.erpw_webform.termsArray;
-        });
-
-        window.addEventListener(
-          'load',
-          function (e) {
-            if (navigator.onLine) {
-              termsArray = drupalSettings.erpw_webform.termsArray;
-            } else {
-              termsArray = JSON.parse(
-                localStorage.getItem('termArray') || '[]'
-              );
+          if (drupalSettings.erpw_webform.defaultDomainRequired == 'Yes') {
+            $('select.location_options').val(defaultDomain);
+            $('select.location_options').prop('disabled', true);
+            $('select.level_1').empty();
+            $('select.level_2').empty();
+            $('select.level_3').empty();
+            $('select.level_4').empty();
+            $('select.level_1').parent().css({
+              display: 'none',
+            });
+            $('select.level_2').parent().css({
+              display: 'none',
+            });
+            $('select.level_3').parent().css({
+              display: 'none',
+            });
+            $('select.level_4').parent().css({
+              display: 'none',
+            });
+            var zeroTid = defaultDomain;
+            console.log(zeroTid);
+            console.log(termsArray);
+            for (const zeroKey in termsArray) {
+              const zeroValue = termsArray[zeroKey];
+              console.log(zeroValue);
+              // checks if the parent id is equal to level zero terms.
+              if (zeroKey == zeroTid) {
+                for (const oneKey in zeroValue) {
+                  const oneValue = zeroValue[oneKey];
+                  console.log(oneValue);
+                  // Setting first level options.
+                  if (oneKey == 'children') {
+                    console.log('here');
+                    $('select.level_1').parent().css({
+                      display: 'block',
+                    });
+                    var select = $('select.level_1')[0];
+                    var level_1 = Drupal.t(
+                      'Select ' + zeroValue['level_label']
+                    );
+                    $('select.level_1').siblings('label').text(level_1);
+                    $('select.level_1').empty();
+                    select.add(new Option(level_1, 0));
+                    for (const valueKey in oneValue) {
+                      for (const name in oneValue[valueKey]) {
+                        if (name == 'name') {
+                          select.add(
+                            new Option(oneValue[valueKey][name], valueKey)
+                          );
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
-          },
-          false
-        );
-        window.addEventListener(
-          'online',
-          function (e) {
-            termsArray = drupalSettings.erpw_webform.termsArray;
-          },
-          false
-        );
-
-        window.addEventListener(
-          'offline',
-          function (e) {
-            termsArray = JSON.parse(localStorage.getItem('termArray') || '[]');
-          },
-          false
-        );
-
+          } else {
+            $('select.level_1').empty();
+            $('select.level_2').empty();
+            $('select.level_3').empty();
+            $('select.level_4').empty();
+            $('select.level_1').parent().css({
+              display: 'none',
+            });
+            $('select.level_2').parent().css({
+              display: 'none',
+            });
+            $('select.level_3').parent().css({
+              display: 'none',
+            });
+            $('select.level_4').parent().css({
+              display: 'none',
+            });
+          }
+        }
         // Level zero country.
         // Adding options to the select lists.
         $('select.location_options').change(function (event) {
@@ -227,6 +342,7 @@
             }
           }
         });
+        // Level one.
         $('select.level_1').change(function (event) {
           event.preventDefault();
           var zeroTid = $('select.location_options').val();
@@ -237,11 +353,17 @@
             if (zeroKey == zeroTid) {
               const newoptions =
                 termsArray[zeroKey]['children'][oneTid]['children'];
+              $('select.level_2').empty();
               $('select.level_2').parent().css({
                 display: 'block',
               });
+              $('select.level_3').parent().css({
+                display: 'none',
+              });
+              $('select.level_4').parent().css({
+                display: 'none',
+              });
               var select = $('select.level_2')[0];
-              $('select.level_2').empty();
               var level_2 = Drupal.t(
                 'Select ' +
                   termsArray[zeroKey]['children'][oneTid]['level_label']
