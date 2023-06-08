@@ -23,7 +23,7 @@
   color: #2b4d7a !important;
   stroke: #2b4d7a;
 }
-.in-review-coordinator-workflow{
+.in-review-coordinator-workflow {
   background-color: #ffbe7e !important;
   fill: #ffbe7e;
   color: #6a2900 !important;
@@ -80,6 +80,25 @@
   line-height: 14px;
   color: #fff;
 }
+.hide-webform-action-links .webform-bulk-form .webform-dropbutton ul li a{
+  position: relative;
+  color: #fff;
+  background-color: #a85766;
+  font-size: 16px;
+  padding: 3px;
+  z-index: 2;
+  padding-right: 15px;
+  margin: 0px;
+  border-radius: 0px;
+}
+.hide-webform-action-links .webform-bulk-form .webform-dropbutton ul li:first-child a{
+  color: #a85766;
+  background-color: #fff;
+}
+.hide-webform-action-links .webform-bulk-form a.webform-ajax-link::before {
+  background: none;
+  display: none;
+}
 .hide-webform-action-links #block-erpw-help {
   display: none;
 }
@@ -111,5 +130,12 @@
 @media only screen and (max-width: 768px) {
   .hide-webform-action-links .ui-dialog {
     width: 100% !important;
+    padding: 0px !important;
+  }
+  .hide-webform-action-links .js-form-type-select {
+    width: 90% !important;
+  }
+  .hide-webform-action-links .select2-container--open .select2-dropdown--below {
+    width: 90% !important;
   }
 }
