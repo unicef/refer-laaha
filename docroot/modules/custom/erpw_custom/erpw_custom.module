@@ -711,7 +711,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       foreach ($tree as $term) {
         $child_tids[] = $term->tid;
       }
-      
+
       // Check if there is content for the current ID or any of its child terms.
       $has_content = erpw_custom_has_content_for_terms(
         [$current_tid, ...$child_tids], 'referral_path_way', 'field_location');
@@ -763,7 +763,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
  *   Array of webform submission titles.
  */
 function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
-  
+
   // Fetch all parent term ids of the Country vocabulary
   $query = \Drupal::entityQuery('taxonomy_term');
   $query->condition('vid', 'country');
@@ -822,6 +822,7 @@ function erpw_custom_preprocess_node(&$variables) {
   $service_types = erpw_custom_load_submissions_by_term($_COOKIE['location_tid']);
   $variables['service_types'] = $service_types;
   $variables['#cache']['contexts'][] = 'user.roles';
+  $variables['#cache']['contexts'][] = 'url.site';
 }
 
 /**
