@@ -117,16 +117,6 @@ function erpw_webform_preprocess_page(&$variables) {
 function erpw_webform_entity_insert(EntityInterface $entity) {
   // Check if the entity is a Webform.
   if ($entity->getEntityTypeId() == 'webform') {
-    // Enable content locking for the new webform.
-    $webform_id = $entity->id();
-
-    $config_factory = \Drupal::configFactory();
-    $config = $config_factory->getEditable('content_lock.settings');
-    $webforms_array = $config->get('types')['webform_submission'];
-    $webforms_array[$webform_id] = $webform_id;
-    $config->set('types', ['webform_submission' => $webforms_array]);
-    $config->save();
-
     // Cache the url of the webform.
     $url = $entity->toUrl()->setAbsolute()->toString();
     $path = preg_replace('/^\/\w{2}\b/', '', parse_url($url, PHP_URL_PATH));
@@ -137,6 +127,30 @@ function erpw_webform_entity_insert(EntityInterface $entity) {
     $urls_to_cache = $config->get('urls_to_cache');
     $urls_to_cache = explode("\r\n", $urls_to_cache);
     $urls_to_cache[] = $path;
+    $urls_to_cache = implode("\r\n", $urls_to_cache);
+    // Add the webform URL to the URLs to cache array if it's not already present.
+    // Save the updated URLs to cache array.
+    $config->set('urls_to_cache', $urls_to_cache)->save();
+  }
+  if ($entity->getEntityTypeId() == 'webform_submission') {
+    // Cache the url of the webform.
+    $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
+      'webform' => $entity->id(),
+      'webform_submission' => $entity->getWebform()->id(),
+    ])->toString();
+    $view_url = Url::fromRoute('erpw_webform.service_content', ['webform_submission' => intval($entity->id())])->toString();
+
+    $path_edit = preg_replace('/^\/\w{2}\b/', '', parse_url($edit_url, PHP_URL_PATH));
+    $path_view = preg_replace('/^\/\w{2}\b/', '', parse_url($view_url, PHP_URL_PATH));
+
+    // Get the PWA URLs to cache configuration object.
+    $configFactory = \Drupal::service('config.factory');
+    $config = $configFactory->getEditable('pwa.config');
+    // Get the current URLs to cache array.
+    $urls_to_cache = $config->get('urls_to_cache');
+    $urls_to_cache = explode("\r\n", $urls_to_cache);
+    $urls_to_cache[] = $path_edit;
+    $urls_to_cache[] = $path_view;
     $urls_to_cache = implode("\r\n", $urls_to_cache);
     // Add the webform URL to the URLs to cache array if it's not already present.
     // Save the updated URLs to cache array.
@@ -379,18 +393,18 @@ function erpw_webform_views_pre_render(&$view) {
       }
     }
 
-    // Unset services which do not belong to the active location or its lower levels
+    // Unset services which do not belong to the active location or its lower levels.
     if ($view->id() == 'service_based_service_providers_listing') {
       foreach ($view->result as $key => $row) {
         $sid = $row->sid;
         $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
         $location_country = $webform_submission->getData()['location']['location_options'];
-        
-        // Unset submissions which do not have the country of active domain
+
+        // Unset submissions which do not have the country of active domain.
         $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
         $config = \Drupal::config('domain.location.' . $domain->get('id'));
         $domain_tid = $config->get('location');
-        // Location id of active domain
+        // Location id of active domain.
         $location_entity_id = \Drupal::service('erpw_location.location_services')->getLocationSingleEntityIdByTid($domain_tid);
         if ($location_country != $location_entity_id) {
           unset($view->result[$key]);
@@ -404,8 +418,8 @@ function erpw_webform_views_pre_render(&$view) {
         $request = \Drupal::request();
         $cookie_tid = $request->cookies->get('location_tid');
         if ($cookie_tid != $domain_tid) {
-          // Remove rows which have only domain selected
-          if ($location_of_domain == $location_entity_id || $location_of_domain == null) {
+          // Remove rows which have only domain selected.
+          if ($location_of_domain == $location_entity_id || $location_of_domain == NULL) {
             unset($view->result[$key]);
           }
           else {
@@ -419,23 +433,24 @@ function erpw_webform_views_pre_render(&$view) {
             $lower_level_tids[] = $term->tid;
           }
           $location_tree = [$cookie_tid, ...$lower_level_tids];
-          // Also remove all others which are not in its lower levels
+          // Also remove all others which are not in its lower levels.
           if (!in_array($location_of_level, $location_tree)) {
             unset($view->result[$key]);
           }
         }
       }
     }
-    
-    // Only show users their own Drafts
+
+    // Only show users their own Drafts.
     if ($view->id() == 'webform_submissions') {
       $current_user = \Drupal::currentUser();
       foreach ($view->result as $key => $row) {
         $sid = $row->sid;
         $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
         if ($webform_submission->getData()['erpw_workflow']['workflow_state'] == 'draft') {
-          if ($current_user->id() != $webform_submission->getOwnerId())
+          if ($current_user->id() != $webform_submission->getOwnerId()) {
             unset($view->result[$key]);
+          }
         }
       }
     }
