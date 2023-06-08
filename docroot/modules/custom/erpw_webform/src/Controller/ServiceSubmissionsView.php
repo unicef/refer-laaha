@@ -68,23 +68,23 @@ class ServiceSubmissionsView extends ControllerBase {
               if (in_array($role, $element['#access_view_roles'])) {
                 if ($key == 'location') {
                   foreach ($content as $lkey => $lvalue) {
-                    if ($lkey == 'location_options' && ($lvalue != '' || $lvalue != NULL)) {
+                    if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                       $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
-                      $location = $country . '.';
+                      $location = $location . $country . '.';
                     }
-                    if ($lkey == 'level_1' && ($lvalue != '' || $lvalue != NULL)) {
+                    if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                       $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                       $location = $level_1 . ', ' . $location;
                     }
-                    if ($lkey == 'level_2' && ($lvalue != '' || $lvalue != NULL)) {
+                    if ($lkey == 'level_2' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                       $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                       $location = $level_2 . ', ' . $location;
                     }
-                    if ($lkey == 'level_3' && ($lvalue != '' || $lvalue != NULL)) {
+                    if ($lkey == 'level_3' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                       $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                       $location = $level_3 . ', ' . $location;
                     }
-                    if ($lkey == 'level_4' && ($lvalue != '' || $lvalue != NULL)) {
+                    if ($lkey == 'level_4' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                       $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                       $location = $level_4 . ', ' . $location;
                     }
@@ -158,23 +158,23 @@ class ServiceSubmissionsView extends ControllerBase {
           else {
             if ($key == 'location') {
               foreach ($content as $lkey => $lvalue) {
-                if ($lkey == 'location_options' && ($lvalue != '' || $lvalue != NULL)) {
+                if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                   $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
-                  $location = $country . '.';
+                  $location = $location . $country . '.';
                 }
-                if ($lkey == 'level_1' && ($lvalue != '' || $lvalue != NULL)) {
+                if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                   $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                   $location = $level_1 . ', ' . $location;
                 }
-                if ($lkey == 'level_2' && ($lvalue != '' || $lvalue != NULL)) {
+                if ($lkey == 'level_2' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                   $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                   $location = $level_2 . ', ' . $location;
                 }
-                if ($lkey == 'level_3' && ($lvalue != '' || $lvalue != NULL)) {
+                if ($lkey == 'level_3' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                   $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                   $location = $level_3 . ', ' . $location;
                 }
-                if ($lkey == 'level_4' && ($lvalue != '' || $lvalue != NULL)) {
+                if ($lkey == 'level_4' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                   $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
                   $location = $level_4 . ', ' . $location;
                 }
