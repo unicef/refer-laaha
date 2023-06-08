@@ -135,7 +135,17 @@ elements: |-
   erpw_workflow:
     '#type': webform_workflows_element
     '#title': 'eRPW Workflow'
+    '#description': |-
+      <br />
+      <quillbot-extension-portal></quillbot-extension-portal>
+    '#more': |-
+      <br />
+      <quillbot-extension-portal></quillbot-extension-portal>
     '#required': true
+    '#multiple__no_items_message': 'No items entered. Please add items below.<quillbot-extension-portal></quillbot-extension-portal>'
+    '#admin_notes': |-
+      <br />
+      <quillbot-extension-portal></quillbot-extension-portal>
     '#access_create_roles':
       - authenticated
     '#access_create_workflow_enabled': true
@@ -143,25 +153,25 @@ elements: |-
       - authenticated
     '#access_transition_save_as_draft_roles':
       - authenticated
-    '#access_transition_submit_for_review_to_gbvi_coordinator_roles':
+    '#access_transition_submit_to_focal_point_roles':
       - service_provider_staff
       - super_admin
       - administrator
-    '#access_transition_rejected_by_gbvi_coordinator_roles':
-      - interagency_gbv_coordinator
+    '#access_transition_rejected_by_focal_point_roles':
+      - service_provider_focal_point
       - super_admin
       - administrator
     '#access_transition_submit_for_review_to_country_admin_roles':
       - service_provider_focal_point
+      - super_admin
+      - administrator
+    '#access_transition_approve_roles':
       - interagency_gbv_coordinator
       - country_admin
       - super_admin
       - administrator
-    '#access_transition_approve_roles':
-      - country_admin
-      - super_admin
-      - administrator
     '#access_transition_reject_roles':
+      - interagency_gbv_coordinator
       - country_admin
       - super_admin
       - administrator
@@ -175,10 +185,19 @@ elements: |-
     '#show_log_view': false
     '#transition_save_as_draft_run_on_edit': anyone
     '#state_draft_color': Yellow
-    '#state_in_review_with_gbvi_coordinator_color': Orange
+    '#state_in_review_with_focal_point_color': Orange
     '#state_in_review_color': Blue
     '#state_approve_color': Green
     '#state_reject_color': Red
+    '#access_transition_submit_for_review_to_gbvi_coordinator_roles':
+      - service_provider_staff
+      - super_admin
+      - administrator
+    '#access_transition_rejected_by_gbvi_coordinator_roles':
+      - service_provider_focal_point
+      - super_admin
+      - administrator
+    '#state_in_review_with_gbvi_coordinator_color': Orange
     '#access_transition_review_roles':
       - service_provider_staff
       - service_provider_focal_point
@@ -372,13 +391,77 @@ access:
 handlers:
   redirect_to_drafts:
     id: redirect_to_drafts
-    handler_id: redirect_to_drafts
-    label: 'Redirect to Drafts'
+    handler_id: null
+    label: 'Redirect on Transition changes.'
     notes: ''
     status: true
     conditions: {  }
-    weight: 0
-    settings: {  }
+    weight: -50
+    settings:
+      id: redirect_to_drafts
+      handler_id: null
+      label: 'Redirect on Transition changes.'
+      notes: ''
+      status: true
+      conditions: {  }
+      weight: null
+      settings:
+        id: redirect_to_drafts
+        handler_id: null
+        label: 'Redirect on Transition changes.'
+        notes: ''
+        status: true
+        conditions: {  }
+        weight: null
+        settings:
+          id: redirect_to_drafts
+          handler_id: null
+          label: 'Redirect on Transition changes.'
+          notes: ''
+          status: true
+          conditions: {  }
+          weight: null
+          settings:
+            id: redirect_to_drafts
+            handler_id: null
+            label: 'Redirect on Transition changes.'
+            notes: ''
+            status: true
+            conditions: {  }
+            weight: null
+            settings:
+              id: redirect_to_drafts
+              handler_id: null
+              label: 'Redirect on Transition changes.'
+              notes: ''
+              status: true
+              conditions: {  }
+              weight: null
+              settings:
+                id: redirect_to_drafts
+                handler_id: null
+                label: 'Redirect on Transition changes.'
+                notes: ''
+                status: true
+                conditions: {  }
+                weight: null
+                settings:
+                  id: redirect_to_drafts
+                  handler_id: null
+                  label: 'Redirect on Transition changes.'
+                  notes: ''
+                  status: true
+                  conditions: {  }
+                  weight: null
+                  settings:
+                    id: redirect_to_drafts
+                    handler_id: redirect_to_drafts
+                    label: 'Redirect to Drafts'
+                    notes: ''
+                    status: true
+                    conditions: {  }
+                    weight: 0
+                    settings: {  }
   duplicate_services_handler:
     id: handle_duplicate_services
     handler_id: duplicate_services_handler

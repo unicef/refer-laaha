@@ -17,10 +17,10 @@ type_settings:
       label: Draft
       weight: -3
     in_review:
-      label: 'In - Review with Country Admin'
+      label: 'In - Review with GBV Coordination'
       weight: -1
-    in_review_with_gbvi_coordinator:
-      label: 'In - Review with GBVi Coordinator'
+    in_review_with_focal_point:
+      label: 'In - Review with Focal Point'
       weight: -2
     reject:
       label: Rejected
@@ -29,19 +29,20 @@ type_settings:
     approve:
       label: Approve
       from:
+        - draft
         - in_review
       to: approve
       weight: 0
     reject:
-      label: 'Rejected by Country Admin'
+      label: 'Rejected by GBV Coordination'
       from:
         - in_review
       to: reject
       weight: 1
-    rejected_by_gbvi_coordinator:
-      label: 'Rejected by GBVi Coordinator'
+    rejected_by_focal_point:
+      label: 'Rejected by Focal Point'
       from:
-        - in_review_with_gbvi_coordinator
+        - in_review_with_focal_point
       to: reject
       weight: -2
     restore:
@@ -57,17 +58,17 @@ type_settings:
       to: draft
       weight: -4
     submit_for_review_to_country_admin:
-      label: 'Submit for Review to Country Admin'
+      label: 'Submit to GBV Coordination'
       from:
         - draft
-        - in_review_with_gbvi_coordinator
+        - in_review_with_focal_point
         - reject
       to: in_review
       weight: -1
-    submit_for_review_to_gbvi_coordinator:
-      label: 'Submit for Review to GBVi Coordinator'
+    submit_to_focal_point:
+      label: 'Submit to Focal Point'
       from:
         - draft
         - reject
-      to: in_review_with_gbvi_coordinator
+      to: in_review_with_focal_point
       weight: -3
