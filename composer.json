@@ -62,7 +62,7 @@
         "drupal/paragraphs": "^1.12",
         "drupal/pathauto": "^1.8",
         "drupal/permissions_filter": "^1.2",
-        "drupal/pwa": "^1.5",
+        "drupal/pwa": "^1.7",
         "drupal/quick_node_clone": "^1.14",
         "drupal/role_hierarchy": "^2.2",
         "drupal/seckit": "^2.0",
@@ -157,6 +157,9 @@
             },
             "drupal/taxonomy_term_depth": {
               "PHP 8.1 compatibility str_replace(): Passing null to parameter #3283096": "https://git.drupalcode.org/project/taxonomy_term_depth/-/merge_requests/4.diff"
+            },
+            "drupal/pwa": {
+                "Add schema to pwa block to enable translation for Add to Home Screen Block.": "patches/pwa_a2hs-schema-changes.patch"
             }
         }
     }

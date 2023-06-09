@@ -1,0 +1,27 @@
+From b7b9612e1265d54f104eea6b11a0573f69dedc33 Mon Sep 17 00:00:00 2001
+From: Nishtha Pradhan <nishtha.pradhan@qed42.com>
+Date: Fri, 9 Jun 2023 12:58:58 +0530
+Subject: [PATCH] Updated pwa_a2hs.schema.yml for translation
+
+
+diff --git a/modules/pwa_a2hs/config/schema/pwa_a2hs.schema.yml b/modules/pwa_a2hs/config/schema/pwa_a2hs.schema.yml
+new file mode 100644
+index 0000000..5ec2196
+--- /dev/null
++++ b/modules/pwa_a2hs/config/schema/pwa_a2hs.schema.yml
+@@ -0,0 +1,13 @@
++block.settings.pwa_add_to_home_screen:
++  type: block_settings
++  label: 'PWA Add to Home Screen block configuration'
++  mapping:
++    intro_text:
++      type: text_format
++      label: 'Introduction text'
++      translatable: true
++    button_text:
++      type: text
++      label: 'Button text'
++      translatable: true
+-- 
+2.34.1
+
