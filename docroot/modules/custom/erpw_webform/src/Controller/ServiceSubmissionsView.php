@@ -51,7 +51,21 @@ class ServiceSubmissionsView extends ControllerBase {
    */
   public function content(WebformSubmission $webform_submission) {
     if (!is_null($webform_submission)) {
+      $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($webform_submission->id());
+      $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
+      $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+      $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+      $stype = '';
+      foreach ($tpa as $domain => $servicetype) {
+        if ($domain == $activeDomain) {
+          $stype = $servicetype;
+        }
+      }
       $output = [];
+      $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype[0]));
+      $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
+      $output[] = ['Service Type' => $servicelabel];
       $fields = $webform_submission->getData();
       $location = '';
       $country = '';
@@ -244,7 +258,6 @@ class ServiceSubmissionsView extends ControllerBase {
             }
           }
         }
-
       }
       $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
         'webform' => $webform_submission->getWebform()->id(),

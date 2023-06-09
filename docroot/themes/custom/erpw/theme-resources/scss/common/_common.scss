@@ -450,3 +450,10 @@ span.service-title.no-service a {
   color: gray !important;
   pointer-events: none;
 }
+.disable-country-select-default {
+  pointer-events: none;
+  user-select: none;
+  .select2-selection--single {
+    background-color: #eee !important;
+  }
+}
