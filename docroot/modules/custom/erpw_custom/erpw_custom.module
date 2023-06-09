@@ -754,7 +754,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
 }
 
 /**
- * Get the webform titles based on a given taxonomy term.
+ * Get the Service Type titles based on a given taxonomy term.
  *
  * @param int $taxonomy_term_id
  *   Taxonomy term ID.
@@ -774,6 +774,9 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
   $query = \Drupal::database()->select('webform_submission_data', 'wsd');
   $query->fields('wsd', ['sid', 'webform_id']);
   $query->condition('wsd.name', 'location');
+  $query->join('webform_submission_data', 'wsd2', 'wsd.sid = wsd2.sid');
+  $query->condition('wsd2.property', 'workflow_state');
+  $query->condition('wsd2.value', 'approve');
   // For Country level, all the webforms with given country should be displayed.
   if (in_array($taxonomy_term_id, $term_ids)) {
     $location_entity_id = \Drupal::service('erpw_location.location_services')->getLocationSingleEntityIdByTid($taxonomy_term_id);
@@ -782,19 +785,18 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
     $query->condition('wsd.value', $location_entity_id);
   }
   else {
+    // Load tree for all lower levels of active tid
+    $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+    $parent_term = $term_storage->load($taxonomy_term_id);
+    $tree = $term_storage->loadTree($parent_term->bundle(), $taxonomy_term_id);
+    $lower_level_tids = array_column($tree, 'tid');
+    $location_tree = array_merge([$taxonomy_term_id], $lower_level_tids);
     $query->condition('wsd.property', 'location_tid');
-    $query->condition('wsd.value', $taxonomy_term_id);
-
+    $query->condition('wsd.value', $location_tree, 'IN');
   }
-  $query->join('webform_submission_data', 'wsd2', 'wsd.sid = wsd2.sid');
-  $query->condition('wsd2.property', 'workflow_state');
-  $query->condition('wsd2.value', 'approve');
+
   $results = $query->execute()->fetchAll();
-
-  $webform_ids = [];
-  foreach ($results as $result) {
-    $webform_ids[] = $result->webform_id;
-  }
+  $webform_ids = array_column($results, 'webform_id');
 
   $service_type_titles = [];
   // Fetch Service Type titles using webform ids.
@@ -823,6 +825,10 @@ function erpw_custom_preprocess_node(&$variables) {
   $variables['service_types'] = $service_types;
   $variables['#cache']['contexts'][] = 'user.roles';
   $variables['#cache']['contexts'][] = 'url.site';
+  $is_incognito = \Drupal::request()->headers->has('incognito');
+  if ($is_incognito) {
+    $variables['#cache']['contexts'][] = 'headers:incognito';
+  }
 }
 
 /**
