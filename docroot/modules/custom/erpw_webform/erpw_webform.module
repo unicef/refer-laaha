@@ -11,6 +11,8 @@ use Drupal\Core\Url;
 use Drupal\user\Entity\User;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
 
 /**
  * @file
@@ -161,12 +163,43 @@ function erpw_webform_composite_theme() {
 function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // Check if this is the webform submission edit form.
   $currentRoute = \Drupal::routeMatch()->getRouteName();
+  $account = User::load(\Drupal::currentUser()->id());
+  $user_roles = $account->getRoles();
   if ($currentRoute == 'entity.webform_submission.edit_form') {
     // Set default values for the 'field_name' and 'field_email' fields.
     $elements = $form['elements'];
     foreach ($elements as $element) {
       if ($element["#type"] == "location_list_element" && isset($element["#default_value"])) {
         $form['#attached']['drupalSettings']['erpw_webform']['default_location_values'] = $element["#default_value"];
+      }
+    }
+  }
+  if ($currentRoute == 'entity.webform.canonical' && ($form["#webform_id"] != "" && !is_null($form["#webform_id"]))) {
+    if (in_array('service_provider_staff', $user_roles) || in_array('service_provider_focal_point', $user_roles)) {
+      $user_org = $account->get('field_organisation')->getValue()[0]['target_id'];
+      $elements = $form['elements'];
+      foreach ($elements as $key => $element) {
+        if ($key == 'step_1_add_service_details') {
+          foreach ($element as $skey => $sub_element) {
+            if ($skey == 'organisation') {
+              $form['elements'][$key][$skey]["#default_value"] = $user_org;
+              $form['elements'][$key][$skey]["#disabled"] = TRUE;
+            }
+          }
+        }
+      }
+    }
+  }
+  if ($currentRoute == 'entity.webform_submission.edit_form') {
+    if (in_array('service_provider_staff', $user_roles) || in_array('service_provider_focal_point', $user_roles)) {
+      foreach ($elements as $key => $element) {
+        if ($key == 'step_1_add_service_details') {
+          foreach ($element as $skey => $sub_element) {
+            if ($skey == 'organisation') {
+              $form['elements'][$key][$skey]["#disabled"] = TRUE;
+            }
+          }
+        }
       }
     }
   }
@@ -379,18 +412,18 @@ function erpw_webform_views_pre_render(&$view) {
       }
     }
 
-    // Unset services which do not belong to the active location or its lower levels
+    // Unset services which do not belong to the active location or its lower levels.
     if ($view->id() == 'service_based_service_providers_listing') {
       foreach ($view->result as $key => $row) {
         $sid = $row->sid;
         $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
         $location_country = $webform_submission->getData()['location']['location_options'];
-        
-        // Unset submissions which do not have the country of active domain
+
+        // Unset submissions which do not have the country of active domain.
         $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
         $config = \Drupal::config('domain.location.' . $domain->get('id'));
         $domain_tid = $config->get('location');
-        // Location id of active domain
+        // Location id of active domain.
         $location_entity_id = \Drupal::service('erpw_location.location_services')->getLocationSingleEntityIdByTid($domain_tid);
         if ($location_country != $location_entity_id) {
           unset($view->result[$key]);
@@ -404,8 +437,8 @@ function erpw_webform_views_pre_render(&$view) {
         $request = \Drupal::request();
         $cookie_tid = $request->cookies->get('location_tid');
         if ($cookie_tid != $domain_tid) {
-          // Remove rows which have only domain selected
-          if ($location_of_domain == $location_entity_id || $location_of_domain == null) {
+          // Remove rows which have only domain selected.
+          if ($location_of_domain == $location_entity_id || $location_of_domain == NULL) {
             unset($view->result[$key]);
           }
           else {
@@ -419,23 +452,24 @@ function erpw_webform_views_pre_render(&$view) {
             $lower_level_tids[] = $term->tid;
           }
           $location_tree = [$cookie_tid, ...$lower_level_tids];
-          // Also remove all others which are not in its lower levels
+          // Also remove all others which are not in its lower levels.
           if (!in_array($location_of_level, $location_tree)) {
             unset($view->result[$key]);
           }
         }
       }
     }
-    
-    // Only show users their own Drafts
+
+    // Only show users their own Drafts.
     if ($view->id() == 'webform_submissions') {
       $current_user = \Drupal::currentUser();
       foreach ($view->result as $key => $row) {
         $sid = $row->sid;
         $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
         if ($webform_submission->getData()['erpw_workflow']['workflow_state'] == 'draft') {
-          if ($current_user->id() != $webform_submission->getOwnerId())
+          if ($current_user->id() != $webform_submission->getOwnerId()) {
             unset($view->result[$key]);
+          }
         }
       }
     }
@@ -733,4 +767,20 @@ function erpw_webform_menu_local_actions_alter(&$local_tasks) {
   // Check if the contributed module's link needs to be altered.
   $local_tasks['entity.webform.add_form']['title'] = t('Add new service form');
   $local_tasks['entity.webform.add_form']['route_name'] = 'entity.webform.templates';
+}
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &$query) {
+  // Check if the current user has roles.
+  $user = \Drupal::currentUser();
+  $user_roles = $user->getRoles();
+  if (!in_array('service_provider_staff', $user_roles)) {
+    // Remove the filter from the view query.
+    $conditions = &$query->where;
+    foreach ($conditions as $index => $condition) {
+      unset($conditions[$index]);
+    }
+  }
 }

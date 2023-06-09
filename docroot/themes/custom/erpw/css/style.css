@@ -546,6 +546,17 @@ span.service-title.no-service a {
   pointer-events: none;
 }
 
+.disable-country-select-default {
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.disable-country-select-default .select2-selection--single {
+  background-color: #eee !important;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
