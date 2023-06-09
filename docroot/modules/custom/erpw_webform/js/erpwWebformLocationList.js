@@ -259,19 +259,14 @@
               display: 'none',
             });
             var zeroTid = defaultDomain;
-            console.log(zeroTid);
-            console.log(termsArray);
             for (const zeroKey in termsArray) {
               const zeroValue = termsArray[zeroKey];
-              console.log(zeroValue);
               // checks if the parent id is equal to level zero terms.
               if (zeroKey == zeroTid) {
                 for (const oneKey in zeroValue) {
                   const oneValue = zeroValue[oneKey];
-                  console.log(oneValue);
                   // Setting first level options.
                   if (oneKey == 'children') {
-                    console.log('here');
                     $('select.level_1').parent().css({
                       display: 'block',
                     });
