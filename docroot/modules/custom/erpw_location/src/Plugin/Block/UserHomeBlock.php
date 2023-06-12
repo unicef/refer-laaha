@@ -8,7 +8,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
-use Drupal\erpw_location\LocationCookie;
+use Drupal\erpw_location\EventSubscriber\LocationCookie;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -47,7 +47,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
   /**
    * The cookie as a service.
    *
-   * @var \Drupal\erpw_location\LocationCookie
+   * @var \Drupal\erpw_location\EventSubscriber\LocationCookie
    */
   protected $locationCookie;
 
