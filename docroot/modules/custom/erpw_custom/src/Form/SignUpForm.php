@@ -144,15 +144,17 @@ class SignUpForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
     $this->userId = $id;
     $organisation = "";
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
     $storage = $this->entityTypeManager->getStorage('node');
     $query = $storage->getQuery();
     $query->condition('type', 'organisation');
+    $query->condition('field_domain_access', $active_domain);
     $org_nids = $query->execute();
     $organisation_nodes = $storage->loadMultiple($org_nids);
     foreach ($organisation_nodes as $node) {
       $organisations[$node->id()] = $node->label();
     }
-
+    asort($organisations);
     if ($this->userId != "") {
       $user_details = $this->entityTypeManager->getStorage('user')->load($this->userId);
       $first_name = $user_details->field_first_name->value;
@@ -569,7 +571,7 @@ class SignUpForm extends FormBase {
       $form['password_suggestions_check'] = [
         '#type' => 'markup',
         '#markup' => '<div id="password-suggestions-check"></div>',
-      ]; 
+      ];
       $form['back'] = [
         '#type' => 'submit',
         '#value' => $this->t('Back'),
