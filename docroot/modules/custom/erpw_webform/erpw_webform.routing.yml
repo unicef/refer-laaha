@@ -35,3 +35,11 @@ erpw_webform.service_moderate_content:
       id:
         type: entity:webform_submission
         parameter_conversion: true
+
+erpw_webform.migration_form:
+  path: '/admin/config/migrate/service-providers'
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\ServiceProviderMigrationController::migrationForm'
+    _title: 'Service Provider Migration'
+  requirements:
+    _permission: 'administer site configuration'
