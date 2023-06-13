@@ -193,8 +193,10 @@ class LocationCookie implements EventSubscriberInterface {
           $session->set('location_tid',$_COOKIE['location_tid']);
         }
         if (!in_array($session->get('location_tid'), $domain_tree)) {
-          $response->headers->clearCookie('location_tid');
-          $response->headers->clearCookie('location_id');
+          // Remove existing cookies
+          setcookie('location_tid', '', time() - 3600, '/', $full_url, FALSE);
+          setcookie('location_id', '', time() - 3600, '/', $full_url, FALSE);
+          // Update new ones
           setcookie('location_tid', $domain_tid, strtotime('+1 year'), '/', $full_url, FALSE);
           
           $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $domain_tid]]);
