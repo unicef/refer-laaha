@@ -173,6 +173,17 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
         $form['#attached']['drupalSettings']['erpw_webform']['default_location_values'] = $element["#default_value"];
       }
     }
+    if (in_array('service_provider_staff', $user_roles) || in_array('service_provider_focal_point', $user_roles)) {
+      foreach ($elements as $key => $element) {
+        if ($key == 'step_1_add_service_details') {
+          foreach ($element as $skey => $sub_element) {
+            if ($skey == 'organisation') {
+              $form['elements'][$key][$skey]["#disabled"] = TRUE;
+            }
+          }
+        }
+      }
+    }
   }
   if ($currentRoute == 'entity.webform.canonical' && ($form["#webform_id"] != "" && !is_null($form["#webform_id"]))) {
     if (in_array('service_provider_staff', $user_roles) || in_array('service_provider_focal_point', $user_roles)) {
@@ -190,18 +201,23 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       }
     }
   }
-  if ($currentRoute == 'entity.webform_submission.edit_form') {
-    if (in_array('service_provider_staff', $user_roles) || in_array('service_provider_focal_point', $user_roles)) {
-      foreach ($elements as $key => $element) {
-        if ($key == 'step_1_add_service_details') {
-          foreach ($element as $skey => $sub_element) {
-            if ($skey == 'organisation') {
-              $form['elements'][$key][$skey]["#disabled"] = TRUE;
-            }
-          }
+  if ($currentRoute == 'entity.webform_submission.edit_form' || ($currentRoute == 'entity.webform.canonical' && ($form["#webform_id"] != "" && !is_null($form["#webform_id"])))) {
+    $options = $form['elements']['step_1_add_service_details']['organisation']['#options'];
+    $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    foreach ($options as $key => $label) {
+      $org = \Drupal::entityTypeManager()->getStorage('node')->load($key);
+      $orgDomains = $org->get('field_domain_access')->getValue();
+      $c = 0;
+      foreach ($orgDomains as $orgDomain) {
+        if ($orgDomain['target_id'] == $activeDomain) {
+          $c++;
         }
       }
+      if ($c == 0) {
+        unset($options[$key]);
+      }
     }
+    $form['elements']['step_1_add_service_details']['organisation']['#options'] = $options;
   }
 }
 
