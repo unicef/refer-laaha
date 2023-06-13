@@ -42,7 +42,29 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     $form['field_service_type_target_id']['#options'] = erpw_custom_service_type_options();
   }
   if ($form_id == 'views_exposed_form' && $form_state->get('view')->id() == 'user_lists') {
-    $form['field_organisation_target_id_verf']['#options']['All'] = t('All');
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+
+    /* Filter Organisation by the active domain */
+
+    // Load Organisation nodes for the active domain.
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $node_storage = $entity_type_manager->getStorage('node');
+    $query = $node_storage->getQuery();
+    $query->condition('type', 'organisation');
+    $query->condition('field_domain_access', $active_domain->id());
+    $organisation_nids = $query->execute();
+
+    // Retrieve the titles of the organisations.
+    $organisations = $node_storage->loadMultiple($organisation_nids);
+    $organisation_options = ['All' => t('All')];
+    foreach ($organisations as $organisation) {
+      if ($organisation instanceof NodeInterface) {
+        $organisation_options[$organisation->id()] = $organisation->label();
+      }
+    }
+
+    // Set the filtered options for the field_organisation_target_id_verf exposed filter.
+    $form['field_organisation_target_id_verf']['#options'] = $organisation_options;
     $form['roles_target_id']['#options']['All'] = t('All');
     $permission = 'view users of their own location and organisation';
     $uid = \Drupal::currentUser()->id();
@@ -79,8 +101,7 @@ function erpw_custom_service_type_options() {
  * Implements hook_views_pre_render().
  */
 // This is no longer required as service_list view is not used now.
-
-// function erpw_custom_views_pre_render(ViewExecutable $view) {
+// Function erpw_custom_views_pre_render(ViewExecutable $view) {
 //   if ($view->id() == 'service_list') {
 //     $parameters = \Drupal::routeMatch()->getParameters()->all();
 //     // Add active tid from cookies as a fallback,
@@ -766,7 +787,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
  */
 function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
 
-  // Fetch all parent term ids of the Country vocabulary
+  // Fetch all parent term ids of the Country vocabulary.
   $query = \Drupal::entityQuery('taxonomy_term');
   $query->condition('vid', 'country');
   $query->condition('parent', 0);
@@ -787,7 +808,7 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
     $query->condition('wsd.value', $location_entity_id);
   }
   else {
-    // Load tree for all lower levels of active tid
+    // Load tree for all lower levels of active tid.
     $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
     $parent_term = $term_storage->load($taxonomy_term_id);
     $tree = $term_storage->loadTree($parent_term->bundle(), $taxonomy_term_id);
@@ -817,8 +838,6 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
   }
   return $service_type_titles;
 }
-
-
 
 /**
  * Implements hook_preprocess_node().
