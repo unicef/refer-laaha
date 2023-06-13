@@ -88,7 +88,7 @@ class PendingServicesBlock extends BlockBase implements ContainerFactoryPluginIn
           unset($view->result[$key]);
         }
       }
-      elseif (in_array('country_admin', $roles) && in_array('interagency_gbv_coordinator', $roles)) {
+      elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
         if ($state != 'in_review') {
           unset($view->result[$key]);
         }
