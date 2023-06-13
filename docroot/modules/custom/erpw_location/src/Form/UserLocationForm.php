@@ -10,7 +10,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
-use Drupal\erpw_location\LocationCookie;
+use Drupal\erpw_location\EventSubscriber\LocationCookie;
 use Drupal\erpw_location\LocationService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -44,7 +44,7 @@ class UserLocationForm extends LocationListForm {
   /**
    * The cookie as a service.
    *
-   * @var \Drupal\erpw_location\LocationCookie
+   * @var \Drupal\erpw_location\EventSubscriber\LocationCookie
    */
   protected $locationCookie;
 
@@ -176,7 +176,9 @@ class UserLocationForm extends LocationListForm {
       $full_url = $domain->get('hostname');
 
       setcookie('location_tid', $location_value, strtotime('+1 year'), '/', $full_url, FALSE);
-
+      $request = \Drupal::request();
+      $session = $request->getSession();
+      $session->set('location_tid',$location_value);
       $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $location_value]]);
       // First level is the country taxonomy term; if we have it we want to
       // modify the redirect to include the matching subdomain.
