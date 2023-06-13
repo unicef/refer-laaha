@@ -669,6 +669,8 @@ function erpw_custom_preprocess_status_messages(&$variables) {
  * Implements hook_views_query_alter().
  */
 function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  $request = \Drupal::request();
+  $session = $request->getSession();
   if (($view->id() == "user_lists" &&
     ($view->current_display == 'page_1' || $view->current_display == 'page_2')) ||
     ($view->id() == "user_count_approval_block" && $view->current_display == 'block_1')) {
@@ -703,9 +705,9 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       }
     }
     // Load the taxonomy term and get the next terms.
-    if (isset($_COOKIE['location_tid'])) {
+    if ($session->get('location_tid')) {
       $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
-      $parent_term = $term_storage->load($current_tid);
+      $parent_term = $term_storage->load($session->get('location_tid'));
       $tree = $term_storage->loadTree($parent_term->bundle(), $current_tid);
       $child_tids = [];
       foreach ($tree as $term) {
@@ -817,11 +819,14 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
 }
 
 
+
 /**
  * Implements hook_preprocess_node().
  */
 function erpw_custom_preprocess_node(&$variables) {
-  $service_types = erpw_custom_load_submissions_by_term($_COOKIE['location_tid']);
+  $request = \Drupal::request();
+  $session = $request->getSession();
+  $service_types = erpw_custom_load_submissions_by_term($session->get('location_tid'));
   $variables['service_types'] = $service_types;
   $variables['#cache']['contexts'][] = 'user.roles';
   $variables['#cache']['contexts'][] = 'url.site';

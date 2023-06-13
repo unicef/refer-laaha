@@ -543,6 +543,12 @@ class SignUpForm extends FormBase {
         ],
         '#suffix' => '</div>',
       ];
+      $form['back'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Back'),
+        '#submit' => ['::pageTwoBack'],
+        '#limit_validation_errors' => [],
+      ];
     }
     else {
       $form['#prefix'] = '<div id="status-message"></div>';
