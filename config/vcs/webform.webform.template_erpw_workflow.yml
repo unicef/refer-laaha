@@ -76,10 +76,12 @@ elements: |-
     age_group:
       '#type': select
       '#title': 'Age Group'
+      '#multiple': true
       '#options': age_group
     target_group:
       '#type': select
       '#title': 'Target Group'
+      '#multiple': true
       '#options': target_group
       '#required': true
   step_2_contact_fields:
@@ -96,6 +98,7 @@ elements: |-
     field_mode:
       '#type': select
       '#title': 'Service Mode'
+      '#multiple': true
       '#options':
         'In person': 'In Person'
         Remote: Remote
