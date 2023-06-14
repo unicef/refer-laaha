@@ -2,20 +2,43 @@ _core:
   default_config_hash: 6Ka3T1c-CIjEUO1Q64NXKksLthkMhj53a6zy4RJBtkc
 verbose: 1
 types:
-  webform_submission: {  }
-  block_content: {  }
-  comment: {  }
-  contact_message: {  }
-  content_moderation_state: {  }
-  location: {  }
-  file: {  }
-  menu_link_content: {  }
-  node: {  }
-  path_alias: {  }
-  shortcut: {  }
-  taxonomy_term: {  }
-  user: {  }
-  paragraph: {  }
+  webform_submission:
+    '*': '*'
+    erpw_webform: erpw_webform
+    webform_content_lock_test: webform_content_lock_test
+    erpw_webform_test_demo: erpw_webform_test_demo
+    erpw_webform_demo1: erpw_webform_demo1
+    test_service_webform: test_service_webform
+    webform_amv_test: webform_amv_test
+    legal_assistance: legal_assistance
+    phc_services: phc_services
+    bn_gbv_case_mgmt_children: bn_gbv_case_mgmt_children
+    bn_emergecy_shelter_safe_house_: bn_emergecy_shelter_safe_house_
+    cadmin_bangladesh_service_type: cadmin_bangladesh_service_type
+    test_erpw_webform: test_erpw_webform
+    casemanagement_adults_: casemanagement_adults_
+    service_for_bangladesh: service_for_bangladesh
+    test_webform: test_webform
+    erpw_service_provider_form123: erpw_service_provider_form123
+    erpw_service_provider_form_housi: erpw_service_provider_form_housi
+    txb_txb_erpw_service_provider_fo: txb_txb_erpw_service_provider_fo
+    erpw_service_provider_form: erpw_service_provider_form
+    erpw_service_provider_formvbnn: erpw_service_provider_formvbnn
+    bang_erpw_service_provider_form: bang_erpw_service_provider_form
+    bn_bn_bn_erpw_service_provider_f: bn_bn_bn_erpw_service_provider_f
+    adminerpw_service_provider_form: adminerpw_service_provider_form
+    health_care_cmr_within_72_hours: health_care_cmr_within_72_hours
+    testbnerpw_service_provider_form: testbnerpw_service_provider_form
+    casemgmterpw_service_provider_fo: casemgmterpw_service_provider_fo
+    erpw_service_provider_form_cadmi: erpw_service_provider_form_cadmi
+    shelter_erpw_service_provider_fo: shelter_erpw_service_provider_fo
+    test_245erpw_service_provider_fo: test_245erpw_service_provider_fo
+    shelter_testerpw_service_provide: shelter_testerpw_service_provide
+    sheltertesterpw_service_provider: sheltertesterpw_service_provider
+    gbv_mgmt_testerpw_service_provid: gbv_mgmt_testerpw_service_provid
+    testerpw_service_provider_form: testerpw_service_provider_form
+    cadminerpw_service_provider_form: cadminerpw_service_provider_form
+    esteeerpw_service_provider_form: esteeerpw_service_provider_form
 types_translation_lock: {  }
 types_js_lock: {  }
 form_op_lock:
