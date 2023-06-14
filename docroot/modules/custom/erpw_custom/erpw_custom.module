@@ -848,7 +848,8 @@ function erpw_custom_preprocess_node(&$variables) {
   $service_types = erpw_custom_load_submissions_by_term($session->get('location_tid'));
   $variables['service_types'] = $service_types;
   $variables['#cache']['contexts'][] = 'user.roles';
-  $variables['#cache']['contexts'][] = 'url.site';
+  $cookieValue = \Drupal::request()->cookies->get('location_tid');
+  $variables['#cache']['contexts'][] = 'cookies:location_tid:' . $cookieValue;
   $is_incognito = \Drupal::request()->headers->has('incognito');
   if ($is_incognito) {
     $variables['#cache']['contexts'][] = 'headers:incognito';
