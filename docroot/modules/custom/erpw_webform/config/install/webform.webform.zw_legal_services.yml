@@ -1,0 +1,489 @@
+uuid: c7d7dc6b-d13f-4468-ab73-b09753375013
+langcode: en
+status: open
+dependencies:
+  module:
+    - erpw_webform
+  enforced:
+    module:
+      - erpw_webform
+third_party_settings:
+  erpw_webform:
+    webform_service_type_map:
+      zm_erefer_org:
+        - '441'
+_core:
+  default_config_hash: oo5YoUVLXA4y-0ah7VtLK5kIqN5U65Vq6EHnk9qUlBM
+weight: 0
+open: null
+close: null
+uid: 1
+template: false
+archive: false
+id: zw_legal_services
+title: 'Legal Services'
+description: ''
+category: eRPW
+elements: |-
+  location:
+    '#type': location_list_element
+    '#title': Location
+    '#required': true
+    '#location_options__title': 'Select Country'
+  step_1_add_service_details:
+    '#type': details
+    '#title': 'Step 1: Add Service Details'
+    '#attributes':
+      class:
+        - node-service-provider-form
+        - default-open-summary
+    organisation:
+      '#type': webform_entity_select
+      '#title': Organisation
+      '#target_type': node
+      '#selection_handler': 'default:node'
+      '#selection_settings':
+        target_bundles:
+          organisation: organisation
+        sort:
+          field: title
+          direction: ASC
+      '#required': true
+    field_number_of_staff_providing_:
+      '#type': textfield
+      '#title': 'Number of Staff Providing Service'
+      '#title_display': before
+      '#placeholder': 'Enter Number of Staff'
+      '#autocomplete': 'off'
+    field_opening_hours:
+      '#type': textfield
+      '#title': 'Opening Hours'
+      '#title_display': before
+      '#placeholder': 'Enter Opening Hours'
+      '#autocomplete': 'off'
+    field_cost_of_service:
+      '#type': textfield
+      '#title': 'Cost of Service'
+      '#title_display': before
+      '#placeholder': 'Enter Cost of Service'
+      '#autocomplete': 'off'
+    transportation_available:
+      '#type': radios
+      '#title': 'Transportation Available'
+      '#options':
+        'Yes': 'Yes'
+        'No': 'No'
+    accessibility_for_persons:
+      '#type': checkboxes
+      '#title': 'Has the ability to support the following disabilities:'
+      '#options': support_for_disabilities
+    age_group:
+      '#type': select
+      '#title': 'Age Group'
+      '#multiple': true
+      '#options': age_group
+    target_group:
+      '#type': select
+      '#title': 'Target Group'
+      '#multiple': true
+      '#options': target_group
+      '#required': true
+  step_2_contact_fields:
+    '#type': details
+    '#title': 'Step 2: Contact Fields'
+    '#attributes':
+      class:
+        - node-service-provider-form
+    field_phone_number:
+      '#type': tel
+      '#title': 'Hotline/Landline Number'
+      '#required': true
+      '#required_error': 'This field is required.'
+    field_mode:
+      '#type': select
+      '#title': 'Service Mode'
+      '#multiple': true
+      '#options':
+        'In person': 'In Person'
+        Remote: Remote
+      '#select2': true
+      '#required': true
+    field_name_of_the_focal_point:
+      '#type': textfield
+      '#title': 'Name of focal point for referrals (first/last name)'
+      '#title_display': before
+      '#placeholder': 'Enter Name of focal point'
+      '#required': true
+      '#required_error': 'This field is required'
+    field_phone_number_of_focal_poin:
+      '#type': tel
+      '#title': 'Phone number of focal point'
+      '#placeholder': 'Enter the phone number of focal point'
+    field_email_of_focal_point:
+      '#type': email
+      '#title': 'Email of focal point'
+      '#placeholder': 'Enter email of focal point.'
+    field_name_backup_focalpoint_ref:
+      '#type': textfield
+      '#title': 'Name of Back-up Focal Point'
+      '#placeholder': 'Enter name of Back-up Focal Point.'
+    field_phone_number_backup_focalp:
+      '#type': tel
+      '#title': 'Phone number of back-up focal point'
+      '#placeholder': 'Enter phone number of back-up focal point.'
+    field_email_backup_focal_point:
+      '#type': email
+      '#title': 'Email of back-up focal point'
+      '#placeholder': 'Enter email of back-up focal point.'
+    field_add_more_details_service:
+      '#type': textarea
+      '#title': 'Add More Details'
+      '#placeholder': 'Add More Details'
+  erpw_workflow:
+    '#type': webform_workflows_element
+    '#title': 'eRPW Workflow'
+    '#description': |-
+      <br />
+      <quillbot-extension-portal></quillbot-extension-portal>
+    '#more': |-
+      <br />
+      <quillbot-extension-portal></quillbot-extension-portal>
+    '#required': true
+    '#multiple__no_items_message': 'No items entered. Please add items below.<quillbot-extension-portal></quillbot-extension-portal>'
+    '#admin_notes': |-
+      <br />
+      <quillbot-extension-portal></quillbot-extension-portal>
+    '#access_create_roles':
+      - authenticated
+    '#access_create_workflow_enabled': true
+    '#access_view_roles':
+      - authenticated
+    '#access_transition_save_as_draft_roles':
+      - authenticated
+    '#access_transition_submit_to_focal_point_roles':
+      - service_provider_staff
+      - super_admin
+      - administrator
+    '#access_transition_rejected_by_focal_point_roles':
+      - service_provider_focal_point
+      - super_admin
+      - administrator
+    '#access_transition_submit_for_review_to_country_admin_roles':
+      - service_provider_focal_point
+      - super_admin
+      - administrator
+    '#access_transition_approve_roles':
+      - interagency_gbv_coordinator
+      - country_admin
+      - super_admin
+      - administrator
+    '#access_transition_reject_roles':
+      - interagency_gbv_coordinator
+      - country_admin
+      - super_admin
+      - administrator
+    '#access_transition_restore_roles':
+      - authenticated
+    '#workflow': webform_workflow
+    '#require_transition_if_available': true
+    '#log_public_setting': Disabled
+    '#log_admin_setting': Disabled
+    '#transition_element_type': radios
+    '#show_log_view': false
+    '#transition_save_as_draft_run_on_edit': anyone
+    '#state_draft_color': Yellow
+    '#state_in_review_with_focal_point_color': Orange
+    '#state_in_review_color': Blue
+    '#state_approve_color': Green
+    '#state_reject_color': Red
+    '#access_transition_submit_for_review_to_gbvi_coordinator_roles':
+      - service_provider_staff
+      - super_admin
+      - administrator
+    '#access_transition_rejected_by_gbvi_coordinator_roles':
+      - service_provider_focal_point
+      - super_admin
+      - administrator
+    '#state_in_review_with_gbvi_coordinator_color': Orange
+    '#access_transition_review_roles':
+      - service_provider_staff
+      - service_provider_focal_point
+      - interagency_gbv_coordinator
+      - country_admin
+      - super_admin
+      - administrator
+css: ''
+javascript: ''
+settings:
+  ajax: false
+  ajax_scroll_top: form
+  ajax_progress_type: ''
+  ajax_effect: ''
+  ajax_speed: null
+  page: true
+  page_submit_path: ''
+  page_confirm_path: ''
+  page_theme_name: ''
+  form_title: both
+  form_submit_once: false
+  form_open_message: ''
+  form_close_message: ''
+  form_exception_message: ''
+  form_previous_submissions: true
+  form_confidential: false
+  form_confidential_message: ''
+  form_disable_remote_addr: false
+  form_convert_anonymous: false
+  form_prepopulate: false
+  form_prepopulate_source_entity: false
+  form_prepopulate_source_entity_required: false
+  form_prepopulate_source_entity_type: ''
+  form_unsaved: false
+  form_disable_back: false
+  form_submit_back: false
+  form_disable_autocomplete: false
+  form_novalidate: false
+  form_disable_inline_errors: false
+  form_required: false
+  form_autofocus: false
+  form_details_toggle: false
+  form_reset: false
+  form_access_denied: default
+  form_access_denied_title: ''
+  form_access_denied_message: ''
+  form_access_denied_attributes: {  }
+  form_file_limit: ''
+  form_attributes: {  }
+  form_method: ''
+  form_action: ''
+  share: false
+  share_node: false
+  share_theme_name: ''
+  share_title: true
+  share_page_body_attributes: {  }
+  submission_label: ''
+  submission_exception_message: ''
+  submission_locked_message: ''
+  submission_log: false
+  submission_excluded_elements: {  }
+  submission_exclude_empty: false
+  submission_exclude_empty_checkbox: false
+  submission_views: {  }
+  submission_views_replace: {  }
+  submission_user_columns: {  }
+  submission_user_duplicate: false
+  submission_access_denied: default
+  submission_access_denied_title: ''
+  submission_access_denied_message: ''
+  submission_access_denied_attributes: {  }
+  previous_submission_message: ''
+  previous_submissions_message: ''
+  autofill: false
+  autofill_message: ''
+  autofill_excluded_elements: {  }
+  wizard_progress_bar: true
+  wizard_progress_pages: false
+  wizard_progress_percentage: false
+  wizard_progress_link: false
+  wizard_progress_states: false
+  wizard_start_label: ''
+  wizard_preview_link: false
+  wizard_confirmation: true
+  wizard_confirmation_label: ''
+  wizard_auto_forward: true
+  wizard_auto_forward_hide_next_button: false
+  wizard_keyboard: true
+  wizard_track: ''
+  wizard_prev_button_label: ''
+  wizard_next_button_label: ''
+  wizard_toggle: false
+  wizard_toggle_show_label: ''
+  wizard_toggle_hide_label: ''
+  wizard_page_type: container
+  wizard_page_title_tag: null
+  preview: 0
+  preview_label: ''
+  preview_title: ''
+  preview_message: ''
+  preview_attributes: {  }
+  preview_excluded_elements: {  }
+  preview_exclude_empty: true
+  preview_exclude_empty_checkbox: false
+  draft: none
+  draft_multiple: false
+  draft_auto_save: false
+  draft_saved_message: ''
+  draft_loaded_message: ''
+  draft_pending_single_message: ''
+  draft_pending_multiple_message: ''
+  confirmation_type: page
+  confirmation_url: ''
+  confirmation_title: ''
+  confirmation_message: ''
+  confirmation_attributes: {  }
+  confirmation_back: true
+  confirmation_back_label: ''
+  confirmation_back_attributes: {  }
+  confirmation_exclude_query: false
+  confirmation_exclude_token: false
+  confirmation_update: false
+  limit_total: null
+  limit_total_interval: null
+  limit_total_message: ''
+  limit_total_unique: false
+  limit_user: null
+  limit_user_interval: null
+  limit_user_message: ''
+  limit_user_unique: false
+  entity_limit_total: null
+  entity_limit_total_interval: null
+  entity_limit_user: null
+  entity_limit_user_interval: null
+  purge: none
+  purge_days: null
+  results_disabled: false
+  results_disabled_ignore: false
+  results_customize: false
+  token_view: false
+  token_update: false
+  token_delete: false
+  serial_disabled: false
+access:
+  create:
+    roles:
+      - anonymous
+      - authenticated
+    users: {  }
+    permissions: {  }
+  view_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  update_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  delete_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  purge_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  view_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  update_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  delete_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  administer:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  test:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  configuration:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+handlers:
+  redirect_to_drafts:
+    id: redirect_to_drafts
+    handler_id: null
+    label: 'Redirect on Transition changes.'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: null
+    settings:
+      id: redirect_to_drafts
+      handler_id: null
+      label: 'Redirect on Transition changes.'
+      notes: ''
+      status: true
+      conditions: {  }
+      weight: -50
+      settings:
+        id: redirect_to_drafts
+        handler_id: null
+        label: 'Redirect on Transition changes.'
+        notes: ''
+        status: true
+        conditions: {  }
+        weight: null
+        settings:
+          id: redirect_to_drafts
+          handler_id: null
+          label: 'Redirect on Transition changes.'
+          notes: ''
+          status: true
+          conditions: {  }
+          weight: null
+          settings:
+            id: redirect_to_drafts
+            handler_id: null
+            label: 'Redirect on Transition changes.'
+            notes: ''
+            status: true
+            conditions: {  }
+            weight: null
+            settings:
+              id: redirect_to_drafts
+              handler_id: null
+              label: 'Redirect on Transition changes.'
+              notes: ''
+              status: true
+              conditions: {  }
+              weight: null
+              settings:
+                id: redirect_to_drafts
+                handler_id: null
+                label: 'Redirect on Transition changes.'
+                notes: ''
+                status: true
+                conditions: {  }
+                weight: null
+                settings:
+                  id: redirect_to_drafts
+                  handler_id: null
+                  label: 'Redirect on Transition changes.'
+                  notes: ''
+                  status: true
+                  conditions: {  }
+                  weight: null
+                  settings:
+                    id: redirect_to_drafts
+                    handler_id: null
+                    label: 'Redirect on Transition changes.'
+                    notes: ''
+                    status: true
+                    conditions: {  }
+                    weight: null
+                    settings:
+                      id: redirect_to_drafts
+                      handler_id: redirect_to_drafts
+                      label: 'Redirect to Drafts'
+                      notes: ''
+                      status: true
+                      conditions: {  }
+                      weight: 0
+                      settings: {  }
+  duplicate_services_handler:
+    id: handle_duplicate_services
+    handler_id: duplicate_services_handler
+    label: 'Duplicate Services Handler'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings: {  }
+variants: {  }
