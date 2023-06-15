@@ -54,7 +54,7 @@ class ServiceProviderMigrate {
   }
 
   /**
-   * Function to total investment from serviceProvider.
+   * Function to migrate serviceProvider from node to webform submissions.
    *
    * @param int $nid
    *   The node id of the serviceProvider.
