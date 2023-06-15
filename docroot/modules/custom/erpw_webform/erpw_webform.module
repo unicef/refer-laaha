@@ -13,7 +13,6 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
-use Drupal\webform\Entity\WebformSubmission;
 
 /**
  * @file
@@ -97,47 +96,6 @@ function erpw_webform_preprocess_html(&$variables) {
  * Implements hook_preprocess_page().
  */
 function erpw_webform_preprocess_page(&$variables) {
-
-  /* Filter Organisation by the active domain */
-
-  // Load Organisation nodes for the active domain.
-  $entity_type_manager = \Drupal::entityTypeManager()->getStorage('node')->load('4745');
-
-  $node_storage = WebformSubmission::load('88');
-  $workflow = [];
-  $revision = $entity_type_manager->get('revision_timestamp')->getValue()[0]['value'];
-  $created = $entity_type_manager->get('created')->getValue()[0]['value'];
-  $workflow['changed_timestamp'] = (is_null($revision) || empty($revision)) ? $created : $revision;
-  $revisionUser = $entity_type_manager->get('revision_uid')->getValue()[0]['target_id'];
-  $createdUser = $entity_type_manager->get('uid')->getValue()[0]['target_id'];
-  $workflow['changed_user'] = (is_null($revisionUser) || empty($revisionUser)) ? $createdUser : $revisionUser;
-  $status = $entity_type_manager->get('status')->getValue()[0]['value'];
-  switch ($status) {
-    case '0':
-      $workflow['transition'] = "save_as_draft";
-      $workflow['workflow_state'] = "draft";
-      $workflow['workflow_state_label'] = "Draft";
-      $workflow['workflow_state_previous'] = "";
-      break;
-
-    case '1':
-      $workflow['transition'] = "approve";
-      $workflow['workflow_state'] = "approve";
-      $workflow['workflow_state_label'] = "Approved";
-      $workflow['workflow_state_previous'] = "";
-      break;
-
-    default:
-      $workflow['transition'] = "save_as_draft";
-      $workflow['workflow_state'] = "draft";
-      $workflow['workflow_state_label'] = "Draft";
-      $workflow['workflow_state_previous'] = "";
-      break;
-  }
-  dump($workflow);
-  dump($node_storage->getData());
-  dump($entity_type_manager);
-
   $currentRoute = \Drupal::routeMatch()->getRouteName();
   if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_moderate_content') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';

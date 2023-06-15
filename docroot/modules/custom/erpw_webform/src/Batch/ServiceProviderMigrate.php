@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\webform\Entity\WebformSubmission;
 
 /**
  * Batch process to count transactions.
@@ -65,7 +66,7 @@ class ServiceProviderMigrate {
    */
   public function migrate(int $nid, &$context) {
     $serviceProvider = $this->entityTypeManager->getStorage('node')->load($nid);
-    $context['message'] = 'Migrating Service Provider: ' . $serviceProvider->label();
+    $context['message'] = 'Migrating: ' . $serviceProvider->label();
     $context['success'] = TRUE;
     $context['results'][] = $nid;
     try {
@@ -94,13 +95,12 @@ class ServiceProviderMigrate {
       $phoneFocal = is_null($phoneFocal) ? '' : $phoneFocal;
       $transportation = $serviceProvider->get('field_transportation_available')->getValue()[0]['value'];
       $transportation = is_null($transportation) ? '' : $transportation;
-      $serviceType = $serviceProvider->get('field_service_type')->getValue()[0]['target_id'];
       $organisation = $serviceProvider->get('field_select_organisation')->getValue()[0]['target_id'];
 
       // Array of values.
       $ageGroupValue = $serviceProvider->get('field_age_group')->getValue();
+      $ageGroups = [];
       if (!empty($ageGroupValue)) {
-        $ageGroups = [];
         foreach ($ageGroupValue as $ageGroup) {
           if ($ageGroup['value'] == '18+') {
             $ageGroups[] = '18-64';
@@ -124,8 +124,8 @@ class ServiceProviderMigrate {
       }
 
       $disabilities = $serviceProvider->get('field_accessibility_for_persons_')->getValue();
+      $accessiblities = [];
       if (!empty($disabilities)) {
-        $accessiblities = [];
         foreach ($disabilities as $disability) {
           $accessiblities[] = $disability['value'];
         }
@@ -177,10 +177,181 @@ class ServiceProviderMigrate {
           $locations['location_tid'] = $location['target_id'];
         }
       }
-      // $ws_storage = $this->entityTypeManager->getStorage('webform_submission');
-      // $webformSubmission = $ws_storage->create();
-      // $webformSubmission->save();
-      // dump($serviceProvider);
+
+      // eRPW workflow.
+      $workflow = [];
+      $revision = $serviceProvider->get('revision_timestamp')->getValue()[0]['value'];
+      $created = $serviceProvider->get('created')->getValue()[0]['value'];
+      $workflow['changed_timestamp'] = (is_null($revision) || empty($revision)) ? $created : $revision;
+      $revisionUser = $serviceProvider->get('revision_uid')->getValue()[0]['target_id'];
+      $createdUser = $serviceProvider->get('uid')->getValue()[0]['target_id'];
+      $workflow['changed_user'] = (is_null($revisionUser) || empty($revisionUser)) ? $createdUser : $revisionUser;
+      $status = $serviceProvider->get('status')->getValue()[0]['value'];
+      switch ($status) {
+        case '0':
+          $workflow['transition'] = "save_as_draft";
+          $workflow['workflow_state'] = "draft";
+          $workflow['workflow_state_label'] = "Draft";
+          $workflow['workflow_state_previous'] = "";
+          break;
+
+        case '1':
+          $workflow['transition'] = "approve";
+          $workflow['workflow_state'] = "approve";
+          $workflow['workflow_state_label'] = "Approved";
+          $workflow['workflow_state_previous'] = "";
+          break;
+
+        default:
+          $workflow['transition'] = "save_as_draft";
+          $workflow['workflow_state'] = "draft";
+          $workflow['workflow_state_label'] = "Draft";
+          $workflow['workflow_state_previous'] = "";
+          break;
+      }
+
+      // Setting Webform ID.
+      $webformID = '';
+      $serviceType = $serviceProvider->get('field_service_type')->getValue()[0]['target_id'];
+      switch ($serviceType) {
+        case '301':
+          $webformID = 'bn_healthcare_cmr_within72hours';
+          break;
+
+        case '306':
+          $webformID = 'bn_casemanagement_adults';
+          break;
+
+        case '311':
+          $webformID = 'bn_gbv_case_management_children';
+          break;
+
+        case '316':
+          $webformID = 'bn_legal_assistance';
+          break;
+
+        case '321':
+          $webformID = 'bn_emergency_shelter_safe_house';
+          break;
+
+        case '426':
+          $webformID = 'zw_health_services';
+          break;
+
+        case '431':
+          $webformID = 'zw_psychosocial_services';
+          break;
+
+        case '436':
+          $webformID = 'zw_safety_security_police';
+          break;
+
+        case '441':
+          $webformID = 'zw_legal_services';
+          break;
+
+        case '446':
+          $webformID = 'zw_shelter_services';
+          break;
+
+        case '451':
+          $webformID = 'zw_one_stop_center';
+          break;
+
+        case '3836':
+          $webformID = 'zw_hotlines';
+          break;
+
+        case '4541':
+          $webformID = 'txb_health_services';
+          break;
+
+        case '4396':
+          $webformID = 'sl_medical_services';
+          break;
+
+        case '4401':
+          $webformID = 'sl_psychosocial_support';
+          break;
+
+        case '4406':
+          $webformID = 'sl_case_management';
+          break;
+
+        case '4411':
+          $webformID = 'sl_legal_aid';
+          break;
+
+        case '4416':
+          $webformID = 'sl_police_services';
+          break;
+
+        case '4426':
+          $webformID = 'sl_protection_shelter';
+          break;
+
+        case '4431':
+          $webformID = 'sl_social_services';
+          break;
+
+        case '4436':
+          $webformID = 'sl_education_training_services';
+          break;
+
+        case '4936':
+          $webformID = 'sl_livelihood_services';
+          break;
+
+        case '4941':
+          $webformID = 'sl_hotline';
+          break;
+
+        case '4991':
+          $webformID = 'sl_advocacy_for_child_survivors';
+          break;
+
+        case '5541':
+          $webformID = 'sl_referral_for_medical_exam';
+          break;
+
+        default:
+          $webformID = '';
+          break;
+
+      }
+
+      // Setting values for webform submissions.
+      $values = [];
+      if (!is_null($webformID) && !empty($webformID)) {
+        $values = [
+          'webform_id' => $webformID,
+          'data' => [
+            'location' => $locations,
+            'organisation' => $organisation,
+            'field_number_of_staff_providing_' => $staff,
+            'field_opening_hours' => $openingHours,
+            'field_cost_of_service' => $costService,
+            'transportation_available' => $transportation,
+            'accessibility_for_persons' => $accessiblities,
+            'age_group' => $ageGroups,
+            'target_group' => $targetGroups,
+            'field_phone_number' => $hotline,
+            'field_mode' => $serviceModes,
+            'field_name_of_the_focal_point' => $nameFocal,
+            'field_phone_number_of_focal_poin' => $phoneFocal,
+            'field_email_of_focal_point' => $emailFocal,
+            'field_name_backup_focalpoint_ref' => $nameBackup,
+            'field_phone_number_backup_focalp' => $phoneBackup,
+            'field_email_backup_focal_point' => $emailBackup,
+            'field_add_more_details_service' => $addMoreDetails,
+            'erpw_workflow' => $workflow,
+          ],
+        ];
+
+        /** @var \Drupal\webform\WebformSubmissionInterface $webform_submission */
+        $webform_submission = WebformSubmission::create($values);
+        $webform_submission->save();
+      }
     }
     catch (\Exception $e) {
       $context['success'] = FALSE;

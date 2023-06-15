@@ -85,10 +85,28 @@ class ServiceProviderMigrationForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['migrate'] = [
+    $form['bn_migrate'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Migrate'),
-      '#description' => $this->t('Migrate service providers as webform submissions in a batch process. This could take a while.'),
+      '#title' => $this->t('Migrate for Bangladesh'),
+      '#description' => $this->t('Migrate service providers as webform submissions for Bangladesh in a batch process. This could take a while.'),
+      '#default_value' => FALSE,
+    ];
+    $form['zw_migrate'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Migrate for Zimbabwe'),
+      '#description' => $this->t('Migrate service providers as webform submissions for Zimbabwe in a batch process. This could take a while.'),
+      '#default_value' => FALSE,
+    ];
+    $form['sl_migrate'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Migrate for Sierra Leone'),
+      '#description' => $this->t('Migrate service providers as webform submissions for Sierra Leone in a batch process. This could take a while.'),
+      '#default_value' => FALSE,
+    ];
+    $form['txb_migrate'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Migrate for Turkey Cross Border'),
+      '#description' => $this->t('Migrate service providers as webform submissions for Turkey Cross Border in a batch process. This could take a while.'),
       '#default_value' => FALSE,
     ];
     return parent::buildForm($form, $form_state);
@@ -99,16 +117,75 @@ class ServiceProviderMigrationForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
-    if ($form_state->getValue('migrate')) {
+    if ($form_state->getValue('bn_migrate')) {
       $nids = $this->entityTypeManager->getStorage('node')->getQuery()
         ->condition('type', 'service_provider', 'IN')
+        ->condition('field_domain_access', 'bn_erefer_org')
+        ->condition('field_service_type', ['301', '306', '311', '316', '321'], 'IN')
         ->execute();
       $operations = [];
       foreach ($nids as $nid) {
         $operations[] = [[$this->serviceProviderMigrate, 'migrate'], [$nid]];
       }
       $batch = [
-        'title' => $this->t('Migrating Service Providers...'),
+        'title' => $this->t('Migrating Bangladesh Service Providers...'),
+        'operations' => $operations,
+        'finished' => [$this->serviceProviderMigrate, 'finishMigration'],
+      ];
+      batch_set($batch);
+    }
+    if ($form_state->getValue('txb_migrate')) {
+      $nids = $this->entityTypeManager->getStorage('node')->getQuery()
+        ->condition('type', 'service_provider', 'IN')
+        ->condition('field_domain_access', 'txb_erefer_org')
+        ->condition('field_service_type', '4541', 'IN')
+        ->execute();
+      $operations = [];
+      foreach ($nids as $nid) {
+        $operations[] = [[$this->serviceProviderMigrate, 'migrate'], [$nid]];
+      }
+      $batch = [
+        'title' => $this->t('Migrating Turkey Cross Border Service Providers...'),
+        'operations' => $operations,
+        'finished' => [$this->serviceProviderMigrate, 'finishMigration'],
+      ];
+      batch_set($batch);
+    }
+    if ($form_state->getValue('zw_migrate')) {
+      $nids = $this->entityTypeManager->getStorage('node')->getQuery()
+        ->condition('type', 'service_provider', 'IN')
+        ->condition('field_domain_access', 'zm_erefer_org')
+        ->condition('field_service_type',
+          ['426', '431', '436', '441', '446', '451', '3836'],
+           'IN')
+        ->execute();
+      $operations = [];
+      foreach ($nids as $nid) {
+        $operations[] = [[$this->serviceProviderMigrate, 'migrate'], [$nid]];
+      }
+      $batch = [
+        'title' => $this->t('Migrating Zimbabwe Service Providers...'),
+        'operations' => $operations,
+        'finished' => [$this->serviceProviderMigrate, 'finishMigration'],
+      ];
+      batch_set($batch);
+    }
+    if ($form_state->getValue('sl_migrate')) {
+      $nids = $this->entityTypeManager->getStorage('node')->getQuery()
+        ->condition('type', 'service_provider', 'IN')
+        ->condition('field_domain_access', 'sl_erefer_org')
+        ->condition('field_service_type',
+          ['4396', '4401', '4406', '4411', '4416', '4426',
+            '4431', '4436', '4936', '4941', '4991', '5541',
+          ],
+           'IN')
+        ->execute();
+      $operations = [];
+      foreach ($nids as $nid) {
+        $operations[] = [[$this->serviceProviderMigrate, 'migrate'], [$nid]];
+      }
+      $batch = [
+        'title' => $this->t('Migrating Sierra Leone Service Providers...'),
         'operations' => $operations,
         'finished' => [$this->serviceProviderMigrate, 'finishMigration'],
       ];
