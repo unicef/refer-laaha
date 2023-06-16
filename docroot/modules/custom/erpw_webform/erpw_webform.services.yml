@@ -1,0 +1,4 @@
+services:
+  erpw_webform.service_provider_migrate:
+    class: Drupal\erpw_webform\Batch\ServiceProviderMigrate
+    arguments: ['@messenger', '@logger.factory', '@entity_type.manager']

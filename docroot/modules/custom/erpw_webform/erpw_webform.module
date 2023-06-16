@@ -608,9 +608,6 @@ function erpw_webform_views_pre_render(&$view) {
         if ($webformID == 'template_erpw_workflow') {
           unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
         }
-        // If ($webformID == 'All') {
-        //   $view->exposed_widgets['webform_id']['#options'][$webformID] = 'All';
-        // }.
       }
     }
   }
