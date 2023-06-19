@@ -482,21 +482,23 @@ function erpw_webform_views_pre_render(&$view) {
           // Remove rows which have only domain selected.
           if ($location_of_domain == $location_entity_id || $location_of_domain == NULL) {
             unset($view->result[$key]);
-          }
+          } 
           else {
             $location_of_level = $webform_submission->getData()['location']['location_tid'];
-          }
-          $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
-          $parent_term = $term_storage->load($cookie_tid);
-          $tree = $term_storage->loadTree($parent_term->bundle(), $cookie_tid);
-          $lower_level_tids = [];
-          foreach ($tree as $term) {
-            $lower_level_tids[] = $term->tid;
-          }
-          $location_tree = [$cookie_tid, ...$lower_level_tids];
-          // Also remove all others which are not in its lower levels.
-          if (!in_array($location_of_level, $location_tree)) {
-            unset($view->result[$key]);
+            $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
+            $parent_term = $term_storage->load($cookie_tid);
+            if ($parent_term != null) {
+              $tree = $term_storage->loadTree($parent_term->bundle(), $cookie_tid);
+              $lower_level_tids = [];
+              foreach ($tree as $term) {
+                $lower_level_tids[] = $term->tid;
+              }
+              $location_tree = [$cookie_tid, ...$lower_level_tids];
+              // Also remove all others which are not in its lower levels.
+              if (!in_array($location_of_level, $location_tree)) {
+                unset($view->result[$key]);
+              }
+            }
           }
         }
       }
