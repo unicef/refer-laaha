@@ -19,16 +19,16 @@ class WebformListBuilder extends WebformEntityListBuilder {
     $user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
     $user_roles = $user->get('roles')->getValue();
     $tpa = $entity->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-    $domainAccess = $user->get('field_domain_access')->getValue();
+    $currentDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
     foreach ($user_roles as $key_r => $role) {
-      if ($role['target_id'] == 'country_admin' || $role['target_id'] == 'interagency_gbv_coordinator') {
-        foreach ($domainAccess as $key => $domain) {
-          if (array_key_exists($domain['target_id'], $tpa)) {
+      if ($role['target_id'] != 'administrator') {
+        if (!is_null($tpa)) {
+          if (array_key_exists($currentDomain, $tpa)) {
             return parent::buildRow($entity);
           }
         }
       }
-      if ($role['target_id'] == 'super_admin' || $role['target_id'] == 'administrator') {
+      if ($role['target_id'] == 'administrator') {
         return parent::buildRow($entity);
       }
     }
