@@ -847,7 +847,7 @@ function erpw_custom_preprocess_node(&$variables) {
   $session = $request->getSession();
   $service_types = erpw_custom_load_submissions_by_term($session->get('location_tid'));
   $variables['service_types'] = $service_types;
-  // $variables['#cache']['contexts'][] = 'url.site';
+  $variables['#cache']['contexts'][] = 'url';
   $cookieValue = \Drupal::request()->cookies->get('location_tid');
   $variables['#cache']['contexts'][] = 'cookies:location_tid:' . $cookieValue;
   $variables['#cache']['tags'][] = 'location_tid:' . $cookieValue;
