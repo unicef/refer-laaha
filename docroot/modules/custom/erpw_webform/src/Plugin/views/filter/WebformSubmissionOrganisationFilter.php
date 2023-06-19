@@ -6,7 +6,6 @@ use Drupal\node\Entity\Node;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use Drupal\views\Plugin\views\filter\ManyToOne;
 use Drupal\views\ViewExecutable;
-use Drupal\views\Views;
 
 /**
  * Custom filter for the webform organisation field.
@@ -70,15 +69,6 @@ class WebformSubmissionOrganisationFilter extends ManyToOne {
    */
   public function query() {
     if (!empty($this->value)) {
-      $configuration = [
-        'table' => 'webform_submission_data',
-        'field' => 'sid',
-        'left_table' => 'webform_submission',
-        'left_field' => 'sid',
-        'operator' => '=',
-      ];
-      $join = Views::pluginManager('join')->createInstance('standard', $configuration);
-      $this->query->addRelationship('webform_submission_data', $join, 'webform_submission_data');
       $this->query->addWhere('AND', 'webform_submission_data.value', $this->value, 'IN');
     }
   }

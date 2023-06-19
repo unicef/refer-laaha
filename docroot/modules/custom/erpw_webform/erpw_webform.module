@@ -13,6 +13,7 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\views\Views;
 
 /**
  * @file
@@ -437,187 +438,52 @@ function erpw_webform_views_pre_render(&$view) {
       }
     }
   }
-  // Alter webform submissions view.
-  if ($view->id() == 'webform_submissions' || $view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing' || $view->id() == 'manage_in_review_webform_services_listing') {
-    $user = User::load(\Drupal::currentUser()->id());
-    $user_roles = $user->getRoles();
-    $domainAccess = $user->get('field_domain_access')->getValue();
 
-    // Unset rows that are not approve in workflow state.
-    if ($view->id() != 'webform_submissions' && $view->id() != 'manage_in_review_webform_services_listing') {
-      foreach ($view->result as $key => $row) {
-        $sid = $row->sid;
-        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-        if ($webformSubmission->getData()['erpw_workflow']['workflow_state'] != 'approve') {
-          unset($view->result[$key]);
-        }
-      }
-    }
-
-    // Unset services which do not belong to the active location or its lower levels.
-    if ($view->id() == 'service_based_service_providers_listing') {
-      foreach ($view->result as $key => $row) {
-        $sid = $row->sid;
-        $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-        $location_country = $webform_submission->getData()['location']['location_options'];
-
-        // Unset submissions which do not have the country of active domain.
-        $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-        $config = \Drupal::config('domain.location.' . $domain->get('id'));
-        $domain_tid = $config->get('location');
-        // Location id of active domain.
-        $location_entity_id = \Drupal::service('erpw_location.location_services')->getLocationSingleEntityIdByTid($domain_tid);
-        if ($location_country != $location_entity_id) {
-          unset($view->result[$key]);
-        }
-        else {
-          $location_of_domain = $webform_submission->getData()['location']['location_tid'];
-        }
-
-        // If lower levels of domain are selected then,
-        // only show locations for its own lower levels.
-        $request = \Drupal::request();
-        $cookie_tid = $request->cookies->get('location_tid');
-        if ($cookie_tid != $domain_tid) {
-          // Remove rows which have only domain selected.
-          if ($location_of_domain == $location_entity_id || $location_of_domain == NULL) {
-            unset($view->result[$key]);
-          } 
-          else {
-            $location_of_level = $webform_submission->getData()['location']['location_tid'];
-            $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
-            $parent_term = $term_storage->load($cookie_tid);
-            if ($parent_term != null) {
-              $tree = $term_storage->loadTree($parent_term->bundle(), $cookie_tid);
-              $lower_level_tids = [];
-              foreach ($tree as $term) {
-                $lower_level_tids[] = $term->tid;
-              }
-              $location_tree = [$cookie_tid, ...$lower_level_tids];
-              // Also remove all others which are not in its lower levels.
-              if (!in_array($location_of_level, $location_tree)) {
-                unset($view->result[$key]);
-              }
-            }
-          }
-        }
-      }
-    }
-
-    // Manage Services - Services list should only include services by SP organization and in SP location
-    if ($view->id() == 'manage_webform_services') {
-      foreach ($view->result as $key => $row) {
-        $sid = $row->sid;
-        $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-        $uid = \Drupal::currentUser()->id();
-        $current_user = User::load($uid);
-        if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point')) {
-          if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-            $user_location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
-            $ptids = get_child_term_tid($user_location_id);
-            $service_location = $webform_submission->getData()['location']['location_tid'];
-            if (!in_array($service_location, $ptids)) {
-              unset($view->result[$key]);
-            }
-          }
-          $user_org_id = '';
-          if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
-            $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
-            $service_organisation = $webform_submission->getData()['organisation'];
-            if ($user_org_id != $service_organisation) {
-              unset($view->result[$key]);
-            }
-          }
-        }
-      }
-    }
-
-    // Unset rows that are not in review workflow states as per roles.
-    // @todo replace this code with query alter.
-    if ($view->id() == 'manage_in_review_webform_services_listing') {
-      foreach ($view->result as $key => $row) {
-        $sid = $row->sid;
-        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-        $state = $webformSubmission->getData()['erpw_workflow']['workflow_state'];
-        $current_user = User::load(\Drupal::currentUser()->id());
-
-        // Get the user's roles.
-        $roles = $current_user->getRoles();
-        if (in_array('service_provider_focal_point', $roles)) {
-          if ($state != 'in_review_with_focal_point') {
-            unset($view->result[$key]);
-          }
-        }
-        elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
-          if ($state != 'in_review') {
-            unset($view->result[$key]);
-          }
-        }
-        elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
-          if ($state != 'in_review_with_focal_point' && $state != 'in_review') {
-            unset($view->result[$key]);
-          }
-        }
-        else {
-          unset($view->result[$key]);
-        }
-      }
-    }
-
-    if ($view->id() == 'service_based_service_providers_listing') {
-      foreach ($view->result as $key => $row) {
-        $c = 0;
-        $sid = $row->sid;
-        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-        $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
-        $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
-        $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-        if (!is_null($tpa)) {
-          $currentRequest = \Drupal::request();
-          // Get the current page URL.
-          $currentUrl = $currentRequest->getRequestUri();
-          $stID = explode('/', $currentUrl)[3];
-          foreach ($tpa as $domain => $value) {
-            $servicetypeID = $value[0];
-            if ($stID != $servicetypeID) {
-              unset($view->result[$key]);
-            }
-          }
-        }
-      }
-    }
-    // Unset rows that are do not have domain specific
-    // access for the current user.
+  // Unset services which do not belong to the active location or its lower levels.
+  if ($view->id() == 'service_based_service_providers_listing') {
     foreach ($view->result as $key => $row) {
-      $c = 0;
       $sid = $row->sid;
-      $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-      $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
-      $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
-      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-      if (!is_null($tpa)) {
-        foreach ($user_roles as $key_r => $role) {
-          if ($view->id() == 'service_based_service_providers_listing') {
-            $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-            if (array_key_exists($activeDomain, $tpa)) {
-              $c++;
-            }
-          }
-          else {
-            if ($role == 'super_admin' || $role == 'administrator') {
-              return;
-            }
-            else {
-              foreach ($domainAccess as $domain) {
-                if (array_key_exists($domain['target_id'], $tpa)) {
-                  $c++;
-                }
-              }
-            }
-          }
-        }
-        if ($c == 0) {
+      $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
+      $location_country = $webform_submission->getData()['location']['location_options'];
+
+      // Unset submissions which do not have the country of active domain.
+      $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+      $config = \Drupal::config('domain.location.' . $domain->get('id'));
+      $domain_tid = $config->get('location');
+      // Location id of active domain.
+      $location_entity_id = \Drupal::service('erpw_location.location_services')->getLocationSingleEntityIdByTid($domain_tid);
+      if ($location_country != $location_entity_id) {
+        unset($view->result[$key]);
+      }
+      else {
+        $location_of_domain = $webform_submission->getData()['location']['location_tid'];
+      }
+
+      // If lower levels of domain are selected then,
+      // only show locations for its own lower levels.
+      $request = \Drupal::request();
+      $cookie_tid = $request->cookies->get('location_tid');
+      if ($cookie_tid != $domain_tid) {
+        // Remove rows which have only domain selected.
+        if ($location_of_domain == $location_entity_id || $location_of_domain == NULL) {
           unset($view->result[$key]);
+        }
+        else {
+          $location_of_level = $webform_submission->getData()['location']['location_tid'];
+          $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
+          $parent_term = $term_storage->load($cookie_tid);
+          if ($parent_term != NULL) {
+            $tree = $term_storage->loadTree($parent_term->bundle(), $cookie_tid);
+            $lower_level_tids = [];
+            foreach ($tree as $term) {
+              $lower_level_tids[] = $term->tid;
+            }
+            $location_tree = [$cookie_tid, ...$lower_level_tids];
+            // Also remove all others which are not in its lower levels.
+            if (!in_array($location_of_level, $location_tree)) {
+              unset($view->result[$key]);
+            }
+          }
         }
       }
     }
@@ -781,6 +647,13 @@ function erpw_webform_webform_submission_presave($webform_submission) {
   }
   $values['location']['location_tid'] = $last_non_empty_value;
   $values['orignal_data'] = json_encode($webform_submission->getOriginalData());
+  $webformID = $webform_submission->get('webform_id')->getValue()[0]['target_id'];
+  $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+  $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+  foreach ($tpa as $domain => $arr) {
+    $values['submission_domain'] = $domain;
+    $values['service_type'] = $arr[0];
+  }
   $webform_submission->setData($values);
 }
 
@@ -797,6 +670,7 @@ function erpw_webform_menu_local_actions_alter(&$local_tasks) {
  * Implements hook_views_query_alter().
  */
 function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &$query) {
+  $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
   // Check if the current user has roles.
   if ($view->id() == 'webform_submissions') {
     $user = \Drupal::currentUser();
@@ -807,6 +681,66 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       foreach ($conditions as $index => $condition) {
         unset($conditions[$index]);
       }
+    }
+    $configuration = [
+      'table' => 'webform_submission_data',
+      'field' => 'sid',
+      'left_table' => 'webform_submission',
+      'left_field' => 'sid',
+      'operator' => '=',
+    ];
+    $join = Views::pluginManager('join')->createInstance('standard', $configuration);
+    $query->addRelationship('webform_submission_data', $join, 'webform_submission_data');
+    $query->addWhere('', 'webform_submission_data.value', $activeDomain);
+  }
+  // Unset rows that are not in approve workflow state.
+  if ($view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing') {
+    $configuration = [
+      'table' => 'webform_submission_data',
+      'field' => 'sid',
+      'left_table' => 'webform_submission',
+      'left_field' => 'sid',
+      'operator' => '=',
+    ];
+    $join = Views::pluginManager('join')->createInstance('standard', $configuration);
+    $query->addRelationship('webform_submission_data', $join, 'webform_submission_data');
+    $query->addWhere('', 'webform_submission_data.property', 'workflow_state');
+    if ($view->id() == 'service_based_service_providers_listing') {
+      $currentRequest = \Drupal::request();
+      // Get the current page URL.
+      $currentUrl = $currentRequest->getRequestUri();
+      $stID = explode('/', $currentUrl)[3];
+      $query->addWhere('', 'webform_submission_data.value', [$stID, $activeDomain, 'approve'], 'IN');
+    }
+    else {
+      $query->addWhere('', 'webform_submission_data.value', [$activeDomain, 'approve'], 'IN');
+    }
+  }
+  // Unset rows that are not in review workflow states as per roles.
+  if ($view->id() == 'manage_in_review_webform_services_listing') {
+    $current_user = User::load(\Drupal::currentUser()->id());
+
+    // Get the user's roles.
+    $roles = $current_user->getRoles();
+
+    $configuration = [
+      'table' => 'webform_submission_data',
+      'field' => 'sid',
+      'left_table' => 'webform_submission',
+      'left_field' => 'sid',
+      'operator' => '=',
+    ];
+    $join = Views::pluginManager('join')->createInstance('standard', $configuration);
+    $query->addRelationship('webform_submission_data', $join, 'webform_submission_data');
+    $query->addWhere('', 'webform_submission_data.property', 'workflow_state');
+    if (in_array('service_provider_focal_point', $roles)) {
+      $query->addWhere('', 'webform_submission_data.value', [$activeDomain, 'in_review_with_focal_point'], 'IN');
+    }
+    elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
+      $query->addWhere('', 'webform_submission_data.value', [$activeDomain, 'in_review'], 'IN');
+    }
+    elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
+      $query->addWhere('', 'webform_submission_data.value', [$activeDomain, 'in_review', 'in_review_with_focal_point'], 'IN');
     }
   }
 }
