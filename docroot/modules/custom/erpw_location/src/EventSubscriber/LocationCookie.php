@@ -8,8 +8,6 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Drupal\Core\Url;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class LocationCookie.
@@ -198,11 +196,6 @@ class LocationCookie implements EventSubscriberInterface {
           setcookie('location_id', '', time() - 3600, '/', $full_url, FALSE);
           // Update new ones
           setcookie('location_tid', $domain_tid, strtotime('+1 year'), '/', $full_url, FALSE);
-          
-          $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $domain_tid]]);
-          $url->setAbsolute();
-          $response = new RedirectResponse($url->toString());
-          $event->setResponse($response);
         }
       }
       else {
