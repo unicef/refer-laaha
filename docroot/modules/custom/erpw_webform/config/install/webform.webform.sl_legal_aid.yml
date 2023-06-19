@@ -1,24 +1,28 @@
-uuid: 67f9061b-c23c-4fac-b54c-05b5976b052a
+uuid: 2de1c57d-4769-4a07-88a0-cde15feebe3f
 langcode: en
-status: closed
+status: open
 dependencies:
   module:
     - erpw_webform
   enforced:
     module:
       - erpw_webform
-      - webform_templates
+third_party_settings:
+  erpw_webform:
+    webform_service_type_map:
+      sl_erefer_org:
+        - '4411'
 _core:
   default_config_hash: oo5YoUVLXA4y-0ah7VtLK5kIqN5U65Vq6EHnk9qUlBM
 weight: 0
 open: null
 close: null
-uid: null
-template: true
+uid: 1
+template: false
 archive: false
-id: template_erpw_workflow
-title: 'eRPW Service Provider Form'
-description: 'A webform with eRPW Workflow.'
+id: sl_legal_aid
+title: 'Legal Aid'
+description: ''
 category: eRPW
 elements: |-
   location:
@@ -399,7 +403,7 @@ handlers:
     notes: ''
     status: true
     conditions: {  }
-    weight: -50
+    weight: null
     settings:
       id: redirect_to_drafts
       handler_id: null
@@ -407,7 +411,7 @@ handlers:
       notes: ''
       status: true
       conditions: {  }
-      weight: null
+      weight: -50
       settings:
         id: redirect_to_drafts
         handler_id: null
@@ -458,13 +462,21 @@ handlers:
                   weight: null
                   settings:
                     id: redirect_to_drafts
-                    handler_id: redirect_to_drafts
-                    label: 'Redirect to Drafts'
+                    handler_id: null
+                    label: 'Redirect on Transition changes.'
                     notes: ''
                     status: true
                     conditions: {  }
-                    weight: 0
-                    settings: {  }
+                    weight: null
+                    settings:
+                      id: redirect_to_drafts
+                      handler_id: redirect_to_drafts
+                      label: 'Redirect to Drafts'
+                      notes: ''
+                      status: true
+                      conditions: {  }
+                      weight: 0
+                      settings: {  }
   duplicate_services_handler:
     id: handle_duplicate_services
     handler_id: duplicate_services_handler

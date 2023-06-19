@@ -59,13 +59,15 @@ class ServiceSubmissionsView extends ControllerBase {
       $stype = '';
       foreach ($tpa as $domain => $servicetype) {
         if ($domain == $activeDomain) {
-          $stype = $servicetype;
+          $stype = $servicetype[0];
         }
       }
       $output = [];
-      $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype[0]));
-      $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
-      $output[] = ['Service Type' => $servicelabel];
+      if (!is_null($stype) && !empty($stype)) {
+        $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype));
+        $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
+        $output[] = ['Service Type' => $servicelabel];
+      }
       $fields = $webform_submission->getData();
       $location = '';
       $country = '';

@@ -411,6 +411,32 @@ function erpw_webform_menu_local_tasks_alter(&$data, $route_name) {
  * Implements hook_menu_views_pre_render().
  */
 function erpw_webform_views_pre_render(&$view) {
+  // Alter exposed filter value to only current domain's service type.
+  if ($view->id() == 'webform_submissions' || $view->id() == 'manage_webform_services' || $view->id() == 'manage_in_review_webform_services_listing') {
+    $arrayKey = '';
+    if ($view->id() == 'webform_submissions') {
+      $arrayKey = 'service_type';
+    }
+    if ($view->id() == 'manage_webform_services' || $view->id() == 'manage_in_review_webform_services_listing') {
+      $arrayKey = 'webform_id';
+    }
+    $serviceTypes = $view->exposed_widgets[$arrayKey]['#options'];
+    foreach ($serviceTypes as $key => $serviceType) {
+      if ($key == 'template_erpw_workflow') {
+        unset($view->exposed_widgets[$arrayKey]['#options'][$key]);
+      }
+      if ($key != 'template_erpw_workflow' && $key != 'All') {
+        $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($key);
+        $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+        $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+        if (!is_null($tpa)) {
+          if (!array_key_exists($activeDomain, $tpa)) {
+            unset($view->exposed_widgets[$arrayKey]['#options'][$key]);
+          }
+        }
+      }
+    }
+  }
   // Alter webform submissions view.
   if ($view->id() == 'webform_submissions' || $view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing' || $view->id() == 'manage_in_review_webform_services_listing') {
     $user = User::load(\Drupal::currentUser()->id());
@@ -478,19 +504,6 @@ function erpw_webform_views_pre_render(&$view) {
       }
     }
 
-    // Only show users their own Drafts.
-    if ($view->id() == 'webform_submissions') {
-      $current_user = \Drupal::currentUser();
-      foreach ($view->result as $key => $row) {
-        $sid = $row->sid;
-        $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-        if ($webform_submission->getData()['erpw_workflow']['workflow_state'] == 'draft') {
-          if ($current_user->id() != $webform_submission->getOwnerId()) {
-            unset($view->result[$key]);
-          }
-        }
-      }
-    }
     // Unset rows that are not in review workflow states as per roles.
     // @todo replace this code with query alter.
     if ($view->id() == 'manage_in_review_webform_services_listing') {
@@ -578,41 +591,6 @@ function erpw_webform_views_pre_render(&$view) {
         if ($c == 0) {
           unset($view->result[$key]);
         }
-      }
-    }
-
-    // Unset domain name options for exposed filter that are do not
-    // have domain specific access for the current user.(.
-    if (!is_null($view->exposed_widgets)) {
-      foreach ($view->exposed_widgets['webform_id']['#options'] as $webformID => $label) {
-        $c = 0;
-        $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
-        if ($webformID != 'All' && $webformID != 'template_erpw_workflow') {
-          $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-          if (!is_null($tpa)) {
-            foreach ($user_roles as $key_r => $role) {
-              if ($role == 'super_admin' || $role == 'administrator') {
-                return;
-              }
-              else {
-                foreach ($domainAccess as $domain) {
-                  if (array_key_exists($domain['target_id'], $tpa)) {
-                    $c++;
-                  }
-                }
-              }
-            }
-            if ($c == 0) {
-              unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
-            }
-          }
-        }
-        if ($webformID == 'template_erpw_workflow') {
-          unset($view->exposed_widgets['webform_id']['#options'][$webformID]);
-        }
-        // If ($webformID == 'All') {
-        //   $view->exposed_widgets['webform_id']['#options'][$webformID] = 'All';
-        // }.
       }
     }
   }

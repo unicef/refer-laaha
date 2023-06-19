@@ -246,10 +246,13 @@ class EntityUserSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public function eprwUserSubmitHandler(&$form, $form_state) {
-    for ($i = self::MAX_LEVEL; $i >= 0; $i--) {
-      $location_level = $form_state->getValue('level_' . $i);
-      if (!empty($location_level)) {
-        break;
+    // Bring location data to save even though it is not displayed.
+    $field_location = $form_state->getValue('field_location');
+    $location_level = [];
+    if (is_array($field_location)) {
+      $count = count($field_location);
+      for ($i = 0; $i < $count - 1; $i++) {
+        $location_level[] = $field_location[$i]['target_id'];
       }
     }
     // Saving the location data.

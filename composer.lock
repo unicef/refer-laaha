@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9de7c8af1a1461e177231002090ea43e",
+    "content-hash": "85d8f0f616edfb8e3dfc6b80e75f4f67",
     "packages": [
         {
             "name": "acquia/blt",
@@ -2752,6 +2752,56 @@
                 "source": "https://github.com/drupal/core-vendor-hardening/tree/9.5.4"
             },
             "time": "2022-12-07T11:22:43+00:00"
+        },
+        {
+            "name": "drupal/csp",
+            "version": "1.19.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/csp.git",
+                "reference": "8.x-1.19"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/csp-8.x-1.19.zip",
+                "reference": "8.x-1.19",
+                "shasum": "ac14ab7c51ba10ac2636d5a92a02a8e762c8c4f8"
+            },
+            "require": {
+                "drupal/core": "^9.5 || ^10",
+                "ext-json": "*",
+                "php": ">=7.2"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.19",
+                    "datestamp": "1680929140",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "gapple",
+                    "homepage": "https://www.drupal.org/user/490940"
+                }
+            ],
+            "description": "Provide Content-Security-Policy headers",
+            "homepage": "https://www.drupal.org/project/csp",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/csp",
+                "issues": "https://www.drupal.org/project/issues/csp"
+            }
         },
         {
             "name": "drupal/ctools",
