@@ -504,6 +504,34 @@ function erpw_webform_views_pre_render(&$view) {
       }
     }
 
+    // Manage Services - Services list should only include services by SP organization and in SP location
+    if ($view->id() == 'manage_webform_services') {
+      foreach ($view->result as $key => $row) {
+        $sid = $row->sid;
+        $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
+        $uid = \Drupal::currentUser()->id();
+        $current_user = User::load($uid);
+        if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point')) {
+          if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
+            $user_location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
+            $ptids = get_child_term_tid($user_location_id);
+            $service_location = $webform_submission->getData()['location']['location_tid'];
+            if (!in_array($service_location, $ptids)) {
+              unset($view->result[$key]);
+            }
+          }
+          $user_org_id = '';
+          if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
+            $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
+            $service_organisation = $webform_submission->getData()['organisation'];
+            if ($user_org_id != $service_organisation) {
+              unset($view->result[$key]);
+            }
+          }
+        }
+      }
+    }
+
     // Unset rows that are not in review workflow states as per roles.
     // @todo replace this code with query alter.
     if ($view->id() == 'manage_in_review_webform_services_listing') {
