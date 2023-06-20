@@ -322,7 +322,20 @@ display:
       cache:
         type: none
         options: {  }
-      empty: {  }
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: 'There no services available to manage for you.'
+            format: basic_html
+          tokenize: false
       sorts: {  }
       arguments: {  }
       filters:
