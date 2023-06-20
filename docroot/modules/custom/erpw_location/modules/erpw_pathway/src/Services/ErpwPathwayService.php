@@ -113,7 +113,8 @@ class ErpwPathwayService {
       $is_disabled = in_array($default_value, $ptids) ? 'disabled' : '';
     }
     $label = $this->t('Select Country');
-    $form['location']['level_0'] = $this->childLocationForm('0', $label, $location_options, $default_value, '', $is_disabled);
+    $form['location']['level_0'] = $this->childLocationForm('0', $label, $location_options, $default_value, '', '');
+    $form['location']['level_0']['#attributes']['class'][] = 'disable-country-select-default';
     $form['location'] += $child_location;
 
     return $form;
