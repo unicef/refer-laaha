@@ -39,7 +39,7 @@
           if (password.length < 8) {
             suggestions.push('Minimum of 8 characters are required');
           }
-        
+
           var $suggestionsContainer = $suggestionsElement;
           $suggestionsContainer.empty();
           if (suggestions.length > 0) {
@@ -57,7 +57,7 @@
           } else {
             $suggestionsContainer.css('display', 'none');
           }
-        
+
           // Remove individual suggestions as criteria are met
           var $suggestionItems = $suggestionsContainer.find('li');
           $suggestionItems.each(function() {
@@ -66,7 +66,7 @@
               $(this).remove();
             }
           });
-        });            
+        });
 
       $(document).ready(function() {
         $(".page-node-type-service-type .ui-icon-closethick").on("click", function(event){
@@ -161,5 +161,13 @@
       });
     }
   };
+
+  Drupal.behaviors.disableCountrySelctor = {
+    attach: function () {
+      $('select.disable-country-select-default').parent().addClass(
+        'disable-country-select-default'
+      );
+    }
+  }
 
 }(jQuery, Drupal, drupalSettings));
