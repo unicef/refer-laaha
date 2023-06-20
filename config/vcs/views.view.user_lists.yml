@@ -1358,7 +1358,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: " {% if edit_user %}\r\n<div class=\"location-card\">\r\n  <div class=\"title-with-icons\">\r\n    <a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div id=\"location-title\" class=\"location-title\">{{ field_first_name }} {{ field_last_name }} </div></a>\r\n    <div class=\"location-operations\"><div class=\"edit-delete-links\">\r\n      {% if edit_user %}\r\n        <span class=\"edit-link\"><a href=\"{{ path('entity.user.edit_form', {'user': uid}, {'query': {'destination': path('<current>') }}) }}\">{{ 'Edit'|t }}</a></span>\r\n        <span class=\"delete-link\"><a href=\"{{ path('entity.user.cancel_form', {'user': uid}, {'query': {'destination': path('<current>') }}) }}\">{{ 'Cancel'|t }}</a></span>\r\n      {% endif %}\r\n    </div>\r\n  </div>\r\n</div>\r\n  <a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div><div class=\"level\">{{ 'Organisation'|t }} : {{ field_organisation }}</div><div class=\"level\">{{ 'Role'|t }} : {{ roles_target_id }}</div><div class=\"level\">{{ 'Contact No.'|t }} : {{ field_phone }}</div></div></a>\r\n</div>\r\n{% endif %}"
+            text: "<div class=\"location-card\">\r\n  <div class=\"title-with-icons\">\r\n    <a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div id=\"location-title\" class=\"location-title\">{{ field_first_name }} {{ field_last_name }} </div></a>\r\n    <div class=\"location-operations\"><div class=\"edit-delete-links\">\r\n      {% if edit_user %}\r\n        <span class=\"edit-link\"><a href=\"{{ path('entity.user.edit_form', {'user': uid}, {'query': {'destination': path('<current>') }}) }}\">{{ 'Edit'|t }}</a></span>\r\n        <span class=\"delete-link\"><a href=\"{{ path('entity.user.cancel_form', {'user': uid}, {'query': {'destination': path('<current>') }}) }}\">{{ 'Cancel'|t }}</a></span>\r\n      {% endif %}\r\n    </div>\r\n  </div>\r\n</div>\r\n  <a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div><div class=\"level\">{{ 'Organisation'|t }} : {{ field_organisation }}</div><div class=\"level\">{{ 'Role'|t }} : {{ roles_target_id }}</div><div class=\"level\">{{ 'Contact No.'|t }} : {{ field_phone }}</div></div></a>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -1457,6 +1457,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: 'There are currently no users available for you to manage.'
+            format: basic_html
+          tokenize: false
       sorts:
         field_first_name_value:
           id: field_first_name_value
@@ -1761,6 +1775,7 @@ display:
           1: AND
           2: AND
       defaults:
+        empty: false
         fields: false
         sorts: false
         filters: false

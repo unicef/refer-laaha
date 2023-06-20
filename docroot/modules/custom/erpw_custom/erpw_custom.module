@@ -5,6 +5,8 @@
  * Contains erpw_custom.module.
  */
 
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Form\FormStateInterface;
@@ -67,9 +69,10 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     $form['field_organisation_target_id_verf']['#options'] = $organisation_options;
     $form['roles_target_id']['#options']['All'] = t('All');
     $permission = 'view users of their own location and organisation';
+    $permission2 = 'view users of their own organisation';
     $uid = \Drupal::currentUser()->id();
     $current_user = User::load($uid);
-    if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
+    if ($uid != 1 && !$current_user->hasRole('administrator') && ($current_user->hasPermission($permission) || $current_user->hasPermission($permission2))) {
       $form['field_organisation_target_id_verf']['#access'] = FALSE;
     }
   }
@@ -700,6 +703,9 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $query = erpw_view_results_own_country_permissions($query, $location_condition, $permission);
     $permission = 'view users of their own location';
     $query = erpw_view_results_own_location_organisation($query, $location_condition, NULL, $permission);
+    $permission = 'view users of their own organisation';
+    $org_condition = 'user__field_organisation.field_organisation_target_id';
+    $query = erpw_view_results_own_organisation($query, $org_condition, $permission);
     $permission = 'view users of their own location and organisation';
     $org_condition = 'user__field_organisation.field_organisation_target_id';
     $query = erpw_view_results_own_location_organisation($query, $location_condition, $org_condition, $permission);
@@ -925,6 +931,32 @@ function erpw_view_results_own_location_organisation($query, $location_condition
 /**
  * Callback for hook_views_query_alter alter query.
  */
+function erpw_view_results_own_organisation($query, $org_condition = NULL, $permission = NULL) {
+  $uid = \Drupal::currentUser()->id();
+  $current_user = User::load($uid);
+  if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
+    $org_id = '';
+    if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
+      $org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
+    }
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+        if ($condition['field'] == $org_condition) {
+          $condition = [
+            'field' => $org_condition,
+            'value' => $org_id,
+            'operator' => '=',
+          ];
+        }
+      }
+    }
+  }
+  return $query;
+}
+
+/**
+ * Callback for hook_views_query_alter alter query.
+ */
 function erpw_view_results_own_country_permissions($query, $condition_field, $permission) {
   $uid = \Drupal::currentUser()->id();
   $current_user = User::load($uid);
@@ -947,6 +979,45 @@ function erpw_view_results_own_country_permissions($query, $condition_field, $pe
     }
   }
   return $query;
+}
+
+/**
+ * Implements hook_entity_access().
+ */
+function erpw_custom_entity_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  if ($operation === 'update' && $entity->getEntityTypeId() === 'user') {
+    $uid = \Drupal::currentUser()->id();
+    $current_user = User::load($uid);
+    $permission = 'edit users of their own location and organisation';
+
+    // Fetch location tree and organisation for current user.
+    if ($current_user->hasRole('service_provider_focal_point') && $current_user->hasPermission($permission)) {
+      if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
+        $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
+        $ptids = get_child_term_tid($location_id);
+      }
+      $org_id = '';
+      if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
+        $org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
+      }
+
+      // Fetch location and organisation of user being edited.
+      $user_location = $entity->get('field_location')->getValue()[0]['target_id'];
+      $user_organisation = $entity->get('field_organisation')->getValue()[0]['target_id'];
+      $user_role = $entity->get('roles')->getValue()[0]['target_id'];
+
+      /* @todo Find out why administerusersbyrole module is not working here.
+      The SP Focal Point doesn't have permission to edit any users except SP Staff,
+      but still, without this condition, they were able to edit Coordinator and other FPs.
+       */
+      if (in_array($user_location, $ptids) && $user_organisation == $org_id
+      && $user_role == 'service_provider_staff') {
+        return AccessResult::allowed();
+      }
+      return AccessResult::forbidden();
+    }
+  }
+  return AccessResult::neutral();
 }
 
 /**
