@@ -122,7 +122,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
       $container->get('erpw_location.location_services'),
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
-      $container->get('erpw_location.location_cookie'),
+      // $container->get('erpw_location.location_cookie'),
       $container->get('tempstore.private'),
       $container->get('current_user'),
       $container->get('request_stack'),
@@ -134,8 +134,8 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
    */
   public function build() {
     $form_config = $this->configfactory->get('erpw_location.settings');
-    $cookie_value = $this->locationCookie->getCookieValue();
-    $tid = \Drupal::request()->cookies->get('location_tid');
+    // $cookie_value = $this->locationCookie->getCookieValue();
+    // $tid = \Drupal::request()->cookies->get('location_tid');
     if (!$tid) {
       // Find out if the URL has sub-domain:
       $domain_current_url = explode(".", \Drupal::request()->server->get('SERVER_NAME'));
