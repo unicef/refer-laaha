@@ -82,7 +82,7 @@ class LanguageSelector extends FormBase {
     $instance = parent::create($container);
     $instance->configfactory = $container->get('config.factory');
     $instance->languageManager = $container->get('language_manager');
-    $instance->locationCookie = $container->get('erpw_location.location_cookie');
+    // $instance->locationCookie = $container->get('erpw_location.location_cookie');
     $instance->domainNegotiator = $container->get('domain.negotiator');
     $instance->tempStoreFactory = $container->get('tempstore.private')->get('erpw_location_collection');
     $instance->locationService = $container->get('erpw_location.location_services');
@@ -204,25 +204,25 @@ class LanguageSelector extends FormBase {
       $domain_current_url = explode(".", $this->requestStack->getCurrentRequest()->server->get('SERVER_NAME'));
       $domain_slice = array_slice($domain_current_url, -2);
       $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
-      setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', $domain_site, FALSE);
-      setcookie('userLanguage', $value['language_selector'], strtotime('+1 year'), '/', $domain_site, FALSE);
+      // setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', $domain_site, FALSE);
+      // setcookie('userLanguage', $value['language_selector'], strtotime('+1 year'), '/', $domain_site, FALSE);
       $config = $this->configfactory->getEditable('domain.location.' . $domain->get('id'));
       if (!$default_location = $config->get('location')) {
         $default_location = $this->locationService->getDefaultLocation();
       }
       // Storing the value into cookie and temp storage.
       if ($this->currentUser->isAuthenticated()) {
-        $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
-        $default_location = ($this->locationService->getUserDefaultLocation($user)) ?? $default_location;
+        // $user = $this->entityManager->getStorage('user')->load($this->currentUser->id());
+        // $default_location = ($this->locationService->getUserDefaultLocation($user)) ?? $default_location;
       }
       if (empty($this->locationCookie->getCookieValue())) {
-        $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
-        $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
+        // $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
+        // $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
       }
       else {
-        $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
+        // $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
       }
-      setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $full_url, FALSE);
+      // setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $full_url, FALSE);
       $form_state->setRedirectUrl($redirect_url);
     }
   }

@@ -148,7 +148,7 @@ function erpw_pathway_user_logout() {
  */
 function set_user_location() {
   $tempstore = \Drupal::service('tempstore.private')->get('erpw_location_collection');
-  $cookie = \Drupal::service('erpw_location.location_cookie');
+  // $cookie = \Drupal::service('erpw_location.location_cookie');
   if (\Drupal::currentUser()->isAuthenticated()) {
     $user = \Drupal::entityTypeManager()->getStorage('user')->load(\Drupal::currentUser()->id());
     $default_location = \Drupal::service('erpw_location.location_services')->getUserDefaultLocation($user);
@@ -161,15 +161,15 @@ function set_user_location() {
     }
   }
   if (empty($cookie->getCookieValue())) {
-    $cookie->setCookieValue(base64_encode('country_tid_' . time()));
-    $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
+    // $cookie->setCookieValue(base64_encode('country_tid_' . time()));
+    // $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
   }
   else {
-    $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
+    // $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
   }
   $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
   $full_url = $domain->get('hostname');
-  setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $full_url, FALSE);
+  // setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $full_url, FALSE);
 }
 
 /**
@@ -177,15 +177,15 @@ function set_user_location() {
  */
 function get_user_location() {
   $tempstore = \Drupal::service('tempstore.private')->get('erpw_location_collection');
-  $cookie_value = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
-  $location_id = (\Drupal::requestStack()->getCurrentRequest()->cookies->get('location_tid')) ??
-    $tempstore->get(base64_decode($cookie_value));
+  // $cookie_value = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
+  // $location_id = (\Drupal::requestStack()->getCurrentRequest()->cookies->get('location_tid')) ??
+  //   $tempstore->get(base64_decode($cookie_value));
   if (!empty($location_id)) {
     return $location_id;
   }
   else {
     set_user_location();
-    return $tempstore->get(base64_decode($cookie_value));
+    // return $tempstore->get(base64_decode($cookie_value));
   }
 }
 

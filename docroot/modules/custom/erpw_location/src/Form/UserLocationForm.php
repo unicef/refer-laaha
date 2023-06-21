@@ -95,7 +95,7 @@ class UserLocationForm extends LocationListForm {
       $container->get('entity_type.manager'),
       $container->get('current_user'),
       $container->get('form_builder'),
-      $container->get('erpw_location.location_cookie'),
+      // $container->get('erpw_location.location_cookie'),
       $container->get('tempstore.private'),
       $container->get('erpw_location.location_services'),
       $container->get('cache.default'),
@@ -168,18 +168,18 @@ class UserLocationForm extends LocationListForm {
       $form['location_level']['button'] = $form_state->setRedirectUrl($url);
     }
     else {
-      if (empty($this->locationCookie->getCookieValue())) {
-        $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
-      }
-      $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $location_value);
-      $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-      $full_url = $domain->get('hostname');
+      // if (empty($this->locationCookie->getCookieValue())) {
+      //   $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
+      // }
+      // $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $location_value);
+      // $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+      // $full_url = $domain->get('hostname');
 
-      setcookie('location_tid', $location_value, strtotime('+1 year'), '/', $full_url, FALSE);
-      $request = \Drupal::request();
-      $session = $request->getSession();
-      $session->set('location_tid',$location_value);
-      $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $location_value]]);
+      // setcookie('location_tid', $location_value, strtotime('+1 year'), '/', $full_url, FALSE);
+      // $request = \Drupal::request();
+      // $session = $request->getSession();
+      // $session->set('location_tid',$location_value);
+      // $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $location_value]]);
       // First level is the country taxonomy term; if we have it we want to
       // modify the redirect to include the matching subdomain.
       if ($country_tid) {
