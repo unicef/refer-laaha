@@ -87,6 +87,12 @@ function erpw_pathway_preprocess_views_view_field(&$variables) {
  * Implements hook_views_query_alter().
  */
 function erpw_pathway_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  // $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+  // $full_url = $domain->get('hostname');
+  // dump($domain->id());
+  // exit;
+  \Drupal::service('erpw_location.location_cookie')->setDefaultCookieValue();
+  exit;
   if ($view->id() == "referral_pathway_on_homepage") {
     $location_id = get_user_location();
     if (!empty($location_id)) {
