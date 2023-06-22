@@ -4,6 +4,7 @@
  * @file
  */
 
+use Drupal\node\NodeInterface;
 use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -668,6 +669,8 @@ function erpw_webform_menu_local_actions_alter(&$local_tasks) {
 
 /**
  * Implements hook_views_query_alter().
+ *
+ * @throws \Drupal\Component\Plugin\Exception\PluginException
  */
 function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &$query) {
   $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
@@ -682,65 +685,76 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
         unset($conditions[$index]);
       }
     }
-    $configuration = [
-      'table' => 'webform_submission_data',
-      'field' => 'sid',
-      'left_table' => 'webform_submission',
-      'left_field' => 'sid',
-      'operator' => '=',
-    ];
-    $join = Views::pluginManager('join')->createInstance('standard', $configuration);
-    $query->addRelationship('webform_submission_data', $join, 'webform_submission_data');
-    $query->addWhere('', 'webform_submission_data.value', $activeDomain);
+    erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
   }
   // Unset rows that are not in approve workflow state.
   if ($view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing') {
-    $configuration = [
-      'table' => 'webform_submission_data',
-      'field' => 'sid',
-      'left_table' => 'webform_submission',
-      'left_field' => 'sid',
-      'operator' => '=',
-    ];
-    $join = Views::pluginManager('join')->createInstance('standard', $configuration);
-    $query->addRelationship('webform_submission_data', $join, 'webform_submission_data');
-    $query->addWhere('', 'webform_submission_data.property', 'workflow_state');
+//    $query->addWhere(1, 'webform_submission_data_workflow.property', 'workflow_state', '=');
     if ($view->id() == 'service_based_service_providers_listing') {
-      $currentRequest = \Drupal::request();
-      // Get the current page URL.
-      $currentUrl = $currentRequest->getRequestUri();
-      $stID = explode('/', $currentUrl)[3];
-      $query->addWhere('', 'webform_submission_data.value', [$stID, $activeDomain, 'approve'], 'IN');
+      $service_type = \Drupal::routeMatch()->getParameter('node');
+      if ($service_type instanceof NodeInterface && $service_type->bundle() === 'service_type') {
+        // Service type Join.
+        erpw_webform_add_webform_submission_add_where_join($query, $service_type->id(), 'st');
+      }
+      // Domain Join.
+      erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
+
+      // Workflow join.
+      erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
     }
     else {
-      $query->addWhere('', 'webform_submission_data.value', [$activeDomain, 'approve'], 'IN');
+      // Domain Join.
+      erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
+
+      // Workflow join.
+      erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
     }
   }
   // Unset rows that are not in review workflow states as per roles.
   if ($view->id() == 'manage_in_review_webform_services_listing') {
-    $current_user = User::load(\Drupal::currentUser()->id());
-
-    // Get the user's roles.
-    $roles = $current_user->getRoles();
-
-    $configuration = [
-      'table' => 'webform_submission_data',
-      'field' => 'sid',
-      'left_table' => 'webform_submission',
-      'left_field' => 'sid',
-      'operator' => '=',
-    ];
-    $join = Views::pluginManager('join')->createInstance('standard', $configuration);
-    $query->addRelationship('webform_submission_data', $join, 'webform_submission_data');
-    $query->addWhere('', 'webform_submission_data.property', 'workflow_state');
+    $roles = \Drupal::currentUser()->getRoles();
     if (in_array('service_provider_focal_point', $roles)) {
-      $query->addWhere('', 'webform_submission_data.value', [$activeDomain, 'in_review_with_focal_point'], 'IN');
+      erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
+      erpw_webform_add_webform_submission_add_where_join($query, 'in_review_with_focal_point', 'workflow');
     }
     elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
-      $query->addWhere('', 'webform_submission_data.value', [$activeDomain, 'in_review'], 'IN');
+      erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
+      erpw_webform_add_webform_submission_add_where_join($query, 'in_review', 'workflow');
     }
     elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
-      $query->addWhere('', 'webform_submission_data.value', [$activeDomain, 'in_review', 'in_review_with_focal_point'], 'IN');
+      erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
+      erpw_webform_add_webform_submission_add_where_join($query, ['in_review', 'in_review_with_focal_point'], 'workflow', 'IN');
     }
   }
+}
+
+/**
+ * Add where condition to query on webform_submission_data.
+ *
+ * This function adds a relationship to webform_submission_data using on alias
+ * so that we can filter webform submission fields properly.
+ *
+ * @param \Drupal\views\Plugin\views\query\QueryPluginBase $query
+ *   The Query object.
+ * @param mixed $column_value
+ *   Either an array or string.
+ * @param string $alias_slug
+ *   The alias slug to keep alias table alias unique.
+ * @param string $op
+ *   The sql query operation.
+ *
+ * @return void
+ * @throws \Drupal\Component\Plugin\Exception\PluginException
+ */
+function erpw_webform_add_webform_submission_add_where_join(QueryPluginBase &$query, mixed $column_value, string $alias_slug, string $op = '=') {
+  $configuration = [
+    'table' => 'webform_submission_data',
+    'field' => 'sid',
+    'left_table' => 'webform_submission',
+    'left_field' => 'sid',
+    'operator' => '=',
+  ];
+  $join = Views::pluginManager('join')->createInstance('standard', $configuration);
+  $query->addRelationship('webform_submission_data_' . $alias_slug, $join, 'webform_submission_data');
+  $query->addWhere(1, "webform_submission_data_${alias_slug}.value", $column_value, $op);
 }
