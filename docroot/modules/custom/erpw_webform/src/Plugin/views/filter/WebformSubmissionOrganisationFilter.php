@@ -125,7 +125,7 @@ class WebformSubmissionOrganisationFilter extends ManyToOne {
       ];
       $join = $this->joinHandler->createInstance('standard', $configuration);
       $this->query->addRelationship('webform_submission_data_org1', $join, 'webform_submission_data');
-      $this->query->addWhere(1, 'webform_submission_data_org1.value', $this->value, '=');
+      $this->query->addWhere($this->options['group'], 'webform_submission_data_org1.value', $this->value, '=');
     }
   }
 
