@@ -306,9 +306,20 @@ display:
         type: none
         options: {  }
       cache:
-        type: tag
+        type: none
         options: {  }
-      empty: {  }
+      empty:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: true
+          content: 'No services found for the selected service type!'
+          tokenize: false
       sorts: {  }
       arguments: {  }
       filters: {  }

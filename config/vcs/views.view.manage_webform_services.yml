@@ -337,21 +337,19 @@ display:
         type: none
         options: {  }
       cache:
-        type: tag
+        type: none
         options: {  }
       empty:
-        area:
-          id: area
+        area_text_custom:
+          id: area_text_custom
           table: views
-          field: area
+          field: area_text_custom
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: text
+          plugin_id: text_custom
           empty: true
-          content:
-            value: 'There are currently no services available for you to manage.'
-            format: basic_html
+          content: 'No services found!'
           tokenize: false
       sorts: {  }
       arguments: {  }

@@ -387,15 +387,17 @@ display:
         type: none
         options: {  }
       empty:
-        messages:
-          id: messages
+        area_text_custom:
+          id: area_text_custom
           table: views
-          field: messages
+          field: area_text_custom
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: messages
+          plugin_id: text_custom
           empty: true
+          content: 'No services found!'
+          tokenize: false
       sorts: {  }
       arguments:
         uid:
@@ -605,7 +607,7 @@ display:
           plugin_id: standard
           required: true
       css_class: 'services-webform-submissions-list erpw-webform-manage-services'
-      use_ajax: true
+      use_ajax: false
       use_more: false
       use_more_always: false
       use_more_text: Next
