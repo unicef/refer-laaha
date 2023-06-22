@@ -398,7 +398,23 @@ display:
           empty: true
           content: 'No services found!'
           tokenize: false
-      sorts: {  }
+      sorts:
+        created:
+          id: created
+          table: webform_submission
+          field: created
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          entity_field: created
+          plugin_id: date
+          order: DESC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
+          granularity: second
       arguments:
         uid:
           id: uid
