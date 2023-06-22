@@ -4,7 +4,6 @@
  * @file
  */
 
-use Drupal\node\NodeInterface;
 use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -678,23 +677,25 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
   if ($view->id() == 'webform_submissions') {
     $user = \Drupal::currentUser();
     $user_roles = $user->getRoles();
+    // @todo draft submissions should be displayed of own submitted data.
     if (!in_array('service_provider_staff', $user_roles)) {
       // Remove the filter from the view query.
       $conditions = &$query->where;
       foreach ($conditions as $index => $condition) {
-        unset($conditions[$index]);
+        if ($condition[0]['field'] == 'users_field_data_webform_submission.uid = :users_field_data_uid') {
+          unset($query->where[$index]);
+        }
       }
     }
     erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
   }
   // Unset rows that are not in approve workflow state.
   if ($view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing') {
-//    $query->addWhere(1, 'webform_submission_data_workflow.property', 'workflow_state', '=');
+    // $query->addWhere(1, 'webform_submission_data_workflow.property', 'workflow_state', '=');
     if ($view->id() == 'service_based_service_providers_listing') {
-      $service_type = \Drupal::routeMatch()->getParameter('node');
-      if ($service_type instanceof NodeInterface && $service_type->bundle() === 'service_type') {
+      if ($service_type = \Drupal::routeMatch()->getRawParameter('node')) {
         // Service type Join.
-        erpw_webform_add_webform_submission_add_where_join($query, $service_type->id(), 'st');
+        erpw_webform_add_webform_submission_add_where_join($query, $service_type, 'st');
       }
       // Domain Join.
       erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
@@ -713,16 +714,14 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
   // Unset rows that are not in review workflow states as per roles.
   if ($view->id() == 'manage_in_review_webform_services_listing') {
     $roles = \Drupal::currentUser()->getRoles();
+    erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
     if (in_array('service_provider_focal_point', $roles)) {
-      erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
       erpw_webform_add_webform_submission_add_where_join($query, 'in_review_with_focal_point', 'workflow');
     }
     elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
-      erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
       erpw_webform_add_webform_submission_add_where_join($query, 'in_review', 'workflow');
     }
     elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
-      erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
       erpw_webform_add_webform_submission_add_where_join($query, ['in_review', 'in_review_with_focal_point'], 'workflow', 'IN');
     }
   }
@@ -744,6 +743,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
  *   The sql query operation.
  *
  * @return void
+ *
  * @throws \Drupal\Component\Plugin\Exception\PluginException
  */
 function erpw_webform_add_webform_submission_add_where_join(QueryPluginBase &$query, mixed $column_value, string $alias_slug, string $op = '=') {
@@ -756,5 +756,5 @@ function erpw_webform_add_webform_submission_add_where_join(QueryPluginBase &$qu
   ];
   $join = Views::pluginManager('join')->createInstance('standard', $configuration);
   $query->addRelationship('webform_submission_data_' . $alias_slug, $join, 'webform_submission_data');
-  $query->addWhere(1, "webform_submission_data_${alias_slug}.value", $column_value, $op);
+  $query->addWhere(1, "webform_submission_data_$alias_slug.value", $column_value, $op);
 }
