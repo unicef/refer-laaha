@@ -292,7 +292,7 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          quantity: 2
+          quantity: 9
       exposed_form:
         type: bef
         options:
@@ -337,21 +337,19 @@ display:
         type: none
         options: {  }
       cache:
-        type: none
+        type: tag
         options: {  }
       empty:
-        area:
-          id: area
+        area_text_custom:
+          id: area_text_custom
           table: views
-          field: area
+          field: area_text_custom
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: text
+          plugin_id: text_custom
           empty: true
-          content:
-            value: 'There are currently no services available for you to manage.'
-            format: basic_html
+          content: 'No services found!'
           tokenize: false
       sorts: {  }
       arguments: {  }
@@ -466,7 +464,7 @@ display:
           query_tags: {  }
       relationships: {  }
       css_class: 'erpw-webform-manage-services manage-services-filters'
-      use_ajax: true
+      use_ajax: false
       use_more: false
       use_more_always: true
       use_more_text: Next

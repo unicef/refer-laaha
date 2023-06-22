@@ -77,7 +77,7 @@ class ServiceSubmissionsView extends ControllerBase {
       $level_4 = '';
       foreach ($fields as $key => $content) {
         $element = $this->entityTypeManager->getStorage('webform')->load($webform_submission->getWebform()->id())->getElement($key);
-        if ($key != 'erpw_workflow') {
+        if ($key != 'erpw_workflow' && $key != 'submission_domain' && $key != 'service_type') {
           $roles = $this->currentUser->getRoles();
           if (isset($element['#access_view_roles'])) {
             foreach ($roles as $role) {
