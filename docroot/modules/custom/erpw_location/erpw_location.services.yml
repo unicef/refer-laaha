@@ -1,15 +1,19 @@
 services:
   erpw_location.location_services:
     class: Drupal\erpw_location\LocationService
-    arguments: ['@entity_type.manager', '@language_manager','@database']
-  # erpw_location.location_cookie:
-  #   class: Drupal\erpw_location\EventSubscriber\LocationCookie
-  #   arguments: ['@request_stack', '@domain.negotiator']
-  #   tags:
-  #     - { name: 'event_subscriber' }
-  erpw_location.import_location:
-    class: Drupal\erpw_location\LocationImportProcess
-    arguments: ['@database', '@entity_type.manager', '@language_manager', '@messenger']
+    arguments: ['@entity_type.manager', '@language_manager', '@database']
+  
   erpw_location.location_cookie:
     class: Drupal\erpw_location\LocationCookieService
     arguments: ['@request_stack', '@domain.negotiator']
+
+  erpw_location.location_cookie_subscriber:
+    class: Drupal\erpw_location\EventSubscriber\LocationCookieSubscriber
+    arguments: ['@request_stack', '@domain.negotiator', '@erpw_location.location_cookie']
+    tags:
+      - { name: 'event_subscriber' }
+
+  erpw_location.import_location:
+    class: Drupal\erpw_location\LocationImportProcess
+    arguments: ['@database', '@entity_type.manager', '@language_manager', '@messenger']
+  
