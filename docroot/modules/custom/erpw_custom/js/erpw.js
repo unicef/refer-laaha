@@ -164,10 +164,10 @@
 
   Drupal.behaviors.disableCountrySelctor = {
     attach: function () {
-      $('select.disable-country-select-default').parent().addClass(
-        'disable-country-select-default'
-      );
-    }
-  }
+      $('select.disable-country-select-default')
+        .parent()
+        .addClass('disable-country-select-default');
+    },
+  };
 
-}(jQuery, Drupal, drupalSettings));
+})(jQuery, Drupal, drupalSettings);
