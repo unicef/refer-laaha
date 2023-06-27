@@ -114,7 +114,10 @@ class ErpwPathwayService {
     }
     $label = $this->t('Select Country');
     $form['location']['level_0'] = $this->childLocationForm('0', $label, $location_options, $default_value, '', '');
-    // $form['location']['level_0']['#attributes']['class'][] = 'disable-country-select-default';
+    $route_name = \Drupal::routeMatch()->getRouteName();
+    if ($route_name == 'erpw_custom.sign_up_form') {
+      $form['location']['level_0']['#attributes']['class'][] = 'disable-country-select-default';
+    }
     $form['location'] += $child_location;
 
     return $form;
