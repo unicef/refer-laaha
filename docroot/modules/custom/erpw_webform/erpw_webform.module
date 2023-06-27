@@ -628,6 +628,12 @@ function erpw_webform_preprocess_page_title(&$variables) {
       ]);
     }
   }
+  if ($route_match->getRouteName() === 'entity.webform.collection') {
+    $variables['title'] = t('@title', [
+      '@title' => t('Service Forms Configuration'),
+    ]);
+  }
+
 }
 
 /**
