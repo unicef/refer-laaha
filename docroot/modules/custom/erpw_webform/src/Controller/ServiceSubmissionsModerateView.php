@@ -305,6 +305,12 @@ class ServiceSubmissionsModerateView extends ControllerBase {
           }
         }
       }
+      // Sort the output alphabetically.
+      usort($output, function ($a, $b) {
+          $keyA = key($a);
+          $keyB = key($b);
+          return strcmp($keyA, $keyB);
+      });
       foreach ($output as $item) {
         foreach ($item as $key => $value) {
           $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
