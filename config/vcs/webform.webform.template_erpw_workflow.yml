@@ -84,6 +84,10 @@ elements: |-
       '#multiple': true
       '#options': target_group
       '#required': true
+    field_add_more_details_service:
+      '#type': textarea
+      '#title': 'Add More Details'
+      '#placeholder': 'Add More Details'
   step_2_contact_fields:
     '#type': details
     '#title': 'Step 2: Contact Fields'
@@ -131,10 +135,6 @@ elements: |-
       '#type': email
       '#title': 'Email of back-up focal point'
       '#placeholder': 'Enter email of back-up focal point.'
-    field_add_more_details_service:
-      '#type': textarea
-      '#title': 'Add More Details'
-      '#placeholder': 'Add More Details'
   erpw_workflow:
     '#type': webform_workflows_element
     '#title': 'eRPW Workflow'
