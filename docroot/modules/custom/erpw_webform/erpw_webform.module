@@ -478,6 +478,7 @@ function erpw_webform_views_pre_render(&$view) {
         // only show locations for its own lower levels.
         $request = \Drupal::request();
         // $cookie_tid = $request->cookies->get('location_tid');
+        $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
         if ($cookie_tid != $domain_tid) {
           // Remove rows which have only domain selected.
           if ($location_of_domain == $location_entity_id || $location_of_domain == NULL) {
