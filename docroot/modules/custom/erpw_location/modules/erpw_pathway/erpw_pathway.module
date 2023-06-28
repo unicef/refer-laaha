@@ -105,8 +105,9 @@ function erpw_pathway_views_query_alter(ViewExecutable $view, QueryPluginBase $q
       }
     }
   }
-  // Service List View no longer in use.
-  // Elseif ($view->id() == "service_list") {
+  // Service List View no longer in use
+
+  // elseif ($view->id() == "service_list") {
   //   $ptids = [];
   //   $location_id = get_user_location();
   //   $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
@@ -168,8 +169,8 @@ function set_user_location() {
   //   $tempstore->set(base64_decode($cookie->getCookieValue()), $default_location);
   // }
   $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-  $full_url = $domain->get('hostname');
-  setcookie($cookie->getCookieName(), $default_location, strtotime('+1 year'), '/', $full_url, FALSE);
+  $url = preg_replace('/^[^.]+\./', '', $domain->getHostname());
+  setcookie($cookie->getCookieName(), $default_location, strtotime('+1 year'), '/', $url, FALSE);
 }
 
 /**
