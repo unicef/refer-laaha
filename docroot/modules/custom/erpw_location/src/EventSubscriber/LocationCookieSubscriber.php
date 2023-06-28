@@ -61,7 +61,7 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
 
   /**
    * The Location Cookie Service.
-   * 
+   *
    * @var \Drupal\erpw_location\LocationCookieService
   */
   protected $locationCookie;
@@ -71,10 +71,10 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
    *
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   Request stack service.
-   * 
+   *
    * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
    *   Domain negotiator service.
-   * 
+   *
    * @param \Drupal\erpw_location\LocationCookieService $location_cookie
    */
   public function __construct(
@@ -181,6 +181,7 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
       // $my_new_cookie = new Cookie($cookie_name, $cookie_value, strtotime('+7 days'), '/', $full_url, NULL, FALSE);
       $this->locationCookie->setShouldUpdate(FALSE);
       $this->locationCookie->setCookieValue($cookie_name, $cookie_value);
+
       // $response->headers->setCookie($my_new_cookie);
     }
     else {
@@ -203,7 +204,7 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
 
   //     //Check if the current location cookie tid value matches with the tree of domain tid value.
   //       if (isset($_COOKIE['location_tid'])) {
-      
+
   //       // Get the full taxonomy tree for current domain
   //       $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
   //       $parent_term = $term_storage->load($domain_tid);
@@ -235,6 +236,7 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
   //   if ($this->getShouldDeleteCookie()) {
   //     $response->headers->clearCookie($this->getCookieName());
   //   }
+    $this->locationCookie->updateLanguageCookie();
   }
 
 }
