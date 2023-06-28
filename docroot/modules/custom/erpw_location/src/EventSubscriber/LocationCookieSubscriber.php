@@ -5,7 +5,6 @@ namespace Drupal\erpw_location\EventSubscriber;
 use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\erpw_location\LocationCookieService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -30,21 +29,18 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
   //  * @var string
   //  */
   // protected $cookieName = 'location_id';
-
   // /**
   //  * The cookie value that will be set during the respond event.
   //  *
   //  * @var mixed
   //  */
   // protected $newCookieValue;
-
   // /**
   //  * Whether or not the cookie should be updated during the response.
   //  *
   //  * @var bool
   //  */
   // protected $shouldUpdateCookie = FALSE;
-
   // /**
   //  * Whether or not the cookie should be deleted during the response.
   //  *
@@ -63,7 +59,7 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
    * The Location Cookie Service.
    *
    * @var \Drupal\erpw_location\LocationCookieService
-  */
+   */
   protected $locationCookie;
 
   /**
@@ -99,10 +95,8 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
   //   if (!empty($this->newCookieValue)) {
   //     return $this->newCookieValue;
   //   }
-
-  //   return $this->request->cookies->get($this->getCookieName());
+  // return $this->request->cookies->get($this->getCookieName());
   // }
-
   // /**
   //  * Set the cookie's new value.
   //  *
@@ -113,7 +107,6 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
   //   $this->shouldUpdateCookie = TRUE;
   //   $this->newCookieValue = $value;
   // }
-
   // /**
   //  * Whether or not the cookie should be updated during the response.
   //  *
@@ -123,7 +116,6 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
   // public function getShouldUpdateCookie() {
   //   return $this->shouldUpdateCookie;
   // }
-
   // /**
   //  * Whether or not the cookie should be deleted during the response.
   //  *
@@ -133,7 +125,6 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
   // public function getShouldDeleteCookie() {
   //   return $this->shouldDeleteCookie;
   // }
-
   // /**
   //  * Set whether or not the cookie should be deleted during the response.
   //  *
@@ -143,7 +134,6 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
   // public function setShouldDeleteCookie($delete_cookie = TRUE) {
   //   $this->shouldDeleteCookie = (bool) $delete_cookie;
   // }
-
   // /**
   //  * Get this cookie's name.
   //  *
@@ -162,7 +152,6 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
     return $events;
   }
 
-
   /**
    * React to the symfony kernel response event by managing visitor cookies.
    *
@@ -170,72 +159,53 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
    *   The event to process.
    */
   public function onResponse(ResponseEvent $event) {
-    // $response = $event->getResponse();
-    // $domain = $this->domainNegotiator->getActiveDomain();
-    // $full_url = $domain->get('hostname');
-    // $cookie_name = $this->locationCookie->getCookieName();
-    // $cookie_value = $this->locationCookie->getCookieValue();
     if ($this->locationCookie->getShouldUpdate()) {
       $cookie_value = $this->locationCookie->getSavedCookie();
       $cookie_name = $this->locationCookie->getNewCookieName();
-      // $my_new_cookie = new Cookie($cookie_name, $cookie_value, strtotime('+7 days'), '/', $full_url, NULL, FALSE);
       $this->locationCookie->setShouldUpdate(FALSE);
       $this->locationCookie->setCookieValue($cookie_name, $cookie_value);
-
-      // $response->headers->setCookie($my_new_cookie);
     }
-    else {
-      // if (isset($cookie_value)) {
-      //   $my_new_cookie = new Cookie($cookie_name, $cookie_value, strtotime('+7 days'), '/', $full_url, NULL, FALSE);
-      //   $response->headers->setCookie($my_new_cookie);
-      // }
-      // else {
-      //   $this->locationCookie->setDefaultCookieValue();
-      // }
-    }
-  //   if ($this->getShouldUpdateCookie()) {
-  //     $my_new_cookie = new Cookie($this->getCookieName(), $this->getCookieValue(), strtotime('+7 days'), '/', $full_url, NULL, FALSE);
-  //     $response->headers->setCookie($my_new_cookie);
-  //   }
-  //   else {
-  //     // Case where sub - domain is changed from URL
-  //     $config = \Drupal::config('domain.location.' . $domain->get('id'));
-  //     $domain_tid = $config->get('location');
-
-  //     //Check if the current location cookie tid value matches with the tree of domain tid value.
-  //       if (isset($_COOKIE['location_tid'])) {
-
-  //       // Get the full taxonomy tree for current domain
-  //       $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
-  //       $parent_term = $term_storage->load($domain_tid);
-  //       $tree = $term_storage->loadTree($parent_term->bundle(), $domain_tid);
-  //       $child_tids = [];
-  //       foreach ($tree as $term) {
-  //         $child_tids[] = $term->tid;
-  //       }
-  //       $domain_tree = [$domain_tid, ...$child_tids];
-  //       if (isset($_COOKIE['location_tid']) && ($_COOKIE['location_tid'] != $session->get('location_tid'))) {
-  //         $session->set('location_tid',$_COOKIE['location_tid']);
-  //       }
-  //       if (!in_array($session->get('location_tid'), $domain_tree)) {
-  //         // Remove existing cookies
-  //         setcookie('location_tid', '', time() - 3600, '/', $full_url, FALSE);
-  //         setcookie('location_id', '', time() - 3600, '/', $full_url, FALSE);
-  //         // Update new ones
-  //         setcookie('location_tid', $domain_tid, strtotime('+1 year'), '/', $full_url, FALSE);
-  //       }
-  //     }
-  //     else {
-  //       // If cookie is not set yet, then default to country value.
-  //       setcookie('location_tid', $domain_tid, strtotime('+1 year'), '/', $full_url, FALSE);
-  //     }
-  //   }
-  //   // The "should delete" needs to happen after "should update", or we could
-  //   // find ourselves in a situation where we are unable to delete the cookie
-  //   // because another part of the system is trying to update its value.
-  //   if ($this->getShouldDeleteCookie()) {
-  //     $response->headers->clearCookie($this->getCookieName());
-  //   }
+    // If ($this->getShouldUpdateCookie()) {
+    //     $my_new_cookie = new Cookie($this->getCookieName(), $this->getCookieValue(), strtotime('+7 days'), '/', $full_url, NULL, FALSE);
+    //     $response->headers->setCookie($my_new_cookie);
+    //   }
+    //   else {
+    //     // Case where sub - domain is changed from URL
+    //     $config = \Drupal::config('domain.location.' . $domain->get('id'));
+    //     $domain_tid = $config->get('location');.
+    // //Check if the current location cookie tid value matches with the tree of domain tid value.
+    //       if (isset($_COOKIE['location_tid'])) {
+    // // Get the full taxonomy tree for current domain
+    //       $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
+    //       $parent_term = $term_storage->load($domain_tid);
+    //       $tree = $term_storage->loadTree($parent_term->bundle(), $domain_tid);
+    //       $child_tids = [];
+    //       foreach ($tree as $term) {
+    //         $child_tids[] = $term->tid;
+    //       }
+    //       $domain_tree = [$domain_tid, ...$child_tids];
+    //       if (isset($_COOKIE['location_tid']) && ($_COOKIE['location_tid'] != $session->get('location_tid'))) {
+    //         $session->set('location_tid',$_COOKIE['location_tid']);
+    //       }
+    //       if (!in_array($session->get('location_tid'), $domain_tree)) {
+    //         // Remove existing cookies
+    //         setcookie('location_tid', '', time() - 3600, '/', $full_url, FALSE);
+    //         setcookie('location_id', '', time() - 3600, '/', $full_url, FALSE);
+    //         // Update new ones
+    //         setcookie('location_tid', $domain_tid, strtotime('+1 year'), '/', $full_url, FALSE);
+    //       }
+    //     }
+    //     else {
+    //       // If cookie is not set yet, then default to country value.
+    //       setcookie('location_tid', $domain_tid, strtotime('+1 year'), '/', $full_url, FALSE);
+    //     }
+    //   }
+    //   // The "should delete" needs to happen after "should update", or we could
+    //   // find ourselves in a situation where we are unable to delete the cookie
+    //   // because another part of the system is trying to update its value.
+    //   if ($this->getShouldDeleteCookie()) {
+    //     $response->headers->clearCookie($this->getCookieName());
+    //   }
     $this->locationCookie->updateLanguageCookie();
   }
 
