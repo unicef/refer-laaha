@@ -1,7 +1,11 @@
 <?php
 
 namespace Drupal\erpw_location;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\domain\DomainNegotiatorInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 
@@ -33,7 +37,7 @@ class LocationCookieService {
 
 	/**
 	 * New Cookie Name
-	 * 
+	 *
 	 * @var string;
 	*/
 	protected $new_cookie_name;
@@ -47,49 +51,69 @@ class LocationCookieService {
 
 	/**
 	 * The cookie value saved in UserLocationForm.
-	 * 
+	 *
 	 * @var mixed
 	*/
 	protected $saved_cookie;
 
 	/**
 	 * Whether or not the cookie should be updated during the response.
-	 * 
+	 *
 	 * @var bool
 	*/
 	protected $should_update = FALSE;
 
 	/**
 	 * The Changed hostname found.
-	 * 
+	 *
 	 * @var mixed
 	*/
 	protected $new_url;
 
-	/**
+  /**
+   * Language Manager service.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
+   * Config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * LocationCookiesService constructor.
    *
    * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack.
-   * @param \Drupal\domain\DomainNegotiatorInterface $negotiator
+   * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
    *   Domain negotiator service.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   *   Language Manager service.
    */
   public function __construct(RequestStack $requestStack,
-	DomainNegotiatorInterface $domain_negotiator) {
-    $this->currentRequest = $requestStack->getCurrentRequest();
+	  DomainNegotiatorInterface $domain_negotiator,
+    LanguageManagerInterface $language_manager,
+    ConfigFactoryInterface $config_factory) {
+    $this->currentRequest = $requestStack;
 		$this->domainNegotiator = $domain_negotiator;
+    $this->languageManager = $language_manager;
+    $this->configFactory = $config_factory;
   }
 
 	/**
 	 * Get the location cookie value.
-	 * 
+	 *
 	 * @return mixed
 	 *   Returns the cookie value set in browser.
 	 */
 	public function getCookieValue() {
 		if (empty($this->cookie_value)) {
-			$cookie_value = $this->currentRequest->cookies->get($this->getCookieName());
-		} 
+			$cookie_value = $this->currentRequest->getCurrentRequest()->cookies->get($this->getCookieName());
+		}
 		else {
 			$cookie_value = $this->cookie_value;
 		}
@@ -98,7 +122,7 @@ class LocationCookieService {
 
 	/**
 	 * Get Cookie name according to active domain.
-	 * 
+	 *
 	 * @param mixed
 	 *   Optional parameter, in case domain id is passed.
 	 * @return string
@@ -141,10 +165,10 @@ class LocationCookieService {
 		return $cookie_name;
 	}
 
-	
+
 	/**
 	 * Sets the location cookie.
-	 * 
+	 *
 	 * @param string $cookie_name
 	 *   Name of the cookie being set.
 	 * @param mixed $cookie_value
@@ -153,20 +177,20 @@ class LocationCookieService {
 	public function setCookieValue($cookie_name, $cookie_value) {
 		$this->cookie_value = $cookie_value;
     $domain = $this->domainNegotiator->getActiveDomain();
-    $full_url = $domain->get('hostname');
+    $url = preg_replace('/^[^.]+\./', '', $domain->getHostname());
 		if ($cookie_name != $this->getCookieName()) {
 			// This means that the cookie doesn't correspond to the domain.
 			$this->should_update = TRUE;
 			$this->saved_cookie = $cookie_value;
 			$this->new_cookie_name = $cookie_name;
-			$full_url = $this->new_url;
+      $url = $this->new_url;
 		}
-		setcookie($cookie_name, $cookie_value, strtotime('+7 days'), '/', $full_url, NULL, FALSE);
+		setcookie($cookie_name, $cookie_value, strtotime('+7 days'), '/', $url, TRUE, FALSE);
 	}
 
 	/**
 	 * Get taxonomy id of the countries based on domain.
-	 * 
+	 *
 	 * @return string
 	 *   Returns the country tid of the active domain.
 	*/
@@ -180,7 +204,7 @@ class LocationCookieService {
 
 	/**
 	 * Change cookie name according to location selected.
-	 * 
+	 *
 	 * @param mixed
 	 *   Taxonomy ID of the country the location belongs to.
 	 * @return string
@@ -194,14 +218,14 @@ class LocationCookieService {
       $domain_id = $id;
       break;
     }
-		$this->new_url = $new_hostname;
+		$this->new_url = preg_replace('/^[^.]+\./', '', $new_hostname);
 		return $this->getCookieName($domain_id);
 	}
 
 	/**
 	 * Sets Default location cookie according to active domain.
 	*/
-	public function setDefaultCookieValue(){
+	public function setDefaultCookieValue() {
 		$domain = $this->domainNegotiator->getActiveDomain();
 		$domain_id = $domain->id();
 		$config = \Drupal::config('domain.location.' . $domain_id);
@@ -212,28 +236,28 @@ class LocationCookieService {
 		if (!empty($subdomain)) {
 			switch ($subdomain) {
 				case 'bn': {
-						$new_cookie_value = $this->currentRequest->cookies->has('bn_location_tid') ?
-							$this->currentRequest->cookies->get('bn_location_tid') : $domain_tid;
+						$new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('bn_location_tid') ?
+							$this->currentRequest->getCurrentRequest()->cookies->get('bn_location_tid') : $domain_tid;
 						break;
 					}
 				case 'zw': {
-						$new_cookie_value = $this->currentRequest->cookies->has('zw_location_tid') ?
-							$this->currentRequest->cookies->get('zw_location_tid') : $domain_tid;
+						$new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('zw_location_tid') ?
+							$this->currentRequest->getCurrentRequest()->cookies->get('zw_location_tid') : $domain_tid;
 						break;
 					}
 				case 'sl': {
-						$new_cookie_value = $this->currentRequest->cookies->has('sl_location_tid') ?
-							$this->currentRequest->cookies->get('sl_location_tid') : $domain_tid;
+						$new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('sl_location_tid') ?
+							$this->currentRequest->getCurrentRequest()->cookies->get('sl_location_tid') : $domain_tid;
 						break;
 					}
 				case 'txb': {
-						$new_cookie_value = $this->currentRequest->cookies->has('txb_location_tid') ?
-							$this->currentRequest->cookies->get('txb_location_tid') : $domain_tid;
+						$new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('txb_location_tid') ?
+							$this->currentRequest->getCurrentRequest()->cookies->get('txb_location_tid') : $domain_tid;
 						break;
 					}
 				default: {
-						$new_cookie_value = $this->currentRequest->cookies->has('zw_location_tid') ?
-							$this->currentRequest->cookies->get('zw_location_tid') : $domain_tid;
+						$new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('zw_location_tid') ?
+							$this->currentRequest->getCurrentRequest()->cookies->get('zw_location_tid') : $domain_tid;
 						break;
 					}
 			}
@@ -245,7 +269,7 @@ class LocationCookieService {
 
 	/**
 	 * Get the cookie value saved in UserLocationForm.
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function getSavedCookie() {
@@ -254,7 +278,7 @@ class LocationCookieService {
 
 	/**
 	 * Get whether or not the cookie should be updated during the response.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function getShouldUpdate() {
@@ -263,7 +287,7 @@ class LocationCookieService {
 
 	/**
 	 * Set whether or not the cookie should be updated during the response.
-	 * 
+	 *
 	 * @param bool
 	 */
 	public function setShouldUpdate($value) {
@@ -272,10 +296,27 @@ class LocationCookieService {
 
 	/**
 	 * Get new Cookie Name
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getNewCookieName() {
 		return $this->new_cookie_name;
 	}
+
+  /**
+   * When domain changes, if the current language is not supported
+   * by the new domain, set the language cookie to the first supported.
+   *
+   * @return void
+   */
+  public function updateLanguageCookie() {
+    $langs_for_this_domain = $this->configFactory->get('domain.language.' . $this->domainNegotiator->getActiveId() . '.language.negotiation')->get('languages');
+    $currentLang = $this->languageManager->getCurrentLanguage()->getId();
+    if (!in_array($currentLang, $langs_for_this_domain)) {
+      $this->currentRequest->getCurrentRequest()->cookies->set('userLanguage', $langs_for_this_domain[0]);
+      $response = new RedirectResponse(preg_replace('/\/[^\/]+\//', '/en/', $this->currentRequest->getCurrentRequest()->getRequestUri()));
+      $response->send();
+    }
+  }
+
 }

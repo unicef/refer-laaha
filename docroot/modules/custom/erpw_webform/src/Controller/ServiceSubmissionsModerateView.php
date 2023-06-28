@@ -74,7 +74,6 @@ class ServiceSubmissionsModerateView extends ControllerBase {
             foreach ($roles as $role) {
               if (in_array($role, $element['#access_view_roles'])) {
                 if ($key == 'location') {
-                  dump($content);
                   foreach ($content as $lkey => $lvalue) {
                     if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                       $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();

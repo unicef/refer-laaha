@@ -172,8 +172,6 @@ class UserLocationForm extends LocationListForm {
         $this->locationCookie->setDefaultCookieValue();
       }
       // $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $location_value);
-      $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-      $full_url = $domain->get('hostname');
       $cookie_name = $this->locationCookie->getCookieName();
       if ($country_tid != $this->locationCookie->getCountryId()) {
         $cookie_name = $this->locationCookie->changeCookieName($country_tid);
