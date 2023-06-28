@@ -375,6 +375,44 @@ display:
         - 'user.node_grants:view'
         - user.roles
       tags: {  }
+  entity_reference_1:
+    id: entity_reference_1
+    display_title: 'Entity Reference For Referral Pathway'
+    display_plugin: entity_reference
+    position: 2
+    display_options:
+      pager:
+        type: none
+        options:
+          offset: 0
+      style:
+        type: entity_reference
+        options:
+          search_fields:
+            title: title
+            nid: '0'
+      row:
+        type: entity_reference
+        options:
+          default_field_elements: true
+          inline:
+            title: title
+          separator: '-'
+          hide_empty: false
+      display_description: ''
+      display_extenders:
+        library_in_views_display_extender:
+          attach_library:
+            attach_library: core/drupal.autocomplete
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.site
+        - 'user.node_grants:view'
+        - user.roles
+      tags: {  }
   org_entity_reference:
     id: org_entity_reference
     display_title: 'Entity Reference'

@@ -2,11 +2,13 @@
 
 namespace Drupal\erpw_webform\Plugin\views\filter;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\Entity\Node;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use Drupal\views\Plugin\views\filter\ManyToOne;
+use Drupal\views\Plugin\ViewsHandlerManager;
 use Drupal\views\ViewExecutable;
-use Drupal\views\Views;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Custom filter for the webform organisation field.
@@ -26,6 +28,49 @@ class WebformSubmissionOrganisationFilter extends ManyToOne {
   protected $currentDisplay;
 
   /**
+   * Views Handler Plugin Manager.
+   *
+   * @var \Drupal\views\Plugin\ViewsHandlerManager
+   */
+  protected $joinHandler;
+
+  /**
+   * Constructs a new TransactionId instance.
+   *
+   * @param array $configuration
+   *   The plugin configuration, i.e. an array with configuration values keyed
+   *   by configuration option name. The special key 'context' may be used to
+   *   initialize the defined contexts by setting it to an array of context
+   *   values keyed by context names.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\views\Plugin\ViewsHandlerManager $join_handler
+   *   The join handler.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ViewsHandlerManager $join_handler) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->entityTypeManager = $entity_type_manager;
+    $this->joinHandler = $join_handler;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager'),
+      $container->get('plugin.manager.views.join')
+    );
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function init(ViewExecutable $view, DisplayPluginBase $display, array &$options = NULL) {
@@ -43,7 +88,7 @@ class WebformSubmissionOrganisationFilter extends ManyToOne {
    */
   public function generateOptions() {
     $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-    $nids = \Drupal::entityQuery('node')->condition('type', 'organisation')->execute();
+    $nids = $this->entityTypeManager->getStorage('node')->getQuery()->condition('type', 'organisation')->execute();
     $organizations = Node::loadMultiple($nids);
 
     // Create an array to store the organization name and machine name key-value pairs.
@@ -60,6 +105,7 @@ class WebformSubmissionOrganisationFilter extends ManyToOne {
         }
       }
     }
+    // @todo Remove this sort and sort in the previous loop.
     asort($organizationNames);
     $states = $organizationNames;
     return $states;
@@ -77,9 +123,9 @@ class WebformSubmissionOrganisationFilter extends ManyToOne {
         'left_field' => 'sid',
         'operator' => '=',
       ];
-      $join = Views::pluginManager('join')->createInstance('standard', $configuration);
-      $this->query->addRelationship('webform_submission_data', $join, 'webform_submission_data');
-      $this->query->addWhere('AND', 'webform_submission_data.value', $this->value, 'IN');
+      $join = $this->joinHandler->createInstance('standard', $configuration);
+      $this->query->addRelationship('webform_submission_data_org1', $join, 'webform_submission_data');
+      $this->query->addWhere($this->options['group'], 'webform_submission_data_org1.value', $this->value, '=');
     }
   }
 

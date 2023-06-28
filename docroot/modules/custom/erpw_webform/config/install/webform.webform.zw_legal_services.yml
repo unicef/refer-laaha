@@ -1,4 +1,4 @@
-uuid: c7d7dc6b-d13f-4468-ab73-b09753375013
+uuid: 43786077-f670-4589-b23a-fc3f24cdb933
 langcode: en
 status: open
 dependencies:
@@ -88,6 +88,10 @@ elements: |-
       '#multiple': true
       '#options': target_group
       '#required': true
+    field_add_more_details_service:
+      '#type': textarea
+      '#title': 'Add More Details'
+      '#placeholder': 'Add More Details'
   step_2_contact_fields:
     '#type': details
     '#title': 'Step 2: Contact Fields'
@@ -135,10 +139,6 @@ elements: |-
       '#type': email
       '#title': 'Email of back-up focal point'
       '#placeholder': 'Enter email of back-up focal point.'
-    field_add_more_details_service:
-      '#type': textarea
-      '#title': 'Add More Details'
-      '#placeholder': 'Add More Details'
   erpw_workflow:
     '#type': webform_workflows_element
     '#title': 'eRPW Workflow'
@@ -212,6 +212,30 @@ elements: |-
       - country_admin
       - super_admin
       - administrator
+  submission_domain:
+    '#type': textfield
+    '#title': 'submission domain'
+    '#title_display': none
+    '#disabled': true
+    '#readonly': true
+    '#prepopulate': true
+    '#input_hide': true
+    '#attributes':
+      class:
+        - hide-hidden-webform-element-domain
+      style: 'display:none;'
+  service_type:
+    '#type': textfield
+    '#title': 'service type'
+    '#title_display': none
+    '#disabled': true
+    '#readonly': true
+    '#prepopulate': true
+    '#input_hide': true
+    '#attributes':
+      class:
+        - hide-hidden-webform-element-domain
+      style: 'display:none;'
 css: ''
 javascript: ''
 settings:
@@ -411,7 +435,7 @@ handlers:
       notes: ''
       status: true
       conditions: {  }
-      weight: -50
+      weight: null
       settings:
         id: redirect_to_drafts
         handler_id: null
@@ -459,7 +483,7 @@ handlers:
                   notes: ''
                   status: true
                   conditions: {  }
-                  weight: null
+                  weight: -50
                   settings:
                     id: redirect_to_drafts
                     handler_id: null
@@ -470,13 +494,61 @@ handlers:
                     weight: null
                     settings:
                       id: redirect_to_drafts
-                      handler_id: redirect_to_drafts
-                      label: 'Redirect to Drafts'
+                      handler_id: null
+                      label: 'Redirect on Transition changes.'
                       notes: ''
                       status: true
                       conditions: {  }
-                      weight: 0
-                      settings: {  }
+                      weight: null
+                      settings:
+                        id: redirect_to_drafts
+                        handler_id: null
+                        label: 'Redirect on Transition changes.'
+                        notes: ''
+                        status: true
+                        conditions: {  }
+                        weight: null
+                        settings:
+                          id: redirect_to_drafts
+                          handler_id: null
+                          label: 'Redirect on Transition changes.'
+                          notes: ''
+                          status: true
+                          conditions: {  }
+                          weight: null
+                          settings:
+                            id: redirect_to_drafts
+                            handler_id: null
+                            label: 'Redirect on Transition changes.'
+                            notes: ''
+                            status: true
+                            conditions: {  }
+                            weight: null
+                            settings:
+                              id: redirect_to_drafts
+                              handler_id: null
+                              label: 'Redirect on Transition changes.'
+                              notes: ''
+                              status: true
+                              conditions: {  }
+                              weight: null
+                              settings:
+                                id: redirect_to_drafts
+                                handler_id: null
+                                label: 'Redirect on Transition changes.'
+                                notes: ''
+                                status: true
+                                conditions: {  }
+                                weight: null
+                                settings:
+                                  id: redirect_to_drafts
+                                  handler_id: redirect_to_drafts
+                                  label: 'Redirect to Drafts'
+                                  notes: ''
+                                  status: true
+                                  conditions: {  }
+                                  weight: 0
+                                  settings: {  }
   duplicate_services_handler:
     id: handle_duplicate_services
     handler_id: duplicate_services_handler
