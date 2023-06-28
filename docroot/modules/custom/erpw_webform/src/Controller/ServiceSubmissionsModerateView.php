@@ -68,7 +68,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
       $level_4 = '';
       foreach ($fields as $key => $content) {
         $element = $this->entityTypeManager->getStorage('webform')->load($webform_submission->getWebform()->id())->getElement($key);
-        if ($key != 'erpw_workflow') {
+        if ($key != 'erpw_workflow' && $key != 'submission_domain' && $key != 'service_type') {
           $roles = $this->currentUser->getRoles();
           if (isset($element['#access_view_roles'])) {
             foreach ($roles as $role) {
@@ -305,6 +305,12 @@ class ServiceSubmissionsModerateView extends ControllerBase {
           }
         }
       }
+      // Sort the output alphabetically.
+      usort($output, function ($a, $b) {
+          $keyA = key($a);
+          $keyB = key($b);
+          return strcmp($keyA, $keyB);
+      });
       foreach ($output as $item) {
         foreach ($item as $key => $value) {
           $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';

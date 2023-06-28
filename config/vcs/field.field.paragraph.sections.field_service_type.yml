@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph.field_service_type
-    - node.type.service_type
     - paragraphs.paragraphs_type.sections
 id: paragraph.sections.field_service_type
 field_name: field_service_type
@@ -17,13 +16,10 @@ translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:node'
+  handler: views
   handler_settings:
-    target_bundles:
-      service_type: service_type
-    sort:
-      field: _none
-      direction: ASC
-    auto_create: false
-    auto_create_bundle: ''
+    view:
+      view_name: service_types_entity_reference
+      display_name: entity_reference_1
+      arguments: {  }
 field_type: entity_reference

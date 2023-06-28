@@ -985,9 +985,9 @@ function erpw_view_results_own_country_permissions($query, $condition_field, $pe
  * Implements hook_entity_access().
  */
 function erpw_custom_entity_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  $uid = \Drupal::currentUser()->id();
+  $current_user = User::load($uid);
   if ($operation === 'update' && $entity->getEntityTypeId() === 'user') {
-    $uid = \Drupal::currentUser()->id();
-    $current_user = User::load($uid);
     $permission = 'edit users of their own location and organisation';
 
     // Fetch location tree and organisation for current user.
@@ -1015,6 +1015,28 @@ function erpw_custom_entity_access(EntityInterface $entity, $operation, AccountI
         return AccessResult::allowed();
       }
       return AccessResult::forbidden();
+    }
+  }
+  if ($operation === 'view' && $entity->getEntityTypeId() === 'user') {
+    if ($current_user->hasRole('country_admin')) {
+      $permission = 'view users of their own country';
+      if ($current_user->hasPermission($permission)) {
+        if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
+          $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
+          $user_location = $entity->get('field_location')->getValue()[0]['target_id'];
+          $loggedin_user_ancestors = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($location_id);
+          $view_user_ancestors = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($user_location);
+          if (end(array_keys($loggedin_user_ancestors)) == end(array_keys($view_user_ancestors))) {
+            return AccessResult::allowed();
+          }
+          else {
+            return AccessResult::forbidden();
+          }
+        }
+      }
+      else {
+        return AccessResult::forbidden();
+      }
     }
   }
   return AccessResult::neutral();
