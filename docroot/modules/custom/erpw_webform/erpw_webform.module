@@ -828,39 +828,13 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
 
       // Workflow join.
       erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
-    } 
+    }
     else {
       // Domain Join.
       erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
 
       // Workflow join.
       erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
-
-      // Manage Services - Services list should only include services by SP organization and in SP location
-      $uid = \Drupal::currentUser()->id();
-      $current_user = User::load($uid);
-
-      // Check if the current user has the necessary roles.
-      if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point')) {
-        // Get the current user's location ID.
-        if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-          $user_location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
-
-          // Get the child term IDs for the user's location.
-          $ptids = get_child_term_tid($user_location_id);
-
-          // Add a condition to the query to filter by location.
-          erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN');
-        }
-
-        // Get the current user's organization ID.
-        if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
-          $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
-
-          // Add a condition to the query to filter by organization.
-          erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
-        }
-      }
     }
   }
   // Unset rows that are not in review workflow states as per roles.
