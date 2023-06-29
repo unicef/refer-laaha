@@ -8,7 +8,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
-use Drupal\erpw_location\EventSubscriber\LocationCookie;
+use Drupal\erpw_location\LocationCookieService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -47,7 +47,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
   /**
    * The cookie as a service.
    *
-   * @var \Drupal\erpw_location\EventSubscriber\LocationCookie
+   * @var \Drupal\erpw_location\LocationCookieService
    */
   protected $locationCookie;
 
@@ -82,7 +82,7 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
     LocationService $location_service,
     EntityTypeManagerInterface $entity_manager,
     ConfigFactoryInterface $config_factory,
-    LocationCookie $location_cookie,
+    LocationCookieService $location_cookie,
     PrivateTempStoreFactory $temp_store_factory,
     AccountProxyInterface $current_user,
     RequestStack $request_stack) {
@@ -134,32 +134,10 @@ class UserHomeBlock extends BlockBase implements ContainerFactoryPluginInterface
    */
   public function build() {
     $form_config = $this->configfactory->get('erpw_location.settings');
-    $cookie_value = $this->locationCookie->getCookieValue();
-    $tid = \Drupal::request()->cookies->get('location_tid');
+    $tid = $this->locationCookie->getCookieValue();
     if (!$tid) {
-      // Find out if the URL has sub-domain:
-      $domain_current_url = explode(".", \Drupal::request()->server->get('SERVER_NAME'));
-      $domain_slice = array_slice($domain_current_url, -4);
-      $location = $domain_slice[0];
-
-      // Load domains and their ids
-      $domains = \Drupal::entityTypeManager()->getStorage('domain')->loadMultiple();
-      $domains_array = array();
-      foreach($domains as $domain){
-        $domain_id = \Drupal::config('domain.location.' . $domain->id());
-        $domain_id_slice = explode(".", $domain->get('hostname'));
-        $subdomain = $domain_id_slice[0];
-        $domain_tid = $domain_id->get('location');
-        $domains_array[$subdomain] = $domain_tid;
-      }
-      if($location){
-        $tid = $domains_array[$location];
-      }
-     else{
-      $this->tempStoreFactory->get(base64_decode($cookie_value));
-     }
+      $tid = $this->locationCookie->getCountryId();
     }
-
     $tid_array = explode(",", $tid);
     $location = '';
     if (!empty($tid)) {
