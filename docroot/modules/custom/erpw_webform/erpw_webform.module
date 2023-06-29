@@ -459,151 +459,31 @@ function erpw_webform_views_pre_render(&$view) {
         $location_of_domain = $webform_submission->getData()['location']['location_tid'];
       }
 
-        // If lower levels of domain are selected then,
-        // only show locations for its own lower levels.
-        $request = \Drupal::request();
-        // $cookie_tid = $request->cookies->get('location_tid');
-        $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
-        if ($cookie_tid != $domain_tid) {
-          // Remove rows which have only domain selected.
-          if ($location_of_domain == $location_entity_id || $location_of_domain == NULL) {
-            unset($view->result[$key]);
-          } 
-          else {
-            $location_of_level = $webform_submission->getData()['location']['location_tid'];
-            $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
-            $parent_term = $term_storage->load($cookie_tid);
-            if ($parent_term != null) {
-              $tree = $term_storage->loadTree($parent_term->bundle(), $cookie_tid);
-              $lower_level_tids = [];
-              foreach ($tree as $term) {
-                $lower_level_tids[] = $term->tid;
-              }
-              $location_tree = [$cookie_tid, ...$lower_level_tids];
-              // Also remove all others which are not in its lower levels.
-              if (!in_array($location_of_level, $location_tree)) {
-                unset($view->result[$key]);
-              }
-            }
-          }
-        }
-      }
-    }
-
-    // Manage Services - Services list should only include services by SP organization and in SP location
-    if ($view->id() == 'manage_webform_services') {
-      foreach ($view->result as $key => $row) {
-        $sid = $row->sid;
-        $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-        $uid = \Drupal::currentUser()->id();
-        $current_user = User::load($uid);
-        if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point')) {
-          if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-            $user_location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
-            $ptids = get_child_term_tid($user_location_id);
-            $service_location = $webform_submission->getData()['location']['location_tid'];
-            if (!in_array($service_location, $ptids)) {
-              unset($view->result[$key]);
-            }
-          }
-          $user_org_id = '';
-          if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
-            $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
-            $service_organisation = $webform_submission->getData()['organisation'];
-            if ($user_org_id != $service_organisation) {
-              unset($view->result[$key]);
-            }
-          }
-        }
-      }
-    }
-
-    // Unset rows that are not in review workflow states as per roles.
-    // @todo replace this code with query alter.
-    if ($view->id() == 'manage_in_review_webform_services_listing') {
-      foreach ($view->result as $key => $row) {
-        $sid = $row->sid;
-        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-        $state = $webformSubmission->getData()['erpw_workflow']['workflow_state'];
-        $current_user = User::load(\Drupal::currentUser()->id());
-
-        // Get the user's roles.
-        $roles = $current_user->getRoles();
-        if (in_array('service_provider_focal_point', $roles)) {
-          if ($state != 'in_review_with_focal_point') {
-            unset($view->result[$key]);
-          }
-        }
-        elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
-          if ($state != 'in_review') {
-            unset($view->result[$key]);
-          }
-        }
-        elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
-          if ($state != 'in_review_with_focal_point' && $state != 'in_review') {
-            unset($view->result[$key]);
-          }
+      // If lower levels of domain are selected then,
+      // only show locations for its own lower levels.
+      $request = \Drupal::request();
+      $cookie_tid = $request->cookies->get('location_tid');
+      if ($cookie_tid != $domain_tid) {
+        // Remove rows which have only domain selected.
+        if ($location_of_domain == $location_entity_id || $location_of_domain == NULL) {
+          unset($view->result[$key]);
         }
         else {
-          unset($view->result[$key]);
-        }
-      }
-    }
-
-    if ($view->id() == 'service_based_service_providers_listing') {
-      foreach ($view->result as $key => $row) {
-        $c = 0;
-        $sid = $row->sid;
-        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-        $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
-        $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
-        $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-        if (!is_null($tpa)) {
-          $currentRequest = \Drupal::request();
-          // Get the current page URL.
-          $currentUrl = $currentRequest->getRequestUri();
-          $stID = explode('/', $currentUrl)[3];
-          foreach ($tpa as $domain => $value) {
-            $servicetypeID = $value[0];
-            if ($stID != $servicetypeID) {
+          $location_of_level = $webform_submission->getData()['location']['location_tid'];
+          $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
+          $parent_term = $term_storage->load($cookie_tid);
+          if ($parent_term != NULL) {
+            $tree = $term_storage->loadTree($parent_term->bundle(), $cookie_tid);
+            $lower_level_tids = [];
+            foreach ($tree as $term) {
+              $lower_level_tids[] = $term->tid;
+            }
+            $location_tree = [$cookie_tid, ...$lower_level_tids];
+            // Also remove all others which are not in its lower levels.
+            if (!in_array($location_of_level, $location_tree)) {
               unset($view->result[$key]);
             }
           }
-        }
-      }
-    }
-    // Unset rows that are do not have domain specific
-    // access for the current user.
-    foreach ($view->result as $key => $row) {
-      $c = 0;
-      $sid = $row->sid;
-      $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-      $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
-      $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
-      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-      if (!is_null($tpa)) {
-        foreach ($user_roles as $key_r => $role) {
-          if ($view->id() == 'service_based_service_providers_listing') {
-            $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-            if (array_key_exists($activeDomain, $tpa)) {
-              $c++;
-            }
-          }
-          else {
-            if ($role == 'super_admin' || $role == 'administrator') {
-              return;
-            }
-            else {
-              foreach ($domainAccess as $domain) {
-                if (array_key_exists($domain['target_id'], $tpa)) {
-                  $c++;
-                }
-              }
-            }
-          }
-        }
-        if ($c == 0) {
-          unset($view->result[$key]);
         }
       }
     }
