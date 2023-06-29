@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-// @todo Check the impact of removing this file since Services are migrated to Webforms.
-
 /**
  * Class RemoveRejectedModeration.
  *
