@@ -43,7 +43,7 @@ class LanguageSelector extends FormBase {
   /**
    * The cookie as a service.
    *
-   * @var \Drupal\erpw_location\\LocationCookieService
+   * @var \Drupal\erpw_location\EventSubscriber\LocationCookie
    */
   protected $locationCookie;
 
@@ -195,10 +195,11 @@ class LanguageSelector extends FormBase {
       $domain_lang = $form_state->getValue('language_selector');
       $domain_path = $domain->get('path');
       $redirect_url = Url::fromUri($domain_path . $domain_lang);
-
+      
       // Get full domain for setting Location cookie
       $current_domain = $this->domainNegotiator->getActiveDomain();
-      $url = preg_replace('/^[^.]+\./', '', $current_domain->getHostname());
+      $full_url = $current_domain->get('hostname');
+
       // Get sliced domain for setting Language cookie
       $domain_current_url = explode(".", $this->requestStack->getCurrentRequest()->server->get('SERVER_NAME'));
       $domain_slice = array_slice($domain_current_url, -2);
@@ -206,8 +207,7 @@ class LanguageSelector extends FormBase {
       setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', $domain_site, FALSE);
       setcookie('userLanguage', $value['language_selector'], strtotime('+1 year'), '/', $domain_site, FALSE);
       $config = $this->configfactory->getEditable('domain.location.' . $domain->get('id'));
-      $default_location = $config->get('location');
-      if (!$default_location) {
+      if (!$default_location = $config->get('location')) {
         $default_location = $this->locationService->getDefaultLocation();
       }
       // Storing the value into cookie and temp storage.
@@ -216,14 +216,13 @@ class LanguageSelector extends FormBase {
         $default_location = ($this->locationService->getUserDefaultLocation($user)) ?? $default_location;
       }
       if (empty($this->locationCookie->getCookieValue())) {
-        $this->locationCookie->setDefaultCookieValue();
-        // $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
-        // $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
+        $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
+        $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
       }
-      // else {
-      //   $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
-      // }
-      setcookie($this->locationCookie->getCookieName(), $default_location, strtotime('+1 year'), '/', $url, FALSE);
+      else {
+        $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
+      }
+      setcookie('location_tid', $default_location, strtotime('+1 year'), '/', $full_url, FALSE);
       $form_state->setRedirectUrl($redirect_url);
     }
   }

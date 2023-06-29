@@ -693,7 +693,8 @@ function erpw_custom_preprocess_status_messages(&$variables) {
  * Implements hook_views_query_alter().
  */
 function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
-  $cookie = \Drupal::service('erpw_location.location_cookie');
+  $request = \Drupal::request();
+  $session = $request->getSession();
   if (($view->id() == "user_lists" &&
     ($view->current_display == 'page_1' || $view->current_display == 'page_2')) ||
     ($view->id() == "user_count_approval_block" && $view->current_display == 'block_1')) {
@@ -731,9 +732,9 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       }
     }
     // Load the taxonomy term and get the next terms.
-    if (!empty($cookie->getCookieValue())) { // @todo change this too
+    if ($session->get('location_tid')) {
       $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
-      $parent_term = $term_storage->load($cookie->getCookieValue());
+      $parent_term = $term_storage->load($session->get('location_tid'));
       $tree = $term_storage->loadTree($parent_term->bundle(), $current_tid);
       $child_tids = [];
       foreach ($tree as $term) {
@@ -814,7 +815,6 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
   }
   else {
     // Load tree for all lower levels of active tid.
-    // @todo replace this with get_child_term_tid()
     $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
     $parent_term = $term_storage->load($taxonomy_term_id);
     $tree = $term_storage->loadTree($parent_term->bundle(), $taxonomy_term_id);
@@ -849,14 +849,14 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
  * Implements hook_preprocess_node().
  */
 function erpw_custom_preprocess_node(&$variables) {
-  $cookie = \Drupal::service('erpw_location.location_cookie');
-  $cookie_name = $cookie->getCookieName();
-  $service_types = erpw_custom_load_submissions_by_term($cookie->getCookieValue());
+  $request = \Drupal::request();
+  $session = $request->getSession();
+  $service_types = erpw_custom_load_submissions_by_term($session->get('location_tid'));
   $variables['service_types'] = $service_types;
   $variables['#cache']['contexts'][] = 'url';
-  $cookieValue = \Drupal::request()->cookies->get($cookie_name);
-  $variables['#cache']['contexts'][] = 'cookies:' . $cookie_name . ':' . $cookieValue;
-  $variables['#cache']['tags'][] = $cookie_name . ':' . $cookieValue;
+  $cookieValue = \Drupal::request()->cookies->get('location_tid');
+  $variables['#cache']['contexts'][] = 'cookies:location_tid:' . $cookieValue;
+  $variables['#cache']['tags'][] = 'location_tid:' . $cookieValue;
   $is_incognito = \Drupal::request()->headers->has('incognito');
   if ($is_incognito) {
     $variables['#cache']['contexts'][] = 'headers:incognito';
