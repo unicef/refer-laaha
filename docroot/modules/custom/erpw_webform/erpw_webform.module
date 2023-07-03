@@ -585,6 +585,14 @@ function erpw_webform_preprocess_page_title(&$variables) {
   }
 
 }
+// @todo Add caching for Service Listing page based on changing location.
+// function erpw_webform_preprocess_views_view(&$variables) {
+//   $variables['#cache']['contexts'][] = 'cookies:bn_location_tid';
+//   $variables['#cache']['contexts'][] = 'cookies:zw_location_tid';
+//   $variables['#cache']['contexts'][] = 'cookies:sl_location_tid';
+//   $variables['#cache']['contexts'][] = 'cookies:txb_location_tid';
+//   $variables['#cache']['contexts'][] = 'url';
+// }
 
 /**
  * Implements hook_webform_submission_presave().
