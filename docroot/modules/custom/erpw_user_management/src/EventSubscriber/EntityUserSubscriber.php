@@ -122,7 +122,7 @@ class EntityUserSubscriber implements EventSubscriberInterface {
         }
         $form['account']['name']['#access'] = FALSE;
         $form['account']['roles']['#access'] = FALSE;
-        $form['field_location']['#access'] = FALSE;
+        $form['field_location']['#access'] = TRUE;
         $form['account']['status']['#access'] = FALSE;
         $form['account']['notify']['#access'] = FALSE;
         $form['account']['mail']['#description'] = '';
