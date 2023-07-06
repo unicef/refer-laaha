@@ -130,6 +130,7 @@
               'Select ' + termsArray[countryID]['level_label']
             );
             $('select.level_1').siblings('label').text(level_1);
+            LevelOneselect.add(new Option(level_1, 0));
             for (const newKey in level1_options) {
               LevelOneselect.add(
                 new Option(level1_options[newKey]['name'], newKey)
@@ -208,7 +209,6 @@
               display: 'block',
             });
             $('select.level_4').empty();
-            LevelFourID = defaultValues['level_4'];
             level4_options =
               termsArray[countryID]['children'][LevelOneID]['children'][
                 LevelTwoID
@@ -222,6 +222,7 @@
                 ]['children'][LevelThreeID]['level_label']
             );
             $('select.level_4').siblings('label').text(level_4);
+            LevelFourselect.add(new Option(level_4, 0));
             for (const newKey in level4_options) {
               LevelFourselect.add(
                 new Option(level4_options[newKey]['name'], newKey)
@@ -234,6 +235,7 @@
             defaultValues['level_4'] != '' &&
             defaultValues['level_4'] != '0'
           ) {
+            LevelFourID = defaultValues['level_4'];
             $('select.level_4').val(LevelFourID);
           }
         } else {

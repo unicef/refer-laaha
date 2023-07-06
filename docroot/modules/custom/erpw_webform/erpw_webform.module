@@ -438,57 +438,6 @@ function erpw_webform_views_pre_render(&$view) {
       }
     }
   }
-
-  // Unset services which do not belong to the active location or its lower levels.
-  if ($view->id() == 'service_based_service_providers_listing') {
-    foreach ($view->result as $key => $row) {
-      $sid = $row->sid;
-      $webform_submission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
-      $location_country = $webform_submission->getData()['location']['location_options'];
-
-      // Unset submissions which do not have the country of active domain.
-      $domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-      $config = \Drupal::config('domain.location.' . $domain->get('id'));
-      $domain_tid = $config->get('location');
-      // Location id of active domain.
-      $location_entity_id = \Drupal::service('erpw_location.location_services')->getLocationSingleEntityIdByTid($domain_tid);
-      if ($location_country != $location_entity_id) {
-        unset($view->result[$key]);
-      }
-      else {
-        $location_of_domain = $webform_submission->getData()['location']['location_tid'];
-      }
-
-      // If lower levels of domain are selected then,
-      // only show locations for its own lower levels.
-      $request = \Drupal::request();
-      // $cookie_tid = $request->cookies->get('location_tid');
-      $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
-      if ($cookie_tid != $domain_tid) {
-        // Remove rows which have only domain selected.
-        if ($location_of_domain == $location_entity_id || $location_of_domain == NULL) {
-          unset($view->result[$key]);
-        }
-        else {
-          $location_of_level = $webform_submission->getData()['location']['location_tid'];
-          $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
-          $parent_term = $term_storage->load($cookie_tid);
-          if ($parent_term != NULL) {
-            $tree = $term_storage->loadTree($parent_term->bundle(), $cookie_tid);
-            $lower_level_tids = [];
-            foreach ($tree as $term) {
-              $lower_level_tids[] = $term->tid;
-            }
-            $location_tree = [$cookie_tid, ...$lower_level_tids];
-            // Also remove all others which are not in its lower levels.
-            if (!in_array($location_of_level, $location_tree)) {
-              unset($view->result[$key]);
-            }
-          }
-        }
-      }
-    }
-  }
   return $view;
 }
 
@@ -636,6 +585,14 @@ function erpw_webform_preprocess_page_title(&$variables) {
   }
 
 }
+// @todo Add caching for Service Listing page based on changing location.
+// function erpw_webform_preprocess_views_view(&$variables) {
+//   $variables['#cache']['contexts'][] = 'cookies:bn_location_tid';
+//   $variables['#cache']['contexts'][] = 'cookies:zw_location_tid';
+//   $variables['#cache']['contexts'][] = 'cookies:sl_location_tid';
+//   $variables['#cache']['contexts'][] = 'cookies:txb_location_tid';
+//   $variables['#cache']['contexts'][] = 'url';
+// }
 
 /**
  * Implements hook_webform_submission_presave().
@@ -684,7 +641,6 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
   if ($view->id() == 'webform_submissions') {
     $user = \Drupal::currentUser();
     $user_roles = $user->getRoles();
-    // @todo draft submissions should be displayed of own submitted data.
     if (!in_array('service_provider_staff', $user_roles)) {
       // Remove the filter from the view query.
       $conditions = &$query->where;
@@ -700,12 +656,18 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
   if ($view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing') {
     // $query->addWhere(1, 'webform_submission_data_workflow.property', 'workflow_state', '=');
     if ($view->id() == 'service_based_service_providers_listing') {
+      // Filter out rows which do not belong to the current location.
+      $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
+      $ptids = get_child_term_tid($cookie_tid);
       if ($service_type = \Drupal::routeMatch()->getRawParameter('node')) {
         // Service type Join.
         erpw_webform_add_webform_submission_add_where_join($query, $service_type, 'st');
       }
       // Domain Join.
       erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
+
+      // Location Join.
+      erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN');
 
       // Workflow join.
       erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
@@ -717,7 +679,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       // Workflow join.
       erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
 
-      // Manage Services - Services list should only include services by SP organization and in SP location
+      // For SP Staff & Focal Point - Services list should only include services by their organization and location
       $uid = \Drupal::currentUser()->id();
       $current_user = User::load($uid);
 
