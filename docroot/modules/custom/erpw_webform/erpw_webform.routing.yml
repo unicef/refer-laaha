@@ -49,3 +49,5 @@ erpw_webform.delete_user:
   defaults:
     _controller: '\Drupal\erpw_webform\Controller\DeleteUserController::deleteUser'
     _title: 'Delete User'
+  requirements:
+    _permission: 'cancel users by role'

@@ -7,7 +7,7 @@
           event.preventDefault();
           var userId = $(this).data("user-id");
           var dialogOptions = {
-            title: "Are you sure you want to delete the user?",
+            title: Drupal.t("Are you sure you want to delete the user?"),
             dialogClass: "delete-user-popup",
             buttons: {
               Proceed: function () {
@@ -21,7 +21,7 @@
           };
           var dialogElement = $(
             "<div class='message-delete-white'>" +
-              "Click on proceed to delete or cancel to go back." +
+              Drupal.t("Click on proceed to delete or cancel to go back.") +
               "</div>"
           ).dialog(dialogOptions);
         });
@@ -36,7 +36,7 @@
           success: function (response) {
             if (response.status === "success") {
               var successDialogOptions = {
-                title: "Deleted successfully",
+                title: Drupal.t("Deleted successfully"),
                 dialogClass: "delete-user-popup",
                 buttons: {
                   "Back to dashboard": function () {
@@ -52,7 +52,7 @@
               ).dialog(successDialogOptions);
             } else {
                var successDialogOptions = {
-                 title: "Access Denied!",
+                 title: Drupal.t("Access Denied!"),
                  dialogClass: "delete-user-popup",
                  buttons: {
                    "Back to dashboard": function () {
