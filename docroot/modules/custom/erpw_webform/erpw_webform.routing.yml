@@ -43,3 +43,11 @@ erpw_webform.migration_form:
     _form: '\Drupal\erpw_webform\Form\ServiceProviderMigrationForm'
   requirements:
     _permission: 'administer site configuration'
+
+erpw_webform.delete_user:
+  path: '/delete-user/{id}'
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\DeleteUserController::deleteUser'
+    _title: 'Delete User'
+  requirements:
+    _permission: 'cancel users by role'
