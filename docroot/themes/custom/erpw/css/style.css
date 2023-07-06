@@ -2960,6 +2960,11 @@ html[dir=rtl] .view-manage-service .views-field-field-service-type-icon, html[di
   word-break: break-word;
 }
 
+.delete-user-button {
+  background-color: #a85766;
+  color: #ffffff;
+}
+
 body.path-user {
   background: url("../images/signin-page.png") right top -22px no-repeat;
 }
@@ -3107,5 +3112,21 @@ body.path-user {
 .page-node-type-service-type .ui-dialog-titlebar-close,
 .path-user .ui-dialog-titlebar-close {
   top: 17px;
+}
+
+.delete-user-popup {
+  -webkit-box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
+  border: 1px solid #a85766 !important;
+}
+.delete-user-popup .path-user .ui-dialog-titlebar {
+  padding: 35px 0 0;
+}
+.delete-user-popup .ui-dialog-title {
+  color: #a85766;
+  margin-bottom: 15px;
+}
+.delete-user-popup .message-delete-white {
+  margin: 15px 0;
 }
 /*# sourceMappingURL=style.css.map */
