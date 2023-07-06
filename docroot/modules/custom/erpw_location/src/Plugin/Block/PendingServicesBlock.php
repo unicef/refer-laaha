@@ -75,7 +75,7 @@ class PendingServicesBlock extends BlockBase implements ContainerFactoryPluginIn
     $view->setDisplay('page_1');
     $view->execute();
     // Unset rows that are not in review workflow states as per roles.
-    // TODO replace this code with query alter.
+    // @todo replace this code with query alter.
     foreach ($view->result as $key => $row) {
       $sid = $row->sid;
       $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
