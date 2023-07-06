@@ -291,8 +291,9 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       if (!empty($node_id) && $node_id !== $node->id()) {
         $form_state->setError($form['location'], $message);
       }
-    }
-    else {
+    } else if ($bundle === 'referral_path_way') {
+      $form_state->setError($form, $message);
+    } else {
       if (isset($node_id) && $node_id != '') {
         $form_state->setError($form['location'], $message);
       }
