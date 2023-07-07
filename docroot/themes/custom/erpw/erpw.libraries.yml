@@ -12,3 +12,19 @@ global:
   dependencies:
     - core/drupal
     - core/jquery
+
+
+erpw_delete_popup:
+  version: 1.x
+  js:
+    js/erpwDeleteUser.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupalSettings
+    - core/drupal.dialog
+    - core/drupal.dialog.ajax
+    - core/jquery.once
+    - core/jquery.ui
+    - core/jquery.ui.dialog

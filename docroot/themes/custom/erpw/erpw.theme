@@ -5,7 +5,6 @@
  * Functions to support theming in the erpw theme.
  */
 
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Url;
 use Drupal\user\Entity\User;
 use Drupal\node\NodeInterface;
@@ -152,6 +151,29 @@ function erpw_preprocess_user(&$variables) {
   }
   else {
     $variables['hide_list_button'] = FALSE;
+  }
+  // Show or hide delete button.
+  // Load current user role.
+  $currentUserRole = User::load(\Drupal::currentUser()->id())->getRoles();
+
+  // Load role of the user to be deleted.
+  $user = User::load($form_user_id);
+  $userRole = $user->getRoles();
+
+  if (in_array('anonymous', $currentUserRole) || in_array('service_provider_staff', $currentUserRole) || in_array('service_provider_focal_point', $currentUserRole)) {
+    $variables['hide_delete_button'] = TRUE;
+  }
+  elseif ((in_array('country_admin', $currentUserRole) || in_array('interagency_gbv_coordinator', $currentUserRole)) && !(in_array('interagency_gbv_coordinator', $userRole) || in_array('country_admin', $userRole) || in_array('administrator', $userRole) || in_array('super_admin', $userRole))) {
+    $variables['hide_delete_button'] = FALSE;
+  }
+  elseif ((in_array('country_admin', $currentUserRole) || in_array('interagency_gbv_coordinator', $currentUserRole)) && (in_array('interagency_gbv_coordinator', $userRole) || in_array('country_admin', $userRole) || in_array('administrator', $userRole) || in_array('super_admin', $userRole))) {
+    $variables['hide_delete_button'] = TRUE;
+  }
+  elseif (in_array('country_admin', $currentUserRole) || in_array('administrator', $currentUserRole) || in_array('super_admin', $currentUserRole)) {
+    $variables['hide_delete_button'] = FALSE;
+  }
+  else {
+    $variables['hide_delete_button'] = TRUE;
   }
 }
 

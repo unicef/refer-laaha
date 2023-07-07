@@ -254,6 +254,10 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
         $x++;
         return AccessResult::allowed();
       }
+      if (($role == 'service_provider_focal_point') && $currentRoute == 'entity.node.canonical') {
+        $x++;
+        return AccessResult::allowed();
+      }
       if (($role == 'service_provider_focal_point' || $role == 'service_provider_staff') && $currentRoute == 'entity.webform.canonical') {
         $x++;
         return AccessResult::allowed();
@@ -671,7 +675,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
 
       // Workflow join.
       erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
-    } 
+    }
     else {
       // Domain Join.
       erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
