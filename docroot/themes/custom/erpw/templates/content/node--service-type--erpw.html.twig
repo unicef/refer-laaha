@@ -83,12 +83,6 @@
 
 {{ attach_library('unicef_iconpicker/unicef-icons')}}
 
-{% if node.title.value not in service_types %}
-  {% set service_status = 'no-service' %}
-{% else %}
-  {% set service_status = '' %}
-{% endif %}
-
 <div class="service-listing">
   <div class="listing-detail">
     <label style="background-color:  {{ node.field_service_type_color.entity.field_service_type_color.color }}">
