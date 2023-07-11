@@ -432,9 +432,11 @@ function erpw_webform_menu_local_tasks_alter(&$data, $route_name) {
 /**
  * Implements hook_views_pre_render().
  */
-function erpw_webform_views_pre_render(&$view) {
+function erpw_webform_views_pre_render(ViewExecutable $view) {
   // Alter exposed filter value to only current domain's service type.
   if ($view->id() == 'webform_submissions' || $view->id() == 'manage_webform_services' || $view->id() == 'manage_in_review_webform_services_listing') {
+    $view->addCacheContext('cookies');
+    $view->addCacheContext('url');
     $arrayKey = '';
     if ($view->id() == 'webform_submissions') {
       $arrayKey = 'service_type';
@@ -618,13 +620,10 @@ function erpw_webform_preprocess_page_title(&$variables) {
 }
 
 // @todo Add caching for Service Listing page based on changing location.
-// function erpw_webform_preprocess_views_view(&$variables) {
-//   $variables['#cache']['contexts'][] = 'cookies:bn_location_tid';
-//   $variables['#cache']['contexts'][] = 'cookies:zw_location_tid';
-//   $variables['#cache']['contexts'][] = 'cookies:sl_location_tid';
-//   $variables['#cache']['contexts'][] = 'cookies:txb_location_tid';
-//   $variables['#cache']['contexts'][] = 'url';
-// }
+ function erpw_webform_preprocess_views_view(&$variables) {
+   $variables['#cache']['contexts'][] = 'cookies';
+   $variables['#cache']['contexts'][] = 'url';
+ }
 
 /**
  * Implements hook_webform_submission_presave().
@@ -651,19 +650,7 @@ function erpw_webform_webform_submission_presave($webform_submission) {
     $values['service_type'] = $arr[0];
   }
   $webform_submission->setData($values);
-
-  // Clear cache of homepage view once a service is approved
-  // dump($values['erpw_workflow']['transition']);
-  // exit;
-  // if ($values['erpw_workflow']['transition'] == 'approve') {
-  //   $view = Views::getView('referral_pathway_on_homepage');
-  //   $tags = $view->storage->getCacheTags();
-  //   Cache::invalidateTags($tags);
-  //   $view->storage->invalidateCaches();
-  // }
   $view = Views::getView('referral_pathway_on_homepage');
-  $tags = $view->storage->getCacheTags();
-  Cache::invalidateTags($tags);
   $view->storage->invalidateCaches();
 }
 

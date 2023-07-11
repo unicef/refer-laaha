@@ -852,13 +852,10 @@ function erpw_custom_preprocess_node(&$variables) {
   $node = $variables['node'];
   $current_path = \Drupal::service('path.current')->getPath();
   $cookie = \Drupal::service('erpw_location.location_cookie');
-  $cookie_name = $cookie->getCookieName();
   // The active Service Types for the current location.
   $service_types = erpw_custom_load_submissions_by_term($cookie->getCookieValue());
   $variables['#cache']['contexts'][] = 'url';
-  $cookieValue = \Drupal::request()->cookies->get($cookie_name);
-  $variables['#cache']['contexts'][] = 'cookies:' . $cookie_name . ':' . $cookieValue;
-  $variables['#cache']['tags'][] = $cookie_name . ':' . $cookieValue;
+  $variables['#cache']['contexts'][] = 'cookies';
   $is_incognito = \Drupal::request()->headers->has('incognito');
   if ($is_incognito) {
     $variables['#cache']['contexts'][] = 'headers:incognito';
