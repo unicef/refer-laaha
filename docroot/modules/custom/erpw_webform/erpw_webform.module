@@ -15,7 +15,6 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\views\Views;
-use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * @file
@@ -668,6 +667,9 @@ function erpw_webform_menu_local_actions_alter(&$local_tasks) {
  */
 function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &$query) {
   $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+  $current_user = User::load(\Drupal::currentUser()->id());
+  $roles = $current_user->getRoles();
+  $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
   if ($view->id() == 'webform_submissions') {
     // Ensure through filters that draft is only shown to the user who submitted it.
     $user = \Drupal::currentUser();
@@ -727,10 +729,6 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
 
       // For SP Staff & Focal Point - Services list should only include services by their organization and location.
-      $uid = \Drupal::currentUser()->id();
-      $current_user = User::load($uid);
-
-      // Check if the current user has the necessary roles.
       if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point')) {
         // Get the current user's location ID.
         if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
@@ -745,8 +743,6 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
 
         // Get the current user's organization ID.
         if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
-          $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
-
           // Add a condition to the query to filter by organization.
           erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
         }
@@ -755,10 +751,10 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
   }
   // Unset rows that are not in review workflow states as per roles.
   if ($view->id() == 'manage_in_review_webform_services_listing') {
-    $roles = \Drupal::currentUser()->getRoles();
     erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
     if (in_array('service_provider_focal_point', $roles)) {
       erpw_webform_add_webform_submission_add_where_join($query, 'in_review_with_focal_point', 'workflow');
+      erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
     }
     elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
       erpw_webform_add_webform_submission_add_where_join($query, 'in_review', 'workflow');
