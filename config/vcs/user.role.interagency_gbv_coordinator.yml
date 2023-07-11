@@ -9,6 +9,7 @@ dependencies:
     - workflows.workflow.service_editorial
   module:
     - administerusersbyrole
+    - config_translation
     - content_moderation
     - erpw_custom
     - erpw_location
@@ -96,3 +97,4 @@ permissions:
   - 'view users with role interagency_gbv_coordinator'
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'
+  - 'translate configuration'

@@ -80,7 +80,7 @@
   line-height: 14px;
   color: #fff;
 }
-.hide-webform-action-links .webform-bulk-form .webform-dropbutton ul li a{
+.hide-webform-action-links .webform-bulk-form .webform-dropbutton ul li a {
   position: relative;
   color: #fff;
   background-color: #a85766;
@@ -91,7 +91,12 @@
   margin: 0px;
   border-radius: 0px;
 }
-.hide-webform-action-links .webform-bulk-form .webform-dropbutton ul li:first-child a{
+.hide-webform-action-links
+  .webform-bulk-form
+  .webform-dropbutton
+  ul
+  li:first-child
+  a {
   color: #a85766;
   background-color: #fff;
 }
@@ -123,6 +128,28 @@
   margin-bottom: 30px !important;
 }
 
+.hide-webform-action-links .webform-dropbutton a.webform-ajax-link::before {
+  background: none;
+  content: none;
+}
+.hide-webform-action-links .webform-dropbutton a.webform-ajax-link {
+  color: #a85766;
+  background: none;
+  position: relative;
+  font-size: 16px;
+  padding: 0.1em 0.5em;
+  z-index: 1;
+  margin: auto;
+  border-radius: 0px;
+}
+.hide-webform-action-links
+  .webform-dropbutton
+  .dropbutton-wrapper.open
+  .dropbutton {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid black;
+}
 .hide-webform-action-links .webform-filter-form .js-form-type-search input {
   max-width: 100%;
   width: 100%;
