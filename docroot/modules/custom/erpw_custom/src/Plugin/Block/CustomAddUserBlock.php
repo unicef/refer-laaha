@@ -64,7 +64,7 @@ class CustomAddUserBlock extends BlockBase implements ContainerFactoryPluginInte
 
     $build = [
       '#type' => 'markup',
-      '#markup' => '<div class="plus-icon button-with-icon"><a href="' . $new_url . '">Add New User</a></div>',
+      '#markup' => '<div class="plus-icon button-with-icon"><a href="' . $new_url . '">' . t('Add New User') . '</a></div>',
     ];
 
     return $build;
