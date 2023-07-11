@@ -224,6 +224,22 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
 }
 
 /**
+ * Implements hook_form_views_exposed_form_alter().
+ */
+function erpw_webform_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // For SP Staff & SP Focal Point, remove the option to filter by organization since their listing is limited to their organization only.
+  $request = \Drupal::request();
+  $uri = $request->getRequestUri();
+  if (strpos($uri, 'manage-services') != FALSE) {
+    $current_user = User::load(\Drupal::currentUser()->id());
+    $role = $current_user->getRoles();
+    if (in_array('service_provider_focal_point', $role) || in_array('service_provider_staff', $role)) {
+      $form['webform_submission_organisation_filter']['#access'] = FALSE;
+    }
+  }
+}
+
+/**
  * Implements hook__entity_access().
  */
 function erpw_webform_entity_access(EntityInterface $entity, $operation, AccountInterface $account) {
