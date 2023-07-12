@@ -113,6 +113,8 @@ function erpw_webform_preprocess_page(&$variables) {
   if ($currentRoute == "entity.webform.canonical") {
     $variables['#attached']['library'][] = 'erpw/global';
   }
+  $variables['page']['#cache']['contexts'][] = 'cookies';
+  $variables['page']['#cache']['contexts'][] = 'url';
 }
 
 /**
