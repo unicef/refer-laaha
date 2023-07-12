@@ -118,7 +118,7 @@ class UserLocationForm extends LocationListForm {
     $form['location_level']['button'] = [
       '#type' => 'submit',
       '#title' => "Change",
-      '#value' => 'DONE',
+      '#value' => t('DONE'),
       '#attributes' => [
         'class' => [
           'use-ajax',
