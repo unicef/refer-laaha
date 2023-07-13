@@ -817,11 +817,13 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
     // @todo replace this with get_child_term_tid()
     $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
     $parent_term = $term_storage->load($taxonomy_term_id);
-    $tree = $term_storage->loadTree($parent_term->bundle(), $taxonomy_term_id);
-    $lower_level_tids = array_column($tree, 'tid');
-    $location_tree = array_merge([$taxonomy_term_id], $lower_level_tids);
-    $query->condition('wsd.property', 'location_tid');
-    $query->condition('wsd.value', $location_tree, 'IN');
+    if (!is_null($parent_term)) {
+      $tree = $term_storage->loadTree($parent_term->bundle(), $taxonomy_term_id);
+      $lower_level_tids = array_column($tree, 'tid');
+      $location_tree = array_merge([$taxonomy_term_id], $lower_level_tids);
+      $query->condition('wsd.property', 'location_tid');
+      $query->condition('wsd.value', $location_tree, 'IN');
+    }
   }
 
   $results = $query->execute()->fetchAll();
