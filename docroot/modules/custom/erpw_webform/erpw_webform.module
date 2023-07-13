@@ -705,6 +705,9 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       }
     }
     erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
+    if (in_array('service_provider_focal_point', $roles)) {
+      erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
+    }
   }
   // Unset rows that are not in approve workflow state.
   if ($view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing') {
