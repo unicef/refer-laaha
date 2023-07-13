@@ -120,7 +120,12 @@ class ServiceProviderMigrate {
       $targetGroupValue = $serviceProvider->get('field_target_group')->getValue();
       $targetGroups = [];
       foreach ($targetGroupValue as $targetGroup) {
-        $targetGroups[] = $targetGroup['value'];
+        if ($targetGroup['value'] == 'Host community') {
+          $targetGroups[] = 'Host Community';
+        }
+        else {
+          $targetGroups[] = $targetGroup['value'];
+        }
       }
 
       $disabilities = $serviceProvider->get('field_accessibility_for_persons_')->getValue();
