@@ -852,18 +852,20 @@ function erpw_custom_preprocess_node(&$variables) {
   $node = $variables['node'];
   $current_path = \Drupal::service('path.current')->getPath();
   $cookie = \Drupal::service('erpw_location.location_cookie');
-  // The active Service Types for the current location.
-  $service_types = erpw_custom_load_submissions_by_term($cookie->getCookieValue());
-  $variables['#cache']['contexts'][] = 'url';
-  $variables['#cache']['contexts'][] = 'cookies';
-  $is_incognito = \Drupal::request()->headers->has('incognito');
-  if ($is_incognito) {
-    $variables['#cache']['contexts'][] = 'headers:incognito';
-  }
-  if ($current_path == '/referral-pathway') {
-    if (!in_array($node->getTitle(), $service_types)) {
-      // Add no-service class to titles which are not in $service_types
-      $variables['service_status'] = 'no-service';
+  if (!is_null($cookie->getCookieValue())) {
+    // The active Service Types for the current location.
+    $service_types = erpw_custom_load_submissions_by_term($cookie->getCookieValue());
+    $variables['#cache']['contexts'][] = 'url';
+    $variables['#cache']['contexts'][] = 'cookies';
+    $is_incognito = \Drupal::request()->headers->has('incognito');
+    if ($is_incognito) {
+      $variables['#cache']['contexts'][] = 'headers:incognito';
+    }
+    if ($current_path == '/referral-pathway') {
+      if (!in_array($node->getTitle(), $service_types)) {
+        // Add no-service class to titles which are not in $service_types.
+        $variables['service_status'] = 'no-service';
+      }
     }
   }
 }
