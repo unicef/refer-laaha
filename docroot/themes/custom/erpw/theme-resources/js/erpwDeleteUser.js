@@ -39,7 +39,7 @@
                 title: Drupal.t("Deleted successfully"),
                 dialogClass: "delete-user-popup",
                 buttons: {
-                  "Back to dashboard": function () {
+                  "Back to users list": function () {
                     $(this).dialog("close");
                     backToDashboard();
                   },
@@ -55,7 +55,7 @@
                  title: Drupal.t("Access Denied!"),
                  dialogClass: "delete-user-popup",
                  buttons: {
-                   "Back to dashboard": function () {
+                   "Back to users list": function () {
                      $(this).dialog("close");
                      backToDashboard();
                    },
@@ -73,7 +73,7 @@
 
       function backToDashboard() {
         // Redirect the user to the dashboard page.
-        window.location.href = "/dashboard";
+        window.location.href = "/users-list";
       }
     },
   };

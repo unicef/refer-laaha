@@ -557,8 +557,12 @@ span.service-title.no-service a {
   background-color: #eee !important;
 }
 
-.pager .pager__items .pager__item a {
+.view .pager .pager__items .pager__item a {
   color: #a85766;
+}
+.view .pager .pager__items .pager__item--first,
+.view .pager .pager__items .pager__item--last {
+  display: none;
 }
 
 form .form-required::after {
@@ -896,6 +900,9 @@ header {
   display: flex;
   background: #A85766;
   padding: 20px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .block-pwa-add-to-home-screen .pwa-a2hs-active img {
   cursor: pointer;

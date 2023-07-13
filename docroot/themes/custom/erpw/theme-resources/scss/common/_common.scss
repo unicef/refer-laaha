@@ -457,11 +457,17 @@ span.service-title.no-service a {
     background-color: #eee !important;
   }
 }
-.pager {
-  .pager__items {
-    .pager__item {
-      a {
-        color: #a85766;
+.view {
+  .pager {
+    .pager__items {
+      .pager__item {
+        a {
+          color: #a85766;
+        }
+      }
+      .pager__item--first,
+      .pager__item--last {
+        display: none;
       }
     }
   }
