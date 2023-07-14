@@ -180,6 +180,23 @@ elements: |-
       - administrator
     '#access_transition_restore_roles':
       - authenticated
+    '#access_transition_submit_edits_to_focal_point_roles':
+      - service_provider_staff
+      - administrator
+    '#access_transition_submit_edits_to_gbv_coordination_roles':
+      - service_provider_focal_point
+      - administrator
+    '#access_transition_publish_edits_roles':
+      - interagency_gbv_coordinator
+      - country_admin
+      - administrator
+    '#access_transition_edits_rejected_by_focal_point_roles':
+      - service_provider_focal_point
+      - administrator
+    '#access_transition_edits_rejected_by_gbv_coordination_roles':
+      - interagency_gbv_coordinator
+      - country_admin
+      - administrator
     '#workflow': webform_workflow
     '#require_transition_if_available': true
     '#log_public_setting': Disabled
@@ -463,7 +480,7 @@ handlers:
               notes: ''
               status: true
               conditions: {  }
-              weight: -50
+              weight: null
               settings:
                 id: redirect_to_drafts
                 handler_id: null
@@ -471,7 +488,7 @@ handlers:
                 notes: ''
                 status: true
                 conditions: {  }
-                weight: null
+                weight: -50
                 settings:
                   id: redirect_to_drafts
                   handler_id: null
@@ -522,13 +539,21 @@ handlers:
                             weight: null
                             settings:
                               id: redirect_to_drafts
-                              handler_id: redirect_to_drafts
-                              label: 'Redirect to Drafts'
+                              handler_id: null
+                              label: 'Redirect on Transition changes.'
                               notes: ''
                               status: true
                               conditions: {  }
-                              weight: 0
-                              settings: {  }
+                              weight: null
+                              settings:
+                                id: redirect_to_drafts
+                                handler_id: redirect_to_drafts
+                                label: 'Redirect to Drafts'
+                                notes: ''
+                                status: true
+                                conditions: {  }
+                                weight: 0
+                                settings: {  }
   duplicate_services_handler:
     id: handle_duplicate_services
     handler_id: duplicate_services_handler

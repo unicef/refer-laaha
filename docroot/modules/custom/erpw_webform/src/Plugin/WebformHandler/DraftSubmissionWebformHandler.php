@@ -27,11 +27,17 @@ class DraftSubmissionWebformHandler extends WebformHandlerBase {
 
   protected $messenger;
 
+  /**
+   *
+   */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->messenger = $messenger;
   }
 
+  /**
+   *
+   */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
       $configuration,
@@ -48,28 +54,28 @@ class DraftSubmissionWebformHandler extends WebformHandlerBase {
 
     $workflow_selected = $webform_submission->getElementData('erpw_workflow');
     $alias = '/service-providers';
-      $path = \Drupal::service('path_alias.manager')->getPathByAlias($alias);
-      $url = Url::fromUri('internal:' . $path);
-      $parameters = $url->getRouteParameters();
-      if (isset($parameters['node'])) {
-        $node = Node::load($parameters['node']);
-        if ($node) {
-          // Redirect the user to their saved Drafts if their transition was Save as Draft.
-          if ($workflow_selected['transition'] == "save_as_draft") {
-            $query = [
-              'service_type' => 'All',
-              'webform_submission_workflow_filter' => 'draft',
-            ];
-            $this->messenger->addMessage($this->t('Draft Saved Successfully!'));
-            $form_state->setRedirect('entity.node.canonical', ['node' => $node->id()], ['query' => $query]);
-          } 
-          // For all other transitions, redirect them to Review page
-          else {
-            $this->messenger->addMessage($this->t('Changes Saved Successfully!'));
-            $form_state->setRedirect('entity.node.canonical', ['node' => $node->id()]);
-          }
+    $path = \Drupal::service('path_alias.manager')->getPathByAlias($alias);
+    $url = Url::fromUri('internal:' . $path);
+    $parameters = $url->getRouteParameters();
+    if (isset($parameters['node'])) {
+      $node = Node::load($parameters['node']);
+      if ($node) {
+        // Redirect the user to their saved Drafts if their transition was Save as Draft.
+        if ($workflow_selected['transition'] == "save_as_draft") {
+          $query = [
+            'service_type' => 'All',
+            'webform_submission_workflow_filter' => 'draft',
+          ];
+          $this->messenger->addMessage($this->t('Draft Saved Successfully!'));
+          $form_state->setRedirect('entity.node.canonical', ['node' => $node->id()], ['query' => $query]);
+        }
+        // For all other transitions, redirect them to Review page.
+        else {
+          $this->messenger->addMessage($this->t('Changes Saved Successfully!'));
+          $form_state->setRedirect('entity.node.canonical', ['node' => $node->id()]);
         }
       }
+    }
   }
 
 }

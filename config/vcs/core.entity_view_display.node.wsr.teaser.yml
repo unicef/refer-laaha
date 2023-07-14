@@ -1,0 +1,29 @@
+uuid: a39a941a-7ce9-449b-bc80-17feb7f6479b
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.wsr.field_domain_access
+    - field.field.node.wsr.field_domain_source
+    - field.field.node.wsr.field_sid
+    - field.field.node.wsr.field_submission_data
+    - node.type.wsr
+  module:
+    - user
+id: node.wsr.teaser
+targetEntityType: node
+bundle: wsr
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_source: true
+  field_sid: true
+  field_submission_data: true
+  langcode: true

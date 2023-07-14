@@ -5,6 +5,7 @@
  */
 
 use Drupal\Core\Cache\Cache;
+use Drupal\node\Entity\Node;
 use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -651,7 +652,28 @@ function erpw_webform_webform_submission_presave($webform_submission) {
     $values['submission_domain'] = $domain;
     $values['service_type'] = $arr[0];
   }
-  $webform_submission->setData($values);
+  
+  // Store edits in WSR.
+  if (($values['erpw_workflow']['workflow_state'] == 'approve') || $values['erpw_workflow']['workflow_state'] == 'edits_in_review_with_focal_point') {
+    $service_type = \Drupal::entityTypeManager()->getStorage('node')->load($values['service_type'])->getTitle();
+    // Create a new node for edits.
+    $webform_submission_edits = Node::create([
+      'type' => 'wsr',
+      'title' => $service_type.' - '.$webform_submission->id(),
+    ]);
+    $webform_submission_edits->set('field_sid', $webform_submission->id());
+    $json_value = json_encode($values);
+    $webform_submission_edits->set('field_submission_data', $json_value);
+    $webform_submission_edits->save();
+
+    $message = 'A new edit was made for Service type <em>'.$service_type.'</em>, with Submission Id - '.$webform_submission->id().'.<br>The id of the new node is '.$webform_submission_edits->id();
+    \Drupal::logger('erpw_webform')->notice($message);
+    // throw new \Exception('Submission stopped and instead saved to Edits node.');
+    return;
+  }
+  else {
+    $webform_submission->setData($values);
+  }
   $view = Views::getView('referral_pathway_on_homepage');
   $view->storage->invalidateCaches();
 }

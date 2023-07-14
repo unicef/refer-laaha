@@ -63,6 +63,7 @@ class WebformSubmissionWorkflowFilter extends ManyToOne {
       $container->get('plugin.manager.views.join')
     );
   }
+
   /**
    * {@inheritdoc}
    */
