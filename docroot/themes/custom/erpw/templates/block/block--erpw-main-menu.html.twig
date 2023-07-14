@@ -21,12 +21,14 @@
  *   displayed in front of the main title tag that appears in the template.
  * - title_suffix: Additional output populated by modules, intended to be
  *   displayed after the main title tag that appears in the template.
- *
+ * - linkCount: The count of links in the 'language_block' plugin.
  * @see template_preprocess_block()
  *
  * @ingroup themeable
  */
 #}
+
+{% set linkCount = drupal_block('language_block:language_interface')['content']['#links']|length %}
 
 <div{{ attributes }}>
   {{ title_prefix }}
@@ -45,8 +47,10 @@
   </div>
     {{ content }}
   {% endblock %}
-  <div class="language-block">
-    <h2>{{ 'Select language'|t }}</h2>
-    {{ drupal_block('language_block:language_interface', wrapper=false) }}
-  </div>
+  {% if linkCount > 1 %}
+    <div class="language-block">
+      <h2>{{ 'Select language'|t }}</h2>
+      {{ drupal_block('language_block:language_interface', wrapper=false) }}
+    </div>
+  {% endif %}
 </div>
