@@ -23,7 +23,12 @@ class WebformSubmissionOrganisationField extends FieldPluginBase {
    */
   public function render(ResultRow $values) {
     if (isset($values->_entity->getData()['organisation'])) {
-      $output = \Drupal::entityTypeManager()->getStorage('node')->load($values->_entity->getData()['organisation'])->get('title')->getValue()[0]['value'];
+      if (!is_null(\Drupal::entityTypeManager()->getStorage('node')->load($values->_entity->getData()['organisation']))) {
+        $output = \Drupal::entityTypeManager()->getStorage('node')->load($values->_entity->getData()['organisation'])->get('title')->getValue()[0]['value'];
+      }
+      else {
+        $output = t('Not available.');
+      }
     }
     else {
       $output = t('Not available.');
