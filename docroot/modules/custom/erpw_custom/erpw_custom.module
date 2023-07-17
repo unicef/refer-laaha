@@ -608,6 +608,13 @@ function erpw_custom_preprocess_page_title(&$variables) {
         $variables['title'] = t('Set User Password');
       }
       break;
+    case 'entity.node.delete_form':
+      $type = \Drupal::routeMatch()->getParameter('node')->bundle();
+      if ($type == 'organisation') {
+        $node = \Drupal::routeMatch()->getParameter('node');
+        $domains = $node->get('field_domain_access')->getValue();
+        $variables['title'] = t('This organization is related to @domains services. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', ['@domains' => count($domains)]);
+      }
   }
 }
 
