@@ -357,6 +357,41 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       }
     }
   }
+
+  if ($form_id === 'node_organisation_delete_form') {
+    $type = \Drupal::routeMatch()->getParameter('node')->bundle();
+    if ($type == 'organisation') {
+      $node = \Drupal::routeMatch()->getParameter('node');
+      // Get all users who have the node id.
+      $node_id = $node->id();
+      $query = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
+      $query->condition('status', 1);
+      $query->condition('field_organisation', $node_id);
+      $user_ids = $query->execute();
+      // Get all services who have the node id (look into webform-submissions for services data.)
+      $webform_submission_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
+      $webform_submissions = $webform_submission_storage->loadMultiple();
+      $number_of_services_provided_by_the_organisation = 0;
+      foreach ($webform_submissions as $webform) {
+        $data = $webform->getData();
+        if (isset($data['organisation']) && $data['organisation'] === $node_id) {
+          $number_of_services_provided_by_the_organisation++;
+        }
+      }
+
+      $delete_confirmation_message = t('Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.');
+      if (count($user_ids) > 0 && $number_of_services_provided_by_the_organisation > 0) {
+        $delete_confirmation_message = t('This organization is related to @domains users and @services services. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', ['@domains' => count($user_ids), '@services' => $number_of_services_provided_by_the_organisation]);
+      }
+      elseif (count($user_ids) === 0 && $number_of_services_provided_by_the_organisation > 0) {
+        $delete_confirmation_message = t('This organization is related to @services services. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', ['@domains' => count($user_ids), '@services' => $number_of_services_provided_by_the_organisation]);
+      }
+      elseif (count($user_ids) > 0 && $number_of_services_provided_by_the_organisation === 0) {
+        $delete_confirmation_message = t('This organization is related to @domains users. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', ['@domains' => count($user_ids), '@services' => $number_of_services_provided_by_the_organisation]);
+      }
+      $form['description']['#markup'] = $delete_confirmation_message;
+    }
+  }
 }
 
 /**
@@ -608,12 +643,11 @@ function erpw_custom_preprocess_page_title(&$variables) {
         $variables['title'] = t('Set User Password');
       }
       break;
+
     case 'entity.node.delete_form':
       $type = \Drupal::routeMatch()->getParameter('node')->bundle();
       if ($type == 'organisation') {
-        $node = \Drupal::routeMatch()->getParameter('node');
-        $domains = $node->get('field_domain_access')->getValue();
-        $variables['title'] = t('This organization is related to @domains services. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', ['@domains' => count($domains)]);
+        $variables['title'] = t('Are your sure you want to delete this organization ?');
       }
   }
 }
@@ -747,7 +781,8 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       }
     }
     // Load the taxonomy term and get the next terms.
-    if (!empty($cookie->getCookieValue())) { // @todo change this too
+    // @todo change this too
+    if (!empty($cookie->getCookieValue())) {
       $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
       $parent_term = $term_storage->load($cookie->getCookieValue());
       $tree = $term_storage->loadTree($parent_term->bundle(), $current_tid);
