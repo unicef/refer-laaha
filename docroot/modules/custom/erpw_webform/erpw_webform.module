@@ -4,7 +4,6 @@
  * @file
  */
 
-use Drupal\Core\Cache\Cache;
 use Drupal\node\Entity\Node;
 use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
@@ -622,11 +621,13 @@ function erpw_webform_preprocess_page_title(&$variables) {
 
 }
 
-// @todo Add caching for Service Listing page based on changing location.
- function erpw_webform_preprocess_views_view(&$variables) {
-   $variables['#cache']['contexts'][] = 'cookies';
-   $variables['#cache']['contexts'][] = 'url';
- }
+/**
+ * @todo Add caching for Service Listing page based on changing location.
+ */
+function erpw_webform_preprocess_views_view(&$variables) {
+  $variables['#cache']['contexts'][] = 'cookies';
+  $variables['#cache']['contexts'][] = 'url';
+}
 
 /**
  * Implements hook_webform_submission_presave().
@@ -652,24 +653,42 @@ function erpw_webform_webform_submission_presave($webform_submission) {
     $values['submission_domain'] = $domain;
     $values['service_type'] = $arr[0];
   }
-  
-  // Store edits in WSR.
-  if (($values['erpw_workflow']['workflow_state'] == 'approve') || $values['erpw_workflow']['workflow_state'] == 'edits_in_review_with_focal_point') {
-    $service_type = \Drupal::entityTypeManager()->getStorage('node')->load($values['service_type'])->getTitle();
-    // Create a new node for edits.
-    $webform_submission_edits = Node::create([
-      'type' => 'wsr',
-      'title' => $service_type.' - '.$webform_submission->id(),
-    ]);
-    $webform_submission_edits->set('field_sid', $webform_submission->id());
-    $json_value = json_encode($values);
-    $webform_submission_edits->set('field_submission_data', $json_value);
-    $webform_submission_edits->save();
 
-    $message = 'A new edit was made for Service type <em>'.$service_type.'</em>, with Submission Id - '.$webform_submission->id().'.<br>The id of the new node is '.$webform_submission_edits->id();
+  $service_type = \Drupal::entityTypeManager()->getStorage('node')->load($values['service_type'])->getTitle();
+  $webform_submission_id = $webform_submission->id();
+
+  // Store approved data in WSA while it is Edit Workflow.
+  if ($values['erpw_workflow']['workflow_state'] == 'approve') {
+    $node = Node::create([
+      'type' => 'wsa',
+      'title' => $service_type . ' - ' . $webform_submission_id,
+      'field_sid' => $webform_submission_id,
+      'field_submission_data' => $values['orignal_data'],
+    ]);
+    $node->save();
+
+    $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Edit Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
     \Drupal::logger('erpw_webform')->notice($message);
-    // throw new \Exception('Submission stopped and instead saved to Edits node.');
-    return;
+  }
+  elseif ($values['erpw_workflow']['transition'] == 'publish_edits') {
+    // Delete the node once it passes the edit review process.
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'wsa')
+      ->condition('field_sid', $webform_submission_id)
+      ->range(0, 1);
+    $entity_id = $query->execute();
+    $array = array_values($entity_id);
+    $node_id = $array[0];
+    if (!empty($node_id)) {
+      $node = \Drupal::entityTypeManager()->getStorage('node')->load($node_id);
+      if ($node) {
+        $node->delete();
+        \Drupal::entityTypeManager()->getStorage('node')->resetCache([$node_id]);
+        \Drupal::logger('erpw_webform')->notice('The node %title of type Webform Submission Approved has been deleted, as its approval workflow is complete.', [
+          '%title' => $node->getTitle(),
+        ]);
+      }
+    }
   }
   else {
     $webform_submission->setData($values);
