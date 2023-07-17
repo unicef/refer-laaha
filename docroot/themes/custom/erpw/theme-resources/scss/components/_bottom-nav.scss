@@ -1,67 +1,68 @@
 footer {
-	bottom: 0;
-	position: fixed; 
-	width: 100%;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 3;
 }
 .menu--bottom-nav {
   background: $base-secondary-bgcolor;
-	border-radius: 20px 20px 0px 0px;
-	.menu {
-		display: flex;
-		justify-content: space-between;
-		margin: 0;
-		padding: 0 50px;
+  border-radius: 20px 20px 0px 0px;
+  .menu {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0 50px;
     height: 60px;
-	}
-	li.menu-item {
-		a {
-			color: $base-white-color;
-			display: block;
-			font-size: 8px;
-			text-align: center;
-			&.is-active {
-				color: $base-white-color;
-				&::after {
-					background: $base-white-color;
-					content: '';
-					border-radius: 5px 5px 0 0;
-					height: 5px;
-					margin-top: 5px;
-					display: block;
-				}
-			}
-			&::before {
-				content: '';
-				display: block;
-				height: 23px;
-				padding-bottom: 15px;
-				width: 40px;
-			}
-			
-			&.home::before {
-				background: url(../images/home.svg) no-repeat center center;
-			}
-			&.dashboard::before {
-				background: url(../images/dashboard.svg) no-repeat center center;
-			}
-			&.search-icon::before {
-				background: url(../images/searchIcon.svg) no-repeat center center;
-			}
-		}
-		.bottom-menu-icon {
-			color: $base-white-color;
-			cursor: pointer;
-			display: block;
-			font-size: 8px;
-			text-align: center;
-			&::before {
-				background: url(../images/menu.svg) no-repeat center center;
-				content: '';
-				display: block;
-				height: 23px;
-				padding-bottom: 15px;
-				width: 40px;
-			}
-		}
-	}
+  }
+  li.menu-item {
+    a {
+      color: $base-white-color;
+      display: block;
+      font-size: 8px;
+      text-align: center;
+      &.is-active {
+        color: $base-white-color;
+        &::after {
+          background: $base-white-color;
+          content: "";
+          border-radius: 5px 5px 0 0;
+          height: 5px;
+          margin-top: 5px;
+          display: block;
+        }
+      }
+      &::before {
+        content: "";
+        display: block;
+        height: 23px;
+        padding-bottom: 15px;
+        width: 40px;
+      }
+
+      &.home::before {
+        background: url(../images/home.svg) no-repeat center center;
+      }
+      &.dashboard::before {
+        background: url(../images/dashboard.svg) no-repeat center center;
+      }
+      &.search-icon::before {
+        background: url(../images/searchIcon.svg) no-repeat center center;
+      }
+    }
+    .bottom-menu-icon {
+      color: $base-white-color;
+      cursor: pointer;
+      display: block;
+      font-size: 8px;
+      text-align: center;
+      &::before {
+        background: url(../images/menu.svg) no-repeat center center;
+        content: "";
+        display: block;
+        height: 23px;
+        padding-bottom: 15px;
+        width: 40px;
+      }
+    }
+  }
 }

@@ -147,7 +147,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
         [
           'node_referral_path_way_edit_form',
           'node_service_provider_edit_form',
-      ])) {
+        ])) {
       $parent_list = [];
       $node = $this->routeMatch->getParameter('node');
       if (empty($form_state->getTriggeringElement()['#level']) && $node instanceof NodeInterface) {
@@ -175,7 +175,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
         }
         $ptids = self::$locationService->getAllAncestors($location_id);
         $parent_list = empty($parent_list) ? array_values($ptids) : $parent_list;
-        }
+      }
       $form = $this->erpwPathwayService->getLocationForm($form, $form_state, $parent_list, $ptids);
       // Form submit handler.
       $form['actions']['submit']['#submit'][] = [$this, 'eprwSubmitHandler'];
@@ -288,14 +288,13 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
     $node_id = $this->locationEntity->getSavedLocation($location_level, $bundle, $org, $service_type);
     $node = $this->routeMatch->getParameter('node');
     if ($node instanceof NodeInterface) {
-      if (!empty($node_id) && $node_id !== $node->id()) {
-        $form_state->setError($form['location'], $message);
+      if (!empty($node_id) && $node_id != $node->id()) {
+        $form_state->setError($form, $message);
       }
-    } else if ($bundle === 'referral_path_way') {
-      $form_state->setError($form, $message);
-    } else {
+    }
+    else {
       if (isset($node_id) && $node_id != '') {
-        $form_state->setError($form['location'], $message);
+        $form_state->setError($form, $message);
       }
     }
   }
