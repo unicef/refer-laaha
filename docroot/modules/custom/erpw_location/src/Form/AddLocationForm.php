@@ -436,13 +436,19 @@ class AddLocationForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitLocationForm(array &$form, FormStateInterface $form_state) {
     // Get the selected values from the form.
     $level1 = $form_state->getValue('level1');
     $level2 = $form_state->getValue('level2');
     $level3 = $form_state->getValue('level3');
     $level4 = $form_state->getValue('level4');
     $country = $form_state->getValue('location_options');
-
+    $counterSave = 0;
     // Country mapping.
     $countryStorage = \Drupal::entityTypeManager()->getStorage('location');
     $countryEntity = $countryStorage->load($country)->get('name')->getValue()[0]['value'];
@@ -475,6 +481,7 @@ class AddLocationForm extends FormBase {
         'parent' => $countryID,
       ]);
       $topLevelTerm->save();
+      $counterSave++;
     }
     else {
       $topLevelTerm = reset($topLevelTerm);
@@ -490,6 +497,7 @@ class AddLocationForm extends FormBase {
         'parent' => $topLevelTerm->id(),
       ]);
       $secondLevelTerm->save();
+      $counterSave++;
     }
     else {
       $secondLevelTerm = reset($secondLevelTerm);
@@ -506,6 +514,7 @@ class AddLocationForm extends FormBase {
           'parent' => $secondLevelTerm->id(),
         ]);
         $thirdLevelTerm->save();
+        $counterSave++;
       }
       else {
         $thirdLevelTerm = reset($thirdLevelTerm);
@@ -523,14 +532,21 @@ class AddLocationForm extends FormBase {
           'parent' => $thirdLevelTerm->id(),
         ]);
         $fourthLevelTerm->save();
+        $counterSave++;
       }
     }
-
+    if ($counterSave == 0) {
+      $text = t('Error! Couldnot save the location. Try with new location names.');
+    }
+    else {
+      $text = t('Success! New location successfully created.');
+    }
     // Display a success message.
     $response = new AjaxResponse();
     // Redirect the user to a different page.
     $redirect = Url::fromRoute('erpw_location.manage_location');
     $response->addCommand(new RedirectCommand($redirect->toString()));
+    $this->messenger()->addMessage($text);
     return $response;
   }
 
@@ -567,6 +583,7 @@ class AddLocationForm extends FormBase {
         $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('field is required.')));
         $response->addCommand(new InvokeCommand('#error-text2',
         'css', ["color", "#A85766"]));
+        $counter++;
       }
       else {
         $response->addCommand(new HtmlCommand('#error-text2', ''));
@@ -577,6 +594,7 @@ class AddLocationForm extends FormBase {
           $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#title'] . " " . $this->t('field is required.')));
           $response->addCommand(new InvokeCommand('#error-text2',
           'css', ["color", "#A85766"]));
+          $counter++;
         }
         else {
           $response->addCommand(new HtmlCommand('#error-text2', ''));
@@ -598,8 +616,7 @@ class AddLocationForm extends FormBase {
       }
     }
     if ($counter == 0) {
-      $response = $this->submitForm($form, $form_state);
-      $this->messenger()->addMessage('Location created successfully!');
+      $response = $this->submitLocationForm($form, $form_state);
     }
     return $response;
   }
