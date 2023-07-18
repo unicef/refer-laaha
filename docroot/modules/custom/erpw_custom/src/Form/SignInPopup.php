@@ -67,6 +67,7 @@ class SignInPopup extends FormBase {
     $form['actions']['skip'] = [
       '#type' => 'submit',
       '#value' => $this->t('SKIP'),
+      '#submit' => ['::submitFrom'],
       '#attributes' => [
         'class' => [
           'button-border',
