@@ -87,6 +87,8 @@ class WebformSubmissionWorkflowFilter extends ManyToOne {
       'draft' => 'Draft',
       'in_review_with_focal_point' => 'In Review with Focal Point',
       'in_review' => 'In Review with GBV Coordination',
+      'edits_in_review_with_focal_point' => 'Edits In Review with Focal Point',
+      'edits_in_review_with_gbv_coordination' => 'Edits In Review with GBV Coordination',
       'reject' => 'Rejected',
     ];
     // You can add your custom code here to add custom labels for state transitions.

@@ -22,6 +22,10 @@
           // Add the class "in-review-focal-point-workflow"
         } else if (tdElement.textContent.trim().toLowerCase() === "draft") {
           tdElement.classList.add("draft-workflow"); // Add the class "draft-workflow"
+        } else if (tdElement.textContent.trim().toLowerCase() === "edits in review with focal point") {
+          tdElement.classList.add("edits-in-review-focal-point-workflow"); // Add the class "edits-in-review-focal-point-workflow"
+        } else if (tdElement.textContent.trim().toLowerCase() === "edits in review with gbv coordination") {
+          tdElement.classList.add("edits-in-review-coordination-workflow"); // Add the class "edits-in-review-coordination-workflow"
         }
       });
     },
