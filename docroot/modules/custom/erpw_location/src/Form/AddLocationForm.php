@@ -450,10 +450,10 @@ class AddLocationForm extends FormBase {
     $country = $form_state->getValue('location_options');
     $counterSave = 0;
     // Country mapping.
-    $countryStorage = \Drupal::entityTypeManager()->getStorage('location');
+    $countryStorage = $this->entityManager->getStorage('location');
     $countryEntity = $countryStorage->load($country)->get('name')->getValue()[0]['value'];
     $countryID = 0;
-    $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+    $term_storage = $this->entityManager->getStorage('taxonomy_term');
     $query = $term_storage->getQuery()
       ->condition('vid', 'country')
       ->condition('parent', 0)
@@ -553,7 +553,7 @@ class AddLocationForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function sendMessageForm(array &$form, FormStateInterface $form_state, $id = "",) {
+  public function sendMessageForm(array &$form, FormStateInterface $form_state, $id = "") {
     $response = new AjaxResponse();
     $counter = 0;
     $level4 = $form_state->getValue('level4');
