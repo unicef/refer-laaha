@@ -144,6 +144,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $permission = ($form_id == 'node_referral_path_way_edit_form') ? 'edit referral pathway of their own country' : 'add referral pathway of their own country';
     $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
     $form['location']['level_0']['#empty_option'] = t('Select country');
+    $form['#after_build'][] = 'add_referral_path_form_after_build';
   }
   if ($form_id == 'user_location_form') {
     $permission = 'view location of their own country';
@@ -388,6 +389,14 @@ function _erpw_custom_cancel_service_provider(array &$form, FormStateInterface $
   $response = new RedirectResponse($url->toString());
   $response->send();
   return $response;
+}
+
+/**
+ * {@inheritdoc}
+ */
+function add_referral_path_form_after_build(array &$form, FormStateInterface $form_state) {
+  $form['location']['#weight'] = -100;
+  return $form;
 }
 
 /**
