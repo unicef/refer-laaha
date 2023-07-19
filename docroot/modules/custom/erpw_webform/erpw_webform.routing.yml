@@ -22,6 +22,20 @@ erpw_webform.service_content:
         type: entity:webform_submission
         parameter_conversion: true
 
+erpw_webform.service_content_approved:
+  path: '/service/{webform_submission}/approved'
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\ServiceSubmissionsView::content_approved'
+    _title: 'Service Information'
+  requirements:
+    _permission: 'access content'
+    id: '\d+'
+  options:
+    parameters:
+      id:
+        type: entity:webform_submission
+        parameter_conversion: true
+
 erpw_webform.service_moderate_content:
   path: '/service/moderate/{webform_submission}'
   defaults:

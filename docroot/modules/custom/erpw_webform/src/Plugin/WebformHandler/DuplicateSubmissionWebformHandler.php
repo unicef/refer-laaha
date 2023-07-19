@@ -28,7 +28,7 @@ class DuplicateSubmissionWebformHandler extends WebformHandlerBase {
     $location_values = $webform_submission->getElementData('location');
     $country_id = $location_values['location_options'];
     if ($country_id == '1' || $country_id == '16') {
-      $last_level = 'level_3';     
+      $last_level = 'level_3';
     }
     else {
       $last_level = 'level_4';

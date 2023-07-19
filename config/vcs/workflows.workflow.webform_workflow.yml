@@ -16,6 +16,12 @@ type_settings:
     draft:
       label: Draft
       weight: -3
+    edits_in_review_with_focal_point:
+      label: 'Edits In - Review with Focal Point'
+      weight: 2
+    edits_in_review_with_gbv_coordination:
+      label: 'Edits In - Review with GBV Coordination'
+      weight: 3
     in_review:
       label: 'In - Review with GBV Coordination'
       weight: -1
@@ -33,6 +39,25 @@ type_settings:
         - in_review
       to: approve
       weight: 0
+    edits_rejected_by_focal_point:
+      label: 'Edits Rejected by Focal Point'
+      from:
+        - edits_in_review_with_focal_point
+      to: reject
+      weight: 6
+    edits_rejected_by_gbv_coordination:
+      label: 'Edits Rejected by GBV Coordination'
+      from:
+        - edits_in_review_with_gbv_coordination
+      to: reject
+      weight: 7
+    publish_edits:
+      label: 'Publish Edits'
+      from:
+        - approve
+        - edits_in_review_with_gbv_coordination
+      to: approve
+      weight: 5
     reject:
       label: 'Rejected by GBV Coordination'
       from:
@@ -57,6 +82,21 @@ type_settings:
         - draft
       to: draft
       weight: -4
+    submit_edits_to_focal_point:
+      label: 'Submit Edits to Focal Point'
+      from:
+        - approve
+        - reject
+      to: edits_in_review_with_focal_point
+      weight: 3
+    submit_edits_to_gbv_coordination:
+      label: 'Submit Edits to GBV Coordination'
+      from:
+        - approve
+        - edits_in_review_with_focal_point
+        - reject
+      to: edits_in_review_with_gbv_coordination
+      weight: 4
     submit_for_review_to_country_admin:
       label: 'Submit to GBV Coordination'
       from:

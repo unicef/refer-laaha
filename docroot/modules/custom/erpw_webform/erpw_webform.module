@@ -4,7 +4,7 @@
  * @file
  */
 
-use Drupal\Core\Cache\Cache;
+use Drupal\node\Entity\Node;
 use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -75,7 +75,7 @@ function erpw_webform_entity_type_alter(array &$entity_types) {
  */
 function erpw_webform_preprocess_html(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
-  if ($currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_moderate_content') {
+  if ($currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_content_approved' || $currentRoute == 'erpw_webform.service_moderate_content') {
     $variables['attributes']['class'][] = 'view-page-webform-submission';
   }
   if ($currentRoute == 'entity.webform.templates' || $currentRoute == 'entity.webform.collection') {
@@ -99,7 +99,7 @@ function erpw_webform_preprocess_html(&$variables) {
  */
 function erpw_webform_preprocess_page(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
-  if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_moderate_content') {
+  if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_content_approved' || $currentRoute == 'erpw_webform.service_moderate_content') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
   }
   if ($currentRoute == 'entity.webform.add_form' || $currentRoute == 'entity.webform.templates') {
@@ -473,7 +473,51 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
       }
     }
   }
+
+  // If a service is in edit workflow, then show results from WSA node.
+  if ($view->id() == 'service_based_service_providers_listing') {
+    foreach ($view->result as $key => $row) {
+      $webform_submission_id = $row->sid;
+      $node = erpw_webform__load_wsa_node_by_sid($webform_submission_id);
+
+      if ($node) {
+        $node_data = json_decode($node->field_submission_data->value, true);
+        $submission_entity = $row->_entity;
+        foreach ($node_data as $field_name => $field_value) {
+          if ($submission_entity->hasField($field_name)) {
+            $submission_entity->set($field_name, $field_value);
+          } else {
+            $submission_entity->setElementData($field_name, $field_value);
+          }
+        }
+      }
+    }
+  }
   return $view;
+}
+
+/**
+ * Helper function to load a node of type WSA by its webform submission ID (field_sid).
+ * 
+ * @param integer $webform_submission_id
+ *   Takes Webform Submission ID as input.
+ * 
+ * @return EntityInterface | null
+ *   Returns node entity if present else null.
+ */
+function erpw_webform__load_wsa_node_by_sid($webform_submission_id) {
+  $query = \Drupal::entityQuery('node')
+    ->condition('type', 'wsa')
+    ->condition('field_sid', $webform_submission_id);
+
+  $entity_id = $query->execute();
+  $array = array_values($entity_id);
+  $node_id = $array[0];
+  if (!empty($node_id)) {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($node_id);
+    return $node;
+  }
+  return NULL;
 }
 
 /**
@@ -592,7 +636,13 @@ function erpw_webform_preprocess_views_view_fields(&$variables) {
           'webform' => $webformID,
           'webform_submission' => $variables['row']->sid,
         ])->toString();
-        $variables['view_url'] = Url::fromRoute('erpw_webform.service_content', ['webform_submission' => intval($variables['sid'])]);
+        // Only show data of Approved Services in Service Listing page.
+        if ($variables['view']->storage->id() == 'service_based_service_providers_listing') {
+          $variables['view_url'] = Url::fromRoute('erpw_webform.service_content_approved', ['webform_submission' => intval($variables['sid'])]);  
+        }
+        else {
+          $variables['view_url'] = Url::fromRoute('erpw_webform.service_content', ['webform_submission' => intval($variables['sid'])]);
+        }
         $variables['moderate_url'] = Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => intval($variables['sid'])]);
       }
     }
@@ -621,11 +671,13 @@ function erpw_webform_preprocess_page_title(&$variables) {
 
 }
 
-// @todo Add caching for Service Listing page based on changing location.
- function erpw_webform_preprocess_views_view(&$variables) {
-   $variables['#cache']['contexts'][] = 'cookies';
-   $variables['#cache']['contexts'][] = 'url';
- }
+/**
+ * @todo Add caching for Service Listing page based on changing location.
+ */
+function erpw_webform_preprocess_views_view(&$variables) {
+  $variables['#cache']['contexts'][] = 'cookies';
+  $variables['#cache']['contexts'][] = 'url';
+}
 
 /**
  * Implements hook_webform_submission_presave().
@@ -651,7 +703,39 @@ function erpw_webform_webform_submission_presave($webform_submission) {
     $values['submission_domain'] = $domain;
     $values['service_type'] = $arr[0];
   }
-  $webform_submission->setData($values);
+
+  $service_type = \Drupal::entityTypeManager()->getStorage('node')->load($values['service_type'])->getTitle();
+  $webform_submission_id = $webform_submission->id();
+
+  // Store approved data in WSA while it is Edit Workflow.
+  if ($values['erpw_workflow']['workflow_state'] == 'approve') {
+    $node = Node::create([
+      'type' => 'wsa',
+      'title' => $service_type . ' - ' . $webform_submission_id,
+      'field_sid' => $webform_submission_id,
+      'field_submission_data' => $values['orignal_data'],
+    ]);
+    $node->save();
+
+    $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Edit Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
+    \Drupal::logger('erpw_webform')->notice($message);
+  }
+  elseif ($values['erpw_workflow']['transition'] == 'publish_edits') {
+    // Delete the node once it passes the edit review process.
+    $node = erpw_webform__load_wsa_node_by_sid($webform_submission_id);
+    if (!empty($node)) {
+      if ($node) {
+        $node->delete();
+        \Drupal::entityTypeManager()->getStorage('node')->resetCache([$node->id()]);
+        \Drupal::logger('erpw_webform')->notice('The node %title of type Webform Submission Approved has been deleted, as its approval workflow is complete.', [
+          '%title' => $node->getTitle(),
+        ]);
+      }
+    }
+  }
+  else {
+    $webform_submission->setData($values);
+  }
   $view = Views::getView('referral_pathway_on_homepage');
   $view->storage->invalidateCaches();
 }
@@ -709,7 +793,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
     }
   }
-  // Unset rows that are not in approve workflow state.
+  // Unset rows that are not in approve or edit workflow states.
   if ($view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing') {
     // $query->addWhere(1, 'webform_submission_data_workflow.property', 'workflow_state', '=');
     if ($view->id() == 'service_based_service_providers_listing') {
@@ -727,7 +811,8 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN');
 
       // Workflow join.
-      erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
+      $workflow_states = ['approve','edits_in_review_with_focal_point','edits_in_review_with_gbv_coordination'];
+      erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
     }
     else {
       // Domain Join.
@@ -761,14 +846,17 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
   if ($view->id() == 'manage_in_review_webform_services_listing') {
     erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
     if (in_array('service_provider_focal_point', $roles)) {
-      erpw_webform_add_webform_submission_add_where_join($query, 'in_review_with_focal_point', 'workflow');
+      $workflow_states = ['in_review_with_focal_point','edits_in_review_with_focal_point'];
+      erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
       erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
     }
     elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
-      erpw_webform_add_webform_submission_add_where_join($query, 'in_review', 'workflow');
+      $workflow_states = ['in_review','edits_in_review_with_gbv_coordination'];
+      erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
     }
     elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
-      erpw_webform_add_webform_submission_add_where_join($query, ['in_review', 'in_review_with_focal_point'], 'workflow', 'IN');
+      $workflow_states = ['in_review', 'in_review_with_focal_point','edits_in_review_with_focal_point', 'edits_in_review_with_gbv_coordination'];
+      erpw_webform_add_webform_submission_add_where_join($query, $workflow_states , 'workflow', 'IN');
     }
   }
 }
