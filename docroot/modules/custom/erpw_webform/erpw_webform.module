@@ -638,23 +638,9 @@ function erpw_webform_preprocess_views_view_fields(&$variables) {
         ])->toString();
         // Only show data of Approved Services in Service Listing page.
         if ($variables['view']->storage->id() == 'service_based_service_providers_listing') {
-          $node = erpw_webform__load_wsa_node_by_sid($variables['sid']);
-          if ($node) {
-            unset($variables['edit_url']);
-          }
-          else {
-          $variables['edit_url'] = Url::fromRoute('entity.webform_submission.edit_form', [
-            'webform' => $webformID,
-            'webform_submission' => $variables['row']->sid,
-          ])->toString();
-          }
           $variables['view_url'] = Url::fromRoute('erpw_webform.service_content_approved', ['webform_submission' => intval($variables['sid'])]);  
         }
         else {
-          $variables['edit_url'] = Url::fromRoute('entity.webform_submission.edit_form', [
-            'webform' => $webformID,
-            'webform_submission' => $variables['row']->sid,
-          ])->toString();
           $variables['view_url'] = Url::fromRoute('erpw_webform.service_content', ['webform_submission' => intval($variables['sid'])]);
         }
         $variables['moderate_url'] = Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => intval($variables['sid'])]);
