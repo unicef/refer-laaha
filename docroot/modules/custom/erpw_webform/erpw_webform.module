@@ -75,7 +75,7 @@ function erpw_webform_entity_type_alter(array &$entity_types) {
  */
 function erpw_webform_preprocess_html(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
-  if ($currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_moderate_content') {
+  if ($currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_content_approved' || $currentRoute == 'erpw_webform.service_moderate_content') {
     $variables['attributes']['class'][] = 'view-page-webform-submission';
   }
   if ($currentRoute == 'entity.webform.templates' || $currentRoute == 'entity.webform.collection') {
@@ -99,7 +99,7 @@ function erpw_webform_preprocess_html(&$variables) {
  */
 function erpw_webform_preprocess_page(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
-  if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_moderate_content') {
+  if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_content_approved' || $currentRoute == 'erpw_webform.service_moderate_content') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
   }
   if ($currentRoute == 'entity.webform.add_form' || $currentRoute == 'entity.webform.templates') {
@@ -498,6 +498,12 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
 
 /**
  * Helper function to load a node of type WSA by its webform submission ID (field_sid).
+ * 
+ * @param integer $webform_submission_id
+ *   Takes Webform Submission ID as input.
+ * 
+ * @return EntityInterface | null
+ *   Returns node entity if present else null.
  */
 function erpw_webform__load_wsa_node_by_sid($webform_submission_id) {
   $query = \Drupal::entityQuery('node')
@@ -512,11 +518,6 @@ function erpw_webform__load_wsa_node_by_sid($webform_submission_id) {
     return $node;
   }
   return NULL;
-}
-
-function erpw_webform_preprocess_webform_submission(array &$variables) {
-  dump($variables);
-  exit;
 }
 
 /**
@@ -635,7 +636,27 @@ function erpw_webform_preprocess_views_view_fields(&$variables) {
           'webform' => $webformID,
           'webform_submission' => $variables['row']->sid,
         ])->toString();
-        $variables['view_url'] = Url::fromRoute('erpw_webform.service_content', ['webform_submission' => intval($variables['sid'])]);
+        // Only show data of Approved Services in Service Listing page.
+        if ($variables['view']->storage->id() == 'service_based_service_providers_listing') {
+          $node = erpw_webform__load_wsa_node_by_sid($variables['sid']);
+          if ($node) {
+            unset($variables['edit_url']);
+          }
+          else {
+          $variables['edit_url'] = Url::fromRoute('entity.webform_submission.edit_form', [
+            'webform' => $webformID,
+            'webform_submission' => $variables['row']->sid,
+          ])->toString();
+          }
+          $variables['view_url'] = Url::fromRoute('erpw_webform.service_content_approved', ['webform_submission' => intval($variables['sid'])]);  
+        }
+        else {
+          $variables['edit_url'] = Url::fromRoute('entity.webform_submission.edit_form', [
+            'webform' => $webformID,
+            'webform_submission' => $variables['row']->sid,
+          ])->toString();
+          $variables['view_url'] = Url::fromRoute('erpw_webform.service_content', ['webform_submission' => intval($variables['sid'])]);
+        }
         $variables['moderate_url'] = Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => intval($variables['sid'])]);
       }
     }
