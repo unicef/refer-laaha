@@ -1,113 +1,129 @@
 .ui-dialog {
-	border: 0 !important;
-	@include border-radius(10px);
-	padding: 10px 8px;
-	font-size: $base-font-size;
-	text-align: center;
-	width: 287px !important;
-	.ui-dialog-title {
-		float: none;
-		margin-top: 10px;
-		white-space: inherit;
-	}
-	.ui-dialog-titlebar {
-		background: none;
-		border: 0;
-	}
-	.ui-dialog-content {
-		padding: 0 !important;
-		overflow-x: hidden;
-	}
-	.ui-button .ui-icon {
-		background: url('../images/cross.svg') 0 0 no-repeat !important;
-	}
+  border: 0 !important;
+  @include border-radius(10px);
+  padding: 10px 8px;
+  font-size: $base-font-size;
+  text-align: center;
+  width: 287px !important;
+  .ui-dialog-title {
+    float: none;
+    margin-top: 10px;
+    white-space: inherit;
+  }
+  .ui-dialog-titlebar {
+    background: none;
+    border: 0;
+  }
+  .ui-dialog-content {
+    padding: 0 !important;
+    overflow-x: hidden;
+  }
+  .ui-button .ui-icon {
+    background: url("../images/cross.svg") 0 0 no-repeat !important;
+  }
 
-	input[type=submit],
-	.button-red {
-		width: 72%;
-	}
-	.ui-dialog-buttonpane {
-		padding: 0;
+  input[type="submit"],
+  .button-red {
+    width: 72%;
+  }
+  .ui-dialog-buttonpane {
+    padding: 0;
     border-width: 0;
     background: none;
-		.ui-dialog-buttonset {
-			float: none;
-			text-align: center;
-			&.form-actions {
-				display: flex;
-				justify-content: space-between;
-				margin: 20px 10px 0px;
-				button {
-					background: none;
-					border: 1px solid $base-secondary-bgcolor;
-					color: $base-secondary-bgcolor;
-				}
-				.js-form-submit {
-					order: 1;
-					margin-left: 20px;
-					background: $base-secondary-bgcolor;;
-					border: 1px solid $base-secondary-bgcolor;
-					color: $base-white-color;
-				}
-			}
-		}
-		button {
-			background: $base-secondary-bgcolor;
-			border: 1px solid $base-secondary-bgcolor;
-			box-sizing: border-box;
-			@include border-radius(4px);
-			color: $base-white-color;
-			display: inline-block;
-			font-size: .875em;
-			margin: 0 0 1em 0;
-			padding: 10px 24px;
-			text-transform: uppercase;
-			width: 72%;
-		}
-	}
-	.email-notify {
-		color: $new-txt-color;
-		font-size: .875em;
-		line-height: 20px;
-		margin-bottom: 15px;
-	}
-	.button.bg-green {
-		background: $base-secondary-bgcolor;
-		border: 0;
-		@include border-radius(4px);
-		color: $base-white-color;
-		display: block;
-		font-size: 14px;
-		margin: 15px auto 0;
-		padding: 10px 24px;
-		text-transform: uppercase;
-		width: 40%;
-	}
+    .ui-dialog-buttonset {
+      float: none;
+      text-align: center;
+      &.form-actions {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 10px 0px;
+        button {
+          background: none;
+          border: 1px solid $base-secondary-bgcolor;
+          color: $base-secondary-bgcolor;
+        }
+        .js-form-submit {
+          order: 1;
+          margin-left: 20px;
+          background: $base-secondary-bgcolor;
+          border: 1px solid $base-secondary-bgcolor;
+          color: $base-white-color;
+        }
+      }
+    }
+    button {
+      background: $base-secondary-bgcolor;
+      border: 1px solid $base-secondary-bgcolor;
+      box-sizing: border-box;
+      @include border-radius(4px);
+      color: $base-white-color;
+      display: inline-block;
+      font-size: 0.875em;
+      margin: 0 0 1em 0;
+      padding: 10px 24px;
+      text-transform: uppercase;
+      width: 72%;
+    }
+  }
+  .email-notify {
+    color: $new-txt-color;
+    font-size: 0.875em;
+    line-height: 20px;
+    margin-bottom: 15px;
+  }
+  .button.bg-green {
+    background: $base-secondary-bgcolor;
+    border: 0;
+    @include border-radius(4px);
+    color: $base-white-color;
+    display: block;
+    font-size: 14px;
+    margin: 15px auto 0;
+    padding: 10px 24px;
+    text-transform: uppercase;
+    width: 40%;
+  }
 }
 .review-msg {
-	color: $base-secondary-bgcolor;
-	line-height: 22px;
-	margin-bottom: 5px;
+  color: $base-secondary-bgcolor;
+  line-height: 22px;
+  margin-bottom: 5px;
 }
 .ui-widget-overlay {
-	background: rgba(68, 25, 39, 0.28) !important;
-	backdrop-filter: blur(4px)  !important;
-	opacity: 1 !important;
+  background: rgba(68, 25, 39, 0.28) !important;
+  backdrop-filter: blur(4px) !important;
+  opacity: 1 !important;
 }
 
 .page-node-type-service-type,
 .path-user {
-	.ui-dialog-titlebar {
-		background: none;
-		border: 0;
-		font-weight: 400;
-		padding: 30px 0 0;
-		.ui-dialog-title {
-			white-space: inherit;
-			width: 100%;
-		}
-		&-close {
-			top: 17px;
-		}
-	}
+  .ui-dialog-titlebar {
+    background: none;
+    border: 0;
+    font-weight: 400;
+    padding: 30px 0 0;
+    .ui-dialog-title {
+      white-space: inherit;
+      width: 100%;
+    }
+    &-close {
+      top: 17px;
+    }
+  }
+}
+.webform-edit-config-page .webform-ui-dialog {
+  max-width: 100vw;
+  width: 80% !important;
+  margin: auto;
+  top: 15px !important;
+  max-height: 100vh;
+  height: 80%;
+  .js-form-submit {
+    float: none !important;
+  }
+  .webform-ui-element-type-table {
+    tr td:first-child {
+      text-align: left;
+    }
+  }
 }
