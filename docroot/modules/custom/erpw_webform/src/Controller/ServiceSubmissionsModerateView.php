@@ -286,10 +286,10 @@ class ServiceSubmissionsModerateView extends ControllerBase {
           </div>
           <div class="service-provider-details">
             <div class="service-detail-heading">
-              <h3>' . t('Service Details') . '</h3>
+              <h3>' . t('Service Details Overview') . '</h3>
               <div class="edit-delete-links">
-                <span class="edit-link">
-                  <a href=' . $edit_url . '>Edit</a>
+                <span class="review-link">
+                  <a href=' . $edit_url . '>Review</a>
                 </span>
               </div>
             </div>
