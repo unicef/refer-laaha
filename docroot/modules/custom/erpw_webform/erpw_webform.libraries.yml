@@ -30,3 +30,14 @@ erpw_webform_workflow:
   dependencies:
     - core/jquery
     - core/drupalSettings
+
+erpw_webform_element_access:
+  version: 1.0
+  css:
+    theme:
+      css/elementAccess.css: {}
+  js:
+    js/erpwWebformElementAccess.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings

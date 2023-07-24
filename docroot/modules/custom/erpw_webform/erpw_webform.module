@@ -119,6 +119,10 @@ function erpw_webform_preprocess_page(&$variables) {
   }
   if ($currentRoute == 'entity.webform.edit_form') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_workflow';
+    $user = \Drupal::currentUser();
+    $is_admin = in_array('administrator', $user->getRoles());
+    $variables['#attached']['drupalSettings']['erpw_webform']['erpw_webform_element_access'] = $is_admin;
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_element_access';
   }
   if ($currentRoute == 'entity.webform_submission.edit_form') {
     // Remove help section from webform submission edit page.
