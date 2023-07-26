@@ -4,7 +4,7 @@
  * @file
  */
 
-use Drupal\node\Entity\Node;
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -481,12 +481,13 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
       $node = erpw_webform__load_wsa_node_by_sid($webform_submission_id);
 
       if ($node) {
-        $node_data = json_decode($node->field_submission_data->value, true);
+        $node_data = json_decode($node->field_submission_data->value, TRUE);
         $submission_entity = $row->_entity;
         foreach ($node_data as $field_name => $field_value) {
           if ($submission_entity->hasField($field_name)) {
             $submission_entity->set($field_name, $field_value);
-          } else {
+          }
+          else {
             $submission_entity->setElementData($field_name, $field_value);
           }
         }
@@ -498,11 +499,11 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
 
 /**
  * Helper function to load a node of type WSA by its webform submission ID (field_sid).
- * 
- * @param integer $webform_submission_id
+ *
+ * @param int $webform_submission_id
  *   Takes Webform Submission ID as input.
- * 
- * @return EntityInterface | null
+ *
+ * @return \Drupal\Core\Entity\EntityInterface | null
  *   Returns node entity if present else null.
  */
 function erpw_webform__load_wsa_node_by_sid($webform_submission_id) {
@@ -638,7 +639,7 @@ function erpw_webform_preprocess_views_view_fields(&$variables) {
         ])->toString();
         // Only show data of Approved Services in Service Listing page.
         if ($variables['view']->storage->id() == 'service_based_service_providers_listing') {
-          $variables['view_url'] = Url::fromRoute('erpw_webform.service_content_approved', ['webform_submission' => intval($variables['sid'])]);  
+          $variables['view_url'] = Url::fromRoute('erpw_webform.service_content_approved', ['webform_submission' => intval($variables['sid'])]);
         }
         else {
           $variables['view_url'] = Url::fromRoute('erpw_webform.service_content', ['webform_submission' => intval($variables['sid'])]);
@@ -706,31 +707,78 @@ function erpw_webform_webform_submission_presave($webform_submission) {
 
   $service_type = \Drupal::entityTypeManager()->getStorage('node')->load($values['service_type'])->getTitle();
   $webform_submission_id = $webform_submission->id();
+  $current_transition = $values['erpw_workflow']['transition'];
+  $rejected_transitions = ['edits_rejected_by_focal_point', 'edits_rejected_by_gbv_coordination', 'deletion_rejected_by_focal_point', 'deletion_rejected_by_gbv_coordination'];
 
   // Store approved data in WSA while it is Edit Workflow.
-  if ($values['erpw_workflow']['workflow_state'] == 'approve') {
-    $node = Node::create([
-      'type' => 'wsa',
-      'title' => $service_type . ' - ' . $webform_submission_id,
-      'field_sid' => $webform_submission_id,
-      'field_submission_data' => $values['orignal_data'],
-    ]);
-    $node->save();
+  if ($values['erpw_workflow']['workflow_state'] == 'approve' && ($current_transition != 'publish_edits' || $current_transition != 'approve_deletion')) {
+    // Node for Deletion workflow:
+    if ($current_transition == 'submit_for_deletion_to_focal_point' || $current_transition == 'submit_for_deletion_to_gbv_coordination') {
+      $node = erpw_webform__create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
 
-    $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Edit Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
-    \Drupal::logger('erpw_webform')->notice($message);
+      $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Deletion Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
+      \Drupal::logger('erpw_webform__deletion')->notice($message);
+    }
+    // Node for Edit Workflow:
+    else {
+      $node = erpw_webform__create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
+
+      $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Edit Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
+      \Drupal::logger('erpw_webform__edit')->notice($message);
+    }
   }
-  elseif ($values['erpw_workflow']['transition'] == 'publish_edits') {
-    // Delete the node once it passes the edit review process.
+  elseif ($current_transition == 'publish_edits' || $current_transition == 'approve_deletion' || $values['erpw_workflow']['workflow_state'] == 'deleted') {
+    // Delete the node once it passes the review process.
     $node = erpw_webform__load_wsa_node_by_sid($webform_submission_id);
     if (!empty($node)) {
-      if ($node) {
-        $node->delete();
-        \Drupal::entityTypeManager()->getStorage('node')->resetCache([$node->id()]);
-        \Drupal::logger('erpw_webform')->notice('The node %title of type Webform Submission Approved has been deleted, as its approval workflow is complete.', [
+      $node->delete();
+      // End of Delete workflow.
+      if ($current_transition == 'approve_deletion' || $values['erpw_workflow']['workflow_state'] == 'deleted') {
+        \Drupal::logger('erpw_webform__deletion')->notice('The node %title of type Webform Submission Approved has been deleted, as its deletion workflow is complete.', [
+          '%title' => $node->getTitle(),
+        ]);
+
+        \Drupal::logger('erpw_webform__deletion')->notice('The Webform Submission of id %sid has been deleted. Since this submission has passed through the Deletion Workflow.', [
+          '%sid' => $webform_submission_id,
+        ]);
+        $webform_submission->delete();
+      }
+      // End of Edit workflow.
+      else {
+        \Drupal::logger('erpw_webform__edit')->notice('The node %title of type Webform Submission Approved has been deleted, as its approval workflow is complete.', [
           '%title' => $node->getTitle(),
         ]);
       }
+      \Drupal::entityTypeManager()->getStorage('node')->resetCache([$node->id()]);
+    }
+    // Case where the Service is directly deleted by the GBV Coordination.
+    else {
+      if ($current_transition == 'approve_deletion' || $values['erpw_workflow']['workflow_state'] == 'deleted') {
+        \Drupal::logger('erpw_webform__deletion')->notice('The Webform Submission of id %sid has been deleted. Since this submission has passed through the Deletion Workflow.', [
+          '%sid' => $webform_submission_id,
+        ]);
+        $webform_submission->delete();
+      }
+    }
+  }
+  // Delete WSA nodes if submissions are rejected, replace the data with the old approved data.
+  elseif (in_array($current_transition, $rejected_transitions)) {
+    $node = erpw_webform__load_wsa_node_by_sid($webform_submission_id);
+    if ($node) {
+      $node_data = json_decode($node->field_submission_data->value, TRUE);
+      try {
+        $webform_submission->setData($node_data);
+      }
+      catch (EntityStorageException $e) {
+        \Drupal::logger('erpw_webform__reject')->error($e);
+      }
+      \Drupal::logger('erpw_webform__reject')->notice('Webform submission with SID %sid was updated with the old approved data, as the changes were rejected in the workflow.', ['%sid' => $webform_submission_id]);
+
+      // Delete the node as well.
+      $node->delete();
+      \Drupal::logger('erpw_webform__reject')->notice('The node %title of type Webform Submission Approved has been deleted, as its workflow changes have been rejected.', [
+        '%title' => $node->getTitle(),
+      ]);
     }
   }
   else {
@@ -811,7 +859,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN');
 
       // Workflow join.
-      $workflow_states = ['approve','edits_in_review_with_focal_point','edits_in_review_with_gbv_coordination','deletion_in_review_with_focal_point','deletion_in_review_with_gbv_coordination'];
+      $workflow_states = ['approve', 'edits_in_review_with_focal_point', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_focal_point', 'deletion_in_review_with_gbv_coordination'];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
     }
     else {
@@ -846,17 +894,17 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
   if ($view->id() == 'manage_in_review_webform_services_listing') {
     erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
     if (in_array('service_provider_focal_point', $roles)) {
-      $workflow_states = ['in_review_with_focal_point','edits_in_review_with_focal_point', 'deletion_in_review_with_focal_point'];
+      $workflow_states = ['in_review_with_focal_point', 'edits_in_review_with_focal_point', 'deletion_in_review_with_focal_point'];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
       erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
     }
     elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
-      $workflow_states = ['in_review','edits_in_review_with_gbv_coordination','deletion_in_review_with_gbv_coordination'];
+      $workflow_states = ['in_review', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_gbv_coordination'];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
     }
     elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
-      $workflow_states = ['in_review', 'in_review_with_focal_point','edits_in_review_with_focal_point', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_focal_point','deletion_in_review_with_gbv_coordination'];
-      erpw_webform_add_webform_submission_add_where_join($query, $workflow_states , 'workflow', 'IN');
+      $workflow_states = ['in_review', 'in_review_with_focal_point', 'edits_in_review_with_focal_point', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_focal_point', 'deletion_in_review_with_gbv_coordination'];
+      erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
     }
   }
 }
@@ -905,4 +953,56 @@ function erpw_webform__fetch_draft_submission_ids() {
   $query->condition('wsd.value', 'draft');
   $results = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
   return $results;
+}
+
+/**
+ * Create or update a node of type 'wsa' based on the submission data.
+ *
+ * @param string $service_type
+ *   The service type.
+ * @param int $submission_id
+ *   The submission ID.
+ * @param array $original_data
+ *   The original data to be saved in the node.
+ * @param bool $deletion_node
+ *   Whether the submission is entering the Deletion workflow.
+ *
+ * @return \Drupal\node\NodeInterface|null
+ *   The created or updated node object, or NULL if there was an error.
+ *
+ * @throws \Drupal\Core\Entity\EntityStorageException
+ */
+function erpw_webform__create_or_update_wsa_node($service_type, $submission_id, $original_data, $deletion_node = FALSE) {
+  $entity_type_manager = \Drupal::entityTypeManager();
+
+  $query = $entity_type_manager->getStorage('node')->getQuery()
+    ->condition('type', 'wsa')
+    ->condition('field_sid', $submission_id)
+    ->range(0, 1);
+  $entity_ids = $query->execute();
+
+  $node_data = [
+    'type' => 'wsa',
+    'title' => ($deletion_node ? '(Deletion) ' : '') . $service_type . ' - ' . $submission_id,
+    'field_sid' => $submission_id,
+    'field_submission_data' => $original_data,
+  ];
+
+  if (!empty($entity_ids)) {
+    // If a node exists, load it and modify the field_submission_data field.
+    $node = $entity_type_manager->getStorage('node')->load(reset($entity_ids));
+    $node->set('title', $node_data['title']);
+    $node->set('field_submission_data', $node_data['field_submission_data']);
+  }
+  else {
+    $node = $entity_type_manager->getStorage('node')->create($node_data);
+  }
+
+  try {
+    $node->save();
+    return $node;
+  }
+  catch (\Exception $e) {
+    return NULL;
+  }
 }

@@ -560,7 +560,7 @@ class ServiceSubmissionsView extends ControllerBase {
               <h3>' . t('Service Details') . '</h3>
               <div class="edit-delete-links">
                 <span class="edit-link">
-                  <p>' . t('This service is currently going through the review process for Edits. Hence direct edits are not allowed.') . '</p>
+                  <p>' . t('This service is currently going through the review process. Hence direct edits are not allowed.') . '</p>
                 </span>
               </div>
             </div>
