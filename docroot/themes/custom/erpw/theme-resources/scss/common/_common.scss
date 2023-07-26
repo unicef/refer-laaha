@@ -472,3 +472,24 @@ span.service-title.no-service a {
     }
   }
 }
+.download-services-csv {
+  display: flex;
+  justify-content: flex-end;
+  a {
+    display: block;
+    text-align: center;
+    color: #a85766;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+    font-family: Roboto;
+    &::before {
+      content: "";
+      background: url("../images/export.png") top center no-repeat transparent;
+      width: 40px;
+      height: 40px;
+      display: block;
+      margin: auto;
+    }
+  }
+}

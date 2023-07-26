@@ -565,6 +565,32 @@ span.service-title.no-service a {
   display: none;
 }
 
+.download-services-csv {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+.download-services-csv a {
+  display: block;
+  text-align: center;
+  color: #a85766;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+  font-family: Roboto;
+}
+.download-services-csv a::before {
+  content: "";
+  background: url("../images/export.png") top center no-repeat transparent;
+  width: 40px;
+  height: 40px;
+  display: block;
+  margin: auto;
+}
+
 form .form-required::after {
   background-image: none;
   content: "*";
