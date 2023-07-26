@@ -26,6 +26,12 @@
           tdElement.classList.add("edits-in-review-focal-point-workflow"); // Add the class "edits-in-review-focal-point-workflow"
         } else if (tdElement.textContent.trim().toLowerCase() === "edits in review with gbv coordination") {
           tdElement.classList.add("edits-in-review-coordination-workflow"); // Add the class "edits-in-review-coordination-workflow"
+        } else if (tdElement.textContent.trim().toLowerCase() === "deletion in review with focal point") {
+          tdElement.classList.add("deletion-in-review-focal-point-workflow"); // Add the class "deletion-in-review-focal-point-workflow"
+        } else if (tdElement.textContent.trim().toLowerCase() === "deletion in review with gbv coordination") {
+          tdElement.classList.add("deletion-in-review-coordination-workflow"); // Add the class "edits-in-review-coordination-workflow"
+        } else if (tdElement.textContent.trim().toLowerCase() === "deleted") {
+          tdElement.classList.add("deleted-workflow"); // Add the class "deleted-workflow"
         }
       });
     },

@@ -45,6 +45,12 @@ class WebformSubmissionWorkflow extends FieldPluginBase {
       elseif ($output == 'edits_in_review_with_gbv_coordination') {
         $output = 'Edits In Review with GBV Coordination';
       }
+      elseif ($output == 'deletion_in_review_with_focal_point'){
+        $output = 'Deletion In Review with Focal Point';
+      }
+      elseif ($output == 'deletion_in_review_with_gbv_coordination') {
+        $output = 'Deletion In Review with GBV Coordination';
+      }
     }
     else {
       $output = t('Not available.');

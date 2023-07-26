@@ -12,25 +12,34 @@ type_settings:
   states:
     approve:
       label: Approved
+      weight: 2
+    deleted:
+      label: Deleted
+      weight: 4
+    deletion_in_review_with_focal_point:
+      label: 'Deletion In - Review with Focal point'
       weight: 0
+    deletion_in_review_with_gbv_coordination:
+      label: 'Deletion In - Review with GBV Coordination'
+      weight: 1
     draft:
       label: Draft
-      weight: -3
+      weight: -5
     edits_in_review_with_focal_point:
       label: 'Edits In - Review with Focal Point'
-      weight: 2
+      weight: -2
     edits_in_review_with_gbv_coordination:
       label: 'Edits In - Review with GBV Coordination'
-      weight: 3
+      weight: -1
     in_review:
       label: 'In - Review with GBV Coordination'
-      weight: -1
+      weight: -3
     in_review_with_focal_point:
       label: 'In - Review with Focal Point'
-      weight: -2
+      weight: -4
     reject:
       label: Rejected
-      weight: 1
+      weight: 3
   transitions:
     approve:
       label: Approve
@@ -39,6 +48,26 @@ type_settings:
         - in_review
       to: approve
       weight: 0
+    approve_deletion:
+      label: 'Delete Service'
+      from:
+        - approve
+        - deletion_in_review_with_gbv_coordination
+        - reject
+      to: deleted
+      weight: 12
+    deletion_rejected_by_focal_point:
+      label: 'Deletion Rejected by Focal point'
+      from:
+        - deletion_in_review_with_focal_point
+      to: reject
+      weight: 10
+    deletion_rejected_by_gbv_coordination:
+      label: 'Deletion Rejected by GBV Coordination'
+      from:
+        - deletion_in_review_with_gbv_coordination
+      to: reject
+      weight: 11
     edits_rejected_by_focal_point:
       label: 'Edits Rejected by Focal Point'
       from:
@@ -97,6 +126,21 @@ type_settings:
         - reject
       to: edits_in_review_with_gbv_coordination
       weight: 4
+    submit_for_deletion_to_focal_point:
+      label: 'Submit for Deletion to Focal Point'
+      from:
+        - approve
+        - reject
+      to: deletion_in_review_with_focal_point
+      weight: 8
+    submit_for_deletion_to_gbv_coordination:
+      label: 'Submit for Deletion to GBV Coordination'
+      from:
+        - approve
+        - deletion_in_review_with_focal_point
+        - reject
+      to: deletion_in_review_with_gbv_coordination
+      weight: 9
     submit_for_review_to_country_admin:
       label: 'Submit to GBV Coordination'
       from:

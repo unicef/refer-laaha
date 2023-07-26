@@ -182,20 +182,47 @@ elements: |-
       - authenticated
     '#access_transition_submit_edits_to_focal_point_roles':
       - service_provider_staff
+      - super_admin
       - administrator
     '#access_transition_submit_edits_to_gbv_coordination_roles':
       - service_provider_focal_point
+      - super_admin
       - administrator
     '#access_transition_publish_edits_roles':
       - interagency_gbv_coordinator
       - country_admin
+      - super_admin
       - administrator
     '#access_transition_edits_rejected_by_focal_point_roles':
       - service_provider_focal_point
+      - super_admin
       - administrator
     '#access_transition_edits_rejected_by_gbv_coordination_roles':
       - interagency_gbv_coordinator
       - country_admin
+      - super_admin
+      - administrator
+    '#access_transition_submit_for_deletion_to_focal_point_roles':
+      - service_provider_staff
+      - super_admin
+      - administrator
+    '#access_transition_submit_for_deletion_to_gbv_coordination_roles':
+      - service_provider_focal_point
+      - super_admin
+      - administrator
+    '#access_transition_deletion_rejected_by_focal_point_roles':
+      - service_provider_focal_point
+      - super_admin
+      - administrator
+    '#access_transition_deletion_rejected_by_gbv_coordination_roles':
+      - interagency_gbv_coordinator
+      - country_admin
+      - super_admin
+      - administrator
+    '#access_transition_approve_deletion_roles':
+      - interagency_gbv_coordinator
+      - country_admin
+      - super_admin
       - administrator
     '#workflow': webform_workflow
     '#require_transition_if_available': true
@@ -207,8 +234,13 @@ elements: |-
     '#state_draft_color': Yellow
     '#state_in_review_with_focal_point_color': Orange
     '#state_in_review_color': Blue
+    '#state_edits_in_review_with_focal_point_color': Yellow
+    '#state_edits_in_review_with_gbv_coordination_color': Purple
+    '#state_deletion_in_review_with_focal_point_color': Grey
+    '#state_deletion_in_review_with_gbv_coordination_color': Black
     '#state_approve_color': Green
     '#state_reject_color': Red
+    '#state_deleted_color': White
     '#access_transition_submit_for_review_to_gbvi_coordinator_roles':
       - service_provider_staff
       - super_admin
@@ -488,7 +520,7 @@ handlers:
                 notes: ''
                 status: true
                 conditions: {  }
-                weight: -50
+                weight: null
                 settings:
                   id: redirect_to_drafts
                   handler_id: null
@@ -496,7 +528,7 @@ handlers:
                   notes: ''
                   status: true
                   conditions: {  }
-                  weight: null
+                  weight: -50
                   settings:
                     id: redirect_to_drafts
                     handler_id: null
@@ -547,13 +579,21 @@ handlers:
                               weight: null
                               settings:
                                 id: redirect_to_drafts
-                                handler_id: redirect_to_drafts
-                                label: 'Redirect to Drafts'
+                                handler_id: null
+                                label: 'Redirect on Transition changes.'
                                 notes: ''
                                 status: true
                                 conditions: {  }
-                                weight: 0
-                                settings: {  }
+                                weight: null
+                                settings:
+                                  id: redirect_to_drafts
+                                  handler_id: redirect_to_drafts
+                                  label: 'Redirect to Drafts'
+                                  notes: ''
+                                  status: true
+                                  conditions: {  }
+                                  weight: 0
+                                  settings: {  }
   duplicate_services_handler:
     id: handle_duplicate_services
     handler_id: duplicate_services_handler
