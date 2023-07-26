@@ -78,6 +78,10 @@ function erpw_webform_preprocess_html(&$variables) {
   if ($currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_content_approved' || $currentRoute == 'erpw_webform.service_moderate_content') {
     $variables['attributes']['class'][] = 'view-page-webform-submission';
   }
+  if ($currentRoute == 'entity.webform.edit_form') {
+    $variables['attributes']['class'][] = 'webform-edit-config-page';
+
+  }
   if ($currentRoute == 'entity.webform.templates' || $currentRoute == 'entity.webform.collection') {
     $current_user = \Drupal::currentUser();
     if ($current_user->isAuthenticated()) {
@@ -112,6 +116,18 @@ function erpw_webform_preprocess_page(&$variables) {
   }
   if ($currentRoute == "entity.webform.canonical") {
     $variables['#attached']['library'][] = 'erpw/global';
+  }
+  if ($currentRoute == 'entity.webform.edit_form') {
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_workflow';
+    $user = \Drupal::currentUser();
+    $is_admin = in_array('administrator', $user->getRoles());
+    $variables['#attached']['drupalSettings']['erpw_webform']['erpw_webform_element_access'] = $is_admin;
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_element_access';
+  }
+  if ($currentRoute == 'entity.webform_submission.edit_form') {
+    // Remove help section from webform submission edit page.
+    $variables['page']['help']['#access'] = FALSE;
+    $variables['page']['content']['erpw_help']['#access'] = FALSE;
   }
   $variables['page']['#cache']['contexts'][] = 'cookies';
   $variables['page']['#cache']['contexts'][] = 'url';
@@ -170,6 +186,12 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
   $account = User::load(\Drupal::currentUser()->id());
   $user_roles = $account->getRoles();
   if ($currentRoute == 'entity.webform_submission.edit_form') {
+    // Remove log section from Webform submission edit pages:
+    $form['log_fieldset']['#access'] = FALSE;
+    $form['navigation']['#access'] = FALSE;
+    if (!in_array('administrator', $user_roles)) {
+      $form['information']['#access'] = FALSE;
+    }
     // Set default values for the 'field_name' and 'field_email' fields.
     $elements = $form['elements'];
     foreach ($elements as $element) {
@@ -848,6 +870,13 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       // Filter out rows which do not belong to the current location.
       $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
       $ptids = get_child_term_tid($cookie_tid);
+
+      // For Services with only domain as location, location entity id is set instead of tid.
+      $location_entity = erpw_webform__getLocationEntityIdByTid($cookie_tid);
+      if (!empty($location_entity)) {
+        $ptids = array_merge([strval($location_entity)], $ptids);
+      }
+
       if ($service_type = \Drupal::routeMatch()->getRawParameter('node')) {
         // Service type Join.
         erpw_webform_add_webform_submission_add_where_join($query, $service_type, 'st');
@@ -953,6 +982,24 @@ function erpw_webform__fetch_draft_submission_ids() {
   $query->condition('wsd.value', 'draft');
   $results = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
   return $results;
+}
+
+/**
+ * Get location entity.
+ */
+function erpw_webform__getLocationEntityIdByTid($tid) {
+  $location_entity_id = "";
+  $location_entity = \Drupal::service('entity_type.manager')->getStorage('location')->loadByProperties(
+    [
+      'field_location_taxonomy_term' => $tid,
+      'status' => 1,
+      'type' => 'country',
+    ]
+  );
+  if (!empty($location_entity)) {
+    $location_entity_id = array_keys($location_entity)[0];
+  }
+  return $location_entity_id;
 }
 
 /**

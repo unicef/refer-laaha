@@ -192,6 +192,17 @@
   max-width: 100%;
   width: 100%;
 }
+.webform-dropbutton .dropbutton-wrapper .dropbutton-widget {
+  background: white !important;
+}
+.webform-dropbutton .dropbutton-wrapper.open .dropbutton-widget {
+  border: 1px #a85766 solid !important;
+}
+.webform-edit-form .webform-dropbutton ul.dropdown {
+  background: white !important;
+  z-index: 1 !important;
+  position: relative !important;
+}
 @media only screen and (max-width: 768px) {
   .hide-webform-action-links .ui-dialog {
     width: 100% !important;

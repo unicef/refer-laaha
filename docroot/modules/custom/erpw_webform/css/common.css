@@ -411,6 +411,7 @@
 .manage-services-filters .view-filters .form--inline .js-form-item {
   width: 45%;
 }
+
 @media only screen and (max-width: 768px) {
   .manage-services-filters .view-filters .form--inline {
     flex-direction: column;
@@ -418,4 +419,14 @@
   .manage-services-filters .view-filters .form--inline .js-form-item {
     width: 100%;
   }
+}
+
+.edit-delete-links .review-link a {
+  color: #a85766;
+  border-bottom: 1px solid #a85766;
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
+  margin-right: 10px;
+  width: 52px;
 }

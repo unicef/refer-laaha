@@ -25,16 +25,8 @@ class WebformSubmissionModeField extends FieldPluginBase {
     if (isset($values->_entity->getData()['field_mode'])) {
       $output = $values->_entity->getData()['field_mode'];
       if (is_array($output)) {
-        $newOutput = '';
-        $c = 0;
-        foreach ($output as $mode) {
-          if ($c > 0) {
-            $newOutput = $newOutput . ',';
-          }
-          $newOutput = $mode;
-          $c++;
-        }
-        return $newOutput;
+        $newOutput = implode(', ', $output);
+        return $newOutput . '.';
       }
     }
     else {
