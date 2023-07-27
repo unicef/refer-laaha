@@ -14,6 +14,7 @@
           "aria-pressed",
           "true"
         );
+        $('.erpw-workflow-cta-button:contains("Save as Draft")').addClass('draft-transition');
       });
     },
   };

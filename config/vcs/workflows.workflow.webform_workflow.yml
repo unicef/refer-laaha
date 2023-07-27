@@ -47,7 +47,7 @@ type_settings:
         - draft
         - in_review
       to: approve
-      weight: 0
+      weight: -6
     approve_deletion:
       label: 'Delete Service'
       from:
@@ -55,69 +55,69 @@ type_settings:
         - deletion_in_review_with_gbv_coordination
         - reject
       to: deleted
-      weight: 12
+      weight: 7
     deletion_rejected_by_focal_point:
       label: 'Deletion Rejected by Focal point'
       from:
         - deletion_in_review_with_focal_point
       to: reject
-      weight: 10
+      weight: 5
     deletion_rejected_by_gbv_coordination:
       label: 'Deletion Rejected by GBV Coordination'
       from:
         - deletion_in_review_with_gbv_coordination
       to: reject
-      weight: 11
+      weight: 6
     edits_rejected_by_focal_point:
       label: 'Edits Rejected by Focal Point'
       from:
         - edits_in_review_with_focal_point
       to: reject
-      weight: 6
+      weight: 1
     edits_rejected_by_gbv_coordination:
       label: 'Edits Rejected by GBV Coordination'
       from:
         - edits_in_review_with_gbv_coordination
       to: reject
-      weight: 7
+      weight: 2
     publish_edits:
       label: 'Publish Edits'
       from:
         - approve
         - edits_in_review_with_gbv_coordination
       to: approve
-      weight: 5
+      weight: 0
     reject:
       label: 'Rejected by GBV Coordination'
       from:
         - in_review
       to: reject
-      weight: 1
+      weight: -4
     rejected_by_focal_point:
       label: 'Rejected by Focal Point'
       from:
         - in_review_with_focal_point
       to: reject
-      weight: -2
+      weight: -7
     restore:
       label: 'Request for edits'
       from:
         - reject
       to: draft
-      weight: 2
+      weight: -3
     save_as_draft:
       label: 'Save as Draft'
       from:
         - draft
       to: draft
-      weight: -4
+      weight: -5
     submit_edits_to_focal_point:
       label: 'Submit Edits to Focal Point'
       from:
         - approve
         - reject
       to: edits_in_review_with_focal_point
-      weight: 3
+      weight: -2
     submit_edits_to_gbv_coordination:
       label: 'Submit Edits to GBV Coordination'
       from:
@@ -125,14 +125,14 @@ type_settings:
         - edits_in_review_with_focal_point
         - reject
       to: edits_in_review_with_gbv_coordination
-      weight: 4
+      weight: -1
     submit_for_deletion_to_focal_point:
       label: 'Submit for Deletion to Focal Point'
       from:
         - approve
         - reject
       to: deletion_in_review_with_focal_point
-      weight: 8
+      weight: 3
     submit_for_deletion_to_gbv_coordination:
       label: 'Submit for Deletion to GBV Coordination'
       from:
@@ -140,7 +140,7 @@ type_settings:
         - deletion_in_review_with_focal_point
         - reject
       to: deletion_in_review_with_gbv_coordination
-      weight: 9
+      weight: 4
     submit_for_review_to_country_admin:
       label: 'Submit to GBV Coordination'
       from:
@@ -148,11 +148,11 @@ type_settings:
         - in_review_with_focal_point
         - reject
       to: in_review
-      weight: -1
+      weight: -8
     submit_to_focal_point:
       label: 'Submit to Focal Point'
       from:
         - draft
         - reject
       to: in_review_with_focal_point
-      weight: -3
+      weight: -9
