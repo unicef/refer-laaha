@@ -65,3 +65,10 @@ erpw_webform.delete_user:
     _title: 'Delete User'
   requirements:
     _permission: 'cancel users by role'
+
+erpw_webform.services_download:
+  path: '/services-csv-export/{node}'
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\ServicesCsvExportController::downloadCsv'
+  requirements:
+    _permission: 'access content'
