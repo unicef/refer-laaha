@@ -7,3 +7,8 @@
 .hide-submit-access-for-nonadmin-user .webform-ui-element-type-webform_actions {
   display: none;
 }
+
+.disabled-for-delete {
+  pointer-events:none;
+  opacity: 0.5;
+}
