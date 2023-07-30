@@ -13,6 +13,7 @@ dependencies:
     - field.field.user.user.field_phone
     - field.field.user.user.field_position
     - field.field.user.user.field_system_role
+    - field.field.user.user.field_transitions
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -31,7 +32,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 12
+    weight: 5
     region: content
   field_last_name:
     type: string
@@ -39,7 +40,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 6
+    weight: 2
     region: content
   field_location:
     type: entity_reference_label
@@ -47,7 +48,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 15
+    weight: 7
     region: content
   field_organisation:
     type: entity_reference_label
@@ -55,7 +56,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 14
+    weight: 6
     region: content
   field_phone:
     type: string
@@ -63,7 +64,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 7
+    weight: 3
     region: content
   field_position:
     type: string
@@ -71,10 +72,12 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 9
+    weight: 4
     region: content
   member_for:
-    weight: 5
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
     region: content
   user_picture:
     type: image
@@ -92,4 +95,5 @@ hidden:
   field_domain_admin: true
   field_domain_all_affiliates: true
   field_system_role: true
+  field_transitions: true
   langcode: true
