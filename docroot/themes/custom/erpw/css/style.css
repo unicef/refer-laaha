@@ -591,15 +591,6 @@ span.service-title.no-service a {
   margin: auto;
 }
 
-#edit-cancel {
-  margin: 0;
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-weight: 500;
-  color: #A85766;
-  border: 2px solid #A85766;
-}
-
 form .form-required::after {
   background-image: none;
   content: "*";
@@ -3192,11 +3183,55 @@ body.path-user {
   margin: 15px 0;
 }
 
-#edit-cancel {
-  padding: 10px 20px;
+#export-location-form .review-msg {
+  text-align: center;
+  margin-bottom: 30px;
+}
+#export-location-form .form-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 20px;
+  margin: 0 10px;
+}
+#export-location-form .form-actions #edit-proceed {
+  width: 100%;
+  margin: 0;
+}
+#export-location-form .form-actions #edit-cancel {
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
   border-radius: 4px;
   font-weight: 500;
   color: #A85766;
   border: 2px solid #A85766;
+}
+@media only screen and (min-width: 768px) {
+  #export-location-form .form-actions {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    gap: 35px;
+    margin: 0;
+  }
+  #export-location-form .form-actions #edit-proceed {
+    width: 25%;
+    margin: 0;
+  }
+  #export-location-form .form-actions #edit-cancel {
+    width: 25%;
+  }
 }
 /*# sourceMappingURL=style.css.map */
