@@ -4,11 +4,11 @@ entity.user_workflow_history_entity.collection:
   title: 'User workflow history entity list'
   route_name: entity.user_workflow_history_entity.collection
   description: 'List User workflow history entity entities'
-  parent: system.admin_structure
+  parent: system.admin_config_workflow
   weight: 100
 
 user_workflow_history_entity.admin.structure.settings:
   title: 'User workflow history entity settings'
   description: 'Configure User workflow history entity entities'
   route_name: user_workflow_history_entity.settings
-  parent: system.admin_structure
+  parent: system.admin_config_workflow
