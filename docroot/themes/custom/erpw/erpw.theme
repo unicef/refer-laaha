@@ -145,7 +145,7 @@ function erpw_preprocess_table(&$variables) {
     $lang_name = \Drupal::service('language_manager')->getLanguage($lang_code)->getName();
     $domain_languages[] = $lang_name;
   }
-  
+
   $table_rows = $variables['rows'];
   $languages[] = $table_rows[0];
   for ($x = 1; $x < count($variables['rows']); $x++) {
