@@ -102,17 +102,20 @@ function erpw_webform_preprocess_html(&$variables) {
  * Implements hook_preprocess_HOOK().
  */
 function erpw_webform_preprocess_webform(&$variables) {
-  // Disable all fields when a service enters Delete Workflow.
-  $data = $variables['element']['information']['#webform_submission']->getData();
-  $delete_states = ['deletion_in_review_with_focal_point', 'deletion_in_review_with_gbv_coordination'];
-  if (in_array($data['erpw_workflow']['workflow_state'], $delete_states)) {
-    $is_in_deletion = TRUE;
+  $currentRoute = \Drupal::routeMatch()->getRouteName();
+  if ($currentRoute == 'entity.webform_submission.edit_form') {
+    // Disable all fields when a service enters Delete Workflow.
+    $data = $variables['element']['information']['#webform_submission']->getData();
+    $delete_states = ['deletion_in_review_with_focal_point', 'deletion_in_review_with_gbv_coordination'];
+    if (in_array($data['erpw_workflow']['workflow_state'], $delete_states)) {
+      $is_in_deletion = TRUE;
+    }
+    else {
+      $is_in_deletion = FALSE;
+    }
+    $variables['#attached']['drupalSettings']['erpw_webform']['erpw_webform_deletion_access'] = $is_in_deletion;
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_element_access';
   }
-  else {
-    $is_in_deletion = FALSE;
-  }
-  $variables['#attached']['drupalSettings']['erpw_webform']['erpw_webform_deletion_access'] = $is_in_deletion;
-  $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_element_access';
 }
 
 /**
