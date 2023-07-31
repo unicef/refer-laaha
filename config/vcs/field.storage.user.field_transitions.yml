@@ -16,11 +16,20 @@ type: list_string
 settings:
   allowed_values:
     -
+      value: self-register
+      label: 'Self - Register'
+    -
+      value: spfp-register
+      label: 'SPFP - Register'
+    -
+      value: gbv-coordination-register
+      label: 'GBV Coordination - Register'
+    -
       value: spfp-accept
-      label: 'SPFP Accept'
+      label: 'SPFP - Accept'
     -
       value: spfp-reject
-      label: 'SPFP Reject'
+      label: 'SPFP - Reject'
     -
       value: gbv-coordination-accept
       label: 'GBV Coordination - Accept'

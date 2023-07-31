@@ -140,7 +140,7 @@ class UserWorkflowHistoryEntity extends ContentEntityBase implements UserWorkflo
     $fields += static::publishedBaseFieldDefinitions($entity_type);
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Authored by'))
+      ->setLabel(t('Reviewed or Actioned by'))
       ->setDescription(t('The user ID of author of the User workflow history entity entity.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
@@ -148,11 +148,11 @@ class UserWorkflowHistoryEntity extends ContentEntityBase implements UserWorkflo
       ->setDisplayOptions('view', [
         'label' => 'hidden',
         'type' => 'author',
-        'weight' => 0,
+        'weight' => 99,
       ])
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
-        'weight' => 5,
+        'weight' => 99,
         'settings' => [
           'match_operator' => 'CONTAINS',
           'size' => '60',
@@ -174,11 +174,11 @@ class UserWorkflowHistoryEntity extends ContentEntityBase implements UserWorkflo
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'string',
-        'weight' => -4,
+        'weight' => -100,
       ])
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
-        'weight' => -4,
+        'weight' => -100,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -187,7 +187,7 @@ class UserWorkflowHistoryEntity extends ContentEntityBase implements UserWorkflo
     $fields['status']->setDescription(t('A boolean indicating whether the User workflow history entity is published.'))
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
-        'weight' => -3,
+        'weight' => 100,
       ]);
 
     $fields['created'] = BaseFieldDefinition::create('created')
