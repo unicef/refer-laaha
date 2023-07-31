@@ -642,7 +642,26 @@ class SignUpForm extends FormBase {
         'field_system_role' => $values['system_role'],
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
+
+      // Set dependency field for workflow.
+      $ws = '';
+      if (\Drupal::currentUser()->isAnonymous()) {
+        $ws = 'self-register';
+        $user->set('field_transitions', $ws);
+      }
       $user->save();
+
+      // Update user workflow history entity.
+      $current_time = \Drupal::time()->getCurrentTime('d');    
+      $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+        'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+        'status' => 1,
+        'field_user' => $user->id(),
+        'field_workflow_status_before' => 'Initial',
+        'field_workflow_status_after' => $ws,
+      ]);
+      $euwh->save();
+
       _user_mail_notify('register_pending_approval', $user);
       $response = new AjaxResponse();
       $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\ModalForm');
@@ -685,6 +704,31 @@ class SignUpForm extends FormBase {
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
       $user->save();
+
+      // Set dependency field for workflow.
+      $roles = \Drupal::currentUser()->getRoles();
+      $ws = '';
+      if (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
+        $ws = 'gbv-coordination-register';
+        $user->set('field_transitions', $ws);
+      }
+      if (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
+        $ws = 'gbv-coordination-register';
+        $user->set('field_transitions', $ws);
+      }
+      $user->save();
+
+      // Update user workflow history entity.
+      $current_time = \Drupal::time()->getCurrentTime('d');    
+      $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+        'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+        'status' => 1,
+        'field_user' => $user->id(),
+        'field_workflow_status_before' => 'Initial',
+        'field_workflow_status_after' => $ws,
+      ]);
+      $euwh->save();
+
       _user_mail_notify('register_admin_created', $user);
       $response = new AjaxResponse();
       $url = Url::fromRoute('view.user_lists.page_1')->toString();
