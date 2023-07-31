@@ -645,9 +645,11 @@ function erpw_custom_preprocess_page_title(&$variables) {
       break;
 
     case 'entity.node.delete_form':
-      $type = \Drupal::routeMatch()->getParameter('node')->bundle();
+      $node = \Drupal::routeMatch()->getParameter('node');
+      $type = $node->bundle();
+      $organisation_name = $node->get('title')->getValue()[0]['value'] ?? '';
       if ($type == 'organisation') {
-        $variables['title'] = t('Are your sure you want to delete this organization ?');
+        $variables['title'] = t('Are you sure you want to delete the @organization_name organization ?', ['@organization_name' => $organisation_name]);
       }
   }
 }
