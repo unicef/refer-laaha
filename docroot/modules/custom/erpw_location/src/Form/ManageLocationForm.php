@@ -2,6 +2,8 @@
 
 namespace Drupal\erpw_location\Form;
 
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Database\Connection;
@@ -19,6 +21,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\erpw_location\LocationService;
+use Drupal\Core\State\StateInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class Manage Location Form.
@@ -96,6 +100,13 @@ class ManageLocationForm extends FormBase {
   protected $configFactory;
 
   /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $stateService;
+
+  /**
    * ManageLocation constructor.
    *
    * @param \Psr\Log\LoggerChannelFactory $logger
@@ -122,6 +133,8 @@ class ManageLocationForm extends FormBase {
    *   The domain negotiator service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory service.
+   * @param \Drupal\Core\State\StateInterface $stateService
+   *   The state storage service.
    */
   public function __construct(
     LoggerChannelFactory $logger,
@@ -135,7 +148,8 @@ class ManageLocationForm extends FormBase {
     AccountProxyInterface $current_user,
     LocationService $location_service,
     DomainNegotiatorInterface $domain_negotiator,
-    ConfigFactoryInterface $configFactory
+    ConfigFactoryInterface $configFactory,
+    StateInterface $stateService
   ) {
 
     $this->logger = $logger;
@@ -150,6 +164,7 @@ class ManageLocationForm extends FormBase {
     $this->locationService = $location_service;
     $this->domainNegotiator = $domain_negotiator;
     $this->configFactory = $configFactory;
+    $this->stateService = $stateService;
   }
 
   /**
@@ -168,7 +183,8 @@ class ManageLocationForm extends FormBase {
       $container->get('current_user'),
       $container->get('erpw_location.location_services'),
       $container->get('domain.negotiator'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('state')
     );
   }
 
@@ -202,7 +218,14 @@ class ManageLocationForm extends FormBase {
     $form['export_csv'] = [
       '#type' => 'submit',
       '#value' => $this->t('Export'),
-      '#submit' => ['::exportLocationCsv'],
+      '#ajax' => [
+        'callback' => '::erpw_location_open_export_modal_callback',
+        'event' => 'click',
+        'progress' => [
+          'type' => 'throbber',
+          'message' => NULL,
+        ],
+      ],
     ];
     $location_entities = $this->entityManager->getStorage('location')->loadByProperties(
       ['type' => 'country', 'status' => 1]);
@@ -389,103 +412,14 @@ class ManageLocationForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function exportLocationCsv(array &$form, FormStateInterface $form_state) {
-    $location_id = $form_state->getValue('location_options');
-    // Get Country Name.
-    if ($location_id) {
-      $country_name = $form['location_options']['#options'][$location_id];
-    }
-    else {
-      $country_name = 'Country Name';
-    }
-    $active_languages = $this->languageManager->getLanguages();
-    if (!$location_id) {
-      $active_languages_list = array_keys($active_languages);
-      $location_lang_count = 0;
-      $location_lang = [];
-      foreach ($active_languages_list as $langcode) {
-        $location_lang_count++;
-        $location_lang[$location_lang_count] = $langcode;
-      }
-      $csv_export = [];
-      // Get First Row.
-      $i = 0;
-      for ($l = 1; $l <= 4; $l++) {
-        foreach ($location_lang as $lang) {
-          $column_name = 'level_' . $l . '_' . $lang;
-          $csv_export[0][$i] = $column_name;
-          $i++;
-        }
-      }
-      $this->arrayCsvDownload($csv_export, $country_name);
-    }
-    else {
-      $location = $this->entityManager->getStorage('location')->load($location_id);
-      $active_languages_list = array_keys($active_languages);
-      $location_lang_count = 0;
-      $location_lang = [];
-      foreach ($active_languages_list as $langcode) {
-        if ($location->hasTranslation($langcode)) {
-          $location_lang_count++;
-          $location_lang[$location_lang_count] = $langcode;
-        }
-      }
-      $csv_export = [];
-      // Get First Row.
-      $i = 0;
-      for ($l = 1; $l <= 4; $l++) {
-        foreach ($location_lang as $lang) {
-          $column_name = 'level_' . $l . '_' . $lang;
-          $csv_export[0][$i] = $column_name;
-          $i++;
-        }
-      }
-      // Get Header.
-      $i = 0;
-      foreach ($csv_export[0] as $column) {
-        $level_name = explode("_", $column)[0] . '_' . explode("_", $column)[1];
-        $langcode = explode("_", $column)[2];
-        if ($location->getTranslation($langcode)->get($level_name)->getValue()) {
-          $field_value = $location->getTranslation($langcode)->get($level_name)->getValue()[0]['value'];
-        }
-        else {
-          $field_value = '';
-        }
-        $csv_export[1][$i] = $field_value;
-        $i++;
-      }
-      $this->arrayCsvDownload($csv_export, $country_name);
-    }
-
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function arrayCsvDownload($array, $filename, $delimiter = ",") {
-
-    header('Content-Type: application/csv');
-    header('Content-Disposition: attachment; filename="' . $filename . '.csv";');
-
-    // Clean output buffer.
-    ob_end_clean();
-
-    $handle = fopen('php://output', 'w');
-    $headings = $array[0];
-    $counter = 0;
-    // Use keys as column titles.
-    fputcsv($handle, $headings, $delimiter);
-    foreach ($array as $value) {
-      if ($counter++ == 0) {
-        continue;
-      }
-      fputcsv($handle, $value, $delimiter);
-    }
-
-    fclose($handle);
-
-    // Use exit to get rid of unexpected output afterward.
-    exit();
+  public function erpw_location_open_export_modal_callback(array &$form, FormStateInterface $form_state) {
+    $this->stateService->set('export_location_form_data', $form);
+    $this->stateService->set('export_location_form_state_data', $form_state);
+    $response = new AjaxResponse();
+    $url = Url::fromRoute('erpw_location.export_location_file');
+    $redirect_response = new RedirectResponse($url->toString());
+    $response->addCommand(new RedirectCommand($redirect_response->getTargetUrl()));
+    return $response;
   }
 
 }

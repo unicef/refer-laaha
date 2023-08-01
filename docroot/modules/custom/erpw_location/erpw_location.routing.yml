@@ -88,6 +88,13 @@ erpw_location.import_location_file:
     _title: 'Import Location'
   requirements:
     _permission: 'erpw location open import modal'
+erpw_location.export_location_file:
+  path: '/export-location'
+  defaults:
+    _form: '\Drupal\erpw_location\Form\ExportLocationForm'
+    _title: 'Export Location'
+  requirements:
+    _permission: 'erpw location open import modal'
 erpw_location.import_location_admin:
   path: '/admin/config/import-location'
   defaults:
