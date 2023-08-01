@@ -71,21 +71,30 @@ class ServiceWebforms extends ControllerBase {
         if (array_key_exists($currentDomain, $tpa)) {
           $url = Url::fromRoute('entity.webform.canonical', ['webform' => $webform->id()])->toString();
           $serviceType = $this->entityTypeManager->getStorage('node')->load($tpa[$currentDomain][0]);
-          $bgcolor = $serviceType->get('field_service_type_color')->getValue()[0]['color'];
-          if ($bgcolor == '#B2A0D9') {
-            $bgclass = 'apply-lavender';
-          }
-          elseif ($bgcolor == '#F4CBCA') {
-            $bgclass = 'apply-peach';
-          }
-          elseif ($bgcolor == '#7FBC72') {
-            $bgclass = 'apply-green';
-          }
-          elseif ($bgcolor == '#F9D14A') {
-            $bgclass = 'apply-mustard-yellow';
+          if ($serviceType) {
+            $bgcolor = $serviceType->get('field_service_type_color')->getValue()[0]['color'];
+            $serviceTitle = $serviceType->get('title')->getValue()[0]['value'];
+            if ($bgcolor == '#B2A0D9') {
+              $bgclass = 'apply-lavender';
+            }
+            elseif ($bgcolor == '#F4CBCA') {
+              $bgclass = 'apply-peach';
+            }
+            elseif ($bgcolor == '#7FBC72') {
+              $bgclass = 'apply-green';
+            }
+            elseif ($bgcolor == '#F9D14A') {
+              $bgclass = 'apply-mustard-yellow';
+            }
+            else {
+              $bgclass = '';
+            }
           }
           else {
             $bgclass = '';
+            $serviceTitle = '';
+            \Drupal::logger('erpw_webform')->error('Service Type does not exist or has been deleted for Webform id %webform_id.',
+            ['%webform_id' => $webform->id()]);
           }
           $markup = $markup . '
           <div class="service-providers-submission-row select-service-type-webform">
@@ -94,10 +103,10 @@ class ServiceWebforms extends ControllerBase {
                 <div class="service-type-color-logo-container">
                   <div class="service-type-color ' . $bgclass . '"></div>
                   <div class="service-type-logo">
-                    <i class="' . $serviceType->get('field_service_type_icon')->getValue()[0]['value'] . '"></i>
+                    <i class="' . $bgcolor . '"></i>
                   </div>
                   <div class="service-type-org">
-                    ' . $serviceType->get('title')->getValue()[0]['value'] . '
+                    ' . $serviceTitle . '
                   </div>
                 </div>
               </div>
