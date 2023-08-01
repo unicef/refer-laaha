@@ -8,6 +8,7 @@
 use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\user\Entity\User;
 
 /**
  * Implements hook_help().
@@ -122,6 +123,59 @@ function _import_location_batch_dispatcher() {
 }
 
 /**
+ * Implements hook_preprocess_HOOK() for page templates.
+ */
+function erpw_location_preprocess_page(&$variables) {
+  // Check if the domain module is enabled.
+  if (\Drupal::moduleHandler()->moduleExists('domain')) {
+    $active_country_id = erpw_location_country_id_from_domain();
+    $timezone = erpw_location__get_timezone_by_country_id($active_country_id);
+
+    if ($timezone) {
+      // Update the timezone for the current user.
+      $user = User::load(\Drupal::currentUser()->id());
+      if ($user) {
+        $user->set('timezone', $timezone);
+        $user->save();
+      }
+    }
+  }
+}
+
+/**
+ * Get the timezone for a given country ID.
+ *
+ * @param int $country_id
+ *   The domain ID.
+ *
+ * @return string|null
+ *   The timezone identifier (e.g., "Africa/Freetown", "Africa/Harare", "Europe/Istanbul"), or NULL if not found.
+ */
+function erpw_location__get_timezone_by_country_id($country_id) {
+  switch ($country_id) {
+    case 1:
+      // Timezone for Zimbabwe.
+      return 'Africa/Harare';
+
+    case 6:
+      // Timezone for Bangladesh.
+      return 'Asia/Dhaka';
+
+    case 11:
+      // Timezone for Turkey cross-border.
+      return 'Europe/Istanbul';
+
+    case 16:
+      // Timezone for Sierra Leone.
+      return 'Africa/Freetown';
+
+  }
+
+  // Return NULL if the domain ID is not found.
+  return NULL;
+}
+
+/**
  * Return country entity ID based on current subdomain.
  *
  * If not currently on a subdomain, return FALSE.
@@ -150,9 +204,9 @@ function erpw_location_country_id_from_domain() {
  * that horror.  (That's only Zimbabwe but still.)
  */
 function erpw_location_country_domain_from_tid($tid) {
-  // this doesn't work but https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21ConfigFactory.php/function/ConfigFactory%3A%3AlistAll/8.2.x should
-  // $locations = \Drupal::config('domain.location');
-  // @TODO Save in an alternate config rather than iterating through configs?
+  // This doesn't work but https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21ConfigFactory.php/function/ConfigFactory%3A%3AlistAll/8.2.x should
+  // $locations = \Drupal::config('domain.location');.
+  // @todo Save in an alternate config rather than iterating through configs?
   // Also TODO we probably want to take any tid and find the root one.
   $cf = \Drupal::service('config.factory');
   $domain_locations = $cf->loadMultiple($cf->listAll('domain.location'));
@@ -174,12 +228,12 @@ function erpw_location_country_domain_from_tid($tid) {
  */
 function erpw_location_unparse_url($parsed_url) {
   $scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
-  $host     = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+  $host     = $parsed_url['host'] ?? '';
   $port     = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
-  $user     = isset($parsed_url['user']) ? $parsed_url['user'] : '';
-  $pass     = isset($parsed_url['pass']) ? ':' . $parsed_url['pass']  : '';
+  $user     = $parsed_url['user'] ?? '';
+  $pass     = isset($parsed_url['pass']) ? ':' . $parsed_url['pass'] : '';
   $pass     = ($user || $pass) ? "$pass@" : '';
-  $path     = isset($parsed_url['path']) ? $parsed_url['path'] : '';
+  $path     = $parsed_url['path'] ?? '';
   $query    = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : '';
   $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
   return "$scheme$user$pass$host$port$path$query$fragment";

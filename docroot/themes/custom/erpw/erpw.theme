@@ -134,6 +134,31 @@ function erpw_preprocess_node(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_table().
+ */
+function erpw_preprocess_table(&$variables) {
+  $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+  $lang = \Drupal::configFactory()->get('domain.language.' . $active_domain->id() . '.language.negotiation');
+  $prefixes = $lang->get('languages');
+  $domain_languages = [];
+  foreach ($prefixes as $lang_code) {
+    $lang_name = \Drupal::service('language_manager')->getLanguage($lang_code)->getName();
+    $domain_languages[] = $lang_name;
+  }
+
+  $table_rows = $variables['rows'];
+  $languages[] = $table_rows[0];
+  for ($x = 1; $x < count($variables['rows']); $x++) {
+    $table_row_lang_name = $table_rows[$x]['cells'][0]['content'];
+    if (in_array($table_row_lang_name, $domain_languages)) {
+      $languages[] = $table_rows[$x];
+    }
+  }
+
+  $variables['rows'] = $languages;
+}
+
+/**
  * Implements hook_preprocess_views_view().
  */
 function erpw_preprocess_views_view(&$variables) {

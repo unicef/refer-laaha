@@ -99,6 +99,26 @@ function erpw_webform_preprocess_html(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_HOOK().
+ */
+function erpw_webform_preprocess_webform(&$variables) {
+  $currentRoute = \Drupal::routeMatch()->getRouteName();
+  if ($currentRoute == 'entity.webform_submission.edit_form') {
+    // Disable all fields when a service enters Delete Workflow.
+    $data = $variables['element']['information']['#webform_submission']->getData();
+    $delete_states = ['deletion_in_review_with_focal_point', 'deletion_in_review_with_gbv_coordination'];
+    if (in_array($data['erpw_workflow']['workflow_state'], $delete_states)) {
+      $is_in_deletion = TRUE;
+    }
+    else {
+      $is_in_deletion = FALSE;
+    }
+    $variables['#attached']['drupalSettings']['erpw_webform']['erpw_webform_deletion_access'] = $is_in_deletion;
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_element_access';
+  }
+}
+
+/**
  * Implements hook_preprocess_page().
  */
 function erpw_webform_preprocess_page(&$variables) {
@@ -731,9 +751,10 @@ function erpw_webform_webform_submission_presave($webform_submission) {
   $webform_submission_id = $webform_submission->id();
   $current_transition = $values['erpw_workflow']['transition'];
   $rejected_transitions = ['edits_rejected_by_focal_point', 'edits_rejected_by_gbv_coordination', 'deletion_rejected_by_focal_point', 'deletion_rejected_by_gbv_coordination'];
+  $edit_delete_end_transitions = ['publish_edits', 'approve_deletion'];
 
   // Store approved data in WSA while it is Edit Workflow.
-  if ($values['erpw_workflow']['workflow_state'] == 'approve' && ($current_transition != 'publish_edits' || $current_transition != 'approve_deletion')) {
+  if ($values['erpw_workflow']['workflow_state'] == 'approve' && !in_array($current_transition, $edit_delete_end_transitions)) {
     // Node for Deletion workflow:
     if ($current_transition == 'submit_for_deletion_to_focal_point' || $current_transition == 'submit_for_deletion_to_gbv_coordination') {
       $node = erpw_webform__create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
