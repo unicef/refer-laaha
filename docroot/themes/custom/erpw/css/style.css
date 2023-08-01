@@ -3183,11 +3183,16 @@ body.path-user {
   margin: 15px 0;
 }
 
-#export-location-form .review-msg {
+#export-location-form, .node-confirm-form {
   text-align: center;
-  margin-bottom: 30px;
 }
-#export-location-form .form-actions {
+#export-location-form .review-msg, .node-confirm-form .review-msg {
+  text-align: center;
+}
+#export-location-form .item-list ul, .node-confirm-form .item-list ul {
+  list-style: none;
+}
+#export-location-form .form-actions, .node-confirm-form .form-actions {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3197,12 +3202,14 @@ body.path-user {
           flex-direction: column;
   gap: 20px;
   margin: 0 10px;
+  margin-top: 30px;
 }
-#export-location-form .form-actions #edit-proceed {
+#export-location-form .form-actions #edit-proceed, #export-location-form .form-actions #edit-submit, .node-confirm-form .form-actions #edit-proceed, .node-confirm-form .form-actions #edit-submit {
   width: 100%;
   margin: 0;
 }
-#export-location-form .form-actions #edit-cancel {
+#export-location-form .form-actions #edit-cancel, .node-confirm-form .form-actions #edit-cancel {
+  margin: 0;
   width: 100%;
   text-align: center;
   padding: 10px 0;
@@ -3212,7 +3219,7 @@ body.path-user {
   border: 2px solid #A85766;
 }
 @media only screen and (min-width: 768px) {
-  #export-location-form .form-actions {
+  #export-location-form .form-actions, .node-confirm-form .form-actions {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
@@ -3224,13 +3231,17 @@ body.path-user {
         -ms-flex-align: center;
             align-items: center;
     gap: 35px;
+  }
+  #export-location-form .form-actions #edit-proceed, #export-location-form .form-actions #edit-submit, .node-confirm-form .form-actions #edit-proceed, .node-confirm-form .form-actions #edit-submit {
+    width: 30%;
     margin: 0;
   }
-  #export-location-form .form-actions #edit-proceed {
-    width: 25%;
-    margin: 0;
+  #export-location-form .form-actions #edit-cancel, .node-confirm-form .form-actions #edit-cancel {
+    width: 30%;
   }
-  #export-location-form .form-actions #edit-cancel {
+}
+@media only screen and (min-width: 1024px) {
+  #export-location-form .form-actions #edit-proceed, #export-location-form .form-actions #edit-submit, .node-confirm-form .form-actions #edit-proceed, .node-confirm-form .form-actions #edit-submit {
     width: 25%;
   }
 }
