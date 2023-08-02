@@ -16,7 +16,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 /**
  * ModalFormController class.
  */
-class ModalController extends ControllerBase {
+class UserWorkflowController extends ControllerBase {
 
   /**
    * The form builder.
@@ -46,45 +46,25 @@ class ModalController extends ControllerBase {
   }
 
   /**
-   * {@inheritdoc}
-   *
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   *   The Drupal service container.
-   *
-   * @return static
+   * Accept User.
    */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('form_builder'),
-      $container->get('entity_type.manager')
-    );
-  }
+  public function acceptUser(AccountInterface $user, Request $request) {
 
-  /**
-   * Callback for opening the modal form.
-   */
-  public function deleteServiceTypeNode($id) {
-    $response = new AjaxResponse();
-    $node = $this->entityManager->getStorage('node')->load($id);
-    if (!empty($node)) {
-      $node->delete();
-    }
-    // Get the modal form using the form builder.
-    $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\ModalPopup');
-
-    // Add an AJAX command to open a modal dialog with the form as the content.
-    $response->addCommand(new OpenModalDialogCommand('', $modal_form, ['width' => '400']));
-
+    $url = Url::fromRoute('view.user_lists.page_2')->toString();
+    $response = new RedirectResponse($url);
+    $response->send();
     return $response;
   }
 
   /**
-   * Dashboard page.
+   * Reject User.
    */
-  public function dashboardContent() {
-    return [
-      '#markup' => '',
-    ];
+  public function rejectUser(AccountInterface $user, Request $request) {
+
+    $url = Url::fromRoute('view.user_lists.page_2')->toString();
+    $response = new RedirectResponse($url);
+    $response->send();
+    return $response;
   }
 
 }

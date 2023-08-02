@@ -56,12 +56,25 @@ erpw_custom.language_selector:
   defaults:
     _form: '\Drupal\erpw_custom\Form\LanguageSelector'
 
-rpw_custom.active_user:
-  path: '/user/active/{user}'
+erpw_custom.accpet_registration:
+  path: '/user/accept/{user}'
   defaults:
-    _controller: '\Drupal\erpw_custom\Controller\ModalController::activeUser'
+    _controller: '\Drupal\erpw_custom\Controller\UserWorkflowController::acceptUser'
   requirements:
-    _permission: 'access content'
+    _permission: 'accpet registered user'
+    _csrf_token: 'TRUE'
+  options:
+    parameters:
+      user:
+        type: entity:user
+
+erpw_custom.reject_registration:
+  path: '/user/reject/{user}'
+  defaults:
+    _controller: '\Drupal\erpw_custom\Controller\UserWorkflowController::rejectUser'
+  requirements:
+    _permission: 'reject registered user'
+    _csrf_token: 'TRUE'
   options:
     parameters:
       user:
