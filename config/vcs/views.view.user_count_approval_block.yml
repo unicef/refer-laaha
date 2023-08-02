@@ -566,7 +566,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"button-block\">\r\n  <span class=\"button-border\">\r\n         <a class=\"use-ajax\" \r\n    data-dialog-options=\"{&quot;width&quot;:400}\" \r\n    data-dialog-type=\"modal\" \r\n    href=\"{{ path('entity.user.cancel_form', {'user': uid }, {'query': {'destination': path('view.user_lists.page_2') }}) }}\">\r\n      {{ 'Reject'|t }}\r\n    </a>\r\n  </span>\r\n    <a class=\"fill-button\" href=\"{{ path('rpw_custom.active_user', {'user': uid }, {'query': {'destination': path('view.user_lists.page_2') }}) }}\">\r\n        {{ 'Accept'|t }}\r\n     </a>\r\n</div>"
+            text: "<div class=\"button-block\">\r\n  <span class=\"button-border\">\r\n         <a class=\"use-ajax\" \r\n    data-dialog-options=\"{&quot;width&quot;:400}\" \r\n    data-dialog-type=\"modal\" \r\n    href=\"{{ path('erpw_custom.reject_registration', {'user': uid }, {'query': {'destination': path('view.user_lists.page_2') }}) }}\">\r\n      {{ 'Reject'|t }}\r\n    </a>\r\n  </span>\r\n    <a class=\"fill-button\" href=\"{{ path('erpw_custom.accpet_registration', {'user': uid }, {'query': {'destination': path('view.user_lists.page_2') }}) }}\">\r\n        {{ 'Accept'|t }}\r\n     </a>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
