@@ -16,14 +16,23 @@ type: list_string
 settings:
   allowed_values:
     -
-      value: self-register
-      label: 'Self - Register'
+      value: self-register-sp-staff
+      label: 'Self - Register - SP Staff'
     -
-      value: spfp-register
-      label: 'SPFP - Register'
+      value: self-register-spfp
+      label: 'Self - Register - SPFP'
     -
-      value: gbv-coordination-register
-      label: 'GBV Coordination - Register'
+      value: gbv-coordination-register-sp-staff
+      label: 'GBV Coordination - Register - SP Staff'
+    -
+      value: gbv-coordination-register-spfp
+      label: 'GBV Coordination - Register - SPFP'
+    -
+      value: ia-coordination-register-ia-coordination
+      label: 'IA Coordination - Register - IA Coordination'
+    -
+      value: country-admin-register-country-admin
+      label: 'Country Admin - Register - Country Admin'
     -
       value: spfp-accept
       label: 'SPFP - Accept'
