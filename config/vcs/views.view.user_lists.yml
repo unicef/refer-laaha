@@ -2480,7 +2480,11 @@ display:
           entity_field: roles
           plugin_id: user_roles
           operator: or
-          value: {  }
+          value:
+            service_provider_staff: service_provider_staff
+            service_provider_focal_point: service_provider_focal_point
+            interagency_gbv_coordinator: interagency_gbv_coordinator
+            country_admin: country_admin
           group: 1
           exposed: true
           expose:
@@ -2497,14 +2501,14 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              administrator: '0'
-              super_admin: '0'
-              country_admin: '0'
-              interagency_gbv_coordinator: '0'
               anonymous: '0'
-              service_provider_focal_point: '0'
               service_provider_staff: '0'
-            reduce: false
+              service_provider_focal_point: '0'
+              interagency_gbv_coordinator: '0'
+              country_admin: '0'
+              super_admin: '0'
+              administrator: '0'
+            reduce: true
           is_grouped: false
           group_info:
             label: ''
