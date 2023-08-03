@@ -9,6 +9,7 @@ use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\webform\Entity\WebformSubmission;
+use Drupal\node\Entity\Node;
 
 /**
  * Generate key value pair of elements in the webform submission view page.
@@ -65,7 +66,12 @@ class ServiceSubmissionsView extends ControllerBase {
       $output = [];
       if (!is_null($stype) && !empty($stype)) {
         $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype));
-        $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
+        if ($servicetype instanceof Node) {
+          $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
+        }
+        else {
+          $servicelabel = t('Not available');
+        }
         $output[] = ['Service Type' => $servicelabel];
       }
       $fields = $webform_submission->getData();
@@ -346,7 +352,7 @@ class ServiceSubmissionsView extends ControllerBase {
       else {
         $fields = $webform_submission->getData();
       }
-      
+
       $location = '';
       $country = '';
       $level_1 = '';
