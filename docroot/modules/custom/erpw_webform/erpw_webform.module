@@ -4,6 +4,7 @@
  * @file
  */
 
+use Drupal\node\Entity\Node;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\webform\Entity\Webform;
 use Drupal\Core\Form\FormStateInterface;
@@ -670,9 +671,11 @@ function erpw_webform_preprocess_views_view_fields(&$variables) {
     foreach ($tpa as $settings) {
       if ($settings[0] != NULL) {
         $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($settings[0]));
-        $variables['servicetype'] = $servicetype->get('title')->getValue()[0]['value'];
-        $variables['servicetype_color'] = $servicetype->get('field_service_type_color')->getValue()[0]['color'];
-        $variables['servicetype_icon'] = $servicetype->get('field_service_type_icon')->getValue()[0]['value'];
+        if ($servicetype instanceof Node) {
+          $variables['servicetype'] = $servicetype->get('title')->getValue()[0]['value'];
+          $variables['servicetype_color'] = $servicetype->get('field_service_type_color')->getValue()[0]['color'];
+          $variables['servicetype_icon'] = $servicetype->get('field_service_type_icon')->getValue()[0]['value'];
+        }
         $variables['organisation'] = $variables['row']->_entity->getData()['organisation'] == NULL ? 'not available' : \Drupal::entityTypeManager()->getStorage('node')->load($variables['row']->_entity->getData()['organisation'])->get('title')->getValue()[0]['value'];
         $variables['sid'] = $variables['row']->sid;
         $variables['edit_url'] = Url::fromRoute('entity.webform_submission.edit_form', [
