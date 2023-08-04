@@ -441,3 +441,95 @@
   background-color: #ffffff;
   border: 2px solid #a85766;
 }
+
+.delete-service-popup {
+  -webkit-box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
+  border: 1px solid #a85766 !important;
+}
+.delete-service-popup .path-user .ui-dialog-titlebar {
+  padding: 35px 0 0;
+}
+.delete-service-popup .ui-dialog-title {
+  color: #a85766;
+  margin-bottom: 15px;
+}
+.delete-service-popup .message-delete-white {
+  margin: 15px 0;
+}
+
+.ui-dialog.delete-service-popup {
+  border: 0 !important;
+  border-radius: 10px;
+  padding: 10px 8px;
+  font-size: 1em;
+  text-align: center;
+  width: 300px !important;
+}
+.ui-dialog.delete-service-popup .ui-dialog-title {
+  float: none;
+  margin-top: 10px;
+  white-space: inherit;
+}
+.ui-dialog.delete-service-popup .ui-dialog-titlebar {
+  background: none;
+  border: 0;
+}
+.ui-dialog.delete-service-popup .ui-dialog-content {
+  padding: 0 !important;
+  overflow-x: hidden;
+}
+.ui-dialog.delete-service-popup .ui-button .ui-icon {
+  background: url("../images/cross.svg") 0 0 no-repeat !important;
+}
+.ui-dialog.delete-service-popup input[type=submit],
+.ui-dialog.delete-service-popup .button-red {
+  width: 72%;
+}
+.ui-dialog.delete-service-popup .ui-dialog-buttonpane {
+  padding: 0;
+  border-width: 0;
+  background: none;
+}
+.ui-dialog.delete-service-popup .ui-dialog-buttonpane .ui-dialog-buttonset {
+  float: none;
+  text-align: center;
+}
+.ui-dialog.delete-service-popup .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 20px 10px 0px;
+}
+.ui-dialog.delete-service-popup .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions button {
+  background: none;
+  border: 1px solid #A85766;
+  color: #A85766;
+}
+.ui-dialog.delete-service-popup .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions .js-form-submit {
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
+  margin-left: 20px;
+  background: #A85766;
+  border: 1px solid #A85766;
+  color: #ffffff;
+}
+.ui-dialog.delete-service-popup .ui-dialog-buttonpane button {
+  background: #A85766;
+  border: 1px solid #A85766;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 4px;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 0.875em;
+  margin: 0 0 1em 0;
+  padding: 10px 24px;
+  text-transform: uppercase;
+  width: 72%;
+}
+

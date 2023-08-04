@@ -756,7 +756,7 @@ function erpw_webform_webform_submission_presave($webform_submission) {
   $rejected_transitions = ['edits_rejected_by_focal_point', 'edits_rejected_by_gbv_coordination', 'deletion_rejected_by_focal_point', 'deletion_rejected_by_gbv_coordination'];
   $edit_delete_end_transitions = ['publish_edits', 'approve_deletion'];
 
-  // Store approved data in WSA while it is Edit Workflow.
+  // Store approved data in WSA while it is in Edit or Delete Workflow.
   if ($values['erpw_workflow']['workflow_state'] == 'approve' && !in_array($current_transition, $edit_delete_end_transitions)) {
     // Node for Deletion workflow:
     if ($current_transition == 'submit_for_deletion_to_focal_point' || $current_transition == 'submit_for_deletion_to_gbv_coordination') {
