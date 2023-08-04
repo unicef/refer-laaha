@@ -111,14 +111,7 @@ class UserWorkflowController extends ControllerBase {
         ]);
         $euwh->save();
       }
-      else {
-        $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
-        \Drupal::messenger()->addMessage($this->t('You are not autherzied to perform this action.'));
-        $response = new RedirectResponse($url);
-        $response->send();
-        return $response;
-      }
-      if ($user->hasRole('service_provider_focal_point') && $user->get('field_transitions')->getString() == 'self-register-spfp') {
+      elseif ($user->hasRole('service_provider_focal_point') && $user->get('field_transitions')->getString() == 'self-register-spfp') {
         // Update the user with new transition.
         $user->activate();
         $user->set('field_transitions', 'gbv-coordination-accept');
@@ -142,6 +135,7 @@ class UserWorkflowController extends ControllerBase {
         $response->send();
         return $response;
       }
+      
     }
 
     $url = Url::fromRoute('view.user_lists.page_2')->toString();
@@ -205,14 +199,7 @@ class UserWorkflowController extends ControllerBase {
         ]);
         $euwh->save();
       }
-      else {
-        $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
-        \Drupal::messenger()->addMessage($this->t('You are not autherzied to perform this action.'));
-        $response = new RedirectResponse($url);
-        $response->send();
-        return $response;
-      }
-      if ($user->hasRole('service_provider_focal_point') && $user->get('field_transitions')->getString() == 'self-register-spfp') {
+      elseif ($user->hasRole('service_provider_focal_point') && $user->get('field_transitions')->getString() == 'self-register-spfp') {
         // Update the user with new transition.
         $user->set('field_transitions', 'gbv-coordination-reject');
         $user->save();
@@ -235,6 +222,7 @@ class UserWorkflowController extends ControllerBase {
         $response->send();
         return $response;
       }
+
     }
 
     $url = Url::fromRoute('view.user_lists.page_2')->toString();
