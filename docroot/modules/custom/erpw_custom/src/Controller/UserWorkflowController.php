@@ -151,7 +151,6 @@ class UserWorkflowController extends ControllerBase {
       // Make sure this is the right user take action.
       if ($user->hasRole('service_provider_staff')) {
         // Update the user with new transition.
-        $user->activate();
         $user->set('field_transitions', 'gbv-coordination-reject');
         $user->save();
 
@@ -162,6 +161,22 @@ class UserWorkflowController extends ControllerBase {
           'status' => 1,
           'field_user' => $user->id(),
           'field_workflow_status_before' => 'spfp-accept',
+          'field_workflow_status_after' => 'gbv-coordination-reject',
+        ]);
+        $euwh->save();
+      }
+      if ($user->hasRole('service_provider_focal_point')) {
+        // Update the user with new transition.
+        $user->set('field_transitions', 'gbv-coordination-reject');
+        $user->save();
+
+        // Update user workflow history entity.
+        $current_time = \Drupal::time()->getCurrentTime('d');    
+        $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+          'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+          'status' => 1,
+          'field_user' => $user->id(),
+          'field_workflow_status_before' => 'self-register-spfp',
           'field_workflow_status_after' => 'gbv-coordination-reject',
         ]);
         $euwh->save();
