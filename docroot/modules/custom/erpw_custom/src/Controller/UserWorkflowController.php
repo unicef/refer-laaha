@@ -3,12 +3,8 @@
 namespace Drupal\erpw_custom\Controller;
 
 use Drupal\Core\Form\FormBuilder;
-use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Session\AccountInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Core\Url;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -27,11 +23,11 @@ class UserWorkflowController extends ControllerBase {
   protected $formBuilder;
 
   /**
-   * A entityManager instance.
+   * A entityTypeManager instance.
    *
    * @var Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $entityManager;
+  protected $entityTypeManager;
 
   /**
    * The ModalFormController constructor.
@@ -43,19 +39,34 @@ class UserWorkflowController extends ControllerBase {
    */
   public function __construct(FormBuilder $form_builder, EntityTypeManagerInterface $entity_type_manager) {
     $this->formBuilder = $form_builder;
-    $this->entityManager = $entity_type_manager;
+    $this->entityTypeManager = $entity_type_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   *   The Drupal service container.
+   *
+   * @return static
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('form_builder'),
+      $container->get('entity_type.manager')
+    );
   }
 
   /**
    * Accept User.
    */
-  public function acceptUser(UserInterface $user, Request $request) {
+  public function acceptUser(UserInterface $user) {
     // Get current user role.
     $roles = \Drupal::currentUser()->getRoles();
     // For SPFP.
     if (in_array('service_provider_focal_point', $roles)) {
       // Make sure this is the right user take action.
-      if ($user->hasRole('service_provider_staff')) {
+      if ($user->hasRole('service_provider_staff') && $user->get('field_transitions')->getString() == 'self-register-sp-staff') {
         // Update the user with new transition.
         $user->set('field_transitions', 'spfp-accept');
         $user->save();
@@ -71,12 +82,19 @@ class UserWorkflowController extends ControllerBase {
         ]);
         $euwh->save();
       }
+      else {
+        $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
+        \Drupal::messenger()->addMessage($this->t('You are not autherzied to perform this action.'));
+        $response = new RedirectResponse($url);
+        $response->send();
+        return $response;
+      }
     }
 
     // For GBV Coordination.
     if (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
       // Make sure this is the right user take action.
-      if ($user->hasRole('service_provider_staff')) {
+      if ($user->hasRole('service_provider_staff') && $user->get('field_transitions')->getString() == 'spfp-accept') {
         // Update the user with new transition.
         $user->activate();
         $user->set('field_transitions', 'gbv-coordination-accept');
@@ -93,7 +111,14 @@ class UserWorkflowController extends ControllerBase {
         ]);
         $euwh->save();
       }
-      if ($user->hasRole('service_provider_focal_point')) {
+      else {
+        $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
+        \Drupal::messenger()->addMessage($this->t('You are not autherzied to perform this action.'));
+        $response = new RedirectResponse($url);
+        $response->send();
+        return $response;
+      }
+      if ($user->hasRole('service_provider_focal_point') && $user->get('field_transitions')->getString() == 'self-register-spfp') {
         // Update the user with new transition.
         $user->activate();
         $user->set('field_transitions', 'gbv-coordination-accept');
@@ -110,9 +135,17 @@ class UserWorkflowController extends ControllerBase {
         ]);
         $euwh->save();
       }
+      else {
+        $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
+        \Drupal::messenger()->addMessage($this->t('You are not autherzied to perform this action.'));
+        $response = new RedirectResponse($url);
+        $response->send();
+        return $response;
+      }
     }
 
     $url = Url::fromRoute('view.user_lists.page_2')->toString();
+    \Drupal::messenger()->addMessage($this->t('Successfully accepted the user.'));
     $response = new RedirectResponse($url);
     $response->send();
     return $response;
@@ -121,14 +154,14 @@ class UserWorkflowController extends ControllerBase {
   /**
    * Reject User.
    */
-  public function rejectUser(UserInterface $user, Request $request) {
+  public function rejectUser(UserInterface $user) {
 
     // Get current user role.
     $roles = \Drupal::currentUser()->getRoles();
     // For SPFP.
     if (in_array('service_provider_focal_point', $roles)) {
       // Make sure this is the right user take action.
-      if ($user->hasRole('service_provider_staff')) {
+      if ($user->hasRole('service_provider_staff') && $user->get('field_transitions')->getString() == 'self-register-sp-staff') {
         // Update the user with new transition.
         $user->set('field_transitions', 'spfp-reject');
         $user->save();
@@ -144,12 +177,19 @@ class UserWorkflowController extends ControllerBase {
         ]);
         $euwh->save();
       }
+      else {
+        $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
+        \Drupal::messenger()->addMessage($this->t('You are not autherzied to perform this action.'));
+        $response = new RedirectResponse($url);
+        $response->send();
+        return $response;
+      }
     }
 
     // For GBV Coordination.
     if (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
       // Make sure this is the right user take action.
-      if ($user->hasRole('service_provider_staff')) {
+      if ($user->hasRole('service_provider_staff') && $user->get('field_transitions')->getString() == 'spfp-accept') {
         // Update the user with new transition.
         $user->set('field_transitions', 'gbv-coordination-reject');
         $user->save();
@@ -165,7 +205,14 @@ class UserWorkflowController extends ControllerBase {
         ]);
         $euwh->save();
       }
-      if ($user->hasRole('service_provider_focal_point')) {
+      else {
+        $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
+        \Drupal::messenger()->addMessage($this->t('You are not autherzied to perform this action.'));
+        $response = new RedirectResponse($url);
+        $response->send();
+        return $response;
+      }
+      if ($user->hasRole('service_provider_focal_point') && $user->get('field_transitions')->getString() == 'self-register-spfp') {
         // Update the user with new transition.
         $user->set('field_transitions', 'gbv-coordination-reject');
         $user->save();
@@ -181,9 +228,17 @@ class UserWorkflowController extends ControllerBase {
         ]);
         $euwh->save();
       }
+      else {
+        $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
+        \Drupal::messenger()->addMessage($this->t('You are not autherzied to perform this action.'));
+        $response = new RedirectResponse($url);
+        $response->send();
+        return $response;
+      }
     }
 
     $url = Url::fromRoute('view.user_lists.page_2')->toString();
+    \Drupal::messenger()->addMessage($this->t('Successfully rejected the user.'));
     $response = new RedirectResponse($url);
     $response->send();
     return $response;
