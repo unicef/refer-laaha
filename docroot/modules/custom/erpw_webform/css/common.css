@@ -442,16 +442,11 @@
   border: 2px solid #a85766;
 }
 
-.delete-service-popup {
-  -webkit-box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
-          box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
-  border: 1px solid #a85766 !important;
-}
 .delete-service-popup .path-user .ui-dialog-titlebar {
   padding: 35px 0 0;
 }
 .delete-service-popup .ui-dialog-title {
-  color: #a85766;
+  color: #a85766!important;
   margin-bottom: 15px;
 }
 .delete-service-popup .message-delete-white {
@@ -459,12 +454,15 @@
 }
 
 .ui-dialog.delete-service-popup {
-  border: 0 !important;
+  -webkit-box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
+  border: 1px solid #a85766 !important;
   border-radius: 10px;
   padding: 10px 8px;
   font-size: 1em;
   text-align: center;
   width: 300px !important;
+  background: #fff;
 }
 .ui-dialog.delete-service-popup .ui-dialog-title {
   float: none;
@@ -479,6 +477,9 @@
   padding: 0 !important;
   overflow-x: hidden;
 }
+.ui-dialog.delete-service-popup .ui-button {
+  border: none;
+}
 .ui-dialog.delete-service-popup .ui-button .ui-icon {
   background: url("../images/cross.svg") 0 0 no-repeat !important;
 }
@@ -489,6 +490,9 @@
 .ui-dialog.delete-service-popup .ui-dialog-buttonpane {
   padding: 0;
   border-width: 0;
+  background: none;
+}
+.ui-dialog.delete-service-popup .ui-widget-content.ui-dialog-buttonpane{
   background: none;
 }
 .ui-dialog.delete-service-popup .ui-dialog-buttonpane .ui-dialog-buttonset {
