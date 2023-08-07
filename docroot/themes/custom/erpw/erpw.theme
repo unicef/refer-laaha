@@ -48,10 +48,21 @@ function erpw_preprocess_block(&$variables) {
     }
     $variables['#cache']['max-age'] = 0;
   }
+  if ($variables['plugin_id'] == 'page_title_block' && $node === 'view.referral_pathway_on_homepage.page_2') {
+    $location_id = \Drupal::routeMatch()->getParameter('arg_0');
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $term_storage = $entity_type_manager->getStorage('taxonomy_term');
+    $term = $term_storage->load($location_id);
+    if ($term) {
+      $variables['content']['#title']['#markup'] = $term->getName();
+    } else {
+      $variables['content']['#title']['#markup'] = 'Referral Pathway Details';
+    }
+  }
 }
 
 /**
- * Implements preprocess_HOOK for html ()
+ * Implements preprocess_HOOK for html()
  */
 function erpw_preprocess_html(&$variables) {
   $variables['is_front'] = \Drupal::service('path.matcher')->isFrontPage();

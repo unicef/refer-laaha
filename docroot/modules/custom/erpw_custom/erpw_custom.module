@@ -1191,3 +1191,25 @@ function erpw_custom_entity_form_display_alter(&$form_display, $context) {
     }
   }
 }
+
+/**
+ * Implements hook_node_view().
+ */
+function erpw_custom_node_view(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode) {
+  $current_request = \Drupal::request();
+  $referer = $current_request->server->get('HTTP_REFERER');
+  if (!empty($referer)) {
+    $url_path_values = explode('/', $referer);
+    if (isset($url_path_values[4]) && $url_path_values[4] === 'referral-pathway-listing') {
+      // Check if the entity type is 'node' and the view mode is 'full'.
+      if ($entity->getEntityTypeId() === 'node' && $view_mode === 'full') {
+        $field_location = $entity->get('field_location')->getValue()[0]['target_id'];
+        $route_name = 'view.referral_pathway_on_homepage.page_2';
+        $route_parameters = ['arg_0' => $field_location];
+        $url = Url::fromRoute($route_name, $route_parameters)->toString();
+        $response = new RedirectResponse($url);
+        $response->send();
+      }
+    }
+  }
+}
