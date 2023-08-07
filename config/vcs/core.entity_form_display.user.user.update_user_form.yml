@@ -13,6 +13,7 @@ dependencies:
     - field.field.user.user.field_organisation
     - field.field.user.user.field_phone
     - field.field.user.user.field_position
+    - field.field.user.user.field_soft_delete
     - field.field.user.user.field_system_role
     - field.field.user.user.field_transitions
     - field.field.user.user.user_picture
@@ -101,6 +102,7 @@ hidden:
   field_domain_access: true
   field_domain_admin: true
   field_domain_all_affiliates: true
+  field_soft_delete: true
   field_transitions: true
   google_analytics: true
   langcode: true

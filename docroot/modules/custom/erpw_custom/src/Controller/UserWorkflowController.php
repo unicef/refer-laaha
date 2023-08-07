@@ -158,6 +158,17 @@ class UserWorkflowController extends ControllerBase {
       if ($user->hasRole('service_provider_staff') && $user->get('field_transitions')->getString() == 'self-register-sp-staff') {
         // Update the user with new transition.
         $user->set('field_transitions', 'spfp-reject');
+        $time = time();
+        // Email update.
+        $current_email = $user->getEmail();
+        $new_email = $current_email . '_' . $time;
+        $user->setEmail($new_email);
+        // Username update.
+        $current_username = $user->getAccountName();
+        $new_username = $current_username . '_' . $time;
+        $user->setUsername($new_username);
+        // Softdelete flag.
+        $user->set('field_soft_delete', 1);
         $user->save();
 
         // Update user workflow history entity.
@@ -186,6 +197,17 @@ class UserWorkflowController extends ControllerBase {
       if ($user->hasRole('service_provider_staff') && $user->get('field_transitions')->getString() == 'spfp-accept') {
         // Update the user with new transition.
         $user->set('field_transitions', 'gbv-coordination-reject');
+        $time = time();
+        // Email update.
+        $current_email = $user->getEmail();
+        $new_email = $current_email . '_' . $time;
+        $user->setEmail($new_email);
+        // Username update.
+        $current_username = $user->getAccountName();
+        $new_username = $current_username . '_' . $time;
+        $user->setUsername($new_username);
+        // Softdelete flag.
+        $user->set('field_soft_delete', 1);
         $user->save();
 
         // Update user workflow history entity.
@@ -202,6 +224,17 @@ class UserWorkflowController extends ControllerBase {
       elseif ($user->hasRole('service_provider_focal_point') && $user->get('field_transitions')->getString() == 'self-register-spfp') {
         // Update the user with new transition.
         $user->set('field_transitions', 'gbv-coordination-reject');
+        $time = time();
+        // Email update.
+        $current_email = $user->getEmail();
+        $new_email = $current_email . '_' . $time;
+        $user->setEmail($new_email);
+        // Username update.
+        $current_username = $user->getAccountName();
+        $new_username = $current_username . '_' . $time;
+        $user->setUsername($new_username);
+        // Softdelete flag.
+        $user->set('field_soft_delete', 1);
         $user->save();
 
         // Update user workflow history entity.

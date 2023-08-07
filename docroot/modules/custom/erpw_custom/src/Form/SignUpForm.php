@@ -377,6 +377,7 @@ class SignUpForm extends FormBase {
       $user->set('field_position', $form_state->getValue('position'));
       $user->set('roles', $form_state->getValue('system_role'));
       $user->set('field_location', $location_tid);
+      $user->set('field_soft_delete', 0);
       $user->save();
     }
 
@@ -655,7 +656,7 @@ class SignUpForm extends FormBase {
         }
         $user->set('field_transitions', $ws);
       }
-
+      $user->set('field_soft_delete', 0);
       $user->save();
 
       // Update user workflow history entity.
@@ -743,6 +744,7 @@ class SignUpForm extends FormBase {
         }
         $user->set('field_transitions', $ws); 
       }
+      $user->set('field_soft_delete', 0);
       $user->save();
 
       // Update user workflow history entity.
