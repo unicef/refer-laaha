@@ -214,6 +214,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       $domain = $this->domainNegotiator->getActiveDomain();
       $config = $this->configFactory->get('domain.location.' . $domain->get('id'));
       $domain_tid = $config->get('location');
+      // @todo setup default cookies even if no location is given for the user.
 
       // Check if location is set for user, else use current location.
       $location_id = (!$current_user->get('field_location')->isEmpty()) ?
