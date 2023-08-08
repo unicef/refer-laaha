@@ -3,8 +3,8 @@
 namespace Drupal\erpw_location;
 
 use Drupal\Core\Database\Connection;
-use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 
 /**
  * Class is used for the locations services.
@@ -18,6 +18,13 @@ class LocationService {
   protected $entityManager;
 
   /**
+   * An language manager instance.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * Database Connection instance.
    *
    * @var \Drupal\Core\Database\Connection
@@ -25,22 +32,31 @@ class LocationService {
   protected $connection;
 
   /**
+   * The Location Cookie Service.
+   *
+   * @var \Drupal\erpw_location\LocationCookieService
+   */
+  protected $locationCookie;
+
+  /**
    * LocationService constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   Entity Manager Object.
-   * @param \Drupal\Core\Language\LanguageManager $language_manager
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   Location Manager object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
    */
   public function __construct(
     EntityTypeManagerInterface $entity_manager,
-    LanguageManager $language_manager,
-    Connection $connection) {
+    LanguageManagerInterface $language_manager,
+    Connection $connection,
+    LocationCookieService $location_cookie) {
     $this->entityManager = $entity_manager;
     $this->languageManager = $language_manager;
     $this->connection = $connection;
+    $this->locationCookie = $location_cookie;
   }
 
   /**
@@ -332,6 +348,10 @@ class LocationService {
   public function getUserDefaultLocation($user) {
     if (!empty($user->field_location)) {
       return $user->field_location->getValue()[0]['target_id'];
+    }
+    else {
+      $this->locationCookie->setDefaultCookieValue();
+      return $this->locationCookie->getCookieValue();
     }
   }
 
