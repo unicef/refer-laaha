@@ -56,7 +56,7 @@ function erpw_preprocess_block(&$variables) {
     if ($term) {
       $variables['content']['#title']['#markup'] = $term->getName();
     } else {
-      $variables['content']['#title']['#markup'] = 'Referral Pathway Details';
+      $variables['content']['#title']['#markup'] = t('Referral Pathway Details');
     }
   }
 }
