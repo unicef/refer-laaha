@@ -166,6 +166,13 @@ class ServiceSubmissionsView extends ControllerBase {
                     $output[] = [$element['#title'] => $orgLabel];
                   }
                 }
+                elseif ($element['#type'] == 'webform_mapping') {
+                  $form_data = $webform_submission->getData();
+                  if (isset($form_data['opening_times'])) {
+                    $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
+                    $output[]['Opening Times'] = $opening_hours_structured_data;
+                  }
+                }
                 elseif ($key == 'orignal_data') {
 
                 }
@@ -256,6 +263,13 @@ class ServiceSubmissionsView extends ControllerBase {
                 $output[] = [$element['#title'] => $orgLabel];
               }
             }
+            elseif ($element['#type'] == 'webform_mapping') {
+              $form_data = $webform_submission->getData();
+              if (isset($form_data['opening_times'])) {
+                $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
+                $output[]['Opening Times'] = $opening_hours_structured_data;
+              }
+            }
             elseif ($key == 'orignal_data') {
 
             }
@@ -302,7 +316,10 @@ class ServiceSubmissionsView extends ControllerBase {
       foreach ($output as $item) {
         foreach ($item as $key => $value) {
           $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
-          if (is_array($value)) {
+          if ($key == 'Opening Times' && is_array($value)) {
+            $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
+          }
+          elseif (is_array($value)) {
             $markup .= '<span class="value">' . Markup::create(implode(", ", $value)) . '</span>';
           }
           else {
@@ -444,6 +461,13 @@ class ServiceSubmissionsView extends ControllerBase {
                     $output[] = [$element['#title'] => $orgLabel];
                   }
                 }
+                elseif ($element['#type'] == 'webform_mapping') {
+                  $form_data = $webform_submission->getData();
+                  if (isset($form_data['opening_times'])) {
+                    $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
+                    $output[]['Opening Times'] = $opening_hours_structured_data;
+                  }
+                }
                 elseif ($key == 'orignal_data') {
 
                 }
@@ -534,6 +558,13 @@ class ServiceSubmissionsView extends ControllerBase {
                 $output[] = [$element['#title'] => $orgLabel];
               }
             }
+            elseif ($element['#type'] == 'webform_mapping') {
+              $form_data = $webform_submission->getData();
+              if (isset($form_data['opening_times'])) {
+                $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
+                $output[]['Opening Times'] = $opening_hours_structured_data;
+              }
+            }
             elseif ($key == 'orignal_data') {
 
             }
@@ -595,7 +626,10 @@ class ServiceSubmissionsView extends ControllerBase {
       foreach ($output as $item) {
         foreach ($item as $key => $value) {
           $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
-          if (is_array($value)) {
+          if ($key == 'Opening Times' && is_array($value)) {
+            $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
+          }
+          elseif (is_array($value)) {
             $markup .= '<span class="value">' . Markup::create(implode(", ", $value)) . '</span>';
           }
           else {
@@ -617,4 +651,41 @@ class ServiceSubmissionsView extends ControllerBase {
     }
   }
 
+  /**
+   * Helper function which provides the opening hours in a structured format.
+   */
+  public function getOpeningHoursData(array $opening_hours_data) {
+    $temp_opening_hours = [];
+    $updated_opening_hours = [];
+    foreach ($opening_hours_data as $key => $value) {
+      switch(trim($key)) {
+        case 'Monday':
+          $temp_opening_hours[0][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+          break;
+        case 'Tuesday':
+          $temp_opening_hours[1][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+          break;
+        case 'Wednesday':
+          $temp_opening_hours[2][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+          break;
+        case 'Thursday':
+          $temp_opening_hours[3][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+          break;
+        case 'Friday':
+          $temp_opening_hours[4][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+          break;
+        case 'Saturday':
+          $temp_opening_hours[5][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+          break;
+        case 'Sunday':
+          $temp_opening_hours[6][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+          break;
+      }
+    }
+    ksort($temp_opening_hours);
+    foreach ($temp_opening_hours as $key => $value) {
+      $updated_opening_hours[key($value)] = reset($value);
+    }
+    return $updated_opening_hours;
+  }
 }
