@@ -578,3 +578,19 @@
   outline: none !important; /* Remove the default focus outline */
   border: 1px solid #f3c1bf !important; /* Reset the border color to its initial value */
 }
+#block-erpw-content .pair-container .opening-hours-value {
+  color: #000;
+  padding: 5px 0;
+}
+.webform-submission-form .table-format::-webkit-scrollbar {
+  display: none;
+}
+.webform-submission-form .table-format {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+@media only screen and (min-width: 1024px) {
+  .webform-submission-form .table-format .webform-mapping-table {
+    width: 50%;
+  }
+}
