@@ -9,6 +9,7 @@ use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\webform\Entity\WebformSubmission;
+use Drupal\erpw_webform\Controller\ServiceSubmissionsView;
 
 /**
  * Generate key value pair of elements in the webform submission view page.
@@ -151,6 +152,16 @@ class ServiceSubmissionsModerateView extends ControllerBase {
                     $output[] = [$element['#title'] => $orgLabel];
                   }
                 }
+                elseif ($element['#type'] == 'webform_mapping') {
+                  $form_data = $webform_submission->getData();
+                  if (isset($form_data['opening_times'])) {
+                    $service_submission_view = new ServiceSubmissionsView($this->entityTypeManager, $this->currentUser);
+                    $opening_hours_structured_data = $service_submission_view->getOpeningHoursData($form_data['opening_times']);
+                    if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                      $output[]['Opening Times'] = $opening_hours_structured_data;
+                    }
+                  }
+                }
                 elseif ($key == 'orignal_data') {
 
                 }
@@ -241,6 +252,16 @@ class ServiceSubmissionsModerateView extends ControllerBase {
                 $output[] = [$element['#title'] => $orgLabel];
               }
             }
+            elseif ($element['#type'] == 'webform_mapping') {
+              $form_data = $webform_submission->getData();
+                  if (isset($form_data['opening_times'])) {
+                    $service_submission_view = new ServiceSubmissionsView($this->entityTypeManager, $this->currentUser);
+                    $opening_hours_structured_data = $service_submission_view->getOpeningHoursData($form_data['opening_times']);
+                    if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                      $output[]['Opening Times'] = $opening_hours_structured_data;
+                    }
+                  }
+            }
             elseif ($key == 'orignal_data') {
 
             }
@@ -319,6 +340,10 @@ class ServiceSubmissionsModerateView extends ControllerBase {
             if ($ckey == $key) {
               $c++;
               $markup .= '<div class="pair-container-moderated">';
+              if ($key == 'Opening Times' && is_array($value)) {
+                $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
+                continue;
+              }
               if (is_array($cvalue)) {
                 $markup .= '<span class="value-moderated">' . Markup::create(implode(", ", $cvalue)) . '</span>';
               }
