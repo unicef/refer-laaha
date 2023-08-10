@@ -157,7 +157,9 @@ class ServiceSubmissionsModerateView extends ControllerBase {
                   if (isset($form_data['opening_times'])) {
                     $service_submission_view = new ServiceSubmissionsView($this->entityTypeManager, $this->currentUser);
                     $opening_hours_structured_data = $service_submission_view->getOpeningHoursData($form_data['opening_times']);
-                    $output[]['Opening Times'] = $opening_hours_structured_data;
+                    if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                      $output[]['Opening Times'] = $opening_hours_structured_data;
+                    }
                   }
                 }
                 elseif ($key == 'orignal_data') {
@@ -255,7 +257,9 @@ class ServiceSubmissionsModerateView extends ControllerBase {
                   if (isset($form_data['opening_times'])) {
                     $service_submission_view = new ServiceSubmissionsView($this->entityTypeManager, $this->currentUser);
                     $opening_hours_structured_data = $service_submission_view->getOpeningHoursData($form_data['opening_times']);
-                    $output[]['Opening Times'] = $opening_hours_structured_data;
+                    if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                      $output[]['Opening Times'] = $opening_hours_structured_data;
+                    }
                   }
             }
             elseif ($key == 'orignal_data') {

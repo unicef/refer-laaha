@@ -170,7 +170,9 @@ class ServiceSubmissionsView extends ControllerBase {
                   $form_data = $webform_submission->getData();
                   if (isset($form_data['opening_times'])) {
                     $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
-                    $output[]['Opening Times'] = $opening_hours_structured_data;
+                    if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                      $output[]['Opening Times'] = $opening_hours_structured_data;
+                    }
                   }
                 }
                 elseif ($key == 'orignal_data') {
@@ -267,7 +269,9 @@ class ServiceSubmissionsView extends ControllerBase {
               $form_data = $webform_submission->getData();
               if (isset($form_data['opening_times'])) {
                 $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
-                $output[]['Opening Times'] = $opening_hours_structured_data;
+                if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                  $output[]['Opening Times'] = $opening_hours_structured_data;
+                }
               }
             }
             elseif ($key == 'orignal_data') {
@@ -465,7 +469,9 @@ class ServiceSubmissionsView extends ControllerBase {
                   $form_data = $webform_submission->getData();
                   if (isset($form_data['opening_times'])) {
                     $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
-                    $output[]['Opening Times'] = $opening_hours_structured_data;
+                    if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                      $output[]['Opening Times'] = $opening_hours_structured_data;
+                    }
                   }
                 }
                 elseif ($key == 'orignal_data') {
@@ -562,7 +568,9 @@ class ServiceSubmissionsView extends ControllerBase {
               $form_data = $webform_submission->getData();
               if (isset($form_data['opening_times'])) {
                 $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
-                $output[]['Opening Times'] = $opening_hours_structured_data;
+                if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                  $output[]['Opening Times'] = $opening_hours_structured_data;
+                }
               }
             }
             elseif ($key == 'orignal_data') {
@@ -658,28 +666,38 @@ class ServiceSubmissionsView extends ControllerBase {
     $temp_opening_hours = [];
     $updated_opening_hours = [];
     foreach ($opening_hours_data as $key => $value) {
+      $key = strtolower($key);
       switch(trim($key)) {
-        case 'Monday':
-          $temp_opening_hours[0][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+        case 'monday':
+        case 'mon':
+          $temp_opening_hours[0][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
-        case 'Tuesday':
-          $temp_opening_hours[1][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+        case 'tuesday':
+        case 'tue':
+          $temp_opening_hours[1][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
-        case 'Wednesday':
-          $temp_opening_hours[2][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+        case 'wednesday':
+        case 'wed':
+          $temp_opening_hours[2][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
-        case 'Thursday':
-          $temp_opening_hours[3][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+        case 'thursday':
+        case 'thu':
+          $temp_opening_hours[3][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
-        case 'Friday':
-          $temp_opening_hours[4][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+        case 'friday':
+        case 'fri':
+          $temp_opening_hours[4][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
-        case 'Saturday':
-          $temp_opening_hours[5][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+        case 'saturday':
+        case 'sat':
+          $temp_opening_hours[5][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
-        case 'Sunday':
-          $temp_opening_hours[6][$key] = "<p class='opening-hours-value'>" . $key . " : " . $value . '</p>';
+        case 'sunday':
+        case 'sun':
+          $temp_opening_hours[6][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
+        default:
+          $temp_opening_hours[][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
       }
     }
     ksort($temp_opening_hours);
