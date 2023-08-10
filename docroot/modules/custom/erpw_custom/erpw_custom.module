@@ -6,18 +6,20 @@
  */
 
 use Drupal\Core\Access\AccessResult;
-use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Url;
 use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
-use Drupal\webform\Entity\Webform;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Drupal\views\ViewExecutable;
 use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
-use Drupal\Core\Entity\EntityInterface;
+use Drupal\views\ViewExecutable;
+use Drupal\webform\Entity\Webform;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -1195,7 +1197,7 @@ function erpw_custom_entity_form_display_alter(&$form_display, $context) {
 /**
  * Implements hook_node_view().
  */
-function erpw_custom_node_view(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode) {
+function erpw_custom_node_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
   $current_request = \Drupal::request();
   $referer = $current_request->server->get('HTTP_REFERER');
   if (!empty($referer)) {
@@ -1212,4 +1214,61 @@ function erpw_custom_node_view(array &$build, \Drupal\Core\Entity\EntityInterfac
       }
     }
   }
+}
+
+/**
+ * Checks if the current user can edit a specific user.
+ *
+ * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+ *   The current user.
+ * @param \Drupal\user\Entity\User $user
+ *   The user to check access for.
+ *
+ * @return bool
+ *   TRUE if the current user can edit the user, FALSE otherwise.
+ */
+function erpw_custom_can_edit_user(AccountProxyInterface $current_user, $user) {
+  $user_roles = $user->getRoles();
+  $current_user_roles = $current_user->getRoles();
+
+  // Define role-specific permissions.
+  $role_permissions = [
+    'service_provider_staff' => [
+      'service_provider_focal_point',
+      'interagency_gbv_coordinator',
+      'country_admin',
+      'super_admin',
+      'administrator',
+    ],
+    'service_provider_focal_point' => [
+      'interagency_gbv_coordinator',
+      'country_admin',
+      'super_admin',
+      'administrator',
+    ],
+    'interagency_gbv_coordinator' => [
+      'country_admin',
+      'super_admin',
+      'administrator',
+    ],
+    'country_admin' => [
+      'country_admin',
+      'super_admin',
+      'administrator',
+    ],
+    'super_admin' => [
+      'administrator',
+    ],
+  ];
+
+  foreach ($user_roles as $user_role) {
+    if (isset($role_permissions[$user_role])) {
+      // Check if the current user has the required roles for editing.
+      if (!empty(array_intersect($role_permissions[$user_role], $current_user_roles))) {
+        return TRUE;
+      }
+    }
+  }
+
+  return FALSE;
 }
