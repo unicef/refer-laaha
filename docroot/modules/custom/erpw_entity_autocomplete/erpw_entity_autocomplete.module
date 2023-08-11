@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @file
+ * Contains erpw_entity_autocomplete.module.
+ */
+
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Gets the hierarchical taxonomy labels with parent terms for a given term ID.
+ *
+ * @param int $termId
+ *   The ID of the taxonomy term.
+ *
+ * @return string|null
+ *   The hierarchical taxonomy labels with parent terms, separated by commas,
+ *   or NULL if the term does not exist.
+ */
+function taxonomy_get_hierarchy_labels($termId) {
+  $term = Term::load($termId);
+
+  if (!$term) {
+    return NULL;
+  }
+
+  $parentNames = [];
+  $currentTerm = $term;
+
+  // Loop through parent terms until there are no more parents.
+  while ($parent = $currentTerm->parent->entity) {
+    array_unshift($parentNames, $parent->getName());
+    $currentTerm = $parent;
+  }
+
+  // Include the current term.
+  $parentNames[] = $term->getName();
+
+  return implode(', ', array_reverse($parentNames));
+}

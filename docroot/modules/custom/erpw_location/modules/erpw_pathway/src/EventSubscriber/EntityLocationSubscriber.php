@@ -7,16 +7,17 @@ use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\domain\DomainNegotiatorInterface;
-use Drupal\node\NodeInterface;
-use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\erpw_location\LocationService;
-use Drupal\erpw_custom\Services\ErpwCustomService;
-use Drupal\erpw_pathway\Services\ErpwPathwayService;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
+use Drupal\domain\DomainNegotiatorInterface;
+use Drupal\erpw_custom\Services\ErpwCustomService;
+use Drupal\erpw_location\LocationCookieService;
+use Drupal\erpw_location\LocationService;
+use Drupal\erpw_pathway\Services\ErpwPathwayService;
+use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
+use Drupal\node\NodeInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class EntityLocationSubscriber.
@@ -108,6 +109,13 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   protected $configFactory;
 
   /**
+   * The Location Cookie Service.
+   *
+   * @var \Drupal\erpw_location\LocationCookieService
+   */
+  protected $locationCookie;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -118,7 +126,8 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
     AccountProxyInterface $current_user,
     ErpwCustomService $erpw_custom_service,
     DomainNegotiatorInterface $domain_negotiator,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
+    LocationCookieService $location_cookie
   ) {
     self::$entityTypeManager = $entity_type_manager;
     self::$locationService = $location_service;
@@ -129,6 +138,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
     $this->erpwCustomService = $erpw_custom_service;
     $this->domainNegotiator = $domain_negotiator;
     $this->configFactory = $config_factory;
+    $this->locationCookie = $location_cookie;
   }
 
   /**
@@ -214,6 +224,10 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
       $domain = $this->domainNegotiator->getActiveDomain();
       $config = $this->configFactory->get('domain.location.' . $domain->get('id'));
       $domain_tid = $config->get('location');
+      if (!$domain_tid) {
+        $this->locationCookie->setDefaultCookieValue();
+        $domain_tid = $this->locationCookie->getCookieValue();
+      }
 
       // Check if location is set for user, else use current location.
       $location_id = (!$current_user->get('field_location')->isEmpty()) ?

@@ -436,7 +436,7 @@
   border: 1px solid #d4919d;
 }
 
-.erpw-workflow-cta-button.delete-transition{
+.erpw-workflow-cta-button.delete-transition {
   color: #a85766;
   background-color: #ffffff;
   border: 2px solid #a85766;
@@ -446,7 +446,7 @@
   padding: 35px 0 0;
 }
 .delete-service-popup .ui-dialog-title {
-  color: #a85766!important;
+  color: #a85766 !important;
   margin-bottom: 15px;
 }
 .delete-service-popup .message-delete-white {
@@ -455,7 +455,7 @@
 
 .ui-dialog.delete-service-popup {
   -webkit-box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
-          box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
   border: 1px solid #a85766 !important;
   border-radius: 10px;
   padding: 10px 8px;
@@ -483,7 +483,7 @@
 .ui-dialog.delete-service-popup .ui-button .ui-icon {
   background: url("../images/cross.svg") 0 0 no-repeat !important;
 }
-.ui-dialog.delete-service-popup input[type=submit],
+.ui-dialog.delete-service-popup input[type="submit"],
 .ui-dialog.delete-service-popup .button-red {
   width: 72%;
 }
@@ -492,41 +492,49 @@
   border-width: 0;
   background: none;
 }
-.ui-dialog.delete-service-popup .ui-widget-content.ui-dialog-buttonpane{
+.ui-dialog.delete-service-popup .ui-widget-content.ui-dialog-buttonpane {
   background: none;
 }
 .ui-dialog.delete-service-popup .ui-dialog-buttonpane .ui-dialog-buttonset {
   float: none;
   text-align: center;
 }
-.ui-dialog.delete-service-popup .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions {
+.ui-dialog.delete-service-popup
+  .ui-dialog-buttonpane
+  .ui-dialog-buttonset.form-actions {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin: 20px 10px 0px;
 }
-.ui-dialog.delete-service-popup .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions button {
+.ui-dialog.delete-service-popup
+  .ui-dialog-buttonpane
+  .ui-dialog-buttonset.form-actions
+  button {
   background: none;
-  border: 1px solid #A85766;
-  color: #A85766;
+  border: 1px solid #a85766;
+  color: #a85766;
 }
-.ui-dialog.delete-service-popup .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions .js-form-submit {
+.ui-dialog.delete-service-popup
+  .ui-dialog-buttonpane
+  .ui-dialog-buttonset.form-actions
+  .js-form-submit {
   -webkit-box-ordinal-group: 2;
-      -ms-flex-order: 1;
-          order: 1;
+  -ms-flex-order: 1;
+  order: 1;
   margin-left: 20px;
-  background: #A85766;
-  border: 1px solid #A85766;
+  background: #a85766;
+  border: 1px solid #a85766;
   color: #ffffff;
 }
 .ui-dialog.delete-service-popup .ui-dialog-buttonpane button {
-  background: #A85766;
-  border: 1px solid #A85766;
+  background: #a85766;
+  border: 1px solid #a85766;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   border-radius: 4px;
   color: #ffffff;
   display: inline-block;
@@ -536,4 +544,53 @@
   text-transform: uppercase;
   width: 72%;
 }
+.webform-type-radios .js-webform-radios {
+  flex-direction: column !important;
+}
+.webform-type-radios .js-webform-radios .js-form-type-radio {
+  width: fit-content;
+}
+.webform-submission-form .js-form-type-number {
+  display: flex;
+  flex-direction: column;
+}
+.webform-submission-form .js-form-type-number label {
+  color: #a85766;
+  font-size: 0.75em;
+  font-weight: 500;
+}
 
+.webform-submission-form .js-form-type-number input {
+  border: 1px solid #f3c1bf !important;
+  margin-top: 7px;
+  padding: 5px 6px 7px !important;
+  box-sizing: border-box;
+  display: block;
+  min-height: 32px;
+  border-radius: 5px;
+  cursor: text;
+}
+.webform-submission-form .js-form-type-number input:focus-visible {
+  outline: none !important; /* Remove the default focus outline */
+  border: 1px solid #f3c1bf !important; /* Reset the border color to its initial value */
+}
+.webform-submission-form .js-form-type-number input:focus {
+  outline: none !important; /* Remove the default focus outline */
+  border: 1px solid #f3c1bf !important; /* Reset the border color to its initial value */
+}
+#block-erpw-content .pair-container .opening-hours-value {
+  color: #000;
+  padding: 5px 0;
+}
+.webform-submission-form .table-format::-webkit-scrollbar {
+  display: none;
+}
+.webform-submission-form .table-format {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+@media only screen and (min-width: 1024px) {
+  .webform-submission-form .table-format .webform-mapping-table {
+    width: 50%;
+  }
+}

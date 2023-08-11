@@ -796,11 +796,17 @@ input[type=submit].use-ajax.arrow-btn {
   height: 0;
 }
 
+.webform-submission-form .details-wrapper .table-format {
+  color: #A85766;
+  font-size: 0.75em;
+  margin-top: 7px;
+}
+
 footer {
   bottom: 0;
   position: fixed;
   width: 100%;
-  z-index: 3;
+  z-index: 3000;
 }
 
 .menu--bottom-nav {
@@ -2474,7 +2480,7 @@ html[dir=rtl] .eye-close {
   height: 20px;
   margin-left: 30px;
   vertical-align: super;
-  width: 20px;
+  width: 30px;
 }
 .edit-delete-links .clone-service-type a {
   background: url("../images/clone.svg") center center no-repeat;
@@ -2490,6 +2496,9 @@ html[dir=rtl] .eye-close {
   background: url("../images/language-translate.png") center center no-repeat;
   width: 24px;
   height: 24px;
+}
+.edit-delete-links .view-link a {
+  background: url("../images/view.png") center center no-repeat;
 }
 
 div.color_field__swatch label:hover span, div.color_field__swatch .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend:hover span, .service-provider-class [id^=edit-field-transportation-available-wrapper] div.color_field__swatch .fieldset-legend:hover span,
@@ -3172,8 +3181,8 @@ body.path-user {
           box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
   border: 1px solid #a85766 !important;
 }
-.delete-user-popup .path-user .ui-dialog-titlebar {
-  padding: 35px 0 0;
+.delete-user-popup .ui-dialog-titlebar {
+  padding: 10px 25px;
 }
 .delete-user-popup .ui-dialog-title {
   color: #a85766;

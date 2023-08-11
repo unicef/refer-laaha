@@ -37,6 +37,9 @@ class WebformListBuilder extends WebformEntityListBuilder {
       if ($role['target_id'] != 'administrator') {
         if (!is_null($tpa)) {
           if (array_key_exists($currentDomain, $tpa)) {
+            unset($row['operations']['data']['#links']['test']);
+            unset($row['operations']['data']['#links']['results']);
+            unset($row['operations']['data']['#links']['settings']);
             return $row;
           }
         }

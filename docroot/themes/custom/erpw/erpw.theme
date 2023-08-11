@@ -6,8 +6,8 @@
  */
 
 use Drupal\Core\Url;
-use Drupal\user\Entity\User;
 use Drupal\node\NodeInterface;
+use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -48,10 +48,22 @@ function erpw_preprocess_block(&$variables) {
     }
     $variables['#cache']['max-age'] = 0;
   }
+  if ($variables['plugin_id'] == 'page_title_block' && $node === 'view.referral_pathway_on_homepage.page_2') {
+    $location_id = \Drupal::routeMatch()->getParameter('arg_0');
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $term_storage = $entity_type_manager->getStorage('taxonomy_term');
+    $term = $term_storage->load($location_id);
+    if ($term) {
+      $variables['content']['#title']['#markup'] = $term->getName();
+    }
+    else {
+      $variables['content']['#title']['#markup'] = t('Referral Pathway Details');
+    }
+  }
 }
 
 /**
- * Implements preprocess_HOOK for html ()
+ * Implements preprocess_HOOK for html()
  */
 function erpw_preprocess_html(&$variables) {
   $variables['is_front'] = \Drupal::service('path.matcher')->isFrontPage();
@@ -137,25 +149,27 @@ function erpw_preprocess_node(&$variables) {
  * Implements hook_preprocess_table().
  */
 function erpw_preprocess_table(&$variables) {
-  $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-  $lang = \Drupal::configFactory()->get('domain.language.' . $active_domain->id() . '.language.negotiation');
-  $prefixes = $lang->get('languages');
-  $domain_languages = [];
-  foreach ($prefixes as $lang_code) {
-    $lang_name = \Drupal::service('language_manager')->getLanguage($lang_code)->getName();
-    $domain_languages[] = $lang_name;
-  }
-
-  $table_rows = $variables['rows'];
-  $languages[] = $table_rows[0];
-  for ($x = 1; $x < count($variables['rows']); $x++) {
-    $table_row_lang_name = $table_rows[$x]['cells'][0]['content'];
-    if (in_array($table_row_lang_name, $domain_languages)) {
-      $languages[] = $table_rows[$x];
+  $current_path = \Drupal::service('path.current')->getPath();
+  if ($current_path != NULL && !str_contains($current_path, 'admin') && str_contains($current_path, 'translations')) {
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $lang = \Drupal::configFactory()->get('domain.language.' . $active_domain->id() . '.language.negotiation');
+    $prefixes = $lang->get('languages');
+    $domain_languages = [];
+    foreach ($prefixes as $lang_code) {
+      $lang_name = \Drupal::service('language_manager')->getLanguage($lang_code)->getName();
+      $domain_languages[] = $lang_name;
     }
-  }
 
-  $variables['rows'] = $languages;
+    $table_rows = $variables['rows'];
+    $languages[] = $table_rows[0];
+    for ($x = 1; $x < count($variables['rows']); $x++) {
+      $table_row_lang_name = $table_rows[$x]['cells'][0]['content'];
+      if (in_array($table_row_lang_name, $domain_languages)) {
+        $languages[] = $table_rows[$x];
+      }
+    }
+    $variables['rows'] = $languages;
+  }
 }
 
 /**
@@ -200,29 +214,16 @@ function erpw_preprocess_user(&$variables) {
   else {
     $variables['hide_list_button'] = FALSE;
   }
-  // Show or hide delete button.
-  // Load current user role.
-  $currentUserRole = User::load(\Drupal::currentUser()->id())->getRoles();
 
-  // Load role of the user to be deleted.
+  // Load current user.
+  $current_user = \Drupal::currentUser();
+
+  // Load the user to be edited/deleted.
   $user = User::load($form_user_id);
-  $userRole = $user->getRoles();
+  $can_edit_user = erpw_custom_can_edit_user($current_user, $user);
 
-  if (in_array('anonymous', $currentUserRole) || in_array('service_provider_staff', $currentUserRole) || in_array('service_provider_focal_point', $currentUserRole)) {
-    $variables['hide_delete_button'] = TRUE;
-  }
-  elseif ((in_array('country_admin', $currentUserRole) || in_array('interagency_gbv_coordinator', $currentUserRole)) && !(in_array('interagency_gbv_coordinator', $userRole) || in_array('country_admin', $userRole) || in_array('administrator', $userRole) || in_array('super_admin', $userRole))) {
-    $variables['hide_delete_button'] = FALSE;
-  }
-  elseif ((in_array('country_admin', $currentUserRole) || in_array('interagency_gbv_coordinator', $currentUserRole)) && (in_array('interagency_gbv_coordinator', $userRole) || in_array('country_admin', $userRole) || in_array('administrator', $userRole) || in_array('super_admin', $userRole))) {
-    $variables['hide_delete_button'] = TRUE;
-  }
-  elseif (in_array('country_admin', $currentUserRole) || in_array('administrator', $currentUserRole) || in_array('super_admin', $currentUserRole)) {
-    $variables['hide_delete_button'] = FALSE;
-  }
-  else {
-    $variables['hide_delete_button'] = TRUE;
-  }
+  // Set the variable for the Twig template.
+  $variables['can_edit_user'] = $can_edit_user;
 }
 
 /**

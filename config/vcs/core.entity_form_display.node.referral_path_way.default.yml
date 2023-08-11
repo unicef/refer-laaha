@@ -19,7 +19,7 @@ mode: default
 content:
   field_section:
     type: entity_reference_paragraphs
-    weight: 0
+    weight: 1
     region: content
     settings:
       title: Section
@@ -29,8 +29,16 @@ content:
       form_display_mode: default
       default_paragraph_type: sections
     third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   translation:
-    weight: 1
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -47,5 +55,4 @@ hidden:
   promote: true
   status: true
   sticky: true
-  title: true
   uid: true

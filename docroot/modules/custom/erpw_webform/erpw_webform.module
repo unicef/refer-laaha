@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Contains erpw_webform.module.
  */
 
 use Drupal\node\Entity\Node;
@@ -16,11 +17,6 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\views\Views;
-
-/**
- * @file
- * Contains erpw_webform.module.
- */
 
 /**
  * Implements hook_webform_add_form().
@@ -240,8 +236,13 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
         if ($key == 'step_1_add_service_details') {
           foreach ($element as $skey => $sub_element) {
             if ($skey == 'organisation') {
-              $form['elements'][$key][$skey]["#default_value"] = $user_org;
-              $form['elements'][$key][$skey]["#disabled"] = TRUE;
+              if (!is_null($user_org)) {
+                $form['elements'][$key][$skey]["#default_value"] = $user_org;
+                $form['elements'][$key][$skey]["#disabled"] = TRUE;
+              }
+              else {
+                $form['elements'][$key][$skey]["#disabled"] = FALSE;
+              }
             }
           }
         }

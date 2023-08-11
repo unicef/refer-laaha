@@ -10,6 +10,7 @@ services:
       - "@erpw_custom.custom_service"
       - "@domain.negotiator"
       - "@config.factory"
+      - "@erpw_location.location_cookie"
     tags:
       - { name: 'event_subscriber' }
   erpw_pathway.erpw_location_form:

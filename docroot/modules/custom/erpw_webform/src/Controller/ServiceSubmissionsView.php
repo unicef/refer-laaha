@@ -162,8 +162,19 @@ class ServiceSubmissionsView extends ControllerBase {
                 }
                 elseif ($element['#type'] == 'webform_entity_select') {
                   if ($element['#title'] = 'Organisation') {
-                    $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                    $output[] = [$element['#title'] => $orgLabel];
+                    if (!empty($content)) {
+                      $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                      $output[] = [$element['#title'] => $orgLabel];
+                    }
+                  }
+                }
+                elseif ($element['#type'] == 'webform_mapping') {
+                  $form_data = $webform_submission->getData();
+                  if (isset($form_data['opening_times'])) {
+                    $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
+                    if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                      $output[]['Opening Times'] = $opening_hours_structured_data;
+                    }
                   }
                 }
                 elseif ($key == 'orignal_data') {
@@ -252,8 +263,19 @@ class ServiceSubmissionsView extends ControllerBase {
             }
             elseif ($element['#type'] == 'webform_entity_select') {
               if ($element['#title'] = 'Organisation') {
-                $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                $output[] = [$element['#title'] => $orgLabel];
+                if (!empty($content)) {
+                  $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                  $output[] = [$element['#title'] => $orgLabel];
+                }
+              }
+            }
+            elseif ($element['#type'] == 'webform_mapping') {
+              $form_data = $webform_submission->getData();
+              if (isset($form_data['opening_times'])) {
+                $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
+                if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                  $output[]['Opening Times'] = $opening_hours_structured_data;
+                }
               }
             }
             elseif ($key == 'orignal_data') {
@@ -302,7 +324,10 @@ class ServiceSubmissionsView extends ControllerBase {
       foreach ($output as $item) {
         foreach ($item as $key => $value) {
           $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
-          if (is_array($value)) {
+          if ($key == 'Opening Times' && is_array($value)) {
+            $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
+          }
+          elseif (is_array($value)) {
             $markup .= '<span class="value">' . Markup::create(implode(", ", $value)) . '</span>';
           }
           else {
@@ -440,8 +465,19 @@ class ServiceSubmissionsView extends ControllerBase {
                 }
                 elseif ($element['#type'] == 'webform_entity_select') {
                   if ($element['#title'] = 'Organisation') {
-                    $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                    $output[] = [$element['#title'] => $orgLabel];
+                    if (!empty($content)) {
+                      $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                      $output[] = [$element['#title'] => $orgLabel];
+                    }
+                  }
+                }
+                elseif ($element['#type'] == 'webform_mapping') {
+                  $form_data = $webform_submission->getData();
+                  if (isset($form_data['opening_times'])) {
+                    $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
+                    if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                      $output[]['Opening Times'] = $opening_hours_structured_data;
+                    }
                   }
                 }
                 elseif ($key == 'orignal_data') {
@@ -530,8 +566,19 @@ class ServiceSubmissionsView extends ControllerBase {
             }
             elseif ($element['#type'] == 'webform_entity_select') {
               if ($element['#title'] = 'Organisation') {
-                $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                $output[] = [$element['#title'] => $orgLabel];
+                if (!empty($content)) {
+                  $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                  $output[] = [$element['#title'] => $orgLabel];
+                }
+              }
+            }
+            elseif ($element['#type'] == 'webform_mapping') {
+              $form_data = $webform_submission->getData();
+              if (isset($form_data['opening_times'])) {
+                $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
+                if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                  $output[]['Opening Times'] = $opening_hours_structured_data;
+                }
               }
             }
             elseif ($key == 'orignal_data') {
@@ -595,7 +642,10 @@ class ServiceSubmissionsView extends ControllerBase {
       foreach ($output as $item) {
         foreach ($item as $key => $value) {
           $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
-          if (is_array($value)) {
+          if ($key == 'Opening Times' && is_array($value)) {
+            $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
+          }
+          elseif (is_array($value)) {
             $markup .= '<span class="value">' . Markup::create(implode(", ", $value)) . '</span>';
           }
           else {
@@ -617,4 +667,51 @@ class ServiceSubmissionsView extends ControllerBase {
     }
   }
 
+  /**
+   * Helper function which provides the opening hours in a structured format.
+   */
+  public function getOpeningHoursData(array $opening_hours_data) {
+    $temp_opening_hours = [];
+    $updated_opening_hours = [];
+    foreach ($opening_hours_data as $key => $value) {
+      $key = strtolower($key);
+      switch(trim($key)) {
+        case 'monday':
+        case 'mon':
+          $temp_opening_hours[0][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+        case 'tuesday':
+        case 'tue':
+          $temp_opening_hours[1][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+        case 'wednesday':
+        case 'wed':
+          $temp_opening_hours[2][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+        case 'thursday':
+        case 'thu':
+          $temp_opening_hours[3][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+        case 'friday':
+        case 'fri':
+          $temp_opening_hours[4][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+        case 'saturday':
+        case 'sat':
+          $temp_opening_hours[5][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+        case 'sunday':
+        case 'sun':
+          $temp_opening_hours[6][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+        default:
+          $temp_opening_hours[][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+      }
+    }
+    ksort($temp_opening_hours);
+    foreach ($temp_opening_hours as $key => $value) {
+      $updated_opening_hours[key($value)] = reset($value);
+    }
+    return $updated_opening_hours;
+  }
 }
