@@ -28,7 +28,7 @@ class DeleteUserController extends ControllerBase {
     $user = User::load($id);
     $userRole = $user->getRoles();
 
-    if (in_array('anonymous', $currentUserRole) || in_array('service_provider_staff', $currentUserRole) || in_array('service_provider_focal_point', $currentUserRole)) {
+    if (in_array('anonymous', $currentUserRole) || in_array('service_provider_staff', $currentUserRole)) {
       return new JsonResponse([
         'status' => 'error',
         'message' => $this->t('You dont have the permission to delete user.'),
@@ -50,6 +50,15 @@ class DeleteUserController extends ControllerBase {
       ]);
     }
     elseif (in_array('country_admin', $currentUserRole) || in_array('administrator', $currentUserRole) || in_array('super_admin', $currentUserRole)) {
+      // Perform user deletion.
+      $user->delete();
+      // Return a JSON response with a success message.
+      return new JsonResponse([
+        'status' => 'success',
+        'message' => $this->t('The user has been deleted successfully.'),
+      ]);
+    }
+    elseif (in_array('service_provider_focal_point', $currentUserRole) && in_array('service_provider_staff', $userRole)) {
       // Perform user deletion.
       $user->delete();
       // Return a JSON response with a success message.
