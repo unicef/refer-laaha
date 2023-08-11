@@ -6,6 +6,7 @@ dependencies:
     - node.type.service_provider
     - workflows.workflow.service_editorial
   module:
+    - administerusersbyrole
     - content_moderation
     - erpw_custom
     - node
@@ -45,3 +46,4 @@ permissions:
   - 'view own webform submission'
   - 'view service of their own location'
   - 'view service of their own location and organisation'
+  - 'cancel users with role service_provider_staff'
