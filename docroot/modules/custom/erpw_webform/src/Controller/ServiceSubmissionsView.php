@@ -162,8 +162,10 @@ class ServiceSubmissionsView extends ControllerBase {
                 }
                 elseif ($element['#type'] == 'webform_entity_select') {
                   if ($element['#title'] = 'Organisation') {
-                    $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                    $output[] = [$element['#title'] => $orgLabel];
+                    if (!empty($content)) {
+                      $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                      $output[] = [$element['#title'] => $orgLabel];
+                    }
                   }
                 }
                 elseif ($element['#type'] == 'webform_mapping') {
@@ -261,8 +263,10 @@ class ServiceSubmissionsView extends ControllerBase {
             }
             elseif ($element['#type'] == 'webform_entity_select') {
               if ($element['#title'] = 'Organisation') {
-                $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                $output[] = [$element['#title'] => $orgLabel];
+                if (!empty($content)) {
+                  $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                  $output[] = [$element['#title'] => $orgLabel];
+                }
               }
             }
             elseif ($element['#type'] == 'webform_mapping') {
@@ -461,8 +465,10 @@ class ServiceSubmissionsView extends ControllerBase {
                 }
                 elseif ($element['#type'] == 'webform_entity_select') {
                   if ($element['#title'] = 'Organisation') {
-                    $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                    $output[] = [$element['#title'] => $orgLabel];
+                    if (!empty($content)) {
+                      $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                      $output[] = [$element['#title'] => $orgLabel];
+                    }
                   }
                 }
                 elseif ($element['#type'] == 'webform_mapping') {
@@ -560,8 +566,10 @@ class ServiceSubmissionsView extends ControllerBase {
             }
             elseif ($element['#type'] == 'webform_entity_select') {
               if ($element['#title'] = 'Organisation') {
-                $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                $output[] = [$element['#title'] => $orgLabel];
+                if (!empty($content)) {
+                  $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                  $output[] = [$element['#title'] => $orgLabel];
+                }
               }
             }
             elseif ($element['#type'] == 'webform_mapping') {

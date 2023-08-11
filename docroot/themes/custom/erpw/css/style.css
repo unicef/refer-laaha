@@ -806,7 +806,7 @@ footer {
   bottom: 0;
   position: fixed;
   width: 100%;
-  z-index: 3;
+  z-index: 3000;
 }
 
 .menu--bottom-nav {
@@ -3181,8 +3181,8 @@ body.path-user {
           box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
   border: 1px solid #a85766 !important;
 }
-.delete-user-popup .path-user .ui-dialog-titlebar {
-  padding: 35px 0 0;
+.delete-user-popup .ui-dialog-titlebar {
+  padding: 10px 25px;
 }
 .delete-user-popup .ui-dialog-title {
   color: #a85766;
