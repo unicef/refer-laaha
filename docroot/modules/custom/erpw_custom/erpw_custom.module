@@ -17,6 +17,7 @@ use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\views\Views;
 use Drupal\views\ViewExecutable;
 use Drupal\webform\Entity\Webform;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -77,6 +78,33 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     if ($uid != 1 && !$current_user->hasRole('administrator') && ($current_user->hasPermission($permission) || $current_user->hasPermission($permission2))) {
       $form['field_organisation_target_id_verf']['#access'] = FALSE;
     }
+
+    // Exposed roles fields option restriction based on the current role.
+    // SPFP can only see SP Staffs and SPFP.
+    if ($form_state->get('view')->current_display == 'page_1') {
+      if ($current_user->hasRole('service_provider_focal_point')) {
+        unset($form['roles_target_id']['#options']['interagency_gbv_coordinator']);
+        unset($form['roles_target_id']['#options']['country_admin']);
+      }
+      // IA Coordinator can only see SP Staff, SPFP and IA Coordinators.
+      if ($current_user->hasRole('interagency_gbv_coordinator')) {
+        unset($form['roles_target_id']['#options']['country_admin']);
+      }
+    }
+
+    // SPFP can only review SP staff.
+    if ($form_state->get('view')->current_display == 'page_2') {
+      if ($current_user->hasRole('service_provider_focal_point')) {
+        unset($form['roles_target_id']['#options']['interagency_gbv_coordinator']);
+        unset($form['roles_target_id']['#options']['country_admin']);
+        unset($form['roles_target_id']['#options']['service_provider_focal_point']);
+      }
+      // IA Coordinator can only see SP Staff, SPFP and IA Coordinators.
+      if ($current_user->hasRole('interagency_gbv_coordinator')) {
+        unset($form['roles_target_id']['#options']['country_admin']);
+      }
+    }
+
   }
 }
 
@@ -754,6 +782,171 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $org_condition = 'user__field_organisation.field_organisation_target_id';
     $query = erpw_view_results_own_location_organisation($query, $location_condition, $org_condition, $permission);
   }
+
+  // User registration review list.
+  if ($view->id() == "user_lists" && $view->current_display == 'page_2') {
+    // Filter based on current role.
+    $roles = \Drupal::currentUser()->getRoles();
+    if ($view->exposed_raw_input['roles_target_id'] == 'All') {
+      $configuration = [
+        'type' => 'INNER',
+        'table' => 'user__roles',
+        'field' => 'entity_id',
+        'left_table' => 'users_field_data',
+        'left_field' => 'uid',
+        'operator' => '=',
+      ];
+      $join = Views::pluginManager('join')->createInstance('standard', $configuration);
+      $query->queueTable('user__roles', 'users_field_data', $join , 'user__roles');
+
+      // Current user SP FP.
+      if (in_array('service_provider_focal_point', $roles)) {
+        $query->where[] = [
+          "conditions" => [
+            0 => [
+              "field" => "user__roles.roles_target_id IN(:user__roles_roles_target_id[])",
+              "value" => [
+                ":user__roles_roles_target_id[]" => [
+                  "service_provider_staff" => "service_provider_staff",
+                ],
+              ],
+              "operator" => "formula",
+            ],
+          ],
+          "args" => [],
+          "type" => "AND",
+        ];
+      // Current user IA Coordinator and Current user Country admin.
+      } 
+      elseif (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
+        $query->where[] = [
+          "conditions" => [
+            0 => [
+              "field" => "user__roles.roles_target_id IN(:user__roles_roles_target_id[])",
+              "value" => [
+                ":user__roles_roles_target_id[]" => [
+                  "service_provider_staff" => "service_provider_staff",
+                  "service_provider_focal_point" => "service_provider_focal_point",
+                ],
+              ],
+              "operator" => "formula",
+            ],
+          ],
+          "args" => [],
+          "type" => "AND",
+        ];
+      }
+    }
+
+    // User workflow integration.
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+        if ($condition['field'] == 'user__field_transitions.field_transitions_value IN(:user__field_transitions_field_transitions_value[])') {
+          // For SPFP users.
+          if (in_array('service_provider_focal_point', $roles)) {
+            $value = [
+              ":user__field_transitions_field_transitions_value[]" => [
+                "self-register-sp-staff" => "self-register-sp-staff",
+              ],
+            ];
+            $condition['value'] = $value;
+          }
+          // For IA Coordinator and Country admin users.
+          if (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
+            $value = [
+              ":user__field_transitions_field_transitions_value[]" => [
+                "self-register-spfp" => "self-register-spfp",
+                "spfp-accept" => "spfp-accept",
+              ],
+            ];
+            $condition['value'] = $value;
+          }
+        }
+      }
+    }
+  }
+
+  // Users list.
+  if ($view->id() == "user_count_approval_block" && $view->current_display == 'block_1') {
+    // Filter based on current role.
+    $roles = \Drupal::currentUser()->getRoles();
+    $configuration = [
+      'type' => 'INNER',
+      'table' => 'user__roles',
+      'field' => 'entity_id',
+      'left_table' => 'users_field_data',
+      'left_field' => 'uid',
+      'operator' => '=',
+    ];
+    $join = Views::pluginManager('join')->createInstance('standard', $configuration);
+    $query->queueTable('user__roles', 'users_field_data', $join , 'user__roles');
+
+    // Current user SP FP.
+    if (in_array('service_provider_focal_point', $roles)) {
+      $query->where[] = [
+        "conditions" => [
+          0 => [
+            "field" => "user__roles.roles_target_id IN(:user__roles_roles_target_id[])",
+            "value" => [
+              ":user__roles_roles_target_id[]" => [
+                "service_provider_staff" => "service_provider_staff",
+              ],
+            ],
+            "operator" => "formula",
+          ],
+        ],
+        "args" => [],
+        "type" => "AND",
+      ];
+    // Current user IA Coordinator and Current user Country admin.
+    } 
+    elseif (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
+      $query->where[] = [
+        "conditions" => [
+          0 => [
+            "field" => "user__roles.roles_target_id IN(:user__roles_roles_target_id[])",
+            "value" => [
+              ":user__roles_roles_target_id[]" => [
+                "service_provider_staff" => "service_provider_staff",
+                "service_provider_focal_point" => "service_provider_focal_point",
+              ],
+            ],
+            "operator" => "formula",
+          ],
+        ],
+        "args" => [],
+        "type" => "AND",
+      ];
+    }
+
+    // User workflow integration.
+    foreach ($query->where as &$condition_group) {
+      foreach ($condition_group['conditions'] as &$condition) {
+        if ($condition['field'] == 'user__field_transitions.field_transitions_value IN(:user__field_transitions_field_transitions_value[])') {
+          // For SPFP users.
+          if (in_array('service_provider_focal_point', $roles)) {
+            $value = [
+              ":user__field_transitions_field_transitions_value[]" => [
+                "self-register-sp-staff" => "self-register-sp-staff",
+              ],
+            ];
+            $condition['value'] = $value;
+          }
+          // For IA Coordinator and Country admin users.
+          if (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
+            $value = [
+              ":user__field_transitions_field_transitions_value[]" => [
+                "self-register-spfp" => "self-register-spfp",
+                "spfp-accept" => "spfp-accept",
+              ],
+            ];
+            $condition['value'] = $value;
+          }
+        }
+      }
+    }
+  }
+
   if ($view->id() == "referral_pathway_listing" && $view->current_display == 'page_1') {
     $permission = 'view referral pathway of their own country';
     $condition_field = 'node__field_location.field_location_target_id';

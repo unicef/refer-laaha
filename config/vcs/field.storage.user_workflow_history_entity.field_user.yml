@@ -1,0 +1,24 @@
+uuid: 97378496-84a1-4a44-b7bc-e0edf4c3c491
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_user_workflow_history
+    - field_permissions
+    - user
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: user_workflow_history_entity.field_user
+field_name: field_user
+entity_type: user_workflow_history_entity
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

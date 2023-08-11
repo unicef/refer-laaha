@@ -13,9 +13,11 @@ dependencies:
     - user.role.country_admin
     - user.role.interagency_gbv_coordinator
     - user.role.service_provider_focal_point
+    - user.role.service_provider_staff
     - user.role.super_admin
   module:
     - better_exposed_filters
+    - options
     - taxonomy
     - user
     - verf
@@ -1611,7 +1613,11 @@ display:
           entity_field: roles
           plugin_id: user_roles
           operator: or
-          value: {  }
+          value:
+            service_provider_staff: service_provider_staff
+            service_provider_focal_point: service_provider_focal_point
+            interagency_gbv_coordinator: interagency_gbv_coordinator
+            country_admin: country_admin
           group: 1
           exposed: true
           expose:
@@ -1628,14 +1634,14 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              administrator: '0'
-              super_admin: '0'
-              country_admin: '0'
-              interagency_gbv_coordinator: '0'
               anonymous: '0'
-              service_provider_focal_point: '0'
               service_provider_staff: '0'
-            reduce: false
+              service_provider_focal_point: '0'
+              interagency_gbv_coordinator: '0'
+              country_admin: '0'
+              super_admin: '0'
+              administrator: '0'
+            reduce: true
           is_grouped: false
           group_info:
             label: ''
@@ -2475,7 +2481,11 @@ display:
           entity_field: roles
           plugin_id: user_roles
           operator: or
-          value: {  }
+          value:
+            service_provider_staff: service_provider_staff
+            service_provider_focal_point: service_provider_focal_point
+            interagency_gbv_coordinator: interagency_gbv_coordinator
+            country_admin: country_admin
           group: 1
           exposed: true
           expose:
@@ -2492,14 +2502,14 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              administrator: '0'
-              super_admin: '0'
-              country_admin: '0'
-              interagency_gbv_coordinator: '0'
               anonymous: '0'
-              service_provider_focal_point: '0'
               service_provider_staff: '0'
-            reduce: false
+              service_provider_focal_point: '0'
+              interagency_gbv_coordinator: '0'
+              country_admin: '0'
+              super_admin: '0'
+              administrator: '0'
+            reduce: true
           is_grouped: false
           group_info:
             label: ''
@@ -2513,46 +2523,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        status:
-          id: status
-          table: users_field_data
-          field: status
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: user
-          entity_field: status
-          plugin_id: boolean
-          operator: '='
-          value: '0'
-          group: 2
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         field_organisation_target_id:
           id: field_organisation_target_id
           table: user__field_organisation
@@ -2644,11 +2614,95 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        status:
+          id: status
+          table: users_field_data
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          entity_field: status
+          plugin_id: boolean
+          operator: '='
+          value: '0'
+          group: 2
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_transitions_value:
+          id: field_transitions_value
+          table: user__field_transitions
+          field: field_transitions_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            self-register-sp-staff: self-register-sp-staff
+            self-register-spfp: self-register-spfp
+            spfp-accept: spfp-accept
+          group: 3
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
       filter_groups:
         operator: AND
         groups:
           1: AND
           2: AND
+          3: AND
       defaults:
         title: false
         fields: false

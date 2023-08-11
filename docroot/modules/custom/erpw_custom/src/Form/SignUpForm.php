@@ -377,6 +377,7 @@ class SignUpForm extends FormBase {
       $user->set('field_position', $form_state->getValue('position'));
       $user->set('roles', $form_state->getValue('system_role'));
       $user->set('field_location', $location_tid);
+      $user->set('field_soft_delete', 0);
       $user->save();
     }
 
@@ -642,7 +643,33 @@ class SignUpForm extends FormBase {
         'field_system_role' => $values['system_role'],
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
+
+      // Workflow field.
+      $ws = '';
+      // For self register.
+      if (\Drupal::currentUser()->isAnonymous()) {
+        if ($values['system_role'] == 'service_provider_staff') {
+          $ws = 'self-register-sp-staff';
+        }
+        if ($values['system_role'] == 'service_provider_focal_point') {
+          $ws = 'self-register-spfp';
+        }
+        $user->set('field_transitions', $ws);
+      }
+      $user->set('field_soft_delete', 0);
       $user->save();
+
+      // Update user workflow history entity.
+      $current_time = \Drupal::time()->getCurrentTime('d');    
+      $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+        'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+        'status' => 1,
+        'field_user' => $user->id(),
+        'field_workflow_status_before' => 'registration',
+        'field_workflow_status_after' => $ws,
+      ]);
+      $euwh->save();
+
       _user_mail_notify('register_pending_approval', $user);
       $response = new AjaxResponse();
       $modal_form = $this->formBuilder->getForm('Drupal\erpw_custom\Form\ModalForm');
@@ -684,7 +711,53 @@ class SignUpForm extends FormBase {
         'field_system_role' => $values['system_role'],
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
+
+      // For IA Coordinator workflow.
+      $roles = $this->currentUser->getRoles();
+      $ws = '';
+      if(in_array('interagency_gbv_coordinator', $roles)) {
+        if ($values['system_role'] == 'service_provider_staff') {
+          $ws = 'gbv-coordination-register-sp-staff';
+        }
+        if ($values['system_role'] == 'service_provider_focal_point') {
+          $ws = 'gbv-coordination-register-spfp';
+        }
+        if ($values['system_role'] == 'interagency_gbv_coordinator') {
+          $ws = 'ia-coordinator-register-ia-coordinator';
+        }
+        $user->set('field_transitions', $ws); 
+      }
+
+      // For country admin workflow.
+      if(in_array('country_admin', $roles)) {
+        if ($values['system_role'] == 'service_provider_staff') {
+          $ws = 'gbv-coordination-register-sp-staff';
+        }
+        if ($values['system_role'] == 'service_provider_focal_point') {
+          $ws = 'gbv-coordination-register-spfp';
+        }
+        if ($values['system_role'] == 'interagency_gbv_coordinator') {
+          $ws = 'country-admin-register-ai-coordinator';
+        }
+        if ($values['system_role'] == 'country_admin') {
+          $ws = 'country-admin-register-country-admin';
+        }
+        $user->set('field_transitions', $ws); 
+      }
+      $user->set('field_soft_delete', 0);
       $user->save();
+
+      // Update user workflow history entity.
+      $current_time = \Drupal::time()->getCurrentTime('d');    
+      $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+        'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+        'status' => 1,
+        'field_user' => $user->id(),
+        'field_workflow_status_before' => 'registration',
+        'field_workflow_status_after' => $ws,
+      ]);
+      $euwh->save();
+
       _user_mail_notify('register_admin_created', $user);
       $response = new AjaxResponse();
       $url = Url::fromRoute('view.user_lists.page_1')->toString();
