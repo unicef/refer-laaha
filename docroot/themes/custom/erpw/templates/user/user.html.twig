@@ -89,8 +89,9 @@
 		{% if not hide_list_button %}
 			<a href="{{ url('view.user_lists.page_1') }}" class="button button-border">{{ 'Return to user list'|t }}</a>
 		{% endif %}
-		<a href="/user/edit" class="button button-border">{{ 'Edit Details'|t }}</a>
-		{% if not hide_delete_button %}
+		{% if can_edit_user %}
+			{% set editPath = path('entity.user.edit_form', {'user': user.id}) %}
+			<a href="{{ editPath }}" class="button button-border">{{ 'Edit Details'|t }}</a>
 			<a href="#" class="button button-border delete-user-button" data-user-id="{{ user.uid.0.value }}">{{ 'Delete User'|t }}</a>
 		{% endif %}
 	</div>
