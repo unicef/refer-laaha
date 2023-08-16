@@ -1395,7 +1395,7 @@ function erpw_custom_node_view(array &$build, EntityInterface $entity, EntityVie
   $referer = $current_request->server->get('HTTP_REFERER');
   if (!empty($referer)) {
     $url_path_values = explode('/', $referer);
-    if (isset($url_path_values[4]) && $url_path_values[4] === 'referral-pathway-listing') {
+    if (isset($url_path_values[4]) && str_contains($url_path_values[4], 'referral-pathway-listing')) {
       // Check if the entity type is 'node' and the view mode is 'full'.
       if ($entity->getEntityTypeId() === 'node' && $view_mode === 'full') {
         $field_location = $entity->get('field_location')->getValue()[0]['target_id'];
