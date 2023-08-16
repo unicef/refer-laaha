@@ -679,7 +679,7 @@ function erpw_webform_preprocess_views_view_fields(&$variables) {
         }
               
         if ($variables['row']->_entity->getData()['organisation'] == NULL) {
-          $variables['organisation'] = 'not available';
+          $variables['organisation'] = t('not available');
         } else {
           $organisation = \Drupal::entityTypeManager()->getStorage('node')->load($variables['row']->_entity->getData()['organisation']);
           if (isset($organisation)) {
