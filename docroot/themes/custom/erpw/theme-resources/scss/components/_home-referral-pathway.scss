@@ -78,6 +78,21 @@
 	}
 }
 
+@media only screen and (max-width: 1024px) {
+	.view-referral-pathway-listing {
+		.view-content .views-row {
+			flex-direction: column;
+
+			.views-field-nothing {
+				.field-content .edit-delete-links {
+					justify-content: flex-start;
+					margin-top: 20px;
+				}
+			}
+		}
+	}
+}
+
 //Guidelines button
 [id^='block-rpw-cta-buttons-on-homepage'] {
 	margin-bottom: 50px;
@@ -127,3 +142,4 @@ html[dir="rtl"] {
 		}
 	}
 }
+
