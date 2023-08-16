@@ -677,7 +677,16 @@ function erpw_webform_preprocess_views_view_fields(&$variables) {
           $variables['servicetype_color'] = $servicetype->get('field_service_type_color')->getValue()[0]['color'];
           $variables['servicetype_icon'] = $servicetype->get('field_service_type_icon')->getValue()[0]['value'];
         }
-        $variables['organisation'] = $variables['row']->_entity->getData()['organisation'] == NULL ? 'not available' : \Drupal::entityTypeManager()->getStorage('node')->load($variables['row']->_entity->getData()['organisation'])->get('title')->getValue()[0]['value'];
+              
+        if ($variables['row']->_entity->getData()['organisation'] == NULL) {
+          $variables['organisation'] = t('not available');
+        } else {
+          $organisation = \Drupal::entityTypeManager()->getStorage('node')->load($variables['row']->_entity->getData()['organisation']);
+          if (isset($organisation)) {
+            $variables['organisation'] = $organisation->get('title')->getValue()[0]['value'];
+          }
+        }
+
         $variables['sid'] = $variables['row']->sid;
         $variables['edit_url'] = Url::fromRoute('entity.webform_submission.edit_form', [
           'webform' => $webformID,
