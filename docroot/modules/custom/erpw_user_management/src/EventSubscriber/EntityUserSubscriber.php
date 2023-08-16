@@ -250,9 +250,12 @@ class EntityUserSubscriber implements EventSubscriberInterface {
     $field_location = $form_state->getValue('field_location');
     $location_level = [];
     if (is_array($field_location)) {
-      $count = count($field_location);
-      for ($i = 0; $i < $count - 1; $i++) {
-        $location_level[] = $field_location[$i]['target_id'];
+      $i = 0;
+      foreach($field_location as $location) {
+        if (isset($location['target_id'])) {
+          $location_level[] = $field_location[$i]['target_id'];
+          $i++;
+        }
       }
     }
     // Saving the location data.
