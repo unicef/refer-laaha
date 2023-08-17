@@ -2,9 +2,20 @@ uuid: a38e78e1-4c90-411b-9c74-6b0e77d41d00
 langcode: en
 status: true
 dependencies:
+  config:
+    - user.role.administrator
+    - user.role.authenticated
+    - user.role.country_admin
+    - user.role.interagency_gbv_coordinator
+    - user.role.service_provider_focal_point
+    - user.role.service_provider_staff
+    - user.role.super_admin
   module:
     - better_exposed_filters
     - erpw_webform
+    - rest
+    - serialization
+    - user
     - webform
 id: manage_webform_services
 label: 'Manage webform services'
@@ -566,4 +577,124 @@ display:
         - url
         - url.query_args
         - user
+      tags: {  }
+  rest_export_1:
+    id: rest_export_1
+    display_title: 'REST export'
+    display_plugin: rest_export
+    position: 2
+    display_options:
+      fields:
+        webform_submission_all_data:
+          id: webform_submission_all_data
+          table: webform_submission
+          field: webform_submission_all_data
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          plugin_id: webform_submission_all_data
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+      pager:
+        type: none
+        options:
+          offset: 0
+      access:
+        type: role
+        options:
+          role:
+            authenticated: authenticated
+            service_provider_staff: service_provider_staff
+            service_provider_focal_point: service_provider_focal_point
+            interagency_gbv_coordinator: interagency_gbv_coordinator
+            country_admin: country_admin
+            super_admin: super_admin
+            administrator: administrator
+      filters: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: serializer
+        options:
+          uses_fields: false
+          formats:
+            json: json
+      row:
+        type: data_field
+        options:
+          field_options:
+            webform_submission_organisation_field:
+              alias: ''
+              raw_output: false
+            webform_submission_focal_point_field:
+              alias: ''
+              raw_output: false
+            webform_submission_hotline_contact_field:
+              alias: ''
+              raw_output: false
+            webform_submission_location_field:
+              alias: ''
+              raw_output: false
+            webform_submission_mode_field:
+              alias: ''
+              raw_output: false
+      defaults:
+        access: false
+        fields: false
+        filters: false
+        filter_groups: false
+      display_extenders:
+        library_in_views_display_extender: {  }
+      path: manage-services/export
+      auth:
+        - cookie
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_interface'
+        - request_format
+        - user
+        - user.roles
       tags: {  }

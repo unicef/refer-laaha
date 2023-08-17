@@ -421,6 +421,16 @@ function erpw_webform_views_data_alter(array &$data) {
       'real field' => 'webform_submission_workflow',
     ],
   ];
+  $data['webform_submission']['webform_submission_all_data'] = [
+    'title' => t('Webform Submission All Data.'),
+    'help' => t('Generic field for displaying all fields data all submissions.'),
+    'field' => [
+      'id' => 'webform_submission_all_data',
+      'entity type' => 'webform_submission',
+      'label' => t('Webform Submission All data.'),
+      'real field' => 'webform_submission_all_data',
+    ],
+  ];
   $data['webform_submission']['webform_submission_workflow_filter'] = [
     'title' => t('Webform Submission Workflow Filter'),
     'filter' => [
