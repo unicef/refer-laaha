@@ -6,8 +6,8 @@
  */
 
 use Drupal\Core\Url;
-use Drupal\user\Entity\User;
 use Drupal\node\NodeInterface;
+use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -55,7 +55,8 @@ function erpw_preprocess_block(&$variables) {
     $term = $term_storage->load($location_id);
     if ($term) {
       $variables['content']['#title']['#markup'] = $term->getName();
-    } else {
+    }
+    else {
       $variables['content']['#title']['#markup'] = t('Referral Pathway Details');
     }
   }
@@ -213,29 +214,16 @@ function erpw_preprocess_user(&$variables) {
   else {
     $variables['hide_list_button'] = FALSE;
   }
-  // Show or hide delete button.
-  // Load current user role.
-  $currentUserRole = User::load(\Drupal::currentUser()->id())->getRoles();
 
-  // Load role of the user to be deleted.
+  // Load current user.
+  $current_user = \Drupal::currentUser();
+
+  // Load the user to be edited/deleted.
   $user = User::load($form_user_id);
-  $userRole = $user->getRoles();
+  $can_edit_user = erpw_custom_can_edit_user($current_user, $user);
 
-  if (in_array('anonymous', $currentUserRole) || in_array('service_provider_staff', $currentUserRole) || in_array('service_provider_focal_point', $currentUserRole)) {
-    $variables['hide_delete_button'] = TRUE;
-  }
-  elseif ((in_array('country_admin', $currentUserRole) || in_array('interagency_gbv_coordinator', $currentUserRole)) && !(in_array('interagency_gbv_coordinator', $userRole) || in_array('country_admin', $userRole) || in_array('administrator', $userRole) || in_array('super_admin', $userRole))) {
-    $variables['hide_delete_button'] = FALSE;
-  }
-  elseif ((in_array('country_admin', $currentUserRole) || in_array('interagency_gbv_coordinator', $currentUserRole)) && (in_array('interagency_gbv_coordinator', $userRole) || in_array('country_admin', $userRole) || in_array('administrator', $userRole) || in_array('super_admin', $userRole))) {
-    $variables['hide_delete_button'] = TRUE;
-  }
-  elseif (in_array('country_admin', $currentUserRole) || in_array('administrator', $currentUserRole) || in_array('super_admin', $currentUserRole)) {
-    $variables['hide_delete_button'] = FALSE;
-  }
-  else {
-    $variables['hide_delete_button'] = TRUE;
-  }
+  // Set the variable for the Twig template.
+  $variables['can_edit_user'] = $can_edit_user;
 }
 
 /**

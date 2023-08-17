@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Link;
 
 /**
  * Provides a custom block to Add User according to active language.
@@ -58,13 +59,11 @@ class CustomAddUserBlock extends BlockBase implements ContainerFactoryPluginInte
    * {@inheritdoc}
    */
   public function build() {
-    $current_language = $this->languageManager->getCurrentLanguage()->getId();
-    $url = "/sign-up?destination=/user-list";
-    $new_url = '/' . $current_language . $url;
+    $link = Link::createFromRoute(t('Add user'), 'erpw_custom.sign_up_form', [], ['query' => ['destination' => '/user-list']]);
 
     $build = [
       '#type' => 'markup',
-      '#markup' => '<div class="plus-icon button-with-icon"><a href="' . $new_url . '">' . t('Add user') . '</a></div>',
+      '#markup' => '<div class="plus-icon button-with-icon">' . $link->toString() . '</div>',
     ];
 
     return $build;

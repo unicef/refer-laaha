@@ -1,0 +1,58 @@
+uuid: e0ebc6bd-1f9e-4c65-ae22-ef1359307c29
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - options
+    - user
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: user.field_transitions
+field_name: field_transitions
+entity_type: user
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: self-register-sp-staff
+      label: 'Self - Register - SP Staff'
+    -
+      value: self-register-spfp
+      label: 'Self - Register - SPFP'
+    -
+      value: gbv-coordination-register-sp-staff
+      label: 'GBV Coordination - Register - SP Staff'
+    -
+      value: gbv-coordination-register-spfp
+      label: 'GBV Coordination - Register - SPFP'
+    -
+      value: ia-coordinator-register-ia-coordinator
+      label: 'IA Coordinator - Register - IA Coordinator'
+    -
+      value: country-admin-register-ia-coordinator
+      label: 'Country Admin - Register - IA Coordinator'
+    -
+      value: country-admin-register-country-admin
+      label: 'Country Admin - Register - Country Admin'
+    -
+      value: spfp-accept
+      label: 'SPFP - Accept'
+    -
+      value: spfp-reject
+      label: 'SPFP - Reject'
+    -
+      value: gbv-coordination-accept
+      label: 'GBV Coordination - Accept'
+    -
+      value: gbv-coordination-reject
+      label: 'GBV Coordination - Reject'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

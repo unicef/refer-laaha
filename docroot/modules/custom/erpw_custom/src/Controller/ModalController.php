@@ -87,16 +87,4 @@ class ModalController extends ControllerBase {
     ];
   }
 
-  /**
-   * Active user.
-   */
-  public function activeUser(AccountInterface $user, Request $request) {
-    $user->activate();
-    $user->save();
-    $url = Url::fromRoute('view.user_lists.page_2')->toString();
-    $response = new RedirectResponse($url);
-    $response->send();
-    return $response;
-  }
-
 }

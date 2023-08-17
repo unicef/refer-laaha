@@ -148,8 +148,10 @@ class ServiceSubmissionsModerateView extends ControllerBase {
                 }
                 elseif ($element['#type'] == 'webform_entity_select') {
                   if ($element['#title'] = 'Organisation') {
-                    $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                    $output[] = [$element['#title'] => $orgLabel];
+                    if (!empty($content)) {
+                      $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                      $output[] = [$element['#title'] => $orgLabel];
+                    }
                   }
                 }
                 elseif ($element['#type'] == 'webform_mapping') {
@@ -248,19 +250,21 @@ class ServiceSubmissionsModerateView extends ControllerBase {
             }
             elseif ($element['#type'] == 'webform_entity_select') {
               if ($element['#title'] = 'Organisation') {
-                $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                $output[] = [$element['#title'] => $orgLabel];
+                if (!empty($content)) {
+                  $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                  $output[] = [$element['#title'] => $orgLabel];
+                }
               }
             }
             elseif ($element['#type'] == 'webform_mapping') {
               $form_data = $webform_submission->getData();
-                  if (isset($form_data['opening_times'])) {
-                    $service_submission_view = new ServiceSubmissionsView($this->entityTypeManager, $this->currentUser);
-                    $opening_hours_structured_data = $service_submission_view->getOpeningHoursData($form_data['opening_times']);
-                    if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
-                      $output[]['Opening Times'] = $opening_hours_structured_data;
-                    }
-                  }
+              if (isset($form_data['opening_times'])) {
+                $service_submission_view = new ServiceSubmissionsView($this->entityTypeManager, $this->currentUser);
+                $opening_hours_structured_data = $service_submission_view->getOpeningHoursData($form_data['opening_times']);
+                if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                  $output[]['Opening Times'] = $opening_hours_structured_data;
+                }
+              }
             }
             elseif ($key == 'orignal_data') {
 

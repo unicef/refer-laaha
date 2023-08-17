@@ -135,32 +135,36 @@
     }
   };
 
+  /**
+   * Commenting this as removing nids or tids doesn't make sense, 
+   * instead creates issues when the labels are the same.
+  */
   // Removing nid from autocomplete of user forms.
-  Drupal.behaviors.user_location_autocomplete = {
-    attach: function(context) {
-      // Remove TID's onload.
-      Drupal.user_location_autocomplete.remove_tid();
-      // Remove TID's onchange.
-      jQuery('body').find('.form-autocomplete').on('autocompleteclose', function() {
-        Drupal.user_location_autocomplete.remove_tid();
-      });
-    }
-  };
+  // Drupal.behaviors.user_location_autocomplete = {
+  //   attach: function(context) {
+  //     // Remove TID's onload.
+  //     Drupal.user_location_autocomplete.remove_tid();
+  //     // Remove TID's onchange.
+  //     jQuery('body').find('.form-autocomplete').on('autocompleteclose', function() {
+  //       Drupal.user_location_autocomplete.remove_tid();
+  //     });
+  //   }
+  // };
 
-  Drupal.user_location_autocomplete = {
-    remove_tid: function () {
-      let field_autocomplete = jQuery('body').find('.form-autocomplete');
-      field_autocomplete.each(function (event, node) {
-        let str = $(this).val();
-        let val = str.replace(/("|')/g, "");
-        let match = val.match(/\s\(.*?\)/g);
-        if (match) {
-          $(this).data('real-value', val);
-          $(this).val(val.replace(/\s\(.*?\)/g, '' ));
-        }
-      });
-    }
-  };
+  // Drupal.user_location_autocomplete = {
+  //   remove_tid: function () {
+  //     let field_autocomplete = jQuery('body').find('.form-autocomplete');
+  //     field_autocomplete.each(function (event, node) {
+  //       let str = $(this).val();
+  //       let val = str.replace(/("|')/g, "");
+  //       let match = val.match(/\s\(.*?\)/g);
+  //       if (match) {
+  //         $(this).data('real-value', val);
+  //         $(this).val(val.replace(/\s\(.*?\)/g, '' ));
+  //       }
+  //     });
+  //   }
+  // };
 
   Drupal.behaviors.disableCountrySelctor = {
     attach: function () {

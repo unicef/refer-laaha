@@ -806,7 +806,7 @@ footer {
   bottom: 0;
   position: fixed;
   width: 100%;
-  z-index: 3;
+  z-index: 3000;
 }
 
 .menu--bottom-nav {
@@ -1261,6 +1261,20 @@ html[dir=rtl] .dashboard .dashboard-link a {
   color: #A85766;
 }
 
+@media only screen and (max-width: 1024px) {
+  .view-referral-pathway-listing .view-content .views-row {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .view-referral-pathway-listing .view-content .views-row .views-field-nothing .field-content .edit-delete-links {
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    margin-top: 20px;
+  }
+}
 [id^=block-rpw-cta-buttons-on-homepage] {
   margin-bottom: 50px;
 }
@@ -3181,8 +3195,8 @@ body.path-user {
           box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
   border: 1px solid #a85766 !important;
 }
-.delete-user-popup .path-user .ui-dialog-titlebar {
-  padding: 35px 0 0;
+.delete-user-popup .ui-dialog-titlebar {
+  padding: 10px 25px;
 }
 .delete-user-popup .ui-dialog-title {
   color: #a85766;
