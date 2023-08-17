@@ -192,13 +192,12 @@ function erpw_preprocess_views_view(&$variables) {
  */
 function erpw_preprocess_user(&$variables) {
   $variables['mail'] = $variables['user']->getEmail();
-  $route = \Drupal::routeMatch()->getRawParameter('user');
-  $user = \Drupal::service('entity_type.manager')->getStorage('user')->load($route);
-  $location = \Drupal::service('erpw_location.location_services')->getUserLocation($user);
+  $form_user_id = \Drupal::request()->attributes->get('user')->id();
+  $form_user = User::load($form_user_id);
+  $location = \Drupal::service('erpw_location.location_services')->getUserLocation($form_user);
   $variables['location'] = $location;
   $current_user_id = \Drupal::currentUser()->id();
-  $form_user_id = \Drupal::request()->attributes->get('user')->id();
-  $roles_ar = \Drupal::currentUser()->getRoles();
+  $roles_ar = $form_user->getRoles();
   $roles = [];
   foreach ($roles_ar as $key => $role) {
     if ($role != 'authenticated') {
@@ -218,9 +217,8 @@ function erpw_preprocess_user(&$variables) {
   // Load current user.
   $current_user = \Drupal::currentUser();
 
-  // Load the user to be edited/deleted.
-  $user = User::load($form_user_id);
-  $can_edit_user = erpw_custom_can_edit_user($current_user, $user);
+  // Determine whether the current user has the right to edit/delete.
+  $can_edit_user = erpw_custom_can_edit_user($current_user, $form_user);
 
   // Set the variable for the Twig template.
   $variables['can_edit_user'] = $can_edit_user;
