@@ -797,7 +797,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
         'operator' => '=',
       ];
       $join = Views::pluginManager('join')->createInstance('standard', $configuration);
-      $query->queueTable('user__roles', 'users_field_data', $join , 'user__roles');
+      $query->queueTable('user__roles', 'users_field_data', $join, 'user__roles');
 
       // Current user SP FP.
       if (in_array('service_provider_focal_point', $roles)) {
@@ -816,8 +816,8 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
           "args" => [],
           "type" => "AND",
         ];
-      // Current user IA Coordinator and Current user Country admin.
-      } 
+        // Current user IA Coordinator and Current user Country admin.
+      }
       elseif (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
         $query->where[] = [
           "conditions" => [
@@ -879,7 +879,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       'operator' => '=',
     ];
     $join = Views::pluginManager('join')->createInstance('standard', $configuration);
-    $query->queueTable('user__roles', 'users_field_data', $join , 'user__roles');
+    $query->queueTable('user__roles', 'users_field_data', $join, 'user__roles');
 
     // Current user SP FP.
     if (in_array('service_provider_focal_point', $roles)) {
@@ -898,8 +898,8 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
         "args" => [],
         "type" => "AND",
       ];
-    // Current user IA Coordinator and Current user Country admin.
-    } 
+      // Current user IA Coordinator and Current user Country admin.
+    }
     elseif (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
       $query->where[] = [
         "conditions" => [
@@ -1109,6 +1109,21 @@ function erpw_custom_preprocess_node(&$variables) {
       }
     }
   }
+}
+
+/**
+ * Implements hook_page_attachments() to pass user roles to JavaScript.
+ *
+ * @param array $attachments
+ *   The attachments array.
+ */
+function erpw_custom_page_attachments(array &$attachments) {
+  $current_user = \Drupal::currentUser();
+  $user_roles = $current_user->getRoles();
+
+  // Check if the user has admin or super_admin role.
+  $is_admin = in_array('administrator', $user_roles) || in_array('super_admin', $user_roles);
+  $attachments['#attached']['drupalSettings']['erpw_custom']['userRoles'] = $is_admin;
 }
 
 /**
