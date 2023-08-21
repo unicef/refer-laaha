@@ -176,7 +176,7 @@ class EntityUserSubscriber implements EventSubscriberInterface {
               'class' => [
                 'button-border signup-next',
               ],
-              ['onClick' => 'window.location.reload(); event.preventDefault();'],
+              'onClick' => 'window.location.href = document.referrer; return false;',
             ],
           ];
           $form['actions']['submit']['#value'] = $this->t('Update');
