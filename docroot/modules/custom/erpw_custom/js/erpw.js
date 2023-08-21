@@ -166,11 +166,21 @@
   //   }
   // };
 
-  Drupal.behaviors.disableCountrySelctor = {
-    attach: function () {
-      $('select.disable-country-select-default')
-        .parent()
-        .addClass('disable-country-select-default');
+  Drupal.behaviors.disableCountrySelector = {
+    attach: function (context, settings) {
+      if ($('select.disable-country-select-default', context).length > 0) {
+        var userRoles = drupalSettings.erpw_custom.userRoles;
+        if (userRoles) {
+          $('select.disable-country-select-default')
+          .parent()
+          .addClass('admin-user');
+        }
+        else {
+          $('select.disable-country-select-default')
+          .parent()
+          .addClass('disable-country-select-default');
+        }
+      }
     },
   };
 
