@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\node\Entity\Node;
 
 /**
  * Controller for custom CSV export.
@@ -149,7 +150,12 @@ class ServicesCsvExportController extends ControllerBase {
         $output = [];
         if (!is_null($stype) && !empty($stype)) {
           $servicetype = $this->entityTypeManager->getStorage('node')->load(intval($stype));
-          $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
+          if ($servicetype instanceof Node) {
+            $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
+          }
+          else {
+            $servicelabel = t('Not available');
+          }
           $output[] = ['Service Type' => $servicelabel];
         }
         $fields = $webform_submission->getData();
@@ -329,7 +335,12 @@ class ServicesCsvExportController extends ControllerBase {
               }
               elseif ($element['#type'] == 'webform_entity_select') {
                 if ($element['#title'] = 'Organisation') {
-                  $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                  if ($this->entityTypeManager->getStorage('node')->load($content) instanceof Node) {
+                    $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                  }
+                  else {
+                    $orgLabel = t('Not available');
+                  }
                   $output[] = [$element['#title'] => $orgLabel];
                 }
               }
