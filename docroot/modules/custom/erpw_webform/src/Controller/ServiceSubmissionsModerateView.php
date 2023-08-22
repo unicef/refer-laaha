@@ -9,7 +9,6 @@ use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\webform\Entity\WebformSubmission;
-use Drupal\erpw_webform\Controller\ServiceSubmissionsView;
 
 /**
  * Generate key value pair of elements in the webform submission view page.
@@ -58,7 +57,12 @@ class ServiceSubmissionsModerateView extends ControllerBase {
       $changedData = !is_null($orginalData) ? array_diff_assoc($orginalData, $fields) : '';
       $changedUser = !is_null($orginalData) ? $orginalData['erpw_workflow']['changed_user'] : '';
       $oldUserMail = !is_null($orginalData['erpw_workflow']['changed_user']) ? $this->entityTypeManager->getStorage('user')->load($orginalData['erpw_workflow']['changed_user'])->getEmail() : '';
-      $newUserMail = !is_null($fields['erpw_workflow']['changed_user']) ? $this->entityTypeManager->getStorage('user')->load($fields['erpw_workflow']['changed_user'])->getEmail() : '';
+      if (!is_null($this->entityTypeManager->getStorage('user')->load($fields['erpw_workflow']['changed_user']))) {
+        $newUserMail = !is_null($fields['erpw_workflow']['changed_user']) ? $this->entityTypeManager->getStorage('user')->load($fields['erpw_workflow']['changed_user'])->getEmail() : '';
+      }
+      else {
+        $newUserMail = '';
+      }
       $orgTime = !is_null($orginalData) ? date("d/m/Y - H:i", $orginalData['erpw_workflow']['changed_timestamp']) : '';
       $newTime = date("d/m/Y - H:i", $fields['erpw_workflow']['changed_timestamp']);
       $location = '';
