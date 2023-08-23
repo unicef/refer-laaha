@@ -9,6 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\State\StateInterface;
+use Drupal\erpw_location\LocationService;
 
 /**
  * Defines a form that allows users to import location.
@@ -37,6 +38,13 @@ class ExportLocationForm extends FormBase {
   protected $languageManager;
 
   /**
+   * The location service.
+   *
+   * @var \Drupal\erpw_location\LocationService
+   */
+  protected $locationService;
+
+  /**
    * ImportLocationForm constructor.
    *
    * @param \Drupal\Core\State\StateInterface $stateService
@@ -45,11 +53,14 @@ class ExportLocationForm extends FormBase {
    *   EntityManager object.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager service.
+   * @param \Drupal\erpw_location\LocationService $location_service
+   *   The location service.
    */
-  public function __construct(StateInterface $stateService, EntityTypeManagerInterface $entity_manager, LanguageManagerInterface $language_manager) {
+  public function __construct(StateInterface $stateService, EntityTypeManagerInterface $entity_manager, LanguageManagerInterface $language_manager, LocationService $location_service) {
     $this->stateService = $stateService;
     $this->entityManager = $entity_manager;
     $this->languageManager = $language_manager;
+    $this->locationService = $location_service;
   }
 
   /**
@@ -59,7 +70,8 @@ class ExportLocationForm extends FormBase {
     return new static(
       $container->get('state'),
       $container->get('entity_type.manager'),
-      $container->get('language_manager')
+      $container->get('language_manager'),
+      $container->get('erpw_location.location_services')
       );
   }
 
@@ -113,7 +125,6 @@ class ExportLocationForm extends FormBase {
   public function exportLocationCsv(array &$form, FormStateInterface $form_state) {
     $export_form_data = $this->stateService->get('export_location_form_data');
     $export_form_state_data = $this->stateService->get('export_location_form_state_data');
-    // dump($export_form_data);
     $location_id = $export_form_state_data->getValue('location_options');
     // Get Country Name.
     if ($location_id) {
@@ -123,6 +134,7 @@ class ExportLocationForm extends FormBase {
       $country_name = 'Country Name';
     }
     $active_languages = $this->languageManager->getLanguages();
+    $current_active_language_code = $this->languageManager->getCurrentLanguage()->getId();
     if (!$location_id) {
       $active_languages_list = array_keys($active_languages);
       $location_lang_count = 0;
@@ -145,39 +157,53 @@ class ExportLocationForm extends FormBase {
     }
     else {
       $location = $this->entityManager->getStorage('location')->load($location_id);
-      $active_languages_list = array_keys($active_languages);
-      $location_lang_count = 0;
-      $location_lang = [];
-      foreach ($active_languages_list as $langcode) {
-        if ($location->hasTranslation($langcode)) {
-          $location_lang_count++;
-          $location_lang[$location_lang_count] = $langcode;
-        }
-      }
+      $location_entity_id = $location->id();
+      $number_of_levels = count($this->locationService->getLocationLevels($location_entity_id));
+
       $csv_export = [];
-      // Get First Row.
+      // Get Heading Row for the CSV file.
       $i = 0;
-      for ($l = 1; $l <= 4; $l++) {
-        foreach ($location_lang as $lang) {
-          $column_name = 'level_' . $l . '_' . $lang;
-          $csv_export[0][$i] = $column_name;
-          $i++;
+      for ($l = 1; $l <= $number_of_levels; $l++) {
+        if ($location->getTranslation($current_active_language_code)->get('level_' . $l)->getValue()) {
+          $column_name = $location->getTranslation($current_active_language_code)->get('level_' . $l)->getValue()[0]['value'];
+        } else {
+          continue;
         }
-      }
-      // Get Header.
-      $i = 0;
-      foreach ($csv_export[0] as $column) {
-        $level_name = explode("_", $column)[0] . '_' . explode("_", $column)[1];
-        $langcode = explode("_", $column)[2];
-        if ($location->getTranslation($langcode)->get($level_name)->getValue()) {
-          $field_value = $location->getTranslation($langcode)->get($level_name)->getValue()[0]['value'];
-        }
-        else {
-          $field_value = '';
-        }
-        $csv_export[1][$i] = $field_value;
+        $csv_export[0][$i] = $column_name;
         $i++;
       }
+
+      // Location details for the CSV file.
+      $location_taxonomy_term_id = $location->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+      $taxonomy_storage = $this->entityManager->getStorage('taxonomy_term');
+      $query = $taxonomy_storage->getQuery()
+      ->condition('vid', $location->bundle());
+      $tids = $query->execute();
+      $location_data = $taxonomy_storage->loadMultiple($tids);
+      $location_levels = $this->locationService->getLocationLevels($location_entity_id);
+      $location_details = [];
+
+      foreach ($location_data as $tid => $tid_location) {
+        $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
+        $ancestors = array_reverse(array_keys($ancestors));
+        if (in_array($location_taxonomy_term_id, $ancestors)) {
+          $csv_data = [];
+          foreach ($location_levels as $key => $level) {
+            $level_data_name = "";
+            $level_term = "";
+            if (!empty($ancestors[$key + 1])) {
+              $level_term = $this->entityManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
+            }
+            if (!empty($level_term)) {
+              $level_data_name = $level_term->hasTranslation($current_active_language_code) ? $level_term->getTranslation($current_active_language_code)->get('name')->value : $level_term->get('name')->value ;
+            }
+            $csv_data[] = strlen($level_data_name) > 0 ? $level_data_name : ' - ';
+            $location_details[] = $level . " : " . $level_data_name;
+          }
+          $csv_export[] = $csv_data;
+        }
+      }
+
       $this->arrayCsvDownload($csv_export, $country_name);
     }
 
@@ -187,7 +213,6 @@ class ExportLocationForm extends FormBase {
    * {@inheritdoc}
    */
   protected function arrayCsvDownload($array, $filename, $delimiter = ",") {
-
     header('Content-Type: application/csv');
     header('Content-Disposition: attachment; filename="' . $filename . '.csv";');
 
