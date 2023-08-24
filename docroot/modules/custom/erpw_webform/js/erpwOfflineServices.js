@@ -130,12 +130,13 @@
         // Attach click event handler to view items
         $(".views-row").on("click", function (event) {
           // Check if the user is offline
+
           if (!navigator.onLine) {
-            console.log("offline");
             event.preventDefault(); // Prevent default link behavior
 
             // Find the "Edit" link within the clicked view item
             const editLink = $(this).find(".edit-link a");
+
             if (editLink.length) {
               const editUrl = editLink.attr("href");
 
@@ -143,15 +144,11 @@
               const itemIdMatch = editUrl.match(/\/submission\/(\d+)\/edit/);
               if (itemIdMatch && itemIdMatch[1]) {
                 const itemId = itemIdMatch[1];
-                console.log(itemIdMatch);
                 localforage
                   .getItem(itemId)
                   .then((itemData) => {
-                    // Convert the itemData to a JSON string
-                    const itemDataString = JSON.stringify(itemData);
-
                     // Store the itemDataString in a session storage variable
-                    sessionStorage.setItem("offlineItemData", itemDataString);
+                    localStorage.setItem("offlineItemData", itemData);
 
                     // Redirect to the offline page with the item ID as a parameter
                     window.location.href = `/service-information-offline`;

@@ -79,6 +79,14 @@
   margin: 15px 0;
   word-break: break-word;
 }
+.offline-service-view-page .offline-service-content {
+  padding: 20px !important;
+  margin-bottom: 60px !important;
+}
+.offline-service-view-page main {
+  padding: 0 !important;
+  margin: 0 !important;
+}
 
 /* Webform submissions list page. */
 .services-webform-submissions-list .view-filters {
@@ -586,8 +594,8 @@
   display: none;
 }
 .webform-submission-form .table-format {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 @media only screen and (min-width: 1024px) {
   .webform-submission-form .table-format .webform-mapping-table {
