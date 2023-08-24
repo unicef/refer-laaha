@@ -250,6 +250,15 @@ class SignUpForm extends FormBase {
       ],
     ];
 
+    $form['system_role'] = [
+      '#type' => 'select',
+      '#options' => erpw_custom_current_user_assignable_system_roles($this->currentUser->id()),
+      '#empty_option' => $this->t('Select System Role'),
+      '#title' => $this->t('System Role'),
+      '#required' => TRUE,
+      '#default_value' => '',
+    ];
+
     $form['position'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Position'),
@@ -258,14 +267,6 @@ class SignUpForm extends FormBase {
       '#default_value' => !empty($field_position) ? $field_position : $form_state->getValue('position', ''),
     ];
 
-    $form['system_role'] = [
-      '#type' => 'select',
-      '#options' => erpw_custom_current_user_assignable_system_roles($this->currentUser->id()),
-      '#empty_option' => $this->t('Select System Role'),
-      '#title' => $this->t('System Role'),
-      '#required' => TRUE,
-      '#default_value' => !empty($system_role) ? $system_role : $form_state->getValue('system_role', ''),
-    ];
     if ($this->userId != "") {
       $form = self::formPageTwo($form, $form_state);
     }
