@@ -41,3 +41,13 @@ erpw_webform_element_access:
   dependencies:
     - core/jquery
     - core/drupalSettings
+
+erpw_webform_offline:
+  version: 1.0
+  js:
+    //cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js:
+      { type: external, minified: true }
+    js/erpwOfflineServices.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
