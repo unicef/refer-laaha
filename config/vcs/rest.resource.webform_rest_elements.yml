@@ -1,0 +1,21 @@
+uuid: b3ac3272-065c-44f9-9b28-227547ed2033
+langcode: en
+status: true
+dependencies:
+  module:
+    - hal
+    - serialization
+    - user
+    - webform_rest
+id: webform_rest_elements
+plugin_id: webform_rest_elements
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - hal_json
+    - json
+    - xml
+  authentication:
+    - cookie

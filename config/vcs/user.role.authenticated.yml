@@ -4,11 +4,15 @@ status: true
 dependencies:
   config:
     - filter.format.basic_html
+    - rest.resource.webform_rest_elements
+    - rest.resource.webform_rest_submission
+    - rest.resource.webform_rest_submit
   module:
     - comment
     - contact
     - filter
     - google_analytics
+    - rest
     - search
     - shortcut
     - system
@@ -31,3 +35,7 @@ permissions:
   - 'use text format basic_html'
   - 'view any webform submission'
   - 'view own webform submission'
+  - 'restful post webform_rest_submit'
+  - 'restful patch webform_rest_submission'
+  - 'restful get webform_rest_elements'
+  - 'restful get webform_rest_submission'

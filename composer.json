@@ -65,6 +65,7 @@
         "drupal/permissions_filter": "^1.2",
         "drupal/pwa": "^1.7",
         "drupal/quick_node_clone": "^1.14",
+        "drupal/restui": "^1.21",
         "drupal/role_hierarchy": "^2.2",
         "drupal/seckit": "^2.0",
         "drupal/shield": "^1.4",
@@ -77,6 +78,7 @@
         "drupal/view_password": "^6.0",
         "drupal/views_attach_library": "^2.0",
         "drupal/webform": "^6.1",
+        "drupal/webform_rest": "4.0.0-beta2",
         "drupal/webform_workflows_element": "^1.0@alpha",
         "drupal/workflow_buttons": "^1.0@beta",
         "drush/drush": "^11"
@@ -162,6 +164,9 @@
             },
             "drupal/pwa": {
                 "Add schema to pwa block to enable translation for Add to Home Screen Block.": "patches/pwa_a2hs-schema-changes.patch"
+            },
+            "drupal/restui": {
+                "Use the ModuleHandlerInterface instead of the ModuleHandler concrete implementation ": "https://www.drupal.org/files/issues/2023-01-09/restui-use-moduleHandlerInterface-3327681-04.patch"
             }
         }
     }
