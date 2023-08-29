@@ -135,7 +135,6 @@
 
           if (!navigator.onLine) {
             event.preventDefault(); // Prevent default link behavior
-            console.log(viewClassFinal);
             // Find the "Edit" link within the clicked view item
             const editLink = $(this).find(".edit-link a");
 

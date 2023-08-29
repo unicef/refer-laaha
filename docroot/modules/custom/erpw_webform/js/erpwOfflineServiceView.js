@@ -10,7 +10,9 @@
       alreadyExecuted = true;
 
       $(document).ready(function () {
-        if (window.location.href.includes("/service-information-offline")) {
+        if (
+          window.location.pathname.startsWith("/service-information-offline")
+        ) {
           // Parse the URL search parameters
           var urlParams = new URLSearchParams(window.location.search);
 
