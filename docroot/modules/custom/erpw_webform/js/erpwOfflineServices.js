@@ -2,6 +2,7 @@
   Drupal.behaviors.erpwOfflineServices = {
     attach: function (context, settings) {
       $(document).ready(function () {
+        var viewClassFinal = "";
         function fetchDataAndStore() {
           // Get the current domain dynamically
           var baseUrl = window.location.protocol + "//" + window.location.host;
@@ -38,6 +39,7 @@
                 version: 1.0,
                 storeName: viewClass,
               });
+              viewClassFinal = viewClass;
               fetch(urlFetch)
                 .then((response) => response.json())
                 .then((dataArray) => {
@@ -126,6 +128,39 @@
           const intervalTime = 2 * 60 * 1000; // 2 minutes in milliseconds
           setInterval(fetchDataAndStore, intervalTime);
         }
+
+        // Attach click event handler to view items
+        $(".views-row").on("click", function (event) {
+          // Check if the user is offline
+
+          if (!navigator.onLine) {
+            event.preventDefault(); // Prevent default link behavior
+            // Find the "Edit" link within the clicked view item
+            const editLink = $(this).find(".edit-link a");
+
+            if (editLink.length) {
+              const editUrl = editLink.attr("href");
+
+              // Extract the item ID from the edit URL using regular expressions
+              const itemIdMatch = editUrl.match(/\/submission\/(\d+)\/edit/);
+              if (itemIdMatch && itemIdMatch[1]) {
+                const itemId = itemIdMatch[1];
+                localforage
+                  .getItem(itemId)
+                  .then((itemData) => {
+                    // Redirect to the offline page with the item ID as a parameter
+                    window.location.href = `/service-information-offline?serviceId=${itemId}&view=${viewClassFinal}`;
+                  })
+                  .catch((error) => {
+                    console.error(
+                      `Error retrieving data from IndexedDB for item ${itemId}`,
+                      error
+                    );
+                  });
+              }
+            }
+          }
+        });
       });
     },
   };
