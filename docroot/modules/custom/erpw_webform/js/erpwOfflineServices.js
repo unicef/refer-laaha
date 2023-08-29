@@ -2,6 +2,7 @@
   Drupal.behaviors.erpwOfflineServices = {
     attach: function (context, settings) {
       $(document).ready(function () {
+        var viewClassFinal = "";
         function fetchDataAndStore() {
           // Get the current domain dynamically
           var baseUrl = window.location.protocol + "//" + window.location.host;
@@ -38,6 +39,7 @@
                 version: 1.0,
                 storeName: viewClass,
               });
+              viewClassFinal = viewClass;
               fetch(urlFetch)
                 .then((response) => response.json())
                 .then((dataArray) => {
@@ -133,7 +135,7 @@
 
           if (!navigator.onLine) {
             event.preventDefault(); // Prevent default link behavior
-
+            console.log(viewClassFinal);
             // Find the "Edit" link within the clicked view item
             const editLink = $(this).find(".edit-link a");
 
@@ -147,11 +149,8 @@
                 localforage
                   .getItem(itemId)
                   .then((itemData) => {
-                    // Store the itemDataString in a session storage variable
-                    localStorage.setItem("offlineItemData", itemData);
-
                     // Redirect to the offline page with the item ID as a parameter
-                    window.location.href = `/service-information-offline`;
+                    window.location.href = `/service-information-offline?serviceId=${itemId}&view=${viewClassFinal}`;
                   })
                   .catch((error) => {
                     console.error(
