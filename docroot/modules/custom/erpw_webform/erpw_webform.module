@@ -276,6 +276,12 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     }
     $form['elements']['step_1_add_service_details']['organisation']['#options'] = $options;
   }
+  if ($form_id == 'views_exposed_form') {
+    // Generate the action path for the view form.
+    $action_path = Url::fromRoute('<current>')->toString();
+    // Set the generated action path as the form's action attribute.
+    $form['#action'] = $action_path;
+  }
 }
 
 /**
