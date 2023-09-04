@@ -58,6 +58,13 @@ class ServiceSubmissionsView extends ControllerBase {
       $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
       $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
       $stype = '';
+      $form_data = $webform_submission->getData();
+      $workflow_state = $form_data['erpw_workflow']['workflow_state'];
+      $current_user = $this->currentUser;
+      $user_role = $current_user->getRoles();
+      if ($user_role[0] == 'authenticated') {
+        $can_edit = $this->checkUserEditRights($workflow_state, $user_role[1]);
+      }
       foreach ($tpa as $domain => $servicetype) {
         if ($domain == $activeDomain) {
           $stype = $servicetype[0];
@@ -302,6 +309,14 @@ class ServiceSubmissionsView extends ControllerBase {
             </div>
           </div>';
       }
+      elseif (!$can_edit) {
+        $markup = '
+          <div class="service-provider-details">
+            <div class="service-detail-heading">
+              <h3>' . t('Service Details') . '</h3>
+            </div>
+          </div>';
+      }
       else {
         $markup = '
           <div class="service-provider-details">
@@ -349,6 +364,10 @@ class ServiceSubmissionsView extends ControllerBase {
     }
   }
 
+  /**
+   * Generate key value pair of elements in the webform submission which are in edit or delete
+   * workflow.
+   */
   public function content_approved(WebformSubmission $webform_submission) {
     if (!is_null($webform_submission)) {
       $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($webform_submission->id());
@@ -369,10 +388,10 @@ class ServiceSubmissionsView extends ControllerBase {
         $output[] = ['Service Type' => $servicelabel];
       }
 
-      // Check if the service is in Edit workflow
+      // Check if the service is in Edit workflow.
       $node = erpw_webform__load_wsa_node_by_sid($webform_submission->id());
       if ($node) {
-        $fields = json_decode($node->field_submission_data->value, true);
+        $fields = json_decode($node->field_submission_data->value, TRUE);
       }
       else {
         $fields = $webform_submission->getData();
@@ -675,35 +694,42 @@ class ServiceSubmissionsView extends ControllerBase {
     $updated_opening_hours = [];
     foreach ($opening_hours_data as $key => $value) {
       $key = strtolower($key);
-      switch(trim($key)) {
+      switch (trim($key)) {
         case 'monday':
         case 'mon':
           $temp_opening_hours[0][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
+
         case 'tuesday':
         case 'tue':
           $temp_opening_hours[1][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
+
         case 'wednesday':
         case 'wed':
           $temp_opening_hours[2][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
+
         case 'thursday':
         case 'thu':
           $temp_opening_hours[3][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
+
         case 'friday':
         case 'fri':
           $temp_opening_hours[4][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
+
         case 'saturday':
         case 'sat':
           $temp_opening_hours[5][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
+
         case 'sunday':
         case 'sun':
           $temp_opening_hours[6][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
           break;
+
         default:
           $temp_opening_hours[][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
       }
@@ -714,4 +740,51 @@ class ServiceSubmissionsView extends ControllerBase {
     }
     return $updated_opening_hours;
   }
+
+  /**
+   * Checks whether the current user can make edits to a given service.
+   *
+   * @param string $workflow_state
+   *   The current workflow state.
+   * @param string $user_role
+   *   The current user's role.
+   *
+   * @return bool
+   *   TRUE if the user can edit, FALSE otherwise.
+   */
+  public function checkUserEditRights(string $workflow_state, string $user_role): bool {
+    $can_edit = FALSE;
+
+    $focal_point_roles = ['service_provider_focal_point', 'super_admin', 'administrator'];
+    $gbv_coordination_roles = ['country_admin', 'interagency_gbv_coordinator', 'super_admin', 'administrator'];
+
+    switch ($workflow_state) {
+      case 'in_review_with_focal_point':
+      case 'edits_in_review_with_focal_point':
+      case 'deletion_in_review_with_focal_point':
+        if (in_array($user_role, $focal_point_roles)) {
+          $can_edit = TRUE;
+        }
+        break;
+
+      case 'in_review':
+      case 'edits_in_review_with_gbv_coordination':
+      case 'deletion_in_review_with_gbv_coordination':
+        if (in_array($user_role, $gbv_coordination_roles)) {
+          $can_edit = TRUE;
+        }
+        break;
+
+      case 'approve':
+      case 'reject':
+        $can_edit = TRUE;
+        break;
+
+      default:
+        $can_edit = FALSE;
+    }
+
+    return $can_edit;
+  }
+
 }
