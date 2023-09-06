@@ -797,6 +797,22 @@ display:
         type: none
         options:
           offset: 0
+      access:
+        type: role
+        options:
+          role:
+            authenticated: authenticated
+            service_provider_staff: service_provider_staff
+            service_provider_focal_point: service_provider_focal_point
+            interagency_gbv_coordinator: interagency_gbv_coordinator
+            country_admin: country_admin
+            super_admin: super_admin
+            administrator: administrator
+      filters: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       style:
         type: serializer
         options:
@@ -823,7 +839,10 @@ display:
               alias: ''
               raw_output: false
       defaults:
+        access: false
         fields: false
+        filters: false
+        filter_groups: false
       display_extenders:
         library_in_views_display_extender: {  }
       path: webform_submission/rest_export

@@ -5,6 +5,7 @@ namespace Drupal\erpw_webform\Plugin\views\field;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Drupal\views\ResultRow;
 use Drupal\node\Entity\Node;
+use Drupal\user\Entity\User;
 
 /**
  * Custom Views field plugin.
@@ -38,6 +39,20 @@ class WebformSubmissionAllData extends FieldPluginBase {
           }
         }
         $output = [];
+        $output[] = ['webformID' => $webformID];
+        // Get the "Submitted By" user ID from the submission.
+        $submitted_by_uid = $webformSubmission->get('uid')->target_id;
+
+        // Load the user entity based on the user ID.
+        $user = User::load($submitted_by_uid);
+
+        if ($user) {
+          // Get user information, such as name and email.
+          $output[] = ['Submitted By' => $user->getAccountName()];
+        }
+        else {
+          $output[] = ['Submitted By' => t('Not available')];
+        }
         if (!is_null($stype) && !empty($stype)) {
           $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype));
           if ($servicetype instanceof Node) {
@@ -47,6 +62,8 @@ class WebformSubmissionAllData extends FieldPluginBase {
             $servicelabel = t('Not available');
           }
           $output[] = ['Service Type' => $servicelabel];
+          $output[] = ['Service Type Color' => $servicetype->get('field_service_type_color')->getValue()[0]['color']];
+          $output[] = ['Service Type Icon' => $servicetype->get('field_service_type_icon')->getValue()[0]['value']];
         }
         $fields = $webformSubmission->getData();
         $location = '';
@@ -259,6 +276,56 @@ class WebformSubmissionAllData extends FieldPluginBase {
                 }
               }
             }
+          }
+          if ($key == 'erpw_workflow') {
+            $op = '';
+            $opClass = '';
+            if ($content['workflow_state'] == 'approve') {
+              $op = 'Approved';
+              $opClass = 'approved-workflow';
+            }
+            elseif ($content['workflow_state'] == 'reject') {
+              $op = 'Rejected';
+              $opClass = 'rejected-workflow';
+            }
+            elseif ($content['workflow_state'] == 'draft') {
+              $op = 'Draft';
+              $opClass = 'draft-workflow';
+            }
+            elseif ($content['workflow_state'] == 'in_review') {
+              $op = 'In Review with GBV Coordination';
+              $opClass = 'in-review-coordination-workflow';
+            }
+            elseif ($content['workflow_state'] == 'in_review_with_focal_point') {
+              $op = 'In Review with Focal Point';
+              $opClass = 'in-review-focal-point-workflow';
+            }
+            elseif ($content['workflow_state'] == 'edits_in_review_with_focal_point') {
+              $op = 'Edits In Review with Focal Point';
+              $opClass = 'edits-in-review-focal-point-workflow';
+
+            }
+            elseif ($content['workflow_state'] == 'edits_in_review_with_gbv_coordination') {
+              $op = 'Edits In Review with GBV Coordination';
+              $opClass = 'edits-in-review-coordination-workflow';
+            }
+            elseif ($content['workflow_state'] == 'deletion_in_review_with_focal_point') {
+              $op = 'Deletion In Review with Focal Point';
+              $opClass = 'deletion-in-review-focal-point-workflow';
+            }
+            elseif ($output == 'deletion_in_review_with_gbv_coordination') {
+              $op = 'Deletion In Review with GBV Coordination';
+              $opClass = 'deletion-in-review-coordination-workflow';
+            }
+            elseif ($output == 'deleted') {
+              $op = 'Deleted';
+              $opClass = 'deleted-workflow';
+            }
+            else {
+              $op = t('Not available.');
+            }
+            $output[] = ['Status' => $op];
+            $output[] = ['StatusClass' => $opClass];
           }
         }
         // Sort the output alphabetically.
