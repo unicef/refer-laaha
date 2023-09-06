@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   module:
-    - hal
     - serialization
     - user
     - webform_rest
@@ -14,8 +13,7 @@ configuration:
   methods:
     - GET
   formats:
-    - hal_json
-    - json
-    - xml
+    1: json
+    2: xml
   authentication:
     - cookie
