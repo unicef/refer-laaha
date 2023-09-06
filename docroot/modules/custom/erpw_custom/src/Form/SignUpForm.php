@@ -712,9 +712,20 @@ class SignUpForm extends FormBase {
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
 
-      // For IA Coordinator workflow.
       $roles = $this->currentUser->getRoles();
       $ws = '';
+      // For SPFP workflow.
+      if(in_array('service_provider_focal_point', $roles)) {
+        if ($values['system_role'] == 'service_provider_staff') {
+          $ws = 'spfp-register-sp-staff';
+        }
+        if ($values['system_role'] == 'service_provider_focal_point') {
+          $ws = 'spfp-register-spfp';
+        }
+        $user->set('field_transitions', $ws); 
+      }
+
+      // For IA Coordinator workflow.
       if(in_array('interagency_gbv_coordinator', $roles)) {
         if ($values['system_role'] == 'service_provider_staff') {
           $ws = 'gbv-coordination-register-sp-staff';
