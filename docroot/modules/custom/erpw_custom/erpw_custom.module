@@ -846,6 +846,8 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
               ":user__field_transitions_field_transitions_value[]" => [
                 "self-register-spfp" => "self-register-spfp",
                 "spfp-accept" => "spfp-accept",
+                "spfp-register-spfp" => "spfp-register-spfp",
+                "spfp-register-sp-staff" => "spfp-register-sp-staff",
               ],
             ];
             $condition['value'] = $value;
@@ -927,6 +929,8 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
               ":user__field_transitions_field_transitions_value[]" => [
                 "self-register-spfp" => "self-register-spfp",
                 "spfp-accept" => "spfp-accept",
+                "spfp-register-spfp" => "spfp-register-spfp",
+                "spfp-register-sp-staff" => "spfp-register-sp-staff",
               ],
             ];
             $condition['value'] = $value;
