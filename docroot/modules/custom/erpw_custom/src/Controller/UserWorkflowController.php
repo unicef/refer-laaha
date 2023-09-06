@@ -94,39 +94,77 @@ class UserWorkflowController extends ControllerBase {
     // For GBV Coordination.
     if (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
       // Make sure this is the right user take action.
-      if ($user->hasRole('service_provider_staff') && $user->get('field_transitions')->getString() == 'spfp-accept') {
-        // Update the user with new transition.
-        $user->activate();
-        $user->set('field_transitions', 'gbv-coordination-accept');
-        $user->save();
+      if ($user->hasRole('service_provider_staff')) {
+        if ($user->get('field_transitions')->getString() == 'spfp-accept') {
+          // Update the user with new transition.
+          $user->activate();
+          $user->set('field_transitions', 'gbv-coordination-accept');
+          $user->save();
 
-        // Update user workflow history entity.
-        $current_time = \Drupal::time()->getCurrentTime('d');    
-        $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-          'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
-          'status' => 1,
-          'field_user' => $user->id(),
-          'field_workflow_status_before' => 'spfp-accept',
-          'field_workflow_status_after' => 'gbv-coordination-accept',
-        ]);
-        $euwh->save();
+          // Update user workflow history entity.
+          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'status' => 1,
+            'field_user' => $user->id(),
+            'field_workflow_status_before' => 'spfp-accept',
+            'field_workflow_status_after' => 'gbv-coordination-accept',
+          ]);
+          $euwh->save();
+        }
+        if ($user->get('field_transitions')->getString() == 'spfp-register-sp-staff') {
+          // Update the user with new transition.
+          $user->activate();
+          $user->set('field_transitions', 'gbv-coordination-accept');
+          $user->save();
+
+          // Update user workflow history entity.
+          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'status' => 1,
+            'field_user' => $user->id(),
+            'field_workflow_status_before' => 'spfp-register-sp-staff',
+            'field_workflow_status_after' => 'gbv-coordination-accept',
+          ]);
+          $euwh->save();
+        }
       }
-      elseif ($user->hasRole('service_provider_focal_point') && $user->get('field_transitions')->getString() == 'self-register-spfp') {
-        // Update the user with new transition.
-        $user->activate();
-        $user->set('field_transitions', 'gbv-coordination-accept');
-        $user->save();
+      elseif ($user->hasRole('service_provider_focal_point')) {
+        if ($user->get('field_transitions')->getString() == 'self-register-spfp') {
+          // Update the user with new transition.
+          $user->activate();
+          $user->set('field_transitions', 'gbv-coordination-accept');
+          $user->save();
 
-        // Update user workflow history entity.
-        $current_time = \Drupal::time()->getCurrentTime('d');    
-        $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-          'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
-          'status' => 1,
-          'field_user' => $user->id(),
-          'field_workflow_status_before' => 'self-register-spfp',
-          'field_workflow_status_after' => 'gbv-coordination-accept',
-        ]);
-        $euwh->save();
+          // Update user workflow history entity.
+          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'status' => 1,
+            'field_user' => $user->id(),
+            'field_workflow_status_before' => 'self-register-spfp',
+            'field_workflow_status_after' => 'gbv-coordination-accept',
+          ]);
+          $euwh->save();
+        }
+        if ($user->get('field_transitions')->getString() == 'spfp-register-spfp') {
+          // Update the user with new transition.
+          $user->activate();
+          $user->set('field_transitions', 'gbv-coordination-accept');
+          $user->save();
+
+          // Update user workflow history entity.
+          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'status' => 1,
+            'field_user' => $user->id(),
+            'field_workflow_status_before' => 'spfp-register-spfp',
+            'field_workflow_status_after' => 'gbv-coordination-accept',
+          ]);
+          $euwh->save();
+        }
       }
       else {
         $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
@@ -194,59 +232,117 @@ class UserWorkflowController extends ControllerBase {
     // For GBV Coordination.
     if (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
       // Make sure this is the right user take action.
-      if ($user->hasRole('service_provider_staff') && $user->get('field_transitions')->getString() == 'spfp-accept') {
-        // Update the user with new transition.
-        $user->set('field_transitions', 'gbv-coordination-reject');
-        $time = time();
-        // Email update.
-        $current_email = $user->getEmail();
-        $new_email = $current_email . '_' . $time;
-        $user->setEmail($new_email);
-        // Username update.
-        $current_username = $user->getAccountName();
-        $new_username = $current_username . '_' . $time;
-        $user->setUsername($new_username);
-        // Softdelete flag.
-        $user->set('field_soft_delete', 1);
-        $user->save();
+      if ($user->hasRole('service_provider_staff')) {
+        if ($user->get('field_transitions')->getString() == 'spfp-accept') {
+          // Update the user with new transition.
+          $user->set('field_transitions', 'gbv-coordination-reject');
+          $time = time();
+          // Email update.
+          $current_email = $user->getEmail();
+          $new_email = $current_email . '_' . $time;
+          $user->setEmail($new_email);
+          // Username update.
+          $current_username = $user->getAccountName();
+          $new_username = $current_username . '_' . $time;
+          $user->setUsername($new_username);
+          // Softdelete flag.
+          $user->set('field_soft_delete', 1);
+          $user->save();
 
-        // Update user workflow history entity.
-        $current_time = \Drupal::time()->getCurrentTime('d');    
-        $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-          'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
-          'status' => 1,
-          'field_user' => $user->id(),
-          'field_workflow_status_before' => 'spfp-accept',
-          'field_workflow_status_after' => 'gbv-coordination-reject',
-        ]);
-        $euwh->save();
+          // Update user workflow history entity.
+          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'status' => 1,
+            'field_user' => $user->id(),
+            'field_workflow_status_before' => 'spfp-accept',
+            'field_workflow_status_after' => 'gbv-coordination-reject',
+          ]);
+          $euwh->save();
+        }
+        if ($user->get('field_transitions')->getString() == 'spfp-register-sp-staff') {
+          // Update the user with new transition.
+          $user->set('field_transitions', 'gbv-coordination-reject');
+          $time = time();
+          // Email update.
+          $current_email = $user->getEmail();
+          $new_email = $current_email . '_' . $time;
+          $user->setEmail($new_email);
+          // Username update.
+          $current_username = $user->getAccountName();
+          $new_username = $current_username . '_' . $time;
+          $user->setUsername($new_username);
+          // Softdelete flag.
+          $user->set('field_soft_delete', 1);
+          $user->save();
+
+          // Update user workflow history entity.
+          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'status' => 1,
+            'field_user' => $user->id(),
+            'field_workflow_status_before' => 'spfp-register-sp-staff',
+            'field_workflow_status_after' => 'gbv-coordination-reject',
+          ]);
+          $euwh->save();
+        }
       }
-      elseif ($user->hasRole('service_provider_focal_point') && $user->get('field_transitions')->getString() == 'self-register-spfp') {
-        // Update the user with new transition.
-        $user->set('field_transitions', 'gbv-coordination-reject');
-        $time = time();
-        // Email update.
-        $current_email = $user->getEmail();
-        $new_email = $current_email . '_' . $time;
-        $user->setEmail($new_email);
-        // Username update.
-        $current_username = $user->getAccountName();
-        $new_username = $current_username . '_' . $time;
-        $user->setUsername($new_username);
-        // Softdelete flag.
-        $user->set('field_soft_delete', 1);
-        $user->save();
+      elseif ($user->hasRole('service_provider_focal_point')) {
+        if ($user->get('field_transitions')->getString() == 'self-register-spfp') {
+          // Update the user with new transition.
+          $user->set('field_transitions', 'gbv-coordination-reject');
+          $time = time();
+          // Email update.
+          $current_email = $user->getEmail();
+          $new_email = $current_email . '_' . $time;
+          $user->setEmail($new_email);
+          // Username update.
+          $current_username = $user->getAccountName();
+          $new_username = $current_username . '_' . $time;
+          $user->setUsername($new_username);
+          // Softdelete flag.
+          $user->set('field_soft_delete', 1);
+          $user->save();
 
-        // Update user workflow history entity.
-        $current_time = \Drupal::time()->getCurrentTime('d');    
-        $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-          'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
-          'status' => 1,
-          'field_user' => $user->id(),
-          'field_workflow_status_before' => 'self-register-spfp',
-          'field_workflow_status_after' => 'gbv-coordination-reject',
-        ]);
-        $euwh->save();
+          // Update user workflow history entity.
+          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'status' => 1,
+            'field_user' => $user->id(),
+            'field_workflow_status_before' => 'self-register-spfp',
+            'field_workflow_status_after' => 'gbv-coordination-reject',
+          ]);
+          $euwh->save();
+        }
+        if ($user->get('field_transitions')->getString() == 'spfp-register-spfp') {
+          // Update the user with new transition.
+          $user->set('field_transitions', 'gbv-coordination-reject');
+          $time = time();
+          // Email update.
+          $current_email = $user->getEmail();
+          $new_email = $current_email . '_' . $time;
+          $user->setEmail($new_email);
+          // Username update.
+          $current_username = $user->getAccountName();
+          $new_username = $current_username . '_' . $time;
+          $user->setUsername($new_username);
+          // Softdelete flag.
+          $user->set('field_soft_delete', 1);
+          $user->save();
+
+          // Update user workflow history entity.
+          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'status' => 1,
+            'field_user' => $user->id(),
+            'field_workflow_status_before' => 'spfp-register-spfp',
+            'field_workflow_status_after' => 'gbv-coordination-reject',
+          ]);
+          $euwh->save();
+        }
       }
       else {
         $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
