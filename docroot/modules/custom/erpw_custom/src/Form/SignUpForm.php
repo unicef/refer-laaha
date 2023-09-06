@@ -660,7 +660,7 @@ class SignUpForm extends FormBase {
       $user->save();
 
       // Update user workflow history entity.
-      $current_time = \Drupal::time()->getCurrentTime('d');    
+      $current_time = \Drupal::time()->getCurrentTime('d');
       $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
         'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
         'status' => 1,
@@ -715,7 +715,7 @@ class SignUpForm extends FormBase {
       // For IA Coordinator workflow.
       $roles = $this->currentUser->getRoles();
       $ws = '';
-      if(in_array('interagency_gbv_coordinator', $roles)) {
+      if (in_array('interagency_gbv_coordinator', $roles)) {
         if ($values['system_role'] == 'service_provider_staff') {
           $ws = 'gbv-coordination-register-sp-staff';
         }
@@ -725,11 +725,11 @@ class SignUpForm extends FormBase {
         if ($values['system_role'] == 'interagency_gbv_coordinator') {
           $ws = 'ia-coordinator-register-ia-coordinator';
         }
-        $user->set('field_transitions', $ws); 
+        $user->set('field_transitions', $ws);
       }
 
       // For country admin workflow.
-      if(in_array('country_admin', $roles)) {
+      if (in_array('country_admin', $roles)) {
         if ($values['system_role'] == 'service_provider_staff') {
           $ws = 'gbv-coordination-register-sp-staff';
         }
@@ -742,13 +742,13 @@ class SignUpForm extends FormBase {
         if ($values['system_role'] == 'country_admin') {
           $ws = 'country-admin-register-country-admin';
         }
-        $user->set('field_transitions', $ws); 
+        $user->set('field_transitions', $ws);
       }
       $user->set('field_soft_delete', 0);
       $user->save();
 
       // Update user workflow history entity.
-      $current_time = \Drupal::time()->getCurrentTime('d');    
+      $current_time = \Drupal::time()->getCurrentTime('d');
       $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
         'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
         'status' => 1,

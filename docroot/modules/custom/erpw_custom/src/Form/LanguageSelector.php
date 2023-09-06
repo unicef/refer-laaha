@@ -196,10 +196,10 @@ class LanguageSelector extends FormBase {
       $domain_path = $domain->get('path');
       $redirect_url = Url::fromUri($domain_path . $domain_lang);
 
-      // Get full domain for setting Location cookie
+      // Get full domain for setting Location cookie.
       $current_domain = $this->domainNegotiator->getActiveDomain();
       $url = preg_replace('/^[^.]+\./', '', $current_domain->getHostname());
-      // Get sliced domain for setting Language cookie
+      // Get sliced domain for setting Language cookie.
       $domain_current_url = explode(".", $this->requestStack->getCurrentRequest()->server->get('SERVER_NAME'));
       $domain_slice = array_slice($domain_current_url, -2);
       $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
@@ -220,9 +220,9 @@ class LanguageSelector extends FormBase {
         // $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
         // $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
       }
-      // else {
+      // Else {
       //   $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
-      // }
+      // }.
       setcookie($this->locationCookie->getCookieName(), $default_location, strtotime('+1 year'), '/', $url, FALSE);
       $form_state->setRedirectUrl($redirect_url);
     }
