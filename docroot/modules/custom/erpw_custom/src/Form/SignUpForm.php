@@ -523,8 +523,8 @@ class SignUpForm extends FormBase {
     $form['message-step'] = [
       '#markup' => '<div class="step">' . $this->t('Step 3: Password') . '</div>',
     ];
-
-    if ($this->currentUser->id()) {
+    $roles = $this->currentUser->getRoles();
+    if ($this->currentUser->id() && (!in_array('service_provider_focal_point', $roles))) {
       $form['message-info'] = [
         '#prefix' => '<div id="status-message" class="password-creation">',
         '#markup' => '<div class="notify-messsage">' .
@@ -551,6 +551,44 @@ class SignUpForm extends FormBase {
         '#value' => $this->t('Back'),
         '#submit' => ['::pageTwoBack'],
         '#limit_validation_errors' => [],
+      ];
+    }
+    elseif (in_array('service_provider_focal_point', $roles)) {
+      $form['#prefix'] = '<div id="status-message"></div>';
+      $values = $form_state->get('page_values');
+      $form['message-info'] = [
+        '#markup' => '<div class="notify-messsage">' .
+        $this->t('User will receive email for set password, once the user get approved by GBV Coordination') .
+        '</div>',
+      ];
+      $form['email'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Email'),
+        '#required' => TRUE,
+        '#placeholder' => $this->t('Enter email id'),
+        '#disabled' => TRUE,
+        '#default_value' => $values['email'],
+      ];
+      $form['back'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Back'),
+        '#submit' => ['::pageTwoBack'],
+        '#limit_validation_errors' => [],
+      ];
+      $form['submit'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('REQUEST REGISTRATION'),
+        '#attributes' => [
+          'class' => [
+            'use-ajax',
+            'arrow-btn',
+          ],
+        ],
+        '#ajax' => [
+          'callback' => [$this, 'requestRegistrationApproval'],
+          "wrapper" => "requestRegistrationApproval",
+          'event' => 'click',
+        ],
       ];
     }
     else {
@@ -712,9 +750,10 @@ class SignUpForm extends FormBase {
       ];
       $user = $this->entityTypeManager->getStorage('user')->create($user_info);
 
-      // For IA Coordinator workflow.
       $roles = $this->currentUser->getRoles();
       $ws = '';
+
+      // For IA Coordinator workflow.
       if(in_array('interagency_gbv_coordinator', $roles)) {
         if ($values['system_role'] == 'service_provider_staff') {
           $ws = 'gbv-coordination-register-sp-staff';
@@ -759,6 +798,74 @@ class SignUpForm extends FormBase {
       $euwh->save();
 
       _user_mail_notify('register_admin_created', $user);
+      $response = new AjaxResponse();
+      $url = Url::fromRoute('view.user_lists.page_1')->toString();
+      $command = new RedirectCommand($url);
+      $response->addCommand($command);
+    }
+    return $response;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function requestRegistrationApproval(array &$form, FormStateInterface $form_state) {
+    $response = new AjaxResponse();
+    if ($form_state->hasAnyErrors()) {
+      $errors = $form_state->getErrors();
+      $command_content = $errors['password'];
+      $response->addCommand(new InvokeCommand(
+        '#status-message', 'addClass', ['messages messages--error']));
+      $response->addCommand(new HtmlCommand('#status-message', $command_content));
+    }
+    else {
+      $form_state->clearErrors();
+      $form_state->setRebuild(TRUE);
+      $values = $form_state->get('page_values');
+      $location_values = $form_state->get('page_two_values');
+      $user_info = [
+        'status' => 0,
+        'name' => $values['email'],
+        'pass' => 'password',
+        'mail' => $values['email'],
+        'field_first_name' => $values['first_name'],
+        'field_last_name' => $values['last_name'],
+        'field_phone' => $values['phone'],
+        'field_organisation' => $values['organisation'],
+        'field_position' => $values['position'],
+        'field_location' => $location_values['location_tid'],
+        'roles' => $values['system_role'],
+        'field_system_role' => $values['system_role'],
+      ];
+      $user = $this->entityTypeManager->getStorage('user')->create($user_info);
+
+      $roles = $this->currentUser->getRoles();
+      $ws = '';
+      // For SPFP workflow.
+      if(in_array('service_provider_focal_point', $roles)) {
+        if ($values['system_role'] == 'service_provider_staff') {
+          $ws = 'spfp-register-sp-staff';
+        }
+        if ($values['system_role'] == 'service_provider_focal_point') {
+          $ws = 'spfp-register-spfp';
+        }
+        $user->set('field_transitions', $ws); 
+      }
+      $user->set('field_soft_delete', 0);
+      $user->save();
+
+      // Update user workflow history entity.
+      $current_time = \Drupal::time()->getCurrentTime('d');    
+      $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+        'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+        'status' => 1,
+        'field_user' => $user->id(),
+        'field_workflow_status_before' => 'registration',
+        'field_workflow_status_after' => $ws,
+      ]);
+      $euwh->save();
+
+      _user_mail_notify('register_pending_approval', $user);
       $response = new AjaxResponse();
       $url = Url::fromRoute('view.user_lists.page_1')->toString();
       $command = new RedirectCommand($url);
