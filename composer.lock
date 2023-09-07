@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a0ef9f418ab3b5d6b06b28e3b190a40d",
+    "content-hash": "e705b25d1c7c5a97f0531b330dd81f10",
     "packages": [
         {
             "name": "acquia/blt",
@@ -2287,54 +2287,6 @@
             }
         },
         {
-            "name": "drupal/config_views",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/config_views.git",
-                "reference": "2.0.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/config_views-2.0.0.zip",
-                "reference": "2.0.0",
-                "shasum": "e1ca72fe7b5dd7ff7445059f3dd75c2bbc824de9"
-            },
-            "require": {
-                "drupal/core": "^8 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "2.0.0",
-                    "datestamp": "1645191041",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "cosmicdreams",
-                    "homepage": "https://www.drupal.org/user/42579"
-                },
-                {
-                    "name": "vijaycs85",
-                    "homepage": "https://www.drupal.org/user/93488"
-                }
-            ],
-            "description": "Views handler implementation for configuration entities.",
-            "homepage": "https://www.drupal.org/project/config_views",
-            "support": {
-                "source": "https://git.drupalcode.org/project/config_views"
-            }
-        },
-        {
             "name": "drupal/content_lock",
             "version": "2.3.0",
             "source": {
@@ -3577,57 +3529,6 @@
             "homepage": "https://www.drupal.org/project/environment_indicator",
             "support": {
                 "source": "https://git.drupalcode.org/project/environment_indicator"
-            }
-        },
-        {
-            "name": "drupal/field_defaults",
-            "version": "1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/field_defaults.git",
-                "reference": "8.x-1.3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/field_defaults-8.x-1.3.zip",
-                "reference": "8.x-1.3",
-                "shasum": "22a6b0344adc0c25a026cdc1d911e19c48796522"
-            },
-            "require": {
-                "drupal/core": "^8 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.3",
-                    "datestamp": "1611268147",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "b_sharpe",
-                    "homepage": "https://www.drupal.org/user/2512258"
-                }
-            ],
-            "description": "Field Defaults allows batch updating of default field values to existing content.",
-            "homepage": "https://www.drupal.org/project/field_defaults",
-            "keywords": [
-                "Content",
-                "Content Construction Kit (CCK)",
-                "Drupal",
-                "Fields"
-            ],
-            "support": {
-                "source": "https://drupal.org/project/field_defaults",
-                "issues": "https://drupal.org/project/issues/field_defaults"
             }
         },
         {
@@ -5551,58 +5452,6 @@
             "homepage": "https://www.drupal.org/project/restui",
             "support": {
                 "source": "https://git.drupalcode.org/project/restui"
-            }
-        },
-        {
-            "name": "drupal/role_hierarchy",
-            "version": "2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/role_hierarchy.git",
-                "reference": "8.x-2.2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/role_hierarchy-8.x-2.2.zip",
-                "reference": "8.x-2.2",
-                "shasum": "b5dc500ffbcdab00f3fc2200816f041730efd4f2"
-            },
-            "require": {
-                "drupal/core": "^8 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-2.2",
-                    "datestamp": "1613641956",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Anthelixes",
-                    "homepage": "https://www.drupal.org/user/3619828"
-                },
-                {
-                    "name": "cristiroma",
-                    "homepage": "https://www.drupal.org/user/2267390"
-                },
-                {
-                    "name": "stefan.butura",
-                    "homepage": "https://www.drupal.org/user/3535177"
-                }
-            ],
-            "description": "Provides security updates for platforms that are using a clear role hierarchy.",
-            "homepage": "https://www.drupal.org/project/role_hierarchy",
-            "support": {
-                "source": "https://git.drupalcode.org/project/role_hierarchy"
             }
         },
         {
@@ -14011,28 +13860,29 @@
         },
         {
             "name": "drupal/devel",
-            "version": "4.2.1",
+            "version": "5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/devel.git",
-                "reference": "4.2.1"
+                "reference": "5.1.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/devel-4.2.1.zip",
-                "reference": "4.2.1",
-                "shasum": "aa08379bad81cb2e604ee9a0b9e2aabd86fae13f"
+                "url": "https://ftp.drupal.org/files/projects/devel-5.1.2.zip",
+                "reference": "5.1.2",
+                "shasum": "9b35e38bf2043bf87f88585b3d9100f38da8f07f"
             },
             "require": {
-                "doctrine/common": "^2.7",
-                "drupal/core": "^8.8 || ^9",
-                "symfony/var-dumper": "^4 || ^5"
+                "doctrine/common": "^2.7 || ^3.4",
+                "drupal/core": "^9 || ^10",
+                "php": ">=7.4",
+                "symfony/var-dumper": "^4 || ^5 || ^6"
             },
             "conflict": {
                 "kint-php/kint": "<3"
             },
             "require-dev": {
-                "drush/drush": "^10"
+                "drush/drush": "^11"
             },
             "suggest": {
                 "kint-php/kint": "Kint provides an informative display of arrays/objects. Useful for debugging and developing."
@@ -14040,8 +13890,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "4.2.1",
-                    "datestamp": "1664317444",
+                    "version": "5.1.2",
+                    "datestamp": "1686161028",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -14049,7 +13899,7 @@
                 },
                 "drush": {
                     "services": {
-                        "drush.services.yml": "^9 || ^10"
+                        "drush.services.yml": "^9 || ^10 || ^11"
                     }
                 }
             },
