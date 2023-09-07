@@ -597,6 +597,48 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+#offline-load-more-button a {
+  color: #a85766;
+  text-align: center;
+  width: 100%;
+  display: block;
+  text-decoration: underline;
+}
+.additional-details-offline {
+  margin: 20px 0;
+  padding: 10px;
+}
+.additional-details-offline .service-detail-heading h3 {
+  font-size: 16px;
+}
+.additional-details-offline .pair-container {
+  padding: 3px 0;
+}
+.additional-details-offline .pair-container .label {
+  max-width: 130px;
+  width: 100%;
+  display: inline-block;
+  color: #444;
+  font-size: 12px;
+  font-family: Roboto;
+}
+.additional-details-offline .pair-container .value {
+  color: #444;
+  font-size: 12px;
+  font-family: Roboto;
+}
+#offline-message-div {
+  padding: 30px;
+  text-align: center;
+  background: #a85766;
+  margin-top: 10px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
 @media only screen and (min-width: 1024px) {
   .webform-submission-form .table-format .webform-mapping-table {
     width: 50%;

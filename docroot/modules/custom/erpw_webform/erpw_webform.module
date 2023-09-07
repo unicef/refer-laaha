@@ -276,6 +276,12 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     }
     $form['elements']['step_1_add_service_details']['organisation']['#options'] = $options;
   }
+  if ($form_id == 'views_exposed_form') {
+    // Generate the action path for the view form.
+    $action_path = Url::fromRoute('<current>')->toString();
+    // Set the generated action path as the form's action attribute.
+    $form['#action'] = $action_path;
+  }
 }
 
 /**
@@ -519,18 +525,22 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
     if ($view->id() == 'manage_webform_services' || $view->id() == 'manage_in_review_webform_services_listing') {
       $arrayKey = 'webform_id';
     }
-    $serviceTypes = $view->exposed_widgets[$arrayKey]['#options'];
-    foreach ($serviceTypes as $key => $serviceType) {
-      if ($key == 'template_erpw_workflow') {
-        unset($view->exposed_widgets[$arrayKey]['#options'][$key]);
-      }
-      if ($key != 'template_erpw_workflow' && $key != 'All') {
-        $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($key);
-        $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-        $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-        if (!is_null($tpa)) {
-          if (!array_key_exists($activeDomain, $tpa)) {
+    if (!empty($view->exposed_widgets)) {
+      if (isset($view->exposed_widgets[$arrayKey]['#options'])) {
+        $serviceTypes = $view->exposed_widgets[$arrayKey]['#options'];
+        foreach ($serviceTypes as $key => $serviceType) {
+          if ($key == 'template_erpw_workflow') {
             unset($view->exposed_widgets[$arrayKey]['#options'][$key]);
+          }
+          if ($key != 'template_erpw_workflow' && $key != 'All') {
+            $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($key);
+            $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+            $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+            if (!is_null($tpa)) {
+              if (!array_key_exists($activeDomain, $tpa)) {
+                unset($view->exposed_widgets[$arrayKey]['#options'][$key]);
+              }
+            }
           }
         }
       }
