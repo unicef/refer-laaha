@@ -177,12 +177,12 @@ class UserLocationForm extends LocationListForm {
         $cookie_name = $this->locationCookie->changeCookieName($country_tid);
       }
       $this->locationCookie->setCookieValue($cookie_name, $location_value);
-      // setcookie($cookie_name, $location_value, strtotime('+1 year'), '/', $full_url, FALSE);
+      // setcookie($cookie_name, $location_value, strtotime('+1 year'), '/', $full_url, FALSE);.
       $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $location_value]]);
       // First level is the country taxonomy term; if we have it we want to
       // modify the redirect to include the matching subdomain.
       if ($country_tid) {
-        // Ridiculous Drupal has no apparent way to change the domain/subdomain in its URL
+        // Ridiculous Drupal has no apparent way to change the domain/subdomain in its URL.
         $url->setAbsolute();
         $url_string = $url->toString();
         $url_array = parse_url($url_string);
@@ -194,4 +194,5 @@ class UserLocationForm extends LocationListForm {
       $form['location_level']['button'] = $form_state->setRedirectUrl($url);
     }
   }
+
 }

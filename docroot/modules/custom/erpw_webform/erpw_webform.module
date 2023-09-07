@@ -541,7 +541,7 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
   if ($view->id() == 'service_based_service_providers_listing') {
     foreach ($view->result as $key => $row) {
       $webform_submission_id = $row->sid;
-      $node = erpw_webform__load_wsa_node_by_sid($webform_submission_id);
+      $node = erpw_webform_load_wsa_node_by_sid($webform_submission_id);
 
       if ($node) {
         $node_data = json_decode($node->field_submission_data->value, TRUE);
@@ -569,10 +569,11 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
  * @return \Drupal\Core\Entity\EntityInterface | null
  *   Returns node entity if present else null.
  */
-function erpw_webform__load_wsa_node_by_sid($webform_submission_id) {
+function erpw_webform_load_wsa_node_by_sid($webform_submission_id) {
   $query = \Drupal::entityQuery('node')
     ->condition('type', 'wsa')
-    ->condition('field_sid', $webform_submission_id);
+    ->condition('field_sid', $webform_submission_id)
+    ->accessCheck(FALSE);
 
   $entity_id = $query->execute();
   $array = array_values($entity_id);
@@ -790,14 +791,14 @@ function erpw_webform_webform_submission_presave($webform_submission) {
   if ($values['erpw_workflow']['workflow_state'] == 'approve' && !in_array($current_transition, $edit_delete_end_transitions)) {
     // Node for Deletion workflow:
     if ($current_transition == 'submit_for_deletion_to_focal_point' || $current_transition == 'submit_for_deletion_to_gbv_coordination') {
-      $node = erpw_webform__create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
+      $node = erpw_webform_create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
 
       $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Deletion Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
       \Drupal::logger('erpw_webform__deletion')->notice($message);
     }
     // Node for Edit Workflow:
     else {
-      $node = erpw_webform__create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
+      $node = erpw_webform_create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
 
       $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Edit Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
       \Drupal::logger('erpw_webform__edit')->notice($message);
@@ -805,7 +806,7 @@ function erpw_webform_webform_submission_presave($webform_submission) {
   }
   elseif ($current_transition == 'publish_edits' || $current_transition == 'approve_deletion' || $values['erpw_workflow']['workflow_state'] == 'deleted') {
     // Delete the node once it passes the review process.
-    $node = erpw_webform__load_wsa_node_by_sid($webform_submission_id);
+    $node = erpw_webform_load_wsa_node_by_sid($webform_submission_id);
     if (!empty($node)) {
       $node->delete();
       // End of Delete workflow.
@@ -839,7 +840,7 @@ function erpw_webform_webform_submission_presave($webform_submission) {
   }
   // Delete WSA nodes if submissions are rejected, replace the data with the old approved data.
   elseif (in_array($current_transition, $rejected_transitions)) {
-    $node = erpw_webform__load_wsa_node_by_sid($webform_submission_id);
+    $node = erpw_webform_load_wsa_node_by_sid($webform_submission_id);
     if ($node) {
       $node_data = json_decode($node->field_submission_data->value, TRUE);
       try {
@@ -888,7 +889,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
     $user = \Drupal::currentUser();
     $conditions = &$query->where[1]['conditions'];
     if ($view->getExposedInput()['webform_submission_workflow_filter'] != 'draft') {
-      $sid_array = erpw_webform__fetch_draft_submission_ids();
+      $sid_array = erpw_webform_fetch_draft_submission_ids();
       $sid = implode(',', $sid_array);
       if ($sid) {
         foreach ($conditions as $key => &$conditions_group) {
@@ -926,7 +927,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       $ptids = get_child_term_tid($cookie_tid);
 
       // For Services with only domain as location, location entity id is set instead of tid.
-      $location_entity = erpw_webform__getLocationEntityIdByTid($cookie_tid);
+      $location_entity = erpw_webform_getLocationEntityIdByTid($cookie_tid);
       if (!empty($location_entity)) {
         $ptids = array_merge([strval($location_entity)], $ptids);
       }
@@ -1030,7 +1031,7 @@ function erpw_webform_add_webform_submission_add_where_join(QueryPluginBase &$qu
  * @return array
  *   Returns an array of submission ids.
  */
-function erpw_webform__fetch_draft_submission_ids() {
+function erpw_webform_fetch_draft_submission_ids() {
   $query = \Drupal::database()->select('webform_submission_data', 'wsd');
   $query->fields('wsd', ['sid']);
   $query->condition('wsd.value', 'draft');
@@ -1041,7 +1042,7 @@ function erpw_webform__fetch_draft_submission_ids() {
 /**
  * Get location entity.
  */
-function erpw_webform__getLocationEntityIdByTid($tid) {
+function erpw_webform_getLocationEntityIdByTid($tid) {
   $location_entity_id = "";
   $location_entity = \Drupal::service('entity_type.manager')->getStorage('location')->loadByProperties(
     [
@@ -1073,13 +1074,14 @@ function erpw_webform__getLocationEntityIdByTid($tid) {
  *
  * @throws \Drupal\Core\Entity\EntityStorageException
  */
-function erpw_webform__create_or_update_wsa_node($service_type, $submission_id, $original_data, $deletion_node = FALSE) {
+function erpw_webform_create_or_update_wsa_node($service_type, $submission_id, $original_data, $deletion_node = FALSE) {
   $entity_type_manager = \Drupal::entityTypeManager();
 
   $query = $entity_type_manager->getStorage('node')->getQuery()
     ->condition('type', 'wsa')
     ->condition('field_sid', $submission_id)
-    ->range(0, 1);
+    ->range(0, 1)
+    ->accessCheck(FALSE);
   $entity_ids = $query->execute();
 
   $node_data = [

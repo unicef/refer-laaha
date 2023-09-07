@@ -10,12 +10,12 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
+use Drupal\core_event_dispatcher\FormHookEvents;
 use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\erpw_custom\Services\ErpwCustomService;
 use Drupal\erpw_location\LocationCookieService;
 use Drupal\erpw_location\LocationService;
 use Drupal\erpw_pathway\Services\ErpwPathwayService;
-use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\node\NodeInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -425,7 +425,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents(): array {
     return [
-      HookEventDispatcherInterface::FORM_ALTER => 'alterForm',
+      FormHookEvents::FORM_ALTER => 'alterForm',
     ];
   }
 

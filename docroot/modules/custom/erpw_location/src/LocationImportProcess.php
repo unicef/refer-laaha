@@ -197,7 +197,9 @@ class LocationImportProcess {
       }
     }
     // Create taxonomy with country name.
-    if (empty(taxonomy_term_load_multiple_by_name($country_name, 'country'))) {
+    $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+    $terms = $term_storage->loadByProperties(['name' => $country_name, 'vid' => 'country']);
+    if (empty($terms)) {
       $term = Term::create([
         'name' => $country_name,
         'vid' => 'country',
@@ -206,8 +208,7 @@ class LocationImportProcess {
       $country_term_id = $term->id();
     }
     else {
-      $term = taxonomy_term_load_multiple_by_name($country_name, 'country');
-      $term = reset($term);
+      $term = reset($terms);
       $country_term_id = $term->id();
     }
     // Save term reference in the location entity.
@@ -281,7 +282,8 @@ class LocationImportProcess {
         $lang_code = $csv_langcodes[$k];
         // Check if term exists at level $i+1.
         if (isset($location[$j + $k])) {
-          $terms = taxonomy_term_load_multiple_by_name($location[$j + $k], 'country');
+          $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+          $terms = $term_storage->loadByProperties(['name' => $location[$j + $k], 'vid' => 'country']);
           if (!empty($terms)) {
             foreach ($terms as $term) {
               if (($j + $k) > '0') {
@@ -291,7 +293,7 @@ class LocationImportProcess {
                   $parent_key = array_search($parent_name, $header);
                   if ($parent_key) {
                     $parent = [];
-                    $parent = taxonomy_term_load_multiple_by_name($location[$parent_key], 'country');
+                    $parent = $term_storage->loadByProperties(['name' => $location[$parent_key], 'vid' => 'country']);
                     if (!empty($parent)) {
                       $parent_term_id = '';
                       foreach ($parent as $parent_term) {

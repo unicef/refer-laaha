@@ -166,7 +166,8 @@ class ExportLocationForm extends FormBase {
       for ($l = 1; $l <= $number_of_levels; $l++) {
         if ($location->getTranslation($current_active_language_code)->get('level_' . $l)->getValue()) {
           $column_name = $location->getTranslation($current_active_language_code)->get('level_' . $l)->getValue()[0]['value'];
-        } else {
+        }
+        else {
           continue;
         }
         $csv_export[0][$i] = $column_name;
@@ -177,7 +178,7 @@ class ExportLocationForm extends FormBase {
       $location_taxonomy_term_id = $location->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
       $taxonomy_storage = $this->entityManager->getStorage('taxonomy_term');
       $query = $taxonomy_storage->getQuery()
-      ->condition('vid', $location->bundle());
+        ->condition('vid', $location->bundle());
       $tids = $query->execute();
       $location_data = $taxonomy_storage->loadMultiple($tids);
       $location_levels = $this->locationService->getLocationLevels($location_entity_id);
@@ -195,7 +196,7 @@ class ExportLocationForm extends FormBase {
               $level_term = $this->entityManager->getStorage('taxonomy_term')->load($ancestors[$key + 1]);
             }
             if (!empty($level_term)) {
-              $level_data_name = $level_term->hasTranslation($current_active_language_code) ? $level_term->getTranslation($current_active_language_code)->get('name')->value : $level_term->get('name')->value ;
+              $level_data_name = $level_term->hasTranslation($current_active_language_code) ? $level_term->getTranslation($current_active_language_code)->get('name')->value : $level_term->get('name')->value;
             }
             $csv_data[] = strlen($level_data_name) > 0 ? $level_data_name : ' - ';
             $location_details[] = $level . " : " . $level_data_name;

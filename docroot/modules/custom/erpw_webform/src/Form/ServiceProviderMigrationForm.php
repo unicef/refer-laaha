@@ -122,6 +122,7 @@ class ServiceProviderMigrationForm extends ConfigFormBase {
         ->condition('type', 'service_provider', 'IN')
         ->condition('field_domain_access', 'bn_erefer_org')
         ->condition('field_service_type', ['301', '306', '311', '316', '321'], 'IN')
+        ->accessCheck(FALSE)
         ->execute();
       $operations = [];
       foreach ($nids as $nid) {
@@ -139,6 +140,7 @@ class ServiceProviderMigrationForm extends ConfigFormBase {
         ->condition('type', 'service_provider', 'IN')
         ->condition('field_domain_access', 'txb_erefer_org')
         ->condition('field_service_type', '4541', 'IN')
+        ->accessCheck(FALSE)
         ->execute();
       $operations = [];
       foreach ($nids as $nid) {
@@ -158,6 +160,7 @@ class ServiceProviderMigrationForm extends ConfigFormBase {
         ->condition('field_service_type',
           ['426', '431', '436', '441', '446', '451', '3836'],
            'IN')
+        ->accessCheck(FALSE)
         ->execute();
       $operations = [];
       foreach ($nids as $nid) {
@@ -179,6 +182,7 @@ class ServiceProviderMigrationForm extends ConfigFormBase {
             '4431', '4436', '4936', '4941', '4991', '5541',
           ],
            'IN')
+        ->accessCheck(FALSE)
         ->execute();
       $operations = [];
       foreach ($nids as $nid) {
