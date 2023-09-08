@@ -1,0 +1,188 @@
+diff --git a/domain_lang.info.yml b/domain_lang.info.yml
+index 0db60d8..c21d6b2 100644
+--- a/domain_lang.info.yml
++++ b/domain_lang.info.yml
+@@ -2,8 +2,7 @@ name: Domain Lang
+ description: 'Adds language detection and selection functionality per domain basis.'
+ type: module
+ package: Domain
+-core: '8.x'
+-core_version_requirement: ^8 || ^9
++core_version_requirement: ^9 || ^10
+ 
+ dependencies:
+   - drupal:language
+diff --git a/src/EventSubscriber/DomainLangConfigRedirect.php b/src/EventSubscriber/DomainLangConfigRedirect.php
+index d47c140..c7c1a05 100644
+--- a/src/EventSubscriber/DomainLangConfigRedirect.php
++++ b/src/EventSubscriber/DomainLangConfigRedirect.php
+@@ -3,14 +3,14 @@
+ namespace Drupal\domain_lang\EventSubscriber;
+ 
+ use Drupal\Core\Messenger\MessengerInterface;
++use Drupal\Core\Routing\RouteObjectInterface;
+ use Drupal\Core\Routing\TrustedRedirectResponse;
+ use Drupal\Core\StringTranslation\StringTranslationTrait;
+ use Drupal\Core\Url;
+ use Drupal\domain\DomainInterface;
+ use Drupal\domain\DomainNegotiatorInterface;
+-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
+ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
++use Symfony\Component\HttpKernel\Event\RequestEvent;
+ use Symfony\Component\HttpKernel\KernelEvents;
+ 
+ /**
+@@ -49,10 +49,10 @@ class DomainLangConfigRedirect implements EventSubscriberInterface {
+   /**
+    * Check current request and redirect if needed.
+    *
+-   * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
++   * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+    *   Current request response event.
+    */
+-  public function checkRequest(GetResponseEvent $event) {
++  public function checkRequest(RequestEvent $event) {
+     $domain = $this->domainNegotiator->getActiveDomain();
+ 
+     if ($domain instanceof DomainInterface) {
+@@ -98,14 +98,14 @@ class DomainLangConfigRedirect implements EventSubscriberInterface {
+   /**
+    * Sets TrustedRedirectResponse to redirect to related domain page.
+    *
+-   * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
++   * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+    *   The request response event.
+    * @param string $route
+    *   The name of the route.
+    * @param \Drupal\domain\DomainInterface $domain
+    *   The domain object.
+    */
+-  protected function setRedirectResponse(GetResponseEvent $event, $route, DomainInterface $domain) {
++  protected function setRedirectResponse(RequestEvent $event, $route, DomainInterface $domain) {
+     $event->setResponse(new TrustedRedirectResponse(Url::fromRoute(
+       $route,
+       ['domain' => $domain->id()],
+diff --git a/src/Form/DomainLangNegotiationBrowserDeleteForm.php b/src/Form/DomainLangNegotiationBrowserDeleteForm.php
+index e193fe8..d08253a 100644
+--- a/src/Form/DomainLangNegotiationBrowserDeleteForm.php
++++ b/src/Form/DomainLangNegotiationBrowserDeleteForm.php
+@@ -5,13 +5,13 @@ namespace Drupal\domain_lang\Form;
+ use Drupal\Core\Form\FormStateInterface;
+ use Drupal\Core\Url;
+ use Drupal\domain_lang\DomainLangHandlerInterface;
+-use Drupal\language\Form\NegotiationBrowserDeleteForm;
++use Drupal\language\Form\NegotiationBrowserDeleteForm as BaseNegotiationBrowserDeleteForm;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ 
+ /**
+  * Builds a confirmation form to delete a browser language negotiation mapping.
+  */
+-class DomainLangNegotiationBrowserDeleteForm extends NegotiationBrowserDeleteForm {
++class DomainLangNegotiationBrowserDeleteForm extends BaseNegotiationBrowserDeleteForm {
+ 
+   /**
+    * The domain lang handler.
+diff --git a/src/Form/DomainLangNegotiationBrowserForm.php b/src/Form/DomainLangNegotiationBrowserForm.php
+index b637714..dbeda81 100644
+--- a/src/Form/DomainLangNegotiationBrowserForm.php
++++ b/src/Form/DomainLangNegotiationBrowserForm.php
+@@ -7,13 +7,13 @@ use Drupal\Core\Form\FormStateInterface;
+ use Drupal\Core\Url;
+ use Drupal\domain_lang\DomainLangHandlerInterface;
+ use Drupal\language\ConfigurableLanguageManagerInterface;
+-use Drupal\language\Form\NegotiationBrowserForm;
++use Drupal\language\Form\NegotiationBrowserForm as BaseNegotiationBrowserForm;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ 
+ /**
+  * Configure the browser language negotiation method for this site.
+  */
+-class DomainLangNegotiationBrowserForm extends NegotiationBrowserForm {
++class DomainLangNegotiationBrowserForm extends BaseNegotiationBrowserForm {
+ 
+   /**
+    * The domain lang handler.
+diff --git a/src/Form/DomainLangNegotiationConfigureForm.php b/src/Form/DomainLangNegotiationConfigureForm.php
+index 56d7850..39eb1c3 100644
+--- a/src/Form/DomainLangNegotiationConfigureForm.php
++++ b/src/Form/DomainLangNegotiationConfigureForm.php
+@@ -11,7 +11,7 @@ use Drupal\Core\Routing\RouteProviderInterface;
+ use Drupal\Core\Url;
+ use Drupal\domain_lang\DomainLangHandlerInterface;
+ use Drupal\language\ConfigurableLanguageManagerInterface;
+-use Drupal\language\Form\NegotiationConfigureForm;
++use Drupal\language\Form\NegotiationConfigureForm as BaseNegotiationConfigureForm;
+ use Drupal\language\LanguageNegotiatorInterface;
+ use Drupal\language\Plugin\LanguageNegotiation\LanguageNegotiationSelected;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
+ /**
+  * Configure the selected language negotiation method for this site.
+  */
+-class DomainLangNegotiationConfigureForm extends NegotiationConfigureForm {
++class DomainLangNegotiationConfigureForm extends BaseNegotiationConfigureForm {
+ 
+   /**
+    * The domain lang handler.
+diff --git a/src/Form/DomainLangNegotiationSelectedForm.php b/src/Form/DomainLangNegotiationSelectedForm.php
+index 3f7c451..9962259 100644
+--- a/src/Form/DomainLangNegotiationSelectedForm.php
++++ b/src/Form/DomainLangNegotiationSelectedForm.php
+@@ -5,13 +5,13 @@ namespace Drupal\domain_lang\Form;
+ use Drupal\Core\Config\ConfigFactoryInterface;
+ use Drupal\Core\Form\FormStateInterface;
+ use Drupal\domain_lang\DomainLangHandlerInterface;
+-use Drupal\language\Form\NegotiationSelectedForm;
++use Drupal\language\Form\NegotiationSelectedForm as BaseNegotiationSelectedForm;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ 
+ /**
+  * Configure the selected language negotiation method for this site.
+  */
+-class DomainLangNegotiationSelectedForm extends NegotiationSelectedForm {
++class DomainLangNegotiationSelectedForm extends BaseNegotiationSelectedForm {
+ 
+   /**
+    * The domain lang handler.
+diff --git a/src/Form/DomainLangNegotiationSessionForm.php b/src/Form/DomainLangNegotiationSessionForm.php
+index 28ab440..2f01c62 100644
+--- a/src/Form/DomainLangNegotiationSessionForm.php
++++ b/src/Form/DomainLangNegotiationSessionForm.php
+@@ -5,13 +5,13 @@ namespace Drupal\domain_lang\Form;
+ use Drupal\Core\Config\ConfigFactoryInterface;
+ use Drupal\Core\Form\FormStateInterface;
+ use Drupal\domain_lang\DomainLangHandlerInterface;
+-use Drupal\language\Form\NegotiationSessionForm;
++use Drupal\language\Form\NegotiationSessionForm as BaseNegotiationSessionForm;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ 
+ /**
+  * Configure the session language negotiation method for this site.
+  */
+-class DomainLangNegotiationSessionForm extends NegotiationSessionForm {
++class DomainLangNegotiationSessionForm extends BaseNegotiationSessionForm {
+ 
+   /**
+    * The domain lang handler.
+diff --git a/src/Form/DomainLangNegotiationUrlForm.php b/src/Form/DomainLangNegotiationUrlForm.php
+index 882cbe8..ffcaa3c 100644
+--- a/src/Form/DomainLangNegotiationUrlForm.php
++++ b/src/Form/DomainLangNegotiationUrlForm.php
+@@ -8,14 +8,14 @@ use Drupal\Core\Language\LanguageInterface;
+ use Drupal\Core\Language\LanguageManagerInterface;
+ use Drupal\Core\Url;
+ use Drupal\domain_lang\DomainLangHandlerInterface;
+-use Drupal\language\Form\NegotiationUrlForm;
++use Drupal\language\Form\NegotiationUrlForm as BaseNegotiationUrlForm;
+ use Drupal\language\Plugin\LanguageNegotiation\LanguageNegotiationUrl;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ 
+ /**
+  * Configure the URL language negotiation method for this site.
+  */
+-class DomainLangNegotiationUrlForm extends NegotiationUrlForm {
++class DomainLangNegotiationUrlForm extends BaseNegotiationUrlForm {
+ 
+   /**
+    * The domain lang handler.
