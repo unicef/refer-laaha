@@ -330,6 +330,15 @@
     mainElement.insertBefore(divElement, mainElement.firstChild);
     //  Disable the edit/view more details link
     // Loop through all .views-row elements
+    $(".view-content").on(
+      "click",
+      ".service-detail-heading a",
+      function (event) {
+        if (!navigator.onLine) {
+          event.preventDefault();
+        }
+      }
+    );
     $(".views-row").each(function () {
       if (!navigator.onLine) {
         // Find the anchor tag inside .service-detail-heading
