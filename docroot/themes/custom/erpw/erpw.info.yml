@@ -3,6 +3,8 @@ type: theme
 description: 'Theme for eRPW'
 core_version_requirement: ^9 || ^10
 base theme: classy
+dependencies:
+  - classy:classy
 
 # Libraries (These are loaded on every page. Use https://www.drupal.org/developing/api/8/assets#twig whenever possible.)
 libraries:
