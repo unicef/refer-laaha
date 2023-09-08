@@ -1117,3 +1117,13 @@ function erpw_webform__create_or_update_wsa_node($service_type, $submission_id, 
     return NULL;
   }
 }
+
+/**
+ * Preprocess a table.
+ */
+function erpw_webform_preprocess_table(&$variables) {
+  $currentRoute = \Drupal::routeMatch()->getRouteName();
+  if ($currentRoute == 'entity.webform.templates') {
+    unset($variables['rows'][0]['cells']['operations']['content']['preview']);
+  }
+}
