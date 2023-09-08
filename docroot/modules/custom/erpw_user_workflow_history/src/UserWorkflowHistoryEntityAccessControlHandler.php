@@ -28,7 +28,6 @@ class UserWorkflowHistoryEntityAccessControlHandler extends EntityAccessControlH
           return AccessResult::allowedIfHasPermission($account, 'view unpublished user workflow history entity entities');
         }
 
-
         return AccessResult::allowedIfHasPermission($account, 'view published user workflow history entity entities');
 
       case 'update':
@@ -50,6 +49,5 @@ class UserWorkflowHistoryEntityAccessControlHandler extends EntityAccessControlH
   protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
     return AccessResult::allowedIfHasPermission($account, 'add user workflow history entity entities');
   }
-
 
 }

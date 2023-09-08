@@ -108,7 +108,6 @@ class Importer implements ImporterInterface {
    */
   protected $extensionPathResolver;
 
-
   /**
    * Constructs the default content manager.
    *
@@ -131,7 +130,7 @@ class Importer implements ImporterInterface {
    * @param \Drupal\Core\File\FileSystemInterface $file_system
    *   The filesystem.
    * @param \Drupal\Core\Extension\ExtensionPathResolver $extension_path_resolver
-   *  The ExtensionPathResolver service.
+   *   The ExtensionPathResolver service.
    */
   public function __construct(
     Serializer $serializer,

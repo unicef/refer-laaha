@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e8205e491b0a94093c60421a8944927a",
+    "content-hash": "5a4634a61c759d2e2a058c5ace7a8575",
     "packages": [
         {
             "name": "acquia/blt",
@@ -5403,20 +5403,20 @@
         },
         {
             "name": "drupal/quick_node_clone",
-            "version": "1.15.0",
+            "version": "1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/quick_node_clone.git",
-                "reference": "8.x-1.15"
+                "reference": "8.x-1.16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/quick_node_clone-8.x-1.15.zip",
-                "reference": "8.x-1.15",
-                "shasum": "bac562133cfab05c207d4e45daa95cd36a7fad51"
+                "url": "https://ftp.drupal.org/files/projects/quick_node_clone-8.x-1.16.zip",
+                "reference": "8.x-1.16",
+                "shasum": "44cc517788cf2d9613fd2070b1aa9e62627c5e1c"
             },
             "require": {
-                "drupal/core": "^8.8 || ^9"
+                "drupal/core": "^8.8 || ^9 || ^10"
             },
             "require-dev": {
                 "drupal/paragraphs": "1.x-dev"
@@ -5424,8 +5424,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.15",
-                    "datestamp": "1651684801",
+                    "version": "8.x-1.16",
+                    "datestamp": "1678754974",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
