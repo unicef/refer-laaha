@@ -34,7 +34,9 @@
         const customElement = document.querySelector(
           "#offline-load-more-button"
         );
-        customElement.style.display = "block";
+        if (customElement) {
+          customElement.style.display = "block";
+        }
         $(".load-more-button a").on("click", function (event) {
           customElement.style.display = "none";
           if (!navigator.onLine) {
