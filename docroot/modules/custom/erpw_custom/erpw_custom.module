@@ -366,10 +366,10 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       foreach ($roles as $role) {
         if ($role != 'administrator' && $role != 'country_admin') {
           if ($current_user_id == $form_user_id) {
-            $form['field_location']['#disabled'] = 'true';
-            $form['field_organisation']['#disabled'] = 'true';
-            $form['field_position']['#disabled'] = 'true';
-            $form['field_system_role']['#disabled'] = 'true';
+            $form['field_location']['#access'] = FALSE;
+            $form['field_organisation']['#access'] = FALSE;
+            $form['field_position']['#access'] = FALSE;
+            $form['field_system_role']['#access'] = FALSE;
           }
         }
       }
@@ -1270,7 +1270,10 @@ function erpw_custom_entity_access(EntityInterface $entity, $operation, AccountI
       && $user_role == 'service_provider_staff') {
         return AccessResult::allowed();
       }
-      return AccessResult::forbidden();
+      // Inclusive of password reset page.
+      if (!\Drupal::request()->get('pass-reset-token')) {
+        return AccessResult::forbidden();
+      }
     }
   }
   if ($operation === 'view' && $entity->getEntityTypeId() === 'user') {
