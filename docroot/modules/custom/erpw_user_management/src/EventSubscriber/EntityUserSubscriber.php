@@ -246,36 +246,43 @@ class EntityUserSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public function eprwUserSubmitHandler(&$form, $form_state) {
-    // Bring location data to save even though it is not displayed.
-    $field_location = $form_state->getValue('field_location');
-    $location_level = [];
-    if (is_array($field_location)) {
-      $i = 0;
-      foreach($field_location as $location) {
-        if (isset($location['target_id'])) {
-          $location_level[] = $field_location[$i]['target_id'];
-          $i++;
+
+    if (!\Drupal::request()->get('pass-reset-token')) {
+      // Bring location data to save even though it is not displayed.
+      $field_location = $form_state->getValue('field_location');
+      $location_level = [];
+      if (is_array($field_location)) {
+        $i = 0;
+        foreach($field_location as $location) {
+          if (isset($location['target_id'])) {
+            $location_level[] = $field_location[$i]['target_id'];
+            $i++;
+          }
         }
       }
-    }
-    // Saving the location data.
-    $form_object = $form_state->getFormObject();
-    if ($form_object instanceof EntityForm) {
-      $entity = $form_object->getEntity();
-      $this->saveLocationFieldUser($entity, $location_level);
-    }
-    if ($entity instanceof UserInterface) {
-      $role = $form_state->getValue('field_system_role')[0]['target_id'];
-      $entity->roles = [$role];
-      $entity->save();
-    }
-    $current_user_id = $this->currentUser->id();
-    $form_user_id = $this->requestStack->getCurrentRequest()->attributes->get('user')->id();
-    if ($current_user_id == $form_user_id) {
-      return _erpw_custom_redirect('user.page');
+      // Saving the location data.
+      $form_object = $form_state->getFormObject();
+      if ($form_object instanceof EntityForm) {
+        $entity = $form_object->getEntity();
+        $this->saveLocationFieldUser($entity, $location_level);
+      }
+      if ($entity instanceof UserInterface) {
+        $role = $form_state->getValue('field_system_role')[0]['target_id'];
+        $entity->roles = [$role];
+        $entity->save();
+      }
+      $current_user_id = $this->currentUser->id();
+      $form_user_id = $this->requestStack->getCurrentRequest()->attributes->get('user')->id();
+      if ($current_user_id == $form_user_id) {
+        return _erpw_custom_redirect('user.page');
+      }
+      else {
+        return _erpw_custom_redirect('view.user_lists.page_1');
+      }
     }
     else {
-      return _erpw_custom_redirect('view.user_lists.page_1');
+      // After reset password the page will redirect to dashboard.
+      return _erpw_custom_redirect('erpw_custom.dashboard');
     }
   }
 
