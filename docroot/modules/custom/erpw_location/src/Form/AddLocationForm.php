@@ -458,7 +458,8 @@ class AddLocationForm extends FormBase {
       ->condition('vid', 'country')
       ->condition('parent', 0)
       ->sort('weight')
-      ->sort('name');
+      ->sort('name')
+      ->accessCheck(FALSE);
     $term_ids = $query->execute();
     $terms = $term_storage->loadMultiple($term_ids);
     foreach ($terms as $term) {

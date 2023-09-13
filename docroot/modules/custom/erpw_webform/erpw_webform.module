@@ -519,7 +519,7 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
     if ($view->id() == 'manage_webform_services' || $view->id() == 'manage_in_review_webform_services_listing') {
       $arrayKey = 'webform_id';
     }
-    $serviceTypes = $view->exposed_widgets[$arrayKey]['#options'];
+    $serviceTypes = $view->exposed_widgets[$arrayKey]['#options'] ?? '';
     foreach ($serviceTypes as $key => $serviceType) {
       if ($key == 'template_erpw_workflow') {
         unset($view->exposed_widgets[$arrayKey]['#options'][$key]);
@@ -577,7 +577,7 @@ function erpw_webform_load_wsa_node_by_sid($webform_submission_id) {
 
   $entity_id = $query->execute();
   $array = array_values($entity_id);
-  $node_id = $array[0];
+  $node_id = $array[0] ?? '';
   if (!empty($node_id)) {
     $node = \Drupal::entityTypeManager()->getStorage('node')->load($node_id);
     return $node;

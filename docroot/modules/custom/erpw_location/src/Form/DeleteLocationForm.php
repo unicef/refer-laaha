@@ -146,6 +146,7 @@ class DeleteLocationForm extends FormBase {
     $query->condition('status', 1);
     $query->condition('type', 'country');
     $query->condition('field_location_taxonomy_term', $ancestors[0]);
+    $query->accessCheck(FALSE);
     $location_entities = $query->execute();
     $location_id = NULL;
     foreach ($location_entities as $location_entity_id) {

@@ -178,7 +178,8 @@ class ExportLocationForm extends FormBase {
       $location_taxonomy_term_id = $location->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
       $taxonomy_storage = $this->entityManager->getStorage('taxonomy_term');
       $query = $taxonomy_storage->getQuery()
-        ->condition('vid', $location->bundle());
+        ->condition('vid', $location->bundle())
+        ->accessCheck(FALSE);
       $tids = $query->execute();
       $location_data = $taxonomy_storage->loadMultiple($tids);
       $location_levels = $this->locationService->getLocationLevels($location_entity_id);

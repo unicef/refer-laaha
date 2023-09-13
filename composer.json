@@ -137,6 +137,9 @@
         },
         "enable-patching": true,
         "patches": {
+            "drupal/domain": {
+                "Available on current domain doesn't instantiate": "https://www.drupal.org/files/issues/2023-06-21/3367785-domain-php8-boolean.patch"
+            },
             "drupal/domain_language_negotiation": {
                 "lang issue": "patches/active_lang.patch",
                 "Drupal 10 compatibility": "https://www.drupal.org/files/issues/2022-07-18/domain_language_negotiation.3.0.x-dev.rector.patch"
