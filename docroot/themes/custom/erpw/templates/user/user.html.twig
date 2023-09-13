@@ -86,8 +86,12 @@
 				<span class='user-location'>{{ location }}</span>
 			</div>
 		{% endif %}
-		{% if not hide_list_button %}
-			<a href="{{ url('view.user_lists.page_1') }}" class="button button-border">{{ 'Return to user list'|t }}</a>
+		{% if access == 0 and status == 0  %}
+			<a href="{{ url('view.user_lists.page_2') }}" class="button button-border">{{ 'Return to user list'|t }}</a>
+		{% else %}
+			{% if not hide_list_button %}
+				<a href="{{ url('view.user_lists.page_1') }}" class="button button-border">{{ 'Return to user list'|t }}</a>
+			{% endif %}
 		{% endif %}
 		{% if can_edit_user %}
 			{% set editPath = path('entity.user.edit_form', {'user': user.id}) %}
