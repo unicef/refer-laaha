@@ -222,6 +222,8 @@ function erpw_preprocess_user(&$variables) {
 
   // Set the variable for the Twig template.
   $variables['can_edit_user'] = $can_edit_user;
+  $variables['access'] = User::load($form_user_id)->get('access')->value;
+  $variables['status'] = User::load($form_user_id)->get('status')->value;
 }
 
 /**
