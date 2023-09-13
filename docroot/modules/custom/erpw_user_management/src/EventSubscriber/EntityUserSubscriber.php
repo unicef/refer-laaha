@@ -13,8 +13,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\erpw_location\LocationService;
 use Drupal\erpw_pathway\Services\ErpwPathwayService;
 use Drupal\user\UserInterface;
+use Drupal\user\Entity\User;
 use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class EntityLocationSubscriber.
@@ -251,7 +253,7 @@ class EntityUserSubscriber implements EventSubscriberInterface {
     $location_level = [];
     if (is_array($field_location)) {
       $i = 0;
-      foreach($field_location as $location) {
+      foreach ($field_location as $location) {
         if (isset($location['target_id'])) {
           $location_level[] = $field_location[$i]['target_id'];
           $i++;
@@ -271,8 +273,19 @@ class EntityUserSubscriber implements EventSubscriberInterface {
     }
     $current_user_id = $this->currentUser->id();
     $form_user_id = $this->requestStack->getCurrentRequest()->attributes->get('user')->id();
+    $transition = User::load($form_user_id)->get('field_transitions')->value;
     if ($current_user_id == $form_user_id) {
       return _erpw_custom_redirect('user.page');
+    }
+    elseif (!is_null($transition)) {
+      // Escape special characters in $transition and use it as the regex pattern.
+      $pattern = preg_quote($transition, '/');
+      if (preg_match('/\b(?:register|accept|reject)\b/i', $pattern)) {
+        $path = '/user/' . $form_user_id;
+        $response = new RedirectResponse($path);
+        $response->send();
+        return;
+      }
     }
     else {
       return _erpw_custom_redirect('view.user_lists.page_1');
