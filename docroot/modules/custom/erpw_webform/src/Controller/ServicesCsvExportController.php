@@ -109,7 +109,7 @@ class ServicesCsvExportController extends ControllerBase {
     $servicelabel = '';
 
     // For Services with only domain as location, location entity id is set instead of tid.
-    $location_entity = erpw_webform__getLocationEntityIdByTid($cookie_tid);
+    $location_entity = erpw_webform_getLocationEntityIdByTid($cookie_tid);
     if (!empty($location_entity)) {
       $ptids = array_merge([strval($location_entity)], $ptids);
     }

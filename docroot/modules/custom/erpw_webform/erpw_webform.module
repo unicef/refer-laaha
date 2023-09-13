@@ -883,7 +883,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
   $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
   $current_user = User::load(\Drupal::currentUser()->id());
   $roles = $current_user->getRoles();
-  $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
+  $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'] ?? '';
   if ($view->id() == 'webform_submissions') {
     // Ensure through filters that draft is only shown to the user who submitted it.
     $user = \Drupal::currentUser();

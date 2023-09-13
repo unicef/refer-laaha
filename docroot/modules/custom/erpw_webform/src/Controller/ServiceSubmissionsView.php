@@ -389,7 +389,7 @@ class ServiceSubmissionsView extends ControllerBase {
       }
 
       // Check if the service is in Edit workflow.
-      $node = erpw_webform__load_wsa_node_by_sid($webform_submission->id());
+      $node = erpw_webform_load_wsa_node_by_sid($webform_submission->id());
       if ($node) {
         $fields = json_decode($node->field_submission_data->value, TRUE);
       }
