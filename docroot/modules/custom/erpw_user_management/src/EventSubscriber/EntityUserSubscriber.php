@@ -262,30 +262,33 @@ class EntityUserSubscriber implements EventSubscriberInterface {
           }
         }
       }
-    }
-    // Saving the location data.
-    $form_object = $form_state->getFormObject();
-    if ($form_object instanceof EntityForm) {
-      $entity = $form_object->getEntity();
-      $this->saveLocationFieldUser($entity, $location_level);
-    }
-    if ($entity instanceof UserInterface) {
-      $role = $form_state->getValue('field_system_role')[0]['target_id'];
-      $entity->roles = [$role];
-      $entity->save();
-    }
-    $current_user_id = $this->currentUser->id();
-    $form_user_id = $this->requestStack->getCurrentRequest()->attributes->get('user')->id();
-    $access = User::load($form_user_id)->get('access')->value;
-    $status = User::load($form_user_id)->get('status')->value;
-    if ($current_user_id == $form_user_id) {
-      return _erpw_custom_redirect('user.page');
-    }
-    elseif ($access == 0 && $status == 0) {
-      $path = '/user/' . $form_user_id;
-      $response = new RedirectResponse($path);
-      $response->send();
-      return;
+      // Saving the location data.
+      $form_object = $form_state->getFormObject();
+      if ($form_object instanceof EntityForm) {
+        $entity = $form_object->getEntity();
+        $this->saveLocationFieldUser($entity, $location_level);
+      }
+      if ($entity instanceof UserInterface) {
+        $role = $form_state->getValue('field_system_role')[0]['target_id'];
+        $entity->roles = [$role];
+        $entity->save();
+      }
+      $current_user_id = $this->currentUser->id();
+      $form_user_id = $this->requestStack->getCurrentRequest()->attributes->get('user')->id();
+      $access = User::load($form_user_id)->get('access')->value;
+      $status = User::load($form_user_id)->get('status')->value;
+      if ($current_user_id == $form_user_id) {
+        return _erpw_custom_redirect('user.page');
+      }
+      elseif ($access == 0 && $status == 0) {
+        $path = '/user/' . $form_user_id;
+        $response = new RedirectResponse($path);
+        $response->send();
+        return;
+      }
+      else {
+        return _erpw_custom_redirect('view.user_lists.page_1');
+      }
     }
     else {
       // After reset password the page will redirect to dashboard.
