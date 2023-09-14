@@ -80,16 +80,32 @@ class WebformAddForm extends WebformEntityAddForm {
         }
       }
     }
-    $form['service_type'] = [
-      '#title' => t('Select Service Type'),
-      '#type' => 'select',
-      '#weight' => -10,
-      '#required' => TRUE,
-      '#description' => "Select the service type for which the webform is being created.",
-      "#empty_option" => t('- Select -'),
-      '#options' => $service_type_options,
-    ];
+    if (empty($service_type_options)) {
+      $form['service_type'] = [
+        '#title' => t('Select Service Type'),
+        '#type' => 'select',
+        '#weight' => -10,
+        '#required' => TRUE,
+        '#description' => "Select the service type for which the webform is being created.",
+        "#empty_option" => t('- Select -'),
+        '#options' => $service_type_options,
+        '#disabled' => TRUE,
+        '#prefix' => '<div class="empty-service-type-notice">* Forms for all the service types have been created. Create a new service type inorder to create its corresponding form.</div>',
+      ];
+    }
+    else {
+      $form['service_type'] = [
+        '#title' => t('Select Service Type'),
+        '#type' => 'select',
+        '#weight' => -10,
+        '#required' => TRUE,
+        '#description' => "Select the service type for which the webform is being created.",
+        "#empty_option" => t('- Select -'),
+        '#options' => $service_type_options,
+      ];
+    }
     $form_state->set('current_domain_webform', $current_domain);
+    $form['#attached']['library'][] = 'erpw_webform/erpw_webform_form';
     return parent::form($form, $form_state);
   }
 

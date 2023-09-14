@@ -55,8 +55,9 @@ class AutocompleteController extends ControllerBase {
     $locations = $this->locationService->getChildrenByTid($tid, $q);
     foreach ($locations as $key => $value) {
       $results[] = [
-        'value' => $value . ' (' . $key . ')',
+        'value' => $value,
         'label' => $value,
+        'tid' => $key,
       ];
     }
     return new JsonResponse($results);

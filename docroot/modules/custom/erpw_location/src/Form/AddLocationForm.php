@@ -284,7 +284,7 @@ class AddLocationForm extends FormBase {
         ];
       }
       if ($form_state->getValue('level1')) {
-        $level1int = $this->locationService->clean($form_state->getValue('level1'));
+        $level1int = $this->locationService->getTaxonomyTermIdByName('country', $form_state->getValue('level1'));
       }
       else {
         $level1int = -1;
@@ -325,7 +325,7 @@ class AddLocationForm extends FormBase {
         ];
       }
       if ($form_state->getValue('level2')) {
-        $level2int = $this->locationService->clean($form_state->getValue('level2'));
+        $level2int = $this->locationService->getTaxonomyTermIdByName('country', $form_state->getValue('level2'));
       }
       else {
         $level2int = -1;

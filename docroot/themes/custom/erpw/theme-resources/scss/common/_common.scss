@@ -340,6 +340,15 @@ label.error + .select2-container .select2-selection {
   }
 }
 
+.path-sign-up::-webkit-scrollbar {
+  display: none;
+}
+
+.path-sign-up {
+  -ms-overflow-style: none;
+  scrollbar-width: none;  
+}
+
 //common form actions button
 .node-organisation-form,
 .node-service-type-form,

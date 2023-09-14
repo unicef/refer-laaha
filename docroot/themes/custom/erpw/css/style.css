@@ -413,6 +413,15 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   margin: 0;
 }
 
+.path-sign-up::-webkit-scrollbar {
+  display: none;
+}
+
+.path-sign-up {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .node-organisation-form .form-actions,
 .node-service-type-form .form-actions,
 .node-service-type-quick-node-clone-form .form-actions,
@@ -1490,6 +1499,20 @@ html[dir=rtl] .block-select-user-location a::after, html[dir=rtl] .user-change-l
   color: #A85766;
   font-size: 0.75em;
   font-weight: 500;
+}
+
+#download-message-box {
+  display: none;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 20px 0;
+}
+#download-message-box #download-message {
+  padding: 10px;
+  width: 500px;
+  color: #270;
+  background-color: #DFF2BF;
 }
 
 .toolbar-fixed [id^=block-erpw-main-menu] {

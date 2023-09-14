@@ -13,8 +13,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\erpw_location\LocationService;
 use Drupal\erpw_pathway\Services\ErpwPathwayService;
 use Drupal\user\UserInterface;
+use Drupal\user\Entity\User;
 use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class EntityLocationSubscriber.
@@ -246,33 +248,51 @@ class EntityUserSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public function eprwUserSubmitHandler(&$form, $form_state) {
-    // Bring location data to save even though it is not displayed.
-    $field_location = $form_state->getValue('field_location');
-    $location_level = [];
-    if (is_array($field_location)) {
-      $count = count($field_location);
-      for ($i = 0; $i < $count - 1; $i++) {
-        $location_level[] = $field_location[$i]['target_id'];
+
+    if (!\Drupal::request()->get('pass-reset-token')) {
+      // Bring location data to save even though it is not displayed.
+      $field_location = $form_state->getValue('field_location');
+      $location_level = [];
+      if (is_array($field_location)) {
+        $i = 0;
+        foreach ($field_location as $location) {
+          if (isset($location['target_id'])) {
+            $location_level[] = $field_location[$i]['target_id'];
+            $i++;
+          }
+        }
+      }
+      // Saving the location data.
+      $form_object = $form_state->getFormObject();
+      if ($form_object instanceof EntityForm) {
+        $entity = $form_object->getEntity();
+        $this->saveLocationFieldUser($entity, $location_level);
+      }
+      if ($entity instanceof UserInterface) {
+        $role = $form_state->getValue('field_system_role')[0]['target_id'];
+        $entity->roles = [$role];
+        $entity->save();
+      }
+      $current_user_id = $this->currentUser->id();
+      $form_user_id = $this->requestStack->getCurrentRequest()->attributes->get('user')->id();
+      $access = User::load($form_user_id)->get('access')->value;
+      $status = User::load($form_user_id)->get('status')->value;
+      if ($current_user_id == $form_user_id) {
+        return _erpw_custom_redirect('user.page');
+      }
+      elseif ($access == 0 && $status == 0) {
+        $path = '/user/' . $form_user_id;
+        $response = new RedirectResponse($path);
+        $response->send();
+        return;
+      }
+      else {
+        return _erpw_custom_redirect('view.user_lists.page_1');
       }
     }
-    // Saving the location data.
-    $form_object = $form_state->getFormObject();
-    if ($form_object instanceof EntityForm) {
-      $entity = $form_object->getEntity();
-      $this->saveLocationFieldUser($entity, $location_level);
-    }
-    if ($entity instanceof UserInterface) {
-      $role = $form_state->getValue('field_system_role')[0]['target_id'];
-      $entity->roles = [$role];
-      $entity->save();
-    }
-    $current_user_id = $this->currentUser->id();
-    $form_user_id = $this->requestStack->getCurrentRequest()->attributes->get('user')->id();
-    if ($current_user_id == $form_user_id) {
-      return _erpw_custom_redirect('user.page');
-    }
     else {
-      return _erpw_custom_redirect('view.user_lists.page_1');
+      // After reset password the page will redirect to dashboard.
+      return _erpw_custom_redirect('erpw_custom.dashboard');
     }
   }
 

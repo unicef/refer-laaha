@@ -18,6 +18,13 @@ class SignInPopup extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
+    $form = [];
+    
+    $requestStack = \Drupal::service('request_stack')->getCurrentRequest();
+    if ($requestStack->cookies->has('sign_in_popup')) {
+      return $form;
+    }
+
     $form = \Drupal::formBuilder()->getForm('\Drupal\erpw_custom\Form\SignInPopup');
     return $form;
   }

@@ -775,6 +775,7 @@ class ServiceSubmissionsView extends ControllerBase {
         }
         break;
 
+      case 'draft':
       case 'approve':
       case 'reject':
         $can_edit = TRUE;
