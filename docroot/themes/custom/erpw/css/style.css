@@ -1492,6 +1492,20 @@ html[dir=rtl] .block-select-user-location a::after, html[dir=rtl] .user-change-l
   font-weight: 500;
 }
 
+#download-message-box {
+  display: none;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 20px 0;
+}
+#download-message-box #download-message {
+  padding: 10px;
+  width: 500px;
+  color: #270;
+  background-color: #DFF2BF;
+}
+
 .toolbar-fixed [id^=block-erpw-main-menu] {
   top: 40px;
 }

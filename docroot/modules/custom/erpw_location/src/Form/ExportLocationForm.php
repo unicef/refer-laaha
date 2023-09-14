@@ -103,6 +103,11 @@ class ExportLocationForm extends FormBase {
       '#title' => $this->t('Cancel'),
       '#url' => Url::fromRoute('erpw_location.manage_location'),
     ];
+    $form['message'] = [
+      '#type' => 'markup',
+      '#markup' => '<div id="download-message-box"><div id="download-message" class="result_message"></div></div>',
+      '#weight' => 99,
+    ];
 
     return $form;
   }
