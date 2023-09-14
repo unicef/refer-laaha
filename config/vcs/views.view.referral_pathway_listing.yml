@@ -623,7 +623,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="new-service-type button-with-icon"><a href="{{ path(''node.add'', {''node_type'': ''referral_path_way''}) }}">{{ ''Add new Referral Pathway'' | t }}</a></div>'
+            value: "<div class=\"new-service-type button-with-icon\"><a href=\"{{ path('node.add', {'node_type': 'referral_path_way'}) }}\">{{ 'Add new Referral Pathway' | t }}</a></div>"
             format: full_html
           tokenize: true
         result:
