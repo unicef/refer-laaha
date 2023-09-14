@@ -18,6 +18,16 @@
         return match ? match[1] : null;
       }
 
+      /**
+       * Set cookie value.
+       */
+      function setCookie(name, value, expirationDays) {
+        var date = new Date();
+        date.setTime(date.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + date.toUTCString();
+        document.cookie = name + "=" + value + "; " + expires + "; path=/";
+      }
+
       // Password Suggestions and check
         var $passwordField = $('#edit-password-pass1');
         var $suggestionsElement = $('#password-suggestions-check');
@@ -85,17 +95,29 @@
       $(".ok-btn").click(function(){
         $("span.ui-icon-closethick").click();
       });
-      // set Localstorage and remove Localstorage when browser close.
-      if(sessionStorage.getItem('signinPopup')){
+
+
+      let signInPopUpCookies = getCookie('sign_in_popup');
+      if (signInPopUpCookies != null) {
         $('.sign-in-popup, .overlay').hide();
       }
-      $(".path-frontpage, .skip, .sign-in").on('click', function(){
-        window.sessionStorage.signinPopup = "true";
+
+      let signInPopUpButton = document.getElementById("edit-skip");
+      signInPopUpButton.addEventListener("click", function() {
+        setCookie('sign_in_popup', 'agreed', 30);
       });
-      $(window).on("unload", function(){
-        // Clear the session storage
-        window.signinPopup.clear()
-      });
+
+      // set Localstorage and remove Localstorage when browser close.
+      // if(sessionStorage.getItem('signinPopup')){
+      //   $('.sign-in-popup, .overlay').hide();
+      // }
+      // $(".path-frontpage, .skip, .sign-in").on('click', function(){
+      //   window.sessionStorage.signinPopup = "true";
+      // });
+      // $(window).on("unload", function(){
+      //   // Clear the session storage
+      //   window.signinPopup.clear()
+      // });
 
       //Add select 2 for multiselect
       $('.form-select.add_multiple').attr('multiple','multiple');
