@@ -413,6 +413,15 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   margin: 0;
 }
 
+.path-sign-up::-webkit-scrollbar {
+  display: none;
+}
+
+.path-sign-up {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .node-organisation-form .form-actions,
 .node-service-type-form .form-actions,
 .node-service-type-quick-node-clone-form .form-actions,
