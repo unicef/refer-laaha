@@ -586,7 +586,7 @@ function erpw_webform__load_wsa_node_by_sid($webform_submission_id) {
 
   $entity_id = $query->execute();
   $array = array_values($entity_id);
-  $node_id = $array[0];
+  $node_id = $array[0] ?? NULL;
   if (!empty($node_id)) {
     $node = \Drupal::entityTypeManager()->getStorage('node')->load($node_id);
     return $node;
@@ -949,7 +949,17 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
 
       // Location Join.
-      erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN');
+      $extra[] = [
+        'field' => 'property',
+        'value' => [
+          0 => 'location_tid',
+          1 => 'level_1',
+          2 => 'level_2',
+          3 => 'level_3',
+          4 => 'level_4',
+        ],
+      ];
+      erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
 
       // Workflow join.
       $workflow_states = ['approve', 'edits_in_review_with_focal_point', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_focal_point', 'deletion_in_review_with_gbv_coordination'];
@@ -1021,17 +1031,21 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
  *
  * @throws \Drupal\Component\Plugin\Exception\PluginException
  */
-function erpw_webform_add_webform_submission_add_where_join(QueryPluginBase &$query, mixed $column_value, string $alias_slug, string $op = '=') {
+function erpw_webform_add_webform_submission_add_where_join(QueryPluginBase &$query, mixed $column_value, string $alias_slug, string $op = '=', $group = 1, string $column_name = 'value', $extra = []) {
   $configuration = [
+    'type' => 'LEFT',
     'table' => 'webform_submission_data',
     'field' => 'sid',
     'left_table' => 'webform_submission',
     'left_field' => 'sid',
     'operator' => '=',
   ];
+  if (!empty($extra)) {
+    $configuration['extra'] = $extra;
+  }
   $join = Views::pluginManager('join')->createInstance('standard', $configuration);
   $query->addRelationship('webform_submission_data_' . $alias_slug, $join, 'webform_submission_data');
-  $query->addWhere(1, "webform_submission_data_$alias_slug.value", $column_value, $op);
+  $query->addWhere($group, "webform_submission_data_$alias_slug.$column_name", $column_value, $op);
 }
 
 /**

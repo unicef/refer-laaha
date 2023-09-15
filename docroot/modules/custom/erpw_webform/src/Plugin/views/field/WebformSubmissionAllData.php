@@ -204,7 +204,7 @@ class WebformSubmissionAllData extends FieldPluginBase {
                 }
                 $output[] = ['Location' => $location];
               }
-              elseif ($element['#type'] == 'checkbox') {
+              elseif ($element['#type'] === 'checkbox') {
                 if ($content != NULL) {
                   if ($content == 1) {
                     $output[] = [$element['#title'] => t('Yes')];
@@ -214,7 +214,7 @@ class WebformSubmissionAllData extends FieldPluginBase {
                   }
                 }
               }
-              elseif ($element['#type'] == 'checkboxes') {
+              elseif ($element['#type'] === 'checkboxes') {
                 $values = [];
                 if (gettype($content) == 'array' & $content != NULL) {
                   foreach ($content as $key) {
@@ -235,7 +235,7 @@ class WebformSubmissionAllData extends FieldPluginBase {
                   $output[] = [$element['#title'] => $element['#options'][$content]];
                 }
               }
-              elseif ($element['#type'] == 'select') {
+              elseif ($element['#type'] === 'select') {
                 $values = [];
                 if (gettype($content) == 'array' & $content != NULL) {
                   foreach ($content as $key) {
@@ -251,7 +251,7 @@ class WebformSubmissionAllData extends FieldPluginBase {
                   }
                 }
               }
-              elseif ($element['#type'] == 'webform_entity_select') {
+              elseif ($element['#type'] === 'webform_entity_select') {
                 if ($element['#title'] = 'Organisation') {
                   if (!empty($content)) {
                     $orgLabel = \Drupal::entityTypeManager()->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
@@ -259,7 +259,7 @@ class WebformSubmissionAllData extends FieldPluginBase {
                   }
                 }
               }
-              elseif ($element['#type'] == 'webform_mapping') {
+              elseif ($element['#type'] === 'webform_mapping') {
                 $form_data = $webformSubmission->getData();
                 if (isset($form_data['opening_times'])) {
                   $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
@@ -268,10 +268,10 @@ class WebformSubmissionAllData extends FieldPluginBase {
                   }
                 }
               }
-              elseif ($key == 'orignal_data') {
+              elseif ($key === 'orignal_data') {
               }
               else {
-                if ($content != "") {
+                if ($content != '') {
                   $output[] = [$element['#title'] => $content];
                 }
               }
@@ -280,44 +280,44 @@ class WebformSubmissionAllData extends FieldPluginBase {
           if ($key == 'erpw_workflow') {
             $op = '';
             $opClass = '';
-            if ($content['workflow_state'] == 'approve') {
+            if ($content['workflow_state'] === 'approve') {
               $op = 'Approved';
               $opClass = 'approved-workflow';
             }
-            elseif ($content['workflow_state'] == 'reject') {
+            elseif ($content['workflow_state'] === 'reject') {
               $op = 'Rejected';
               $opClass = 'rejected-workflow';
             }
-            elseif ($content['workflow_state'] == 'draft') {
+            elseif ($content['workflow_state'] === 'draft') {
               $op = 'Draft';
               $opClass = 'draft-workflow';
             }
-            elseif ($content['workflow_state'] == 'in_review') {
+            elseif ($content['workflow_state'] === 'in_review') {
               $op = 'In Review with GBV Coordination';
               $opClass = 'in-review-coordination-workflow';
             }
-            elseif ($content['workflow_state'] == 'in_review_with_focal_point') {
+            elseif ($content['workflow_state'] === 'in_review_with_focal_point') {
               $op = 'In Review with Focal Point';
               $opClass = 'in-review-focal-point-workflow';
             }
-            elseif ($content['workflow_state'] == 'edits_in_review_with_focal_point') {
+            elseif ($content['workflow_state'] === 'edits_in_review_with_focal_point') {
               $op = 'Edits In Review with Focal Point';
               $opClass = 'edits-in-review-focal-point-workflow';
 
             }
-            elseif ($content['workflow_state'] == 'edits_in_review_with_gbv_coordination') {
+            elseif ($content['workflow_state'] === 'edits_in_review_with_gbv_coordination') {
               $op = 'Edits In Review with GBV Coordination';
               $opClass = 'edits-in-review-coordination-workflow';
             }
-            elseif ($content['workflow_state'] == 'deletion_in_review_with_focal_point') {
+            elseif ($content['workflow_state'] === 'deletion_in_review_with_focal_point') {
               $op = 'Deletion In Review with Focal Point';
               $opClass = 'deletion-in-review-focal-point-workflow';
             }
-            elseif ($output == 'deletion_in_review_with_gbv_coordination') {
+            elseif ($output === 'deletion_in_review_with_gbv_coordination') {
               $op = 'Deletion In Review with GBV Coordination';
               $opClass = 'deletion-in-review-coordination-workflow';
             }
-            elseif ($output == 'deleted') {
+            elseif ($output === 'deleted') {
               $op = 'Deleted';
               $opClass = 'deleted-workflow';
             }

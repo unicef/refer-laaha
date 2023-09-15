@@ -104,7 +104,7 @@
               'disable-country-select-default'
             );
           } else {
-            $('select.location_options').parent().removeClassClass(
+            $('select.location_options').parent().removeClass(
               'disable-country-select-default'
             );
           }
