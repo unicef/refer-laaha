@@ -95,6 +95,14 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     }
 
   }
+
+  if ($form_id == 'views_exposed_form' && $form_state->get('view')->id() == 'user_listing_by_status') {
+    $form['status']['#options']['1'] = t('Approved');
+    $form['status']['#options']['0'] = t('Rejected');
+    $form['status']['#options']['blocked'] = t('Blocked');
+    unset($form['roles_target_id']['#options']['super_admin']);
+    unset($form['roles_target_id']['#options']['administrator']);
+  }
 }
 
 /**
@@ -1011,6 +1019,49 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $org_condition = 'node_field_data_node_field_revision__node__field_select_organisation.field_select_organisation_target_id';
     $query = erpw_view_results_own_location_organisation($query, $condition_field, $org_condition, $permission);
   }
+
+  // User listing by status.
+  if ($view->id() === 'user_listing_by_status' && $view->current_display === 'page_1') {
+    $user_status = $view->exposed_raw_input['status'];
+    // Filter locations based on user location.
+    $permission = 'view users of their own country';
+    $location_condition = 'user__field_location.field_location_target_id';
+    $query = erpw_view_results_own_country_permissions($query, $location_condition, $permission);
+
+    // Add query for User status filter.
+    $join_configuration = [
+      'type' => 'INNER',
+      'left_table' => 'users_field_data',
+      'left_field' => 'uid',
+      'operator' => '=',
+    ];
+
+    // User with Blocked status and no location.
+    if ($user_status === 'blocked') {
+      $conditions = &$query->where[1]['conditions'];
+      foreach ($conditions as $index => $condition) {
+        if (isset($condition['field']) && $condition['field'] === 'users_field_data.status') {
+          $query->where[1]['conditions'][$index]['value'] = '0';
+        }
+        // Remove location condition for blocked filter option.
+        elseif (isset($condition['field']) && $condition['field'] === 'user__field_location.field_location_target_id') {
+          unset($conditions[$index]);
+        }
+      }
+      $join_configuration['table'] = 'user__field_location';
+      $join_configuration['field'] = 'entity_id';
+      $query->addRelationship('location', Views::pluginManager('join')->createInstance('standard', $join_configuration), 'users_field_data');
+      $query->addWhere(0, 'location.field_location_target_id', '0', '=');
+    }
+    // User with Rejected status.
+    elseif ($user_status === '0') {
+      $join_configuration['table'] = 'user__field_transitions';
+      $join_configuration['field'] = 'entity_id';
+      $query->addRelationship('transition', Views::pluginManager('join')->createInstance('standard', $join_configuration), 'users_field_data');
+      $query->addWhere(1, 'transition.field_transitions_value', ['spfp-reject', 'gbv-coordination-reject'], 'IN');
+    }
+  }
+
 }
 
 /**
