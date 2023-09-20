@@ -1417,27 +1417,27 @@ html[dir=rtl] .block-select-user-location a::after, html[dir=rtl] .user-change-l
   margin: 0;
 }
 
-.location-list .location-count {
+.location-list .location-count, .view-user-listing-by-status .view-content .views-field .location-count {
   color: #9B9B9B;
   font-size: 12px;
   line-height: 10px;
   text-align: center;
   letter-spacing: 0.5px;
 }
-.location-list .location-card {
+.location-list .location-card, .view-user-listing-by-status .view-content .views-field .location-card {
   -webkit-box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
           box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
   border-radius: 10px;
   padding: 5px 10px 10px;
   margin: 13px 0 15px;
 }
-.location-list .location-card .level {
+.location-list .location-card .level, .view-user-listing-by-status .view-content .views-field .location-card .level {
   color: #444;
   font-size: 12px;
   line-height: 28px;
   padding-left: 5px;
 }
-.location-list .title-with-icons {
+.location-list .title-with-icons, .view-user-listing-by-status .view-content .views-field .title-with-icons {
   border-bottom: 0.5px solid #D7D7D7;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1447,12 +1447,12 @@ html[dir=rtl] .block-select-user-location a::after, html[dir=rtl] .user-change-l
           justify-content: space-between;
   margin-bottom: 10px;
 }
-.location-list .title-with-icons a {
+.location-list .title-with-icons a, .view-user-listing-by-status .view-content .views-field .title-with-icons a {
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
   padding-bottom: 10px;
 }
-.location-list .title-with-icons .location-title {
+.location-list .title-with-icons .location-title, .view-user-listing-by-status .view-content .views-field .title-with-icons .location-title {
   color: #444;
   font-size: 12px;
   line-height: 20px;
