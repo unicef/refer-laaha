@@ -42,6 +42,9 @@ function erpw_custom_user_login_form_submit($form, FormStateInterface $form_stat
  */
 function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $view_ids = ['manage_service', 'moderated_content'];
+  if ($form['#id'] === 'views-exposed-form-user-lists-page-1') {
+    $form['#attached']['library'][] = "erpw_custom/vss2_css";
+  }
   if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
     $form['field_service_type_target_id']['#type'] = 'select';
     $form['field_service_type_target_id']['#options'] = erpw_custom_service_type_options();
