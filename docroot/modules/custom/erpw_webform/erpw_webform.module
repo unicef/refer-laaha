@@ -982,7 +982,17 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
           $ptids = get_child_term_tid($user_location_id);
 
           // Add a condition to the query to filter by location.
-          erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN');
+          $extra[] = [
+            'field' => 'property',
+            'value' => [
+              0 => 'location_tid',
+              1 => 'level_1',
+              2 => 'level_2',
+              3 => 'level_3',
+              4 => 'level_4',
+            ],
+          ];
+          erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
         }
 
         // Get the current user's organization ID.
