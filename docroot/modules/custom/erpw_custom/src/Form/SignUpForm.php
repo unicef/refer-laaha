@@ -522,7 +522,7 @@ class SignUpForm extends FormBase {
     ];
 
     $form['message-step'] = [
-      '#markup' => '<div class="step">' . $this->t('Step 3: Password') . '</div>',
+      '#markup' => '<div class="step">' . $this->t('Step 3: Request Registration') . '</div>',
     ];
     $roles = $this->currentUser->getRoles();
     if ($this->currentUser->id() && (!in_array('service_provider_focal_point', $roles))) {
@@ -595,6 +595,11 @@ class SignUpForm extends FormBase {
     else {
       $form['#prefix'] = '<div id="status-message"></div>';
       $values = $form_state->get('page_values');
+      $form['message-info'] = [
+        '#markup' => '<div class="notify-messsage">' .
+        $this->t('You will receive an email for set password, once your account get approved.') .
+        '</div>',
+      ];
       $form['email'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Email'),
@@ -602,15 +607,6 @@ class SignUpForm extends FormBase {
         '#placeholder' => $this->t('Enter email id'),
         '#disabled' => TRUE,
         '#default_value' => $values['email'],
-      ];
-      $form['password'] = [
-        '#type' => 'password_confirm',
-        '#required' => TRUE,
-        '#placeholder' => $this->t('**********'),
-      ];
-      $form['password_suggestions_check'] = [
-        '#type' => 'markup',
-        '#markup' => '<div id="password-suggestions-check"></div>',
       ];
       $form['back'] = [
         '#type' => 'submit',
@@ -670,7 +666,7 @@ class SignUpForm extends FormBase {
       $user_info = [
         'status' => 0,
         'name' => $values['email'],
-        'pass' => $form_state->getValue('password'),
+        'pass' => 'password',
         'mail' => $values['email'],
         'field_first_name' => $values['first_name'],
         'field_last_name' => $values['last_name'],
