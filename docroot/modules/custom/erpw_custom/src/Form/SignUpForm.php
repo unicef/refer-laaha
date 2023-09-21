@@ -522,7 +522,7 @@ class SignUpForm extends FormBase {
     ];
 
     $form['message-step'] = [
-      '#markup' => '<div class="step">' . $this->t('Step 3: Password') . '</div>',
+      '#markup' => '<div class="step">' . $this->t('Step 3: Request Registration') . '</div>',
     ];
     $roles = $this->currentUser->getRoles();
     if ($this->currentUser->id() && (!in_array('service_provider_focal_point', $roles))) {
