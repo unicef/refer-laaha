@@ -1168,8 +1168,8 @@ function erpw_custom_page_attachments(array &$attachments) {
   $current_user = \Drupal::currentUser();
   $user_roles = $current_user->getRoles();
 
-  // Check if the user has admin or super_admin role.
-  $is_admin = in_array('administrator', $user_roles) || in_array('super_admin', $user_roles);
+  // Check if the user has admin or super_admin or country_admin role.
+  $is_admin = in_array('administrator', $user_roles) || in_array('super_admin', $user_roles) || in_array('country_admin', $user_roles);
   $attachments['#attached']['drupalSettings']['erpw_custom']['userRoles'] = $is_admin;
 }
 
@@ -1362,13 +1362,23 @@ function erpw_filter_locations_permissions($location_options, $permission, $type
   $uid = \Drupal::currentUser()->id();
   $current_user = User::load($uid);
   if ($uid != 1 && $location_options && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
-    $location_id = FALSE;
+    $location_ids = [];
+
     if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-      $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
+      $locations = $current_user->get('field_location')->getValue();
+      foreach ($locations as $location) {
+        $location_ids[] = $location['target_id'];
+      }
     }
-    if ($location_id) {
-      $ptid = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
-      $ptid = reset($ptid);
+
+    if (!empty($location_ids)) {
+      $combined_ptids = [];
+
+      foreach ($location_ids as $location_id) {
+        $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
+        $combined_ptids = array_merge($combined_ptids, $ptids);
+      }
+
       foreach ($location_options as $eid => $option) {
         $tid = $eid;
         if ($type == 'location_entity') {
@@ -1380,7 +1390,7 @@ function erpw_filter_locations_permissions($location_options, $permission, $type
             }
           }
         }
-        if ($tid != $ptid) {
+        if (!in_array($tid, $combined_ptids)) {
           unset($location_options[$eid]);
         }
       }
