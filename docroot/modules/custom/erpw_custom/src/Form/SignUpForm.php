@@ -415,14 +415,31 @@ class SignUpForm extends FormBase {
     $config = $this->configFactory->get('domain.location.' . $domain->get('id'));
     $domain_tid = $config->get('location');
 
-    $location_id = (!$current_user->get('field_location')->isEmpty()) ?
-      $current_user->get('field_location')->getValue()[0]['target_id'] : $domain_tid;
-    $ptids = $parent_list = [];
+    if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
+      $locations = $current_user->get('field_location')->getValue();
+      foreach ($locations as $location) {
+        $location_ids[] = $location['target_id'];
+      }
+    }
+    else {
+      $location_ids = $domain_tid;
+    }
+    $ptids = $parent_list = $combined_ptids = [];
     if (!isset($form_state->getTriggeringElement()['#level'])
       && $current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator')) {
-      $parent_list = $this->locationService->getAllAncestors($location_id);
+      if (is_array($location_ids) && count($location_ids) > 1) {
+        foreach ($location_ids as $location_id) {
+          $parent_list = $this->locationService->getAllAncestors($location_id);
+          $combined_ptids = array_merge($combined_ptids, $parent_list);
+        }
+        $parent_list = $combined_ptids;
+      }
+      else {
+        $parent_list = $this->locationService->getAllAncestors($location_ids);
+      }
       $permission1 = 'add users of their own location and organisation';
       $permission2 = 'add users of their own location';
+
       if ($current_user->hasPermission($permission1) || $current_user->hasPermission($permission2)) {
         $ptids = $parent_list;
       }
@@ -695,7 +712,7 @@ class SignUpForm extends FormBase {
       $user->save();
 
       // Update user workflow history entity.
-      $current_time = \Drupal::time()->getCurrentTime('d');    
+      $current_time = \Drupal::time()->getCurrentTime('d');
       $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
         'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
         'status' => 1,
@@ -751,7 +768,7 @@ class SignUpForm extends FormBase {
       $ws = '';
 
       // For IA Coordinator workflow.
-      if(in_array('interagency_gbv_coordinator', $roles)) {
+      if (in_array('interagency_gbv_coordinator', $roles)) {
         if ($values['system_role'] == 'service_provider_staff') {
           $ws = 'gbv-coordination-register-sp-staff';
         }
@@ -761,11 +778,11 @@ class SignUpForm extends FormBase {
         if ($values['system_role'] == 'interagency_gbv_coordinator') {
           $ws = 'ia-coordinator-register-ia-coordinator';
         }
-        $user->set('field_transitions', $ws); 
+        $user->set('field_transitions', $ws);
       }
 
       // For country admin workflow.
-      if(in_array('country_admin', $roles)) {
+      if (in_array('country_admin', $roles)) {
         if ($values['system_role'] == 'service_provider_staff') {
           $ws = 'gbv-coordination-register-sp-staff';
         }
@@ -778,13 +795,13 @@ class SignUpForm extends FormBase {
         if ($values['system_role'] == 'country_admin') {
           $ws = 'country-admin-register-country-admin';
         }
-        $user->set('field_transitions', $ws); 
+        $user->set('field_transitions', $ws);
       }
       $user->set('field_soft_delete', 0);
       $user->save();
 
       // Update user workflow history entity.
-      $current_time = \Drupal::time()->getCurrentTime('d');    
+      $current_time = \Drupal::time()->getCurrentTime('d');
       $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
         'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
         'status' => 1,
@@ -839,20 +856,20 @@ class SignUpForm extends FormBase {
       $roles = $this->currentUser->getRoles();
       $ws = '';
       // For SPFP workflow.
-      if(in_array('service_provider_focal_point', $roles)) {
+      if (in_array('service_provider_focal_point', $roles)) {
         if ($values['system_role'] == 'service_provider_staff') {
           $ws = 'spfp-register-sp-staff';
         }
         if ($values['system_role'] == 'service_provider_focal_point') {
           $ws = 'spfp-register-spfp';
         }
-        $user->set('field_transitions', $ws); 
+        $user->set('field_transitions', $ws);
       }
       $user->set('field_soft_delete', 0);
       $user->save();
 
       // Update user workflow history entity.
-      $current_time = \Drupal::time()->getCurrentTime('d');    
+      $current_time = \Drupal::time()->getCurrentTime('d');
       $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
         'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
         'status' => 1,
