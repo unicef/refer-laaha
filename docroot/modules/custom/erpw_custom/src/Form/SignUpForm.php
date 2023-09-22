@@ -435,7 +435,10 @@ class SignUpForm extends FormBase {
         $parent_list = $combined_ptids;
       }
       else {
-        $parent_list = $this->locationService->getAllAncestors($location_ids);
+        // Bug fixed 509 due to  503.
+        if (isset($location_ids[0])) {
+          $parent_list = $this->locationService->getAllAncestors($location_ids[0]);
+        }
       }
       $permission1 = 'add users of their own location and organisation';
       $permission2 = 'add users of their own location';
