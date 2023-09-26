@@ -72,3 +72,11 @@ erpw_webform.services_download:
     _controller: '\Drupal\erpw_webform\Controller\ServicesCsvExportController::downloadCsv'
   requirements:
     _permission: 'access content'
+
+erpw_webform.add_rating_question:
+  path: '/add-service-rating-question'
+  defaults:
+    _form: '\Drupal\erpw_webform\Form\ServiceRatingQuestionForm'
+    _title: 'Add Service Rating Question'
+  requirements:
+    _permission: 'add service rating question'
