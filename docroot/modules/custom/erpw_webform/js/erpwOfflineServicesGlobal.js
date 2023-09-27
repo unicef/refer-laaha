@@ -47,7 +47,6 @@
         }
 
         fetchDataAndStoreForms();
-        // Check if the user is online and start the interval only if online
       });
     },
   };

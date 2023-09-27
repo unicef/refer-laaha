@@ -125,7 +125,7 @@ function erpw_webform_preprocess_webform(&$variables) {
  */
 function erpw_webform_preprocess_page(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
-  $offlinePath = \Drupal::service('path_alias.manager')->getAliasByPath(\Drupal::service('path.current')->getPath());
+  $currentPath = \Drupal::service('path_alias.manager')->getAliasByPath(\Drupal::service('path.current')->getPath());
   if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_content_approved' || $currentRoute == 'erpw_webform.service_moderate_content') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
   }
@@ -152,10 +152,9 @@ function erpw_webform_preprocess_page(&$variables) {
     $variables['page']['help']['#access'] = FALSE;
     $variables['page']['content']['erpw_help']['#access'] = FALSE;
   }
-  if ($offlinePath == '/service-information-offline') {
-    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline';
+  if ($currentPath != '/service-providers' && $currentPath != '/manage-services' && $currentRoute != 'view.service_based_service_providers_listing.page_1' && $currentRoute != 'view.manage_in_review_webform_services_listing.page_1') {
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_global';
   }
-  $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_global';
   $variables['page']['#cache']['contexts'][] = 'cookies';
   $variables['page']['#cache']['contexts'][] = 'url';
 }
