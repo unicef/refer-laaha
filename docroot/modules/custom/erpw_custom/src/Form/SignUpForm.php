@@ -427,7 +427,7 @@ class SignUpForm extends FormBase {
     $ptids = $parent_list = $combined_ptids = [];
     if (!isset($form_state->getTriggeringElement()['#level'])
       && $current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator')) {
-      if (is_array($location_ids) && count($location_ids) > 1) {
+      if (is_array($location_ids)) {
         foreach ($location_ids as $location_id) {
           $parent_list = $this->locationService->getAllAncestors($location_id);
           $combined_ptids = array_merge($combined_ptids, $parent_list);
@@ -435,10 +435,7 @@ class SignUpForm extends FormBase {
         $parent_list = $combined_ptids;
       }
       else {
-        // Bug fixed 509 due to  503.
-        if (isset($location_ids[0])) {
-          $parent_list = $this->locationService->getAllAncestors($location_ids[0]);
-        }
+        $parent_list = $this->locationService->getAllAncestors($location_ids);
       }
       $permission1 = 'add users of their own location and organisation';
       $permission2 = 'add users of their own location';
