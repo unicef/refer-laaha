@@ -841,11 +841,15 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     // User workflow integration.
     foreach ($query->where as &$condition_group) {
       foreach ($condition_group['conditions'] as &$condition) {
-        if ($condition['field'] == 'user__field_transitions.field_transitions_value IN(:user__field_transitions_field_transitions_value[])') {
+        if (strpos($condition['field'], 'field_transitions_value') !== false) {
+          // Define a regular expression pattern to match the string inside IN()
+          $pattern = '/IN\((.*?)\)/';
+          preg_match($pattern, $condition['field'], $fieldname);
+          
           // For SPFP users.
           if (in_array('service_provider_focal_point', $roles)) {
             $value = [
-              ":user__field_transitions_field_transitions_value[]" => [
+              $fieldname[1] => [
                 "self-register-sp-staff" => "self-register-sp-staff",
               ],
             ];
@@ -854,7 +858,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
           // For IA Coordinator and Country admin users.
           if (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
             $value = [
-              ":user__field_transitions_field_transitions_value[]" => [
+              $fieldname[1] => [
                 "self-register-spfp" => "self-register-spfp",
                 "spfp-accept" => "spfp-accept",
                 "spfp-register-spfp" => "spfp-register-spfp",
