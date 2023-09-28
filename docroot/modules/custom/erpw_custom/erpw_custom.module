@@ -1208,9 +1208,12 @@ function erpw_view_results_own_location_organisation($query, $location_condition
   $uid = \Drupal::currentUser()->id();
   $current_user = User::load($uid);
   if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
+    $ptids = [];
     if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-      $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
-      $ptids = get_child_term_tid($location_id);
+      $locations = $current_user->get('field_location')->getValue();
+      foreach ($locations as $location) {
+        $ptids += get_child_term_tid($location['target_id']);
+      }
     }
     $org_id = '';
     if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
@@ -1271,9 +1274,12 @@ function erpw_view_results_own_country_permissions($query, $condition_field, $pe
   $uid = \Drupal::currentUser()->id();
   $current_user = User::load($uid);
   if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
+    $ptids = [];
     if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-      $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
-      $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
+      $locations = $current_user->get('field_location')->getValue();
+      foreach ($locations as $location) {
+        $ptids += \Drupal::service('erpw_location.location_services')->getChildrenByParent($location['target_id']);
+      }
     }
     foreach ($query->where as &$condition_group) {
       foreach ($condition_group['conditions'] as &$condition) {
