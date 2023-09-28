@@ -10,6 +10,7 @@ use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\views\Views;
 
 /**
  * Implements hook_preprocess_block().
@@ -267,6 +268,32 @@ function erpw_preprocess_page(&$variables) {
         $response = new RedirectResponse($url);
         $response->send();
       }
+    }
+  }
+}
+
+
+/**
+ * Implements hook_preprocess_HOOK() for views-view-field.html.twig.
+ */
+function erpw_preprocess_views_view_field(&$variables) {
+  $view = $variables['view'];
+  $field = $variables['field'];
+
+  if ($view->id() == 'user_count_approval_block' && $view->current_display == 'block_1') {
+    if ($field->field == 'nothing') {
+
+      // Load user lists.
+      $view = Views::getView('user_lists');
+      $view->setDisplay('page_2');
+      $view->execute();
+
+      // Replace characters in the field output.
+      $renderable = [
+        '#theme' => 'user_count_approval_block',
+        '#count' => count($view->result),
+      ];
+      $variables['output'] = \Drupal::service('renderer')->renderPlain($renderable);
     }
   }
 }
