@@ -1547,7 +1547,6 @@ function erpw_custom_can_edit_user(AccountProxyInterface $current_user, $user) {
   return FALSE;
 }
 
-
 /**
  * Implements hook_theme().
  */
@@ -1558,6 +1557,6 @@ function erpw_custom_theme() {
         'count' => NULL,
       ],
       'template' => 'user-count-approval-block',
-    ]
+    ],
   ];
 }

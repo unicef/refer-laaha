@@ -72,7 +72,7 @@ class UserWorkflowController extends ControllerBase {
         $user->save();
 
         // Update user workflow history entity.
-        $current_time = \Drupal::time()->getCurrentTime('d');    
+        $current_time = \Drupal::time()->getCurrentTime('d');
         $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
           'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
           'status' => 1,
@@ -102,7 +102,7 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $current_time = \Drupal::time()->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
             'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
@@ -119,7 +119,7 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $current_time = \Drupal::time()->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
             'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
@@ -138,7 +138,7 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $current_time = \Drupal::time()->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
             'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
@@ -155,7 +155,7 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $current_time = \Drupal::time()->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
             'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
@@ -173,7 +173,7 @@ class UserWorkflowController extends ControllerBase {
         $response->send();
         return $response;
       }
-      
+
     }
 
     $url = Url::fromRoute('view.user_lists.page_2')->toString();
@@ -210,7 +210,7 @@ class UserWorkflowController extends ControllerBase {
         $user->save();
 
         // Update user workflow history entity.
-        $current_time = \Drupal::time()->getCurrentTime('d');    
+        $current_time = \Drupal::time()->getCurrentTime('d');
         $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
           'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
           'status' => 1,
@@ -250,7 +250,7 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $current_time = \Drupal::time()->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
             'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
@@ -277,7 +277,7 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $current_time = \Drupal::time()->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
             'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
@@ -306,7 +306,7 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $current_time = \Drupal::time()->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
             'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
@@ -333,7 +333,7 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');    
+          $current_time = \Drupal::time()->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
             'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,

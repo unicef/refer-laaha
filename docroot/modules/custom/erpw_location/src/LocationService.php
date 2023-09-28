@@ -492,11 +492,14 @@ class LocationService {
   /**
    * Get taxonomy term ID by name.
    *
-   * @param string $vocabulary The machine name of the vocabulary.
-   * @param string $termName The name of the term to search for.
+   * @param string $vocabulary
+   *   The machine name of the vocabulary.
+   * @param string $termName
+   *   The name of the term to search for.
+   *
    * @return int|null The taxonomy term ID if found, or null if not found.
    */
-  function getTaxonomyTermIdByName($vocabulary, $termName) {
+  public function getTaxonomyTermIdByName($vocabulary, $termName) {
     $query = \Drupal::entityQuery('taxonomy_term')
       ->condition('vid', $vocabulary)
       ->condition('name', $termName)
@@ -508,7 +511,7 @@ class LocationService {
       return reset($tids);
     }
 
-    return null;
+    return NULL;
   }
 
 }
