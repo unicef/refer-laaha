@@ -612,10 +612,13 @@
   font-size: 16px;
 }
 .additional-details-offline .pair-container {
-  padding: 3px 0;
+  padding: 5px 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 .additional-details-offline .pair-container .label {
-  max-width: 130px;
+  max-width: 200px;
   width: 100%;
   display: inline-block;
   color: #444;
@@ -639,6 +642,52 @@
   font-weight: bold;
   letter-spacing: 1px;
 }
+#offline-edit {
+  width: 100%;
+  display: block;
+  text-align: right;
+  text-decoration: underline;
+  font-size: 14px;
+}
+#offline-save {
+  width: 100%;
+  display: block;
+  text-align: right;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+span[contenteditable="true"] {
+  border: 2px solid black;
+  background: white;
+  padding: 4px;
+  border-radius: 3px;
+}
+.field-content[contenteditable="true"] {
+  background: #fcf1f0;
+  color: black;
+}
+.offline-edit-disclaimer {
+  text-align: right;
+  padding-bottom: 5px;
+  color: red;
+  font-size: 14px;
+}
+
+#reminder-details {
+  border-radius: 10px;
+  margin: 20px 0;
+}
+#reminder-details .reminder-detail-heading {
+  padding: 20px;
+  text-align: center;
+}
+#reminder-details #offline-changes-listing {
+  padding-left: 15px;
+  text-decoration: underline;
+  color: blue;
+}
+
 @media only screen and (min-width: 1024px) {
   .webform-submission-form .table-format .webform-mapping-table {
     width: 50%;
