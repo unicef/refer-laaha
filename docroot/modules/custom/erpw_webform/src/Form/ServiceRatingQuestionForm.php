@@ -205,34 +205,19 @@ class ServiceRatingQuestionForm extends FormBase {
     $form_state->setRebuild();
   }
 
-  // Callback to handle adding new question sections.
-  public function addQuestionCallback(array &$form, FormStateInterface $form_state) {
-    $question_count = $form_state->get('question_count') ?: 0;
-    $question_count++;
-    $form_state->set('question_count', $question_count);
-
-    // Trigger an Ajax update to add the new question section.
-    $form_state->setRebuild();
-  }
-
-  // Ajax callback to update the form with the new question section.
-  public function addQuestionAjaxCallback(array &$form, FormStateInterface $form_state) {
-    return $form['questions_wrapper'];
-  }
-
   /**
- * Helper function to load and process entities based on type.
- *
- * @param string $entityType
- *   The entity type to load (e.g., 'node').
- * @param string $bundle
- *   The bundle (content type) of the entities to load.
- * @param string $fieldName
- *   The name of the field containing allowed domains.
- *
- * @return array
- *   An array of processed entity options.
- */
+   * Helper function to load and process entities based on type.
+   *
+   * @param string $entityType
+   *   The entity type to load (e.g., 'node').
+   * @param string $bundle
+   *   The bundle (content type) of the entities to load.
+   * @param string $fieldName
+   *   The name of the field containing allowed domains.
+   *
+   * @return array
+   *   An array of processed entity options.
+   */
   protected function loadAndProcessEntities($entityType, $bundle, $fieldName) {
     $options = [];
 
@@ -252,7 +237,8 @@ class ServiceRatingQuestionForm extends FormBase {
           if ($entity->hasTranslation($current_language)) {
             $translated = $entity->getTranslation($current_language);
             $options[$id] = $translated->get('title')->getValue()[0]['value'];
-          } else {
+          }
+          else {
             $options[$id] = $name;
           }
         }
@@ -262,7 +248,6 @@ class ServiceRatingQuestionForm extends FormBase {
     return $options;
   }
 
-
   /**
    * {@inheritdoc}
    */
@@ -270,49 +255,48 @@ class ServiceRatingQuestionForm extends FormBase {
     parent::validateForm($form, $form_state);
     if ($form_state->getValue('op') != 'Add Option') {
       $question_type = $form_state->getValue('question_type');
-    $option_count = $form_state->get('option_count');
+      $option_count = $form_state->get('option_count');
 
-    $valid_option_count = 0;
-    for ($option_no = 0; $option_no < $option_count; $option_no++) {
-      $option_value = $form_state->getValue(['textfield' . $option_no]);
-      if ($question_type == 'multiple_choice') {
-        // Check that the option value is not empty.
-        if (!empty($option_value)) {
-          $valid_option_count++;
-        }
-        // Check that no value is empty in the middle.
-        elseif ($option_no + 1 != $option_count) {
-          $form_state->setErrorByName('textfield' . $option_no, $this->t("Please don't leave any value in between options in case of Multiple Choice question type."));
-        }
-      }
-      else {
-        if ($option_no + 1 == $option_count) {
-          // Check the last option which has value.
-          $rating_option_count = $option_count + 1;
-          do {
-            $rating_option_count--;
+      $valid_option_count = 0;
+      for ($option_no = 0; $option_no < $option_count; $option_no++) {
+        $option_value = $form_state->getValue(['textfield' . $option_no]);
+        if ($question_type == 'multiple_choice') {
+          // Check that the option value is not empty.
+          if (!empty($option_value)) {
+            $valid_option_count++;
           }
-          while (!$form_state->getValue(['textfield' . $rating_option_count - 1]));
-          $valid_option_count = $rating_option_count;
+          // Check that no value is empty in the middle.
+          elseif ($option_no + 1 != $option_count) {
+            $form_state->setErrorByName('textfield' . $option_no, $this->t("Please don't leave any value in between options in case of Multiple Choice question type."));
+          }
         }
+        else {
+          if ($option_no + 1 == $option_count) {
+            // Check the last option which has value.
+            $rating_option_count = $option_count + 1;
+            do {
+              $rating_option_count--;
+            } while (!$form_state->getValue(['textfield' . $rating_option_count - 1]));
+            $valid_option_count = $rating_option_count;
+          }
+        }
+      }
+
+      // Define the minimum required options based on the question type.
+      $min_options = ($question_type == 'rating') ? 3 : 2;
+
+      // Check if the number of valid options is less than the minimum required.
+      if ($valid_option_count < $min_options) {
+        $form_state->setErrorByName('options_fieldset', $this->t('At least @count options are required for the selected question type.', ['@count' => $min_options]));
       }
     }
 
-    // Define the minimum required options based on the question type.
-    $min_options = ($question_type == 'rating') ? 3 : 2;
-
-    // Check if the number of valid options is less than the minimum required.
-    if ($valid_option_count < $min_options) {
-      $form_state->setErrorByName('options_fieldset', $this->t('At least @count options are required for the selected question type.', ['@count' => $min_options]));
-    }
-    }
-    
   }
 
   /**
- * Implements the submitForm() method.
- */
-public function submitForm(array &$form, FormStateInterface $form_state) {
+   * Implements the submitForm() method.
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
     // Get the selected service type and feedback area.
     $service_type_id = $form_state->getValue('service_type');
     $feedback_area_id = $form_state->getValue('feedback_area');
@@ -334,8 +318,7 @@ public function submitForm(array &$form, FormStateInterface $form_state) {
           $rating_option_count = $option_count + 1;
           do {
             $rating_option_count--;
-          }
-          while (!$form_state->getValue(['textfield' . $rating_option_count - 1]));
+          } while (!$form_state->getValue(['textfield' . $rating_option_count - 1]));
           $valid_option_count = $rating_option_count;
         }
       }
@@ -364,56 +347,56 @@ public function submitForm(array &$form, FormStateInterface $form_state) {
     $form_state->setRedirectUrl($url);
   }
 
-/**
- * Load a webform by service type.
- *
- * @param string $serviceType
- *   The service type to search for.
- *
- * @return \Drupal\webform\Entity\Webform|null
- *   The loaded webform entity or null if not found.
- */
-protected function loadWebformByServiceType($serviceType) {
-  // Search for a webform with the specified service type.
-  $query = \Drupal::entityQuery('webform')
-    ->condition('webform_type', 'service_rating')
-    ->condition('title', 'Service Rating ' . $serviceType)
-    ->accessCheck(False);
+  /**
+   * Load a webform by service type.
+   *
+   * @param string $serviceType
+   *   The service type to search for.
+   *
+   * @return \Drupal\webform\Entity\Webform|null
+   *   The loaded webform entity or null if not found.
+   */
+  protected function loadWebformByServiceType($serviceType) {
+    // Search for a webform with the specified service type.
+    $query = \Drupal::entityQuery('webform')
+      ->condition('webform_type', 'service_rating')
+      ->condition('title', 'Service Rating ' . $serviceType)
+      ->accessCheck(FALSE);
 
-  $webform_ids = $query->execute();
-  if (!empty($webform_ids)) {
-    $webform_id = reset($webform_ids);
-    return \Drupal::entityTypeManager()->getStorage('webform')->load($webform_id);
+    $webform_ids = $query->execute();
+    if (!empty($webform_ids)) {
+      $webform_id = reset($webform_ids);
+      return \Drupal::entityTypeManager()->getStorage('webform')->load($webform_id);
+    }
+
+    return NULL;
   }
 
-  return NULL;
-}
-
-/**
- * Create a new webform with an element based on question type.
- *
- * @param string $serviceType
- *   The service type for the webform.
- * @param string $feedback_area
- *   The feedback area for the question.
- * @param string $questionDescription
- *   The description of the question.
- * @param string $questionType
- *   The type of the question ('rating' or 'multiple_choice').
- * @param mixed $form_state
- *   The form state of the current form.
- * @param int $lastOptionCountWithValue
- *   The last option count with a value for determining the range.
- *
- * @return \Drupal\webform\Entity\Webform
- *   The created webform entity.
- */
-protected function createWebform($serviceType, $feedback_area, $questionDescription, $questionType, $form_state, $lastOptionCountWithValue) {
+  /**
+   * Create a new webform with an element based on question type.
+   *
+   * @param string $serviceType
+   *   The service type for the webform.
+   * @param string $feedback_area
+   *   The feedback area for the question.
+   * @param string $questionDescription
+   *   The description of the question.
+   * @param string $questionType
+   *   The type of the question ('rating' or 'multiple_choice').
+   * @param mixed $form_state
+   *   The form state of the current form.
+   * @param int $lastOptionCountWithValue
+   *   The last option count with a value for determining the range.
+   *
+   * @return \Drupal\webform\Entity\Webform
+   *   The created webform entity.
+   */
+  protected function createWebform($serviceType, $feedback_area, $questionDescription, $questionType, $form_state, $lastOptionCountWithValue) {
 
     $query = \Drupal::entityQuery('node')
       ->condition('type', 'service_type')
       ->condition('title', $serviceType)
-      ->accessCheck(False);
+      ->accessCheck(FALSE);
 
     // Execute the query to get matching node ID of the service type.
     $node_id = $query->execute();
@@ -421,16 +404,16 @@ protected function createWebform($serviceType, $feedback_area, $questionDescript
     $webform_id = 'webform_service_rating_' . $service_type_id;
 
     // Create a new webform entity.
-  $webform = Webform::create([
-    'id' => $webform_id,
-    'webform_type' => 'service_rating',
-    'title' => 'Service Rating ' . $serviceType,
-  ]);
+    $webform = Webform::create([
+      'id' => $webform_id,
+      'webform_type' => 'service_rating',
+      'title' => 'Service Rating ' . $serviceType,
+    ]);
 
-  $elements = Yaml::decode($webform->get('elements') ?? '');
+    $elements = Yaml::decode($webform->get('elements') ?? '');
 
-  // Define the form elements based on the question type.
-  if ($questionType === 'rating') {
+    // Define the form elements based on the question type.
+    if ($questionType === 'rating') {
       $elements[$feedback_area . '_' . uniqid()] = [
         '#type' => 'webform_rating',
         '#title' => $questionDescription,
@@ -441,28 +424,28 @@ protected function createWebform($serviceType, $feedback_area, $questionDescript
         '#description' => 'Rate from 0 to @max', ['@max' => $lastOptionCountWithValue],
       ];
     }
-  elseif ($questionType === 'multiple_choice') {
+    elseif ($questionType === 'multiple_choice') {
       $elements[$feedback_area . '_' . uniqid()] = [
         '#type' => 'radios',
         '#title' => $questionDescription,
         '#options' => $this->getMultipleChoiceOptions($form_state),
       ];
     }
-  $webform->setElements($elements);
-  $webform->save();
+    $webform->setElements($elements);
+    $webform->save();
 
-  return $webform;
-}
+    return $webform;
+  }
 
-/**
- * Get options for the radios element for multiple choice questions.
- *
- * @param array $form_state
- *   The form state array containing the options.
- *
- * @return array
- *   An array of options for the radios element.
- */
+  /**
+   * Get options for the radios element for multiple choice questions.
+   *
+   * @param array $form_state
+   *   The form state array containing the options.
+   *
+   * @return array
+   *   An array of options for the radios element.
+   */
   protected function getMultipleChoiceOptions($form_state) {
     $options = [];
     $option_count = $form_state->get('option_count');
