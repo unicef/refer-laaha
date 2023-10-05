@@ -966,8 +966,6 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
     }
     else {
-      // Domain Join.
-      erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
 
       // Workflow join.
       erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
@@ -1001,6 +999,8 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
           erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
         }
       }
+      // Domain Join. #522 - bug - Removed the domain based condition.
+      // erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
     }
   }
   // Unset rows that are not in review workflow states as per roles.
