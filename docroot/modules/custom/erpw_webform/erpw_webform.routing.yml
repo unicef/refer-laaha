@@ -80,3 +80,11 @@ erpw_webform.add_rating_question:
     _title: 'Add Service Rating Question'
   requirements:
     _permission: 'add service rating question'
+
+erpw_webform.add_new_rating_question:
+  path: '/add-service-rating-question/{service_type__id}'
+  defaults:
+    _form: '\Drupal\erpw_webform\Form\ServiceRatingAddNewQuestionForm'
+    _title: 'Add Service Rating Question'
+  requirements:
+    _permission: 'add service rating question'

@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  *
  */
-class ServiceRatingQuestionForm extends FormBase {
+class ServiceRatingAddNewQuestionForm extends FormBase {
 
   /**
    * Drupal\domain\DomainNegotiatorInterface definition.
@@ -44,6 +44,13 @@ class ServiceRatingQuestionForm extends FormBase {
   protected $messenger;
 
   /**
+   * The RouteMatch service.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -52,6 +59,7 @@ class ServiceRatingQuestionForm extends FormBase {
     $instance->languageManager = $container->get('language_manager');
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->messenger = $container->get('messenger');
+    $instance->routeMatch = $container->get('current_route_match');
     return $instance;
   }
 
@@ -59,24 +67,27 @@ class ServiceRatingQuestionForm extends FormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'service_rating_question_form';
+    return 'service_rating_new_question_form';
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $service_type_options = $this->loadAndProcessEntities('node', 'service_type', 'field_domain_access');
+    $service_type_id = $this->routeMatch->getParameter('service_type__id');
+    $node = Node::load($service_type_id);
+    if ($node) {
+      $service_type = $node->getTitle();
+    }
     $feedback_area_options = $this->loadAndProcessEntities('node', 'feedback_area', 'field_domain_access');
 
+    // Create the select field with the service type fixed and disabled.
     $form['service_type'] = [
-      '#title' => t('Select Service Type'),
+      '#title' => t('Service Type'),
       '#type' => 'select',
-      '#weight' => -10,
-      '#required' => TRUE,
-      '#description' => '<span class = "service-rating-description"> Select the service type for which the question is being created.</span>',
-      "#empty_option" => t('- Select -'),
-      '#options' => $service_type_options,
+      '#default_value' => $service_type,
+      '#options' => [$service_type => $service_type],
+      '#disabled' => TRUE,
     ];
 
     $form['feedback_area'] = [
@@ -216,7 +227,7 @@ class ServiceRatingQuestionForm extends FormBase {
    * Callback for "Add New Question" button.
    */
   public function addNewQuestion(array &$form, FormStateInterface $form_state) {
-    $service_type_id = $form_state->getValue('service_type');
+    $service_type = $form_state->getValue('service_type');
     $feedback_area_id = $form_state->getValue('feedback_area');
     $question_description = $form_state->getValue('question_description');
     $question_type = $form_state->getValue('question_type');
@@ -243,10 +254,14 @@ class ServiceRatingQuestionForm extends FormBase {
       }
     }
 
-    $node = Node::load($service_type_id);
-    if ($node) {
-      $service_type = $node->getTitle();
-    }
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'service_type')
+      ->condition('title', $service_type)
+      ->accessCheck(FALSE);
+
+    $node_id = $query->execute();
+    $service_type_id = reset($node_id);
+
     $feedback_node = Node::load($feedback_area_id);
     if ($feedback_node) {
       $feedback_area = $feedback_node->getTitle();
