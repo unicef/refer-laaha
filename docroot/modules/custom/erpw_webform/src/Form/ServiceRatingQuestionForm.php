@@ -486,9 +486,10 @@ class ServiceRatingQuestionForm extends FormBase {
 
     // Define the form elements based on the question type.
     if ($questionType === 'rating') {
-      $elements[$feedback_area . '_' . uniqid()] = [
+      $elements['question_' . uniqid()] = [
         '#type' => 'webform_rating',
         '#title' => $questionDescription,
+        '#feedback_area' => $form_state->getValue('feedback_area'),
         '#min' => 0,
         '#max' => $lastOptionCountWithValue,
         '#precision' => 1,
@@ -497,8 +498,9 @@ class ServiceRatingQuestionForm extends FormBase {
       ];
     }
     elseif ($questionType === 'multiple_choice') {
-      $elements[$feedback_area . '_' . uniqid()] = [
+      $elements['question_' . uniqid()] = [
         '#type' => 'radios',
+        '#feedback_area' => $form_state->getValue('feedback_area'),
         '#title' => $questionDescription,
         '#options' => $this->getMultipleChoiceOptions($form_state),
       ];
@@ -536,9 +538,10 @@ class ServiceRatingQuestionForm extends FormBase {
 
     // Define the form elements based on the question type.
     if ($questionType === 'rating') {
-      $elements[$feedback_area . '_' . uniqid()] = [
+      $elements['question_' . uniqid()] = [
         '#type' => 'webform_rating',
         '#title' => $questionDescription,
+        '#feedback_area' => $form_state->getValue('feedback_area'),
         '#min' => 0,
         '#max' => $lastOptionCountWithValue,
         '#precision' => 1,
@@ -547,9 +550,10 @@ class ServiceRatingQuestionForm extends FormBase {
       ];
     }
     elseif ($questionType === 'multiple_choice') {
-      $elements[$feedback_area . '_' . uniqid()] = [
+      $elements['question_' . uniqid()] = [
         '#type' => 'radios',
         '#title' => $questionDescription,
+        '#feedback_area' => $form_state->getValue('feedback_area'),
         '#options' => $this->getMultipleChoiceOptions($form_state),
       ];
     }
