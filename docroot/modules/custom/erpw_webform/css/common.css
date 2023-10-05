@@ -721,14 +721,18 @@ span[contenteditable="true"] {
   .views-field
   .field-content
   .before {
-  background: rgb(245, 5, 5, 0.7);
+  background: rgb(245, 5, 5, 0.3);
 }
 .offline-service-changes-page
   .service-providers-submission-row
   .views-field
   .field-content
   .after {
-  background: rgb(20, 250, 7, 0.5);
+  background: rgb(20, 250, 7, 0.3);
+}
+.highlighted-changed-data input {
+  background: rgb(20, 250, 7, 0.2);
+  color: black;
 }
 @media only screen and (min-width: 1024px) {
   .webform-submission-form .table-format .webform-mapping-table {

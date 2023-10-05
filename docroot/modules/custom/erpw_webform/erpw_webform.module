@@ -150,6 +150,7 @@ function erpw_webform_preprocess_page(&$variables) {
     // Remove help section from webform submission edit page.
     $variables['page']['help']['#access'] = FALSE;
     $variables['page']['content']['erpw_help']['#access'] = FALSE;
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_edit_form';
   }
   if ($currentPath != '/service-providers' && $currentPath != '/manage-services' && $currentRoute != 'view.service_based_service_providers_listing.page_1' && $currentRoute != 'view.manage_in_review_webform_services_listing.page_1' && $currentPath != '/service-providers-changes-offline' && $currentRoute != 'entity.webform_submission.edit_form') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_global';
