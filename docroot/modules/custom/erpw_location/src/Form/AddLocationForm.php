@@ -462,7 +462,7 @@ class AddLocationForm extends FormBase {
     $term_ids = $query->execute();
     $terms = $term_storage->loadMultiple($term_ids);
     foreach ($terms as $term) {
-      $termName = $term->get('name')->getValue()[0]['value'] ?? '';
+      $termName = $term->get('name')->getValue()[0]['value'];
       if ($countryEntity == $termName) {
         $countryID = $term->id();
       }
