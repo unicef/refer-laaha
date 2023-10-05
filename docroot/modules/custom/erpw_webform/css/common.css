@@ -687,7 +687,49 @@ span[contenteditable="true"] {
   text-decoration: underline;
   color: blue;
 }
-
+.offline-service-changes-page
+  .service-providers-submission-row
+  .views-field
+  .views-label {
+  max-width: 200px;
+  color: black;
+}
+.offline-service-changes-page
+  .service-providers-submission-row
+  .views-field
+  .field-content {
+  display: flex;
+  width: 100%;
+}
+.offline-service-changes-page
+  .service-providers-submission-row
+  .views-field
+  .field-content
+  span {
+  padding: 5px;
+  color: black;
+  min-width: 100px;
+  min-width: 100px;
+  margin-right: 15px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+.offline-service-changes-page
+  .service-providers-submission-row
+  .views-field
+  .field-content
+  .before {
+  background: rgb(245, 5, 5, 0.7);
+}
+.offline-service-changes-page
+  .service-providers-submission-row
+  .views-field
+  .field-content
+  .after {
+  background: rgb(20, 250, 7, 0.5);
+}
 @media only screen and (min-width: 1024px) {
   .webform-submission-form .table-format .webform-mapping-table {
     width: 50%;

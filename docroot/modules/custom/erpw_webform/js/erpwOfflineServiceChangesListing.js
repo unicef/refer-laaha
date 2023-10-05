@@ -35,60 +35,38 @@
                     const rowContainer = document.createElement("div");
                     rowContainer.className = "row-container";
 
-                    const rowContainerHeader = document.createElement("div");
-                    rowContainerHeader.className = "row-container-header";
-                    rowContainerHeader.textContent = Drupal.t("Changes:");
-                    rowContainer.appendChild(rowContainerHeader);
+                    var fieldsHTML = ``;
+                    for (var field in valueData) {
+                      if (field == "changes") {
+                        for (var fieldKey in valueData["changes"]) {
+                          var orgValue = "";
+                          if (valueData["original"][fieldKey] === undefined) {
+                            orgValue = "Not available.";
+                          } else {
+                            orgValue = valueData["original"][fieldKey];
+                          }
+                          var fieldHTML = `
+                            <div class="views-field">
+                              <span class="views-label">${fieldKey}</span>
+                              <span class="field-content">
+                                <span class="before">${orgValue}</span>
+                                <span class="after">${valueData["changes"][fieldKey]}</span>
+                              </span>
+                            </div>`;
+                          fieldsHTML += fieldHTML;
+                        }
+                      }
+                    }
                     for (var field in valueData) {
                       if (field == "original") {
                         var counter = 0;
                         var parsedOrganisation = "";
-                        var parsedFpNumber = "";
-                        var parsedFpName = "";
-                        var parsedLocation = "";
-                        var parsedServiceMode = "";
                         var parsedServicetype = "";
                         var parsedStColor = "";
                         var parsedStIcon = "";
-
                         if (valueData["original"]["Organisation"]) {
                           parsedOrganisation =
                             valueData["original"]["Organisation"];
-                        } else {
-                          parsedOrganisation = Drupal.t("Not available.");
-                        }
-                        if (
-                          valueData["original"][
-                            "Name of focal point for referrals (first/last name)"
-                          ]
-                        ) {
-                          parsedFpName =
-                            valueData["original"][
-                              "Name of focal point for referrals (first/last name)"
-                            ];
-                        } else {
-                          parsedFpName = Drupal.t("Not available.");
-                        }
-                        if (
-                          valueData["original"]["Phone number of focal point"]
-                        ) {
-                          parsedFpNumber =
-                            valueData["original"][
-                              "Phone number of focal point"
-                            ];
-                        } else {
-                          parsedFpNumber = Drupal.t("Not available.");
-                        }
-                        if (valueData["original"]["Location"]) {
-                          parsedLocation = valueData["original"]["Location"];
-                        } else {
-                          parsedLocation = Drupal.t("Not available.");
-                        }
-                        if (valueData["original"]["Service Mode"]) {
-                          parsedServiceMode =
-                            valueData["original"]["Service Mode"];
-                        } else {
-                          parsedServiceMode = Drupal.t("Not available.");
                         }
                         if (valueData["original"]["Service Type"]) {
                           parsedServicetype =
@@ -98,7 +76,6 @@
                           parsedStColor =
                             valueData["original"]["Service Type Color"];
                         }
-                        console.log(valueData["original"]);
                         if (valueData["original"]["Service Type Icon"]) {
                           parsedStIcon =
                             valueData["original"]["Service Type Icon"];
@@ -114,12 +91,11 @@
                             <div class="service-detail-heading">
                               <div class="view-delete-links">
                                 <span class="view-link">
-                                  <a href="/en/admin/structure/webform/manage/${valueData["webformID"]}/submission/${key}/edit">Review and submit</a>
+                                  <a href="/en/admin/structure/webform/manage/${valueData["original"]["webformID"]}/submission/${key}/edit">Review and submit</a>
                                 </span>
                               </div>
                             </div>
                           </div>`;
-
                         div.innerHTML = `
                           <div class="service-providers-submission-row">
                             <div class="row-header">
@@ -133,34 +109,9 @@
                                 <a href="/service/${key}">${parsedOrganisation} - ${parsedServicetype}</a>
                               </div>
                             </div>
-                            <div class="views-field views-field-webform-submission-organisation-field service-provider-org org-icon service-list-icons">
-                              <span class="views-label views-label-webform-submission-organisation-field">Organisation:
-                              </span>
-                              <span class="field-content">${parsedOrganisation}</span>
-                            </div>
-                            <div class="views-field views-field-webform-submission-focal-point-field service-provider-org org-icon service-list-icons">
-                              <span class="views-label views-label-webform-submission-focal-point-field">Focal Point:
-                              </span>
-                              <span class="field-content">${parsedFpName}</span>
-                            </div>
-                            <div class="views-field views-field-webform-submission-hotline-contact-field service-provider-number contact-icon service-list-icons">
-                              <span class="views-label views-label-webform-submission-hotline-contact-field">Contact:
-                              </span>
-                              <span class="field-content">${parsedFpNumber}</span>
-                            </div>
-                            <div class="views-field views-field-webform-submission-location-field location-icon service-list-icons">
-                              <span class="views-label views-label-webform-submission-location-field">Location:
-                              </span>
-                              <span class="field-content">${parsedLocation}</span>
-                            </div>
-                            <div class="views-field views-field-webform-submission-mode-field service-mode mode-icon service-list-icons">
-                              <span class="views-label views-label-webform-submission-mode-field">Service Mode:
-                              </span>
-                              <span class="field-content">${parsedServiceMode}</span>
-                            </div>
+                            ${fieldsHTML}
                             ${linkHTML}
                           </div>`;
-
                         // Append the div to the view-content div
                         if (counter == 0) {
                           rowContainer.appendChild(div);

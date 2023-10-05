@@ -709,13 +709,34 @@
                 contentEditableData[label] = value; // Store in the object
                 $(this).removeAttr("contenteditable");
               });
-
             // Loop through the key-value pairs
             for (const serviceKey in JSON.parse(serviceData)) {
               serviceKeyData = JSON.parse(serviceData)[serviceKey];
+
               // Loop through the key-value pairs
               for (const contentKey in contentEditableData) {
+                // console.log(JSON.parse(serviceData)[contentKey]);
                 if (
+                  contentKey == Drupal.t("Contact").concat(":") &&
+                  JSON.parse(serviceData)["Phone number of focal point"] ===
+                    undefined &&
+                  contentEditableData[contentKey] != "Not available."
+                ) {
+                  contentKeyData = contentEditableData[contentKey];
+                  contentEditableChanges["Phone number of focal point"] =
+                    contentKeyData;
+                } else if (
+                  contentKey == Drupal.t("Focal Point").concat(":") &&
+                  JSON.parse(serviceData)[
+                    "Name of focal point for referrals (first/last name)"
+                  ] === undefined &&
+                  contentEditableData[contentKey] != "Not available."
+                ) {
+                  contentKeyData = contentEditableData[contentKey];
+                  contentEditableChanges[
+                    "Name of focal point for referrals (first/last name)"
+                  ] = contentKeyData;
+                } else if (
                   (serviceKey ==
                     Drupal.t(
                       "Name of focal point for referrals (first/last name)"
@@ -734,13 +755,18 @@
             }
             contentChanges["original"] = JSON.parse(serviceData);
             contentChanges["changes"] = contentEditableChanges;
-            // Store updated data values in user related indexedDB.
-            localforageUserServiceChanges
-              .setItem(serviceID, contentChanges)
-              .then(() => {
-                console.log(`Data for updated data entered successfully.`);
-              })
-              .catch((error) => console.error(`Error updating data`, error));
+            // If there are changes then only store the data.
+            if (Object.keys(contentChanges["changes"]).length !== 0) {
+              // Store updated data values in user related indexedDB.
+              localforageUserServiceChanges
+                .setItem(serviceID, contentChanges)
+                .then(() => {
+                  console.log(`Data for updated data entered successfully.`);
+                })
+                .catch((error) => console.error(`Error updating data`, error));
+            } else {
+              console.log("No changes made.");
+            }
           }
         })
         .catch((error) =>
