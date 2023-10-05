@@ -970,9 +970,16 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       // Workflow join.
       erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
 
-      // For SP Staff & Focal Point - Services list should only include services by their organization and location.
+      // For SP Staff & Focal Point - Services list should only include services by their organization.
       if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point')) {
-        // Get the current user's location ID.
+        // Get the current user's organization ID.
+        if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
+          // Add a condition to the query to filter by organization.
+          erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
+        }
+      }
+      // Get the current user's location ID, #522 - overcoming the service data issue.
+      if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point') || $current_user->hasRole('interagency_gbv_coordinator') || $current_user->hasRole('country_admin')) {
         if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
           $user_location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
 
@@ -992,15 +999,9 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
           ];
           erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
         }
-
-        // Get the current user's organization ID.
-        if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
-          // Add a condition to the query to filter by organization.
-          erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
-        }
       }
-      // Domain Join. #522 - bug - Removed the domain based condition.
-      // erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
+      // Domain Join.
+      erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
     }
   }
   // Unset rows that are not in review workflow states as per roles.
