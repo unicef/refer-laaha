@@ -2,12 +2,10 @@
 
 namespace Drupal\erpw_webform\Form;
 
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
-use Drupal\webform\Entity\Webform;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -51,6 +49,13 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
   protected $routeMatch;
 
   /**
+   * The Service Rating Service.
+   *
+   * @var \Drupal\erpw_webform\ServiceRatingService
+   */
+  protected $serviceRating;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -59,7 +64,7 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
     $instance->languageManager = $container->get('language_manager');
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->messenger = $container->get('messenger');
-    $instance->routeMatch = $container->get('current_route_match');
+    $instance->serviceRating = $container->get('erpw_webform.service_rating_service');
     return $instance;
   }
 
@@ -79,7 +84,7 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
     if ($node) {
       $service_type = $node->getTitle();
     }
-    $feedback_area_options = $this->loadAndProcessEntities('node', 'feedback_area', 'field_domain_access');
+    $feedback_area_options = $this->serviceRating->loadAndProcessEntities('node', 'feedback_area', 'field_domain_access');
 
     // Create the select field with the service type fixed and disabled.
     $form['service_type'] = [
@@ -266,63 +271,20 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
     if ($feedback_node) {
       $feedback_area = $feedback_node->getTitle();
     }
-    $webform = $this->loadWebformByServiceType($service_type_id);
+    $webform = $this->serviceRating->loadWebformByServiceType($service_type_id);
 
     if (!$webform) {
       // Create a new webform.
-      $webform = $this->createWebform($service_type, $feedback_area, $question_description, $question_type, $form_state, $valid_option_count);
+      $webform = $this->serviceRating->createWebform($form_state, $valid_option_count);
     }
     else {
-      $webform = $this->updateWebform($webform, $service_type, $feedback_area, $question_description, $question_type, $form_state, $valid_option_count);
+      $webform = $this->serviceRating->updateWebform($webform, $form_state, $valid_option_count);
     }
 
     $webform->save();
 
     // Redirect to Add New Question form.
     $form_state->setRedirect('erpw_webform.add_new_rating_question', ['service_type__id' => $service_type_id]);
-  }
-
-  /**
-   * Helper function to load and process entities based on type.
-   *
-   * @param string $entityType
-   *   The entity type to load (e.g., 'node').
-   * @param string $bundle
-   *   The bundle (content type) of the entities to load.
-   * @param string $fieldName
-   *   The name of the field containing allowed domains.
-   *
-   * @return array
-   *   An array of processed entity options.
-   */
-  protected function loadAndProcessEntities($entityType, $bundle, $fieldName) {
-    $options = [];
-
-    // Get the current domain and language.
-    $current_domain = $this->domainNegotiator->getActiveDomain()->id();
-    $current_language = $this->languageManager->getCurrentLanguage()->getId();
-
-    // Load entities of the specified type and bundle.
-    $entities = $this->entityTypeManager->getStorage($entityType)
-      ->loadByProperties(['type' => $bundle]);
-
-    foreach ($entities as $id => $entity) {
-      $name = $entity->get('title')->getValue()[0]['value'];
-      $allowed_domains = $entity->get($fieldName)->getValue();
-      foreach ($allowed_domains as $domain_id => $allowed_domain) {
-        if ($current_domain == $allowed_domain['target_id']) {
-          if ($entity->hasTranslation($current_language)) {
-            $translated = $entity->getTranslation($current_language);
-            $options[$id] = $translated->get('title')->getValue()[0]['value'];
-          }
-          else {
-            $options[$id] = $name;
-          }
-        }
-      }
-    }
-
-    return $options;
   }
 
   /**
@@ -409,14 +371,14 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
     if ($feedback_node) {
       $feedback_area = $feedback_node->getTitle();
     }
-    $webform = $this->loadWebformByServiceType($service_type_id);
+    $webform = $this->serviceRating->loadWebformByServiceType($service_type_id);
 
     if (!$webform) {
       // Create a new webform.
-      $webform = $this->createWebform($service_type, $feedback_area, $question_description, $question_type, $form_state, $valid_option_count);
+      $webform = $this->serviceRating->createWebform($form_state, $valid_option_count);
     }
     else {
-      $webform = $this->updateWebform($webform, $service_type, $feedback_area, $question_description, $question_type, $form_state, $valid_option_count);
+      $webform = $this->serviceRating->updateWebform($webform, $form_state, $valid_option_count);
     }
 
     // Save the webform.
@@ -425,183 +387,6 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
     // Redirect to the newly created or existing webform.
     $url = Url::fromRoute('entity.webform.canonical', ['webform' => $webform->id()]);
     $form_state->setRedirectUrl($url);
-  }
-
-  /**
-   * Load a webform by service type id.
-   *
-   * @param int $serviceTypeID
-   *   The service type id to search for.
-   *
-   * @return \Drupal\webform\Entity\Webform|null
-   *   The loaded webform entity or null if not found.
-   */
-  protected function loadWebformByServiceType($serviceTypeID) {
-    // Search for a webform with the specified service type id.
-    $webform_id = 'webform_service_rating_' . $serviceTypeID;
-
-    $query = \Drupal::database()->select('webform', 'w');
-    $query->fields('w', ['webform_id'])
-      ->condition('w.webform_id', $webform_id);
-
-    $result = $query->execute();
-
-    if (!empty($result)) {
-      $webform_id = $result->fetchField();
-      // Load the webform entity using the ID.
-      $webform_entity = Webform::load($webform_id);
-
-      if ($webform_entity) {
-        return $webform_entity;
-      }
-    }
-
-    return NULL;
-  }
-
-  /**
-   * Create a new webform with an element based on question type.
-   *
-   * @param string $serviceType
-   *   The service type for the webform.
-   * @param string $feedback_area
-   *   The feedback area for the question.
-   * @param string $questionDescription
-   *   The description of the question.
-   * @param string $questionType
-   *   The type of the question ('rating' or 'multiple_choice').
-   * @param mixed $form_state
-   *   The form state of the current form.
-   * @param int $lastOptionCountWithValue
-   *   The last option count with a value for determining the range.
-   *
-   * @return \Drupal\webform\Entity\Webform
-   *   The created webform entity.
-   */
-  protected function createWebform($serviceType, $feedback_area, $questionDescription, $questionType, $form_state, $lastOptionCountWithValue) {
-    // @todo optimize this function, take out the rest of the values from the $form_state.
-    $query = \Drupal::entityQuery('node')
-      ->condition('type', 'service_type')
-      ->condition('title', $serviceType)
-      ->accessCheck(FALSE);
-
-    // Execute the query to get matching node ID of the service type.
-    $node_id = $query->execute();
-    $service_type_id = reset($node_id);
-    $webform_id = 'webform_service_rating_' . $service_type_id;
-
-    // Create a new webform entity.
-    $webform = Webform::create([
-      'id' => $webform_id,
-      'webform_type' => 'service_rating',
-      'title' => 'Service Rating ' . $serviceType,
-    ]);
-
-    $elements = Yaml::decode($webform->get('elements') ?? '');
-
-    // Define the form elements based on the question type.
-    if ($questionType === 'rating') {
-      $elements['question_' . uniqid()] = [
-        '#type' => 'webform_rating',
-        '#title' => $questionDescription,
-        '#feedback_area' => $form_state->getValue('feedback_area'),
-        '#min' => 0,
-        '#max' => $lastOptionCountWithValue,
-        '#precision' => 1,
-        '#stars' => $lastOptionCountWithValue + 1,
-        '#description' => 'Rate from 0 to @max', ['@max' => $lastOptionCountWithValue],
-      ];
-    }
-    elseif ($questionType === 'multiple_choice') {
-      $elements['question_' . uniqid()] = [
-        '#type' => 'radios',
-        '#title' => $questionDescription,
-        '#feedback_area' => $form_state->getValue('feedback_area'),
-        '#options' => $this->getMultipleChoiceOptions($form_state),
-      ];
-    }
-    $webform->setElements($elements);
-    $webform->save();
-
-    return $webform;
-  }
-
-  /**
-   * Updates an existing webform with new elements.
-   *
-   * @param \Drupal\webform\Entity\Webform $webform
-   *   The webform entity to update.
-   * @param string $serviceType
-   *   The service type for the webform.
-   * @param string $feedback_area
-   *   The feedback area for the question.
-   * @param string $questionDescription
-   *   The description of the question.
-   * @param string $questionType
-   *   The type of the question ('rating' or 'multiple_choice').
-   * @param mixed $form_state
-   *   The form state of the current form.
-   * @param int $lastOptionCountWithValue
-   *   The last option count with a value for determining the range.
-   *
-   * @return \Drupal\webform\Entity\Webform
-   *   The updated webform entity.
-   */
-  protected function updateWebform(Webform $webform, $serviceType, $feedback_area, $questionDescription, $questionType, $form_state, $lastOptionCountWithValue) {
-    // Load the existing elements from the webform.
-    $elements = Yaml::decode($webform->get('elements') ?? '');
-
-    // Define the form elements based on the question type.
-    if ($questionType === 'rating') {
-      $elements['question_' . uniqid()] = [
-        '#type' => 'webform_rating',
-        '#title' => $questionDescription,
-        '#feedback_area' => $form_state->getValue('feedback_area'),
-        '#min' => 0,
-        '#max' => $lastOptionCountWithValue,
-        '#precision' => 1,
-        '#stars' => $lastOptionCountWithValue + 1,
-        '#description' => 'Rate from 0 to @max', ['@max' => $lastOptionCountWithValue],
-      ];
-    }
-    elseif ($questionType === 'multiple_choice') {
-      $elements['question_' . uniqid()] = [
-        '#type' => 'radios',
-        '#title' => $questionDescription,
-        '#feedback_area' => $form_state->getValue('feedback_area'),
-        '#options' => $this->getMultipleChoiceOptions($form_state),
-      ];
-    }
-
-    // Update the webform's elements.
-    $webform->setElements($elements);
-    $webform->save();
-
-    return $webform;
-  }
-
-  /**
-   * Get options for the radios element for multiple choice questions.
-   *
-   * @param array $form_state
-   *   The form state array containing the options.
-   *
-   * @return array
-   *   An array of options for the radios element.
-   */
-  protected function getMultipleChoiceOptions($form_state) {
-    $options = [];
-    $option_count = $form_state->get('option_count');
-
-    for ($option_no = 0; $option_no < $option_count; $option_no++) {
-      // Get the option title from the form state.
-      $option_title = $form_state->getValue(['textfield' . $option_no]);
-      if (!empty($option_title)) {
-        $options[$option_no] = $option_title;
-      }
-    }
-
-    return $options;
   }
 
 }
