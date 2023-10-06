@@ -1222,12 +1222,14 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
     $webforms = Webform::loadMultiple($webform_ids);
     foreach ($webforms as $webform) {
       $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-      $service_type_array = array_values($tpa);
-      $service_type_id = $service_type_array[0][0];
-      $entity_type_manager = \Drupal::service('entity_type.manager');
-      $nodes = $entity_type_manager->getStorage('node')->loadMultiple([$service_type_id]);
-      foreach ($nodes as $node) {
-        $service_type_titles[] = $node->label();
+      if (isset($tpa)) {
+        $service_type_array = array_values($tpa);
+        $service_type_id = $service_type_array[0][0];
+        $entity_type_manager = \Drupal::service('entity_type.manager');
+        $nodes = $entity_type_manager->getStorage('node')->loadMultiple([$service_type_id]);
+        foreach ($nodes as $node) {
+          $service_type_titles[] = $node->label();
+        }
       }
     }
   }
