@@ -484,7 +484,7 @@ function match_user_organisation_domain_location($organisation_domain_access, $l
   $location_match = FALSE;
   foreach ($location_ptids as $ptid) {
     switch ($organisation_domain_access) {
-      case 'zw_erefer_org':
+      case 'zm_erefer_org':
         if ($ptid === 1) {
           $location_match = TRUE;
         }
