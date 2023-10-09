@@ -774,10 +774,12 @@ function erpw_webform_preprocess_views_view(&$variables) {
  */
 function erpw_webform_webform_submission_presave($webform_submission) {
   $values = $webform_submission->getData();
-  $composite_value = $values['location'];
   $last_non_empty_value = '';
+  $values['location']['location_tid'] = '';
+  $composite_value = $values['location'];
+  $location_reversed = array_reverse($composite_value);
   if (is_array($composite_value)) {
-    foreach (array_reverse($composite_value) as $value) {
+    foreach ($location_reversed as $value) {
       if (!empty($value)) {
         $last_non_empty_value = $value;
         break;
@@ -838,6 +840,7 @@ function erpw_webform_webform_submission_presave($webform_submission) {
         \Drupal::logger('erpw_webform__edit')->notice('The node %title of type Webform Submission Approved has been deleted, as its approval workflow is complete.', [
           '%title' => $node->getTitle(),
         ]);
+        $webform_submission->setData($values);
       }
       \Drupal::entityTypeManager()->getStorage('node')->resetCache([$node->id()]);
     }
