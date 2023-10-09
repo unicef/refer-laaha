@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - filter.format.basic_html
+    - rest.resource.erpw_webform_serviceformsexporter
     - rest.resource.webform_rest_elements
     - rest.resource.webform_rest_submission
     - rest.resource.webform_rest_submit
@@ -39,3 +40,4 @@ permissions:
   - 'use text format basic_html'
   - 'view any webform submission'
   - 'view own webform submission'
+  - 'restful get erpw_webform_serviceformsexporter'

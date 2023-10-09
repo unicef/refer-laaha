@@ -1,7 +1,7 @@
 (function ($, Drupal, drupalSettings, localforage) {
   var elementCreated = false;
   var additionalInfoClick = [];
-  var loadMore = false;
+  var alreadyExecuted = false;
 
   window.addEventListener("offline", function (e) {
     // Get the current domain dynamically
@@ -164,7 +164,7 @@
                         <div class="service-detail-heading">
                           <div class="edit-delete-links">
                             <span class="edit-link">
-                              <a href="/en/admin/structure/webform/manage/${parsedValue["webformID"]}/submission/${key}/edit">Edit</a>
+                              <a href="/en/admin/structure/webform/manage/${parsedValue["webformID"]}/submission/${key}/edit" style="background:none;">Edit</a>
                             </span>
                           </div>
                         </div>
@@ -350,6 +350,17 @@
         anchorTag.css("pointer-events", "none");
       }
     });
+    $(".views-row").each(function () {
+      if (!navigator.onLine) {
+        // Find the edit anchor tag inside .service-detail-heading
+        var anchorTag = $(this).find(
+          ".service-detail-heading .edit-delete-links .edit-link a"
+        );
+
+        // Set background to "none"
+        anchorTag.css("background", "none");
+      }
+    });
 
     // Attach click event handler to view items
     $(".view-content").on(
@@ -476,6 +487,23 @@
                               container.appendChild(pairContainer);
                             }
                           }
+                          if (
+                            viewClass ==
+                            "block-views-blockmanage-webform-services-block-1"
+                          ) {
+                            // Insert a new div before the "Offline Edit" anchor tag
+                            const disclaimer = document.createElement("div");
+                            disclaimer.className = "offline-edit-disclaimer";
+                            disclaimer.textContent =
+                              "*Some fields cannot be edited offline.";
+                            container.appendChild(disclaimer);
+
+                            const editLink = document.createElement("a");
+                            editLink.href = "#"; // Set the URL you want for the link
+                            editLink.textContent = "Make edits offline"; // Set the text for the link
+                            editLink.id = "offline-edit"; // Set the ID for the link
+                            container.appendChild(editLink);
+                          }
                           var lastElement = viewRow[0].querySelector(
                             "div.service-providers-submission-row"
                           ).lastElementChild;
@@ -504,10 +532,316 @@
         return false;
       }
     );
+
+    // Integrate form on edit offline link click.
+    $(".view-content").on("click", "#offline-edit", function (event) {
+      if (!navigator.onLine) {
+        event.preventDefault();
+
+        // Find the edit-link within the same parent div.
+        var editLink = $(this)
+          .closest(".additional-details-offline")
+          .siblings(".service-provider-details")
+          .find(".edit-link a");
+
+        const href = editLink.attr("href");
+        const idMatch = href.match(/\/(\d+)\/edit$/); // Regex to match the ID
+        var id = "";
+        if (idMatch) {
+          id = idMatch[1]; // Extract the ID from the matched regex
+        }
+        var saveClass = "offline-save-".concat(id);
+        // Check if the "offline-save" anchor already exists
+        if ($(".".concat(saveClass)).length === 0) {
+          const saveAnchor = document.createElement("a");
+          saveAnchor.href = "#"; // Set the URL you want for the link
+          saveAnchor.textContent = "Save changes offline"; // Set the text for the link
+          saveAnchor.id = "offline-save"; // Set the ID for the link
+          saveAnchor.className = saveClass;
+          // Insert the new anchor tag after the current element ($(this))
+          $(saveAnchor).insertAfter($(this));
+        }
+
+        localforage.config({
+          driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+          name: "block-views-blockmanage-webform-services-block-1",
+          version: 1.0,
+          storeName: "block-views-blockmanage-webform-services-block-1",
+        });
+        // Inside your fetchDataAndStore function:
+        localforageForms = localforage.createInstance({
+          driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+          name: "serviceFormsData",
+          version: 1.0,
+          storeName: "serviceFormsData",
+        });
+        // Check if key already exists
+        localforage
+          .getItem(id)
+          .then((serviceData) => {
+            if (serviceData) {
+              // Loop through the key-value pairs
+              for (const key in JSON.parse(serviceData)) {
+                if (key == "webformID") {
+                  localforageForms
+                    .getItem(JSON.parse(serviceData)[key])
+                    .then((serviceFormData) => {
+                      // Loop through the elements.
+                      for (const elementKey in serviceFormData[
+                        "elementsFlattened"
+                      ]) {
+                        elementData =
+                          serviceFormData["elementsFlattened"][elementKey];
+                        // Find the nearest .views-row
+                        var nearestViewsRow = $(this).closest(
+                          ".service-providers-submission-row"
+                        );
+                        // Find .pair-container elements within the nearest .views-row
+                        nearestViewsRow
+                          .find(".pair-container")
+                          .each(function () {
+                            // Get the label and value elements within the pair container
+                            var labelElement = $(this).find(".label");
+                            var valueElement = $(this).find(".value");
+
+                            // Get the label text
+                            var labelText = labelElement.text().trim();
+                            if (
+                              elementData.hasOwnProperty("#title") &&
+                              labelText == elementData["#title"].concat(":")
+                            ) {
+                              // Check if the label text matches the title in elementData
+                              // Check if the type is "textfield"
+                              if (
+                                (elementData.hasOwnProperty("#type") &&
+                                  elementData["#type"] == "tel") ||
+                                elementData["#type"] == "textfield" ||
+                                elementData["#type"] == "textarea" ||
+                                elementData["#type"] == "email"
+                              ) {
+                                // Add the contentEditable attribute to the value element
+                                valueElement.attr("contentEditable", "true");
+                              }
+                            }
+                          });
+                        nearestViewsRow.find(".views-field").each(function () {
+                          // Get the label and value elements within the pair container
+                          var labelElement = $(this).find(".views-label");
+                          var valueElement = $(this).find(".field-content");
+
+                          // Get the label text
+                          var labelText = labelElement.text().trim();
+                          if (
+                            labelText == "Contact:" ||
+                            labelText == "Focal Point:"
+                          ) {
+                            valueElement.attr("contentEditable", "true");
+                          }
+                        });
+                      }
+                    })
+                    .catch((error) =>
+                      console.error(
+                        `Error checking existing data for key ${id}`,
+                        error
+                      )
+                    );
+                }
+              }
+            } else {
+            }
+          })
+          .catch((error) =>
+            console.error(`Error checking existing data for key ${id}`, error)
+          );
+      }
+    });
+
+    // Save the edit offline form.
+    // Handle the click event of the new save anchor tag
+    $(".view-content").on("click", "#offline-save", function (event) {
+      event.preventDefault();
+      var currentUserId = drupalSettings.user.uid;
+      var serviceID = $(this).attr("class").match(/\d+/)[0];
+      // Find the nearest .views-row
+      var nearestViewsRow = $(this).closest(
+        ".service-providers-submission-row"
+      );
+      localforage.config({
+        driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+        name: "block-views-blockmanage-webform-services-block-1",
+        version: 1.0,
+        storeName: "block-views-blockmanage-webform-services-block-1",
+      });
+      // Inside your fetchDataAndStore function:
+      localforageUserServiceChanges = localforage.createInstance({
+        driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+        name: "userServiceChanges".concat(currentUserId),
+        version: 1.0,
+        storeName: "userServiceChanges".concat(currentUserId),
+      });
+
+      localforage
+        .getItem(serviceID)
+        .then((serviceData) => {
+          if (serviceData) {
+            // Initialize an empty object to store the data
+            var contentEditableData = {};
+            var contentEditableChanges = {};
+            var contentChanges = {};
+            // Find all elements with contentEditable="true"
+            nearestViewsRow
+              .find(".field-content[contenteditable='true']")
+              .each(function () {
+                // Get the label text
+                var label = $(this).siblings(".views-label").text().trim();
+                var value = $(this).text().trim();
+                contentEditableData[label] = value; // Store in the object
+                $(this).removeAttr("contenteditable");
+              });
+
+            nearestViewsRow
+              .find(".pair-container .value[contenteditable='true']")
+              .each(function () {
+                // Get the label text
+                var label = $(this).siblings(".label").text().trim();
+                var value = $(this).text().trim(); // Get the value text
+                contentEditableData[label] = value; // Store in the object
+                $(this).removeAttr("contenteditable");
+              });
+            // Loop through the key-value pairs
+            for (const serviceKey in JSON.parse(serviceData)) {
+              serviceKeyData = JSON.parse(serviceData)[serviceKey];
+
+              // Loop through the key-value pairs
+              for (const contentKey in contentEditableData) {
+                // console.log(JSON.parse(serviceData)[contentKey]);
+                if (
+                  contentKey == Drupal.t("Contact").concat(":") &&
+                  JSON.parse(serviceData)["Phone number of focal point"] ===
+                    undefined &&
+                  contentEditableData[contentKey] != "Not available."
+                ) {
+                  contentKeyData = contentEditableData[contentKey];
+                  contentEditableChanges["Phone number of focal point"] =
+                    contentKeyData;
+                } else if (
+                  contentKey == Drupal.t("Focal Point").concat(":") &&
+                  JSON.parse(serviceData)[
+                    "Name of focal point for referrals (first/last name)"
+                  ] === undefined &&
+                  contentEditableData[contentKey] != "Not available."
+                ) {
+                  contentKeyData = contentEditableData[contentKey];
+                  contentEditableChanges[
+                    "Name of focal point for referrals (first/last name)"
+                  ] = contentKeyData;
+                } else if (
+                  (serviceKey ==
+                    Drupal.t(
+                      "Name of focal point for referrals (first/last name)"
+                    ) &&
+                    contentKey == Drupal.t("Focal Point").concat(":")) ||
+                  (serviceKey == Drupal.t("Phone number of focal point") &&
+                    contentKey == Drupal.t("Contact").concat(":")) ||
+                  serviceKey.concat(":") == contentKey
+                ) {
+                  contentKeyData = contentEditableData[contentKey];
+                  if (serviceKeyData != contentKeyData) {
+                    contentEditableChanges[serviceKey] = contentKeyData;
+                  }
+                }
+              }
+            }
+            contentChanges["original"] = JSON.parse(serviceData);
+            contentChanges["changes"] = contentEditableChanges;
+            // If there are changes then only store the data.
+            if (Object.keys(contentChanges["changes"]).length !== 0) {
+              // Store updated data values in user related indexedDB.
+              localforageUserServiceChanges
+                .setItem(serviceID, contentChanges)
+                .then(() => {
+                  console.log(`Data for updated data entered successfully.`);
+                })
+                .catch((error) => console.error(`Error updating data`, error));
+            } else {
+              console.log("No changes made.");
+            }
+          }
+        })
+        .catch((error) =>
+          console.error(
+            `Error checking existing data for key ${serviceID}`,
+            error
+          )
+        );
+      $(this).remove(); // Remove the new anchor
+    });
   });
+
   Drupal.behaviors.erpwOfflineServices = {
     attach: function (context, settings) {
       $(document).ready(function () {
+        // Reminder details
+        if (navigator.onLine) {
+          // Check if the code has already been executed
+          if (alreadyExecuted) {
+            return;
+          }
+          // Set the flag to indicate that the code has been executed
+          alreadyExecuted = true;
+
+          var currentUserId = drupalSettings.user.uid;
+          if (currentUserId != 0) {
+            // Inside your fetchDataAndStore function:
+            localforageUserServiceChanges = localforage.createInstance({
+              driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+              name: "userServiceChanges".concat(currentUserId),
+              version: 1.0,
+              storeName: "userServiceChanges".concat(currentUserId),
+            });
+            // Check if localforageUserServiceChanges has any key-value pairs
+            localforageUserServiceChanges
+              .length()
+              .then(function (numberOfKeys) {
+                if (numberOfKeys > 0) {
+                  const container = document.createElement("div");
+                  container.id = "reminder-details";
+                  container.className = "reminder-details-offline";
+                  container.style.backgroundColor = "rgba(243, 193, 191, 0.53)";
+
+                  const reminderHeading = document.createElement("div");
+                  reminderHeading.className = "reminder-detail-heading";
+                  reminderHeading.textContent = Drupal.t(
+                    "You have made changes to service providers while being offline."
+                  );
+
+                  const listingAnchor = document.createElement("a");
+                  listingAnchor.href = "/service-providers-changes-offline"; // Set the URL you want for the link
+                  listingAnchor.textContent =
+                    "Click here review and submit them."; // Set the text for the link
+                  listingAnchor.id = "offline-changes-listing"; // Set the ID for the link
+
+                  reminderHeading.appendChild(listingAnchor);
+                  container.appendChild(reminderHeading);
+                  // Get a reference to the existing <div class="region region-content">
+                  var regionContent = document.querySelector(".region-content");
+
+                  // Insert the new <div> as the first child inside the existing <div class="region region-content">
+                  regionContent.insertBefore(
+                    container,
+                    regionContent.firstChild
+                  );
+                } else {
+                  console.log("localforageUserServiceChanges is empty.");
+                }
+              })
+              .catch(function (error) {
+                console.error("No offline changes: error", error);
+              });
+          }
+        }
+
         const addedDiv = document.getElementById("offline-message-div");
         if (addedDiv) {
           addedDiv.remove();
@@ -699,6 +1033,7 @@
         // Check if the user is online and start the interval only if online
         window.addEventListener("online", function (e) {
           window.location.reload(true);
+          $("#reminder-details").css("display", "block");
           if (typeof $(".new-service-type a")[0] !== "undefined") {
             $(".new-service-type a")[0].style.pointerEvents = navigator.onLine
               ? "auto"
@@ -718,6 +1053,7 @@
           setInterval(fetchDataAndStore, intervalTime);
         });
         window.addEventListener("offline", function (e) {
+          $("#reminder-details").css("display", "none");
           // disable add more links.
           if (typeof $(".new-service-type a")[0] !== "undefined") {
             $(".new-service-type a")[0].style.pointerEvents = navigator.onLine
