@@ -5,11 +5,10 @@ namespace Drupal\erpw_webform\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- *
+ * This is the form which creates the webform and adds the question for a particular service type.
  */
 class ServiceRatingQuestionForm extends FormBase {
 
@@ -75,6 +74,22 @@ class ServiceRatingQuestionForm extends FormBase {
     $service_type_options = $this->serviceRating->loadAndProcessEntities('node', 'service_type', 'field_domain_access');
     $feedback_area_options = $this->serviceRating->loadAndProcessEntities('node', 'feedback_area', 'field_domain_access');
 
+    foreach ($service_type_options as $id => $title) {
+      $has_webform = $this->serviceRating->loadWebformByServiceType($id);
+      if ($has_webform) {
+        unset($service_type_options[$id]);
+      }
+    }
+
+    if (empty($service_type_options)) {
+      $disable = TRUE;
+      $prefix = '<div class="empty-service-type-notice">* Forms for all the service types have been created. Create a new service type inorder to create its corresponding form.</div>';
+    }
+    else {
+      $disable = FALSE;
+      $prefix = '';
+    }
+
     $form['service_type'] = [
       '#title' => t('Select Service Type'),
       '#type' => 'select',
@@ -83,6 +98,9 @@ class ServiceRatingQuestionForm extends FormBase {
       '#description' => '<span class = "service-rating-description"> Select the service type for which the question is being created.</span>',
       "#empty_option" => t('- Select -'),
       '#options' => $service_type_options,
+      '#disabled' => $disable,
+      '#prefix' => $prefix,
+
     ];
 
     $form['feedback_area'] = [
@@ -110,10 +128,10 @@ class ServiceRatingQuestionForm extends FormBase {
       ],
       '#required' => TRUE,
       '#default_value' => 'rating',
-      '#ajax' => [
-        'callback' => '::questionTypeCallback',
-        'wrapper' => 'options-fieldset-wrapper',
-      ],
+      // '#ajax' => [
+      //   'callback' => '::questionTypeCallback',
+      //   'wrapper' => 'options-fieldset-wrapper',
+      // ],
     ];
 
     $question_type = $form_state->getValue('question_type');
@@ -170,12 +188,22 @@ class ServiceRatingQuestionForm extends FormBase {
 
     $form['options_fieldset']['actions']['add_option'] = [
       '#type' => 'submit',
-      '#value' => 'Add Option',
+      '#value' => $this->t('Add Option'),
       '#submit' => ['::addOneOption'],
       '#ajax' => [
         'callback' => '::addmoreOptionCallback',
         'wrapper' => 'options-fieldset-wrapper',
       ],
+    ];
+
+    $form['options_fieldset']['add_option']['description'] = [
+      '#markup' => '<p class = "service-rating-description">' . $this->t("Minimum 3 options for Rating Question and 2 options for Multiple choice question are required. Maximum of 5 options are allowed in both.") . '</p>',
+    ];
+
+    $form['is_required'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Make question mandatory to answer'),
+      '#default_value' => $form_state->getValue('single_checkbox', FALSE),
     ];
 
     $form['submit'] = [
@@ -219,80 +247,20 @@ class ServiceRatingQuestionForm extends FormBase {
   }
 
   /**
-   * Callback for "Add New Question" button.
-   */
-  public function addNewQuestion(array &$form, FormStateInterface $form_state) {
-    $service_type_id = $form_state->getValue('service_type');
-    $question_type = $form_state->getValue('question_type');
-    $option_count = $form_state->get('option_count');
-    $valid_option_count = 0;
-    for ($option_no = 0; $option_no < $option_count; $option_no++) {
-      $option_value = $form_state->getValue(['textfield' . $option_no]);
-      if ($question_type == 'multiple_choice') {
-        // Check that the option value is not empty.
-        if (!empty($option_value)) {
-          $valid_option_count++;
-        }
-      }
-      else {
-        if ($option_no + 1 == $option_count) {
-          // Check the last option which has value.
-          $rating_option_count = $option_count + 1;
-          do {
-            $rating_option_count--;
-          } while (!$form_state->getValue(['textfield' . $rating_option_count - 1]));
-          $valid_option_count = $rating_option_count;
-          // @todo check again if it works with multiple last empty values.
-        }
-      }
-    }
-
-    $webform = $this->serviceRating->loadWebformByServiceType($service_type_id);
-
-    if (!$webform) {
-      // Create a new webform.
-      $webform = $this->serviceRating->createWebform($form_state, $valid_option_count);
-    }
-    else {
-      $webform = $this->serviceRating->updateWebform($webform, $form_state, $valid_option_count);
-    }
-
-    $webform->save();
-
-    // Redirect to Add New Question form.
-    $form_state->setRedirect('erpw_webform.add_new_rating_question', ['service_type__id' => $service_type_id]);
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
     if ($form_state->getValue('op') != 'Add Option') {
       $question_type = $form_state->getValue('question_type');
-      $option_count = $form_state->get('option_count');
 
-      $valid_option_count = 0;
-      for ($option_no = 0; $option_no < $option_count; $option_no++) {
+      $valid_option_count = $this->serviceRating->validOptionCount($form_state);
+      for ($option_no = 0; $option_no < $valid_option_count; $option_no++) {
         $option_value = $form_state->getValue(['textfield' . $option_no]);
         if ($question_type == 'multiple_choice') {
-          // Check that the option value is not empty.
-          if (!empty($option_value)) {
-            $valid_option_count++;
-          }
           // Check that no value is empty in the middle.
-          elseif ($option_no + 1 != $option_count) {
+          if (empty($option_value)) {
             $form_state->setErrorByName('textfield' . $option_no, $this->t("Please don't leave any value in between options in case of Multiple Choice question type."));
-          }
-        }
-        else {
-          if ($option_no + 1 == $option_count) {
-            // Check the last option which has value.
-            $rating_option_count = $option_count + 1;
-            do {
-              $rating_option_count--;
-            } while (!$form_state->getValue(['textfield' . $rating_option_count - 1]));
-            $valid_option_count = $rating_option_count;
           }
         }
       }
@@ -303,6 +271,9 @@ class ServiceRatingQuestionForm extends FormBase {
       // Check if the number of valid options is less than the minimum required.
       if ($valid_option_count < $min_options) {
         $form_state->setErrorByName('options_fieldset', $this->t('At least @count options are required for the selected question type.', ['@count' => $min_options]));
+      }
+      elseif ($valid_option_count > 5) {
+        $form_state->setErrorByName('options_fieldset', $this->t('Maximum 5 options are allowed.'));
       }
     }
 

@@ -9,7 +9,8 @@ use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- *
+ * This is the form which takes the value of service type from the URL parameter and adds a question, that
+ * is element to its corresponding webform.
  */
 class ServiceRatingAddNewQuestionForm extends FormBase {
 
@@ -64,6 +65,7 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
     $instance->languageManager = $container->get('language_manager');
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->messenger = $container->get('messenger');
+    $instance->routeMatch = $container->get('current_route_match');
     $instance->serviceRating = $container->get('erpw_webform.service_rating_service');
     return $instance;
   }
@@ -120,10 +122,11 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
       ],
       '#required' => TRUE,
       '#default_value' => 'rating',
-      '#ajax' => [
-        'callback' => '::questionTypeCallback',
-        'wrapper' => 'options-fieldset-wrapper',
-      ],
+      // '#ajax' => [
+      //   'callback' => '::questionTypeCallback',
+      //   'wrapper' => 'options-fieldset-wrapper',
+      // ],
+      // @todo see why this is not working for Add New Question form.
     ];
 
     $question_type = $form_state->getValue('question_type');
@@ -188,6 +191,16 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
       ],
     ];
 
+    $form['options_fieldset']['add_option']['description'] = [
+      '#markup' => '<p class = "service-rating-description">' . $this->t("Minimum 3 options for Rating Question and 2 options for Multiple choice question are required. Maximum of 5 options are allowed in both.") . '</p>',
+    ];
+
+    $form['is_required'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Make question mandatory to answer'),
+      '#default_value' => $form_state->getValue('is_required', FALSE),
+    ];
+
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => 'Save Question',
@@ -229,93 +242,20 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
   }
 
   /**
-   * Callback for "Add New Question" button.
-   */
-  public function addNewQuestion(array &$form, FormStateInterface $form_state) {
-    $service_type = $form_state->getValue('service_type');
-    $feedback_area_id = $form_state->getValue('feedback_area');
-    $question_type = $form_state->getValue('question_type');
-    $option_count = $form_state->get('option_count');
-    $valid_option_count = 0;
-    for ($option_no = 0; $option_no < $option_count; $option_no++) {
-      $option_value = $form_state->getValue(['textfield' . $option_no]);
-      if ($question_type == 'multiple_choice') {
-        // Check that the option value is not empty.
-        if (!empty($option_value)) {
-          $valid_option_count++;
-        }
-      }
-      else {
-        if ($option_no + 1 == $option_count) {
-          // Check the last option which has value.
-          $rating_option_count = $option_count + 1;
-          do {
-            $rating_option_count--;
-          } while (!$form_state->getValue(['textfield' . $rating_option_count - 1]));
-          $valid_option_count = $rating_option_count;
-          // @todo check again if it works with multiple last empty values.
-        }
-      }
-    }
-
-    $query = \Drupal::entityQuery('node')
-      ->condition('type', 'service_type')
-      ->condition('title', $service_type)
-      ->accessCheck(FALSE);
-
-    $node_id = $query->execute();
-    $service_type_id = reset($node_id);
-
-    $feedback_node = Node::load($feedback_area_id);
-    if ($feedback_node) {
-      $feedback_area = $feedback_node->getTitle();
-    }
-    $webform = $this->serviceRating->loadWebformByServiceType($service_type_id);
-
-    if (!$webform) {
-      // Create a new webform.
-      $webform = $this->serviceRating->createWebform($form_state, $valid_option_count);
-    }
-    else {
-      $webform = $this->serviceRating->updateWebform($webform, $form_state, $valid_option_count);
-    }
-
-    $webform->save();
-
-    // Redirect to Add New Question form.
-    $form_state->setRedirect('erpw_webform.add_new_rating_question', ['service_type__id' => $service_type_id]);
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
     if ($form_state->getValue('op') != 'Add Option') {
       $question_type = $form_state->getValue('question_type');
-      $option_count = $form_state->get('option_count');
 
-      $valid_option_count = 0;
-      for ($option_no = 0; $option_no < $option_count; $option_no++) {
+      $valid_option_count = $this->serviceRating->validOptionCount($form_state);
+      for ($option_no = 0; $option_no < $valid_option_count; $option_no++) {
         $option_value = $form_state->getValue(['textfield' . $option_no]);
         if ($question_type == 'multiple_choice') {
-          // Check that the option value is not empty.
-          if (!empty($option_value)) {
-            $valid_option_count++;
-          }
           // Check that no value is empty in the middle.
-          elseif ($option_no + 1 != $option_count) {
+          if (empty($option_value)) {
             $form_state->setErrorByName('textfield' . $option_no, $this->t("Please don't leave any value in between options in case of Multiple Choice question type."));
-          }
-        }
-        else {
-          if ($option_no + 1 == $option_count) {
-            // Check the last option which has value.
-            $rating_option_count = $option_count + 1;
-            do {
-              $rating_option_count--;
-            } while (!$form_state->getValue(['textfield' . $rating_option_count - 1]));
-            $valid_option_count = $rating_option_count;
           }
         }
       }
@@ -327,6 +267,9 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
       if ($valid_option_count < $min_options) {
         $form_state->setErrorByName('options_fieldset', $this->t('At least @count options are required for the selected question type.', ['@count' => $min_options]));
       }
+      elseif ($valid_option_count > 5) {
+        $form_state->setErrorByName('options_fieldset', $this->t('Maximum 5 options are allowed.'));
+      }
     }
 
   }
@@ -335,45 +278,22 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
    * Implements the submitForm() method.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $service_type_id = $form_state->getValue('service_type');
-    $feedback_area_id = $form_state->getValue('feedback_area');
-    $question_description = $form_state->getValue('question_description');
-    $question_type = $form_state->getValue('question_type');
-    $option_count = $form_state->get('option_count');
-    $valid_option_count = 0;
-    for ($option_no = 0; $option_no < $option_count; $option_no++) {
-      $option_value = $form_state->getValue(['textfield' . $option_no]);
-      if ($question_type == 'multiple_choice') {
-        // Check that the option value is not empty.
-        if (!empty($option_value)) {
-          $valid_option_count++;
-        }
-      }
-      else {
-        if ($option_no + 1 == $option_count) {
-          // Check the last option which has value.
-          $rating_option_count = $option_count + 1;
-          do {
-            $rating_option_count--;
-          } while (!$form_state->getValue(['textfield' . $rating_option_count - 1]));
-          $valid_option_count = $rating_option_count;
-          // @todo check again if it works with multiple last empty values.
-        }
-      }
-    }
+    // Note: Here it fetches title of service type instead of nid.
+    $service_type = $form_state->getValue('service_type');
+    $valid_option_count = $this->serviceRating->validOptionCount($form_state);
 
-    $node = Node::load($service_type_id);
-    if ($node) {
-      $service_type = $node->getTitle();
-    }
-    $feedback_node = Node::load($feedback_area_id);
-    if ($feedback_node) {
-      $feedback_area = $feedback_node->getTitle();
-    }
+    // Fetch Service type ID by Service type Title.
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'service_type')
+      ->condition('title', $service_type)
+      ->accessCheck(FALSE);
+
+    $node_id = $query->execute();
+    $service_type_id = reset($node_id);
+
     $webform = $this->serviceRating->loadWebformByServiceType($service_type_id);
 
     if (!$webform) {
-      // Create a new webform.
       $webform = $this->serviceRating->createWebform($form_state, $valid_option_count);
     }
     else {

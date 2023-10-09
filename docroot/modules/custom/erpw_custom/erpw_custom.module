@@ -473,6 +473,7 @@ function user_form_validation_organisation_validate($form, &$form_state) {
   elseif (in_array($form_user_role[1], ['administrator', 'super_admin'])) {
     // Location field is required and this is missing for both the admin roles above.
     if (empty($form_state->getValue('field_location'))) {
+      // @todo change this hard-coded location value when doing multisite.
       $form_state->setValue('field_location', 1);
     }
   }

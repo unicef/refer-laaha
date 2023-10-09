@@ -8,6 +8,7 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\node\Entity\Node;
 use Drupal\webform\Entity\Webform;
+use Drupal\webform\WebformInterface;
 
 /**
  * Class is used for the service rating services.
@@ -173,6 +174,8 @@ class ServiceRatingService {
       'title' => 'Service Rating ' . $service_type,
     ]);
 
+    // By default, the webforms will be closed.
+    $webform->setStatus(WebformInterface::STATUS_CLOSED);
     $elements = Yaml::decode($webform->get('elements') ?? '');
 
     if (empty($elements)) {
@@ -188,18 +191,20 @@ class ServiceRatingService {
 
     // Define the form elements based on the question type.
     if ($form_state->getValue('question_type') === 'rating') {
-      $elements['question_' . uniqid()] = [
+      $elements['rating_question_' . uniqid()] = [
         '#type' => 'radios',
         '#feedback_area' => $form_state->getValue('feedback_area'),
         '#title' => $form_state->getValue('question_description'),
+        '#required' => $form_state->getValue('is_required'),
         '#options' => $this->getRatingOptions($form_state, $lastOptionCountWithValue),
       ];
     }
     elseif ($form_state->getValue('question_type') === 'multiple_choice') {
-      $elements['question_' . uniqid()] = [
+      $elements['multiple_choice_question_' . uniqid()] = [
         '#type' => 'radios',
         '#feedback_area' => $form_state->getValue('feedback_area'),
         '#title' => $form_state->getValue('question_description'),
+        '#required' => $form_state->getValue('is_required'),
         '#options' => $this->getMultipleChoiceOptions($form_state),
       ];
     }
@@ -228,18 +233,20 @@ class ServiceRatingService {
 
     // Define the form elements based on the question type.
     if ($form_state->getValue('question_type') === 'rating') {
-      $elements['question_' . uniqid()] = [
+      $elements['rating_question_' . uniqid()] = [
         '#type' => 'radios',
         '#feedback_area' => $form_state->getValue('feedback_area'),
         '#title' => $form_state->getValue('question_description'),
+        '#required' => $form_state->getValue('is_required'),
         '#options' => $this->getRatingOptions($form_state, $lastOptionCountWithValue),
       ];
     }
     elseif ($form_state->getValue('question_type') === 'multiple_choice') {
-      $elements['question_' . uniqid()] = [
+      $elements['multiple_choice_question_' . uniqid()] = [
         '#type' => 'radios',
-        '#title' => $form_state->getValue('question_description'),
         '#feedback_area' => $form_state->getValue('feedback_area'),
+        '#title' => $form_state->getValue('question_description'),
+        '#required' => $form_state->getValue('is_required'),
         '#options' => $this->getMultipleChoiceOptions($form_state),
       ];
     }
@@ -307,33 +314,19 @@ class ServiceRatingService {
   }
 
   /**
- * Determines the valid count of options based on form state values.
- *
- * This function calculates the valid count of options based on the provided
- * form state object and the question type. For multiple-choice questions,
- * it counts non-empty options. For rating question type, it considers the last
- * option with a value as the valid count.
- *
- * @param \Drupal\Core\Form\FormStateInterface $form_state
- *   The form state object containing user-submitted values.
- *
- * @return int
- *   The valid count of options based on the form state and question type.
- */
-public function validOptionCount($form_state) {
-  $valid_option_count = 0;
-  $option_count = $form_state->get('option_count');
+   * Determines the valid count of options based on form state values.
+   *
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state object containing user-submitted values.
+   *
+   * @return int
+   *   The valid count of options based on the form state.
+   */
+  public function validOptionCount($form_state) {
+    $valid_option_count = 0;
+    $option_count = $form_state->get('option_count');
 
-  for ($option_no = 0; $option_no < $option_count; $option_no++) {
-    $option_value = $form_state->getValue(['textfield' . $option_no]);
-    $question_type = $form_state->getValue('question_type');
-
-    if ($question_type == 'multiple_choice') {
-      // Check that the option value is not empty.
-      if (!empty($option_value)) {
-        $valid_option_count++;
-      }
-    } else {
+    for ($option_no = 0; $option_no < $option_count; $option_no++) {
       if ($option_no + 1 == $option_count) {
         // Check the last option which has value.
         $rating_option_count = $option_count + 1;
@@ -341,13 +334,10 @@ public function validOptionCount($form_state) {
           $rating_option_count--;
         } while (!$form_state->getValue(['textfield' . ($rating_option_count - 1)]));
         $valid_option_count = $rating_option_count;
-        // @todo check again if it works with multiple last empty values.
       }
     }
+
+    return $valid_option_count;
   }
-
-  return $valid_option_count;
-}
-
 
 }
