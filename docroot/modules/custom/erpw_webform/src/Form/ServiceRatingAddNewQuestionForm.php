@@ -234,7 +234,6 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
   public function addNewQuestion(array &$form, FormStateInterface $form_state) {
     $service_type = $form_state->getValue('service_type');
     $feedback_area_id = $form_state->getValue('feedback_area');
-    $question_description = $form_state->getValue('question_description');
     $question_type = $form_state->getValue('question_type');
     $option_count = $form_state->get('option_count');
     $valid_option_count = 0;

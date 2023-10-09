@@ -223,8 +223,6 @@ class ServiceRatingQuestionForm extends FormBase {
    */
   public function addNewQuestion(array &$form, FormStateInterface $form_state) {
     $service_type_id = $form_state->getValue('service_type');
-    $feedback_area_id = $form_state->getValue('feedback_area');
-    $question_description = $form_state->getValue('question_description');
     $question_type = $form_state->getValue('question_type');
     $option_count = $form_state->get('option_count');
     $valid_option_count = 0;
@@ -315,40 +313,8 @@ class ServiceRatingQuestionForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $service_type_id = $form_state->getValue('service_type');
-    $feedback_area_id = $form_state->getValue('feedback_area');
-    $question_description = $form_state->getValue('question_description');
-    $question_type = $form_state->getValue('question_type');
-    $option_count = $form_state->get('option_count');
-    $valid_option_count = 0;
-    for ($option_no = 0; $option_no < $option_count; $option_no++) {
-      $option_value = $form_state->getValue(['textfield' . $option_no]);
-      if ($question_type == 'multiple_choice') {
-        // Check that the option value is not empty.
-        if (!empty($option_value)) {
-          $valid_option_count++;
-        }
-      }
-      else {
-        if ($option_no + 1 == $option_count) {
-          // Check the last option which has value.
-          $rating_option_count = $option_count + 1;
-          do {
-            $rating_option_count--;
-          } while (!$form_state->getValue(['textfield' . $rating_option_count - 1]));
-          $valid_option_count = $rating_option_count;
-          // @todo check again if it works with multiple last empty values.
-        }
-      }
-    }
+    $valid_option_count = $this->serviceRating->validOptionCount($form_state);
 
-    $node = Node::load($service_type_id);
-    if ($node) {
-      $service_type = $node->getTitle();
-    }
-    $feedback_node = Node::load($feedback_area_id);
-    if ($feedback_node) {
-      $feedback_area = $feedback_node->getTitle();
-    }
     $webform = $this->serviceRating->loadWebformByServiceType($service_type_id);
 
     if (!$webform) {
