@@ -429,42 +429,52 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
  * Custom validation function for the user organisation field.
  */
 function user_form_validation_organisation_validate($form, &$form_state) {
-  $organisation_id = $form_state->getValue('field_organisation')[0]['target_id'];
-  $field_location = $form_state->getValue('field_location');
-  $location_ids = [];
-  if (is_array($field_location)) {
-    $i = 0;
-    foreach ($field_location as $location) {
-      $location_id = $field_location[$i]['target_id'] ?? NULL;
-      if ($location_id != NULL) {
-        $location_ids[] = $location_id;
+  $form_user_id = \Drupal::request()->attributes->get('user')->id();
+  $form_user_role = User::load($form_user_id)->getRoles();
+  if (!\Drupal::request()->get('pass-reset-token') || !in_array($form_user_role[1], ['administrator', 'super_admin'])) {
+    $organisation_id = $form_state->getValue('field_organisation')[0]['target_id'];
+    $field_location = $form_state->getValue('field_location');
+    $location_ids = [];
+    if (is_array($field_location)) {
+      $i = 0;
+      foreach ($field_location as $location) {
+        $location_id = $field_location[$i]['target_id'] ?? NULL;
+        if ($location_id != NULL) {
+          $location_ids[] = $location_id;
+        }
+        $i++;
       }
-      $i++;
+    }
+
+    // Get domain from organisation node.
+    $organization_node = Node::load($organisation_id);
+    if ($organization_node) {
+      $field_domain_access = $organization_node->get('field_domain_access')->getValue();
+      if (!empty($field_domain_access)) {
+        $organisation_domain_access = $field_domain_access[0]['target_id'];
+      }
+    }
+    else {
+      $organisation_domain_access = NULL;
+    }
+
+    $parent_tids = [];
+    foreach ($location_ids as $index => $location_id) {
+      $parents = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
+      $parent_tids[] = $parents[0];
+    }
+
+    $location_match = match_user_organisation_domain_location($organisation_domain_access, $parent_tids);
+
+    if (!$location_match) {
+      $form_state->setErrorByName('field_organisation', t('The organisation you have added does not match with the location of this user.'));
     }
   }
-
-  // Get domain from organisation node.
-  $organization_node = Node::load($organisation_id);
-  if ($organization_node) {
-    $field_domain_access = $organization_node->get('field_domain_access')->getValue();
-    if (!empty($field_domain_access)) {
-      $organisation_domain_access = $field_domain_access[0]['target_id'];
+  elseif (in_array($form_user_role[1], ['administrator', 'super_admin'])) {
+    // Location field is required and this is missing for both the admin roles above.
+    if (empty($form_state->getValue('field_location'))) {
+      $form_state->setValue('field_location', 1);
     }
-  }
-  else {
-    $organisation_domain_access = NULL;
-  }
-
-  $parent_tids = [];
-  foreach ($location_ids as $index => $location_id) {
-    $parents = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
-    $parent_tids[] = $parents[0];
-  }
-
-  $location_match = match_user_organisation_domain_location($organisation_domain_access, $parent_tids);
-
-  if (!$location_match) {
-    $form_state->setErrorByName('field_organisation', t('The organisation you have added does not match with the location of this user.'));
   }
 }
 
