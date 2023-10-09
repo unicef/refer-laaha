@@ -34,7 +34,7 @@ class UserWorkflowHistoryEntityForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    /* @var \Drupal\erpw_user_workflow_history\Entity\UserWorkflowHistoryEntity $entity */
+    /** @var \Drupal\erpw_user_workflow_history\Entity\UserWorkflowHistoryEntity $entity */
     $form = parent::buildForm($form, $form_state);
 
     return $form;

@@ -55,6 +55,45 @@ erpw_webform_offline:
     - core/jquery
     - core/drupalSettings
 
+erpw_webform_offline_global:
+  version: 1.0
+  css:
+    theme:
+      css/common.css: {}
+  js:
+    //cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js:
+      { type: external, minified: true }
+    js/erpwOfflineServicesGlobal.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+
+erpw_webform_offline_listing:
+  version: 1.0
+  css:
+    theme:
+      css/common.css: {}
+  js:
+    //cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js:
+      { type: external, minified: true }
+    js/erpwOfflineServiceChangesListing.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+
+erpw_webform_offline_edit_form:
+  version: 1.0
+  css:
+    theme:
+      css/common.css: {}
+  js:
+    //cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js:
+      { type: external, minified: true }
+    js/erpwOfflineServiceFormEdit.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+
 erpw_webform_form:
   version: 1.0
   css:

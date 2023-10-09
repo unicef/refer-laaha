@@ -19,7 +19,7 @@ class SignInPopup extends BlockBase {
    */
   public function build() {
     $form = [];
-    
+
     $requestStack = \Drupal::service('request_stack')->getCurrentRequest();
     if ($requestStack->cookies->has('sign_in_popup')) {
       return $form;

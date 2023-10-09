@@ -26,7 +26,7 @@ class UserWorkflowHistoryEntityListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var \Drupal\erpw_user_workflow_history\Entity\UserWorkflowHistoryEntity $entity */
+    /** @var \Drupal\erpw_user_workflow_history\Entity\UserWorkflowHistoryEntity $entity */
     $row['id'] = $entity->id();
     $row['name'] = Link::createFromRoute(
       $entity->label(),
