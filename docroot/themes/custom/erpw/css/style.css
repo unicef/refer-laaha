@@ -3218,19 +3218,19 @@ body.path-user {
   padding-bottom: 40px !important;
 }
 
-.delete-user-popup {
+.delete-user-popup, .delete-service-popup {
   -webkit-box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
           box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
   border: 1px solid #a85766 !important;
 }
-.delete-user-popup .ui-dialog-titlebar {
+.delete-user-popup .ui-dialog-titlebar, .delete-service-popup .ui-dialog-titlebar {
   padding: 10px 25px;
 }
-.delete-user-popup .ui-dialog-title {
+.delete-user-popup .ui-dialog-title, .delete-service-popup .ui-dialog-title {
   color: #a85766;
   margin-bottom: 15px;
 }
-.delete-user-popup .message-delete-white {
+.delete-user-popup .message-delete-white, .delete-service-popup .message-delete-white {
   margin: 15px 0;
 }
 
