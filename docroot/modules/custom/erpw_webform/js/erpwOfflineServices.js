@@ -637,9 +637,8 @@
                                   // Create a new div element for checkboxes
                                   const checkboxDiv =
                                     document.createElement("div");
-                                  checkboxDiv.className = "value";
-                                  checkboxDiv.classList =
-                                    "offline-checkboxes-wrapper";
+                                  checkboxDiv.className =
+                                    "offline-checkbox-list-wrapper";
                                   // Define the options and their values
                                   const options = elementData["#options"];
 
@@ -691,7 +690,6 @@
                                   // Create a new select element
                                   const selectElement =
                                     document.createElement("select");
-                                  selectElement.className = "value";
                                   selectElement.className =
                                     "offline-select-list-wrapper";
                                   // Define the options and their values
@@ -731,7 +729,6 @@
 
                                 // Create a new div element for radio buttons
                                 const radioDiv = document.createElement("div");
-                                radioDiv.className = "value";
                                 radioDiv.className =
                                   "offline-radio-list-wrapper";
                                 // Define the options and their values
@@ -780,7 +777,6 @@
                                 // Create a new div element for checkboxes
                                 const checkboxDiv =
                                   document.createElement("div");
-                                checkboxDiv.className = "value";
                                 checkboxDiv.className =
                                   "offline-checkbox-list-wrapper";
                                 // Define the options and their values
@@ -844,7 +840,6 @@
                               const checkboxDiv = document.createElement("div");
                               checkboxDiv.className =
                                 "offline-checkbox-list-wrapper";
-                              checkboxDiv.className = "field-content";
                               // Define the options and their values
                               const options = elementData["#options"];
 
@@ -887,7 +882,6 @@
                               // Create a new select element
                               const selectElement =
                                 document.createElement("select");
-                              selectElement.className = "field-content";
                               selectElement.className =
                                 "offline-select-list-wrapper";
                               // Define the options and their values
@@ -989,39 +983,105 @@
               .find(".offline-checkbox-list-wrapper")
               .each(function () {
                 // Get the label text
-                console.log($(this));
                 var label = $(this).siblings(".label").text().trim();
                 // Initialize an empty array to store checked values
                 var checkedValues = [];
-
-                // Loop through the checkboxes within this .pair-container
+                var labelValue = "";
+                if (!label) {
+                  // Get the label text
+                  var label = $(this).siblings(".views-label").text().trim();
+                }
+                // Loop through the child nodes of the wrapper
                 $(this)
-                  .find('input[type="checkbox"]:checked')
+                  .children()
                   .each(function () {
-                    // Get the value of the checked checkbox
-                    var value = $(this).val();
-                    checkedValues.push(value);
+                    var input = $(this).find('input[type="checkbox"]');
+                    if (input.length > 0 && input.prop("checked")) {
+                      // Get the value of the checked checkbox
+                      var value = $(this).find("label").text();
+                      checkedValues.push(value);
+                      value = value.concat(", ");
+                      labelValue = labelValue.concat(value);
+                    }
                   });
 
+                var valueDiv = document.createElement("span");
+                if ($(this)[0].parentElement.className == "pair-container") {
+                  valueDiv.className = "value";
+                }
+                if (
+                  $(this)[0]
+                    .parentElement.className.split(" ")
+                    .includes("views-field")
+                ) {
+                  valueDiv.className = "field-content";
+                }
+                valueDiv.textContent = labelValue + ".";
+                $(this)[0].parentElement.appendChild(valueDiv);
                 // Add the label and checked values to the pairObject
                 contentEditableData[label] = checkedValues;
+                $(this).remove();
               });
             nearestViewsRow
               .find(".offline-radio-list-wrapper")
               .each(function () {
-                console.log($(this));
+                // Get the label text
+                var label = $(this).siblings(".label").text().trim();
+                // Initialize an empty array to store checked values
+                var checkedValues = "";
+                if (!label) {
+                  // Get the label text
+                  var label = $(this).siblings(".views-label").text().trim();
+                }
+                // Loop through the child nodes of the wrapper
+                $(this)
+                  .children()
+                  .each(function () {
+                    var input = $(this).find('input[type="radio"]:checked');
+                    if (input.length > 0 && input.prop("checked")) {
+                      // Get the value of the checked checkbox
+                      var value = $(this).find("label").text();
+                      checkedValues = checkedValues.concat(value);
+                    }
+                  });
+                // Add the label and checked values to the pairObject
+                contentEditableData[label] = checkedValues;
+                var valueDiv = document.createElement("span");
+                if ($(this)[0].parentElement.className == "pair-container") {
+                  valueDiv.className = "value";
+                }
+                if (
+                  $(this)[0]
+                    .parentElement.className.split(" ")
+                    .includes("views-field")
+                ) {
+                  valueDiv.className = "field-content";
+                }
+                valueDiv.textContent = checkedValues;
+                $(this)[0].parentElement.appendChild(valueDiv);
+                $(this).remove();
+              });
+            nearestViewsRow
+              .find(".offline-select-list-wrapper")
+              .each(function () {
                 // Get the label text
                 var label = $(this).siblings(".label").text().trim();
                 // Initialize an empty array to store checked values
                 var checkedValues = [];
-
-                // Loop through the checkboxes within this .pair-container
+                if (!label) {
+                  // Get the label text
+                  var label = $(this).siblings(".views-label").text().trim();
+                }
+                // Loop through the child nodes of the wrapper
                 $(this)
-                  .find('input[type="radio"]:checked')
+                  .children()
                   .each(function () {
-                    // Get the value of the checked checkbox
-                    var value = $(this).val();
-                    checkedValues.push(value);
+                    var input = $(this).find('input[type="select"]');
+                    if (input.length > 0 && input.prop("checked")) {
+                      // Get the value of the checked checkbox
+                      var value = input.textContent;
+                      checkedValues.push(value);
+                    }
                   });
 
                 // Add the label and checked values to the pairObject
@@ -1030,7 +1090,6 @@
             // Loop through the key-value pairs
             for (const serviceKey in JSON.parse(serviceData)) {
               serviceKeyData = JSON.parse(serviceData)[serviceKey];
-
               // Loop through the key-value pairs
               for (const contentKey in contentEditableData) {
                 // console.log(JSON.parse(serviceData)[contentKey]);
@@ -1065,7 +1124,17 @@
                   serviceKey.concat(":") == contentKey
                 ) {
                   contentKeyData = contentEditableData[contentKey];
-                  if (serviceKeyData != contentKeyData) {
+                  if (
+                    Array.isArray(serviceKeyData) ||
+                    Array.isArray(contentKeyData)
+                  ) {
+                    if (
+                      JSON.stringify(serviceKeyData) !==
+                      JSON.stringify(contentKeyData)
+                    ) {
+                      contentEditableChanges[serviceKey] = contentKeyData;
+                    }
+                  } else if (serviceKeyData != contentKeyData) {
                     contentEditableChanges[serviceKey] = contentKeyData;
                   }
                 }
