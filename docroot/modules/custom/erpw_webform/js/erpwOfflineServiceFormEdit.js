@@ -41,9 +41,9 @@
                       for (var fieldLabel in valueData["changes"]) {
                         // Find all the label elements on the page.
                         var labelElements = document.querySelectorAll("label");
-
                         // Loop through the label elements to find the one that matches label text.
                         for (var i = 0; i < labelElements.length; i++) {
+                          console.log(labelElements[i].textContent.trim());
                           if (
                             labelElements[i].textContent.trim() === fieldLabel
                           ) {
@@ -54,12 +54,53 @@
                               jsFormItemDiv.classList.add(
                                 "highlighted-changed-data"
                               );
-                              var inputElement =
-                                jsFormItemDiv.querySelector("input");
-                              if (inputElement) {
-                                // Set the new value for the input element.
-                                inputElement.value =
-                                  valueData["changes"][fieldLabel];
+                              if (
+                                Array.isArray(valueData["changes"][fieldLabel])
+                              ) {
+                                var inputElement =
+                                  jsFormItemDiv.querySelector("select");
+                                if (inputElement) {
+                                  var selectedOptions =
+                                    valueData["changes"][fieldLabel]; // The array of labels
+
+                                  for (var optionkey in inputElement.options) {
+                                    if (
+                                      typeof inputElement.options[optionkey] ===
+                                      "object"
+                                    ) {
+                                      if (
+                                        selectedOptions.includes(
+                                          inputElement.options[optionkey].text
+                                        )
+                                      ) {
+                                        inputElement.options[
+                                          optionkey
+                                        ].selected = true;
+                                        inputElement.options[
+                                          optionkey
+                                        ].setAttribute("selected", "selected");
+                                      }
+                                    }
+                                  }
+                                }
+                              } else if (
+                                fieldLabel ==
+                                Drupal.t("Transportation Available")
+                              ) {
+                                console.log("here");
+                                console.log(
+                                  jsFormItemDiv.querySelector(
+                                    `input[value=${valueData["changes"][fieldLabel]}]`
+                                  )
+                                );
+                              } else {
+                                var inputElement =
+                                  jsFormItemDiv.querySelector("input");
+                                if (inputElement) {
+                                  // Set the new value for the input element.
+                                  inputElement.value =
+                                    valueData["changes"][fieldLabel];
+                                }
                               }
                             }
                           }
