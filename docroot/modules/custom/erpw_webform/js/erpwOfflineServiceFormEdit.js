@@ -36,8 +36,8 @@
                       buttons.forEach(function (button) {
                         button.addEventListener("click", buttonClickHandler);
                       });
-
                       for (var fieldLabel in valueData["changes"]) {
+
                         // Find all the label elements on the page.
                         var labelElements = document.querySelectorAll("label");
                         // Loop through the label elements to find the one that matches label text.
@@ -95,9 +95,16 @@
                               } else {
                                 var inputElement =
                                   jsFormItemDiv.querySelector("input");
+                                var inputElementTextarea =
+                                  jsFormItemDiv.querySelector("textarea");
                                 if (inputElement) {
                                   // Set the new value for the input element.
                                   inputElement.value =
+                                    valueData["changes"][fieldLabel];
+                                }
+                                if (inputElementTextarea) {
+                                  // Set the new value for the input element.
+                                  inputElementTextarea.value =
                                     valueData["changes"][fieldLabel];
                                 }
                               }
