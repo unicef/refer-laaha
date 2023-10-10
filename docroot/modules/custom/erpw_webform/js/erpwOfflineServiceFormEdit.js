@@ -61,6 +61,14 @@
                                   var selectedOptions =
                                     valueData["changes"][fieldLabel]; // The array of labels
 
+                                  // Check if 'In Person' exists in the array
+                                  var index =
+                                    selectedOptions.indexOf("In Person");
+
+                                  if (index !== -1) {
+                                    // 'In Person' was found, replace it with 'In person'
+                                    selectedOptions[index] = "In person";
+                                  }
                                   for (var optionkey in inputElement.options) {
                                     if (
                                       typeof inputElement.options[optionkey] ===

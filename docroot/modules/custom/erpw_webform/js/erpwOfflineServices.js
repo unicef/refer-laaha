@@ -537,7 +537,7 @@
     $(".view-content").on("click", "#offline-edit", function (event) {
       if (!navigator.onLine) {
         event.preventDefault();
-
+        $(this)[0].style.display = "none";
         // Find the edit-link within the same parent div.
         var editLink = $(this)
           .closest(".additional-details-offline")
@@ -937,6 +937,7 @@
       var nearestViewsRow = $(this).closest(
         ".service-providers-submission-row"
       );
+      $(this).siblings("#offline-edit")[0].style.display = "block";
       localforage.config({
         driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
         name: "block-views-blockmanage-webform-services-block-1",
