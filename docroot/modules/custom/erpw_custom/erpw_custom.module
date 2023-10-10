@@ -423,6 +423,33 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       $form['description']['#markup'] = $delete_confirmation_message;
     }
   }
+
+  if ($form_id === 'node_feedback_area_delete_form') {
+    // Get the current feeback id.
+    $feedback_area = \Drupal::routeMatch()->getParameter('node');
+    $feedback_area_id = $feedback_area->id();
+    // Extract all the webforms using a feedback area.
+    $webform_storage = \Drupal::entityTypeManager()->getStorage('webform');
+    $webform_entities = $webform_storage->loadMultiple();
+    $webform_feedback_area_count = 0;
+    $webform_names = [];
+    foreach ($webform_entities as $webform_entity) {
+      $webform_feedback_area_id = $webform_entity->getElementsInitialized()['service_submission_id']['#feedback_area'];
+      if ($webform_feedback_area_id != NULL && $webform_feedback_area_id === $feedback_area_id) {
+        $webform_feedback_area_count++;
+        $webform_names[] = $webform_entity->label();
+      }
+    }
+
+    $delete_confirmation_message = t('Deleting the feedback area will lead to deleting or distorting the existing data.');
+    if ($webform_feedback_area_count > 0) {
+      $webform_plurality = $webform_feedback_area_count > 1 ? 'webforms' : 'webform';
+      $webform_name = implode(", ",$webform_names);
+      $delete_confirmation_message = t('This feedback area is used in @webforms_count @webform_plurality (@webform_name). Please review the existing @webform_plurality first.', ['@webforms_count' => $webform_feedback_area_count, '@webform_name' => $webform_name, '@webform_plurality' => $webform_plurality]);
+      unset($form['actions']['submit']);
+    }
+    $form['description']['#markup'] = $delete_confirmation_message;
+  }
 }
 
 /**

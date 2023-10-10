@@ -2417,18 +2417,18 @@ html[dir=rtl] .eye-close {
 }
 
 .service-list .view-header, .view-organisations .view-header,
-.view-referral-pathway-listing .view-header {
+.view-referral-pathway-listing .view-header, .feedback-area-list .view-header {
   border-bottom: 2px solid rgba(243, 193, 191, 0.53);
   margin-bottom: 20px;
   padding-bottom: 10px;
   position: relative;
 }
 .service-list .view-content, .view-organisations .view-content,
-.view-referral-pathway-listing .view-content {
+.view-referral-pathway-listing .view-content, .feedback-area-list .view-content {
   margin: 40px 0;
 }
 .service-list .title-view, .view-organisations .title-view,
-.view-referral-pathway-listing .title-view {
+.view-referral-pathway-listing .title-view, .feedback-area-list .title-view {
   border-top: 2px solid rgba(243, 193, 191, 0.53);
   color: #444;
   font-size: 16px;
@@ -2437,7 +2437,7 @@ html[dir=rtl] .eye-close {
   padding-top: 15px;
 }
 .service-list .views-row, .view-organisations .views-row,
-.view-referral-pathway-listing .views-row {
+.view-referral-pathway-listing .views-row, .feedback-area-list .views-row {
   -webkit-box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
           box-shadow: 0px 4px 12px rgba(103, 97, 97, 0.15);
   border-radius: 10px;
@@ -2446,7 +2446,7 @@ html[dir=rtl] .eye-close {
   position: relative;
 }
 .service-list .views-field-field-service-type-icon, .view-organisations .views-field-field-service-type-icon,
-.view-referral-pathway-listing .views-field-field-service-type-icon {
+.view-referral-pathway-listing .views-field-field-service-type-icon, .feedback-area-list .views-field-field-service-type-icon {
   font-size: 1.35em;
   position: absolute;
   top: 21px;
@@ -2455,7 +2455,7 @@ html[dir=rtl] .eye-close {
   text-align: center;
 }
 .service-list .views-field-field-service-type-color, .view-organisations .views-field-field-service-type-color,
-.view-referral-pathway-listing .views-field-field-service-type-color {
+.view-referral-pathway-listing .views-field-field-service-type-color, .feedback-area-list .views-field-field-service-type-color {
   display: inline-block;
   padding: 0 10px;
   vertical-align: middle;
@@ -2464,7 +2464,8 @@ html[dir=rtl] .eye-close {
 .view-referral-pathway-listing .service-title,
 .service-list .views-field-title,
 .view-organisations .views-field-title,
-.view-referral-pathway-listing .views-field-title {
+.view-referral-pathway-listing .views-field-title, .feedback-area-list .service-title,
+.feedback-area-list .views-field-title {
   display: inline-block;
   padding: 5px 0;
   vertical-align: middle;
@@ -2478,7 +2479,9 @@ html[dir=rtl] .eye-close {
 .view-referral-pathway-listing .views-field-title span,
 .service-list .views-field-title a,
 .view-organisations .views-field-title a,
-.view-referral-pathway-listing .views-field-title a {
+.view-referral-pathway-listing .views-field-title a, .feedback-area-list .service-title span, .feedback-area-list .service-title a,
+.feedback-area-list .views-field-title span,
+.feedback-area-list .views-field-title a {
   color: #444;
   font-size: 15px;
   font-weight: 500;
@@ -2486,7 +2489,7 @@ html[dir=rtl] .eye-close {
   word-break: break-all;
 }
 .service-list .service-count, .view-organisations .service-count,
-.view-referral-pathway-listing .service-count {
+.view-referral-pathway-listing .service-count, .feedback-area-list .service-count {
   color: #9B9B9B;
   font-size: 14px;
   font-weight: 400;
@@ -2495,7 +2498,7 @@ html[dir=rtl] .eye-close {
   bottom: -30px;
 }
 .service-list .views-field-nothing, .view-organisations .views-field-nothing,
-.view-referral-pathway-listing .views-field-nothing {
+.view-referral-pathway-listing .views-field-nothing, .feedback-area-list .views-field-nothing {
   border-top: 1px solid rgba(215, 215, 215, 0.5);
   margin-top: 5px;
 }
