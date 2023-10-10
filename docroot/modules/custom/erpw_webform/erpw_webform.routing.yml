@@ -88,3 +88,15 @@ erpw_webform.add_new_rating_question:
     _title: 'Add Service Rating Question'
   requirements:
     _permission: 'add service rating question'
+
+erpw_webform.webform.feedback_form:
+  path: '/service-feedback-form/{webform}/{servicesid}'
+  defaults:
+    _controller: '\Drupal\webform\Controller\WebformEntityController::addForm'
+    _title_callback: '\Drupal\webform\Controller\WebformEntityController::title'
+  requirements:
+    _entity_access: 'webform.submission_page'
+  options:
+    parameters:
+      servicesid:
+        type: entity:webform_submission
