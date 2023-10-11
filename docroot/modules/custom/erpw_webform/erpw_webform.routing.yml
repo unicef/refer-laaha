@@ -100,3 +100,10 @@ erpw_webform.webform.feedback_form:
     parameters:
       servicesid:
         type: entity:webform_submission
+
+erpw_webform.questions.calculate_average_rating:
+  path: '/calculate-average-rating'
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\ServiceRatingQuestionsController::displayAverageRatings'
+  requirements:
+    _permission: 'access content'

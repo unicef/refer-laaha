@@ -275,7 +275,7 @@ class ServiceRatingService {
       // Get the option title from the form state.
       $option_title = $form_state->getValue(['textfield' . $option_no]);
       if (!empty($option_title)) {
-        $options[$option_no] = $option_title;
+        $options[$option_no + 1] = $option_title;
       }
     }
 
@@ -303,10 +303,10 @@ class ServiceRatingService {
 
       if (!empty($option_title)) {
         // Set the description for the option if the title is not empty.
-        $options[$option_no] = $option_no + 1 . ' -- ' . $option_title;
+        $options[$option_no + 1] = $option_no + 1 . ' -- ' . $option_title;
       }
       else {
-        $options[$option_no] = $option_no + 1;
+        $options[$option_no + 1] = $option_no + 1;
       }
     }
 

@@ -145,7 +145,7 @@ class ServiceRatingQuestionForm extends FormBase {
     ];
 
     $form['options_fieldset']['description'] = [
-      '#markup' => '<p class = "service-rating-description">' . $this->t("First response is most satisfactory (highest rating), last response least satisfactory (lowest rating)") . '</p>',
+      '#markup' => '<p class = "service-rating-description">' . $this->t("First response is  least satisfactory (lowest rating), last response most satisfactory (highest rating)") . '</p>',
     ];
 
     // Gather the number of options in the form already.
