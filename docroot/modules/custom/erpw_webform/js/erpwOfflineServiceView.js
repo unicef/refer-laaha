@@ -20,7 +20,7 @@
           var itemId = urlParams.get("serviceId");
           var view = urlParams.get("view");
           localforage.config({
-            driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+            driver: localforage.INDEXEDDB,
             name: view,
             version: 1.0,
             storeName: view,

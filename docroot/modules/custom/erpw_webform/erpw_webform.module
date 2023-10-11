@@ -168,6 +168,10 @@ function erpw_webform_preprocess_page(&$variables) {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_listing';
     $variables['#attached']['library'][] = 'unicef_iconpicker/unicef-iconpicker';
   }
+  if ($currentPath == '/manage-services') {
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_add';
+    $variables['#attached']['drupalSettings']['activeDomain'] = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+  }
   $variables['page']['#cache']['contexts'][] = 'cookies';
   $variables['page']['#cache']['contexts'][] = 'url';
 }

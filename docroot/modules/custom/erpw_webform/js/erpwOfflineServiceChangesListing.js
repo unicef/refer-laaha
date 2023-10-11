@@ -18,9 +18,8 @@
         containerOuter.className = "reminder-details-rows";
         regionContent.appendChild(containerOuter);
         if (currentUserId != 0) {
-          // Inside your fetchDataAndStore function:
           localforageUserServiceChanges = localforage.createInstance({
-            driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+            driver: localforage.INDEXEDDB,
             name: "userServiceChanges".concat(currentUserId),
             version: 1.0,
             storeName: "userServiceChanges".concat(currentUserId),
@@ -83,7 +82,7 @@
                         // Create the div structure
                         const div = document.createElement("div");
                         div.classList.add("views-row");
-                        div.dataset.key = key; // You might need to adjust this based on your structure
+                        div.dataset.key = key;
                         var linkHTML = "";
 
                         linkHTML = `

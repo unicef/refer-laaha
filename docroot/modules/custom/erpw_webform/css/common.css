@@ -758,6 +758,29 @@ span[contenteditable="true"] {
   color: black;
   font-size: 12px;
 }
+.forms-row {
+  border-radius: 10px;
+  background: white;
+}
+.offline-service-forms-list {
+  padding: 10px;
+}
+.offline-service-forms-list .details-heading {
+  background: white;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  border-radius: 10px;
+}
+.offline-service-forms-list .service-providers-submission-row {
+  padding: 12px;
+}
+.offline-service-forms-list .select-service-type-webform .row-header {
+  margin: 0;
+}
+.offline-service-forms-list .service-type-org {
+  cursor: pointer;
+}
 @media only screen and (min-width: 1024px) {
   .webform-submission-form .table-format .webform-mapping-table {
     width: 50%;
