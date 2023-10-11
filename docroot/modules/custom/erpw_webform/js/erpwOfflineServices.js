@@ -537,7 +537,7 @@
     $(".view-content").on("click", "#offline-edit", function (event) {
       if (!navigator.onLine) {
         event.preventDefault();
-
+        $(this)[0].style.display = "none";
         // Find the edit-link within the same parent div.
         var editLink = $(this)
           .closest(".additional-details-offline")
@@ -621,6 +621,195 @@
                               ) {
                                 // Add the contentEditable attribute to the value element
                                 valueElement.attr("contentEditable", "true");
+                              } else if (
+                                elementData.hasOwnProperty("#type") &&
+                                elementData["#type"] == "select"
+                              ) {
+                                // Split the original value by comma and remove trailing fullstop
+                                const selectedValues = valueElement
+                                  .text()
+                                  .trim()
+                                  .split(",")
+                                  .map((value) =>
+                                    value.trim().replace(/\.$/, "")
+                                  );
+                                if (elementData["#webform_multiple"] == true) {
+                                  // Create a new div element for checkboxes
+                                  const checkboxDiv =
+                                    document.createElement("div");
+                                  checkboxDiv.className =
+                                    "offline-checkbox-list-wrapper";
+                                  // Define the options and their values
+                                  const options = elementData["#options"];
+
+                                  // Create and add checkboxes to the div element
+                                  for (const optionKey in options) {
+                                    const checkboxwrapperDiv =
+                                      document.createElement("div");
+                                    checkboxwrapperDiv.className =
+                                      "offline-checkboxes";
+                                    const checkbox =
+                                      document.createElement("input");
+                                    checkbox.type = "checkbox";
+                                    checkbox.value = optionKey;
+                                    checkbox.id = `option-${optionKey}`;
+
+                                    const label =
+                                      document.createElement("label");
+                                    label.htmlFor = `option-${optionKey}`;
+                                    label.textContent = options[optionKey];
+                                    if (
+                                      selectedValues.includes(
+                                        options[optionKey]
+                                      )
+                                    ) {
+                                      checkbox.checked = true; // Preselect the checkbox
+                                      checkbox.setAttribute(
+                                        "checked",
+                                        "checked"
+                                      ); // Preselect the checkbox
+                                    }
+                                    if (
+                                      optionKey == "In person" &&
+                                      selectedValues.includes("In person")
+                                    ) {
+                                      checkbox.checked = true; // Preselect the checkbox
+                                      checkbox.setAttribute(
+                                        "checked",
+                                        "checked"
+                                      ); // Preselect the checkbox
+                                    }
+                                    checkboxwrapperDiv.appendChild(checkbox);
+                                    checkboxwrapperDiv.appendChild(label);
+                                    checkboxDiv.appendChild(checkboxwrapperDiv);
+                                  }
+
+                                  // Replace the original span with the new select element
+                                  $(this).append(checkboxDiv);
+                                } else {
+                                  // Create a new select element
+                                  const selectElement =
+                                    document.createElement("select");
+                                  selectElement.className =
+                                    "offline-select-list-wrapper";
+                                  // Define the options and their values
+                                  const options = elementData["#options"];
+
+                                  // Create and add options to the select element
+                                  for (const optionKey in options) {
+                                    const option =
+                                      document.createElement("option");
+                                    option.value = optionKey;
+                                    option.text = options[optionKey];
+                                    if (
+                                      selectedValues.includes(
+                                        options[optionKey]
+                                      )
+                                    ) {
+                                      option.selected = true; // Preselect the option
+                                      option.setAttribute("checked", "checked"); // Preselect the checkbox
+                                    }
+                                    selectElement.appendChild(option);
+                                  }
+
+                                  // Replace the original span with the new select element
+                                  $(this).append(selectElement);
+                                }
+
+                                valueElement.remove();
+                              } else if (
+                                elementData.hasOwnProperty("#type") &&
+                                elementData["#type"] == "radios"
+                              ) {
+                                // Split the original value by comma and remove trailing full stop
+                                const selectedValue = valueElement
+                                  .text()
+                                  .trim()
+                                  .replace(/\.$/, ""); // Use selectedValue (singular) instead of selectedValues (plural) since radios allow only one selection.
+
+                                // Create a new div element for radio buttons
+                                const radioDiv = document.createElement("div");
+                                radioDiv.className =
+                                  "offline-radio-list-wrapper";
+                                // Define the options and their values
+                                const options = elementData["#options"];
+
+                                // Create and add radio buttons to the div element
+                                for (const optionKey in options) {
+                                  const radioWrapperDiv =
+                                    document.createElement("div");
+                                  radioWrapperDiv.className = "offline-radios"; // You can define a CSS class for radios.
+                                  const radio = document.createElement("input");
+                                  radio.type = "radio";
+                                  radio.name = "your-radio-group-name"; // Use the same name for all radio buttons in the group.
+                                  radio.value = optionKey;
+                                  radio.id = `option-${optionKey}`;
+
+                                  const label = document.createElement("label");
+                                  label.htmlFor = `option-${optionKey}`;
+                                  label.textContent = options[optionKey];
+
+                                  if (selectedValue === options[optionKey]) {
+                                    radio.checked = true; // Preselect the radio button
+                                    radio.setAttribute("checked", "checked"); // Preselect the checkbox
+                                  }
+
+                                  radioWrapperDiv.appendChild(radio);
+                                  radioWrapperDiv.appendChild(label);
+                                  radioDiv.appendChild(radioWrapperDiv);
+                                }
+
+                                // Replace the original span with the new div element containing radio buttons
+                                $(this).append(radioDiv);
+                                valueElement.remove();
+                              } else if (
+                                elementData.hasOwnProperty("#type") &&
+                                elementData["#type"] == "checkboxes"
+                              ) {
+                                // Split the original value by comma and remove trailing fullstop
+                                const selectedValues = valueElement
+                                  .text()
+                                  .trim()
+                                  .split(",")
+                                  .map((value) =>
+                                    value.trim().replace(/\.$/, "")
+                                  );
+                                // Create a new div element for checkboxes
+                                const checkboxDiv =
+                                  document.createElement("div");
+                                checkboxDiv.className =
+                                  "offline-checkbox-list-wrapper";
+                                // Define the options and their values
+                                const options = elementData["#options"];
+                                // Create and add checkboxes to the div element
+                                for (const optionKey in options) {
+                                  const checkboxwrapperDiv =
+                                    document.createElement("div");
+                                  checkboxwrapperDiv.className =
+                                    "offline-checkboxes";
+                                  const checkbox =
+                                    document.createElement("input");
+                                  checkbox.type = "checkbox";
+                                  checkbox.value = optionKey;
+                                  checkbox.id = `option-${optionKey}`;
+
+                                  const label = document.createElement("label");
+                                  label.htmlFor = `option-${optionKey}`;
+                                  label.textContent = options[optionKey];
+                                  if (
+                                    selectedValues.includes(options[optionKey])
+                                  ) {
+                                    checkbox.checked = true;
+                                    checkbox.setAttribute("checked", "checked"); // Preselect the checkbox
+                                  }
+                                  checkboxwrapperDiv.appendChild(checkbox);
+                                  checkboxwrapperDiv.appendChild(label);
+                                  checkboxDiv.appendChild(checkboxwrapperDiv);
+                                }
+
+                                // Replace the original span with the new div element containing radio buttons
+                                $(this).append(checkboxDiv);
+                                valueElement.remove();
                               }
                             }
                           });
@@ -632,10 +821,91 @@
                           // Get the label text
                           var labelText = labelElement.text().trim();
                           if (
-                            labelText == "Contact:" ||
-                            labelText == "Focal Point:"
+                            labelText == Drupal.t("Contact").concat(":") ||
+                            labelText == Drupal.t("Focal Point").concat(":")
                           ) {
                             valueElement.attr("contentEditable", "true");
+                          } else if (
+                            labelText == Drupal.t("Service Mode").concat(":") &&
+                            elementKey == "field_mode"
+                          ) {
+                            // Split the original value by comma and remove trailing fullstop
+                            const selectedValues = valueElement
+                              .text()
+                              .trim()
+                              .split(",")
+                              .map((value) => value.trim().replace(/\.$/, ""));
+                            if (elementData["#webform_multiple"] == true) {
+                              // Create a new div element for checkboxes
+                              const checkboxDiv = document.createElement("div");
+                              checkboxDiv.className =
+                                "offline-checkbox-list-wrapper";
+                              // Define the options and their values
+                              const options = elementData["#options"];
+
+                              // Create and add checkboxes to the div element
+                              for (const optionKey in options) {
+                                const checkboxwrapperDiv =
+                                  document.createElement("div");
+                                checkboxwrapperDiv.className =
+                                  "offline-checkboxes";
+                                const checkbox =
+                                  document.createElement("input");
+                                checkbox.type = "checkbox";
+                                checkbox.value = optionKey;
+                                checkbox.id = `option-${optionKey}`;
+
+                                const label = document.createElement("label");
+                                label.htmlFor = `option-${optionKey}`;
+                                label.textContent = options[optionKey];
+                                if (
+                                  selectedValues.includes(options[optionKey])
+                                ) {
+                                  checkbox.checked = true;
+                                  checkbox.setAttribute("checked", "checked"); // Preselect the checkbox
+                                }
+                                if (
+                                  optionKey == "In person" &&
+                                  selectedValues.includes("In person")
+                                ) {
+                                  checkbox.checked = true;
+                                  checkbox.setAttribute("checked", "checked"); // Preselect the checkbox
+                                }
+                                checkboxwrapperDiv.appendChild(checkbox);
+                                checkboxwrapperDiv.appendChild(label);
+                                checkboxDiv.appendChild(checkboxwrapperDiv);
+                              }
+
+                              // Replace the original span with the new select element
+                              $(this).append(checkboxDiv);
+                            } else {
+                              // Create a new select element
+                              const selectElement =
+                                document.createElement("select");
+                              selectElement.className =
+                                "offline-select-list-wrapper";
+                              // Define the options and their values
+                              const options = elementData["#options"];
+
+                              // Create and add options to the select element
+                              for (const optionKey in options) {
+                                const option = document.createElement("option");
+                                option.value = optionKey;
+                                option.text = options[optionKey];
+                                if (
+                                  selectedValues.includes(options[optionKey])
+                                ) {
+                                  option.selected = true;
+                                  option.setAttribute("checked", "checked"); // Preselect the option
+                                }
+                                selectElement.appendChild(option);
+                              }
+
+                              // Replace the original span with the new select element
+                              $(this).append(selectElement);
+                            }
+
+                            valueElement.remove();
                           }
                         });
                       }
@@ -667,6 +937,7 @@
       var nearestViewsRow = $(this).closest(
         ".service-providers-submission-row"
       );
+      $(this).siblings("#offline-edit")[0].style.display = "block";
       localforage.config({
         driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
         name: "block-views-blockmanage-webform-services-block-1",
@@ -709,10 +980,117 @@
                 contentEditableData[label] = value; // Store in the object
                 $(this).removeAttr("contenteditable");
               });
+            nearestViewsRow
+              .find(".offline-checkbox-list-wrapper")
+              .each(function () {
+                // Get the label text
+                var label = $(this).siblings(".label").text().trim();
+                // Initialize an empty array to store checked values
+                var checkedValues = [];
+                var labelValue = "";
+                if (!label) {
+                  // Get the label text
+                  var label = $(this).siblings(".views-label").text().trim();
+                }
+                // Loop through the child nodes of the wrapper
+                $(this)
+                  .children()
+                  .each(function () {
+                    var input = $(this).find('input[type="checkbox"]');
+                    if (input.length > 0 && input.prop("checked")) {
+                      // Get the value of the checked checkbox
+                      var value = $(this).find("label").text();
+                      checkedValues.push(value);
+                      value = value.concat(", ");
+                      labelValue = labelValue.concat(value);
+                    }
+                  });
+
+                var valueDiv = document.createElement("span");
+                if ($(this)[0].parentElement.className == "pair-container") {
+                  valueDiv.className = "value";
+                }
+                if (
+                  $(this)[0]
+                    .parentElement.className.split(" ")
+                    .includes("views-field")
+                ) {
+                  valueDiv.className = "field-content";
+                }
+                valueDiv.textContent = labelValue + ".";
+                $(this)[0].parentElement.appendChild(valueDiv);
+                // Add the label and checked values to the pairObject
+                contentEditableData[label] = checkedValues;
+                $(this).remove();
+              });
+            nearestViewsRow
+              .find(".offline-radio-list-wrapper")
+              .each(function () {
+                // Get the label text
+                var label = $(this).siblings(".label").text().trim();
+                // Initialize an empty array to store checked values
+                var checkedValues = "";
+                if (!label) {
+                  // Get the label text
+                  var label = $(this).siblings(".views-label").text().trim();
+                }
+                // Loop through the child nodes of the wrapper
+                $(this)
+                  .children()
+                  .each(function () {
+                    var input = $(this).find('input[type="radio"]:checked');
+                    if (input.length > 0 && input.prop("checked")) {
+                      // Get the value of the checked checkbox
+                      var value = $(this).find("label").text();
+                      checkedValues = checkedValues.concat(value);
+                    }
+                  });
+                // Add the label and checked values to the pairObject
+                contentEditableData[label] = checkedValues;
+                var valueDiv = document.createElement("span");
+                if ($(this)[0].parentElement.className == "pair-container") {
+                  valueDiv.className = "value";
+                }
+                if (
+                  $(this)[0]
+                    .parentElement.className.split(" ")
+                    .includes("views-field")
+                ) {
+                  valueDiv.className = "field-content";
+                }
+                valueDiv.textContent = checkedValues;
+                $(this)[0].parentElement.appendChild(valueDiv);
+                $(this).remove();
+              });
+            nearestViewsRow
+              .find(".offline-select-list-wrapper")
+              .each(function () {
+                // Get the label text
+                var label = $(this).siblings(".label").text().trim();
+                // Initialize an empty array to store checked values
+                var checkedValues = [];
+                if (!label) {
+                  // Get the label text
+                  var label = $(this).siblings(".views-label").text().trim();
+                }
+                // Loop through the child nodes of the wrapper
+                $(this)
+                  .children()
+                  .each(function () {
+                    var input = $(this).find('input[type="select"]');
+                    if (input.length > 0 && input.prop("checked")) {
+                      // Get the value of the checked checkbox
+                      var value = input.textContent;
+                      checkedValues.push(value);
+                    }
+                  });
+
+                // Add the label and checked values to the pairObject
+                contentEditableData[label] = checkedValues;
+              });
             // Loop through the key-value pairs
             for (const serviceKey in JSON.parse(serviceData)) {
               serviceKeyData = JSON.parse(serviceData)[serviceKey];
-
               // Loop through the key-value pairs
               for (const contentKey in contentEditableData) {
                 // console.log(JSON.parse(serviceData)[contentKey]);
@@ -747,7 +1125,17 @@
                   serviceKey.concat(":") == contentKey
                 ) {
                   contentKeyData = contentEditableData[contentKey];
-                  if (serviceKeyData != contentKeyData) {
+                  if (
+                    Array.isArray(serviceKeyData) ||
+                    Array.isArray(contentKeyData)
+                  ) {
+                    if (
+                      JSON.stringify(serviceKeyData) !==
+                      JSON.stringify(contentKeyData)
+                    ) {
+                      contentEditableChanges[serviceKey] = contentKeyData;
+                    }
+                  } else if (serviceKeyData != contentKeyData) {
                     contentEditableChanges[serviceKey] = contentKeyData;
                   }
                 }
