@@ -3299,4 +3299,22 @@ body.path-user {
     width: 25%;
   }
 }
+
+[class*=webform-submission-webform-service-rating-] .form-item-service-submission-id {
+  display: none;
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal !important;
+  -webkit-box-direction: normal !important;
+      -ms-flex-direction: row !important;
+          flex-direction: row !important;
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] label, [class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] [class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .fieldset-legend,
+[class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] [class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .fieldset-legend {
+  display: none;
+}
 /*# sourceMappingURL=style.css.map */

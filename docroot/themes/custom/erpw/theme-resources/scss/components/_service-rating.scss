@@ -1,0 +1,17 @@
+[class*="webform-submission-webform-service-rating-"] {
+    .form-item-service-submission-id {
+        display: none;
+    }
+
+    .form-wrapper .fieldset-wrapper .form-radios {
+        display: flex;
+        flex-direction: row !important;
+
+        [class*="form-item-rating-question-"] {
+            label {
+                display: none;
+            }
+        }
+    }
+
+}
