@@ -54,14 +54,41 @@
   });
 
   function showOfflineAddForm(event) {
-    // Implement logic to show the offline add form here
-    localforage.getItem(event[0].dataset.key).then((formData) => {
-      try {
-        console.log(formData);
-      } catch (error) {
-        console.error("Invalid form key!", error);
+    // Implement logic to show the offline add form here.
+    localforage.getItem(event[0].dataset.key).then(function (formData) {
+      for (let fieldKey in formData) {
+        if (fieldKey == "elementsFlattened") {
+          console.log(formData["elementsFlattened"]);
+        }
       }
     });
+    try {
+      // Create a dialog box
+      const dialog = $("<div>")
+        .html("<span>Here</span>")
+        .dialog({
+          title: "Offline Form",
+          modal: true,
+          width: 500,
+          buttons: {
+            Submit: function () {
+              // Handle form submission here (you can send data to the server via Ajax)
+              // After submitting, close the dialog
+              $(this).dialog("close");
+            },
+            Close: function () {
+              // Close the dialog without submitting
+              $(this).dialog("close");
+            },
+          },
+          close: function () {
+            // Clean up the dialog when it's closed
+            $(this).dialog("destroy").remove();
+          },
+        });
+    } catch (error) {
+      console.error("Invalid form key!", error);
+    }
   }
   Drupal.behaviors.erpwOfflineServiceAdd = {
     attach: function (context, settings) {},
