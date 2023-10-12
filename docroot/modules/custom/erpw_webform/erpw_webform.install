@@ -6,6 +6,7 @@
  */
 
 use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\webform\Entity\WebformSubmission;
 
 /**
  * Implements hook_update_N().
@@ -31,4 +32,116 @@ function erpw_webform_update_9003() {
     'parent' => 'system.admin_content',
   ]);
   $menu_link->save();
+}
+
+/**
+ * Updating domain based on the location for Zimbabe.
+ */
+function erpw_webform_update_9004() {
+  \Drupal::messenger()
+    ->addMessage(t('Update service for Zimbabwe'));
+  // Get SID for the affected service.
+  $zmquery = "SELECT sid FROM `webform_submission_data` WHERE `property` = 'location_tid' && GetTopLevelParent(value) = 1 && sid IN (SELECT wsd.sid FROM webform_submission_data as wsd WHERE wsd.name = 'submission_domain' && wsd.value != 'zm_erefer_org');";
+
+  $data =  \Drupal::service('database')->query($zmquery)->fetchAll(\PDO::FETCH_ASSOC);
+
+  if (!empty($data)) {
+    foreach ($data as $sid) {
+      \Drupal::service('database')->update('webform_submission_data')
+        ->fields([
+          'value' => 'zm_erefer_org',
+        ])
+        ->condition('sid', $sid['sid'], '=')
+        ->condition('name', 'submission_domain', '=')
+        ->execute();
+      \Drupal::messenger()
+        ->addMessage(t('Service Updated with SID : @sid', [
+          '@sid' => $sid['sid'],
+        ]));
+    }
+  }
+}
+
+/**
+ * Updating domain based on the location for Bangladesh.
+ */
+function erpw_webform_update_9005() {
+  \Drupal::messenger()
+    ->addMessage(t('Update service for Bangladesh'));
+  // Get SID for the affected service.
+  $zmquery = "SELECT sid FROM `webform_submission_data` WHERE `property` = 'location_tid' && GetTopLevelParent(value) = 10401 && sid IN (SELECT wsd.sid FROM webform_submission_data as wsd WHERE wsd.name = 'submission_domain' && wsd.value != 'bn_erefer_org');";
+
+  $data =  \Drupal::service('database')->query($zmquery)->fetchAll(\PDO::FETCH_ASSOC);
+
+  if (!empty($data)) {
+    foreach ($data as $sid) {
+      \Drupal::service('database')->update('webform_submission_data')
+        ->fields([
+          'value' => 'bn_erefer_org',
+        ])
+        ->condition('sid', $sid['sid'], '=')
+        ->condition('name', 'submission_domain', '=')
+        ->execute();
+      \Drupal::messenger()
+        ->addMessage(t('Service Updated with SID : @sid', [
+          '@sid' => $sid['sid'],
+        ]));
+    }
+  }
+}
+
+/**
+ * Updating domain based on the location for Turkey Cross Border.
+ */
+function erpw_webform_update_9006() {
+  \Drupal::messenger()
+    ->addMessage(t('Update service for Turkey Cross Border'));
+  // Get SID for the affected service.
+  $zmquery = "SELECT sid FROM `webform_submission_data` WHERE `property` = 'location_tid' && GetTopLevelParent(value) = 10926 && sid IN (SELECT wsd.sid FROM webform_submission_data as wsd WHERE wsd.name = 'submission_domain' && wsd.value != 'txb_erefer_org');";
+
+  $data =  \Drupal::service('database')->query($zmquery)->fetchAll(\PDO::FETCH_ASSOC);
+
+  if (!empty($data)) {
+    foreach ($data as $sid) {
+      \Drupal::service('database')->update('webform_submission_data')
+        ->fields([
+          'value' => 'txb_erefer_org',
+        ])
+        ->condition('sid', $sid['sid'], '=')
+        ->condition('name', 'submission_domain', '=')
+        ->execute();
+      \Drupal::messenger()
+        ->addMessage(t('Service Updated with SID : @sid', [
+          '@sid' => $sid['sid'],
+        ]));
+    }
+  }
+}
+
+/**
+ * Updating domain based on the location for Sierra Leone.
+ */
+function erpw_webform_update_9007() {
+  \Drupal::messenger()
+    ->addMessage(t('Update service for Sierra Leone'));
+  // Get SID for the affected service.
+  $zmquery = "SELECT sid FROM `webform_submission_data` WHERE `property` = 'location_tid' && GetTopLevelParent(value) = 16821 && sid IN(SELECT wsd.sid FROM webform_submission_data as wsd WHERE wsd.name = 'submission_domain' && wsd.value != 'sl_erefer_org');";
+
+  $data =  \Drupal::service('database')->query($zmquery)->fetchAll(\PDO::FETCH_ASSOC);
+
+  if (!empty($data)) {
+    foreach ($data as $sid) {
+      \Drupal::service('database')->update('webform_submission_data')
+        ->fields([
+          'value' => 'sl_erefer_org',
+        ])
+        ->condition('sid', $sid['sid'], '=')
+        ->condition('name', 'submission_domain', '=')
+        ->execute();
+      \Drupal::messenger()
+        ->addMessage(t('Service Updated with SID : @sid', [
+          '@sid' => $sid['sid'],
+        ]));
+    }
+  }
 }
