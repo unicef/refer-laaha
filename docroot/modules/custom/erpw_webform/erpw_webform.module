@@ -1156,6 +1156,10 @@ function erpw_webform__create_or_update_wsa_node($service_type, $submission_id, 
 function erpw_webform_preprocess_table(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
   if ($currentRoute == 'entity.webform.templates') {
+    $erpw_service_provider_form_text = [
+      '#markup' => t($variables['rows'][0]['cells']['title']['content']->getText()),
+    ];
+    $variables['rows'][0]['cells']['title']['content'] = $erpw_service_provider_form_text;
     unset($variables['rows'][0]['cells']['operations']['content']['preview']);
   }
 }
