@@ -578,6 +578,30 @@ display:
         - url.query_args
         - user
       tags: {  }
+  page_1:
+    id: page_1
+    display_title: 'Share Feedback Services'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'Share Feedback'
+      defaults:
+        title: false
+      display_description: ''
+      display_extenders:
+        library_in_views_display_extender:
+          attach_library:
+            attach_library: 'erpw_webform/erpw_webform_js,erpw_custom/erpw_js,unicef_iconpicker/unicef-iconpicker,erpw_webform/erpw_webform_offline'
+      path: share-feedback
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
+      tags: {  }
   rest_export_1:
     id: rest_export_1
     display_title: 'REST export'
