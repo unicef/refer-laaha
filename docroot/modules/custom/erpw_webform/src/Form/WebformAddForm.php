@@ -90,7 +90,7 @@ class WebformAddForm extends WebformEntityAddForm {
         "#empty_option" => t('- Select -'),
         '#options' => $service_type_options,
         '#disabled' => TRUE,
-        '#prefix' => '<div class="empty-service-type-notice">* Forms for all the service types have been created. Create a new service type inorder to create its corresponding form.</div>',
+        '#prefix' => '<div class="empty-service-type-notice">* Forms for all the service types have been created. Create a new service type in order to create its corresponding form.</div>',
       ];
     }
     else {
