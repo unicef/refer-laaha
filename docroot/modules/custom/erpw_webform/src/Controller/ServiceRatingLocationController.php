@@ -3,6 +3,8 @@
 namespace Drupal\erpw_webform\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Url;
+use Drupal\node\Entity\Node;
 use Drupal\webform\Entity\WebformSubmission;
 use Drupal\webform\Entity\Webform;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -51,14 +53,19 @@ class ServiceRatingLocationController extends ControllerBase {
    */
   public function displayServiceLocationAverages() {
     // Load the webform based on the provided webform ID.
-    // @todo fetch webform id from route parameter.
-    $webform_id = 'webform_service_rating_301';
+    $webform_id = $this->routeMatch->getParameter('webform_id');
     $webform = Webform::load($webform_id);
+    $org_id = $this->serviceRating->organisationForFiltering();
 
-    // Check if the webform exists and matches the pattern.
+    // Check if the webform exists and matches the service rating form pattern.
     if ($webform && preg_match('/^webform_service_rating_\d+$/', $webform->id())) {
+      // Organisation filter.
+      $element = [
+        'key' => 'service_organisation',
+        'value' => $org_id,
+      ];
       // Get all submissions for the webform.
-      $submission_ids = $this->serviceRating->getSubmissionIds($webform_id);
+      $submission_ids = $this->serviceRating->getSubmissionIdsForSingleElement($webform_id, $element);
 
       // Initialize an array to store normalized element values.
       $normalized_element_values = [];
@@ -101,7 +108,23 @@ class ServiceRatingLocationController extends ControllerBase {
         $averages[$location_tid] = $average_rating;
       }
 
-      $output = '<ul>';
+      $service_type_id = str_replace("webform_service_rating_", "", $webform_id);
+      if (is_numeric($service_type_id)) {
+        $node = Node::load($service_type_id);
+      }
+      else {
+        $node = NULL;
+      }
+      if ($node) {
+        $service_type_name = $node->getTitle();
+      }
+      else {
+        $service_type_name = $this->t('Invalid Organisation');
+      }
+      $service_type_average = $this->serviceRating->calculateTotalAverageRating($averages);
+      $output = '<h1>' . $service_type_name . ': ' . $service_type_average . '</h1>';
+
+      $output .= '<ul>';
       $country_ids = array_keys($this->location->getLocationEntities());
       foreach ($averages as $location_id => $average_rating) {
         if (in_array($location_id, $country_ids)) {
@@ -111,11 +134,24 @@ class ServiceRatingLocationController extends ControllerBase {
           $location_tid = $location_id;
         }
         $location_name = $this->location->getTaxonomyTermById($location_id);
-        $output .= '<li>' . $location_name . ': ' . $average_rating . '</li>';
+
+        // Generate the URL with the route name and the location_id parameter.
+        $url = Url::fromRoute('erpw_webform.questions.calculate_average_questions_rating', [
+          'location_id' => $location_id,
+          'webform_id' => $webform_id,
+        ]);
+        $href = $url->toString();
+
+        // Create the anchor element with the location name as the text and the generated URL.
+        $anchor = '<a href="' . $href . '">' . $location_name . '</a>';
+
+        $output .= '<li>' . $anchor . ': ' . $average_rating . '</li>';
       }
-      $output .= '</ul';
+      $output .= '</ul>';
 
       return [
+        '#title' => $this->t('Location Ratings'),
+        '#type' => 'markup',
         '#markup' => $output,
       ];
     }

@@ -618,7 +618,7 @@ class ServiceSubmissionsView extends ControllerBase {
         ->getStorage('webform')
         ->load($rating_webform);
 
-      if ($feedback_webform && $feedback_webform->isOpen()) {
+      if ($feedback_webform && $feedback_webform->isOpen() && $this->currentUser->isAuthenticated()) {
         // Get the URL for the loaded webform.
         $routeName = 'erpw_webform.webform.feedback_form';
 

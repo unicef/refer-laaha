@@ -247,6 +247,28 @@ class ServiceRatingQuestionForm extends FormBase {
   }
 
   /**
+   * Callback for "Add New Question" button.
+   */
+  public function addNewQuestion(array &$form, FormStateInterface $form_state) {
+    $service_type_id = $form_state->getValue('service_type');
+    $valid_option_count = $this->serviceRating->validOptionCount($form_state);
+    $webform = $this->serviceRating->loadWebformByServiceType($service_type_id);
+
+    if (!$webform) {
+      // Create a new webform.
+      $webform = $this->serviceRating->createWebform($form_state, $valid_option_count);
+    }
+    else {
+      $webform = $this->serviceRating->updateWebform($webform, $form_state, $valid_option_count);
+    }
+
+    $webform->save();
+
+    // Redirect to Add New Question form.
+    $form_state->setRedirect('erpw_webform.add_new_rating_question', ['service_type__id' => $service_type_id]);
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
@@ -300,7 +322,7 @@ class ServiceRatingQuestionForm extends FormBase {
     $webform->save();
 
     // Redirect to the newly created or existing webform.
-    $url = Url::fromRoute('entity.webform.canonical', ['webform' => $webform->id()]);
+    $url = Url::fromRoute('entity.webform.edit_form', ['webform' => $webform->id()]);
     $form_state->setRedirectUrl($url);
   }
 

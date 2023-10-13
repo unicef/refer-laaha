@@ -5,6 +5,7 @@ namespace Drupal\erpw_webform;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\node\Entity\Node;
 use Drupal\webform\Entity\Webform;
@@ -37,6 +38,13 @@ class ServiceRatingService {
   protected $entityTypeManager;
 
   /**
+   * The Current user service.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
    * ServiceRatingService constructor.
    *
    * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
@@ -50,10 +58,12 @@ class ServiceRatingService {
     DomainNegotiatorInterface $domain_negotiator,
     EntityTypeManagerInterface $entity_manager,
     LanguageManagerInterface $language_manager,
+    AccountProxyInterface $current_user,
     ) {
     $this->domainNegotiator = $domain_negotiator;
     $this->entityTypeManager = $entity_manager;
     $this->languageManager = $language_manager;
+    $this->currentUser = $current_user;
   }
 
   /**
@@ -365,17 +375,17 @@ class ServiceRatingService {
    *   The name of the first webform element. (optional)
    * @param array $element2
    *   An associative array containing the element key and value for the second element.
-   *   - 'key': The name of the webform element.
+   *   - 'key': The name of the second webform element.
    *   - 'value': The value to match for the second element.
    * @param array $element3
    *   An associative array containing the element key and value for the third element.
-   *   - 'key': The name of the webform element.
+   *   - 'key': The name of the third webform element.
    *   - 'value': The value to match for the third element.
    *
    * @return array
    *   An array of submission IDs that match both element-key-value pairs.
    */
-  public function getSubmissionIds($webform_id, $element1 = NULL, $element2 = NULL, $element3 = NULL) {
+  public function getSubmissionIdsForMultipleElements($webform_id, $element1 = NULL, $element2 = NULL, $element3 = NULL) {
     $database = \Drupal::database();
 
     $query = $database->select('webform_submission_data', 'wsd1');
@@ -414,6 +424,45 @@ class ServiceRatingService {
   }
 
   /**
+   * Retrieves submission IDs based on webform ID and two element-key-value pairs.
+   *
+   * @param int $webform_id
+   *   The ID of the webform.
+   * @param array $element
+   *   An associative array containing the element key and value for the element.
+   *   - 'key': The name of the webform element.
+   *   - 'value': The value to match for the element.
+   *
+   * @return array
+   *   An array of submission IDs that match both element-key-value pairs.
+   */
+  public function getSubmissionIdsForSingleElement($webform_id, $element) {
+    $database = \Drupal::database();
+
+    $query = $database->select('webform_submission_data', 'wsd1');
+    $query->fields('wsd1', ['sid']);
+    $query->condition('wsd1.webform_id', $webform_id);
+
+    if ($element) {
+      $query->join('webform_submission_data', 'wsd2', 'wsd1.sid = wsd2.sid');
+      $query->condition('wsd2.name', $element['key'], '=');
+      $query->condition('wsd2.value', $element['value'], '=');
+      $query->condition('wsd2.value', NULL, 'IS NOT NULL');
+    }
+
+    $query->groupBy('wsd1.sid');
+
+    $result = $query->execute();
+    $submission_ids = [];
+
+    foreach ($result as $row) {
+      $submission_ids[] = $row->sid;
+    }
+
+    return $submission_ids;
+  }
+
+  /**
    * Normalizes a rating value based on the provided options.
    *
    * @param int $value
@@ -435,8 +484,8 @@ class ServiceRatingService {
    * @param array $normalized_element_values
    *   An array of normalized rating values.
    *
-   * @return float
-   *   The average rating, rounded to one decimal point.
+   * @return int
+   *   The average rating, rounded to nearest integer.
    */
   public function calculateAverageRating($normalized_element_values) {
     $flattened_values = array_merge(...$normalized_element_values);
@@ -448,6 +497,76 @@ class ServiceRatingService {
     }
 
     return $average_rating;
+  }
+
+  /**
+   * Calculates the average of numeric values in a multidimensional array.
+   *
+   * @param array $normalized_element_values
+   *   A multidimensional array containing numeric values for which to calculate the average.
+   *
+   * @return float
+   *   The average of the numeric values, rounded to one decimal point.
+   */
+  public function calculateTotalAverageRating($normalized_element_values) {
+    $numeric_values = [];
+
+    // Extract numeric values from the array.
+    foreach ($normalized_element_values as $key => $value) {
+      if (is_numeric($value)) {
+        $numeric_values[] = $value;
+      }
+    }
+
+    $average_rating = 0;
+
+    if (!empty($numeric_values)) {
+      // Calculate the average rating and round it to one decimal point.
+      $average_rating = round(array_sum($numeric_values) / count($numeric_values), 1);
+    }
+
+    return $average_rating;
+  }
+
+  /**
+   * Returns the organization ID for users.
+   *
+   * This function retrieves the organization ID for the user depending on
+   * the active domain. If the user is admin, then it assigns an organisation id by itself.
+   *
+   * @return int|null
+   *   The organization ID for admin, or null if no matching domain is found.
+   */
+  public function organisationForFiltering() {
+    $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
+    if (!$current_user->hasRole('administrator')) {
+      $organisation_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
+    }
+    else {
+      $current_domain = $this->domainNegotiator->getActiveDomain()->id();
+      switch ($current_domain) {
+        case 'zm_erefer_org':
+          $organisation_id = 456;
+          break;
+
+        case 'bn_erefer_org':
+          $organisation_id = 336;
+          break;
+
+        case 'sl_erefer_org':
+          $organisation_id = 4456;
+          break;
+
+        case 'txb_erefer_org':
+          $organisation_id = 5175;
+          break;
+
+        default:
+          $organisation_id = NULL;
+      }
+    }
+
+    return $organisation_id;
   }
 
 }

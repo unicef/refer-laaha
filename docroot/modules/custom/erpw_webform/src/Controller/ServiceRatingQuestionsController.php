@@ -9,7 +9,7 @@ use Drupal\webform\Entity\Webform;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Calulate and display the averages grouped by questions of the Feedback form
+ * Calulate and display the averages grouped by questions of the Feedback form.
  */
 class ServiceRatingQuestionsController extends ControllerBase {
 
@@ -28,12 +28,20 @@ class ServiceRatingQuestionsController extends ControllerBase {
   protected $serviceRating;
 
   /**
+   * The Location Service.
+   *
+   * @var \Drupal\erpw_location\LocationService
+   */
+  protected $location;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
     $instance->routeMatch = $container->get('current_route_match');
     $instance->serviceRating = $container->get('erpw_webform.service_rating_service');
+    $instance->location = $container->get('erpw_location.location_services');
     return $instance;
   }
 
@@ -41,10 +49,11 @@ class ServiceRatingQuestionsController extends ControllerBase {
    * Function to calulate and display the averages grouped by questions of the Feedback form.
    */
   public function displayAverageRatings() {
-    // Replace the 'webform_id' with the actual webform ID.
-    $webform_id = 'webform_service_rating_301';
+    $org_id = $this->serviceRating->organisationForFiltering();
+    $webform_id = $this->routeMatch->getParameter('webform_id');
     $webform = Webform::load($webform_id);
     $elements = $webform->getElementsDecodedAndFlattened();
+    $location_id = $this->routeMatch->getParameter('location_id');
 
     // Initialize an array to store element titles and average ratings.
     $feedback_normalized_values = [];
@@ -58,15 +67,15 @@ class ServiceRatingQuestionsController extends ControllerBase {
           // Location filter.
           $element2 = [
             'key' => 'service_location_tid',
-            'value' => 10421,
+            'value' => $location_id,
           ];
           // Organisation filter.
           $element3 = [
             'key' => 'service_organisation',
-            'value' => 336,
+            'value' => $org_id,
           ];
 
-          $submission_ids = $this->serviceRating->getSubmissionIds($webform_id, $element_key, $element2, $element3);
+          $submission_ids = $this->serviceRating->getSubmissionIdsForMultipleElements($webform_id, $element_key, $element2, $element3);
 
           foreach ($submission_ids as $submission_id) {
             $submission = WebformSubmission::load($submission_id);
@@ -98,9 +107,19 @@ class ServiceRatingQuestionsController extends ControllerBase {
       $average_ratings[$feedback] = $this->serviceRating->calculateAverageRating($element_values);
     }
 
-    $build = [
-      '#markup' => '<ul>',
-    ];
+    $country_ids = array_keys($this->location->getLocationEntities());
+    if (in_array($location_id, $country_ids)) {
+      $location_tid = $this->location->getLocationSingleEntityIdByTid($location_id);
+    }
+    else {
+      $location_tid = $location_id;
+    }
+    $location_name = $this->location->getTaxonomyTermById($location_tid);
+
+    $location_average = $this->serviceRating->calculateTotalAverageRating($average_ratings);
+    $output = '<h1>' . $location_name . ': ' . $location_average . '</h1>';
+
+    $output .= '<ul>';
 
     foreach ($average_ratings as $feedback => $average_rating) {
       $node = Node::load($feedback);
@@ -110,12 +129,16 @@ class ServiceRatingQuestionsController extends ControllerBase {
       else {
         $feedback_name = NULL;
       }
-      $build['#markup'] .= '<li>' . $feedback_name . ': ' . $average_rating . '</li>';
+      $output .= '<li>' . $feedback_name . ': ' . $average_rating . '</li>';
     }
 
-    $build['#markup'] .= '</ul>';
+    $output .= '</ul>';
 
-    return $build;
+    return [
+      '#title' => $this->t('Feedback Area Ratings'),
+      '#type' => 'markup',
+      '#markup' => $output,
+    ];
   }
 
 }

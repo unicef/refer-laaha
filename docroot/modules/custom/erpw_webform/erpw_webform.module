@@ -901,7 +901,7 @@ function erpw_webform_webform_submission_presave($webform_submission) {
 }
 
 /**
- * Implements hook_local_tasks_alter().
+ * Implements hook_menu_local_actions_alter().
  */
 function erpw_webform_menu_local_actions_alter(&$local_tasks) {
   // Check if the contributed module's link needs to be altered.

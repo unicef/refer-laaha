@@ -3,6 +3,9 @@
 namespace Drupal\erpw_webform\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Url;
+use Drupal\node\Entity\Node;
+use Drupal\webform\Entity\Webform;
 use Drupal\webform\Entity\WebformSubmission;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -41,6 +44,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
   public function displayAverageWebformRatings() {
     // Get all webforms.
     $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
+    $org_id = $this->serviceRating->organisationForFiltering();
 
     // Initialize an array to store webform names and their average ratings.
     $webform_ratings = [];
@@ -49,8 +53,12 @@ class ServiceRatingServiceTypeController extends ControllerBase {
     foreach ($webforms as $webform) {
       // Check if the webform's machine name matches the pattern.
       if ($webform->isOpen() && preg_match('/^webform_service_rating_\d+$/', $webform->id())) {
+        $element = [
+          'key' => 'service_organisation',
+          'value' => $org_id,
+        ];
         // Get all submissions for the webform.
-        $submission_ids = $this->serviceRating->getSubmissionIds($webform->id());
+        $submission_ids = $this->serviceRating->getSubmissionIdsForSingleElement($webform->id(), $element);
 
         // Initialize an array to store normalized element values.
         $normalized_element_values = [];
@@ -85,18 +93,37 @@ class ServiceRatingServiceTypeController extends ControllerBase {
 
         // Calculate the average rating for this webform and round to the nearest whole number.
         $average_rating = round($this->serviceRating->calculateAverageRating($normalized_element_values));
-        $webform_ratings[$webform->label()] = $average_rating;
+        $webform_ratings[$webform->id()] = $average_rating;
       }
     }
 
     // Create an HTML list for displaying the webform ratings.
-    $output = '<ul>';
-    foreach ($webform_ratings as $webform_name => $average_rating) {
-      $output .= '<li>' . $webform_name . ': ' . $average_rating . '</li>';
+    $node = Node::load($org_id);
+    if ($node) {
+      $organisation_name = $node->getTitle();
+    }
+    else {
+      $organisation_name = $this->t('Invalid Organisation');
+    }
+    $organisational_average = $this->serviceRating->calculateTotalAverageRating($webform_ratings);
+    $output = '<h1>' . $organisation_name . ': ' . $organisational_average . '</h1>';
+    $output .= '<ul>';
+    foreach ($webform_ratings as $webform_id => $average_rating) {
+      $webform = Webform::load($webform_id);
+      $webform_name = str_replace('Service Rating ', '', $webform->label());
+      $url = Url::fromRoute('erpw_webform.questions.calculate_average_location_rating', ['webform_id' => $webform_id]);
+      $href = $url->toString();
+
+      // Create the anchor element with the webform name as the text and the generated URL.
+      $anchor = '<a href="' . $href . '">' . $webform_name . '</a>';
+
+      $output .= '<li>' . $anchor . ': ' . $average_rating . '</li>';
     }
     $output .= '</ul';
 
     return [
+      '#title' => $this->t('Service Ratings'),
+      '#type' => 'markup',
       '#markup' => $output,
     ];
   }
