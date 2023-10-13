@@ -781,6 +781,60 @@ span[contenteditable="true"] {
 .offline-service-forms-list .service-type-org {
   cursor: pointer;
 }
+.user-logged-in .offline-add-form-dialog-box {
+  width: 90vw !important;
+}
+.user-logged-in .offline-add-form-dialog-box .ui-dialog-buttonset {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+.user-logged-in .offline-add-form-dialog-box .ui-dialog-buttonset button {
+  width: 40%;
+}
+.offline-form-container .js-form-item {
+  margin: 30px 15px;
+}
+.offline-form-container .js-form-item label {
+  text-align: left;
+  display: block;
+}
+.js-form-item .offline-checkboxes {
+  margin-bottom: 0px;
+  padding: 5px 0;
+}
+.js-form-item .offline-checkboxes input {
+  margin-right: 2px;
+}
+.js-form-item .offline-checkboxes label {
+  color: #a85766;
+  font-size: 14px;
+}
+.js-form-item .offline-radios {
+  margin-bottom: 0px;
+  padding: 5px 0;
+}
+.js-form-item .offline-radios input {
+  margin-right: 2px;
+}
+.js-form-item .offline-radios label {
+  color: #a85766;
+  font-size: 14px;
+}
+.offline-form-container fieldset.js-form-item {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  background: whitesmoke;
+  border-radius: 10px;
+}
+.offline-form-container fieldset label {
+  font-weight: bold;
+  font-size: 16px;
+}
+.offline-form-container fieldset legend span {
+  font-weight: bold;
+  font-size: 16px;
+}
 @media only screen and (min-width: 1024px) {
   .webform-submission-form .table-format .webform-mapping-table {
     width: 50%;
