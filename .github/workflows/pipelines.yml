@@ -46,6 +46,8 @@ jobs:
       - name: Run phplint with Drupal coding standards.
         run: > 
            ./vendor/bin/phplint 
+      - name: Remove acquia known host entry
+        run: ssh-keygen -f "/home/runner/.ssh/known_hosts" -R "svn-5468.devcloud.hosting.acquia.com"
       - name: Install SSH key for accessing Acquia Repository
         uses: shimataro/ssh-key-action@v2
         with:
