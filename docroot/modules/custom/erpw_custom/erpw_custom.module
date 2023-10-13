@@ -1394,7 +1394,8 @@ function erpw_view_results_own_country_permissions($query, $condition_field, $pe
     if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
       $locations = $current_user->get('field_location')->getValue();
       foreach ($locations as $location) {
-        $ptids += \Drupal::service('erpw_location.location_services')->getChildrenByParent($location['target_id']);
+        $result = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location['target_id']);
+        $ptids = array_merge($ptids, $result);
       }
     }
     foreach ($query->where as &$condition_group) {
