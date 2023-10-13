@@ -840,17 +840,20 @@ function erpw_webform_webform_submission_presave($webform_submission) {
         \Drupal::logger('erpw_webform__edit')->notice('The node %title of type Webform Submission Approved has been deleted, as its approval workflow is complete.', [
           '%title' => $node->getTitle(),
         ]);
-        $webform_submission->setData($values);
       }
       \Drupal::entityTypeManager()->getStorage('node')->resetCache([$node->id()]);
     }
-    // Case where the Service is directly deleted by the GBV Coordination.
+    // Case where the Service is directly actioned on by the GBV Coordination.
     else {
       if ($current_transition == 'approve_deletion' || $values['erpw_workflow']['workflow_state'] == 'deleted') {
         \Drupal::logger('erpw_webform__deletion')->notice('The Webform Submission of id %sid has been deleted. Since this submission has passed through the Deletion Workflow.', [
           '%sid' => $webform_submission_id,
         ]);
         $webform_submission->delete();
+      }
+      // Publish Edits.
+      else {
+        $webform_submission->setData($values);
       }
     }
   }
