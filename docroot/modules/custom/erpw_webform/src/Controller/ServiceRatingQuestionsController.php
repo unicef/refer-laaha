@@ -6,11 +6,42 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\node\Entity\Node;
 use Drupal\webform\Entity\WebformSubmission;
 use Drupal\webform\Entity\Webform;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Calulate and display the averages grouped by questions of the Feedback form
+ */
 class ServiceRatingQuestionsController extends ControllerBase {
 
+  /**
+   * The RouteMatch service.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
+
+  /**
+   * The Service Rating Service.
+   *
+   * @var \Drupal\erpw_webform\ServiceRatingService
+   */
+  protected $serviceRating;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+    $instance->routeMatch = $container->get('current_route_match');
+    $instance->serviceRating = $container->get('erpw_webform.service_rating_service');
+    return $instance;
+  }
+
+  /**
+   * Function to calulate and display the averages grouped by questions of the Feedback form.
+   */
   public function displayAverageRatings() {
-    // Replace 'your_webform_id' with the actual webform ID.
+    // Replace the 'webform_id' with the actual webform ID.
     $webform_id = 'webform_service_rating_301';
     $webform = Webform::load($webform_id);
     $elements = $webform->getElementsDecodedAndFlattened();
@@ -24,8 +55,18 @@ class ServiceRatingQuestionsController extends ControllerBase {
 
           // Initialize an array to store element values for this feedback.
           $normalized_element_values = [];
+          // Location filter.
+          $element2 = [
+            'key' => 'service_location_tid',
+            'value' => 10421,
+          ];
+          // Organisation filter.
+          $element3 = [
+            'key' => 'service_organisation',
+            'value' => 336,
+          ];
 
-          $submission_ids = $this->getSubmissionIds($webform_id, $element_key);
+          $submission_ids = $this->serviceRating->getSubmissionIds($webform_id, $element_key, $element2, $element3);
 
           foreach ($submission_ids as $submission_id) {
             $submission = WebformSubmission::load($submission_id);
@@ -33,7 +74,7 @@ class ServiceRatingQuestionsController extends ControllerBase {
 
             if (is_numeric($element_value)) {
               // Normalize the rating to the range of 1 to 5.
-              $normalized_rating = $this->normalizeRating($element_value, $element['#options']);
+              $normalized_rating = $this->serviceRating->normalizeRating($element_value, $element['#options']);
               $normalized_element_values[] = $normalized_rating;
             }
           }
@@ -43,7 +84,7 @@ class ServiceRatingQuestionsController extends ControllerBase {
             $feedback_normalized_values[$element_feedback][] = $normalized_element_values;
           }
         }
-      } 
+      }
       else {
         continue;
       }
@@ -54,7 +95,7 @@ class ServiceRatingQuestionsController extends ControllerBase {
 
     // Calculate the average rating for each feedback group.
     foreach ($feedback_normalized_values as $feedback => $element_values) {
-      $average_ratings[$feedback] = $this->calculateAverageRating($element_values);
+      $average_ratings[$feedback] = $this->serviceRating->calculateAverageRating($element_values);
     }
 
     $build = [
@@ -65,7 +106,7 @@ class ServiceRatingQuestionsController extends ControllerBase {
       $node = Node::load($feedback);
       if ($node) {
         $feedback_name = $node->getTitle();
-      } 
+      }
       else {
         $feedback_name = NULL;
       }
@@ -76,47 +117,5 @@ class ServiceRatingQuestionsController extends ControllerBase {
 
     return $build;
   }
-
-  private function getSubmissionIds($webform_id, $element_key) {
-    // Get the database connection.
-    $database = \Drupal::database();
-
-    // Use the "query" method to build the database query.
-    $query = $database->select('webform_submission_data', 'wsd')
-      ->fields('wsd', ['sid'])
-      ->condition('wsd.webform_id', $webform_id)
-      ->condition('wsd.name', $element_key, '=')
-      ->condition('wsd.value', NULL, 'IS NOT NULL');
-
-    // Execute the query and fetch the result.
-    $result = $query->execute();
-
-    // Initialize an array to store submission IDs.
-    $submission_ids = [];
-
-    foreach ($result as $row) {
-      $submission_ids[] = $row->sid;
-    }
-
-    return $submission_ids;
-  }
-
-  private function normalizeRating($value, $options) {
-    $max_value = count($options);
-    return (($value - 1) / ($max_value - 1)) * 4 + 1;
-  }
-
-  private function calculateAverageRating($normalized_element_values) {
-    $flattened_values = array_merge(...$normalized_element_values);
-    $average_rating = 0;
-
-    if (!empty($flattened_values)) {
-      // Calculate the average rating and round it to one decimal point.
-      $average_rating = round(array_sum($flattened_values) / count($flattened_values), 1);
-    }
-
-    return $average_rating;
-  }
-
 
 }

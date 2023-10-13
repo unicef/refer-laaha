@@ -101,8 +101,22 @@ erpw_webform.webform.feedback_form:
       servicesid:
         type: entity:webform_submission
 
-erpw_webform.questions.calculate_average_rating:
-  path: '/calculate-average-rating'
+erpw_webform.questions.calculate_average_service_type_rating:
+  path: '/ratings-by-service-type'
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\ServiceRatingServiceTypeController::displayAverageWebformRatings'
+  requirements:
+    _permission: 'access content'
+
+erpw_webform.questions.calculate_average_location_rating:
+  path: '/ratings-by-locations'
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\ServiceRatingLocationController::displayServiceLocationAverages'
+  requirements:
+    _permission: 'access content'
+
+erpw_webform.questions.calculate_average_questions_rating:
+  path: '/ratings-by-feedback-area'
   defaults:
     _controller: '\Drupal\erpw_webform\Controller\ServiceRatingQuestionsController::displayAverageRatings'
   requirements:

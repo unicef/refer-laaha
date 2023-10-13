@@ -99,6 +99,9 @@ function erpw_webform_preprocess_html(&$variables) {
       }
     }
   }
+  if ($currentRoute == 'erpw_webform.webform.feedback_form') {
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_service_rating';
+  }
   if ($offlinePath == '/service-providers-changes-offline') {
     $variables['attributes']['class'][] = 'offline-service-changes-page';
   }
@@ -285,6 +288,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     }
     $form['elements']['step_1_add_service_details']['organisation']['#options'] = $options;
   }
+
   if ($form_id == 'views_exposed_form') {
     // Generate the action path for the view form.
     $action_path = Url::fromRoute('<current>')->toString();
@@ -782,8 +786,12 @@ function erpw_webform_webform_submission_presave($webform_submission) {
   $values = $webform_submission->getData();
   // Service Rating Form Category.
   if (preg_match('/^webform_service_rating_\d+$/', $webformID)) {
-    $servicesid = \Drupal::service('current_route_match')->getParameter('servicesid');
-    $values['service_submission_id'] = $servicesid->id() . ',' . $servicesid->get('webform_id')->getValue()[0]['target_id'];
+    // Collect filtering information from service.
+    $service = \Drupal::service('current_route_match')->getParameter('servicesid');
+    $service_data = $service->getData();
+    $values['service_submission_id'] = $service->id();
+    $values['service_location_tid'] = $service_data['location']['location_tid'];
+    $values['service_organisation'] = $service_data['organisation'];
     $webform_submission->setData($values);
   }
   // eRPW (Services) Category.

@@ -184,7 +184,23 @@ class ServiceRatingService {
         '#title' => 'Service Submission ID',
         '#feedback_area' => $form_state->getValue('feedback_area'),
         '#attributes' => [
-          'class' => ['service-submission-id-rating'],
+          'class' => ['service-info-rating'],
+        ],
+      ];
+      $elements['service_location_tid'] = [
+        '#type' => 'textfield',
+        '#title' => 'Location of Service',
+        '#feedback_area' => $form_state->getValue('feedback_area'),
+        '#attributes' => [
+          'class' => ['service-info-rating'],
+        ],
+      ];
+      $elements['service_organisation'] = [
+        '#type' => 'textfield',
+        '#title' => 'Organisation of Service',
+        '#feedback_area' => $form_state->getValue('feedback_area'),
+        '#attributes' => [
+          'class' => ['service-info-rating'],
         ],
       ];
     }
@@ -338,6 +354,100 @@ class ServiceRatingService {
     }
 
     return $valid_option_count;
+  }
+
+  /**
+   * Retrieves submission IDs based on webform ID and two element-key-value pairs.
+   *
+   * @param int $webform_id
+   *   The ID of the webform.
+   * @param string $element1
+   *   The name of the first webform element. (optional)
+   * @param array $element2
+   *   An associative array containing the element key and value for the second element.
+   *   - 'key': The name of the webform element.
+   *   - 'value': The value to match for the second element.
+   * @param array $element3
+   *   An associative array containing the element key and value for the third element.
+   *   - 'key': The name of the webform element.
+   *   - 'value': The value to match for the third element.
+   *
+   * @return array
+   *   An array of submission IDs that match both element-key-value pairs.
+   */
+  public function getSubmissionIds($webform_id, $element1 = NULL, $element2 = NULL, $element3 = NULL) {
+    $database = \Drupal::database();
+
+    $query = $database->select('webform_submission_data', 'wsd1');
+    $query->fields('wsd1', ['sid']);
+    $query->condition('wsd1.webform_id', $webform_id);
+
+    if ($element1) {
+      $query->condition('wsd1.name', $element1, '=');
+      $query->condition('wsd1.value', NULL, 'IS NOT NULL');
+    }
+
+    if ($element2) {
+      $query->join('webform_submission_data', 'wsd2', 'wsd1.sid = wsd2.sid');
+      $query->condition('wsd2.name', $element2['key'], '=');
+      $query->condition('wsd2.value', $element2['value'], '=');
+      $query->condition('wsd2.value', NULL, 'IS NOT NULL');
+    }
+
+    if ($element3) {
+      $query->join('webform_submission_data', 'wsd3', 'wsd1.sid = wsd3.sid');
+      $query->condition('wsd3.name', $element3['key'], '=');
+      $query->condition('wsd3.value', $element3['value'], '=');
+      $query->condition('wsd3.value', NULL, 'IS NOT NULL');
+    }
+
+    $query->groupBy('wsd1.sid');
+
+    $result = $query->execute();
+    $submission_ids = [];
+
+    foreach ($result as $row) {
+      $submission_ids[] = $row->sid;
+    }
+
+    return $submission_ids;
+  }
+
+  /**
+   * Normalizes a rating value based on the provided options.
+   *
+   * @param int $value
+   *   The rating value to be normalized.
+   * @param array $options
+   *   An array of rating options.
+   *
+   * @return float
+   *   The normalized rating value.
+   */
+  public function normalizeRating($value, $options) {
+    $max_value = count($options);
+    return (($value - 1) / ($max_value - 1)) * 4 + 1;
+  }
+
+  /**
+   * Calculates the average rating from normalized element values.
+   *
+   * @param array $normalized_element_values
+   *   An array of normalized rating values.
+   *
+   * @return float
+   *   The average rating, rounded to one decimal point.
+   */
+  public function calculateAverageRating($normalized_element_values) {
+    $flattened_values = array_merge(...$normalized_element_values);
+    $average_rating = 0;
+
+    if (!empty($flattened_values)) {
+      // Calculate the average rating and round it to one decimal point.
+      $average_rating = round(array_sum($flattened_values) / count($flattened_values), 0);
+    }
+
+    return $average_rating;
   }
 
 }
