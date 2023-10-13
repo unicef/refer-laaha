@@ -3299,4 +3299,90 @@ body.path-user {
     width: 25%;
   }
 }
+
+[class*=webform-submission-webform-service-rating-] {
+  padding: 10px;
+}
+[class*=webform-submission-webform-service-rating-] .form-item-service-submission-id {
+  display: none;
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper legend {
+  margin: 18px 0;
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper legend .fieldset-legend {
+  color: #A85766;
+  font-family: Roboto;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px;
+  /* 122.222% */
+  letter-spacing: 0.18px;
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal !important;
+  -webkit-box-direction: normal !important;
+      -ms-flex-direction: row !important;
+          flex-direction: row !important;
+  gap: 18px;
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] {
+  border: none;
+  margin-right: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  width: 48px;
+  height: 58px;
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] input[type=radio] {
+  position: absolute;
+  opacity: 0;
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] input[type=radio]:checked + label, [class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .service-provider-class [id^=edit-field-transportation-available-wrapper] input[type=radio]:checked + .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] [class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] input[type=radio]:checked + .fieldset-legend,
+[class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] input[type=radio]:checked + .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] [class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] input[type=radio]:checked + .fieldset-legend {
+  background-color: #A85766;
+  color: #fff;
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] label, [class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend, .service-provider-class [id^=edit-field-transportation-available-wrapper] [class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .fieldset-legend,
+[class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend,
+.service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] [class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .fieldset-legend {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 1px solid #C9C9C9;
+  border-radius: 14px;
+  color: #000;
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .description {
+  display: none;
+}
 /*# sourceMappingURL=style.css.map */
