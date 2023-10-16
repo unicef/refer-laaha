@@ -435,8 +435,18 @@ function erpw_webform_views_data_alter(array &$data) {
     'field' => [
       'id' => 'webform_submission_service_rating_status_field',
       'entity type' => 'webform',
-      'label' => t('Service Rarting Form Status'),
+      'label' => t('Service Rating Form Status'),
       'real field' => 'webform_submission_service_rating_status_field',
+    ],
+  ];
+  $data['webform_submission']['webform_submission_service_rating_question_count_field'] = [
+    'title' => t('Webform Submission Service Rating Question Count field.'),
+    'help' => t("Generic field for displaying the count of feedback question of a service."),
+    'field' => [
+      'id' => 'webform_submission_service_rating_question_count_field',
+      'entity type' => 'webform',
+      'label' => t('Feedback questions count of a service.'),
+      'real field' => 'webform_submission_service_rating_question_count_field',
     ],
   ];
   $data['webform_submission']['webform_submission_location_field'] = [

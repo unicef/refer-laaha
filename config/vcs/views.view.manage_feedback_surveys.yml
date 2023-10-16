@@ -86,6 +86,56 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        webform_submission_service_rating_question_count_field:
+          id: webform_submission_service_rating_question_count_field
+          table: webform_submission
+          field: webform_submission_service_rating_question_count_field
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          plugin_id: webform_submission_service_rating_question_count_field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
         webform_submission_service_rating_status_field:
           id: webform_submission_service_rating_status_field
           table: webform_submission
@@ -381,6 +431,7 @@ display:
           replica: false
           query_tags: {  }
       relationships: {  }
+      css_class: feedback-area-list
       header:
         area:
           id: area
@@ -393,7 +444,7 @@ display:
           empty: true
           content:
             value: '<div class="new-service-type button-with-icon"><a href="{{ path(''erpw_webform.add_rating_question'') }}">{{ ''Add Feedback Form''|t }}</a></div>'
-            format: basic_html
+            format: full_html
           tokenize: true
       footer: {  }
       display_extenders: {  }
@@ -411,7 +462,8 @@ display:
     display_plugin: page
     position: 1
     display_options:
-      display_extenders: {  }
+      display_extenders:
+        library_in_views_display_extender: {  }
       path: manage-feedback-surveys
     cache_metadata:
       max-age: -1
