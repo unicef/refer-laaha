@@ -429,6 +429,16 @@ function erpw_webform_views_data_alter(array &$data) {
       'real field' => 'webform_submission_mode_field',
     ],
   ];
+  $data['webform_submission']['webform_submission_service_rating_status_field'] = [
+    'title' => t('Webform Submission Service Rating Status field.'),
+    'help' => t("Generic field for displaying the status of the service's feedback form."),
+    'field' => [
+      'id' => 'webform_submission_service_rating_status_field',
+      'entity type' => 'webform',
+      'label' => t('Service Rarting Form Status'),
+      'real field' => 'webform_submission_service_rating_status_field',
+    ],
+  ];
   $data['webform_submission']['webform_submission_location_field'] = [
     'title' => t('Webform Submission location field.'),
     'help' => t('Generic field for displaying location for all submissions.'),
@@ -475,6 +485,15 @@ function erpw_webform_views_data_alter(array &$data) {
       'help' => t('Provides a custom filter for organisation.'),
       'field' => 'webform_submission_organisation_field',
       'id' => 'webform_submission_organisation_filter',
+    ],
+  ];
+  $data['webform_submission']['webform_submission_service_rating_filter'] = [
+    'title' => t('Webform Submission Service Rating Form Filter'),
+    'filter' => [
+      'title' => t('Webform Submission Service Rating Form Filter'),
+      'help' => t('Provides a custom filter for service rating form.'),
+      // 'field' => 'webform_submission_organisation_field',
+      'id' => 'webform_submission_service_rating_filter',
     ],
   ];
   return $data;
@@ -767,7 +786,6 @@ function erpw_webform_preprocess_page_title(&$variables) {
       '@title' => t('Service Forms Configuration'),
     ]);
   }
-
 }
 
 /**
