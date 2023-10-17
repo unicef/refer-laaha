@@ -3385,4 +3385,81 @@ body.path-user {
 [class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .description {
   display: none;
 }
+
+.view-manage-feedback-surveys .view-content .views-row {
+  padding: 16px;
+}
+.view-manage-feedback-surveys .view-content .views-row .views-field-webform-id {
+  padding-bottom: 8px;
+  border-bottom: 1px solid #D7D7D7;
+}
+.view-manage-feedback-surveys .view-content .views-row .views-field-webform-id .field-content a {
+  text-decoration: none;
+  color: #444;
+  font-family: Roboto;
+  font-style: normal;
+  line-height: 28px;
+  /* 233.333% */
+  font-size: 15px;
+  font-weight: 700;
+}
+.view-manage-feedback-surveys .view-content .views-row .views-field-webform-submission-service-rating-question-count-field {
+  padding-top: 8px;
+}
+.view-manage-feedback-surveys .view-content .views-row .views-field-webform-submission-service-rating-question-count-field .field-content .service-rating-feedback-question-count {
+  color: #444;
+  font-family: Roboto;
+  font-style: normal;
+  line-height: 28px;
+  /* 233.333% */
+  font-size: 12px;
+  font-weight: 400;
+}
+.view-manage-feedback-surveys .view-content .views-row .views-field-webform-submission-service-rating-question-count-field .field-content .service-rating-feedback-question-count span {
+  font-weight: 700;
+}
+.view-manage-feedback-surveys .view-content .views-row .views-field-nothing {
+  border-top: 1px solid #D7D7D7;
+}
+.view-manage-feedback-surveys .view-content .views-row .views-field-nothing .field-content .edit-delete-links {
+  margin-top: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.view-manage-feedback-surveys .view-content .views-row .views-field-nothing .field-content .edit-delete-links .service-rating-status {
+  margin-top: 5px;
+}
+.view-manage-feedback-surveys .view-content .views-row .views-field-nothing .field-content .edit-delete-links .service-rating-status.Published {
+  background: #E6F2D9;
+  padding: 6px;
+  border-radius: 10px;
+  color: #00833D;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px;
+  /* 85.714% */
+  text-transform: uppercase;
+}
+.view-manage-feedback-surveys .view-content .views-row .views-field-nothing .field-content .edit-delete-links .service-rating-status.Draft {
+  background: #FFF8E2;
+  padding: 6px;
+  border-radius: 10px;
+  color: #F26A21;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px;
+  /* 85.714% */
+  text-transform: uppercase;
+}
 /*# sourceMappingURL=style.css.map */

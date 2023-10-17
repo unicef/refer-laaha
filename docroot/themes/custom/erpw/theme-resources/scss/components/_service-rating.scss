@@ -67,3 +67,62 @@
         } 
     }
 }
+
+// Manage Feedbacks Surveys Page - (/manage-feedback-surveys)
+.view-manage-feedback-surveys {
+    .view-content {
+        .views-row {
+            padding: 16px; 
+            .views-field-webform-id {
+                padding-bottom: 8px;    
+                border-bottom: 1px solid #D7D7D7;
+                .field-content {
+                    a {
+                        text-decoration: none;
+                        @include feedback-survey-fonts;
+                        font-size: 15px;
+                        font-weight: 700;
+                    }
+                }
+            }
+            .views-field-webform-submission-service-rating-question-count-field {
+                padding-top: 8px;
+                .field-content .service-rating-feedback-question-count {
+                    @include feedback-survey-fonts;
+                    font-size: 12px;
+                    font-weight: 400;
+                    span {
+                        font-weight: 700;
+                    }
+                }
+            }
+            .views-field-nothing {
+                border-top: 1px solid #D7D7D7;
+                .field-content .edit-delete-links {
+                    margin-top: 8px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .service-rating-status {
+                        margin-top: 5px;
+                    }
+                    .service-rating-status.Published {
+                        background: #E6F2D9;
+                        padding: 6px;
+                        border-radius: 10px;
+                        color: #00833D;
+                        @include feedback-survey-status-fonts;
+                    }
+                    .service-rating-status.Draft {
+                        background: #FFF8E2;
+                        padding: 6px;
+                        border-radius: 10px;
+                        color: #F26A21;
+                        @include feedback-survey-status-fonts;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -4,3 +4,19 @@
 	-ms-border-radius: $radius;
 	border-radius: $radius;
 }
+
+@mixin feedback-survey-fonts {
+	color: #444;
+	font-family: Roboto;
+	font-style: normal;
+	line-height: 28px; /* 233.333% */
+}
+
+@mixin feedback-survey-status-fonts {
+	font-family: Roboto;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 12px; /* 85.714% */
+	text-transform: uppercase;
+}
