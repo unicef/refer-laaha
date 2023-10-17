@@ -295,7 +295,18 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     // Set the generated action path as the form's action attribute.
     $form['#action'] = $action_path;
   }
+
+  if (str_contains($form_id, "webform_submission_webform_service_rating_")) {
+    $form['actions']['submit']['#submit'][] = "erpw_webform_service_rating_submit_handler";
+  }
 }
+
+function erpw_webform_service_rating_submit_handler(&$form, FormStateInterface $form_state) {
+  \Drupal::service('messenger')->addMessage("Feedback saved!");
+  $form_state->setRedirect('view.manage_webform_services.page_1');
+  return;
+}
+
 
 /**
  * Implements hook_form_views_exposed_form_alter().
