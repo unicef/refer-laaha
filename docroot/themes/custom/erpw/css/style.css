@@ -3468,7 +3468,34 @@ body.path-user {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  gap: 25px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 8px;
   padding: 0;
+}
+#block-erpw-local-actions .service-rating-action-links ul li .add-new-question {
+  border: 1px solid #A85766;
+  border-radius: 8px;
+  padding: 10px 37px;
+  background: #FFFFFF;
+  color: #A85766;
+  font-weight: 500;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 32px;
+}
+#block-erpw-local-actions .service-rating-action-links ul li #service-rating-form-publish-btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 2px 37px;
+  background: #A85766;
+  color: #FFFFFF;
+  font-weight: 500;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 32px;
 }
 /*# sourceMappingURL=style.css.map */
