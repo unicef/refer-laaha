@@ -1,11 +1,18 @@
 (function ($, Drupal, drupalSettings, localforage) {
   var currentUserId = drupalSettings.user.uid;
   var appendOnce = true;
+  var counter = 0;
   localforage.config({
     driver: localforage.INDEXEDDB,
     name: "serviceFormsData",
     version: 1.0,
     storeName: "serviceFormsData",
+  });
+  localforageUserServiceCreated = localforage.createInstance({
+    driver: localforage.INDEXEDDB,
+    name: "userServiceCreated".concat(currentUserId),
+    version: 1.0,
+    storeName: "userServiceCreated".concat(currentUserId),
   });
   $(".new-service-type a").on("click", function (event) {
     if (!navigator.onLine) {
@@ -60,6 +67,7 @@
     var form = document.createElement("form");
     form.classList.add("webform-submission-form");
     form.classList.add("webform-submission-add-form");
+    form.classList.add("webform-submission-add-form-offline");
     localforage.getItem(event[0].dataset.key).then(function (formData) {
       for (let fieldKey in formData) {
         if (fieldKey == "elementsFlattened") {
@@ -96,7 +104,7 @@
                 var input = document.createElement("input");
                 input.type =
                   element["#type"] == "textfield" ? "text" : element["#type"];
-                input.class = "form".concat(element["#type"]);
+                input.className = "offline-input-field";
                 input.name = elementKey;
                 input.placeholder = Drupal.t("Enter ").concat(
                   Drupal.t(element["#title"])
@@ -239,15 +247,13 @@
                 // Create a temporary container element.
                 const containerLocation = document.createElement("div");
 
-                // Set the innerHTML of the container to your HTML string.
                 containerLocation.innerHTML = `<fieldset
                   data-drupal-selector="edit-location"
-                  data-msg-required="Location field is required."
                   id="edit-location--wrapper"
-                  class="location-list-element--wrapper fieldgroup form-composite webform-composite-hidden-title required js-webform-type-location-list-element webform-type-location-list-element js-form-item form-item js-form-wrapper form-wrapper"
+                  class="location-list-element--wrapper fieldgroup form-composite webform-composite-hidden-title js-webform-type-location-list-element webform-type-location-list-element js-form-item form-item js-form-wrapper form-wrapper"
                 >
                   <legend>
-                    <span class="visually-hidden fieldset-legend js-form-required form-required"
+                    <span class="visually-hidden fieldset-legend"
                       >Location</span
                     >
                   </legend>
@@ -257,18 +263,15 @@
                     >
                       <label
                         for="edit-location-location-options"
-                        class="js-form-required form-required"
+                        class=""
                         >Select Country</label
                       >
 
                       <select
-                        class="location_options form-select required"
+                        class="location_options form-select"
                         data-drupal-selector="edit-location-location-options"
-                        data-msg-required="Select Country field is required."
                         id="edit-location-location-options"
                         name="location[location_options]"
-                        required="required"
-                        aria-required="true"
                         tabindex="-1"
                         aria-hidden="true"
                       >
@@ -548,6 +551,136 @@
               class: "offline-add-form-submit",
               click: function () {
                 // Handle form submission here
+                // Get the form element
+                var form = document.querySelector(
+                  ".webform-submission-add-form-offline"
+                );
+                // Create an object to store the mapping
+                var contentEditableData = {};
+                // Find all elements of input within the form
+                const inputFields = form.querySelectorAll(
+                  ".offline-input-field"
+                );
+                // Loop through the found input elements
+                inputFields.forEach(function (input) {
+                  // Get the label text
+                  var label = input.parentElement
+                    .querySelector(".label")
+                    .textContent.trim();
+                  if (input.value.trim()) {
+                    contentEditableData[label] = input.value.trim();
+                  }
+                });
+
+                // Find all elements with checkboxes within the form
+                const checkboxFields = form.querySelectorAll(
+                  ".offline-checkbox-list-wrapper"
+                );
+
+                checkboxFields.forEach(function (input) {
+                  // Initialize an empty array to store checked values
+                  var checkboxCheckedValues = [];
+                  // Get the label text
+                  var label = input.parentElement
+                    .querySelector(".label")
+                    .textContent.trim();
+                  // Loop through the child nodes of the wrapper
+                  input.childNodes.forEach(function (child) {
+                    var checkbox = child.querySelector(
+                      'input[type="checkbox"]'
+                    );
+                    if (checkbox.checked) {
+                      // Get the value of the checked checkbox
+                      var value = child.querySelector("label").textContent;
+                      checkboxCheckedValues.push(value);
+                    }
+                  });
+                  if (checkboxCheckedValues.length !== 0) {
+                    // Add the label and checked values to the pairObject
+                    contentEditableData[label] = checkboxCheckedValues;
+                  }
+                });
+                // Find all elements of radio within the form
+                const radioFields = form.querySelectorAll(
+                  ".offline-radio-list-wrapper"
+                );
+                radioFields.forEach(function (input) {
+                  // Initialize an empty array to store checked values
+                  var radiocheckedValues = "";
+                  // Get the label text
+                  var label = input.parentElement
+                    .querySelector(".label")
+                    .textContent.trim();
+                  // Loop through the child nodes of the wrapper
+                  input.childNodes.forEach(function (child) {
+                    var radio = child.querySelector('input[type="radio"]');
+                    if (radio) {
+                      if (radio.checked) {
+                        // Get the value of the checked checkbox
+                        var value = child.querySelector("label").textContent;
+                        radiocheckedValues = radiocheckedValues.concat(value);
+                      }
+                    }
+                  });
+                  if (radiocheckedValues !== "") {
+                    // Add the label and checked values to the pairObject
+                    contentEditableData[label] = radiocheckedValues;
+                  }
+                });
+                const selectListFields = form.querySelectorAll(
+                  ".offline-select-list-wrapper"
+                );
+
+                // Loop through the select list wrappers.
+                selectListFields.forEach(function (selectListWrapper) {
+                  // Get the label text
+                  var label = selectListWrapper.parentElement
+                    .querySelector(".label")
+                    .textContent.trim();
+
+                  const selectedOption = selectListWrapper.value;
+
+                  if (selectedOption !== "") {
+                    // Add the label and checked values to the pairObject
+                    contentEditableData[label] = selectedOption;
+                  }
+                });
+
+                // Loop through the location list select lists.
+                $(".location-list-element--wrapper").each(function () {
+                  var location = [];
+                  $(this)
+                    .find("select")
+                    .each(function () {
+                      if (this.value !== "0" && this.value !== "") {
+                        if (this.classList.contains("location_options")) {
+                          location["location_options"] = this.value;
+                        } else if (this.classList.contains("level_1")) {
+                          location["level_1"] = this.value;
+                        } else if (this.classList.contains("level_2")) {
+                          location["level_2"] = this.value;
+                        } else if (this.classList.contains("level_3")) {
+                          location["level_3"] = this.value;
+                        } else if (this.classList.contains("level_4")) {
+                          location["level_4"] = this.value;
+                        }
+                      }
+                    });
+                  // Add the label and checked values to the pairObject
+                  contentEditableData["location"] = location;
+                });
+                localforageUserServiceCreated
+                  .setItem(
+                    event[0].textContent.concat(counter),
+                    contentEditableData
+                  )
+                  .then(() => {
+                    counter += 1;
+                    console.log(`Data for new entry added.`);
+                  })
+                  .catch((error) =>
+                    console.error(`Error updating data for new entry`, error)
+                  );
                 // After submitting, close the dialog
                 $(this).dialog("close");
               },

@@ -24,6 +24,13 @@
             version: 1.0,
             storeName: "userServiceChanges".concat(currentUserId),
           });
+
+          localforageUserServiceCreated = localforage.createInstance({
+            driver: localforage.INDEXEDDB,
+            name: "userServiceCreated".concat(currentUserId),
+            version: 1.0,
+            storeName: "userServiceCreated".concat(currentUserId),
+          });
           // Check if localforageUserServiceChanges has any key-value pairs
           localforageUserServiceChanges
             .length()
