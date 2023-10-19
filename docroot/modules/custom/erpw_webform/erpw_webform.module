@@ -795,8 +795,8 @@ function erpw_webform_webform_submission_presave($webform_submission) {
     $values['submission_domain'] = $domain;
     $values['service_type'] = $arr[0];
   }
-
-  $service_type = \Drupal::entityTypeManager()->getStorage('node')->load($values['service_type'])->getTitle();
+  $service_type_node = \Drupal::entityTypeManager()->getStorage('node')->load($values['service_type']);
+  $service_type = $service_type_node->getTitle();
   $webform_submission_id = $webform_submission->id();
   $current_transition = $values['erpw_workflow']['transition'];
   $rejected_transitions = ['edits_rejected_by_focal_point', 'edits_rejected_by_gbv_coordination', 'deletion_rejected_by_focal_point', 'deletion_rejected_by_gbv_coordination'];
@@ -881,6 +881,7 @@ function erpw_webform_webform_submission_presave($webform_submission) {
     $webform_submission->setData($values);
   }
   $view = Views::getView('referral_pathway_on_homepage');
+  \Drupal::service('cache_tags.invalidator')->invalidateTags(['node:' . $service_type_node->id()]);
   $view->storage->invalidateCaches();
 }
 
