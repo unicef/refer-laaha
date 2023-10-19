@@ -29,12 +29,20 @@ class ServiceRatingServiceTypeController extends ControllerBase {
   protected $serviceRating;
 
   /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManager
+   */
+  protected $entityTypeManager;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
     $instance->routeMatch = $container->get('current_route_match');
     $instance->serviceRating = $container->get('erpw_webform.service_rating_service');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
     return $instance;
   }
 
@@ -106,20 +114,36 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       $organisation_name = $this->t('Invalid Organisation');
     }
     $organisational_average = $this->serviceRating->calculateTotalAverageRating($webform_ratings);
-    $output = '<h1>' . $organisation_name . ': ' . $organisational_average . '</h1>';
-    $output .= '<ul>';
+    $output = '<div class="service-ratings-location-header">';
+    $output .= '<h1>' . $organisation_name . '</h1>';
+    $output .= '<p>' . $organisational_average . ' Services</p>';
+    $output .= '</div>';
+    $output .= '<ul class="service-ratings-services-list">';
     foreach ($webform_ratings as $webform_id => $average_rating) {
       $webform = Webform::load($webform_id);
+      $query = $this->entityTypeManager->getStorage('webform_submission')
+      ->getQuery();
+      $query->condition('webform_id', $webform_id);
+      $submissionIds = $query->execute();
+      $totalReviews = count($submissionIds) > 1 ? count($submissionIds) . ' Reviews' : count($submissionIds) . ' Review';
       $webform_name = str_replace('Service Rating ', '', $webform->label());
       $url = Url::fromRoute('erpw_webform.questions.calculate_average_location_rating', ['webform_id' => $webform_id]);
       $href = $url->toString();
 
       // Create the anchor element with the webform name as the text and the generated URL.
       $anchor = '<a href="' . $href . '">' . $webform_name . '</a>';
-
-      $output .= '<li>' . $anchor . ': ' . $average_rating . '</li>';
+      $output .= '<li><p class="service-name">' . $anchor . '</p><p class="service-average-rating">' . $average_rating . '</p>
+        <div id="service-star-rating-'. $average_rating .'" class="star-rating">
+          <span class="star">&#9733;</span>
+          <span class="star">&#9733;</span>
+          <span class="star">&#9733;</span>
+          <span class="star">&#9733;</span>
+          <span class="star">&#9733;</span>
+        </div>
+      <p class="reviews">(' . $totalReviews . ')</a>
+      </li>';
     }
-    $output .= '</ul';
+    $output .= '</ul>';
 
     return [
       '#title' => $this->t('Service Ratings'),

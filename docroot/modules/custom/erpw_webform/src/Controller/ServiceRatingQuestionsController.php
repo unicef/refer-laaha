@@ -115,12 +115,12 @@ class ServiceRatingQuestionsController extends ControllerBase {
       $location_tid = $location_id;
     }
     $location_name = $this->location->getTaxonomyTermById($location_tid);
-
     $location_average = $this->serviceRating->calculateTotalAverageRating($average_ratings);
-    $output = '<h1>' . $location_name . ': ' . $location_average . '</h1>';
-
-    $output .= '<ul>';
-
+    $output = '<div class="service-ratings-location-header">';
+    $output .= '<h1>' . $location_name . '</h1>';
+    $output .= '<p>' . $location_average . ' Services</p>';
+    $output .= '</div>';
+    $output .= '<ul class="service-ratings-services-list">';
     foreach ($average_ratings as $feedback => $average_rating) {
       $node = Node::load($feedback);
       if ($node) {
@@ -129,7 +129,17 @@ class ServiceRatingQuestionsController extends ControllerBase {
       else {
         $feedback_name = NULL;
       }
-      $output .= '<li>' . $feedback_name . ': ' . $average_rating . '</li>';
+      // $output .= '<li>' . $feedback_name . ': ' . $average_rating . '</li>';
+
+      $output .= '<li><p class="service-name">' . $feedback_name . '</p><p class="service-average-rating">' . $average_rating . '</p>
+      <div id="service-star-rating-'. $average_rating .'" class="star-rating">
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+      </div>
+      </li>';
     }
 
     $output .= '</ul>';

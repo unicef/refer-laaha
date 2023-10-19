@@ -17,6 +17,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\views\Views;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_webform_add_form().
@@ -299,6 +300,28 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
   if (str_contains($form_id, "webform_submission_webform_service_rating_")) {
     $form['actions']['submit']['#submit'][] = "erpw_webform_service_rating_submit_handler";
   }
+
+  if (str_contains($form['#form_id'], 'webform_service_rating_')) {
+    $form['actions']['back'] = [
+      '#type' => 'submit',
+      '#value' => t('Skip'),
+      '#weight' => 0, // You can adjust the weight to control the button's position.
+      '#submit' => ['service_rating_webform_back_handler'], // Define a custom submit handler for the back button.
+    ];
+  }
+}
+
+/**
+ * Custom submit handler for the back button.
+ */
+function service_rating_webform_back_handler($form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  $requestStack = \Drupal::service('request_stack');
+  $currentRequest = $requestStack->getCurrentRequest();
+  $referrer = $currentRequest->headers->get('referer');
+  // Redirect to the previous page.
+  $response = new RedirectResponse($referrer);
+  $response->send();
+  return;
 }
 
 function erpw_webform_service_rating_submit_handler(&$form, FormStateInterface $form_state) {

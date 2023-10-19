@@ -20,6 +20,14 @@ class ShareFeedbackBlock extends BlockBase {
     public function build() {
         return [
             '#markup' => '<div class="share-feedback-block">
+                <div class="feedback-text-block">
+                    <div class="feedback-text-header">
+                        <p>' . t('Feedback Remainder') . '</p>
+                    </div>
+                    <div class="feedback-text">
+                        <p>' . t('Help Service Providers to improvise their Service Provision information with your valuable feedback. ') . '</p>
+                    </div>
+                </div>
                 <a href="/share-feedback">' . t('Share feedback') . '</a>
             </div>',
         ];

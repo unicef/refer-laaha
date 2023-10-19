@@ -5,7 +5,7 @@
             const pathName = window.location.pathname;
             const path = pathName.split('/');
             const service_rating_form_id = path[path.length - 1];
-            if (pathName.includes('admin/structure/webform/manage/webform_service_rating_') || pathName.includes('webform_service_rating_')) {
+            if (pathName.includes('admin/structure/webform/manage/webform_service_rating_')) {
                 const helpBlock = document.getElementById('block-erpw-help')
                 if (helpBlock != null) {
                     helpBlock.style.display = 'none';
@@ -79,6 +79,22 @@
                     }
                 });
             });
+
+            // Star ratings
+            const serviceRatingsList = document.getElementsByClassName('service-ratings-services-list')[0];
+            console.log(serviceRatingsList);
+            if (serviceRatingsList != null && serviceRatingsList.children != null) {
+                for (rating of serviceRatingsList.children) {
+                    const ratingValue = rating.getElementsByClassName('service-average-rating')[0]?.textContent;
+                    if (ratingValue != null) {
+                        const stars = document.getElementById(`service-star-rating-${ratingValue}`).children
+                        console.log(ratingValue, stars)
+                        for (let i = ratingValue; i < 5; i++) {
+                            stars[i].classList.add('star-empty')
+                        }                        
+                    }
+                }
+            }
         },
     };
 })(jQuery, Drupal, drupalSettings);

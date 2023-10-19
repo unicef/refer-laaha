@@ -3385,6 +3385,66 @@ body.path-user {
 [class*=webform-submission-webform-service-rating-] .form-wrapper .fieldset-wrapper .form-radios [class*=form-item-rating-question-] .description {
   display: none;
 }
+[class*=webform-submission-webform-service-rating-] .form-wrapper .rating-stage-description {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper .rating-stage-description p {
+  color: #9C9C9C;
+  -webkit-font-feature-settings: "clig" off, "liga" off;
+          font-feature-settings: "clig" off, "liga" off;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  /* 12px */
+  letter-spacing: 0.12px;
+}
+@media screen and (max-width: 768px) {
+  [class*=webform-submission-webform-service-rating-] .form-wrapper .rating-stage-description p {
+    width: 90px;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+}
+@media screen and (max-width: 768px) {
+  [class*=webform-submission-webform-service-rating-] .form-wrapper .rating-stage-description {
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+}
+[class*=webform-submission-webform-service-rating-] .form-wrapper .rating-stage-description .desc-2 {
+  text-align: right;
+}
+[class*=webform-submission-webform-service-rating-] .form-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 22px;
+}
+[class*=webform-submission-webform-service-rating-] .form-actions #edit-back {
+  border-radius: 4px;
+  border: 1px solid #A85766;
+  color: #A85766;
+  text-align: center;
+  -webkit-font-feature-settings: "clig" off, "liga" off;
+          font-feature-settings: "clig" off, "liga" off;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32px;
+  /* 228.571% */
+  letter-spacing: 0.021px;
+  background: #FFF;
+}
 
 .view-manage-feedback-surveys .view-content .views-row {
   padding: 16px;
@@ -3500,17 +3560,213 @@ body.path-user {
 }
 
 .block-share-feedback-block {
-  background: #FFF6F5;
-  text-align: center;
+  background: #F6FAFF;
   margin-top: 10px;
-  padding: 16px 0;
-  border-radius: 6px;
+  padding: 16px;
+  border-radius: 20px;
+  text-align: left;
+}
+.block-share-feedback-block .share-feedback-block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+}
+.block-share-feedback-block .share-feedback-block .feedback-text-block .feedback-text-header p {
+  color: #444;
+  font-family: Roboto;
+  font-style: normal;
+  line-height: 28px;
+  /* 233.333% */
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.block-share-feedback-block .share-feedback-block .feedback-text-block .feedback-text-header p::before {
+  content: url("../images/feedback-block-icon.svg");
+  margin-right: 8px;
+}
+.block-share-feedback-block .share-feedback-block .feedback-text-block .feedback-text p {
+  color: #444;
+  font-family: Roboto;
+  font-style: normal;
+  line-height: 28px;
+  /* 233.333% */
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 18.5px;
+  /* 168.182% */
+  letter-spacing: 0.5px;
 }
 .block-share-feedback-block .share-feedback-block a {
   border: none;
-  font-size: 1rem;
+  color: #A85766;
+  font-family: Roboto;
+  font-size: 10px;
+  /* 10px in design */
+  font-style: normal;
+  font-weight: 700;
+  line-height: 11px;
+  letter-spacing: 0.5px;
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
 }
 .block-share-feedback-block .share-feedback-block a::after {
   background: none;
+}
+
+#block-erpw-content .pair-container .value .service-feedback-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 287px;
+  padding: 6px 6px 6px 8px;
+  border: 1px solid #A85766;
+  border-radius: 4px;
+  color: #444;
+  font-family: Roboto;
+  font-style: normal;
+  line-height: 28px;
+  /* 233.333% */
+  color: #A85766;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  /* 114.286% */
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+}
+#block-erpw-content .pair-container .value .service-feedback-form::after {
+  content: url("../images/give-feedback-arrow.svg");
+  margin-top: 2px;
+}
+
+.path-ratings-by-service-type #block-erpw-content .service-ratings-location-header h1, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header h1, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header h1 {
+  margin: 0;
+  margin-bottom: 13px;
+  color: #444;
+  font-family: Roboto;
+  font-style: normal;
+  line-height: 28px;
+  /* 233.333% */
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 16px;
+  /* 80% */
+  letter-spacing: 0.4px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-location-header p, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header p, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header p {
+  color: #444;
+  font-family: Roboto;
+  font-style: normal;
+  line-height: 28px;
+  /* 233.333% */
+  color: #9C9C9C;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
+  /* 100% */
+  letter-spacing: 0.4px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list {
+  list-style: none;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 15px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li {
+  padding: 16px;
+  -webkit-box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.08);
+          box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  width: 150px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .service-name, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .service-name, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .service-name {
+  margin-bottom: 16px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .service-name a, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .service-name a, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .service-name a {
+  color: #444;
+  font-family: Roboto;
+  font-style: normal;
+  line-height: 28px;
+  /* 233.333% */
+  color: #A85766;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 100%;
+  /* 12px */
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .service-average-rating, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .service-average-rating, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .service-average-rating {
+  color: #4A4A4A;
+  -webkit-font-feature-settings: "clig" off, "liga" off;
+          font-feature-settings: "clig" off, "liga" off;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  /* 16px */
+  letter-spacing: 0.15px;
+  font-size: 16px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .service-average-rating::after, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .service-average-rating::after, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .service-average-rating::after {
+  content: "/5";
+  color: #444;
+  font-family: Roboto;
+  font-style: normal;
+  line-height: 28px;
+  /* 233.333% */
+  font-size: 12px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .star-rating .star, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .star-rating .star, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .star-rating .star {
+  color: #ffc20e;
+  font-size: 20px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .star-rating .star-empty, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .star-rating .star-empty, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .star-rating .star-empty {
+  color: #ccc;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .reviews, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .reviews, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .reviews {
+  color: #4A4A4A;
+  -webkit-font-feature-settings: "clig" off, "liga" off;
+          font-feature-settings: "clig" off, "liga" off;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  /* 16px */
+  letter-spacing: 0.15px;
+  color: #9C9C9C;
+  font-size: 12px;
+  font-weight: 400;
+}
+.path-ratings-by-service-type .dashboard .dashboard-link, .path-ratings-by-locations .dashboard .dashboard-link, .path-ratings-by-feedback-area .dashboard .dashboard-link {
+  margin-bottom: 0;
+}
+.path-ratings-by-service-type .dashboard .dashboard-link a::before, .path-ratings-by-locations .dashboard .dashboard-link a::before, .path-ratings-by-feedback-area .dashboard .dashboard-link a::before {
+  content: url("../images/group.svg");
+  height: 20px;
+}
+
+.path-ratings-by-service-type .block-share-feedback-block .share-feedback-block a {
+  display: none;
 }
 /*# sourceMappingURL=style.css.map */
