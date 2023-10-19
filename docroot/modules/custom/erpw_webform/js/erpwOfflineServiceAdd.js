@@ -68,7 +68,10 @@
     form.classList.add("webform-submission-form");
     form.classList.add("webform-submission-add-form");
     form.classList.add("webform-submission-add-form-offline");
+    var formID = event[0].dataset.key.replace(/_/g, "-");
+    var formIDTitle = "";
     localforage.getItem(event[0].dataset.key).then(function (formData) {
+      formIDTitle = formData["title"];
       for (let fieldKey in formData) {
         if (fieldKey == "elementsFlattened") {
           for (let elementKey in formData["elementsFlattened"]) {
@@ -669,6 +672,8 @@
                   // Add the label and checked values to the pairObject
                   contentEditableData["location"] = location;
                 });
+                contentEditableData["service_type"] = formID;
+                contentEditableData["service_type_title"] = formIDTitle;
                 localforageUserServiceCreated
                   .setItem(
                     event[0].textContent.concat(counter),
@@ -681,6 +686,7 @@
                   .catch((error) =>
                     console.error(`Error updating data for new entry`, error)
                   );
+                contentEditableData = {};
                 // After submitting, close the dialog
                 $(this).dialog("close");
               },
