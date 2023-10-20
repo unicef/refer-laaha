@@ -41,7 +41,7 @@ class WebformSubmissionServiceRatingQuestionCountField extends FieldPluginBase {
     public function getRatingQuestionCount(array $webform_elements) {
         $count = 0;
         foreach ($webform_elements as $element_key => $element) {
-            if (str_contains($element_key, "rating_question_")) {
+            if (str_contains($element_key, "rating_question_") || str_contains($element_key, "multiple_choice_question_")) {
                 $count++;
             }
         }

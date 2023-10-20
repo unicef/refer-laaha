@@ -3423,6 +3423,26 @@ body.path-user {
 [class*=webform-submission-webform-service-rating-] .form-wrapper .rating-stage-description .desc-2 {
   text-align: right;
 }
+[class*=webform-submission-webform-service-rating-] [id*=edit-multiple-choice-question-] .rating-stage-description {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  [class*=webform-submission-webform-service-rating-] [id*=edit-multiple-choice-question-] .fieldset-wrapper {
+    display: block;
+  }
+  [class*=webform-submission-webform-service-rating-] [id*=edit-multiple-choice-question-] .fieldset-wrapper .webform-options-display-one-column {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+        -ms-flex-direction: column !important;
+            flex-direction: column !important;
+  }
+  [class*=webform-submission-webform-service-rating-] [id*=edit-multiple-choice-question-] .fieldset-wrapper .webform-options-display-one-column [class*=form-item-multiple-choice-question-] {
+    width: auto;
+  }
+}
 [class*=webform-submission-webform-service-rating-] .form-actions {
   display: -webkit-box;
   display: -ms-flexbox;

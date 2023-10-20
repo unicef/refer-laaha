@@ -91,6 +91,24 @@
             }
         }
     }
+
+    [id*="edit-multiple-choice-question-"] {
+        .rating-stage-description {
+            display: none;
+        }
+        @media screen and (max-width: 768px) {
+            .fieldset-wrapper {
+                display: block;
+                .webform-options-display-one-column {
+                    display: flex;
+                    flex-direction: column !important;
+                    [class*="form-item-multiple-choice-question-"] {
+                        width: auto;
+                    }
+                }
+            }
+        }  
+    }  
     .form-actions {
         display: flex;
         gap: 22px;
