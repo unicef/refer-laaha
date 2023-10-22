@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains erpw_in_app_notification.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function erpw_in_app_notification_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the erpw_in_app_notification module.
+    case 'help.page.erpw_in_app_notification':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module will enable the inapp notification feature') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function erpw_in_app_notification_theme() {
+  return [
+    'erpw_in_app_notification' => [
+      'render element' => 'children',
+    ],
+  ];
+}

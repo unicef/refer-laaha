@@ -1,0 +1,10 @@
+entity.notification_entity.add_form:
+  route_name: entity.notification_entity.add_form
+  title: 'Add Notification entity'
+  appears_on:
+    - entity.notification_entity.collection
+entity.notification_processed_entity.add_form:
+  route_name: entity.notification_processed_entity.add_form
+  title: 'Add Notification processed entity'
+  appears_on:
+    - entity.notification_processed_entity.collection

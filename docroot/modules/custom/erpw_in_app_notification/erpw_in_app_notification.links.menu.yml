@@ -1,0 +1,14 @@
+
+# Notification entity menu items definition
+notification_entity.admin.structure.settings:
+  title: 'Notification entity settings'
+  description: 'Configure Notification entity entities'
+  route_name: notification_entity.settings
+  parent: user.admin_index
+
+# Notification processed entity menu items definition
+notification_processed_entity.admin.structure.settings:
+  title: 'Notification processed entity settings'
+  description: 'Configure Notification processed entity entities'
+  route_name: notification_processed_entity.settings
+  parent: user.admin_index

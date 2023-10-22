@@ -1,0 +1,43 @@
+# Notification entity routing definition
+notification_entity.settings_tab:
+  route_name: notification_entity.settings
+  title: 'Settings'
+  base_route: notification_entity.settings
+
+entity.notification_entity.canonical:
+  route_name: entity.notification_entity.canonical
+  base_route: entity.notification_entity.canonical
+  title: 'View'
+
+entity.notification_entity.edit_form:
+  route_name: entity.notification_entity.edit_form
+  base_route: entity.notification_entity.canonical
+  title: 'Edit'
+
+entity.notification_entity.delete_form:
+  route_name:  entity.notification_entity.delete_form
+  base_route:  entity.notification_entity.canonical
+  title: Delete
+  weight: 10
+
+# Notification processed entity routing definition
+notification_processed_entity.settings_tab:
+  route_name: notification_processed_entity.settings
+  title: 'Settings'
+  base_route: notification_processed_entity.settings
+
+entity.notification_processed_entity.canonical:
+  route_name: entity.notification_processed_entity.canonical
+  base_route: entity.notification_processed_entity.canonical
+  title: 'View'
+
+entity.notification_processed_entity.edit_form:
+  route_name: entity.notification_processed_entity.edit_form
+  base_route: entity.notification_processed_entity.canonical
+  title: 'Edit'
+
+entity.notification_processed_entity.delete_form:
+  route_name:  entity.notification_processed_entity.delete_form
+  base_route:  entity.notification_processed_entity.canonical
+  title: Delete
+  weight: 10
