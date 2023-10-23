@@ -7,6 +7,7 @@ dependencies:
     - field.field.notification_entity.notification_entity.field_domain
     - field.field.notification_entity.notification_entity.field_entity_id
     - field.field.notification_entity.notification_entity.field_entity_type
+    - field.field.notification_entity.notification_entity.field_event_id
     - field.field.notification_entity.notification_entity.field_location
     - field.field.notification_entity.notification_entity.field_organisation
     - field.field.notification_entity.notification_entity.field_priority
@@ -14,6 +15,8 @@ dependencies:
     - field.field.notification_entity.notification_entity.field_redirect_url
     - field.field.notification_entity.notification_entity.field_role
     - field.field.notification_entity.notification_entity.field_root_location
+    - field.field.notification_entity.notification_entity.field_specific_user
+    - field.field.notification_entity.notification_entity.field_users_list
   module:
     - erpw_in_app_notification
     - options
@@ -53,6 +56,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 7
+    region: content
+  field_event_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 14
     region: content
   field_location:
     type: entity_reference_label
@@ -109,6 +120,24 @@ content:
       link: true
     third_party_settings: {  }
     weight: 5
+    region: content
+  field_specific_user:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_users_list:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 13
     region: content
   name:
     type: string

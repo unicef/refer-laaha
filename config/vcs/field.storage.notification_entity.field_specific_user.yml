@@ -1,0 +1,22 @@
+uuid: eae0c4cf-2358-43a5-837f-b6ec4eb5c9b3
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_in_app_notification
+    - field_permissions
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: notification_entity.field_specific_user
+field_name: field_specific_user
+entity_type: notification_entity
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

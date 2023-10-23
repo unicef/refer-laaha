@@ -1,0 +1,25 @@
+uuid: 4f187260-3435-46f7-9606-0481f43362a4
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_in_app_notification
+    - field_permissions
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: notification_entity.field_event_id
+field_name: field_event_id
+entity_type: notification_entity
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

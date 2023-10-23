@@ -1,0 +1,20 @@
+uuid: 5a6d51a2-1c9d-4322-9f4d-092fcbc8f964
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_entity.field_event_id
+  module:
+    - erpw_in_app_notification
+id: notification_entity.notification_entity.field_event_id
+field_name: field_event_id
+entity_type: notification_entity
+bundle: notification_entity
+label: 'Event ID'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

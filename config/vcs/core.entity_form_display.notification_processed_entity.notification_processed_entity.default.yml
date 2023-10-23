@@ -1,0 +1,78 @@
+uuid: 2d91b6e5-fd2e-41a5-afd9-d0aae755a9b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.notification_processed_entity.notification_processed_entity.field_message_string
+    - field.field.notification_processed_entity.notification_processed_entity.field_notification_id
+    - field.field.notification_processed_entity.notification_processed_entity.field_read
+    - field.field.notification_processed_entity.notification_processed_entity.field_recipient
+  module:
+    - erpw_in_app_notification
+    - text
+id: notification_processed_entity.notification_processed_entity.default
+targetEntityType: notification_processed_entity
+bundle: notification_processed_entity
+mode: default
+content:
+  field_message_string:
+    type: text_textfield
+    weight: 9
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_notification_id:
+    type: entity_reference_autocomplete
+    weight: 6
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_read:
+    type: boolean_checkbox
+    weight: 7
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_recipient:
+    type: entity_reference_autocomplete
+    weight: 8
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  user_id:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

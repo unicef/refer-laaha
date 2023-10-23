@@ -1,0 +1,17 @@
+uuid: 1212aa58-b0bd-46cb-bd22-1a0933d39ed3
+langcode: en
+status: true
+dependencies: {  }
+id: notification_events
+label: 'Notification Events'
+token: false
+context:
+  show_warning: true
+  group:
+    language: true
+  fallback:
+    language: ''
+menu:
+  path: /admin/config/people/notification
+  weight: 0
+  description: ''

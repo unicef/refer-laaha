@@ -1,0 +1,68 @@
+uuid: 1ba8c918-1dd9-46cc-b1a5-0cc9b0ba8e0d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.notification_processed_entity.notification_processed_entity.field_message_string
+    - field.field.notification_processed_entity.notification_processed_entity.field_notification_id
+    - field.field.notification_processed_entity.notification_processed_entity.field_read
+    - field.field.notification_processed_entity.notification_processed_entity.field_recipient
+  module:
+    - erpw_in_app_notification
+    - text
+    - user
+id: notification_processed_entity.notification_processed_entity.default
+targetEntityType: notification_processed_entity
+bundle: notification_processed_entity
+mode: default
+content:
+  field_message_string:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_notification_id:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_read:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_recipient:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: -4
+    region: content
+  user_id:
+    type: author
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true
