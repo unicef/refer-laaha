@@ -1,0 +1,20 @@
+uuid: 5ef7fca6-0357-4a1e-8eea-6e8d05a7f146
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_entity.field_redirect_url
+  module:
+    - erpw_in_app_notification
+id: notification_entity.notification_entity.field_redirect_url
+field_name: field_redirect_url
+entity_type: notification_entity
+bundle: notification_entity
+label: 'Redirect URL'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

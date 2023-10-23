@@ -1,0 +1,139 @@
+uuid: ebaa25f7-6249-464f-9d99-7ccd89086858
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.notification_entity.notification_entity.field_behavior
+    - field.field.notification_entity.notification_entity.field_domain
+    - field.field.notification_entity.notification_entity.field_entity_id
+    - field.field.notification_entity.notification_entity.field_entity_type
+    - field.field.notification_entity.notification_entity.field_location
+    - field.field.notification_entity.notification_entity.field_organisation
+    - field.field.notification_entity.notification_entity.field_priority
+    - field.field.notification_entity.notification_entity.field_processed
+    - field.field.notification_entity.notification_entity.field_redirect_url
+    - field.field.notification_entity.notification_entity.field_role
+    - field.field.notification_entity.notification_entity.field_root_location
+  module:
+    - erpw_in_app_notification
+id: notification_entity.notification_entity.default
+targetEntityType: notification_entity
+bundle: notification_entity
+mode: default
+content:
+  field_behavior:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_domain:
+    type: entity_reference_autocomplete
+    weight: 11
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_entity_id:
+    type: number
+    weight: 15
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_entity_type:
+    type: options_select
+    weight: 12
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_location:
+    type: entity_reference_autocomplete
+    weight: 9
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_organisation:
+    type: entity_reference_autocomplete
+    weight: 8
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_priority:
+    type: options_select
+    weight: 13
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_processed:
+    type: boolean_checkbox
+    weight: 14
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_redirect_url:
+    type: string_textarea
+    weight: 16
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_role:
+    type: entity_reference_autocomplete
+    weight: 7
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_root_location:
+    type: entity_reference_autocomplete
+    weight: 10
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  user_id:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

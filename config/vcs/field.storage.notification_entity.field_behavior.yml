@@ -1,0 +1,31 @@
+uuid: fc6620a2-dbc1-4b63-8265-9b5fcfd2ab5e
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_in_app_notification
+    - field_permissions
+    - options
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: notification_entity.field_behavior
+field_name: field_behavior
+entity_type: notification_entity
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: info
+      label: Information
+    -
+      value: link
+      label: 'Call to Action'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

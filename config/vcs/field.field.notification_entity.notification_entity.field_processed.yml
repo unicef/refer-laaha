@@ -1,0 +1,24 @@
+uuid: 22706f1d-1b7d-4419-92ca-66733b161e53
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_entity.field_processed
+  module:
+    - erpw_in_app_notification
+id: notification_entity.notification_entity.field_processed
+field_name: field_processed
+entity_type: notification_entity
+bundle: notification_entity
+label: Processed
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
