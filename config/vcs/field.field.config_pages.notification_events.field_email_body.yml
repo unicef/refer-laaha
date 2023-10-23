@@ -1,0 +1,21 @@
+uuid: 07eefff6-b6e3-4230-841a-418f19956e77
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.notification_events
+    - field.storage.config_pages.field_email_body
+  module:
+    - text
+id: config_pages.notification_events.field_email_body
+field_name: field_email_body
+entity_type: config_pages
+bundle: notification_events
+label: Body
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

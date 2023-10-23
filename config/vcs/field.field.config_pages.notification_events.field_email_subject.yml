@@ -1,0 +1,19 @@
+uuid: a4c1f6e0-626e-46b6-ae8d-7e79348cec18
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.notification_events
+    - field.storage.config_pages.field_email_subject
+id: config_pages.notification_events.field_email_subject
+field_name: field_email_subject
+entity_type: config_pages
+bundle: notification_events
+label: Subject
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

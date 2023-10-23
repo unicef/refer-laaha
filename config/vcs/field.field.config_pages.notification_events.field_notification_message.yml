@@ -1,0 +1,19 @@
+uuid: 0bd35bb7-282b-4b44-933a-f8b6c6fc6f2b
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.notification_events
+    - field.storage.config_pages.field_notification_message
+id: config_pages.notification_events.field_notification_message
+field_name: field_notification_message
+entity_type: config_pages
+bundle: notification_events
+label: 'Notification Message'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
