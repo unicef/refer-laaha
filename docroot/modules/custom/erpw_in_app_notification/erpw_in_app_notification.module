@@ -31,5 +31,11 @@ function erpw_in_app_notification_theme() {
     'erpw_in_app_notification' => [
       'render element' => 'children',
     ],
+    'notification_block' => [
+      'variables' => [
+        'content' => NULL
+      ],
+      'render element' => 'children',
+    ],
   ];
 }
