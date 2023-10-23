@@ -46,11 +46,11 @@ use Drupal\user\UserInterface;
  *     "published" = "status",
  *   },
  *   links = {
- *     "canonical" = "/admin/config/people/notification_processed_entity/{notification_processed_entity}",
- *     "add-form" = "/admin/config/people/notification_processed_entity/add",
- *     "edit-form" = "/admin/config/people/notification_processed_entity/{notification_processed_entity}/edit",
- *     "delete-form" = "/admin/config/people/notification_processed_entity/{notification_processed_entity}/delete",
- *     "collection" = "/admin/config/people/notification_processed_entity",
+ *     "canonical" = "/admin/config/people/notification/notification_processed_entity/{notification_processed_entity}",
+ *     "add-form" = "/admin/config/people/notification/notification_processed_entity/add",
+ *     "edit-form" = "/admin/config/people/notification/notification_processed_entity/{notification_processed_entity}/edit",
+ *     "delete-form" = "/admin/config/people/notification/notification_processed_entity/{notification_processed_entity}/delete",
+ *     "collection" = "/admin/config/people/notification/notification_processed_entity",
  *   },
  *   field_ui_base_route = "notification_processed_entity.settings"
  * )

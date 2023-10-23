@@ -1,0 +1,7 @@
+services:
+  logger.channel.erpw_in_app_notification:
+    parent: logger.channel_base
+    arguments: ['erpw_in_app_notification']
+  erpw_in_app_notification.default:
+    class: Drupal\erpw_in_app_notification\HelperService
+    arguments: ['@entity_type.manager']

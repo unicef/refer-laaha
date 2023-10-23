@@ -1,0 +1,8 @@
+
+erpw_in_app_notification.notification_controller_userNotification:
+  path: '/notifications'
+  defaults:
+    _controller: '\Drupal\erpw_in_app_notification\Controller\NotificationController::userNotification'
+    _title: 'Notifications'
+  requirements:
+    _permission: 'access content'

@@ -46,11 +46,11 @@ use Drupal\user\UserInterface;
  *     "published" = "status",
  *   },
  *   links = {
- *     "canonical" = "/admin/config/people/notification_entity/{notification_entity}",
- *     "add-form" = "/admin/config/people/notification_entity/add",
- *     "edit-form" = "/admin/config/people/notification_entity/{notification_entity}/edit",
- *     "delete-form" = "/admin/config/people/notification_entity/{notification_entity}/delete",
- *     "collection" = "/admin/config/people/notification_entity",
+ *     "canonical" = "/admin/config/people/notification/notification_entity/{notification_entity}",
+ *     "add-form" = "/admin/config/people/notification/notification_entity/add",
+ *     "edit-form" = "/admin/config/people/notification/notification_entity/{notification_entity}/edit",
+ *     "delete-form" = "/admin/config/people/notification/notification_entity/{notification_entity}/delete",
+ *     "collection" = "/admin/config/people/notification/notification_entity",
  *   },
  *   field_ui_base_route = "notification_entity.settings"
  * )

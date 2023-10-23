@@ -1,0 +1,108 @@
+uuid: 704e810f-3de9-411b-bc6f-32446dd1972b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.notification_event_item.field_email_body
+    - field.field.paragraph.notification_event_item.field_email_subject
+    - field.field.paragraph.notification_event_item.field_label
+    - field.field.paragraph.notification_event_item.field_machine_name
+    - field.field.paragraph.notification_event_item.field_notification_icon
+    - field.field.paragraph.notification_event_item.field_notification_message
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.notification_event_item
+  module:
+    - field_group
+    - image
+    - machine_name_field_widget
+    - text
+third_party_settings:
+  field_group:
+    group_email:
+      children:
+        - field_email_subject
+        - field_email_body
+      label: Email
+      region: content
+      parent_name: ''
+      weight: 5
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+    group_notification:
+      children:
+        - field_notification_icon
+        - field_notification_message
+      label: Notification
+      region: content
+      parent_name: ''
+      weight: 4
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+id: paragraph.notification_event_item.default
+targetEntityType: paragraph
+bundle: notification_event_item
+mode: default
+content:
+  field_email_body:
+    type: text_textarea
+    weight: 7
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_email_subject:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_label:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_machine_name:
+    type: machine_name_field_widget
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_notification_icon:
+    type: image_image
+    weight: 0
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_notification_message:
+    type: string_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

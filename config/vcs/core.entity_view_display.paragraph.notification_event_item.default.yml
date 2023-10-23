@@ -1,0 +1,70 @@
+uuid: 79e706cb-6d4b-46d4-b1b8-d2a22cc26cb0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.notification_event_item.field_email_body
+    - field.field.paragraph.notification_event_item.field_email_subject
+    - field.field.paragraph.notification_event_item.field_label
+    - field.field.paragraph.notification_event_item.field_machine_name
+    - field.field.paragraph.notification_event_item.field_notification_icon
+    - field.field.paragraph.notification_event_item.field_notification_message
+    - paragraphs.paragraphs_type.notification_event_item
+  module:
+    - image
+    - text
+id: paragraph.notification_event_item.default
+targetEntityType: paragraph
+bundle: notification_event_item
+mode: default
+content:
+  field_email_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_email_subject:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_label:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_machine_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_notification_icon:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_notification_message:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden: {  }

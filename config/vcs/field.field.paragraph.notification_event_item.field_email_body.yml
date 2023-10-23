@@ -1,0 +1,21 @@
+uuid: 09948329-9b87-45f5-8fed-975e1d44cbfa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_email_body
+    - paragraphs.paragraphs_type.notification_event_item
+  module:
+    - text
+id: paragraph.notification_event_item.field_email_body
+field_name: field_email_body
+entity_type: paragraph
+bundle: notification_event_item
+label: Body
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
