@@ -3702,6 +3702,17 @@ body.path-user {
   display: none;
 }
 
+.path-ratings-by-service-type #block-erpw-content .service-ratings-location-header, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
 .path-ratings-by-service-type #block-erpw-content .service-ratings-location-header h1, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header h1, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header h1 {
   margin: 0;
   margin-bottom: 13px;
@@ -3716,18 +3727,63 @@ body.path-user {
   /* 80% */
   letter-spacing: 0.4px;
 }
-.path-ratings-by-service-type #block-erpw-content .service-ratings-location-header p, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header p, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header p {
+.path-ratings-by-service-type #block-erpw-content .service-ratings-location-header h1 p, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header h1 p, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header h1 p {
+  color: #4A4A4A;
+  -webkit-font-feature-settings: "clig" off, "liga" off;
+          font-feature-settings: "clig" off, "liga" off;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  /* 16px */
+  letter-spacing: 0.15px;
+  color: #9C9C9C;
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 13px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 8px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info p, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info p, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info p {
   color: #444;
   font-family: Roboto;
   font-style: normal;
   line-height: 28px;
   /* 233.333% */
-  color: #9C9C9C;
-  font-size: 16px;
-  font-weight: 400;
+  color: #444;
+  font-size: 20px;
+  font-weight: 700;
   line-height: 16px;
   /* 100% */
   letter-spacing: 0.4px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info span, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info span, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info span {
+  color: #4A4A4A;
+  -webkit-font-feature-settings: "clig" off, "liga" off;
+          font-feature-settings: "clig" off, "liga" off;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  /* 16px */
+  letter-spacing: 0.15px;
+  color: #9C9C9C;
+  font-size: 12px;
+  font-weight: 400;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-location-header .average-service-ratings-box .overall-average-star-rating .star, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header .average-service-ratings-box .overall-average-star-rating .star, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header .average-service-ratings-box .overall-average-star-rating .star {
+  color: #ffc20e;
+  font-size: 20px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-location-header .average-service-ratings-box .overall-average-star-rating .star-empty, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header .average-service-ratings-box .overall-average-star-rating .star-empty, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header .average-service-ratings-box .overall-average-star-rating .star-empty {
+  color: #ccc;
 }
 .path-ratings-by-service-type #block-erpw-content .service-ratings-services-list, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list {
   list-style: none;
