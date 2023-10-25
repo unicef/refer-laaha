@@ -1,4 +1,6 @@
 <div class="bell-container">
-  <i class="bell-icon fas fa-bell" onclick="increaseCount()"></i>
-  <div class="notification-count" id="notificationCount">0</div>
+  <a href="{{ path('erpw_in_app_notification.user_notification_modal') }}" class="use-ajax" data-dialog-type="modal" data-dialog-options="{&quot;dialogClass&quot;: &quot;notification-modal&quot;}">
+    <i class="bell-icon fas fa-bell"></i>
+    <div class="notification-count" id="notificationCount">{{ count }}</div>
+  </a>
 </div>

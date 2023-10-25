@@ -1,0 +1,31 @@
+uuid: ef68df58-0626-4014-be15-ffbff23c98f9
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_in_app_notification
+    - user
+  theme:
+    - erpw
+id: notificationblock
+theme: erpw
+region: header
+weight: 0
+provider: null
+plugin: notification_block
+settings:
+  id: notification_block
+  label: 'Notification block'
+  label_display: '0'
+  provider: erpw_in_app_notification
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      service_provider_staff: service_provider_staff
+      service_provider_focal_point: service_provider_focal_point
+      interagency_gbv_coordinator: interagency_gbv_coordinator
+      country_admin: country_admin
