@@ -12,6 +12,7 @@ dependencies:
     - config_translation
     - content_moderation
     - erpw_custom
+    - erpw_in_app_notification
     - erpw_location
     - node
     - node_view_permissions
@@ -100,3 +101,4 @@ permissions:
   - 'view users with role interagency_gbv_coordinator'
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'
+  - 'view notification page'

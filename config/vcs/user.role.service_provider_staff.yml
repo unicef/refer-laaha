@@ -8,6 +8,7 @@ dependencies:
   module:
     - content_moderation
     - erpw_custom
+    - erpw_in_app_notification
     - node
     - node_view_permissions
     - quick_node_clone
@@ -44,3 +45,4 @@ permissions:
   - 'view own webform submission'
   - 'view service of their own location'
   - 'view service of their own location and organisation'
+  - 'view notification page'

@@ -5,11 +5,11 @@ erpw_in_app_notification.user_notification:
     _controller: '\Drupal\erpw_in_app_notification\Controller\NotificationController::userNotification'
     _title: 'Notifications'
   requirements:
-    _permission: 'access content'
+    _permission: 'view notification page'
 erpw_in_app_notification.user_notification_modal:
   path: '/ajax/notifications'
   defaults:
     _controller: '\Drupal\erpw_in_app_notification\Controller\NotificationController::userNotificationModal'
     _title: 'Notifications'
   requirements:
-    _permission: 'access content'
+    _permission: 'view notification page'
