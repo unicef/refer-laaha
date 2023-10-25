@@ -313,7 +313,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
   if (str_contains($form['#form_id'], 'webform_service_rating_')) {
     $form['actions']['back'] = [
       '#type' => 'submit',
-      '#value' => t('Skip'),
+      '#value' => t('Cancel'),
       '#weight' => 0, // You can adjust the weight to control the button's position.
       '#submit' => ['service_rating_webform_back_handler'], // Define a custom submit handler for the back button.
     ];
@@ -335,12 +335,7 @@ function erpw_webform_service_rating_delete_handler(&$form, FormStateInterface $
  * Custom submit handler for the back button.
  */
 function service_rating_webform_back_handler($form, \Drupal\Core\Form\FormStateInterface $form_state) {
-  $requestStack = \Drupal::service('request_stack');
-  $currentRequest = $requestStack->getCurrentRequest();
-  $referrer = $currentRequest->headers->get('referer');
-  // Redirect to the previous page.
-  $response = new RedirectResponse($referrer);
-  $response->send();
+  $form_state->setRedirect('view.manage_webform_services.page_1');
   return;
 }
 

@@ -3307,6 +3307,9 @@ body.path-user {
 [class*=webform-submission-webform-service-rating-] .form-item-service-submission-id {
   display: none;
 }
+[class*=webform-submission-webform-service-rating-] .js-form-item-service-location-tid, [class*=webform-submission-webform-service-rating-] .js-form-item-service-organisation {
+  display: none;
+}
 [class*=webform-submission-webform-service-rating-] .form-wrapper legend {
   margin: 18px 0;
 }
@@ -3693,6 +3696,10 @@ body.path-user {
 #block-erpw-content .pair-container .value .service-feedback-form::after {
   content: url("../images/give-feedback-arrow.svg");
   margin-top: 2px;
+}
+
+.path-webform .block-help-block {
+  display: none;
 }
 
 .path-ratings-by-service-type #block-erpw-content .service-ratings-location-header h1, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header h1, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header h1 {

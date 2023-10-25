@@ -65,8 +65,10 @@
       <div{{ description.attributes.addClass('description') }}>{{ description.content }}</div>
     {% endif %}
   </div>
-    <div class="rating-stage-description">
-        <p class="desc-1">Not available at mentioned timings</p>
-        <p class="desc-2">Always available at mentioned timings</p>
-    </div>
+    {% if rating_steps_description_1 and rating_steps_description_2  %}
+      <div id="rating-steps" class="rating-stage-description">
+          <p class="desc-1">{{ rating_steps_description_1 }}</p>
+          <p class="desc-2">{{ rating_steps_description_2 }}</p>
+      </div>
+    {% endif %}
 </fieldset>

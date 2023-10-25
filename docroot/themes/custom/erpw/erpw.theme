@@ -13,6 +13,17 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\views\Views;
 
 /**
+ * Implements hook_preprocess_fieldset().
+ */
+function erpw_preprocess_fieldset(&$variables) {
+  $current_path = \Drupal::service('path.current')->getPath();
+  if (str_contains($current_path, 'service-feedback-form')) {
+    $variables['rating_steps_description_1'] = t('Not available at mentioned timings');
+    $variables['rating_steps_description_2'] = t('Always available at mentioned timings');
+  }
+}
+
+/**
  * Implements hook_preprocess_block().
  */
 function erpw_preprocess_block(&$variables) {

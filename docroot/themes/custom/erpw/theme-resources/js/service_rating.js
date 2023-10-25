@@ -95,6 +95,21 @@
                     }
                 }
             }
+
+            const webformTable  = document.getElementsByClassName('webform-forms');
+            if (webformTable != null) {
+                const tableBody = webformTable[0]?.children?.[1]
+                if (tableBody != null) {
+                    const forms = tableBody?.children;
+                    for (form of forms) {
+                        const formRow = form;
+                        const td = form?.children[0]?.children?.[0]?.attributes?.[0]?.value;
+                        if (td?.includes('webform-service-rating')) {
+                            form.style.display = "none";
+                        }
+                    }
+                }
+            }
         },
     };
 })(jQuery, Drupal, drupalSettings);

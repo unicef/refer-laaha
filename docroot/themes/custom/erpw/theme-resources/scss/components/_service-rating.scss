@@ -5,6 +5,10 @@
         display: none;
     }
 
+    .js-form-item-service-location-tid, .js-form-item-service-organisation {
+        display: none;
+    }
+
     .form-wrapper {
         legend {
             margin: 18px 0;
@@ -319,6 +323,12 @@
                 margin-top: 2px;
             }
         }
+    }
+}
+
+.path-webform {
+    .block-help-block {
+        display: none;
     }
 }
 
