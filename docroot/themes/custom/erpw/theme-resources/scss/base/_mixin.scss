@@ -29,6 +29,14 @@
 	width: 150px;
 }
 
+@mixin feedback-survey-card {
+	border-radius: 10px;
+	box-shadow: 0px 4px 12px 0px rgba(103, 97, 97, 0.15);
+	// width: 315px;
+	padding: 16px;
+	margin-bottom: 24px;
+}
+
 @mixin average-service-rating-fonts {
 	color: #4A4A4A;
 	font-feature-settings: 'clig' off, 'liga' off;

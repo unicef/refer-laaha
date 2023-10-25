@@ -197,6 +197,10 @@
             gap: 8px;
             padding: 0;
 
+            @media screen and (max-width: 768px) {
+                flex-direction: column;
+            }
+
             li {
                 .add-new-question {
                     border: 1px solid $base-secondary-bgcolor;
@@ -223,6 +227,19 @@
                     line-height: 32px;
                 }
             }
+        }
+    }
+}
+
+#block-erpw-content {
+    .webform-ajax-form-wrapper {
+        .table-format {
+            margin-bottom: 16px;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        .tabledrag-toggle-weight-wrapper {
+            float: none;
         }
     }
 }
@@ -396,6 +413,82 @@
         .share-feedback-block {    
             a {
                 display: none;
+            }
+        }
+    }
+}
+
+// Manage Feeback Surveys Listing.
+.path-manage-feedback-surveys {
+    .layout-content {
+        .new-service-type  {
+            display: none;
+        }
+
+        main { 
+            .layout-content .new-service-type {
+                display: block;
+                width: fit-content;
+            }
+            @media screen and (max-width: 768px) {
+                padding: 0;
+            }
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+            li {
+                .feedback-survey-card {
+                    @include feedback-survey-card;
+
+                    .feedback-survey-card-header {
+                        padding-bottom: 4px;
+                        border-bottom: 1px solid #D7D7D7;
+                        h1 {
+                            margin: 0;
+                            @include feedback-survey-fonts;
+                            font-size: 15px;
+                            font-weight: 700;
+                        }
+                    }
+
+                    .feedback-survey-card-content {
+                        padding: 4px 0;
+                        border-bottom: 1px solid #D7D7D7;
+                        p {
+                            @include feedback-survey-fonts;
+                            font-size: 12px;
+                            font-weight: 400;
+                            span {
+                                font-weight: 700;
+                            }
+                        }
+                    }
+
+                    .feedback-survey-card-status {
+                        padding-top: 4px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        .form-status-Published {
+                            width: fit-content;
+                            background: #E6F2D9;
+                            padding: 6px;
+                            border-radius: 10px;
+                            color: #00833D;
+                            @include feedback-survey-status-fonts;
+                        }
+                        .form-status-Draft {
+                            width: fit-content;
+                            background: #FFF8E2;
+                            padding: 6px;
+                            border-radius: 10px;
+                            color: #F26A21;
+                            @include feedback-survey-status-fonts;
+                        }
+                    }
+                }
             }
         }
     }

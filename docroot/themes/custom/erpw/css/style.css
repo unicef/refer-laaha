@@ -3237,16 +3237,16 @@ body.path-user {
   margin: 15px 0;
 }
 
-#export-location-form, .node-confirm-form {
+#export-location-form, .node-confirm-form, .webform-confirm-form {
   text-align: center;
 }
-#export-location-form .review-msg, .node-confirm-form .review-msg {
+#export-location-form .review-msg, .node-confirm-form .review-msg, .webform-confirm-form .review-msg {
   text-align: center;
 }
-#export-location-form .item-list ul, .node-confirm-form .item-list ul {
+#export-location-form .item-list ul, .node-confirm-form .item-list ul, .webform-confirm-form .item-list ul {
   list-style: none;
 }
-#export-location-form .form-actions, .node-confirm-form .form-actions {
+#export-location-form .form-actions, .node-confirm-form .form-actions, .webform-confirm-form .form-actions {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3258,11 +3258,11 @@ body.path-user {
   margin: 0 10px;
   margin-top: 30px;
 }
-#export-location-form .form-actions #edit-proceed, #export-location-form .form-actions #edit-submit, .node-confirm-form .form-actions #edit-proceed, .node-confirm-form .form-actions #edit-submit {
+#export-location-form .form-actions #edit-proceed, #export-location-form .form-actions #edit-submit, .node-confirm-form .form-actions #edit-proceed, .node-confirm-form .form-actions #edit-submit, .webform-confirm-form .form-actions #edit-proceed, .webform-confirm-form .form-actions #edit-submit {
   width: 100%;
   margin: 0;
 }
-#export-location-form .form-actions #edit-cancel, .node-confirm-form .form-actions #edit-cancel {
+#export-location-form .form-actions #edit-cancel, .node-confirm-form .form-actions #edit-cancel, .webform-confirm-form .form-actions #edit-cancel {
   margin: 0;
   width: 100%;
   text-align: center;
@@ -3271,9 +3271,10 @@ body.path-user {
   font-weight: 500;
   color: #A85766;
   border: 2px solid #A85766;
+  background: #FFF;
 }
 @media only screen and (min-width: 768px) {
-  #export-location-form .form-actions, .node-confirm-form .form-actions {
+  #export-location-form .form-actions, .node-confirm-form .form-actions, .webform-confirm-form .form-actions {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
@@ -3286,16 +3287,16 @@ body.path-user {
             align-items: center;
     gap: 35px;
   }
-  #export-location-form .form-actions #edit-proceed, #export-location-form .form-actions #edit-submit, .node-confirm-form .form-actions #edit-proceed, .node-confirm-form .form-actions #edit-submit {
+  #export-location-form .form-actions #edit-proceed, #export-location-form .form-actions #edit-submit, .node-confirm-form .form-actions #edit-proceed, .node-confirm-form .form-actions #edit-submit, .webform-confirm-form .form-actions #edit-proceed, .webform-confirm-form .form-actions #edit-submit {
     width: 30%;
     margin: 0;
   }
-  #export-location-form .form-actions #edit-cancel, .node-confirm-form .form-actions #edit-cancel {
+  #export-location-form .form-actions #edit-cancel, .node-confirm-form .form-actions #edit-cancel, .webform-confirm-form .form-actions #edit-cancel {
     width: 30%;
   }
 }
 @media only screen and (min-width: 1024px) {
-  #export-location-form .form-actions #edit-proceed, #export-location-form .form-actions #edit-submit, .node-confirm-form .form-actions #edit-proceed, .node-confirm-form .form-actions #edit-submit {
+  #export-location-form .form-actions #edit-proceed, #export-location-form .form-actions #edit-submit, .node-confirm-form .form-actions #edit-proceed, .node-confirm-form .form-actions #edit-submit, .webform-confirm-form .form-actions #edit-proceed, .webform-confirm-form .form-actions #edit-submit {
     width: 25%;
   }
 }
@@ -3554,6 +3555,14 @@ body.path-user {
   gap: 8px;
   padding: 0;
 }
+@media screen and (max-width: 768px) {
+  #block-erpw-local-actions .service-rating-action-links ul {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
 #block-erpw-local-actions .service-rating-action-links ul li .add-new-question {
   border: 1px solid #A85766;
   border-radius: 8px;
@@ -3577,6 +3586,15 @@ body.path-user {
   font-size: 14px;
   font-style: normal;
   line-height: 32px;
+}
+
+#block-erpw-content .webform-ajax-form-wrapper .table-format {
+  margin-bottom: 16px;
+}
+@media screen and (max-width: 768px) {
+  #block-erpw-content .tabledrag-toggle-weight-wrapper {
+    float: none;
+  }
 }
 
 .block-share-feedback-block {
@@ -3788,5 +3806,105 @@ body.path-user {
 
 .path-ratings-by-service-type .block-share-feedback-block .share-feedback-block a {
   display: none;
+}
+
+.path-manage-feedback-surveys .layout-content .new-service-type {
+  display: none;
+}
+.path-manage-feedback-surveys .layout-content main .layout-content .new-service-type {
+  display: block;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+@media screen and (max-width: 768px) {
+  .path-manage-feedback-surveys .layout-content main {
+    padding: 0;
+  }
+}
+.path-manage-feedback-surveys .layout-content ul {
+  padding: 0;
+  list-style: none;
+}
+.path-manage-feedback-surveys .layout-content ul li .feedback-survey-card {
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 4px 12px 0px rgba(103, 97, 97, 0.15);
+          box-shadow: 0px 4px 12px 0px rgba(103, 97, 97, 0.15);
+  padding: 16px;
+  margin-bottom: 24px;
+}
+.path-manage-feedback-surveys .layout-content ul li .feedback-survey-card .feedback-survey-card-header {
+  padding-bottom: 4px;
+  border-bottom: 1px solid #D7D7D7;
+}
+.path-manage-feedback-surveys .layout-content ul li .feedback-survey-card .feedback-survey-card-header h1 {
+  margin: 0;
+  color: #444;
+  font-family: Roboto;
+  font-style: normal;
+  line-height: 28px;
+  /* 233.333% */
+  font-size: 15px;
+  font-weight: 700;
+}
+.path-manage-feedback-surveys .layout-content ul li .feedback-survey-card .feedback-survey-card-content {
+  padding: 4px 0;
+  border-bottom: 1px solid #D7D7D7;
+}
+.path-manage-feedback-surveys .layout-content ul li .feedback-survey-card .feedback-survey-card-content p {
+  color: #444;
+  font-family: Roboto;
+  font-style: normal;
+  line-height: 28px;
+  /* 233.333% */
+  font-size: 12px;
+  font-weight: 400;
+}
+.path-manage-feedback-surveys .layout-content ul li .feedback-survey-card .feedback-survey-card-content p span {
+  font-weight: 700;
+}
+.path-manage-feedback-surveys .layout-content ul li .feedback-survey-card .feedback-survey-card-status {
+  padding-top: 4px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.path-manage-feedback-surveys .layout-content ul li .feedback-survey-card .feedback-survey-card-status .form-status-Published {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  background: #E6F2D9;
+  padding: 6px;
+  border-radius: 10px;
+  color: #00833D;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px;
+  /* 85.714% */
+  text-transform: uppercase;
+}
+.path-manage-feedback-surveys .layout-content ul li .feedback-survey-card .feedback-survey-card-status .form-status-Draft {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  background: #FFF8E2;
+  padding: 6px;
+  border-radius: 10px;
+  color: #F26A21;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px;
+  /* 85.714% */
+  text-transform: uppercase;
 }
 /*# sourceMappingURL=style.css.map */

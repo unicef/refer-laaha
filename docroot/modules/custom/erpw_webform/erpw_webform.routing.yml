@@ -138,3 +138,10 @@ erpw_webform.questions.calculate_average_questions_rating:
     _controller: '\Drupal\erpw_webform\Controller\ServiceRatingQuestionsController::displayAverageRatings'
   requirements:
     _permission: 'access content'
+
+erpw_webform.manage_feedback_surveys:
+  path: '/manage-feedback-surveys'
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\ManageFeedbackSurveys::content'
+  requirements:
+    _permission: 'access content'

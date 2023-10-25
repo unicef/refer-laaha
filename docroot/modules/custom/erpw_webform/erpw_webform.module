@@ -213,6 +213,14 @@ function erpw_webform_composite_theme() {
     'location_list' => [
       'render element' => 'element',
     ],
+    'custom_template' => [
+      'variables' => [
+        'webform_data' => NULL,
+        'webform_title' => NULL,
+        'webform_status' => NULL,
+      ],
+      'template' => 'page--manage-feedback-surveys', 
+    ],
   ];
 }
 
@@ -222,6 +230,7 @@ function erpw_webform_composite_theme() {
 function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // Check if this is the webform submission edit form.
   $currentRoute = \Drupal::routeMatch()->getRouteName();
+  $currentPath = Url::fromRoute('<current>')->toString();
   $account = User::load(\Drupal::currentUser()->id());
   $user_roles = $account->getRoles();
   if ($currentRoute == 'entity.webform_submission.edit_form') {
@@ -309,6 +318,17 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       '#submit' => ['service_rating_webform_back_handler'], // Define a custom submit handler for the back button.
     ];
   }
+  
+  if ($form_id === "webform_delete_form" && str_contains($currentPath, 'webform_service_rating_')) {
+    $form['actions']['submit']['#submit'][] = "erpw_webform_service_rating_delete_handler";
+    $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
+    $form['actions']['cancel']['#url'] = $url;
+  }
+}
+
+function erpw_webform_service_rating_delete_handler(&$form, FormStateInterface $form_state) {
+  $form_state->setRedirect('erpw_webform.manage_feedback_surveys');
+  return;
 }
 
 /**
