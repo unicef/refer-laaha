@@ -38,8 +38,11 @@ class NotificationBlock extends BlockBase implements ContainerFactoryPluginInter
   public function build() {
     $build = [];
     $build['#theme'] = 'notification_block';
-     $build['notification_block']['#markup'] = 'Implement NotificationBlock.';
-
+    $build['#attached'] = [
+      'library' => [
+        'erpw_in_app_notification/notification-bell',
+      ],
+    ];
     return $build;
   }
 

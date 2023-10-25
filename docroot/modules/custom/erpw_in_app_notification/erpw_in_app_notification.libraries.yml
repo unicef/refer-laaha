@@ -8,3 +8,14 @@ notification:
   dependencies:
     - core/jquery
     - core/drupalSettings
+
+notification-bell:
+  version: 1.0
+  js:
+    js/notification-bell.js: {}
+  css:
+    theme:
+      css/notification.css: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings

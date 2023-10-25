@@ -33,3 +33,29 @@
     border: 1px solid #ccc;
     border-top: none;
   }
+
+  /* Notification bell */
+  .bell-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .bell-icon {
+    font-size: 24px;
+    color: #000;
+    cursor: pointer;
+  }
+
+  .notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+  }

@@ -48,4 +48,26 @@ class NotificationController extends ControllerBase {
     ];
   }
 
+  /**
+   * Usernotification.
+   *
+   * @return string
+   *   Return Hello string.
+   */
+  public function userNotificationModal() {
+    // Maximum of 3 items remainings 
+    return [
+      '#theme' => 'user_notification_modal',
+      '#combined' => [1,2,3],
+      '#common_var' => [
+        'module_path' => \Drupal::service('extension.list.module')->getPath('erpw_in_app_notification'),
+      ],
+      '#attached' => [
+        'library' => [
+          'erpw_in_app_notification/notification',
+        ],
+      ],
+    ];
+  }
+
 }
