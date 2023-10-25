@@ -37,5 +37,18 @@ function erpw_in_app_notification_theme() {
       ],
       'render element' => 'children',
     ],
+    'user_notification' => [
+      'variables' => [
+        'user' => '',
+        'service' => '',
+        'common_var' => '',
+      ],
+    ],
+    'notification_block' => [
+      'variables' => [
+        'content' => NULL
+      ],
+      'render element' => 'children',
+    ],
   ];
 }

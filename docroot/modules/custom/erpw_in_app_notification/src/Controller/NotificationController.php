@@ -34,8 +34,17 @@ class NotificationController extends ControllerBase {
    */
   public function userNotification() {
     return [
-      '#type' => 'markup',
-      '#markup' => $this->t('Implement method: userNotification')
+      '#theme' => 'user_notification',
+      '#user' => [1,2,3,4,5],
+      '#service' => [1,2,3,4,5],
+      '#common_var' => [
+        'module_path' => \Drupal::service('extension.list.module')->getPath('erpw_in_app_notification'),
+      ],
+      '#attached' => [
+        'library' => [
+          'erpw_in_app_notification/notification',
+        ],
+      ],
     ];
   }
 
