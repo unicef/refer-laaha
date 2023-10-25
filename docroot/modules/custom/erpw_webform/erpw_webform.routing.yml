@@ -66,6 +66,22 @@ erpw_webform.delete_user:
   requirements:
     _permission: 'cancel users by role'
 
+erpw_webform.publish_service_rating_form:
+  path: '/service-rating-form/publish/{id}'
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\ServiceRatingController::publsihServiceRatingForm'
+    _title: 'Publish Service Rating Form'
+  requirements:
+    _permission: 'add service rating question'
+
+erpw_webform.publish_service_rating_form_status:
+  path: '/service-rating-form/{id}'
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\ServiceRatingController::getStatusOfServiceRatingForm'
+    _title: 'Publish Service Rating Form Status'
+  requirements:
+    _permission: 'add service rating question'
+
 erpw_webform.services_download:
   path: '/services-csv-export/{node}'
   defaults:
@@ -120,5 +136,12 @@ erpw_webform.questions.calculate_average_questions_rating:
   path: '/ratings-by-feedback-area/{webform_id}/{location_id}'
   defaults:
     _controller: '\Drupal\erpw_webform\Controller\ServiceRatingQuestionsController::displayAverageRatings'
+  requirements:
+    _permission: 'access content'
+
+erpw_webform.manage_feedback_surveys:
+  path: '/manage-feedback-surveys'
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\ManageFeedbackSurveys::content'
   requirements:
     _permission: 'access content'

@@ -4,3 +4,45 @@
 	-ms-border-radius: $radius;
 	border-radius: $radius;
 }
+
+@mixin feedback-survey-fonts {
+	color: #444;
+	font-family: Roboto;
+	font-style: normal;
+	line-height: 28px; /* 233.333% */
+}
+
+@mixin feedback-survey-status-fonts {
+	font-family: Roboto;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 12px; /* 85.714% */
+	text-transform: uppercase;
+}
+
+@mixin service-card {
+	// border: 1px solid red;
+	padding: 16px;
+	box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.08);
+	border-radius: 8px;
+	width: 150px;
+}
+
+@mixin feedback-survey-card {
+	border-radius: 10px;
+	box-shadow: 0px 4px 12px 0px rgba(103, 97, 97, 0.15);
+	// width: 315px;
+	padding: 16px;
+	margin-bottom: 24px;
+}
+
+@mixin average-service-rating-fonts {
+	color: #4A4A4A;
+	font-feature-settings: 'clig' off, 'liga' off;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 100%; /* 16px */
+	letter-spacing: 0.15px;
+}

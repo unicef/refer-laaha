@@ -17,6 +17,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\views\Views;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_webform_add_form().
@@ -212,6 +213,14 @@ function erpw_webform_composite_theme() {
     'location_list' => [
       'render element' => 'element',
     ],
+    'custom_template' => [
+      'variables' => [
+        'webform_data' => NULL,
+        'webform_title' => NULL,
+        'webform_status' => NULL,
+      ],
+      'template' => 'page--manage-feedback-surveys', 
+    ],
   ];
 }
 
@@ -221,6 +230,7 @@ function erpw_webform_composite_theme() {
 function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // Check if this is the webform submission edit form.
   $currentRoute = \Drupal::routeMatch()->getRouteName();
+  $currentPath = Url::fromRoute('<current>')->toString();
   $account = User::load(\Drupal::currentUser()->id());
   $user_roles = $account->getRoles();
   if ($currentRoute == 'entity.webform_submission.edit_form') {
@@ -295,7 +305,46 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     // Set the generated action path as the form's action attribute.
     $form['#action'] = $action_path;
   }
+
+  if (str_contains($form_id, "webform_submission_webform_service_rating_")) {
+    $form['actions']['submit']['#submit'][] = "erpw_webform_service_rating_submit_handler";
+  }
+
+  if (str_contains($form['#form_id'], 'webform_service_rating_')) {
+    $form['actions']['back'] = [
+      '#type' => 'submit',
+      '#value' => t('Cancel'),
+      '#weight' => 0, // You can adjust the weight to control the button's position.
+      '#submit' => ['service_rating_webform_back_handler'], // Define a custom submit handler for the back button.
+    ];
+  }
+  
+  if ($form_id === "webform_delete_form" && str_contains($currentPath, 'webform_service_rating_')) {
+    $form['actions']['submit']['#submit'][] = "erpw_webform_service_rating_delete_handler";
+    $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
+    $form['actions']['cancel']['#url'] = $url;
+  }
 }
+
+function erpw_webform_service_rating_delete_handler(&$form, FormStateInterface $form_state) {
+  $form_state->setRedirect('erpw_webform.manage_feedback_surveys');
+  return;
+}
+
+/**
+ * Custom submit handler for the back button.
+ */
+function service_rating_webform_back_handler($form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  $form_state->setRedirect('view.manage_webform_services.page_1');
+  return;
+}
+
+function erpw_webform_service_rating_submit_handler(&$form, FormStateInterface $form_state) {
+  \Drupal::service('messenger')->addMessage("Feedback saved!");
+  $form_state->setRedirect('view.manage_webform_services.page_1');
+  return;
+}
+
 
 /**
  * Implements hook_form_views_exposed_form_alter().
@@ -429,6 +478,26 @@ function erpw_webform_views_data_alter(array &$data) {
       'real field' => 'webform_submission_mode_field',
     ],
   ];
+  $data['webform_submission']['webform_submission_service_rating_status_field'] = [
+    'title' => t('Webform Submission Service Rating Status field.'),
+    'help' => t("Generic field for displaying the status of the service's feedback form."),
+    'field' => [
+      'id' => 'webform_submission_service_rating_status_field',
+      'entity type' => 'webform',
+      'label' => t('Service Rating Form Status'),
+      'real field' => 'webform_submission_service_rating_status_field',
+    ],
+  ];
+  $data['webform_submission']['webform_submission_service_rating_question_count_field'] = [
+    'title' => t('Webform Submission Service Rating Question Count field.'),
+    'help' => t("Generic field for displaying the count of feedback question of a service."),
+    'field' => [
+      'id' => 'webform_submission_service_rating_question_count_field',
+      'entity type' => 'webform',
+      'label' => t('Feedback questions count of a service.'),
+      'real field' => 'webform_submission_service_rating_question_count_field',
+    ],
+  ];
   $data['webform_submission']['webform_submission_location_field'] = [
     'title' => t('Webform Submission location field.'),
     'help' => t('Generic field for displaying location for all submissions.'),
@@ -475,6 +544,15 @@ function erpw_webform_views_data_alter(array &$data) {
       'help' => t('Provides a custom filter for organisation.'),
       'field' => 'webform_submission_organisation_field',
       'id' => 'webform_submission_organisation_filter',
+    ],
+  ];
+  $data['webform_submission']['webform_submission_service_rating_filter'] = [
+    'title' => t('Webform Submission Service Rating Form Filter'),
+    'filter' => [
+      'title' => t('Webform Submission Service Rating Form Filter'),
+      'help' => t('Provides a custom filter for service rating form.'),
+      // 'field' => 'webform_submission_organisation_field',
+      'id' => 'webform_submission_service_rating_filter',
     ],
   ];
   return $data;
@@ -767,7 +845,6 @@ function erpw_webform_preprocess_page_title(&$variables) {
       '@title' => t('Service Forms Configuration'),
     ]);
   }
-
 }
 
 /**
@@ -1175,6 +1252,10 @@ function erpw_webform__create_or_update_wsa_node($service_type, $submission_id, 
 function erpw_webform_preprocess_table(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
   if ($currentRoute == 'entity.webform.templates') {
-    unset($variables['rows'][0]['cells']['operations']['content']['preview']);
+    unset($variables['rows'][0]['cells']['title']['content']);
+    unset($variables['rows'][0]['cells']['description']['content']);
+    unset($variables['rows'][0]['cells']['category']['content']);
+    unset($variables['rows'][0]['cells']['operations']['content']);
+    unset($variables['rows'][1]['cells']['operations']['content']['preview']);
   }
 }

@@ -5,6 +5,10 @@
         display: none;
     }
 
+    .js-form-item-service-location-tid, .js-form-item-service-organisation {
+        display: none;
+    }
+
     .form-wrapper {
         legend {
             margin: 18px 0;
@@ -65,5 +69,437 @@
                 }
             }
         } 
+        .rating-stage-description {
+            display: flex;
+            justify-content: space-evenly;
+            p {
+                color: #9C9C9C;
+                font-feature-settings: 'clig' off, 'liga' off;
+                font-family: Roboto;
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 100%; /* 12px */
+                letter-spacing: 0.12px;
+                
+                @media screen and (max-width: 768px) {
+                    width: 90px;
+                    justify-content: space-between;
+                }
+            }
+            @media screen and (max-width: 768px) {
+                justify-content: space-between;
+            }
+            .desc-2 {
+                text-align: right;
+            }
+        }
+    }
+
+    [id*="edit-multiple-choice-question-"] {
+        .rating-stage-description {
+            display: none;
+        }
+        @media screen and (max-width: 768px) {
+            .fieldset-wrapper {
+                display: block;
+                .webform-options-display-one-column {
+                    display: flex;
+                    flex-direction: column !important;
+                    [class*="form-item-multiple-choice-question-"] {
+                        width: auto;
+                    }
+                }
+            }
+        }  
+    }  
+    .form-actions {
+        display: flex;
+        gap: 22px;
+        #edit-back {
+            border-radius: 4px;
+            border: 1px solid #A85766;
+            color: #A85766;
+            text-align: center;
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Roboto;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 32px; /* 228.571% */
+            letter-spacing: 0.021px;
+            background: #FFF;
+        }
+    }
+}
+
+// Manage Feedbacks Surveys Page - (/manage-feedback-surveys)
+.view-manage-feedback-surveys {
+    .view-content {
+        .views-row {
+            padding: 16px; 
+            .views-field-webform-id {
+                padding-bottom: 8px;    
+                border-bottom: 1px solid #D7D7D7;
+                .field-content {
+                    a {
+                        text-decoration: none;
+                        @include feedback-survey-fonts;
+                        font-size: 15px;
+                        font-weight: 700;
+                    }
+                }
+            }
+            .views-field-webform-submission-service-rating-question-count-field {
+                padding-top: 8px;
+                .field-content .service-rating-feedback-question-count {
+                    @include feedback-survey-fonts;
+                    font-size: 12px;
+                    font-weight: 400;
+                    span {
+                        font-weight: 700;
+                    }
+                }
+            }
+            .views-field-nothing {
+                border-top: 1px solid #D7D7D7;
+                .field-content .edit-delete-links {
+                    margin-top: 8px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .service-rating-status {
+                        margin-top: 5px;
+                    }
+                    .service-rating-status.Published {
+                        background: #E6F2D9;
+                        padding: 6px;
+                        border-radius: 10px;
+                        color: #00833D;
+                        @include feedback-survey-status-fonts;
+                    }
+                    .service-rating-status.Draft {
+                        background: #FFF8E2;
+                        padding: 6px;
+                        border-radius: 10px;
+                        color: #F26A21;
+                        @include feedback-survey-status-fonts;
+                    }
+                }
+            }
+        }
+    }
+}
+
+#block-erpw-local-actions {
+    .service-rating-action-links {
+        ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0;
+
+            @media screen and (max-width: 768px) {
+                flex-direction: column;
+            }
+
+            li {
+                .add-new-question {
+                    border: 1px solid $base-secondary-bgcolor;
+                    border-radius: 8px;
+                    padding: 10px 37px;
+                    background:  #FFFFFF;
+                    color: #A85766;
+                    font-weight: 500;
+                    font-family: Roboto;
+                    font-size: 14px;
+                    font-style: normal;
+                    line-height: 32px;
+                }
+                #service-rating-form-publish-btn {
+                    border: 0;
+                    border-radius: 8px;
+                    padding: 2px 37px;
+                    background: #A85766;
+                    color: #FFFFFF;
+                    font-weight: 500;
+                    font-family: Roboto;
+                    font-size: 14px;
+                    font-style: normal;
+                    line-height: 32px;
+                }
+            }
+        }
+    }
+}
+
+#block-erpw-content {
+    .webform-ajax-form-wrapper {
+        .table-format {
+            margin-bottom: 16px;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        .tabledrag-toggle-weight-wrapper {
+            float: none;
+        }
+    }
+}
+
+.block-share-feedback-block {
+    background: #F6FAFF;
+    margin-top: 10px;
+    padding: 16px;
+    border-radius: 20px;
+    text-align: left;
+
+    .share-feedback-block {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .feedback-text-block{
+            .feedback-text-header p {
+                @include feedback-survey-fonts;
+                font-size: 12px;
+                font-weight: 700;
+                line-height: 100%;
+                display: flex;
+                align-items: center;
+                &::before {
+                    content: url('../images/feedback-block-icon.svg');
+                    margin-right: 8px;
+                }
+            }
+
+            .feedback-text p {
+                @include feedback-survey-fonts;
+                font-size: 11px;
+                font-weight: 400;
+                line-height: 18.5px; /* 168.182% */
+                letter-spacing: 0.5px;
+            }
+        }
+
+        a {
+            border: none;
+            color: #A85766;
+            font-family: Roboto;
+            font-size: 10px; /* 10px in design */
+            font-style: normal;
+            font-weight: 700;
+            line-height: 11px;
+            letter-spacing: 0.5px;
+            text-decoration-line: underline;
+            &::after {
+                background: none;
+            }
+        }
+    }
+}
+
+#block-erpw-content {
+    .pair-container .value {
+        .service-feedback-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 287px;
+            padding: 6px 6px 6px 8px;
+            border: 1px solid #A85766;
+            border-radius: 4px;
+
+            @include feedback-survey-fonts;
+            color: #A85766;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 16px; /* 114.286% */
+            letter-spacing: 1.25px;
+            text-transform: uppercase;
+            &::after {
+                content: url('../images/give-feedback-arrow.svg');
+                margin-top: 2px;
+            }
+        }
+    }
+}
+
+.path-webform {
+    .block-help-block {
+        display: none;
+    }
+}
+
+// Ratings by service type section.
+// By Location
+.path-ratings-by-service-type, .path-ratings-by-locations, .path-ratings-by-feedback-area {
+    #block-erpw-content {
+        .service-ratings-location-header {
+            h1 {
+                margin: 0;
+                margin-bottom: 13px;
+                @include feedback-survey-fonts;
+                font-size: 20px;
+                font-weight: 700;
+                line-height: 16px; /* 80% */
+                letter-spacing: 0.4px;
+            }
+            
+            p {
+                @include feedback-survey-fonts;
+                color: #9C9C9C;
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 16px; /* 100% */
+                letter-spacing: 0.4px;
+            }
+        }
+
+        .service-ratings-services-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            li {
+                @include service-card;
+
+                .service-name {
+                    margin-bottom: 16px;
+                    a {
+                        @include feedback-survey-fonts;
+                        color: #A85766;
+                        font-size: 12px;
+                        font-weight: 700;
+                        line-height: 100%; /* 12px */
+                    }
+                }
+                
+                .service-average-rating {
+                    @include average-service-rating-fonts;
+                    font-size: 16px;
+                    &::after {
+                        content: "/5";
+                        @include feedback-survey-fonts;
+                        font-size: 12px;
+                    }
+                }
+
+                .star-rating {
+                    .star {
+                        color: #ffc20e;
+                        font-size: 20px;;
+                    }
+                    .star-empty {
+                        color: #ccc;
+                    }
+                }
+
+                .reviews {
+                    @include average-service-rating-fonts;
+                    color: #9C9C9C;
+                    font-size: 12px;
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+
+    .dashboard .dashboard-link {
+        margin-bottom: 0;
+        a {
+            &::before {
+                content: url('../images/group.svg');
+                height: 20px;
+            }
+        }
+    }
+}
+
+.path-ratings-by-service-type {
+    .block-share-feedback-block {
+        .share-feedback-block {    
+            a {
+                display: none;
+            }
+        }
+    }
+}
+
+// Manage Feeback Surveys Listing.
+.path-manage-feedback-surveys {
+    .layout-content {
+        .new-service-type  {
+            display: none;
+        }
+
+        main { 
+            .layout-content .new-service-type {
+                display: block;
+                width: fit-content;
+            }
+            @media screen and (max-width: 768px) {
+                padding: 0;
+            }
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+            li {
+                .feedback-survey-card {
+                    @include feedback-survey-card;
+
+                    .feedback-survey-card-header {
+                        padding-bottom: 4px;
+                        border-bottom: 1px solid #D7D7D7;
+                        h1 {
+                            margin: 0;
+                            @include feedback-survey-fonts;
+                            font-size: 15px;
+                            font-weight: 700;
+                        }
+                    }
+
+                    .feedback-survey-card-content {
+                        padding: 4px 0;
+                        border-bottom: 1px solid #D7D7D7;
+                        p {
+                            @include feedback-survey-fonts;
+                            font-size: 12px;
+                            font-weight: 400;
+                            span {
+                                font-weight: 700;
+                            }
+                        }
+                    }
+
+                    .feedback-survey-card-status {
+                        padding-top: 4px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        .form-status-Published {
+                            width: fit-content;
+                            background: #E6F2D9;
+                            padding: 6px;
+                            border-radius: 10px;
+                            color: #00833D;
+                            @include feedback-survey-status-fonts;
+                        }
+                        .form-status-Draft {
+                            width: fit-content;
+                            background: #FFF8E2;
+                            padding: 6px;
+                            border-radius: 10px;
+                            color: #F26A21;
+                            @include feedback-survey-status-fonts;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
