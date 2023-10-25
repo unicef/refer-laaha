@@ -337,6 +337,9 @@
 .path-ratings-by-service-type, .path-ratings-by-locations, .path-ratings-by-feedback-area {
     #block-erpw-content {
         .service-ratings-location-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             h1 {
                 margin: 0;
                 margin-bottom: 13px;
@@ -345,16 +348,50 @@
                 font-weight: 700;
                 line-height: 16px; /* 80% */
                 letter-spacing: 0.4px;
+
+                p {
+                    @include average-service-rating-fonts;
+                    color: #9C9C9C;
+                    font-size: 12px;
+                    font-weight: 400;
+                    margin-top: 13px;
+                }
+            }
+
+            .average-service-ratings-box{
+
+                .average-ratings-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    p {
+                        @include feedback-survey-fonts;
+                        color: #444;
+                        font-size: 20px;
+                        font-weight: 700;
+                        line-height: 16px; /* 100% */
+                        letter-spacing: 0.4px;
+                    }
+                    span {
+                        @include average-service-rating-fonts;
+                        color: #9C9C9C;
+                        font-size: 12px;
+                        font-weight: 400;
+
+                    }
+                }
+
+                .overall-average-star-rating {
+                    .star {
+                        color: #ffc20e;
+                        font-size: 20px;;
+                    }
+                    .star-empty {
+                        color: #ccc;
+                    }
+                }
             }
             
-            p {
-                @include feedback-survey-fonts;
-                color: #9C9C9C;
-                font-size: 16px;
-                font-weight: 400;
-                line-height: 16px; /* 100% */
-                letter-spacing: 0.4px;
-            }
         }
 
         .service-ratings-services-list {

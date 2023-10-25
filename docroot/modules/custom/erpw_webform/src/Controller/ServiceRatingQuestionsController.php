@@ -118,7 +118,16 @@ class ServiceRatingQuestionsController extends ControllerBase {
     $location_average = $this->serviceRating->calculateTotalAverageRating($average_ratings);
     $output = '<div class="service-ratings-location-header">';
     $output .= '<h1>' . $location_name . '</h1>';
-    $output .= '<p>' . $location_average . ' Services</p>';
+    $output .= '<div class="average-service-ratings-box">';
+    $output .= '<p>' . $location_average . '</p>';
+    $output .= '<div id="overall-average-ratings" class="overall-average-star-rating">
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+      </div>';
+    $output .= '</div>';
     $output .= '</div>';
     $output .= '<ul class="service-ratings-services-list">';
     foreach ($average_ratings as $feedback => $average_rating) {

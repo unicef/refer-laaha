@@ -1,4 +1,5 @@
 (function ($, Drupal, drupalSettings) {
+    let questionFlag = false;
     Drupal.behaviors.erpw_service_rating = {
         attach: function (context, settings) {
 
@@ -47,6 +48,7 @@
                         url: `/service-rating-form/${service_rating_form_id}`,
                         method: 'GET',
                         success: function (data) {
+                            console.log(`DATA`, data)
                             document.getElementById('service-rating-form-publish-btn').textContent = data.form_status;
                         },
                         error: function (xhr, status, error) {
@@ -80,15 +82,39 @@
                 });
             });
 
+            if (!questionFlag) {
+                if (pathName.includes('service-feedback-form')) {
+                    const questions = document.getElementsByClassName('fieldset-legend');
+                    if (questions != null && questions.length > 0) {
+                        let question_number = 1;
+                        for (let i = 0; i < questions.length; i++) {
+                            questions[i].textContent = question_number.toString() + '. ' + questions[i].textContent;
+                            question_number += 1;
+                        }
+                    }
+                }
+                questionFlag = true;
+            }
+
+            // Overall average star ratings.
+            const averageStarRatings = document.getElementsByClassName('average-service-ratings-box')[0];
+            if (averageStarRatings != null && averageStarRatings.children != null) {
+                const avgRatingValue = averageStarRatings.children[0]?.textContent;
+                if (avgRatingValue != null) {
+                    const stars = document.getElementById('overall-average-ratings').children
+                    for (let i = avgRatingValue; i < 5; i++) {
+                        stars[i].classList.add('star-empty')
+                    }                        
+                }
+            }
+
             // Star ratings
             const serviceRatingsList = document.getElementsByClassName('service-ratings-services-list')[0];
-            console.log(serviceRatingsList);
             if (serviceRatingsList != null && serviceRatingsList.children != null) {
                 for (rating of serviceRatingsList.children) {
                     const ratingValue = rating.getElementsByClassName('service-average-rating')[0]?.textContent;
                     if (ratingValue != null) {
                         const stars = document.getElementById(`service-star-rating-${ratingValue}`).children
-                        console.log(ratingValue, stars)
                         for (let i = ratingValue; i < 5; i++) {
                             stars[i].classList.add('star-empty')
                         }                        

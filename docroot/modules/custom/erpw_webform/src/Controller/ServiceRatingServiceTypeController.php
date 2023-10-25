@@ -114,41 +114,60 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       $organisation_name = $this->t('Invalid Organisation');
     }
     $organisational_average = $this->serviceRating->calculateTotalAverageRating($webform_ratings);
-    $output = '<div class="service-ratings-location-header">';
-    $output .= '<h1>' . $organisation_name . '</h1>';
-    $output .= '<p>' . $organisational_average . ' Services</p>';
-    $output .= '</div>';
-    $output .= '<ul class="service-ratings-services-list">';
+  
+    $listing_output = '<ul class="service-ratings-services-list">';
+
+    $totalReviewsCount = 0;
+    $servicesCount = 0;
     foreach ($webform_ratings as $webform_id => $average_rating) {
       $webform = Webform::load($webform_id);
       $query = $this->entityTypeManager->getStorage('webform_submission')
         ->getQuery();
       $query->condition('webform_id', $webform_id);
       $submissionIds = $query->execute();
-      $totalReviews = count($submissionIds) > 1 ? count($submissionIds) . ' Reviews' : count($submissionIds) . ' Review';
+      $serviceReviewsCount = count($submissionIds) > 1 ? count($submissionIds) . ' Reviews' : count($submissionIds) . ' Review';
+      $totalReviewsCount = count($submissionIds);
       $webform_name = str_replace('Service Rating ', '', $webform->label());
       $url = Url::fromRoute('erpw_webform.questions.calculate_average_location_rating', ['webform_id' => $webform_id]);
       $href = $url->toString();
+      $servicesCount += 1;
 
       // Create the anchor element with the webform name as the text and the generated URL.
       $anchor = '<a href="' . $href . '">' . $webform_name . '</a>';
-      $output .= '<li><p class="service-name">' . $anchor . '</p><p class="service-average-rating">' . $average_rating . '</p>
-        <div id="service-star-rating-' . $average_rating . '" class="star-rating">
+      $listing_output .= '<li><p class="service-name">' . $anchor . '</p><p class="service-average-rating">' . $average_rating . '</p>
+        <div id="service-star-rating-'. $average_rating .'" class="star-rating">
           <span class="star">&#9733;</span>
           <span class="star">&#9733;</span>
           <span class="star">&#9733;</span>
           <span class="star">&#9733;</span>
           <span class="star">&#9733;</span>
         </div>
-      <p class="reviews">(' . $totalReviews . ')</a>
+      <p class="reviews">(' . $serviceReviewsCount . ')</a>
       </li>';
     }
-    $output .= '</ul>';
+    $listing_output .= '</ul>';
+
+    $output = '<div class="service-ratings-location-header">';
+    $output .= '<h1>' . $organisation_name . '<br><p>' . $servicesCount . ' Services</p></h1>';
+    $output .= '<div class="average-service-ratings-box">';
+    $output .= '<div class="average-ratings-info"><p>' . $organisational_average . '</p>';
+    $output .= '<span>(' . $totalReviewsCount . ' Reviews)</span></div>';
+    $output .= '<div id="overall-average-ratings" class="overall-average-star-rating">
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+      </div>';
+    $output .= '</div>';
+    $output .= '</div>';
+
+    $final_output = $output . $listing_output;
 
     return [
       '#title' => $this->t('Service Ratings'),
       '#type' => 'markup',
-      '#markup' => $output,
+      '#markup' => $final_output,
     ];
   }
 
