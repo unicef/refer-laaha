@@ -12,31 +12,31 @@ use Drupal\views\ResultRow;
  */
 class WebformSubmissionServiceRatingWebformStatusField extends FieldPluginBase {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function query() {
+  /**
+   * {@inheritdoc}
+   */
+  public function query() {
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function render(ResultRow $values) {
+    if ($values->_entity->get('webform_id')->getValue() != NULL && str_contains($values->_entity->get('webform_id')->getValue()[0]["target_id"], "webform_service_rating_")) {
+      $webform_id = $values->_entity->get('webform_id')->getValue()[0]["target_id"];
+      $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webform_id);
+      if ($webform->isOpen()) {
+        $output = t("Published");
+      }
+      else {
+        $output = t("Draft");
+      }
+    }
+    else {
+      $output = t("Not available.");
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function render(ResultRow $values) {
-        if ($values->_entity->get('webform_id')->getValue() != NULL && str_contains($values->_entity->get('webform_id')->getValue()[0]["target_id"], "webform_service_rating_")) {
-            $webform_id = $values->_entity->get('webform_id')->getValue()[0]["target_id"];
-            $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webform_id);
-            if ($webform->isOpen()) {
-                $output = t("Published");
-            } else {
-                $output = t("Draft");
-            }
-        } else {
-            $output = t("Not available.");
-        }
-
-        return $output;
-    }
+    return $output;
+  }
 
 }
-
-

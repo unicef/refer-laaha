@@ -303,7 +303,6 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
     // Save the webform.
     $webform->save();
 
-
     // Redirect to the newly created or existing webform.
     $url = Url::fromRoute('entity.webform.edit_form', ['webform' => $webform->id()]);
     $form_state->setRedirectUrl($url);

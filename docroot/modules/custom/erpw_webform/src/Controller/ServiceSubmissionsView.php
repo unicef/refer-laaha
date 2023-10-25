@@ -691,7 +691,13 @@ class ServiceSubmissionsView extends ControllerBase {
       });
       foreach ($output as $item) {
         foreach ($item as $key => $value) {
-          $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
+          if ($key == 'ZZ Service Rating Link') {
+            $markup .= '<div class="pair-container"><span class="service-rating-label">' . Markup::create($key) . ':</span>';
+          }
+          else {
+            $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
+          }
+
           if ($key == 'Opening Times' && is_array($value)) {
             $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
           }

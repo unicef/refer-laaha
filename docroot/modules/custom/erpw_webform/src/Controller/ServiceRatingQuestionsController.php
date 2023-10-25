@@ -130,9 +130,8 @@ class ServiceRatingQuestionsController extends ControllerBase {
         $feedback_name = NULL;
       }
       // $output .= '<li>' . $feedback_name . ': ' . $average_rating . '</li>';
-
       $output .= '<li><p class="service-name">' . $feedback_name . '</p><p class="service-average-rating">' . $average_rating . '</p>
-      <div id="service-star-rating-'. $average_rating .'" class="star-rating">
+      <div id="service-star-rating-' . $average_rating . '" class="star-rating">
         <span class="star">&#9733;</span>
         <span class="star">&#9733;</span>
         <span class="star">&#9733;</span>

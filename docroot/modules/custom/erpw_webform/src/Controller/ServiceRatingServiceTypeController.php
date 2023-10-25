@@ -122,7 +122,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
     foreach ($webform_ratings as $webform_id => $average_rating) {
       $webform = Webform::load($webform_id);
       $query = $this->entityTypeManager->getStorage('webform_submission')
-      ->getQuery();
+        ->getQuery();
       $query->condition('webform_id', $webform_id);
       $submissionIds = $query->execute();
       $totalReviews = count($submissionIds) > 1 ? count($submissionIds) . ' Reviews' : count($submissionIds) . ' Review';
@@ -133,7 +133,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       // Create the anchor element with the webform name as the text and the generated URL.
       $anchor = '<a href="' . $href . '">' . $webform_name . '</a>';
       $output .= '<li><p class="service-name">' . $anchor . '</p><p class="service-average-rating">' . $average_rating . '</p>
-        <div id="service-star-rating-'. $average_rating .'" class="star-rating">
+        <div id="service-star-rating-' . $average_rating . '" class="star-rating">
           <span class="star">&#9733;</span>
           <span class="star">&#9733;</span>
           <span class="star">&#9733;</span>

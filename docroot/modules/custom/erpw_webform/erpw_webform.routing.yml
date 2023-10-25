@@ -69,7 +69,7 @@ erpw_webform.delete_user:
 erpw_webform.publish_service_rating_form:
   path: '/service-rating-form/publish/{id}'
   defaults:
-    _controller: '\Drupal\erpw_webform\Controller\ServiceRatingController::publsihServiceRatingForm'
+    _controller: '\Drupal\erpw_webform\Controller\ServiceRatingController::publishServiceRatingForm'
     _title: 'Publish Service Rating Form'
   requirements:
     _permission: 'add service rating question'
@@ -109,9 +109,8 @@ erpw_webform.webform.feedback_form:
   path: '/service-feedback-form/{webform}/{servicesid}'
   defaults:
     _controller: '\Drupal\webform\Controller\WebformEntityController::addForm'
-    _title_callback: '\Drupal\webform\Controller\WebformEntityController::title'
+    _title: 'Service Feedback Form'
   requirements:
-    _entity_access: 'webform.submission_page'
     _permission: 'access content'
   options:
     parameters:
@@ -122,6 +121,7 @@ erpw_webform.questions.calculate_average_service_type_rating:
   path: '/ratings-by-service-type'
   defaults:
     _controller: '\Drupal\erpw_webform\Controller\ServiceRatingServiceTypeController::displayAverageWebformRatings'
+    _title: 'Ratings by Service'
   requirements:
     _permission: 'access content'
 
@@ -129,6 +129,7 @@ erpw_webform.questions.calculate_average_location_rating:
   path: '/ratings-by-locations/{webform_id}'
   defaults:
     _controller: '\Drupal\erpw_webform\Controller\ServiceRatingLocationController::displayServiceLocationAverages'
+    _title: 'Ratings by Location'
   requirements:
     _permission: 'access content'
 
@@ -136,6 +137,7 @@ erpw_webform.questions.calculate_average_questions_rating:
   path: '/ratings-by-feedback-area/{webform_id}/{location_id}'
   defaults:
     _controller: '\Drupal\erpw_webform\Controller\ServiceRatingQuestionsController::displayAverageRatings'
+    _title: 'Ratings by Feedback Area'
   requirements:
     _permission: 'access content'
 
@@ -144,4 +146,4 @@ erpw_webform.manage_feedback_surveys:
   defaults:
     _controller: '\Drupal\erpw_webform\Controller\ManageFeedbackSurveys::content'
   requirements:
-    _permission: 'access content'
+    _permission: 'add service rating question'
