@@ -135,7 +135,8 @@ class ServiceRatingQuestionsController extends ControllerBase {
     $output = '<div class="service-ratings-location-header">';
     $output .= '<h1>' . $location_name . '</h1>';
     $output .= '<div class="average-service-ratings-box">';
-    $output .= '<p>' . $location_average . '</p>';
+    $output .= '<div class="average-ratings-info"><p>' . round($location_average) . '</p>';
+    $output .= '<span>(' . $total_review_count . ')</span></div>';
     $output .= '<div id="overall-average-ratings" class="overall-average-star-rating">
         <span class="star">&#9733;</span>
         <span class="star">&#9733;</span>
@@ -143,7 +144,6 @@ class ServiceRatingQuestionsController extends ControllerBase {
         <span class="star">&#9733;</span>
         <span class="star">&#9733;</span>
       </div>';
-    $output .= '<span>(' . $total_review_count . ')</span></div>';
     $output .= '</div>';
     $output .= '</div>';
     $output .= '<ul class="service-ratings-services-list">';

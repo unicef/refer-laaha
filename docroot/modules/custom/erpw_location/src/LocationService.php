@@ -285,11 +285,11 @@ class LocationService {
     $location_entity_id = "";
     $location_entity = $this->entityManager->getStorage('location')->loadByProperties(
       [
-        'field_location_taxonomy_term' => $tid,
+        'id' => $tid,
         'status' => 1,
         'type' => 'country',
-      ]
-    );
+        ]
+      );
     if (!empty($location_entity)) {
       $location_entity_id = array_keys($location_entity)[0];
     }

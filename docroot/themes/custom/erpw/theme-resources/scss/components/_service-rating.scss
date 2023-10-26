@@ -405,6 +405,12 @@
 
                 .service-name {
                     margin-bottom: 16px;
+                    @include feedback-survey-fonts;
+                    color: #A85766;
+                    font-size: 12px;
+                    font-weight: 700;
+                    line-height: 100%; /* 12px */
+
                     a {
                         @include feedback-survey-fonts;
                         color: #A85766;

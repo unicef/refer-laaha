@@ -123,6 +123,8 @@ class ServiceRatingLocationController extends ControllerBase {
       }
       $service_type_average = $this->serviceRating->calculateTotalAverageRating($averages);
       $country_ids = array_keys($this->location->getLocationEntities());
+
+      $listing_output = '<ul class="service-ratings-services-list">';
       $total_review_count = 0;
       foreach ($averages as $location_id => $average_rating) {
         $location_review_count = 0;
@@ -170,12 +172,13 @@ class ServiceRatingLocationController extends ControllerBase {
         <p class="reviews">(' . $location_review_count . ')</p>
         </li>';
       }
-
       $listing_output .= '</ul>';
+
       $output = '<div class="service-ratings-location-header">';
       $output .= '<h1>' . $service_type_name . '</h1>';
       $output .= '<div class="average-service-ratings-box">';
-      $output .= '<p>' . $service_type_average . '</p>';
+      $output .= '<div class="average-ratings-info"><p>' . round($service_type_average) . '</p>';
+      $output .= '<span>(' . $total_review_count . ' Reviews)</span></div>';
       $output .= '<div id="overall-average-ratings" class="overall-average-star-rating">
         <span class="star">&#9733;</span>
         <span class="star">&#9733;</span>
@@ -183,10 +186,8 @@ class ServiceRatingLocationController extends ControllerBase {
         <span class="star">&#9733;</span>
         <span class="star">&#9733;</span>
       </div>';
-      $output .= '<span>(' . $total_review_count . ' Reviews)</span></div>';
       $output .= '</div>';
       $output .= '</div>';
-      $output .= '<ul class="service-ratings-services-list">';
 
       $final_output = $output . $listing_output;
 
