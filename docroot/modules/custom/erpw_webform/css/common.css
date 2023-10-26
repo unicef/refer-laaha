@@ -734,6 +734,30 @@ span[contenteditable="true"] {
   background: rgb(20, 250, 7, 0.2);
   color: black;
 }
+.offline-checkboxes {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.offline-checkboxes input {
+  width: 20px;
+}
+.offline-checkboxes label {
+  color: black;
+  font-size: 12px;
+}
+.offline-radios {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.offline-radios input {
+  width: 20px;
+}
+.offline-radios label {
+  color: black;
+  font-size: 12px;
+}
 @media only screen and (min-width: 1024px) {
   .webform-submission-form .table-format .webform-mapping-table {
     width: 50%;

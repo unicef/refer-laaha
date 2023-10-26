@@ -888,10 +888,12 @@ function erpw_webform_webform_submission_presave($webform_submission) {
   }
   // eRPW (Services) Category.
   else {
-    $composite_value = $values['location'];
-    $last_non_empty_value = '';
+      $last_non_empty_value = '';
+  $values['location']['location_tid'] = '';
+  $composite_value = $values['location'];
+  $location_reversed = array_reverse($composite_value);
     if (is_array($composite_value)) {
-      foreach (array_reverse($composite_value) as $value) {
+      foreach ($location_reversed as $value) {
         if (!empty($value)) {
           $last_non_empty_value = $value;
           break;
@@ -906,8 +908,8 @@ function erpw_webform_webform_submission_presave($webform_submission) {
       $values['submission_domain'] = $domain;
       $values['service_type'] = $arr[0];
     }
-
-    $service_type = \Drupal::entityTypeManager()->getStorage('node')->load($values['service_type'])->getTitle();
+    $service_type_node = \Drupal::entityTypeManager()->getStorage('node')->load($values['service_type']);
+  $service_type = $service_type_node->getTitle();
     $webform_submission_id = $webform_submission->id();
     $current_transition = $values['erpw_workflow']['transition'];
     $rejected_transitions = ['edits_rejected_by_focal_point', 'edits_rejected_by_gbv_coordination', 'deletion_rejected_by_focal_point', 'deletion_rejected_by_gbv_coordination'];
@@ -954,7 +956,7 @@ function erpw_webform_webform_submission_presave($webform_submission) {
         }
         \Drupal::entityTypeManager()->getStorage('node')->resetCache([$node->id()]);
       }
-      // Case where the Service is directly deleted by the GBV Coordination.
+      // Case where the Service is directly actioned on by the GBV Coordination.
       else {
         if ($current_transition == 'approve_deletion' || $values['erpw_workflow']['workflow_state'] == 'deleted') {
           \Drupal::logger('erpw_webform__deletion')->notice('The Webform Submission of id %sid has been deleted. Since this submission has passed through the Deletion Workflow.', [
@@ -962,6 +964,10 @@ function erpw_webform_webform_submission_presave($webform_submission) {
           ]);
           $webform_submission->delete();
         }
+      // Publish Edits.
+      else {
+        $webform_submission->setData($values);
+      }
       }
     }
     // Delete WSA nodes if submissions are rejected, replace the data with the old approved data.
@@ -988,6 +994,7 @@ function erpw_webform_webform_submission_presave($webform_submission) {
       $webform_submission->setData($values);
     }
     $view = Views::getView('referral_pathway_on_homepage');
+  \Drupal::service('cache_tags.invalidator')->invalidateTags(['node:' . $service_type_node->id()]);
     $view->storage->invalidateCaches();
   }
 }
@@ -1267,6 +1274,10 @@ function erpw_webform__create_or_update_wsa_node($service_type, $submission_id, 
 function erpw_webform_preprocess_table(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
   if ($currentRoute == 'entity.webform.templates') {
+    $erpw_service_provider_form_text = [
+      '#markup' => t($variables['rows'][0]['cells']['title']['content']->getText()),
+    ];
+    $variables['rows'][0]['cells']['title']['content'] = $erpw_service_provider_form_text;
     unset($variables['rows'][0]['cells']['title']['content']);
     unset($variables['rows'][0]['cells']['description']['content']);
     unset($variables['rows'][0]['cells']['category']['content']);

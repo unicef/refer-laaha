@@ -71,8 +71,8 @@ class ServiceWebforms extends ControllerBase {
         if (array_key_exists($currentDomain, $tpa)) {
           $url = Url::fromRoute('entity.webform.canonical', ['webform' => $webform->id()])->toString();
           $serviceType = $this->entityTypeManager->getStorage('node')->load($tpa[$currentDomain][0]);
-          if ($serviceType) {
-            $bgcolor = $serviceType->get('field_service_type_color')->getValue()[0]['color'];
+          if ($serviceType && $serviceType->hasField('field_service_type_color')) {
+            $bgcolor = $serviceType->get('field_service_type_color')?->getValue()[0]['color'];
             if ($bgcolor == '#B2A0D9') {
               $bgclass = 'apply-lavender';
             }
