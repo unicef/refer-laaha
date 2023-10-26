@@ -1,7 +1,6 @@
 (function ($, Drupal, drupalSettings, localforage) {
   var currentUserId = drupalSettings.user.uid;
   var appendOnce = true;
-  var counter = 0;
   localforage.config({
     driver: localforage.INDEXEDDB,
     name: "serviceFormsData",
@@ -644,43 +643,69 @@
                   const selectedOption = selectListWrapper.value;
 
                   if (selectedOption !== "") {
-                    // Add the label and checked values to the pairObject
-                    contentEditableData[label] = selectedOption;
+                    if (label.toLowerCase() == "organisation") {
+                      contentEditableData["orgID"] = selectedOption;
+                      contentEditableData[label] = $(selectListWrapper)
+                        .find("option:selected")
+                        .text();
+                    } else {
+                      // Add the label and checked values to the pairObject
+                      contentEditableData[label] = selectedOption;
+                    }
                   }
                 });
 
                 // Loop through the location list select lists.
                 $(".location-list-element--wrapper").each(function () {
                   var location = [];
+                  var locationText = "";
                   $(this)
                     .find("select")
                     .each(function () {
                       if (this.value !== "0" && this.value !== "") {
                         if (this.classList.contains("location_options")) {
                           location["location_options"] = this.value;
+                          locationText = locationText.concat(
+                            $(this).find("option:selected").text()
+                          );
                         } else if (this.classList.contains("level_1")) {
                           location["level_1"] = this.value;
+                          locationText = locationText
+                            .concat(", ")
+                            .concat($(this).find("option:selected").text());
                         } else if (this.classList.contains("level_2")) {
                           location["level_2"] = this.value;
+                          locationText = locationText
+                            .concat(", ")
+                            .concat($(this).find("option:selected").text());
                         } else if (this.classList.contains("level_3")) {
                           location["level_3"] = this.value;
+                          locationText = locationText
+                            .concat(", ")
+                            .concat($(this).find("option:selected").text());
                         } else if (this.classList.contains("level_4")) {
                           location["level_4"] = this.value;
+                          locationText = locationText
+                            .concat(", ")
+                            .concat($(this).find("option:selected").text())
+                            .concat(".");
                         }
                       }
                     });
                   // Add the label and checked values to the pairObject
-                  contentEditableData["location"] = location;
+                  contentEditableData["locationID"] = location;
+                  contentEditableData["location"] = locationText;
                 });
                 contentEditableData["service_type"] = formID;
                 contentEditableData["service_type_title"] = formIDTitle;
                 localforageUserServiceCreated
                   .setItem(
-                    event[0].textContent.concat(counter),
+                    event[0].textContent.concat(
+                      Math.floor(10000 + Math.random() * 90000)
+                    ),
                     contentEditableData
                   )
                   .then(() => {
-                    counter += 1;
                     console.log(`Data for new entry added.`);
                   })
                   .catch((error) =>
@@ -688,7 +713,8 @@
                   );
                 contentEditableData = {};
                 // After submitting, close the dialog
-                $(this).dialog("close");
+                // Clean up the dialog when it's closed
+                $(this).dialog("destroy").remove();
               },
             },
             Close: {
