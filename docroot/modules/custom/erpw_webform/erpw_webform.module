@@ -888,10 +888,10 @@ function erpw_webform_webform_submission_presave($webform_submission) {
   }
   // eRPW (Services) Category.
   else {
-      $last_non_empty_value = '';
-  $values['location']['location_tid'] = '';
-  $composite_value = $values['location'];
-  $location_reversed = array_reverse($composite_value);
+    $last_non_empty_value = '';
+    $values['location']['location_tid'] = '';
+    $composite_value = $values['location'];
+    $location_reversed = array_reverse($composite_value);
     if (is_array($composite_value)) {
       foreach ($location_reversed as $value) {
         if (!empty($value)) {
@@ -909,7 +909,7 @@ function erpw_webform_webform_submission_presave($webform_submission) {
       $values['service_type'] = $arr[0];
     }
     $service_type_node = \Drupal::entityTypeManager()->getStorage('node')->load($values['service_type']);
-  $service_type = $service_type_node->getTitle();
+    $service_type = $service_type_node->getTitle();
     $webform_submission_id = $webform_submission->id();
     $current_transition = $values['erpw_workflow']['transition'];
     $rejected_transitions = ['edits_rejected_by_focal_point', 'edits_rejected_by_gbv_coordination', 'deletion_rejected_by_focal_point', 'deletion_rejected_by_gbv_coordination'];
@@ -964,10 +964,10 @@ function erpw_webform_webform_submission_presave($webform_submission) {
           ]);
           $webform_submission->delete();
         }
-      // Publish Edits.
-      else {
-        $webform_submission->setData($values);
-      }
+        // Publish Edits.
+        else {
+          $webform_submission->setData($values);
+        }
       }
     }
     // Delete WSA nodes if submissions are rejected, replace the data with the old approved data.
@@ -994,7 +994,7 @@ function erpw_webform_webform_submission_presave($webform_submission) {
       $webform_submission->setData($values);
     }
     $view = Views::getView('referral_pathway_on_homepage');
-  \Drupal::service('cache_tags.invalidator')->invalidateTags(['node:' . $service_type_node->id()]);
+    \Drupal::service('cache_tags.invalidator')->invalidateTags(['node:' . $service_type_node->id()]);
     $view->storage->invalidateCaches();
   }
 }

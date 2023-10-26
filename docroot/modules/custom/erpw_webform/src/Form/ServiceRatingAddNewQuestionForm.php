@@ -122,11 +122,10 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
       ],
       '#required' => TRUE,
       '#default_value' => 'rating',
-      // '#ajax' => [
-      //   'callback' => '::questionTypeCallback',
-      //   'wrapper' => 'options-fieldset-wrapper',
-      // ],
-      // @todo see why this is not working for Add New Question form.
+      '#ajax' => [
+        'callback' => '::questionTypeCallback',
+        'wrapper' => 'options-fieldset-wrapper',
+      ],
     ];
 
     $question_type = $form_state->getValue('question_type');
