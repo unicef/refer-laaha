@@ -122,22 +122,25 @@ class ServiceRatingLocationController extends ControllerBase {
         $service_type_name = $this->t('Invalid Organisation');
       }
       $service_type_average = $this->serviceRating->calculateTotalAverageRating($averages);
-      $output = '<div class="service-ratings-location-header">';
-      $output .= '<h1>' . $service_type_name . '</h1>';
-      $output .= '<div class="average-service-ratings-box">';
-      $output .= '<p>' . $service_type_average . '</p>';
-      $output .= '<div id="overall-average-ratings" class="overall-average-star-rating">
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-      </div>';
-      $output .= '</div>';
-      $output .= '</div>';
-      $output .= '<ul class="service-ratings-services-list">';
       $country_ids = array_keys($this->location->getLocationEntities());
+      $total_review_count = 0;
       foreach ($averages as $location_id => $average_rating) {
+        $location_review_count = 0;
+        // Location filter.
+        $element2 = [
+          'key' => 'service_location_tid',
+          'value' => $location_id,
+        ];
+        // Organisation filter.
+        $element3 = [
+          'key' => 'service_organisation',
+          'value' => $org_id,
+        ];
+
+        $submission_ids = $this->serviceRating->getSubmissionIdsForMultipleElements($webform_id, NULL, $element2, $element3);
+        $location_review_count = count($submission_ids) > 1 ? count($submission_ids) . ' Reviews' : count($submission_ids) . ' Review';
+        $total_review_count += count($submission_ids);
+
         if (in_array($location_id, $country_ids)) {
           $location_tid = $this->location->getLocationSingleEntityIdByTid($location_id);
         }
@@ -156,7 +159,7 @@ class ServiceRatingLocationController extends ControllerBase {
         // Create the anchor element with the location name as the text and the generated URL.
         $anchor = '<a href="' . $href . '">' . $location_name . '</a>';
 
-        $output .= '<li><p class="service-name">' . $anchor . '</p><p class="service-average-rating">' . $average_rating . '</p>
+        $listing_output .= '<li><p class="service-name">' . $anchor . '</p><p class="service-average-rating">' . $average_rating . '</p>
         <div id="service-star-rating-' . $average_rating . '" class="star-rating">
           <span class="star">&#9733;</span>
           <span class="star">&#9733;</span>
@@ -164,14 +167,33 @@ class ServiceRatingLocationController extends ControllerBase {
           <span class="star">&#9733;</span>
           <span class="star">&#9733;</span>
         </div>
+        <p class="reviews">(' . $location_review_count . ')</p>
         </li>';
       }
-      $output .= '</ul>';
+
+      $listing_output .= '</ul>';
+      $output = '<div class="service-ratings-location-header">';
+      $output .= '<h1>' . $service_type_name . '</h1>';
+      $output .= '<div class="average-service-ratings-box">';
+      $output .= '<p>' . $service_type_average . '</p>';
+      $output .= '<div id="overall-average-ratings" class="overall-average-star-rating">
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+      </div>';
+      $output .= '<span>(' . $total_review_count . ' Reviews)</span></div>';
+      $output .= '</div>';
+      $output .= '</div>';
+      $output .= '<ul class="service-ratings-services-list">';
+
+      $final_output = $output . $listing_output;
 
       return [
         '#title' => $this->t('Location Ratings'),
         '#type' => 'markup',
-        '#markup' => $output,
+        '#markup' => $final_output,
       ];
     }
   }

@@ -116,6 +116,22 @@ class ServiceRatingQuestionsController extends ControllerBase {
     }
     $location_name = $this->location->getTaxonomyTermById($location_tid);
     $location_average = $this->serviceRating->calculateTotalAverageRating($average_ratings);
+
+    // Review Count:
+    // Location filter.
+    $element2 = [
+      'key' => 'service_location_tid',
+      'value' => $location_id,
+    ];
+    // Organisation filter.
+    $element3 = [
+      'key' => 'service_organisation',
+      'value' => $org_id,
+    ];
+
+    $submission_ids = $this->serviceRating->getSubmissionIdsForMultipleElements($webform_id, NULL, $element2, $element3);
+    $total_review_count = count($submission_ids) > 1 ? count($submission_ids) . ' Reviews' : count($submission_ids) . ' Review';
+
     $output = '<div class="service-ratings-location-header">';
     $output .= '<h1>' . $location_name . '</h1>';
     $output .= '<div class="average-service-ratings-box">';
@@ -127,6 +143,7 @@ class ServiceRatingQuestionsController extends ControllerBase {
         <span class="star">&#9733;</span>
         <span class="star">&#9733;</span>
       </div>';
+    $output .= '<span>(' . $total_review_count . ')</span></div>';
     $output .= '</div>';
     $output .= '</div>';
     $output .= '<ul class="service-ratings-services-list">';

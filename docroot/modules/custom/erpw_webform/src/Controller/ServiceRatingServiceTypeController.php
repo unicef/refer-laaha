@@ -114,19 +114,21 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       $organisation_name = $this->t('Invalid Organisation');
     }
     $organisational_average = $this->serviceRating->calculateTotalAverageRating($webform_ratings);
-  
+
     $listing_output = '<ul class="service-ratings-services-list">';
 
     $totalReviewsCount = 0;
     $servicesCount = 0;
     foreach ($webform_ratings as $webform_id => $average_rating) {
       $webform = Webform::load($webform_id);
-      $query = $this->entityTypeManager->getStorage('webform_submission')
-        ->getQuery();
-      $query->condition('webform_id', $webform_id);
-      $submissionIds = $query->execute();
-      $serviceReviewsCount = count($submissionIds) > 1 ? count($submissionIds) . ' Reviews' : count($submissionIds) . ' Review';
-      $totalReviewsCount = count($submissionIds);
+      // Review Count:
+      $element = [
+        'key' => 'service_organisation',
+        'value' => $org_id,
+      ];
+      $submission_ids = $this->serviceRating->getSubmissionIdsForSingleElement($webform->id(), $element);
+      $serviceReviewsCount = count($submission_ids) > 1 ? count($submission_ids) . ' Reviews' : count($submission_ids) . ' Review';
+      $totalReviewsCount += count($submission_ids);
       $webform_name = str_replace('Service Rating ', '', $webform->label());
       $url = Url::fromRoute('erpw_webform.questions.calculate_average_location_rating', ['webform_id' => $webform_id]);
       $href = $url->toString();
@@ -135,14 +137,14 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       // Create the anchor element with the webform name as the text and the generated URL.
       $anchor = '<a href="' . $href . '">' . $webform_name . '</a>';
       $listing_output .= '<li><p class="service-name">' . $anchor . '</p><p class="service-average-rating">' . $average_rating . '</p>
-        <div id="service-star-rating-'. $average_rating .'" class="star-rating">
+        <div id="service-star-rating-' . $average_rating . '" class="star-rating">
           <span class="star">&#9733;</span>
           <span class="star">&#9733;</span>
           <span class="star">&#9733;</span>
           <span class="star">&#9733;</span>
           <span class="star">&#9733;</span>
         </div>
-      <p class="reviews">(' . $serviceReviewsCount . ')</a>
+      <p class="reviews">(' . $serviceReviewsCount . ')</p>
       </li>';
     }
     $listing_output .= '</ul>';

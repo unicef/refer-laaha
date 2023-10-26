@@ -85,12 +85,12 @@ class ManageFeedbackSurveys extends ControllerBase {
   }
 
   /**
-   * {@inheritdoc}
+   * Fetch number of questions for a particular webform.
    */
   public function getServiceRatingFormQuestionCount(array $webform_elements) {
     $count = 0;
     foreach ($webform_elements as $element_key => $element) {
-      if (str_contains($element_key, "rating_question_") || str_contains($element_key, "multiple_choice_question_")) {
+      if ($element['#type'] == 'radios') {
         $count++;
       }
     }
