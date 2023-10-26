@@ -145,5 +145,6 @@ erpw_webform.manage_feedback_surveys:
   path: '/manage-feedback-surveys'
   defaults:
     _controller: '\Drupal\erpw_webform\Controller\ManageFeedbackSurveys::content'
+    _title: 'Manage Feedback Surveys'
   requirements:
     _permission: 'add service rating question'
