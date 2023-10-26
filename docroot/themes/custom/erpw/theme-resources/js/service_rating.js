@@ -99,7 +99,7 @@
             // Overall average star ratings.
             const averageStarRatings = document.getElementsByClassName('average-service-ratings-box')[0];
             if (averageStarRatings != null && averageStarRatings.children != null) {
-                const avgRatingValue = averageStarRatings.children[0]?.textContent;
+                const avgRatingValue = averageStarRatings.children[0]?.children?.[0]?.textContent;
                 if (avgRatingValue != null) {
                     const stars = document.getElementById('overall-average-ratings').children
                     for (let i = avgRatingValue; i < 5; i++) {

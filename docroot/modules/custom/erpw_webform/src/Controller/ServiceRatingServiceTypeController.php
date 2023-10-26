@@ -152,7 +152,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
     $output = '<div class="service-ratings-location-header">';
     $output .= '<h1>' . $organisation_name . '<br><p>' . $servicesCount . ' Services</p></h1>';
     $output .= '<div class="average-service-ratings-box">';
-    $output .= '<div class="average-ratings-info"><p>' . $organisational_average . '</p>';
+    $output .= '<div class="average-ratings-info"><p>' . round($organisational_average) . '</p>';
     $output .= '<span>(' . $totalReviewsCount . ' Reviews)</span></div>';
     $output .= '<div id="overall-average-ratings" class="overall-average-star-rating">
         <span class="star">&#9733;</span>
