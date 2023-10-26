@@ -114,7 +114,8 @@
                 for (rating of serviceRatingsList.children) {
                     const ratingValue = rating.getElementsByClassName('service-average-rating')[0]?.textContent;
                     if (ratingValue != null) {
-                        const stars = document.getElementById(`service-star-rating-${ratingValue}`).children
+                        // const stars = rating.getElementById(`service-star-rating-${ratingValue}`).children
+                        const stars = rating.children[2].children
                         for (let i = ratingValue; i < 5; i++) {
                             stars[i].classList.add('star-empty')
                         }                        
