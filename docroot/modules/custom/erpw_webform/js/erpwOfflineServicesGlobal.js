@@ -4,7 +4,7 @@
     // Get the current domain dynamically
     var baseUrl = window.location.protocol + "//" + window.location.host;
     localforage.config({
-      driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+      driver: localforage.INDEXEDDB,
       name: "serviceFormsData",
       version: 1.0,
       storeName: "serviceFormsData",
@@ -22,7 +22,7 @@
               // If the key exists, update its value
               if (existingValue !== null) {
                 // Merge the new data with the existing data if needed
-                // For example, if dataArray[key] is an array, you can concatenate or merge it with existingValue
+                // For example, if dataArray[key] is an array,
                 // Example: existingValue.concat(dataArray[key]);
                 // Then, update the key with the merged value
                 return localforage.setItem(key, existingValue);
@@ -57,9 +57,8 @@
       $(document).ready(function () {
         var currentUserId = drupalSettings.user.uid;
         if (currentUserId != 0) {
-          // Inside your fetchDataAndStore function:
           localforageUserServiceChanges = localforage.createInstance({
-            driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+            driver: localforage.INDEXEDDB,
             name: "userServiceChanges".concat(currentUserId),
             version: 1.0,
             storeName: "userServiceChanges".concat(currentUserId),
@@ -81,7 +80,7 @@
                 );
 
                 const listingAnchor = document.createElement("a");
-                listingAnchor.href = "/service-providers-changes-offline"; // Set the URL you want for the link
+                listingAnchor.href = "/service-providers-changes-offline";
                 listingAnchor.textContent =
                   "Click here review and submit them."; // Set the text for the link
                 listingAnchor.id = "offline-changes-listing"; // Set the ID for the link

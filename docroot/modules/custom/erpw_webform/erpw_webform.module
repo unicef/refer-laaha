@@ -168,6 +168,36 @@ function erpw_webform_preprocess_page(&$variables) {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_listing';
     $variables['#attached']['library'][] = 'unicef_iconpicker/unicef-iconpicker';
   }
+  if ($currentPath == '/manage-services') {
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_add';
+    $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $variables['#attached']['drupalSettings']['activeDomain'] = $activeDomain;
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'organisation');
+    $nids = $query->execute();
+
+    // Load nodes.
+    $nodes = Node::loadMultiple($nids);
+    $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    // Generate key-value pairs of nid and title.
+    $nid_title_pairs = [];
+    foreach ($nodes as $node) {
+      $domains = $node->get('field_domain_access')->getValue();
+      // Loop through the array and check if the value is present.
+      foreach ($domains as $domain) {
+        if (in_array($activeDomain, $domain)) {
+          $nid = $node->id();
+          $title = $node->getTitle();
+          $nid_title_pairs[$nid] = $title;
+        }
+      }
+    }
+    asort($nid_title_pairs);
+    $variables['#attached']['drupalSettings']['activeDomainOrganisation'] = $nid_title_pairs;
+  }
+  if ($currentRoute == 'entity.webform.canonical') {
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_add_form';
+  }
   $variables['page']['#cache']['contexts'][] = 'cookies';
   $variables['page']['#cache']['contexts'][] = 'url';
 }
