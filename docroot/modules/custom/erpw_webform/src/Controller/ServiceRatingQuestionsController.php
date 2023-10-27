@@ -148,17 +148,13 @@ class ServiceRatingQuestionsController extends ControllerBase {
       ];
     }
 
-    $feedback_area_data = [
-      'location_name' => $location_name,
-      'location_average' => round($location_average),
-      'location_total_reviews' => $total_review_count,
-      'feedback_area_list' => $feedback_area_list,
-    ];
-
     return [
-      '#theme' => 'page__ratings_by_feedback_area',
+      '#theme' => 'feedback_area_rating_page',
       '#title' => $this->t('Feedback Area Ratings'),
-      'data' => $feedback_area_data,
+      '#location_name' => $location_name,
+      '#location_average' => round($location_average),
+      '#location_total_reviews' => $total_review_count,
+      '#feedback_area_list' => $feedback_area_list,
     ];
   }
 
