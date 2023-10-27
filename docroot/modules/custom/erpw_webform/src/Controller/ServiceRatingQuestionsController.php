@@ -132,21 +132,7 @@ class ServiceRatingQuestionsController extends ControllerBase {
     $submission_ids = $this->serviceRating->getSubmissionIdsForMultipleElements($webform_id, NULL, $element2, $element3);
     $total_review_count = count($submission_ids) > 1 ? count($submission_ids) . ' Reviews' : count($submission_ids) . ' Review';
 
-    $output = '<div class="service-ratings-location-header">';
-    $output .= '<h1>' . $location_name . '</h1>';
-    $output .= '<div class="average-service-ratings-box">';
-    $output .= '<div class="average-ratings-info"><p>' . round($location_average) . '</p>';
-    $output .= '<span>(' . $total_review_count . ')</span></div>';
-    $output .= '<div id="overall-average-ratings" class="overall-average-star-rating">
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-      </div>';
-    $output .= '</div>';
-    $output .= '</div>';
-    $output .= '<ul class="service-ratings-services-list">';
+    $feedback_area_list = [];
     foreach ($average_ratings as $feedback => $average_rating) {
       $node = Node::load($feedback);
       if ($node) {
@@ -155,24 +141,24 @@ class ServiceRatingQuestionsController extends ControllerBase {
       else {
         $feedback_name = NULL;
       }
-      // $output .= '<li>' . $feedback_name . ': ' . $average_rating . '</li>';
-      $output .= '<li><p class="service-name">' . $feedback_name . '</p><p class="service-average-rating">' . $average_rating . '</p>
-      <div id="service-star-rating-' . $average_rating . '" class="star-rating">
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-      </div>
-      </li>';
+
+      $feedback_area_list[] = [
+        'feedback_name' => $feedback_name,
+        'feedback_rating' => $average_rating,   
+      ];
     }
 
-    $output .= '</ul>';
+    $feedback_area_data = [
+      'location_name' => $location_name,
+      'location_average' => round($location_average),
+      'location_total_reviews' => $total_review_count,
+      'feedback_area_list' => $feedback_area_list,
+    ];
 
     return [
+      '#theme' => 'page__ratings_by_feedback_area',
       '#title' => $this->t('Feedback Area Ratings'),
-      '#type' => 'markup',
-      '#markup' => $output,
+      'data' => $feedback_area_data,
     ];
   }
 

@@ -357,6 +357,14 @@
                     margin-top: 13px;
                 }
             }
+            
+            p {
+                @include average-service-rating-fonts;
+                color: #9C9C9C;
+                font-size: 12px;
+                font-weight: 400;
+                margin-top: 13px;
+            }
 
             .average-service-ratings-box{
 
@@ -371,6 +379,7 @@
                         font-weight: 700;
                         line-height: 16px; /* 100% */
                         letter-spacing: 0.4px;
+                        margin-top: 0;
                     }
                     span {
                         @include average-service-rating-fonts;
@@ -544,5 +553,12 @@
                 }
             }
         }
+    }
+}
+
+
+.path-ratings-by-service-type {
+    main {
+        margin-bottom: 0;
     }
 }

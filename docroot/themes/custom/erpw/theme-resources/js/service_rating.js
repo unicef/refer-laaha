@@ -112,7 +112,7 @@
             const serviceRatingsList = document.getElementsByClassName('service-ratings-services-list')[0];
             if (serviceRatingsList != null && serviceRatingsList.children != null) {
                 for (rating of serviceRatingsList.children) {
-                    const ratingValue = rating.getElementsByClassName('service-average-rating')[0]?.textContent;
+                    const ratingValue = rating.getElementsByClassName('service-average-rating')[0]?.innerText.replace(/\s/g, "");
                     if (ratingValue != null) {
                         // const stars = rating.getElementById(`service-star-rating-${ratingValue}`).children
                         const stars = rating.children[2].children

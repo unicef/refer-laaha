@@ -3742,6 +3742,21 @@ body.path-user {
   font-weight: 400;
   margin-top: 13px;
 }
+.path-ratings-by-service-type #block-erpw-content .service-ratings-location-header p, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header p, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header p {
+  color: #4A4A4A;
+  -webkit-font-feature-settings: "clig" off, "liga" off;
+          font-feature-settings: "clig" off, "liga" off;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  /* 16px */
+  letter-spacing: 0.15px;
+  color: #9C9C9C;
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 13px;
+}
 .path-ratings-by-service-type #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3763,6 +3778,7 @@ body.path-user {
   line-height: 16px;
   /* 100% */
   letter-spacing: 0.4px;
+  margin-top: 0;
 }
 .path-ratings-by-service-type #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info span, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info span, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header .average-service-ratings-box .average-ratings-info span {
   color: #4A4A4A;
@@ -3979,5 +3995,9 @@ body.path-user {
   line-height: 12px;
   /* 85.714% */
   text-transform: uppercase;
+}
+
+.path-ratings-by-service-type main {
+  margin-bottom: 0;
 }
 /*# sourceMappingURL=style.css.map */
