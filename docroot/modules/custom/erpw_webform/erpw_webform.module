@@ -1024,6 +1024,8 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
     $conditions = &$query->where[1]['conditions'];
     if ($view->getExposedInput()['webform_submission_workflow_filter'] != 'draft') {
       $sid_array = erpw_webform__fetch_draft_submission_ids();
+      // Remove Service Rating Submissions.
+      $sid_array = array_merge($sid_array, erpw_webform_fetch_service_rating_submission_ids());
       $sid = implode(',', $sid_array);
       if ($sid) {
         foreach ($conditions as $key => &$conditions_group) {
@@ -1194,6 +1196,20 @@ function erpw_webform__fetch_draft_submission_ids() {
   $query = \Drupal::database()->select('webform_submission_data', 'wsd');
   $query->fields('wsd', ['sid']);
   $query->condition('wsd.value', 'draft');
+  $results = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
+  return $results;
+}
+
+/**
+ * Fetch submission IDs for webform submissions with webform_id like 'webform_service_rating_%'.
+ *
+ * @return array
+ *   An array of submission IDs.
+ */
+function erpw_webform_fetch_service_rating_submission_ids() {
+  $query = \Drupal::database()->select('webform_submission_data', 'wsd');
+  $query->fields('wsd', ['sid']);
+  $query->condition('wsd.webform_id', 'webform_service_rating_', 'LIKE');
   $results = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
   return $results;
 }
