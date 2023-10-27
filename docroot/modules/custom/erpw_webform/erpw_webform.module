@@ -221,6 +221,33 @@ function erpw_webform_composite_theme() {
       ],
       'template' => 'page--manage-feedback-surveys',
     ],
+    'custom_template' => [
+      'variables' => [
+        'organisation_name' => NULL,
+        'organisation_average' => NULL,
+        'organisation_total_reviews' => NULL,
+        'service_list' => NULL,
+      ],
+      'template' => 'page--ratings-by-service-type',
+    ],
+    'custom_template' => [
+      'variables' => [
+        'serrvice_type_name' => NULL,
+        'service_type_average' => NULL,
+        'service_total_reviews' => NULL,
+        'location_list' => NULL,
+      ],
+      'template' => 'page--ratings-by-locations',
+    ],
+    'custom_template' => [
+      'variables' => [
+        'location_name' => NULL,
+        'location_average' => NULL,
+        'location_total_reviews' => NULL,
+        'feedback_area_list' => NULL,
+      ],
+      'template' => 'page--ratings-by-feedback-area',
+    ],
   ];
 }
 

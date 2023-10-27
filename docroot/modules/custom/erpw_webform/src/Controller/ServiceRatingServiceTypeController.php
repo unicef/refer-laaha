@@ -115,10 +115,9 @@ class ServiceRatingServiceTypeController extends ControllerBase {
     }
     $organisational_average = $this->serviceRating->calculateTotalAverageRating($webform_ratings);
 
-    $listing_output = '<ul class="service-ratings-services-list">';
-
     $totalReviewsCount = 0;
     $servicesCount = 0;
+    $organisation_services_list = [];
     foreach ($webform_ratings as $webform_id => $average_rating) {
       $webform = Webform::load($webform_id);
       // Review Count:
@@ -134,43 +133,28 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       $href = $url->toString();
       $servicesCount += 1;
 
-      // Create the anchor element with the webform name as the text and the generated URL.
-      $anchor = '<a href="' . $href . '">' . $webform_name . '</a>';
-      $listing_output .= '<li><p class="service-name">' . $anchor . '</p><p class="service-average-rating">' . $average_rating . '</p>
-        <div id="service-star-rating-' . $average_rating . '" class="star-rating">
-          <span class="star">&#9733;</span>
-          <span class="star">&#9733;</span>
-          <span class="star">&#9733;</span>
-          <span class="star">&#9733;</span>
-          <span class="star">&#9733;</span>
-        </div>
-      <p class="reviews">(' . $serviceReviewsCount . ')</p>
-      </li>';
+      $organisation_services_list[] = [
+        'service_name' => $webform_name,
+        'service_link' => $href,
+        'service_rating' => $average_rating,
+        'service_review_count' => $serviceReviewsCount,      
+      ];
     }
-    $listing_output .= '</ul>';
 
-    $output = '<div class="service-ratings-location-header">';
-    $output .= '<h1>' . $organisation_name . '<br><p>' . $servicesCount . ' Services</p></h1>';
-    $output .= '<div class="average-service-ratings-box">';
-    $output .= '<div class="average-ratings-info"><p>' . round($organisational_average) . '</p>';
-    $output .= '<span>(' . $totalReviewsCount . ' Reviews)</span></div>';
-    $output .= '<div id="overall-average-ratings" class="overall-average-star-rating">
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-      </div>';
-    $output .= '</div>';
-    $output .= '</div>';
-
-    $final_output = $output . $listing_output;
+    $service_ratings_data = [
+      'organisation_name' => $organisation_name,
+      'organisation_average' => round($organisational_average),
+      'organisation_total_services_count' => $servicesCount,
+      'organisation_total_reviews' => $totalReviewsCount > 1 ? $totalReviewsCount . ' Reviews' : $totalReviewsCount . ' Review',
+      'service_list' => $organisation_services_list,
+    ];
 
     return [
+      '#theme' => 'page__ratings_by_service_type',
       '#title' => $this->t('Service Ratings'),
-      '#type' => 'markup',
-      '#markup' => $final_output,
+      'data' => $service_ratings_data,
     ];
+
   }
 
 }

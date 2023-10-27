@@ -124,8 +124,8 @@ class ServiceRatingLocationController extends ControllerBase {
       $service_type_average = $this->serviceRating->calculateTotalAverageRating($averages);
       $country_ids = array_keys($this->location->getLocationEntities());
 
-      $listing_output = '<ul class="service-ratings-services-list">';
       $total_review_count = 0;
+      $locations_list = [];
       foreach ($averages as $location_id => $average_rating) {
         $location_review_count = 0;
         // Location filter.
@@ -157,44 +157,25 @@ class ServiceRatingLocationController extends ControllerBase {
           'webform_id' => $webform_id,
         ]);
         $href = $url->toString();
-
-        // Create the anchor element with the location name as the text and the generated URL.
-        $anchor = '<a href="' . $href . '">' . $location_name . '</a>';
-
-        $listing_output .= '<li><p class="service-name">' . $anchor . '</p><p class="service-average-rating">' . $average_rating . '</p>
-        <div id="service-star-rating-' . $average_rating . '" class="star-rating">
-          <span class="star">&#9733;</span>
-          <span class="star">&#9733;</span>
-          <span class="star">&#9733;</span>
-          <span class="star">&#9733;</span>
-          <span class="star">&#9733;</span>
-        </div>
-        <p class="reviews">(' . $location_review_count . ')</p>
-        </li>';
+        $locations_list[] = [
+          'location_name' => $location_name,
+          'location_link' => $href,
+          'location_rating' => $average_rating,
+          'location_review_count' => $location_review_count,      
+        ];
       }
-      $listing_output .= '</ul>';
 
-      $output = '<div class="service-ratings-location-header">';
-      $output .= '<h1>' . $service_type_name . '</h1>';
-      $output .= '<div class="average-service-ratings-box">';
-      $output .= '<div class="average-ratings-info"><p>' . round($service_type_average) . '</p>';
-      $output .= '<span>(' . $total_review_count . ' Reviews)</span></div>';
-      $output .= '<div id="overall-average-ratings" class="overall-average-star-rating">
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-      </div>';
-      $output .= '</div>';
-      $output .= '</div>';
-
-      $final_output = $output . $listing_output;
+      $location_ratings_data = [
+        'serrvice_type_name' => $service_type_name,
+        'service_type_average' => round($service_type_average),
+        'service_total_reviews' =>  $total_review_count > 1 ? $total_review_count . ' Reviews' : $total_review_count . ' Review',
+        'location_list' => $locations_list,
+      ];
 
       return [
+        '#theme' => 'page__ratings_by_locations',
         '#title' => $this->t('Location Ratings'),
-        '#type' => 'markup',
-        '#markup' => $final_output,
+        'data' => $location_ratings_data,
       ];
     }
   }
