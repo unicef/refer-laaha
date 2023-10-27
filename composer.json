@@ -50,7 +50,7 @@
         "drupal/field_permissions": "^1.2",
         "drupal/google_analytics": "^4",
         "drupal/google_tag": "^1.4",
-        "drupal/hook_event_dispatcher": "^3.0",
+        "drupal/hook_event_dispatcher": "^3.3",
         "drupal/mail_login": "^2.0",
         "drupal/menu_item_role_access": "^2.0",
         "drupal/menu_link_attributes": "^1.2",
@@ -167,6 +167,9 @@
             },
             "drupal/restui": {
                 "Use the ModuleHandlerInterface instead of the ModuleHandler concrete implementation ": "https://www.drupal.org/files/issues/2023-01-09/restui-use-moduleHandlerInterface-3327681-04.patch"
+            },
+            "drupal/webform": {
+                "Add feedback area property to webform elements": "patches/webform-feedback_area-property.patch"
             }
         }
     }

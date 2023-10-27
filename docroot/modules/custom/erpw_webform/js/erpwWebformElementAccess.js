@@ -15,7 +15,10 @@
               if (
                 webformKey == 'erpw_workflow' ||
                 webformKey == 'submission_domain' ||
-                webformKey == 'service_type'
+                webformKey == 'service_type' ||
+                webformKey == 'service_submission_id' ||
+                webformKey == 'service_location_tid' ||
+                webformKey == 'service_organisation'
               ) {
                 $(element).addClass('hide-element-access-for-nonadmin-user');
               }

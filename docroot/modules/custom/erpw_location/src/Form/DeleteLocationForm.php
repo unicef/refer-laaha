@@ -154,7 +154,7 @@ class DeleteLocationForm extends FormBase {
     $location_levels = $this->locationService->getLocationLevels($location_id);
     $location_details = '';
     foreach ($location_levels as $key => $level) {
-      
+
       if (!empty($ancestors[$key + 1])) {
         $level_data_name = "";
       }

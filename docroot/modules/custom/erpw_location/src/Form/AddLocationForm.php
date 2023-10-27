@@ -455,10 +455,10 @@ class AddLocationForm extends FormBase {
     $countryID = 0;
     $term_storage = $this->entityManager->getStorage('taxonomy_term');
     $query = $term_storage->getQuery()
-    ->condition('vid', 'country')
-    ->condition('parent', 0)
-    ->sort('weight')
-    ->sort('name');
+      ->condition('vid', 'country')
+      ->condition('parent', 0)
+      ->sort('weight')
+      ->sort('name');
     $term_ids = $query->execute();
     $terms = $term_storage->loadMultiple($term_ids);
     foreach ($terms as $term) {
@@ -467,10 +467,10 @@ class AddLocationForm extends FormBase {
         $countryID = $term->id();
       }
     }
-    
+
     // Load the taxonomy term storage.
     $termStorage = $this->entityManager->getStorage('taxonomy_term');
-    
+
     // Check if the top-level term exists.
     $topLevelTerm = $termStorage->loadByProperties(['name' => $level1, 'vid' => 'country']);
     if (empty($topLevelTerm) && !empty($level1)) {

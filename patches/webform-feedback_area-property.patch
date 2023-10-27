@@ -1,0 +1,40 @@
+diff --git a/src/Plugin/WebformElementBase.php b/src/Plugin/WebformElementBase.php
+index a463f1134..3c5430c71 100644
+--- a/src/Plugin/WebformElementBase.php
++++ b/src/Plugin/WebformElementBase.php
+@@ -167,6 +167,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface,
+     $properties = [
+       // Element settings.
+       'title' => '',
++      'feedback_area' => '',
+       'default_value' => '',
+       // Description/Help.
+       'help' => '',
+@@ -2305,6 +2306,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface,
+     /** @var \Drupal\webform_ui\Form\WebformUiElementFormInterface $form_object */
+     $form_object = $form_state->getFormObject();
+     $webform = $form_object->getWebform();
++    $webform_id = $webform->id();
+ 
+     $element_properties = $form_state->get('element_properties');
+ 
+@@ -2349,6 +2351,19 @@ class WebformElementBase extends PluginBase implements WebformElementInterface,
+       ],
+     ];
+ 
++    // Service Rating specific field.
++    if (is_string($webform_id) && preg_match('/^webform_service_rating_\d+$/', $webform_id)) {
++      $feedback_area_options = \Drupal::service('erpw_webform.service_rating_service')->loadAndProcessEntities('node', 'feedback_area', 'field_domain_access');
++      $form['element']['feedback_area'] = [
++        '#title' => $this->t('Feedback Area'),
++        '#type' => 'select',
++        '#required' => TRUE,
++        '#description' => '<span class = "service-rating-description"> Select the feedback area for which the question is being created.</span>',
++        "#empty_option" => $this->t('- Select -'),
++        '#options' => $feedback_area_options,
++      ];
++    }
++
+     /* Element description/help/more */
+ 
+     $form['element_description'] = [
