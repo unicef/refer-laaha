@@ -89,9 +89,22 @@
                 "js-form-type-" +
                   elementKey.replace(/_/g, "-").replace(/-([^_]*)$/, "$1")
               );
+              if (
+                element.hasOwnProperty("#required") &&
+                element["#required"] !== null
+              ) {
+                divElement.classList.add("form-item-required");
+              }
               var label = document.createElement("label");
-              label.className = "label";
+              label.classList.add("label");
               label.textContent = Drupal.t(element["#title"]);
+              if (
+                element.hasOwnProperty("#required") &&
+                element["#required"] !== null
+              ) {
+                label.classList.add("js-form-required");
+                label.classList.add("form-required");
+              }
 
               divElement.appendChild(label);
               if (
@@ -100,8 +113,15 @@
                 element["#type"] == "email"
               ) {
                 var label = document.createElement("label");
-                label.className = "label";
+                label.classList.add("label");
                 label.textContent = Drupal.t(element["#title"]);
+                if (
+                  element.hasOwnProperty("#required") &&
+                  element["#required"] !== null
+                ) {
+                  label.classList.add("js-form-required");
+                  label.classList.add("form-required");
+                }
 
                 var input = document.createElement("input");
                 input.type =
@@ -261,11 +281,11 @@
                   </legend>
                   <div class="fieldset-wrapper">
                     <div
-                      class="js-form-item form-item js-form-type-select form-type-select js-form-item-location-location-options form-item-location-location-options"
+                      class="js-form-item form-item js-form-type-select form-type-select js-form-item-location-location-options form-item-location-location-options form-item-required"
                     >
                       <label
                         for="edit-location-location-options"
-                        class=""
+                        class="js-form-required form-required"
                         >Select Country</label
                       >
 
@@ -552,169 +572,229 @@
               text: Drupal.t("Submit"),
               class: "offline-add-form-submit",
               click: function () {
-                // Handle form submission here
-                // Get the form element
                 var form = document.querySelector(
                   ".webform-submission-add-form-offline"
                 );
-                // Create an object to store the mapping
-                var contentEditableData = {};
-                // Find all elements of input within the form
-                const inputFields = form.querySelectorAll(
-                  ".offline-input-field"
+                const requiredFields = form.querySelectorAll(
+                  ".form-item-required"
                 );
-                // Loop through the found input elements
-                inputFields.forEach(function (input) {
-                  // Get the label text
-                  var label = input.parentElement
-                    .querySelector(".label")
-                    .textContent.trim();
-                  if (input.value.trim()) {
-                    contentEditableData[label] = input.value.trim();
+                var globalRequired = true;
+                requiredFields.forEach(function (requiredField) {
+                  var inputElements = requiredField.querySelectorAll("input");
+                  // Check if input elements are found
+                  var elementChecked = false;
+                  if (inputElements.length > 0) {
+                    inputElements.forEach(function (inputElement) {
+                      if (inputElement.getAttribute("type") == "checkbox") {
+                        if (inputElement.checked) {
+                          elementChecked = true;
+                        }
+                      } else if (inputElement.getAttribute("type") == "radio") {
+                        if (inputElement.checked) {
+                          elementChecked = true;
+                        }
+                      } else if (inputElement.value.trim()) {
+                        elementChecked = true;
+                      }
+                    });
+                  }
+                  var selectElement = requiredField.querySelector("select");
+                  if (selectElement) {
+                    if (
+                      selectElement.value !== "0" &&
+                      selectElement.value !== ""
+                    ) {
+                      elementChecked = true;
+                    }
+                  }
+                  if (!elementChecked) {
+                    globalRequired = false;
+                    var label = requiredField.querySelector("label");
+                    var existingSpan = requiredField.querySelector(
+                      ".offline-add-required-message"
+                    );
+                    if (!existingSpan) {
+                      var span = document.createElement("span");
+                      span.textContent = Drupal.t("This field is required");
+                      span.className = "offline-add-required-message";
+
+                      label.appendChild(span);
+                    }
+                  } else {
+                    var existingSpan = requiredField.querySelector(
+                      ".offline-add-required-message"
+                    );
+                    if (existingSpan) {
+                      existingSpan.remove();
+                    }
+                  }
+                  var elementToScrollTo = document.querySelector(
+                    ".offline-add-required-message"
+                  );
+                  if (elementToScrollTo) {
+                    elementToScrollTo.scrollIntoView({ behavior: "smooth" });
                   }
                 });
-
-                // Find all elements with checkboxes within the form
-                const checkboxFields = form.querySelectorAll(
-                  ".offline-checkbox-list-wrapper"
-                );
-
-                checkboxFields.forEach(function (input) {
-                  // Initialize an empty array to store checked values
-                  var checkboxCheckedValues = [];
-                  // Get the label text
-                  var label = input.parentElement
-                    .querySelector(".label")
-                    .textContent.trim();
-                  // Loop through the child nodes of the wrapper
-                  input.childNodes.forEach(function (child) {
-                    var checkbox = child.querySelector(
-                      'input[type="checkbox"]'
-                    );
-                    if (checkbox.checked) {
-                      // Get the value of the checked checkbox
-                      var value = child.querySelector("label").textContent;
-                      checkboxCheckedValues.push(value);
+                if (globalRequired) {
+                  // Create an object to store the mapping
+                  var contentEditableData = {};
+                  // Find all elements of input within the form
+                  const inputFields = form.querySelectorAll(
+                    ".offline-input-field"
+                  );
+                  // Loop through the found input elements
+                  inputFields.forEach(function (input) {
+                    // Get the label text
+                    var label = input.parentElement
+                      .querySelector(".label")
+                      .textContent.trim();
+                    if (input.value.trim()) {
+                      contentEditableData[label] = input.value.trim();
                     }
                   });
-                  if (checkboxCheckedValues.length !== 0) {
-                    // Add the label and checked values to the pairObject
-                    contentEditableData[label] = checkboxCheckedValues;
-                  }
-                });
-                // Find all elements of radio within the form
-                const radioFields = form.querySelectorAll(
-                  ".offline-radio-list-wrapper"
-                );
-                radioFields.forEach(function (input) {
-                  // Initialize an empty array to store checked values
-                  var radiocheckedValues = "";
-                  // Get the label text
-                  var label = input.parentElement
-                    .querySelector(".label")
-                    .textContent.trim();
-                  // Loop through the child nodes of the wrapper
-                  input.childNodes.forEach(function (child) {
-                    var radio = child.querySelector('input[type="radio"]');
-                    if (radio) {
-                      if (radio.checked) {
+
+                  // Find all elements with checkboxes within the form
+                  const checkboxFields = form.querySelectorAll(
+                    ".offline-checkbox-list-wrapper"
+                  );
+
+                  checkboxFields.forEach(function (input) {
+                    // Initialize an empty array to store checked values
+                    var checkboxCheckedValues = [];
+                    // Get the label text
+                    var label = input.parentElement
+                      .querySelector(".label")
+                      .textContent.trim();
+                    // Loop through the child nodes of the wrapper
+                    input.childNodes.forEach(function (child) {
+                      var checkbox = child.querySelector(
+                        'input[type="checkbox"]'
+                      );
+                      if (checkbox.checked) {
                         // Get the value of the checked checkbox
                         var value = child.querySelector("label").textContent;
-                        radiocheckedValues = radiocheckedValues.concat(value);
+                        checkboxCheckedValues.push(value);
                       }
+                    });
+                    if (checkboxCheckedValues.length !== 0) {
+                      // Add the label and checked values to the pairObject
+                      contentEditableData[label] = checkboxCheckedValues;
                     }
                   });
-                  if (radiocheckedValues !== "") {
-                    // Add the label and checked values to the pairObject
-                    contentEditableData[label] = radiocheckedValues;
-                  }
-                });
-                const selectListFields = form.querySelectorAll(
-                  ".offline-select-list-wrapper"
-                );
-
-                // Loop through the select list wrappers.
-                selectListFields.forEach(function (selectListWrapper) {
-                  // Get the label text
-                  var label = selectListWrapper.parentElement
-                    .querySelector(".label")
-                    .textContent.trim();
-
-                  const selectedOption = selectListWrapper.value;
-
-                  if (selectedOption !== "") {
-                    if (label.toLowerCase() == "organisation") {
-                      contentEditableData["orgID"] = selectedOption;
-                      contentEditableData[label] = $(selectListWrapper)
-                        .find("option:selected")
-                        .text();
-                    } else {
-                      // Add the label and checked values to the pairObject
-                      contentEditableData[label] = selectedOption;
-                    }
-                  }
-                });
-
-                // Loop through the location list select lists.
-                $(".location-list-element--wrapper").each(function () {
-                  var location = [];
-                  var locationText = "";
-                  $(this)
-                    .find("select")
-                    .each(function () {
-                      if (this.value !== "0" && this.value !== "") {
-                        if (this.classList.contains("location_options")) {
-                          location["location_options"] = this.value;
-                          locationText = locationText.concat(
-                            $(this).find("option:selected").text()
-                          );
-                        } else if (this.classList.contains("level_1")) {
-                          location["level_1"] = this.value;
-                          locationText = locationText
-                            .concat(", ")
-                            .concat($(this).find("option:selected").text());
-                        } else if (this.classList.contains("level_2")) {
-                          location["level_2"] = this.value;
-                          locationText = locationText
-                            .concat(", ")
-                            .concat($(this).find("option:selected").text());
-                        } else if (this.classList.contains("level_3")) {
-                          location["level_3"] = this.value;
-                          locationText = locationText
-                            .concat(", ")
-                            .concat($(this).find("option:selected").text());
-                        } else if (this.classList.contains("level_4")) {
-                          location["level_4"] = this.value;
-                          locationText = locationText
-                            .concat(", ")
-                            .concat($(this).find("option:selected").text())
-                            .concat(".");
+                  // Find all elements of radio within the form
+                  const radioFields = form.querySelectorAll(
+                    ".offline-radio-list-wrapper"
+                  );
+                  radioFields.forEach(function (input) {
+                    // Initialize an empty array to store checked values
+                    var radiocheckedValues = "";
+                    // Get the label text
+                    var label = input.parentElement
+                      .querySelector(".label")
+                      .textContent.trim();
+                    // Loop through the child nodes of the wrapper
+                    input.childNodes.forEach(function (child) {
+                      var radio = child.querySelector('input[type="radio"]');
+                      if (radio) {
+                        if (radio.checked) {
+                          // Get the value of the checked checkbox
+                          var value = child.querySelector("label").textContent;
+                          radiocheckedValues = radiocheckedValues.concat(value);
                         }
                       }
                     });
-                  // Add the label and checked values to the pairObject
-                  contentEditableData["locationID"] = location;
-                  contentEditableData["location"] = locationText;
-                });
-                contentEditableData["service_type"] = formID;
-                contentEditableData["service_type_title"] = formIDTitle;
-                localforageUserServiceCreated
-                  .setItem(
-                    event[0].textContent.concat(
-                      Math.floor(10000 + Math.random() * 90000)
-                    ),
-                    contentEditableData
-                  )
-                  .then(() => {
-                    console.log(`Data for new entry added.`);
-                  })
-                  .catch((error) =>
-                    console.error(`Error updating data for new entry`, error)
+                    if (radiocheckedValues !== "") {
+                      // Add the label and checked values to the pairObject
+                      contentEditableData[label] = radiocheckedValues;
+                    }
+                  });
+                  const selectListFields = form.querySelectorAll(
+                    ".offline-select-list-wrapper"
                   );
-                contentEditableData = {};
-                // After submitting, close the dialog
-                // Clean up the dialog when it's closed
-                $(this).dialog("destroy").remove();
+
+                  // Loop through the select list wrappers.
+                  selectListFields.forEach(function (selectListWrapper) {
+                    // Get the label text
+                    var label = selectListWrapper.parentElement
+                      .querySelector(".label")
+                      .textContent.trim();
+
+                    const selectedOption = selectListWrapper.value;
+
+                    if (selectedOption !== "") {
+                      if (label.toLowerCase() == "organisation") {
+                        contentEditableData["orgID"] = selectedOption;
+                        contentEditableData[label] = $(selectListWrapper)
+                          .find("option:selected")
+                          .text();
+                      } else {
+                        // Add the label and checked values to the pairObject
+                        contentEditableData[label] = selectedOption;
+                      }
+                    }
+                  });
+
+                  // Loop through the location list select lists.
+                  $(".location-list-element--wrapper").each(function () {
+                    var location = [];
+                    var locationText = "";
+                    $(this)
+                      .find("select")
+                      .each(function () {
+                        if (this.value !== "0" && this.value !== "") {
+                          if (this.classList.contains("location_options")) {
+                            location["location_options"] = this.value;
+                            locationText = locationText.concat(
+                              $(this).find("option:selected").text()
+                            );
+                          } else if (this.classList.contains("level_1")) {
+                            location["level_1"] = this.value;
+                            locationText = locationText
+                              .concat(", ")
+                              .concat($(this).find("option:selected").text());
+                          } else if (this.classList.contains("level_2")) {
+                            location["level_2"] = this.value;
+                            locationText = locationText
+                              .concat(", ")
+                              .concat($(this).find("option:selected").text());
+                          } else if (this.classList.contains("level_3")) {
+                            location["level_3"] = this.value;
+                            locationText = locationText
+                              .concat(", ")
+                              .concat($(this).find("option:selected").text());
+                          } else if (this.classList.contains("level_4")) {
+                            location["level_4"] = this.value;
+                            locationText = locationText
+                              .concat(", ")
+                              .concat($(this).find("option:selected").text())
+                              .concat(".");
+                          }
+                        }
+                      });
+                    // Add the label and checked values to the pairObject
+                    contentEditableData["locationID"] = location;
+                    contentEditableData["location"] = locationText;
+                  });
+                  contentEditableData["service_type"] = formID;
+                  contentEditableData["service_type_title"] = formIDTitle;
+                  localforageUserServiceCreated
+                    .setItem(
+                      event[0].textContent.concat(
+                        Math.floor(10000 + Math.random() * 90000)
+                      ),
+                      contentEditableData
+                    )
+                    .then(() => {
+                      console.log(`Data for new entry added.`);
+                    })
+                    .catch((error) =>
+                      console.error(`Error updating data for new entry`, error)
+                    );
+                  contentEditableData = {};
+                  // After submitting, close the dialog
+                  // Clean up the dialog when it's closed
+                  $(this).dialog("destroy").remove();
+                }
               },
             },
             Close: {

@@ -843,6 +843,16 @@ span[contenteditable="true"] {
   left: -11px;
   top: -11px;
 }
+.webform-submission-add-form-offline .form-required::after {
+  color: red;
+}
+.offline-add-required-message {
+  color: red;
+  text-align: left;
+  width: fit-content;
+  display: inline-block;
+  margin-left: 10px;
+}
 @media only screen and (min-width: 1024px) {
   .webform-submission-form .table-format .webform-mapping-table {
     width: 50%;
