@@ -122,10 +122,10 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
       ],
       '#required' => TRUE,
       '#default_value' => 'rating',
-      '#ajax' => [
-        'callback' => '::questionTypeCallback',
-        'wrapper' => 'options-fieldset-wrapper',
-      ],
+      // '#ajax' => [
+      //   'callback' => '::questionTypeCallback',
+      //   'wrapper' => 'options-fieldset-wrapper',
+      // ],
     ];
 
     $question_type = $form_state->getValue('question_type');
@@ -202,12 +202,12 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
 
     $form['submit'] = [
       '#type' => 'submit',
-      '#value' => 'Save Question',
+      '#value' => 'Save Question & Exit',
     ];
 
     $form['add_new_question'] = [
       '#type' => 'submit',
-      '#value' => 'Add New Question',
+      '#value' => 'Save & Add New Question',
       '#submit' => ['::addNewQuestion'],
     ];
 

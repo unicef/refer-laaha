@@ -12,7 +12,7 @@
         } else if (questionType === 'multiple_choice') {
           // Modify the title for Multiple Choice Question type.
           $('.options-fieldset-wrapper .form-item').each(function () {
-            $(this).find('label').text('Option');
+            $(this).find('label').text(index + 1);
           });
         }
       }
