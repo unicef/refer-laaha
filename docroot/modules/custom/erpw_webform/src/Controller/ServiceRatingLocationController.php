@@ -165,17 +165,14 @@ class ServiceRatingLocationController extends ControllerBase {
         ];
       }
 
-      $location_ratings_data = [
-        'serrvice_type_name' => $service_type_name,
-        'service_type_average' => round($service_type_average),
-        'service_total_reviews' =>  $total_review_count > 1 ? $total_review_count . ' Reviews' : $total_review_count . ' Review',
-        'location_list' => $locations_list,
-      ];
 
       return [
-        '#theme' => 'page__ratings_by_locations',
-        '#title' => $this->t('Location Ratings'),
-        'data' => $location_ratings_data,
+        '#theme' => 'location_rating_page',
+        '#title' => $this->t('Service Ratings'),
+        '#service_type_name' => $service_type_name,
+        '#service_type_average' => round($service_type_average),
+        '#service_total_reviews' =>  $total_review_count > 1 ? $total_review_count . ' Reviews' : $total_review_count . ' Review',
+        '#location_list' => $locations_list,
       ];
     }
   }
