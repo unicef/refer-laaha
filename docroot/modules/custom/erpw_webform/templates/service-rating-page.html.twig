@@ -23,11 +23,7 @@
 		{% for data in service_list %}
 			<li>
 				<p class="service-name">
-					{% if data.service_rating == 0 %}
-					  <span class = "no-service-rating">{{ data.service_name }}</span>
-					{% else %}
-					  <a href={{ data.service_link }}>{{ data.service_name }}</a>
-					{% endif %}
+					<a href={{ data.service_link }}>{{ data.service_name }}</a>
 				</p>
 				<p class="service-average-rating">
 					{% spaceless %}
