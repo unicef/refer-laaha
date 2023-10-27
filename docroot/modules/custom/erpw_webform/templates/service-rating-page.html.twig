@@ -1,0 +1,44 @@
+<div>
+	<div class="service-ratings-location-header">
+		<div>
+			<h1>{{ organisation_name }}</h1>
+			<p>{{ organisation_total_services_count }}{{ ' Services'|t }}</p>
+		</div>
+		<div class="average-service-ratings-box">
+			<div class="average-ratings-info">
+				<p>{{ organisation_average }}</p>
+				<span>{{ '(' }}{{ organisation_total_reviews }}{{ ')'|t }}</span>
+			</div>
+			<div id="overall-average-ratings" class="overall-average-star-rating">
+				<span class="star">&#9733;</span>
+				<span class="star">&#9733;</span>
+				<span class="star">&#9733;</span>
+				<span class="star">&#9733;</span>
+				<span class="star">&#9733;</span>
+			</div>
+		</div>
+	</div>
+
+	<ul class="service-ratings-services-list">
+		{% for data in service_list %}
+			<li>
+				<p class="service-name">
+					<a href={{ data.service_link }}>{{ data.service_name }}</a>
+				</p>
+				<p class="service-average-rating">
+					{% spaceless %}
+						{{ data.service_rating }}
+					{% endspaceless %}
+				</p>
+				<div id="service-star-rating-{{ data.service_rating }}" class="star-rating">
+					<span class="star">&#9733;</span>
+					<span class="star">&#9733;</span>
+					<span class="star">&#9733;</span>
+					<span class="star">&#9733;</span>
+					<span class="star">&#9733;</span>
+				</div>
+				<p class="reviews">{{ '(' }}{{ data.service_review_count }}{{ ')' }}</p>
+			</li>
+		{% endfor %}
+	</ul>
+</div>

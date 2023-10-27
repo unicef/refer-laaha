@@ -611,6 +611,37 @@ class ServiceSubmissionsView extends ControllerBase {
           }
         }
       }
+      // Service Rating Link.
+      $service_type_id = $servicetype->get('nid')->getValue()[0]['value'];
+      $rating_webform = 'webform_service_rating_' . $service_type_id;
+      $feedback_webform = \Drupal::entityTypeManager()
+        ->getStorage('webform')
+        ->load($rating_webform);
+
+      if ($feedback_webform && $feedback_webform->isOpen() && $this->currentUser->isAuthenticated()) {
+        // Get the URL for the loaded webform.
+        $routeName = 'erpw_webform.webform.feedback_form';
+
+        // Define the route parameters as an associative array.
+        $routeParameters = [
+          'webform' => $rating_webform,
+          'servicesid' => $webform_submission->id(),
+        ];
+
+        // Create a URL object based on the route name and parameters.
+        $url = Url::fromRoute($routeName, $routeParameters);
+
+        // Create a Link object with a link text and the URL.
+        $service_rating_text = t('Give Feedback');
+        $service_rating_url = $url->toString();
+
+        // The extra ZZ is so that it always comes in the last place in the pair container.
+        $output[]['ZZ Service Rating Link'] = [
+          '#markup' => '<a class="service-feedback-form" href="' . $service_rating_url . '">' . $service_rating_text . '</a>',
+        ];
+      }
+
+      // Edit URL.
       $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
         'webform' => $webform_submission->getWebform()->id(),
         'webform_submission' => $webform_submission->id(),
@@ -660,7 +691,13 @@ class ServiceSubmissionsView extends ControllerBase {
       });
       foreach ($output as $item) {
         foreach ($item as $key => $value) {
-          $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
+          if ($key == 'ZZ Service Rating Link') {
+            $markup .= '<div class="pair-container"><span class="service-rating-label">' . Markup::create($key) . ':</span>';
+          }
+          else {
+            $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
+          }
+
           if ($key == 'Opening Times' && is_array($value)) {
             $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
           }
