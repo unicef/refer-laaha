@@ -824,6 +824,7 @@
                   // After submitting, close the dialog
                   // Clean up the dialog when it's closed
                   $(this).dialog("destroy").remove();
+                  $("html, body").animate({ scrollTop: 0 }, "slow");
                 }
               },
             },
@@ -832,6 +833,7 @@
               click: function () {
                 // Clean up the dialog when it's closed
                 $(this).dialog("destroy").remove();
+                $("html, body").animate({ scrollTop: 0 }, "slow");
               },
             },
           },
