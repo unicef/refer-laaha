@@ -141,20 +141,15 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       ];
     }
 
-    $service_ratings_data = [
-      'organisation_name' => $organisation_name,
-      'organisation_average' => round($organisational_average),
-      'organisation_total_services_count' => $servicesCount,
-      'organisation_total_reviews' => $totalReviewsCount > 1 ? $totalReviewsCount . ' Reviews' : $totalReviewsCount . ' Review',
-      'service_list' => $organisation_services_list,
-    ];
-
     return [
-      '#theme' => 'page__ratings_by_service_type',
+      '#theme' => 'service_rating_page',
       '#title' => $this->t('Service Ratings'),
-      'data' => $service_ratings_data,
+      '#organisation_name' => $organisation_name,
+      '#organisation_average' => round($organisational_average),
+      '#organisation_total_services_count' => $servicesCount,
+      '#organisation_total_reviews' => $totalReviewsCount > 1 ? $totalReviewsCount . ' Reviews' : $totalReviewsCount . ' Review',
+      '#service_list' => $organisation_services_list,
     ];
-
   }
 
 }

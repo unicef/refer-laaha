@@ -206,6 +206,38 @@ function erpw_webform_entity_insert(EntityInterface $entity) {
 }
 
 /**
+* Implementation of hook_theme()
+*/
+function erpw_webform_theme($existing, $type, $theme, $path) {
+  return [
+    'service_rating_page' => [
+      'variables' => [
+        'organisation_name' => NULL,
+        'organisation_average' => NULL,
+        'organisation_total_reviews' => NULL,
+        'service_list' => NULL,
+      ],
+    ],
+    'location_rating_page' => [
+      'variables' => [
+        'service_type_name' => NULL,
+        'service_type_average' => NULL,
+        'service_total_reviews' => NULL,
+        'location_list' => NULL,
+      ],
+    ],
+    'feedback_area_rating_page' => [
+      'variables' => [
+        'location_name' => NULL,
+        'location_average' => NULL,
+        'location_total_reviews' => NULL,
+        'feedback_area_list' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
  * Implements hook_theme().
  */
 function erpw_webform_composite_theme() {
@@ -220,33 +252,6 @@ function erpw_webform_composite_theme() {
         'webform_status' => NULL,
       ],
       'template' => 'page--manage-feedback-surveys',
-    ],
-    'custom_template' => [
-      'variables' => [
-        'organisation_name' => NULL,
-        'organisation_average' => NULL,
-        'organisation_total_reviews' => NULL,
-        'service_list' => NULL,
-      ],
-      'template' => 'page--ratings-by-service-type',
-    ],
-    'custom_template' => [
-      'variables' => [
-        'serrvice_type_name' => NULL,
-        'service_type_average' => NULL,
-        'service_total_reviews' => NULL,
-        'location_list' => NULL,
-      ],
-      'template' => 'page--ratings-by-locations',
-    ],
-    'custom_template' => [
-      'variables' => [
-        'location_name' => NULL,
-        'location_average' => NULL,
-        'location_total_reviews' => NULL,
-        'feedback_area_list' => NULL,
-      ],
-      'template' => 'page--ratings-by-feedback-area',
     ],
   ];
 }
