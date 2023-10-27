@@ -134,6 +134,27 @@
 
                 divElement.appendChild(input);
                 form.appendChild(divElement);
+              } else if (element["#type"] == "textarea") {
+                var label = document.createElement("label");
+                label.classList.add("label");
+                label.textContent = Drupal.t(element["#title"]);
+                if (
+                  element.hasOwnProperty("#required") &&
+                  element["#required"] !== null
+                ) {
+                  label.classList.add("js-form-required");
+                  label.classList.add("form-required");
+                }
+
+                var input = document.createElement("textarea");
+                input.className = "offline-input-field";
+                input.name = elementKey;
+                input.placeholder = Drupal.t("Enter ").concat(
+                  Drupal.t(element["#title"])
+                );
+
+                divElement.appendChild(input);
+                form.appendChild(divElement);
               } else if (element["#type"] == "select") {
                 if (element["#webform_multiple"] == true) {
                   // Create a new div element for checkboxes
@@ -777,11 +798,20 @@
                   });
                   contentEditableData["service_type"] = formID;
                   contentEditableData["service_type_title"] = formIDTitle;
+                  // Timestamp
+                  var currentDate = new Date();
+                  var hours = currentDate.getHours();
+                  var minutes = currentDate.getMinutes();
+                  var seconds = currentDate.getSeconds();
+
+                  // Formatting the time as HHMMSS
+                  var formattedTime =
+                    ("0" + hours).slice(-2) +
+                    ("0" + minutes).slice(-2) +
+                    ("0" + seconds).slice(-2);
                   localforageUserServiceCreated
                     .setItem(
-                      event[0].textContent.concat(
-                        Math.floor(10000 + Math.random() * 90000)
-                      ),
+                      event[0].textContent.concat(formattedTime),
                       contentEditableData
                     )
                     .then(() => {

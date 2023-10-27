@@ -28,7 +28,7 @@
                     var url = window.location.href;
                     // Use a regular expression to extract the 'key' parameter value
                     var match = url.match(/[?&]key=([^&]+)/);
-                    if (key == match[1]) {
+                    if (key == match[1].replace(/%20/g, " ")) {
                       // Select all elements with the class erpw-workflow-cta-button.
                       var buttons = document.querySelectorAll(
                         ".erpw-workflow-cta-button"
@@ -87,7 +87,9 @@
                                     .val(selectedOptions)
                                     .trigger("change");
                                 }
-                              } else if ($(jsFormItemDiv).find("select")) {
+                              } else if (
+                                $(jsFormItemDiv).find("select").length > 0
+                              ) {
                                 var inputElement =
                                   $(jsFormItemDiv).find("select");
                                 var selectedOptions = valueData[fieldLabel]; // The array of labels
