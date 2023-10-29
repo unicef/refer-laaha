@@ -8,6 +8,7 @@ dependencies:
     - field.field.notification_entity.notification_entity.field_entity_id
     - field.field.notification_entity.notification_entity.field_entity_type
     - field.field.notification_entity.notification_entity.field_event_id
+    - field.field.notification_entity.notification_entity.field_excluded_users
     - field.field.notification_entity.notification_entity.field_location
     - field.field.notification_entity.notification_entity.field_organisation
     - field.field.notification_entity.notification_entity.field_priority
@@ -58,6 +59,16 @@ content:
     weight: 19
     region: content
     settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_excluded_users:
+    type: entity_reference_autocomplete
+    weight: 20
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }

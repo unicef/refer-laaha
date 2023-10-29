@@ -8,6 +8,7 @@ dependencies:
     - field.field.notification_entity.notification_entity.field_entity_id
     - field.field.notification_entity.notification_entity.field_entity_type
     - field.field.notification_entity.notification_entity.field_event_id
+    - field.field.notification_entity.notification_entity.field_excluded_users
     - field.field.notification_entity.notification_entity.field_location
     - field.field.notification_entity.notification_entity.field_organisation
     - field.field.notification_entity.notification_entity.field_priority
@@ -64,6 +65,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 14
+    region: content
+  field_excluded_users:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 15
     region: content
   field_location:
     type: entity_reference_label
