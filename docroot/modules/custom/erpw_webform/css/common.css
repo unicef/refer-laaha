@@ -826,7 +826,6 @@ span[contenteditable="true"] {
 .offline-form-container fieldset.js-form-item {
   margin-left: 0 !important;
   margin-right: 0 !important;
-  background: whitesmoke;
   border-radius: 10px;
 }
 .offline-form-container fieldset label {
@@ -852,6 +851,18 @@ span[contenteditable="true"] {
   width: fit-content;
   display: inline-block;
   margin-left: 10px;
+}
+.service-update-status {
+  margin-left: auto;
+  margin-right: 30px;
+  font-size: 14px;
+  color: black;
+  font-family: "Roboto";
+  background: rgba(243, 193, 191, 0.53);
+  padding: 5px;
+  border: 2px solid #a85766;
+  border-radius: 5px;
+  font-weight: bold;
 }
 @media only screen and (min-width: 1024px) {
   .webform-submission-form .table-format .webform-mapping-table {

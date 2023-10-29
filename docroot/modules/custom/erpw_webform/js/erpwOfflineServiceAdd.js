@@ -260,6 +260,8 @@
                 // Create a new select element
                 const selectElement = document.createElement("select");
                 selectElement.className = "offline-select-list-wrapper";
+                selectElement.style.pointerEvents = "none";
+                selectElement.style.background = "whitesmoke";
                 // Define the options and their values
                 const options = drupalSettings.activeDomainOrganisation;
                 // Create and add the initial "Select Organization" option
@@ -273,8 +275,10 @@
                   option.value = optionKey;
                   option.text = options[optionKey];
                   selectElement.appendChild(option);
+                  if (optionKey === drupalSettings.activeOrg) {
+                    option.selected = true;
+                  }
                 }
-
                 divElement.appendChild(selectElement);
                 form.appendChild(divElement);
               } else if (element["#type"] == "location_list_element") {
@@ -317,6 +321,7 @@
                         name="location[location_options]"
                         tabindex="-1"
                         aria-hidden="true"
+                        style="pointer-events:none;background:whitesmoke";
                       >
                         <option value="" selected="selected">
                           Select Country
@@ -570,6 +575,13 @@
                     }
                   }
                 });
+                // Select the 'select.location_options' element and set its value.
+                $("select.location_options").val(
+                  drupalSettings.activeDomainTermID
+                );
+
+                // Trigger the change event on the 'select.location_options' element.
+                $("select.location_options").trigger("change");
               }
             }
           }

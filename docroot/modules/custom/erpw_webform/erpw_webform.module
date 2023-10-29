@@ -165,6 +165,24 @@ function erpw_webform_preprocess_page(&$variables) {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_global';
   }
   if ($currentPath == '/service-providers-changes-offline') {
+    $queryTwo = \Drupal::entityQuery('node')
+      ->condition('type', 'service_type');
+    $sids = $queryTwo->execute();
+    // Load nodes.
+    $serviceTypes = Node::loadMultiple($sids);
+    // Generate key-value pairs of serviceTypes.
+    $services = [];
+    foreach ($serviceTypes as $servicetype) {
+      if ($servicetype instanceof Node) {
+        $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
+        if ($servicelabel == 'Case Management(Adults)') {
+          $servicelabel = 'CaseManagement(Adults)';
+        }
+        $services[$servicelabel]['Service Type Color'] = $servicetype->get('field_service_type_color')->getValue()[0]['color'];
+        $services[$servicelabel]['Service Type Icon'] = $servicetype->get('field_service_type_icon')->getValue()[0]['value'];
+      }
+    }
+    $variables['#attached']['drupalSettings']['serviceTypes'] = $services;
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_listing';
     $variables['#attached']['library'][] = 'unicef_iconpicker/unicef-iconpicker';
   }
@@ -194,10 +212,31 @@ function erpw_webform_preprocess_page(&$variables) {
     }
     asort($nid_title_pairs);
     $variables['#attached']['drupalSettings']['activeDomainOrganisation'] = $nid_title_pairs;
+    // Current domain location.
+    $location_entities = \Drupal::entityTypeManager()->getStorage('location')->loadByProperties(
+      ['type' => 'country', 'status' => 1]);
+    $location_options = [];
+    foreach ($location_entities as $location) {
+      $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
+      if ($activeDomain == 'zm_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Zimbabwe') {
+        $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      }
+      elseif ($activeDomain == 'bn_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Bangladesh') {
+        $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      }
+      elseif ($activeDomain == 'txb_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Turkey Cross Border') {
+        $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      }
+      elseif ($activeDomain == 'sl_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Sierra Leone') {
+        $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      }
+    }
   }
   if ($currentRoute == 'entity.webform.canonical') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_add_form';
   }
+  $account = User::load(\Drupal::currentUser()->id());
+  $variables['#attached']['drupalSettings']['activeOrg'] = $account->get('field_organisation')->getValue()[0]['target_id'];
   $variables['page']['#cache']['contexts'][] = 'cookies';
   $variables['page']['#cache']['contexts'][] = 'url';
 }
@@ -236,8 +275,8 @@ function erpw_webform_entity_insert(EntityInterface $entity) {
 }
 
 /**
-* Implementation of hook_theme()
-*/
+ * Implementation of hook_theme()
+ */
 function erpw_webform_theme($existing, $type, $theme, $path) {
   return [
     'service_rating_page' => [
