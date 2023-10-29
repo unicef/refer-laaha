@@ -58,3 +58,24 @@ function erpw_in_app_notification_theme() {
     ],
   ];
 }
+
+/**
+ * Implements hook_webform_submission_presave().
+ */
+function erpw_in_app_notification_webform_submission_presave($webform_submission) {
+  $webform = $webform_submission->getWebform();
+
+  // Notification implementation.
+  if ($webform->get('category') == 'eRPW') {
+    // Notify Focal Point if it is in in-rso create Notification entity for that.
+    $erpw_workflow = $webform_submission->getElementData('erpw_workflow');
+    if ($erpw_workflow['transition'] == 'submit_to_focal_point') {
+      // Create notification master data.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        
+      ]);
+      $notification_storage->save();
+    }
+  }
+  exit;
+}
