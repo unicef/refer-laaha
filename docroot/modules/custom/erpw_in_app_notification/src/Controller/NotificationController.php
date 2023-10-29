@@ -33,8 +33,26 @@ class NotificationController extends ControllerBase {
    *   Return Hello string.
    */
   public function userNotification() {
+  
+    $cu = \Drupal::currentUser();
+    $roles = $cu->getRoles();
+
+    switch (true) {
+      case in_array('service_provider_staff', $roles):
+          $role = 'staff';
+          break;
+      case in_array('service_provider_focal_point', $roles):
+          $role = 'focal_point';
+          break;
+      case in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles):
+          $role = 'gbv_coordination';
+          break;
+      default:
+          $role = 'default';
+    }
     return [
       '#theme' => 'user_notification',
+      '#role' => $role,
       '#user' => [1,2,3,4,5],
       '#service' => [1,2,3,4,5],
       '#common_var' => [

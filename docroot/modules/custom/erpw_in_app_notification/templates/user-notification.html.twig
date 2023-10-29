@@ -1,12 +1,6 @@
-<!-- Tab links -->
-<div class="tab">
-  <button class="tablinks active" onclick="openTab(event, 'user')">{{ 'New Users'|t }}</button>
-  <button class="tablinks" onclick="openTab(event, 'service')">{{ 'Service Updates'|t }}</button>
-</div>
+{% if role == 'staff' %}
 
-<!-- Tab content -->
-<div id="user" class="tabcontent" style="display:block;">
-   {% for item in user %}
+    {% for item in user %}
         <div class="notification">
             <div class="icon">
                 <img src="/{{ common_var.module_path }}/images/icon.png" alt="Icon">
@@ -17,18 +11,42 @@
             </div>
         </div>
     {% endfor %}
-</div>
 
-<div id="service" class="tabcontent">
-    {% for item in service %}
-        <div class="notification">
-            <div class="icon">
-                <img src="/{{ common_var.module_path }}/images/icon.png" alt="Icon">
+{% endif %}
+
+{% if role == 'focal_point' or role == 'gbv_coordination' %}
+    <!-- Tab links -->
+    <div class="tab">
+    <button class="tablinks active" onclick="openTab(event, 'user')">{{ 'New Users'|t }}</button>
+    <button class="tablinks" onclick="openTab(event, 'service')">{{ 'Service Updates'|t }}</button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="user" class="tabcontent" style="display:block;">
+    {% for item in user %}
+            <div class="notification">
+                <div class="icon">
+                    <img src="/{{ common_var.module_path }}/images/icon.png" alt="Icon">
+                </div>
+                <div class="content">
+                    <p><strong>Silobile Moyo</strong> has joined your organisation as <strong>SP Staff</strong> at <strong>Mutare</strong>. </p>
+                    <p class="time">{{ '2 hrs ago' }} | {{ "Approval for New user" }}</p>
+                </div>
             </div>
-            <div class="content">
-                <p><strong>Silobile Moyo</strong> has joined your organisation as <strong>SP Staff</strong> at <strong>Mutare</strong>. </p>
-                <p class="time">{{ '2 hrs ago' }} | {{ "Approval for New user" }}</p>
+        {% endfor %}
+    </div>
+
+    <div id="service" class="tabcontent">
+        {% for item in service %}
+            <div class="notification">
+                <div class="icon">
+                    <img src="/{{ common_var.module_path }}/images/icon.png" alt="Icon">
+                </div>
+                <div class="content">
+                    <p><strong>Silobile Moyo</strong> has joined your organisation as <strong>SP Staff</strong> at <strong>Mutare</strong>. </p>
+                    <p class="time">{{ '2 hrs ago' }} | {{ "Approval for New user" }}</p>
+                </div>
             </div>
-        </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
+{% endif %}
