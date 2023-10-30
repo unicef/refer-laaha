@@ -14,7 +14,6 @@ dependencies:
   module:
     - field_group
     - image
-    - machine_name_field_widget
     - text
 third_party_settings:
   field_group:
@@ -80,11 +79,11 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_machine_name:
-    type: machine_name_field_widget
+    type: string_textfield
     weight: 2
     region: content
     settings:
-      size: 60
+      size: 100
       placeholder: ''
     third_party_settings: {  }
   field_notification_icon:
