@@ -3,11 +3,11 @@
 namespace Drupal\erpw_webform\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Http\RequestStack;
-use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides a custom feedback block.
@@ -29,7 +29,7 @@ class ShareFeedbackBlock extends BlockBase implements ContainerFactoryPluginInte
   /**
    * The Request stack service.
    *
-   * @var \Drupal\Core\Http\RequestStack
+   * @var \Symfony\Component\HttpFoundation\RequestStack
    */
   protected $requestStack;
 
@@ -51,8 +51,8 @@ class ShareFeedbackBlock extends BlockBase implements ContainerFactoryPluginInte
    *   The plugin implementation definition.
    * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
    *   The route match service.
-   * @param \Drupal\Core\Http\RequestStack $requestStack
-   *   The requets stack service.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
+   *   The request stack service.
    * @param \Drupal\Core\Session\AccountInterface $current_user
    *   The current user service.
    */

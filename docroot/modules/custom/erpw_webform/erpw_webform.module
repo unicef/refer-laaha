@@ -5,19 +5,19 @@
  * Contains erpw_webform.module.
  */
 
-use Drupal\webform\WebformInterface;
-use Drupal\node\Entity\Node;
-use Drupal\Core\Entity\EntityStorageException;
-use Drupal\webform\Entity\Webform;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Url;
-use Drupal\user\Entity\User;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityStorageException;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\views\ViewExecutable;
+use Drupal\Core\Url;
+use Drupal\node\Entity\Node;
+use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\views\ViewExecutable;
 use Drupal\views\Views;
+use Drupal\webform\Entity\Webform;
+use Drupal\webform\WebformInterface;
 
 /**
  * Implements hook_webform_add_form().
@@ -170,7 +170,8 @@ function erpw_webform_preprocess_page(&$variables) {
     $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
 
     $queryTwo = \Drupal::entityQuery('node')
-      ->condition('type', 'service_type');
+      ->condition('type', 'service_type')
+      ->accessCheck(FALSE);
     $sids = $queryTwo->execute();
     // Load nodes.
     $serviceTypes = Node::loadMultiple($sids);
@@ -202,7 +203,8 @@ function erpw_webform_preprocess_page(&$variables) {
     $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
     $variables['#attached']['drupalSettings']['activeDomain'] = $activeDomain;
     $query = \Drupal::entityQuery('node')
-      ->condition('type', 'organisation');
+      ->condition('type', 'organisation')
+      ->accessCheck(FALSE);
     $nids = $query->execute();
 
     // Load nodes.

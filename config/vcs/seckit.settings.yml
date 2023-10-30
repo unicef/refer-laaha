@@ -16,7 +16,7 @@ seckit_xss:
     frame-src: ''
     frame-ancestors: "'self'"
     child-src: ''
-    font-src: "'self' 'unsafe-inline' 'unsafe-eval' *.gstatic.com:* *.googleusercontent.com:* *.googleapis.com:* *.googleapis.com:* *.fontawesome.com:* *.jsdelivr.net:* *.cloudflare.com:* *.unpkg.com:* data:"
+    font-src: "'self' 'unsafe-inline' 'unsafe-eval' *.gstatic.com:* *.googleusercontent.com:* *.googleapis.com:* *.googleapis.com:* *.fontawesome.com:* *.jsdelivr.net:* *.cloudflare.com:* *.unpkg.com:* unpkg.com:* data:"
     connect-src: ''
     report-uri: report-csp-violation
     upgrade-req: false

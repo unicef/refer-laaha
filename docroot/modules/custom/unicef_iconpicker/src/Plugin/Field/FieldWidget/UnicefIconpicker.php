@@ -2,9 +2,9 @@
 
 namespace Drupal\unicef_iconpicker\Plugin\Field\FieldWidget;
 
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Field\FieldItemListInterface;
 
 /**
  * Plugin implementation of the 'unicef_iconpicker' widget.
