@@ -133,6 +133,7 @@ function erpw_webform_preprocess_webform(&$variables) {
  */
 function erpw_webform_preprocess_page(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
+
   $currentPath = \Drupal::service('path_alias.manager')->getAliasByPath(\Drupal::service('path.current')->getPath());
   if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_content_approved' || $currentRoute == 'erpw_webform.service_moderate_content') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
@@ -165,6 +166,8 @@ function erpw_webform_preprocess_page(&$variables) {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_global';
   }
   if ($currentPath == '/service-providers-changes-offline') {
+    $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
+    $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
     $queryTwo = \Drupal::entityQuery('node')
       ->condition('type', 'service_type');
     $sids = $queryTwo->execute();
@@ -172,14 +175,21 @@ function erpw_webform_preprocess_page(&$variables) {
     $serviceTypes = Node::loadMultiple($sids);
     // Generate key-value pairs of serviceTypes.
     $services = [];
-    foreach ($serviceTypes as $servicetype) {
-      if ($servicetype instanceof Node) {
-        $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
-        if ($servicelabel == 'Case Management(Adults)') {
-          $servicelabel = 'CaseManagement(Adults)';
+    foreach ($webforms as $webform) {
+      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+      if (is_array($tpa)) {
+        if (is_array($tpa[$activeDomain])) {
+          foreach ($serviceTypes as $key => $servicetype) {
+            if ($key == $tpa[$activeDomain][0]) {
+              if ($servicetype instanceof Node) {
+                $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
+                $services[$webform->label()]['Service Type Label'] = $servicelabel;
+                $services[$webform->label()]['Service Type Color'] = $servicetype->get('field_service_type_color')->getValue()[0]['color'];
+                $services[$webform->label()]['Service Type Icon'] = $servicetype->get('field_service_type_icon')->getValue()[0]['value'];
+              }
+            }
+          }
         }
-        $services[$servicelabel]['Service Type Color'] = $servicetype->get('field_service_type_color')->getValue()[0]['color'];
-        $services[$servicelabel]['Service Type Icon'] = $servicetype->get('field_service_type_icon')->getValue()[0]['value'];
       }
     }
     $variables['#attached']['drupalSettings']['serviceTypes'] = $services;
@@ -214,7 +224,7 @@ function erpw_webform_preprocess_page(&$variables) {
     $variables['#attached']['drupalSettings']['activeDomainOrganisation'] = $nid_title_pairs;
     // Current domain location.
     $location_entities = \Drupal::entityTypeManager()->getStorage('location')->loadByProperties(
-      ['type' => 'country', 'status' => 1]);
+    ['type' => 'country', 'status' => 1]);
     $location_options = [];
     foreach ($location_entities as $location) {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
