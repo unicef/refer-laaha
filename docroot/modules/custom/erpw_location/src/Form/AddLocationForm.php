@@ -474,7 +474,7 @@ class AddLocationForm extends FormBase {
 
     // Check if the top-level term exists.
     $topLevelTerm = $termStorage->loadByProperties(['name' => $level1, 'vid' => 'country']);
-    if (empty($topLevelTerm)) {
+    if (empty($topLevelTerm) && !empty($level1)) {
       // Create the top-level term.
       $topLevelTerm = $termStorage->create([
         'name' => $level1,
@@ -490,7 +490,7 @@ class AddLocationForm extends FormBase {
 
     // Check if the second-level term exists.
     $secondLevelTerm = $termStorage->loadByProperties(['name' => $level2, 'vid' => 'country', 'parent' => $topLevelTerm->id()]);
-    if (empty($secondLevelTerm)) {
+    if (empty($secondLevelTerm) && !empty($level2)) {
       // Create the second-level term.
       $secondLevelTerm = $termStorage->create([
         'name' => $level2,
@@ -557,6 +557,7 @@ class AddLocationForm extends FormBase {
   public function sendMessageForm(array &$form, FormStateInterface $form_state, $id = "") {
     $response = new AjaxResponse();
     $counter = 0;
+
     $level4 = $form_state->getValue('level4');
     if (empty($form_state->getValue('location_options')) && $id == "") {
       $response->addCommand(new HtmlCommand('#intro-text',

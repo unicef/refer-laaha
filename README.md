@@ -111,3 +111,43 @@ but does require these subdomains be added manually to Acquia stage environment.
 6) From /admin/content , enable the content of type homepage and basic page for the the new domain , and you can perform the same for the other required contents.
 7) From /admin/structure/block/manage/navigationheadermenu , configure the navigation menu block to appear on the new domain.
 8) Add new content under /admin/structure/taxonomy/manage/categories/overview for the hero categories to be displayed.
+
+
+## 522 - Domain and location issue fixes used MySQL procedure.
+
+```
+DELIMITER //
+
+DROP FUNCTION IF EXISTS GetTopLevelParent //
+
+CREATE FUNCTION GetTopLevelParent(eid INT) RETURNS INT
+
+BEGIN
+
+  DECLARE parent INT;
+
+  DECLARE entityid INT;
+
+  SET parent = eid;
+
+  
+
+  WHILE parent != 0 DO
+
+    SET entityid = parent;
+
+    SELECT ttp.parent_target_id INTO parent FROM taxonomy_term__parent AS ttp JOIN taxonomy_term_data AS ttd ON ttd.tid = ttp.entity_id WHERE ttp.entity_id = entityid && ttd.vid = 'country';
+
+  END 
+
+WHILE;
+
+  
+
+  RETURN entityid;
+
+END //
+
+DELIMITER ;
+```
+The above function will returen the top most location id by given location id, directly executed this on Acqia database.

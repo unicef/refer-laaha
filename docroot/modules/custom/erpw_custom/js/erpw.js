@@ -103,9 +103,11 @@
       }
 
       let signInPopUpButton = document.getElementById("edit-skip");
-      signInPopUpButton.addEventListener("click", function() {
-        setCookie('sign_in_popup', 'agreed', 30);
-      });
+      if (signInPopUpButton != null) {
+        signInPopUpButton.addEventListener("click", function() {
+          setCookie('sign_in_popup', 'agreed', 30);
+        });
+      }
 
       // set Localstorage and remove Localstorage when browser close.
       // if(sessionStorage.getItem('signinPopup')){

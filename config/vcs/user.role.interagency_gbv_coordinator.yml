@@ -13,6 +13,7 @@ dependencies:
     - content_moderation
     - erpw_custom
     - erpw_location
+    - erpw_webform
     - node
     - node_view_permissions
     - quick_node_clone
@@ -100,3 +101,4 @@ permissions:
   - 'view users with role interagency_gbv_coordinator'
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'
+  - 'add service rating question'

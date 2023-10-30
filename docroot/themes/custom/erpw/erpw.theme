@@ -10,6 +10,22 @@ use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\views\Views;
+
+/**
+ * Implements hook_preprocess_fieldset().
+ */
+function erpw_preprocess_fieldset(&$variables) {
+  $current_path = \Drupal::service('path.current')->getPath();
+  if (str_contains($current_path, 'service-feedback-form')) {
+    $options = $variables['element']['#options'];
+    $ratingSteps = [];
+    $ratingSteps[] = explode('-- ', reset($options))[1];
+    $ratingSteps[] = explode('-- ', end($options))[1];
+    $variables['rating_steps_description_1'] = t('@description_1', ['@description_1' => $ratingSteps[0]]);
+    $variables['rating_steps_description_2'] = t('@description_2', ['@description_2' => $ratingSteps[1]]);
+  }
+}
 
 /**
  * Implements hook_preprocess_block().
@@ -88,6 +104,17 @@ function erpw_theme_suggestions_views_view_alter(array &$suggestions, array $var
   // Add a suggestion based on the view display ID.
   $display_id = $view->current_display;
   $suggestions[] = 'views_view__' . $view->id() . '__' . $display_id;
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for views_view.
+ */
+function erpw_theme_suggestions_block_alter(array &$suggestions, array $variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  $path = \Drupal::service('path_alias.manager')->getAliasByPath('/' . $route_name);
+  if ($variables['elements']['#plugin_id'] != NULL && $variables['elements']['#plugin_id'] === "system_main_block" && str_contains($path, 'calculate_average_service_type_rating')) {
+    $suggestions[] = 'block__service_type_rating';
+  }
 }
 
 /**
@@ -267,6 +294,31 @@ function erpw_preprocess_page(&$variables) {
         $response = new RedirectResponse($url);
         $response->send();
       }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for views-view-field.html.twig.
+ */
+function erpw_preprocess_views_view_field(&$variables) {
+  $view = $variables['view'];
+  $field = $variables['field'];
+
+  if ($view->id() == 'user_count_approval_block' && $view->current_display == 'block_1') {
+    if ($field->field == 'nothing') {
+
+      // Load user lists.
+      $view = Views::getView('user_lists');
+      $view->setDisplay('page_2');
+      $view->execute();
+
+      // Replace characters in the field output.
+      $renderable = [
+        '#theme' => 'user_count_approval_block',
+        '#count' => count($view->result),
+      ];
+      $variables['output'] = \Drupal::service('renderer')->renderPlain($renderable);
     }
   }
 }

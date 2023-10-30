@@ -14,6 +14,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Url;
+use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
@@ -42,6 +43,9 @@ function erpw_custom_user_login_form_submit($form, FormStateInterface $form_stat
  */
 function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $view_ids = ['manage_service', 'moderated_content'];
+  if ($form['#id'] === 'views-exposed-form-user-lists-page-1') {
+    $form['#attached']['library'][] = "erpw_custom/vss2_css";
+  }
   if ($form_id == 'views_exposed_form' && in_array($form_state->get('view')->id(), $view_ids)) {
     $form['field_service_type_target_id']['#type'] = 'select';
     $form['field_service_type_target_id']['#options'] = erpw_custom_service_type_options();
@@ -95,6 +99,14 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
       }
     }
 
+  }
+
+  if ($form_id == 'views_exposed_form' && $form_state->get('view')->id() == 'user_listing_by_status') {
+    $form['status']['#options']['1'] = t('Approved');
+    $form['status']['#options']['0'] = t('Rejected');
+    $form['status']['#options']['blocked'] = t('Blocked');
+    unset($form['roles_target_id']['#options']['super_admin']);
+    unset($form['roles_target_id']['#options']['administrator']);
   }
 }
 
@@ -192,6 +204,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     else {
       $form['field_system_role']['#access'] = FALSE;
     }
+    $form['#validate'][] = 'user_form_validation_organisation_validate';
   }
   if ($form_id == 'node_organisation_form') {
     $form['revision_information']['#access'] = FALSE;
@@ -412,6 +425,141 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       $form['description']['#markup'] = $delete_confirmation_message;
     }
   }
+
+  if ($form_id === 'node_feedback_area_delete_form') {
+    // Get the current feeback id.
+    $feedback_area = \Drupal::routeMatch()->getParameter('node');
+    $feedback_area_id = $feedback_area->id();
+    // Extract all the webforms using a feedback area.
+    $webform_storage = \Drupal::entityTypeManager()->getStorage('webform');
+    $webform_entities = $webform_storage->loadMultiple();
+    $webform_feedback_area_count = 0;
+    $webform_names = [];
+    foreach ($webform_entities as $webform_entity) {
+      $webform_feedback_area_id = $webform_entity->getElementsInitialized()['service_submission_id']['#feedback_area'];
+      if ($webform_feedback_area_id != NULL && $webform_feedback_area_id === $feedback_area_id) {
+        $webform_feedback_area_count++;
+        $webform_names[] = $webform_entity->label();
+      }
+    }
+
+    $delete_confirmation_message = t('Deleting the feedback area will lead to deleting or distorting the existing data.');
+    if ($webform_feedback_area_count > 0) {
+      $webform_plurality = $webform_feedback_area_count > 1 ? 'webforms' : 'webform';
+      $webform_name = implode(", ", $webform_names);
+      $delete_confirmation_message = t('This feedback area is used in @webforms_count @webform_plurality (@webform_name). Please review the existing @webform_plurality first.', ['@webforms_count' => $webform_feedback_area_count, '@webform_name' => $webform_name, '@webform_plurality' => $webform_plurality]);
+      unset($form['actions']['submit']);
+    }
+    $form['description']['#markup'] = $delete_confirmation_message;
+  }
+}
+
+/**
+ * Custom validation function for the user organisation field.
+ */
+function user_form_validation_organisation_validate($form, &$form_state) {
+  $form_user_id = \Drupal::request()->attributes->get('user')->id();
+  $form_user_role = User::load($form_user_id)->getRoles();
+  if (!\Drupal::request()->get('pass-reset-token')) {
+    if (!in_array($form_user_role[1], ['administrator', 'super_admin'])) {
+      $organisation_id = $form_state->getValue('field_organisation')[0]['target_id'];
+      $field_location = $form_state->getValue('field_location');
+      $location_ids = [];
+      if (is_array($field_location)) {
+        $i = 0;
+        foreach ($field_location as $location) {
+          $location_id = $field_location[$i]['target_id'] ?? NULL;
+          if ($location_id != NULL) {
+            $location_ids[] = $location_id;
+          }
+          $i++;
+        }
+      }
+
+      // Get domain from organisation node.
+      $organization_node = Node::load($organisation_id);
+      if ($organization_node) {
+        $field_domain_access = $organization_node->get('field_domain_access')->getValue();
+        if (!empty($field_domain_access)) {
+          $organisation_domain_access = $field_domain_access[0]['target_id'];
+        }
+      }
+      else {
+        $organisation_domain_access = NULL;
+      }
+
+      $parent_tids = [];
+      foreach ($location_ids as $index => $location_id) {
+        $parents = \Drupal::service('erpw_location.location_services')->getAllAncestors($location_id);
+        $parent_tids[] = $parents[0];
+      }
+
+      $location_match = match_user_organisation_domain_location($organisation_domain_access, $parent_tids);
+
+      if (!$location_match) {
+        $form_state->setErrorByName('field_organisation', t('The organisation you have added does not match with the location of this user.'));
+      }
+    }
+  }
+  elseif (in_array($form_user_role[1], ['administrator', 'super_admin'])) {
+    // Location field is required and this is missing for both the admin roles above.
+    if (empty($form_state->getValue('field_location'))) {
+      // @todo change this hard-coded location value when doing multisite.
+      $form_state->setValue('field_location', 1);
+    }
+  }
+}
+
+/**
+ * Checks if a user's organization domain access matches one of the given location PTIDs.
+ *
+ * @param string $organisation_domain_access
+ *   The organization domain access to check.
+ * @param int[] $location_ptids
+ *   An array of location PTIDs to compare against.
+ *
+ * @return bool
+ *   TRUE if there is a match between the organization domain access and any of the location PTIDs,
+ *   FALSE otherwise.
+ */
+function match_user_organisation_domain_location($organisation_domain_access, $location_ptids) {
+  $location_match = FALSE;
+  foreach ($location_ptids as $ptid) {
+    switch ($organisation_domain_access) {
+      case 'zm_erefer_org':
+        if ($ptid === 1) {
+          $location_match = TRUE;
+        }
+        break;
+
+      case 'bn_erefer_org':
+        if ($ptid === 10401) {
+          $location_match = TRUE;
+        }
+        break;
+
+      case 'sl_erefer_org':
+        if ($ptid === 16821) {
+          $location_match = TRUE;
+        }
+        break;
+
+      case 'txb_erefer_org':
+        if ($ptid === 10926) {
+          $location_match = TRUE;
+        }
+        break;
+
+      default:
+        $location_match = FALSE;
+    }
+
+    if ($location_match) {
+      break;
+    }
+  }
+
+  return $location_match;
 }
 
 /**
@@ -833,11 +981,15 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     // User workflow integration.
     foreach ($query->where as &$condition_group) {
       foreach ($condition_group['conditions'] as &$condition) {
-        if ($condition['field'] == 'user__field_transitions.field_transitions_value IN(:user__field_transitions_field_transitions_value[])') {
+        if (strpos($condition['field'], 'field_transitions_value') !== FALSE) {
+          // Define a regular expression pattern to match the string inside IN()
+          $pattern = '/IN\((.*?)\)/';
+          preg_match($pattern, $condition['field'], $fieldname);
+
           // For SPFP users.
           if (in_array('service_provider_focal_point', $roles)) {
             $value = [
-              ":user__field_transitions_field_transitions_value[]" => [
+              $fieldname[1] => [
                 "self-register-sp-staff" => "self-register-sp-staff",
               ],
             ];
@@ -846,7 +998,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
           // For IA Coordinator and Country admin users.
           if (in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
             $value = [
-              ":user__field_transitions_field_transitions_value[]" => [
+              $fieldname[1] => [
                 "self-register-spfp" => "self-register-spfp",
                 "spfp-accept" => "spfp-accept",
                 "spfp-register-spfp" => "spfp-register-spfp",
@@ -965,7 +1117,6 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       }
     }
     // Load the taxonomy term and get the next terms.
-    // @todo change this too
     if (!empty($cookie->getCookieValue())) {
       $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
       $parent_term = $term_storage->load($cookie->getCookieValue());
@@ -1014,6 +1165,49 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $org_condition = 'node_field_data_node_field_revision__node__field_select_organisation.field_select_organisation_target_id';
     $query = erpw_view_results_own_location_organisation($query, $condition_field, $org_condition, $permission);
   }
+
+  // User listing by status.
+  if ($view->id() === 'user_listing_by_status' && $view->current_display === 'page_1') {
+    $user_status = $view->exposed_raw_input['status'];
+    // Filter locations based on user location.
+    $permission = 'view users of their own country';
+    $location_condition = 'user__field_location.field_location_target_id';
+    $query = erpw_view_results_own_country_permissions($query, $location_condition, $permission);
+
+    // Add query for User status filter.
+    $join_configuration = [
+      'type' => 'INNER',
+      'left_table' => 'users_field_data',
+      'left_field' => 'uid',
+      'operator' => '=',
+    ];
+
+    // User with Blocked status and no location.
+    if ($user_status === 'blocked') {
+      $conditions = &$query->where[1]['conditions'];
+      foreach ($conditions as $index => $condition) {
+        if (isset($condition['field']) && $condition['field'] === 'users_field_data.status') {
+          $query->where[1]['conditions'][$index]['value'] = '0';
+        }
+        // Remove location condition for blocked filter option.
+        elseif (isset($condition['field']) && $condition['field'] === 'user__field_location.field_location_target_id') {
+          unset($conditions[$index]);
+        }
+      }
+      $join_configuration['table'] = 'user__field_location';
+      $join_configuration['field'] = 'entity_id';
+      $query->addRelationship('location', Views::pluginManager('join')->createInstance('standard', $join_configuration), 'users_field_data');
+      $query->addWhere(0, 'location.field_location_target_id', '0', '=');
+    }
+    // User with Rejected status.
+    elseif ($user_status === '0') {
+      $join_configuration['table'] = 'user__field_transitions';
+      $join_configuration['field'] = 'entity_id';
+      $query->addRelationship('transition', Views::pluginManager('join')->createInstance('standard', $join_configuration), 'users_field_data');
+      $query->addWhere(1, 'transition.field_transitions_value', ['spfp-reject', 'gbv-coordination-reject'], 'IN');
+    }
+  }
+
 }
 
 /**
@@ -1071,12 +1265,14 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
     $webforms = Webform::loadMultiple($webform_ids);
     foreach ($webforms as $webform) {
       $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-      $service_type_array = array_values($tpa);
-      $service_type_id = $service_type_array[0][0];
-      $entity_type_manager = \Drupal::service('entity_type.manager');
-      $nodes = $entity_type_manager->getStorage('node')->loadMultiple([$service_type_id]);
-      foreach ($nodes as $node) {
-        $service_type_titles[] = $node->label();
+      if (isset($tpa)) {
+        $service_type_array = array_values($tpa);
+        $service_type_id = $service_type_array[0][0];
+        $entity_type_manager = \Drupal::service('entity_type.manager');
+        $nodes = $entity_type_manager->getStorage('node')->loadMultiple([$service_type_id]);
+        foreach ($nodes as $node) {
+          $service_type_titles[] = $node->label();
+        }
       }
     }
   }
@@ -1118,8 +1314,8 @@ function erpw_custom_page_attachments(array &$attachments) {
   $current_user = \Drupal::currentUser();
   $user_roles = $current_user->getRoles();
 
-  // Check if the user has admin or super_admin role.
-  $is_admin = in_array('administrator', $user_roles) || in_array('super_admin', $user_roles);
+  // Check if the user has admin or super_admin or country_admin role.
+  $is_admin = in_array('administrator', $user_roles) || in_array('super_admin', $user_roles) || in_array('country_admin', $user_roles);
   $attachments['#attached']['drupalSettings']['erpw_custom']['userRoles'] = $is_admin;
 }
 
@@ -1159,9 +1355,12 @@ function erpw_view_results_own_location_organisation($query, $location_condition
   $uid = \Drupal::currentUser()->id();
   $current_user = User::load($uid);
   if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
+    $ptids = [];
     if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-      $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
-      $ptids = get_child_term_tid($location_id);
+      $locations = $current_user->get('field_location')->getValue();
+      foreach ($locations as $location) {
+        $ptids += get_child_term_tid($location['target_id']);
+      }
     }
     $org_id = '';
     if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
@@ -1222,9 +1421,13 @@ function erpw_view_results_own_country_permissions($query, $condition_field, $pe
   $uid = \Drupal::currentUser()->id();
   $current_user = User::load($uid);
   if ($uid != 1 && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
+    $ptids = [];
     if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-      $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
-      $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
+      $locations = $current_user->get('field_location')->getValue();
+      foreach ($locations as $location) {
+        $result = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location['target_id']);
+        $ptids = array_merge($ptids, $result);
+      }
     }
     foreach ($query->where as &$condition_group) {
       foreach ($condition_group['conditions'] as &$condition) {
@@ -1313,13 +1516,23 @@ function erpw_filter_locations_permissions($location_options, $permission, $type
   $uid = \Drupal::currentUser()->id();
   $current_user = User::load($uid);
   if ($uid != 1 && $location_options && !$current_user->hasRole('administrator') && $current_user->hasPermission($permission)) {
-    $location_id = FALSE;
+    $location_ids = [];
+
     if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-      $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
+      $locations = $current_user->get('field_location')->getValue();
+      foreach ($locations as $location) {
+        $location_ids[] = $location['target_id'];
+      }
     }
-    if ($location_id) {
-      $ptid = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
-      $ptid = reset($ptid);
+
+    if (!empty($location_ids)) {
+      $combined_ptids = [];
+
+      foreach ($location_ids as $location_id) {
+        $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location_id);
+        $combined_ptids = array_merge($combined_ptids, $ptids);
+      }
+
       foreach ($location_options as $eid => $option) {
         $tid = $eid;
         if ($type == 'location_entity') {
@@ -1331,7 +1544,7 @@ function erpw_filter_locations_permissions($location_options, $permission, $type
             }
           }
         }
-        if ($tid != $ptid) {
+        if (!in_array($tid, $combined_ptids)) {
           unset($location_options[$eid]);
         }
       }
@@ -1480,4 +1693,18 @@ function erpw_custom_can_edit_user(AccountProxyInterface $current_user, $user) {
   }
 
   return FALSE;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function erpw_custom_theme() {
+  return [
+    'user_count_approval_block' => [
+      'variables' => [
+        'count' => NULL,
+      ],
+      'template' => 'user-count-approval-block',
+    ],
+  ];
 }

@@ -98,7 +98,7 @@
         "drupal/drupal": "*"
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
+    "prefer-stable": false,
     "config": {
         "sort-packages": true,
         "allow-plugins": {
@@ -172,6 +172,10 @@
             },
             "drupal/views_attach_library": {
                 "Drupal 10 compatibility": "https://www.drupal.org/files/issues/2022-08-06/views_attach_library_2.0.2.patch"
+            },
+            "drupal/webform": {
+                "Add feedback area property to webform elements": "patches/webform-feedback_area-property.patch",
+                "Remove Service Rating webforms from the default List Builder": "patches/remove-service-rating-webform-listing.patch"
             }
         },
         "drupal-lenient": {

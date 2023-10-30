@@ -61,9 +61,19 @@ class CustomAddUserBlock extends BlockBase implements ContainerFactoryPluginInte
   public function build() {
     $link = Link::createFromRoute(t('Add user'), 'erpw_custom.sign_up_form', [], ['query' => ['destination' => '/user-list']]);
 
+    $user = \Drupal::currentUser();
+    $hasPermission = $user->hasPermission('view users of their own country');
+
+    $markup = '<div class="plus-icon button-with-icon">' . $link->toString() . '</div>';
+
+    // Check if the user has the permission to show the additional markup.
+    if ($hasPermission) {
+      $markup = '<div id="user-status-listing">User Status Listing<a href="/en/users-status">Users by Status</a></div>' . $markup;
+    }
+
     $build = [
       '#type' => 'markup',
-      '#markup' => '<div class="plus-icon button-with-icon">' . $link->toString() . '</div>',
+      '#markup' => $markup,
     ];
 
     return $build;
