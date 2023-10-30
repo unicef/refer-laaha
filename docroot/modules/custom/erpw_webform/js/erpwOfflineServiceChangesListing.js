@@ -111,6 +111,10 @@
                               <div class="service-type-org">
                                 <a href="/service/${key}">${parsedOrganisation} - ${parsedServicetype}</a>
                               </div>
+                              <div class="service-update-status">${Drupal.t(
+                                "Updated Service"
+                              )}
+                            </div>
                             </div>
                             ${fieldsHTML}
                             ${linkHTML}
@@ -194,13 +198,28 @@
                         <div class="service-providers-submission-row">
                           <div class="row-header">
                             <div class=" service-type-color-logo-container">
-                              <div class="service-type-color" style="background-color:#F4CBCA"></div>
-                              <div class="service-type-logo new-add-image-div">
-                              <img class='new-add-image' src=${imagePath}></img>
-                            </div>
+                              <div class="service-type-color" style="background-color:${
+                                drupalSettings.serviceTypes[
+                                  valueData["service_type_title"]
+                                ]["Service Type Color"]
+                              }">
+                              </div>
+                               <div class="service-type-logo">
+                                  <i class="${
+                                    drupalSettings.serviceTypes[
+                                      valueData["service_type_title"]
+                                    ]["Service Type Icon"]
+                                  }"></i>
+                                </div>
                           </div>
                             <div class="service-type-org">
-                                <a style="margin-left:10px;pointer-events:none;">${valueData["service_type_title"]}</a>
+                                <a style="margin-left:10px;pointer-events:none;">${
+                                  valueData["Organisation"]
+                                } - ${valueData["service_type_title"]}</a>
+                            </div>
+                            <div class="service-update-status">${Drupal.t(
+                              "New Service"
+                            )}
                             </div>
                         </div>
                         ${fieldsHTML}
