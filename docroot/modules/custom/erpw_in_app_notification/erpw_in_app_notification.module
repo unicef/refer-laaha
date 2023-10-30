@@ -64,15 +64,38 @@ function erpw_in_app_notification_theme() {
  */
 function erpw_in_app_notification_webform_submission_presave($webform_submission) {
   $webform = $webform_submission->getWebform();
+  $values = $webform_submission->getData();
 
   // Notification implementation.
   if ($webform->get('category') == 'eRPW') {
+
+    // General data preparation.
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $last_non_empty_value = '';
+    $composite_value = $values['location'];
+    $location_reversed = array_reverse($composite_value);
+    if (is_array($composite_value)) {
+      foreach ($location_reversed as $value) {
+        if (!empty($value)) {
+          $last_non_empty_value = $value;
+          break;
+        }
+      }
+    }
+
     // Notify Focal Point if it is in in-rso create Notification entity for that.
     $erpw_workflow = $webform_submission->getElementData('erpw_workflow');
     if ($erpw_workflow['transition'] == 'submit_to_focal_point') {
-      // Create notification master data.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
-        
+        'field_behavior' => 'link',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $webform_submission->id(),
+        'field_entity_type' => 'service',
+        'field_event_id' => 'staff__add_edit_service_approved_rejected_by_focal_point',
+        'field_excluded_users' => '',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+
       ]);
       $notification_storage->save();
     }
