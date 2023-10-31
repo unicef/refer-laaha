@@ -1218,7 +1218,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
         }
       }
       // Get the current user's location ID, #522 - overcoming the service data issue.
-      if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point') || $current_user->hasRole('interagency_gbv_coordinator') || $current_user->hasRole('country_admin')) {
+      if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point')) {
         if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
           $user_location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
 
