@@ -6,6 +6,10 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\node\Entity\Node;
+use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Implements hook_help().
@@ -59,46 +63,136 @@ function erpw_in_app_notification_theme() {
   ];
 }
 
+
 /**
- * Implements hook_webform_submission_presave().
+ * Implements hook_entity_type_insert() for a webform_submision entity type.
  */
-function erpw_in_app_notification_webform_submission_presave($webform_submission) {
+function erpw_in_app_notification_webform_submission_insert(WebformSubmissionInterface $webform_submission) {
   $webform = $webform_submission->getWebform();
-  $values = $webform_submission->getData();
-
-  // Notification implementation.
   if ($webform->get('category') == 'eRPW') {
+    erpw_in_app_notification__service_operation($webform_submission, $webform);
+  }
+  
+}
 
-    // General data preparation.
-    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-    $last_non_empty_value = '';
-    $composite_value = $values['location'];
-    $location_reversed = array_reverse($composite_value);
-    if (is_array($composite_value)) {
-      foreach ($location_reversed as $value) {
-        if (!empty($value)) {
-          $last_non_empty_value = $value;
-          break;
-        }
+/**
+ * Implements hook_entity_type_update() for a webform_submision entity type.
+ */
+function erpw_in_app_notification_webform_submission_update(WebformSubmissionInterface $webform_submission) {
+  $webform = $webform_submission->getWebform();
+  if ($webform->get('category') == 'eRPW') {
+    erpw_in_app_notification__service_operation($webform_submission, $webform);
+  }
+}
+
+/**
+ * This function will helps to records notifications on service.
+ */
+function erpw_in_app_notification__service_operation($webform_submission, $webform) {
+  $values = $webform_submission->getData();
+  // Get SID of webform submission.
+  $sid = $webform_submission->id();
+  // Get current timestamp.
+  $ctime = (new DrupalDateTime())->getTimestamp();
+  // Get Orgnization name.
+  $org = Node::load($values['organisation']);
+  // General data preparation.
+  $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+  $last_non_empty_value = '';
+  $composite_value = $values['location'];
+  $location_reversed = array_reverse($composite_value);
+  if (is_array($composite_value)) {
+    foreach ($location_reversed as $value) {
+      if (!empty($value)) {
+        $last_non_empty_value = $value;
+        break;
       }
     }
-
-    // Notify Focal Point if it is in in-rso create Notification entity for that.
-    $erpw_workflow = $webform_submission->getElementData('erpw_workflow');
-    if ($erpw_workflow['transition'] == 'submit_to_focal_point') {
-      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
-        'field_behavior' => 'link',
-        'field_domain' => $active_domain->id(),
-        'field_entity_id' => $webform_submission->id(),
-        'field_entity_type' => 'service',
-        'field_event_id' => 'staff__add_edit_service_approved_rejected_by_focal_point',
-        'field_excluded_users' => '',
-        'field_location' => $last_non_empty_value,
-        'field_organisation' => $values['organisation'] ?? '',
-
-      ]);
-      $notification_storage->save();
-    }
   }
-  exit;
+  // Get workflow.
+  $erpw_workflow = $webform_submission->getElementData('erpw_workflow');
+
+  // Notify Focal Point if it is in review, create Notification entity for that.
+  if ($erpw_workflow['transition'] == 'submit_to_focal_point') {
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'link',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'focal_point__service_added_edited_delete__review',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_redirect_url' => Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => $sid], [])->toString(),
+      'field_role' => 'service_provider_focal_point',
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => FALSE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => NULL,
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label()
+    ]);
+    $notification_storage->save();
+  }
+
+  // Notify all Focal Point execpt who taken the action,
+  // Also notify the status to the owner of the service.
+  // if it is approved/rejected, create Notification entity for that.
+  if ($erpw_workflow['transition'] == 'submit_for_review_to_country_admin' || $erpw_workflow['transition'] == 'rejected_by_focal_point') {
+
+    // Focal Point.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'focal_point__service_added_edited_deleted__approved_rejected_by_focal_point',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_redirect_url' => '',
+      'field_role' => 'service_provider_focal_point',
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label()
+    ]);
+    $notification_storage->save();
+
+    // Staff.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'staff__add_edit_service_approved_rejected_by_focal_point',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_redirect_url' => '',
+      'field_role' => 'service_provider_focal_point',
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+      'field_users_list' => $webform_submission->getOwner(),
+      'field_excluded_users' => NULL,
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label()
+    ]);
+    $notification_storage->save();
+  }
+
 }

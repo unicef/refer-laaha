@@ -17,6 +17,7 @@ dependencies:
     - field.field.notification_entity.notification_entity.field_role
     - field.field.notification_entity.notification_entity.field_root_location
     - field.field.notification_entity.notification_entity.field_specific_user
+    - field.field.notification_entity.notification_entity.field_title
     - field.field.notification_entity.notification_entity.field_users_list
   module:
     - erpw_in_app_notification
@@ -139,6 +140,13 @@ content:
       format_custom_true: ''
     third_party_settings: {  }
     weight: 12
+    region: content
+  field_title:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 16
     region: content
   field_users_list:
     type: entity_reference_label
