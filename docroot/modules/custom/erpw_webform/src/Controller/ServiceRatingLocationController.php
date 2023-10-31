@@ -5,8 +5,8 @@ namespace Drupal\erpw_webform\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
-use Drupal\webform\Entity\WebformSubmission;
 use Drupal\webform\Entity\Webform;
+use Drupal\webform\Entity\WebformSubmission;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -161,17 +161,16 @@ class ServiceRatingLocationController extends ControllerBase {
           'location_name' => $location_name,
           'location_link' => $href,
           'location_rating' => $average_rating,
-          'location_review_count' => $location_review_count,      
+          'location_review_count' => $location_review_count,
         ];
       }
-
 
       return [
         '#theme' => 'location_rating_page',
         '#title' => $this->t('Service Ratings'),
         '#service_type_name' => $service_type_name,
         '#service_type_average' => round($service_type_average),
-        '#service_total_reviews' =>  $total_review_count > 1 ? $total_review_count . ' Reviews' : $total_review_count . ' Review',
+        '#service_total_reviews' => $total_review_count > 1 ? $total_review_count . ' Reviews' : $total_review_count . ' Review',
         '#location_list' => $locations_list,
       ];
     }

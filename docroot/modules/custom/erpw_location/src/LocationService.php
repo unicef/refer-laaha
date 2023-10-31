@@ -285,6 +285,7 @@ class LocationService {
     $location_entity_id = "";
     $query = $this->entityManager->getStorage('location')->getQuery();
     $query->condition('field_location_taxonomy_term.target_id', $tid);
+    $query->accessCheck(FALSE);
     $location_entity = $query->execute();
     if (!empty($location_entity)) {
       $location_entity_id = array_keys($location_entity)[0];
@@ -499,6 +500,7 @@ class LocationService {
     $query = \Drupal::entityQuery('taxonomy_term')
       ->condition('vid', $vocabulary)
       ->condition('name', $termName)
+      ->accessCheck(FALSE)
       ->range(0, 1);
 
     $tids = $query->execute();

@@ -5,6 +5,7 @@ namespace Drupal\erpw_content;
 use Drupal\file\FileInterface;
 use Drupal\Component\Graph\Graph;
 use Drupal\Core\Serialization\Yaml;
+use Drupal\Core\Extension\ExtensionPathResolver;
 use Drupal\user\EntityOwnerInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Symfony\Component\Serializer\Serializer;
@@ -101,6 +102,13 @@ class Importer implements ImporterInterface {
   protected $fileSystem;
 
   /**
+   * The ExtensionPathResolver service.
+   *
+   * @var \Drupal\Core\Extension\ExtensionPathResolver
+   */
+  protected $extensionPathResolver;
+
+  /**
    * Constructs the default content manager.
    *
    * @param \Symfony\Component\Serializer\Serializer $serializer
@@ -121,6 +129,8 @@ class Importer implements ImporterInterface {
    *   The YAML normalizer.
    * @param \Drupal\Core\File\FileSystemInterface $file_system
    *   The filesystem.
+   * @param \Drupal\Core\Extension\ExtensionPathResolver $extension_path_resolver
+   *   The ExtensionPathResolver service.
    */
   public function __construct(
     Serializer $serializer,
@@ -131,7 +141,8 @@ class Importer implements ImporterInterface {
     $link_domain,
     AccountSwitcherInterface $account_switcher,
     ContentEntityNormalizerInterface $content_entity_normaler,
-    FileSystemInterface $file_system) {
+    FileSystemInterface $file_system,
+    ExtensionPathResolver $extension_path_resolver) {
 
     $this->serializer = $serializer;
     $this->entityTypeManager = $entity_type_manager;
@@ -142,6 +153,7 @@ class Importer implements ImporterInterface {
     $this->accountSwitcher = $account_switcher;
     $this->contentEntityNormalizer = $content_entity_normaler;
     $this->fileSystem = $file_system;
+    $this->extensionPathResolver = $extension_path_resolver;
   }
 
   /**
@@ -149,7 +161,7 @@ class Importer implements ImporterInterface {
    */
   public function importContent($path_to_yml) {
     $created = [];
-    $folder = drupal_get_path('module', 'erpw_content') . "/content";
+    $folder = $this->extensionPathResolver->getPath('erpw_content', 'module') . "/content";
 
     if (file_exists($folder)) {
       $root_user = $this->entityTypeManager->getStorage('user')->load(1);

@@ -3,14 +3,14 @@
 namespace Drupal\erpw_location\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\erpw_location\LocationService;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\erpw_location\LocationCookieService;
+use Drupal\erpw_location\LocationService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**

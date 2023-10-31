@@ -2,23 +2,23 @@
 
 namespace Drupal\erpw_location\Form;
 
-use Drupal\Core\Form\FormBase;
-use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Ajax\RedirectCommand;
 use Drupal\Core\Database\Connection;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\erpw_location\LocationService;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Routing\UrlGeneratorInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\Ajax\RedirectCommand;
-use Drupal\Core\Url;
 use Drupal\Core\Messenger\MessengerTrait;
+use Drupal\Core\Routing\UrlGeneratorInterface;
+use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\Url;
+use Drupal\erpw_location\LocationService;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class for add location.
@@ -458,7 +458,8 @@ class AddLocationForm extends FormBase {
       ->condition('vid', 'country')
       ->condition('parent', 0)
       ->sort('weight')
-      ->sort('name');
+      ->sort('name')
+      ->accessCheck(FALSE);
     $term_ids = $query->execute();
     $terms = $term_storage->loadMultiple($term_ids);
     foreach ($terms as $term) {

@@ -61,6 +61,7 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     $query = $node_storage->getQuery();
     $query->condition('type', 'organisation');
     $query->condition('field_domain_access', $active_domain->id());
+    $query->accessCheck(FALSE);
     $organisation_nids = $query->execute();
 
     // Retrieve the titles of the organisations.
@@ -398,6 +399,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       $query = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
       $query->condition('status', 1);
       $query->condition('field_organisation', $node_id);
+      $query->accessCheck(FALSE);
       $user_ids = $query->execute();
       // Get all services who have the node id (look into webform-submissions for services data.)
       $webform_submission_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
@@ -735,7 +737,8 @@ function _erpw_custom_organisation_node_form_validate(array &$form, FormStateInt
     $update_title = trim($title[0]['value']);
     $query = \Drupal::entityQuery('node')
       ->condition('type', 'organisation')
-      ->condition('title', $update_title);
+      ->condition('title', $update_title)
+      ->accessCheck(FALSE);
     $nids = $query->execute();
     if ($nids) {
       $form_state->setErrorByName('title', t('Organisation already exists, kindly update the organisation name and save it again.'));
@@ -1222,6 +1225,7 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
   $query = \Drupal::entityQuery('taxonomy_term');
   $query->condition('vid', 'country');
   $query->condition('parent', 0);
+  $query->accessCheck(FALSE);
   $term_ids = $query->execute();
 
   // Get webform ids which contain approved services for given tid.
@@ -1334,6 +1338,7 @@ function erpw_custom_has_content_for_terms(array $termIds, $contentType, $taxono
       ->condition('type', $contentType)
       ->condition($taxonomyField, $tid)
       ->range(0, 1)
+      ->accessCheck(FALSE)
       ->execute();
     if ($has_content) {
       return $tid;

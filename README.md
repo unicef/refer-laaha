@@ -150,4 +150,4 @@ END //
 
 DELIMITER ;
 ```
-The above function will returen the top most location id by given location id, directly executed this on Acqia database.
+The above function will returen the top most location id by given location id, directly executed this on Acquia database.

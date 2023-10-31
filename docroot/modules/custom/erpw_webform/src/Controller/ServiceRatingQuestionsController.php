@@ -4,8 +4,8 @@ namespace Drupal\erpw_webform\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\node\Entity\Node;
-use Drupal\webform\Entity\WebformSubmission;
 use Drupal\webform\Entity\Webform;
+use Drupal\webform\Entity\WebformSubmission;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -144,7 +144,7 @@ class ServiceRatingQuestionsController extends ControllerBase {
 
       $feedback_area_list[] = [
         'feedback_name' => $feedback_name,
-        'feedback_rating' => $average_rating,   
+        'feedback_rating' => $average_rating,
       ];
     }
 

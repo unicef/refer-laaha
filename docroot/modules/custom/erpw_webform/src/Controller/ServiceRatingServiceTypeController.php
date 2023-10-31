@@ -137,7 +137,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
         'service_name' => $webform_name,
         'service_link' => $href,
         'service_rating' => $average_rating,
-        'service_review_count' => $serviceReviewsCount,      
+        'service_review_count' => $serviceReviewsCount,
       ];
     }
 

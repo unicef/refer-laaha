@@ -2,8 +2,8 @@
 
 namespace Drupal\erpw_webform\Form;
 
-use Drupal\webform\WebformEntityAddForm;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\webform\WebformEntityAddForm;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -114,7 +114,7 @@ class WebformAddForm extends WebformEntityAddForm {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $query = $this->entityTypeManager->getStorage('webform')->getQuery();
-    $webform_ids = $query->condition('category', 'eRPW')->execute();
+    $webform_ids = $query->condition('category', 'eRPW')->accessCheck(FALSE)->execute();
     $webforms = $this->entityTypeManager->getStorage('webform')->loadMultiple($webform_ids);
     $current_domain = $form_state->get('current_domain_webform');
     foreach ($webforms as $webform) {

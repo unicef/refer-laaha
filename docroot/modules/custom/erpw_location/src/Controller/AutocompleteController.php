@@ -3,11 +3,11 @@
 namespace Drupal\erpw_location\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\erpw_location\LocationService;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\erpw_location\LocationService;
 
 /**
  * Defines a route controller for entity autocomplete form elements.

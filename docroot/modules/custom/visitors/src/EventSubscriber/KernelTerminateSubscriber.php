@@ -3,8 +3,8 @@
 namespace Drupal\visitors\EventSubscriber;
 
 use Drupal\Core\Url;
-use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\TerminateEvent;
 
 /**
  * Store visitors data when a request terminates.
@@ -20,10 +20,10 @@ class KernelTerminateSubscriber implements EventSubscriberInterface {
   /**
    * Store visitors data when a request terminates.
    *
-   * @param Symfony\Component\HttpKernel\Event\PostResponseEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\TerminateEvent $event
    *   The Event to process.
    */
-  public function onTerminate(PostResponseEvent $event) {
+  public function onTerminate(TerminateEvent $event) {
     $this->request = $event->getRequest();
 
     $user = \Drupal::currentUser();

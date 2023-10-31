@@ -26,13 +26,13 @@
 				</p>
 				<div class="rating-value-container">
 					<p class="service-average-rating">
-						{% spaceless %}
-							{{ data.location_rating }}
-						{% endspaceless %}
+						{% apply spaceless %}
+						{{ data.location_rating }}
+						{% endapply %}
 					</p>
-					<div class="rating-arrow-image">
-					</div>
+					<div class="rating-arrow-image"></div>
 				</div>
+
 				<div id="service-star-rating-{{ data.location_rating }}" class="star-rating">
 					<span class="star">&#9733;</span>
 					<span class="star">&#9733;</span>

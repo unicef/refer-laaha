@@ -2,14 +2,14 @@
 
 namespace Drupal\erpw_location\Form;
 
-use Drupal\Core\Url;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\State\StateInterface;
+use Drupal\Core\Url;
 use Drupal\erpw_location\LocationService;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Defines a form that allows users to import location.
@@ -183,7 +183,8 @@ class ExportLocationForm extends FormBase {
       $location_taxonomy_term_id = $location->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
       $taxonomy_storage = $this->entityManager->getStorage('taxonomy_term');
       $query = $taxonomy_storage->getQuery()
-        ->condition('vid', $location->bundle());
+        ->condition('vid', $location->bundle())
+        ->accessCheck(FALSE);
       $tids = $query->execute();
       $location_data = $taxonomy_storage->loadMultiple($tids);
       $location_levels = $this->locationService->getLocationLevels($location_entity_id);

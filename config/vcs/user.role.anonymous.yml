@@ -10,6 +10,7 @@ dependencies:
     - contact
     - erpw_custom
     - filter
+    - node_view_permissions
     - search
     - system
     - webform
@@ -29,5 +30,6 @@ permissions:
   - 'role-assign users with role service_provider_staff'
   - 'search content'
   - 'use text format restricted_html'
+  - 'view any referral_path_way content'
   - 'view any webform submission'
   - 'view own webform submission'

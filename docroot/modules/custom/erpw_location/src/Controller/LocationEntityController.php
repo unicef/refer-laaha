@@ -2,12 +2,12 @@
 
 namespace Drupal\erpw_location\Controller;
 
-use Drupal\Core\Url;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Url;
 use Drupal\erpw_location\Entity\LocationEntityInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 
 /**
  * Class LocationEntityController.

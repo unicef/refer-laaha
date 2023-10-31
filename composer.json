@@ -1,6 +1,6 @@
 {
     "name": "unicef/erefer-org",
-    "description": "UNICEF's laaha.org",
+    "description": "UNICEF's erefer.org",
     "type": "project",
     "license": "GPL-2.0-or-later",
     "homepage": "https://erefer.org",
@@ -14,88 +14,90 @@
         }
     ],
     "require": {
-        "acquia/blt": "^13",
-        "composer/installers": "^1.9",
+        "acquia/blt": "^13.7",
+        "composer/installers": "^2.2",
         "cweagans/composer-patches": "^1.7",
-        "drupal/acquia_connector": "^3.0",
-        "drupal/acquia_purge": "^1.2",
-        "drupal/admin_toolbar": "^3.0",
-        "drupal/administerusersbyrole": "^3.3",
-        "drupal/better_exposed_filters": "^5.0",
-        "drupal/block_inactive_users": "^1.6",
-        "drupal/bootstrap": "^3.23",
-        "drupal/clientside_validation": "^3.0@RC",
-        "drupal/color_field": "^2.5",
-        "drupal/config_ignore": "^2.3",
-        "drupal/config_split": "^1.7",
-        "drupal/config_views": "^2.0",
+        "drupal/acquia_connector": "^4.0",
+        "drupal/acquia_purge": "^1.3",
+        "drupal/admin_toolbar": "^3.4",
+        "drupal/administerusersbyrole": "^3.4",
+        "drupal/better_exposed_filters": "^6.0",
+        "drupal/block_inactive_users": "^2.3",
+        "drupal/bootstrap": "^3.29",
+        "drupal/classy": "^1.0",
+        "drupal/clientside_validation": "^4.0",
+        "drupal/color_field": "^3.0",
+        "drupal/config_ignore": "^2.4",
+        "drupal/config_split": "^1.9",
         "drupal/content_lock": "^2.3",
-        "drupal/core": "^9",
-        "drupal/core-composer-scaffold": "^9",
-        "drupal/core-recommended": "^9",
-        "drupal/core-vendor-hardening": "^9",
-        "drupal/csp": "^1.19",
+        "drupal/core-composer-scaffold": "10.0.10",
+        "drupal/core-project-message": "10.0.10",
+        "drupal/core-recommended": "10.0.10",
+        "drupal/core-vendor-hardening": "^10.1",
+        "drupal/csp": "^1.20",
         "drupal/default_content": "^2.0@alpha",
         "drupal/diff": "^1.1",
-        "drupal/diff_moderate": "1.0.x-dev@dev",
-        "drupal/domain": "1.x-dev@dev",
+        "drupal/diff_moderate": "^1.0@dev",
+        "drupal/domain": "^2.0@beta",
         "drupal/domain_access_search_api": "^1.0",
-        "drupal/domain_entity": "^1.0@beta",
-        "drupal/domain_lang": "1.x-dev@dev",
-        "drupal/domain_language_negotiation": "3.0.x-dev@dev",
+        "drupal/domain_entity": "^1.0@RC",
+        "drupal/domain_lang": "^1.0@beta",
+        "drupal/domain_language_negotiation": "^3.0@alpha",
         "drupal/email_tfa": "^1.0",
         "drupal/environment_indicator": "^4.0",
-        "drupal/field_defaults": "^1.3",
-        "drupal/field_group": "^3.2",
+        "drupal/field_group": "^3.4",
         "drupal/field_permissions": "^1.2",
-        "drupal/google_analytics": "^4",
-        "drupal/google_tag": "^1.4",
-        "drupal/hook_event_dispatcher": "^3.3",
-        "drupal/mail_login": "^2.0",
-        "drupal/menu_item_role_access": "^2.0",
-        "drupal/menu_link_attributes": "^1.2",
-        "drupal/menu_per_role": "^1.4",
-        "drupal/menus_attribute": "^1.2",
-        "drupal/metatag": "^1.16",
-        "drupal/multiple_fields_remove_button": "^1.0@alpha",
-        "drupal/node_title_validation": "^1.22",
-        "drupal/node_view_permissions": "^1.5",
-        "drupal/paragraphs": "^1.12",
-        "drupal/pathauto": "^1.8",
-        "drupal/permissions_filter": "^1.2",
-        "drupal/pwa": "^1.7",
-        "drupal/quick_node_clone": "^1.14",
+        "drupal/google_analytics": "^4.0",
+        "drupal/google_tag": "^2.0",
+        "drupal/hal": "^2.0",
+        "drupal/hook_event_dispatcher": "^4.0@RC",
+        "drupal/jquery_ui_dialog": "^2.0",
+        "drupal/jquery_ui_slider": "^2.0",
+        "drupal/mail_login": "^2.7",
+        "drupal/menu_item_role_access": "^2.1",
+        "drupal/menu_link_attributes": "^1.3",
+        "drupal/menu_per_role": "^1.5",
+        "drupal/menus_attribute": "^1.3",
+        "drupal/metatag": "^2.0",
+        "drupal/multiple_fields_remove_button": "^2.2",
+        "drupal/node_title_validation": "^2.0",
+        "drupal/node_view_permissions": "^1.6",
+        "drupal/paragraphs": "^1.16",
+        "drupal/pathauto": "^1.11",
+        "drupal/permissions_filter": "^1.3",
+        "drupal/pwa": "^2.0@RC",
+        "drupal/quick_node_clone": "^1.16",
         "drupal/restui": "^1.21",
-        "drupal/role_hierarchy": "^2.2",
         "drupal/seckit": "^2.0",
-        "drupal/shield": "^1.4",
-        "drupal/simple_menu_icons": "^2.3",
-        "drupal/site_audit": "^3.0@RC",
-        "drupal/status_messages": "^4.2",
-        "drupal/taxonomy_term_depth": "^2.5",
+        "drupal/shield": "^1.7",
+        "drupal/simple_menu_icons": "^3.0",
+        "drupal/site_audit": "^4.0@RC",
+        "drupal/status_messages": "^4.4",
+        "drupal/taxonomy_term_depth": "^2.6",
         "drupal/twig_tweak": "^3.2",
-        "drupal/verf": "^1.0",
+        "drupal/verf": "^2.0",
         "drupal/view_password": "^6.0",
         "drupal/views_attach_library": "^2.0",
-        "drupal/webform": "^6.1",
-        "drupal/webform_rest": "4.0.0-beta2",
+        "drupal/webform": "^6.2@beta",
+        "drupal/webform_rest": "^4.0",
         "drupal/webform_workflows_element": "^1.0@alpha",
         "drupal/workflow_buttons": "^1.0@beta",
-        "drush/drush": "^11"
+        "drush/drush": "^11.6",
+        "mglaman/composer-drupal-lenient": "^1.0"
     },
     "require-dev": {
-        "drupal/core-dev": "^9",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
         "drupal/coder": "^8.3",
-        "drupal/devel": "^4.1",
+        "drupal/core-dev": "10.0.10",
+        "drupal/devel": "^5.0",
         "drupal/devel_kint_extras": "^1.0",
-        "overtrue/phplint": "^2.0"
+        "overtrue/phplint": "^5.0"
     },
     "conflict": {
         "drupal/drupal": "*"
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
+    "prefer-stable": false,
     "config": {
         "sort-packages": true,
         "allow-plugins": {
@@ -106,7 +108,9 @@
             "acquia/blt": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-vendor-hardening": true,
-            "drupal/core-project-message": true
+            "drupal/core-project-message": true,
+            "mglaman/composer-drupal-lenient": true,
+            "phpstan/extension-installer": true
         }
     },
     "extra": {
@@ -132,8 +136,15 @@
         },
         "enable-patching": true,
         "patches": {
+            "drupal/domain": {
+                "Available on current domain doesn't instantiate": "https://www.drupal.org/files/issues/2023-06-21/3367785-domain-php8-boolean.patch"
+            },
             "drupal/domain_language_negotiation": {
-                "lang issue": "patches/active_lang.patch"
+                "lang issue": "patches/active_lang.patch",
+                "Drupal 10 compatibility": "https://www.drupal.org/files/issues/2022-07-18/domain_language_negotiation.3.0.x-dev.rector.patch"
+            },
+            "drupal/domain_lang": {
+                "Drupal 10 compatibility": "patches/domain_lang-drupal-10-ready-3287031-16.patch"
             },
             "drupal/paragraphs": {
                 "Fix for translation handler": "https://www.drupal.org/files/issues/2021-01-22/paragraph-entity-type-did-not-specify-translation-halder-3031598-45.patch",
@@ -144,23 +155,13 @@
             },
             "drupal/core": {
                 "Default moderation state for translated entity": "https://www.drupal.org/files/issues/2022-05-13/3150294-115.patch",
-                "Fix for unpublished translations not visible": "https://www.drupal.org/files/issues/2020-06-09/3088790-10.patch",
-                "Fix ajax Uncaught Type Error": "https://www.drupal.org/files/issues/2018-06-27/drupal-uninitialized_variable_url-2922677-8.patch",
-                "required-select-list": "https://www.drupal.org/files/issues/2023-01-10/1585930-85.patch",
-                "#2858392 - Views no result behaviour": "https://www.drupal.org/files/issues/2018-10-17/2858392-14.patch"
+                "Fix for unpublished translations not visible": "https://www.drupal.org/files/issues/2020-06-09/3088790-10.patch"
             },
             "drupal/quick_node_clone": {
-                "translation issue": "https://www.drupal.org/files/issues/2019-10-01/quick_node_clone-cloning_multilanguage_content_moderation-2975704-10.patch",
                 "para issue": "patches/clone_paragraph.patch"
             },
             "drupal/autosave_form": {
                 "author name issue": "patches/autosave.patch"
-            },
-            "drupal/multiple_fields_remove_button": {
-              "Multi field remove button": "https://www.drupal.org/files/issues/2020-09-02/multiple_fields_remove_button-same_field_in_different_paragraphs_-3168786_2.patch"
-            },
-            "drupal/taxonomy_term_depth": {
-              "PHP 8.1 compatibility str_replace(): Passing null to parameter #3283096": "https://git.drupalcode.org/project/taxonomy_term_depth/-/merge_requests/4.diff"
             },
             "drupal/pwa": {
                 "Add schema to pwa block to enable translation for Add to Home Screen Block.": "patches/pwa_a2hs-schema-changes.patch"
@@ -168,10 +169,16 @@
             "drupal/restui": {
                 "Use the ModuleHandlerInterface instead of the ModuleHandler concrete implementation ": "https://www.drupal.org/files/issues/2023-01-09/restui-use-moduleHandlerInterface-3327681-04.patch"
             },
+            "drupal/views_attach_library": {
+                "Drupal 10 compatibility": "https://www.drupal.org/files/issues/2022-08-06/views_attach_library_2.0.2.patch"
+            },
             "drupal/webform": {
                 "Add feedback area property to webform elements": "patches/webform-feedback_area-property.patch",
                 "Remove Service Rating webforms from the default List Builder": "patches/remove-service-rating-webform-listing.patch"
             }
+        },
+        "drupal-lenient": {
+            "allowed-list": ["drupal/views_attach_library", "drupal/domain_lang", "drupal/domain_language_negotiation", "drupal/jquery_ui_slider"]
         }
     }
 }
