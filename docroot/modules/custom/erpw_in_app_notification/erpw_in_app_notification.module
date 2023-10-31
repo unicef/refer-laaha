@@ -140,7 +140,8 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   }
 
   // Notify all Focal Point execpt who taken the action,
-  // Also notify the status to the owner of the service.
+  // Notify the status to the owner of the service.
+  // Notify all GBV Coornation (Country admin IA Coordinator) in review.
   // if it is approved/rejected, create Notification entity for that.
   if ($erpw_workflow['transition'] == 'submit_for_review_to_country_admin' || $erpw_workflow['transition'] == 'rejected_by_focal_point') {
 
@@ -181,7 +182,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_priority' => 0,
       'field_processed' => FALSE,
       'field_redirect_url' => '',
-      'field_role' => 'service_provider_focal_point',
+      'field_role' => 'service_provider_staff',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
       'field_users_list' => $webform_submission->getOwner(),
@@ -193,6 +194,10 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label()
     ]);
     $notification_storage->save();
+    
+    if ($erpw_workflow['transition'] == 'submit_for_review_to_country_admin') {
+      // TODO: Notify in review to GBV Coordination.
+    }
   }
 
 }
