@@ -3,6 +3,7 @@ langcode: sn
 status: true
 dependencies:
   config:
+    - node.type.feedback_area
     - node.type.organisation
     - node.type.referral_path_way
     - node.type.service_provider
@@ -146,3 +147,10 @@ permissions:
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'
   - 'add service rating question'
+  - 'create feedback_area content on assigned domains'
+  - 'delete feedback_area content on assigned domains'
+  - 'update feedback_area content on assigned domains'
+  - 'delete own feedback_area content'
+  - 'edit own feedback_area content'
+  - 'view any feedback_area content'
+  - 'view own feedback_area content'
