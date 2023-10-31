@@ -1185,41 +1185,57 @@
               version: 1.0,
               storeName: "userServiceChanges".concat(currentUserId),
             });
+
+            localforageUserServiceCreated = localforage.createInstance({
+              driver: localforage.INDEXEDDB,
+              name: "userServiceCreated".concat(currentUserId),
+              version: 1.0,
+              storeName: "userServiceCreated".concat(currentUserId),
+            });
             // Check if localforageUserServiceChanges has any key-value pairs
             localforageUserServiceChanges
               .length()
               .then(function (numberOfKeys) {
-                if (numberOfKeys > 0) {
-                  const container = document.createElement("div");
-                  container.id = "reminder-details";
-                  container.className = "reminder-details-offline";
-                  container.style.backgroundColor = "rgba(243, 193, 191, 0.53)";
+                localforageUserServiceCreated
+                  .length()
+                  .then(function (count) {
+                    if (numberOfKeys > 0 || count > 0) {
+                      const container = document.createElement("div");
+                      container.id = "reminder-details";
+                      container.className = "reminder-details-offline";
+                      container.style.backgroundColor =
+                        "rgba(243, 193, 191, 0.53)";
 
-                  const reminderHeading = document.createElement("div");
-                  reminderHeading.className = "reminder-detail-heading";
-                  reminderHeading.textContent = Drupal.t(
-                    "You have made changes to service providers while being offline."
-                  );
+                      const reminderHeading = document.createElement("div");
+                      reminderHeading.className = "reminder-detail-heading";
+                      reminderHeading.textContent = Drupal.t(
+                        "You have made changes to service providers while being offline."
+                      );
 
-                  const listingAnchor = document.createElement("a");
-                  listingAnchor.href = "/service-providers-changes-offline";
-                  listingAnchor.textContent =
-                    "Click here review and submit them."; // Set the text for the link
-                  listingAnchor.id = "offline-changes-listing"; // Set the ID for the link
+                      const listingAnchor = document.createElement("a");
+                      listingAnchor.href = "/service-providers-changes-offline";
+                      listingAnchor.textContent =
+                        "Click here review and submit them."; // Set the text for the link
+                      listingAnchor.id = "offline-changes-listing"; // Set the ID for the link
 
-                  reminderHeading.appendChild(listingAnchor);
-                  container.appendChild(reminderHeading);
-                  // Get a reference to the existing <div class="region region-content">
-                  var regionContent = document.querySelector(".region-content");
+                      reminderHeading.appendChild(listingAnchor);
+                      container.appendChild(reminderHeading);
+                      // Get a reference to the existing <div class="region region-content">
+                      var regionContent =
+                        document.querySelector(".region-content");
 
-                  // Insert the new <div> as the first child inside the existing <div class="region region-content">
-                  regionContent.insertBefore(
-                    container,
-                    regionContent.firstChild
-                  );
-                } else {
-                  console.log("localforageUserServiceChanges is empty.");
-                }
+                      // Insert the new <div> as the first child inside the existing <div class="region region-content">
+                      regionContent.insertBefore(
+                        container,
+                        regionContent.firstChild
+                      );
+                    } else {
+                      console.log("localforageUserServiceChanges is empty.");
+                    }
+                  })
+                  .catch(function (error) {
+                    console.error("No offline changes: error", error);
+                  });
               })
               .catch(function (error) {
                 console.error("No offline changes: error", error);
