@@ -562,3 +562,12 @@
         margin-bottom: 0;
     }
 }
+
+// Hide not used translation fields
+.config-translation-form {
+    [id*="edit-webformwebformwebform-service-rating-"] {
+      #edit-settings{
+        display: none;
+      }
+    }
+}
