@@ -29,11 +29,15 @@
 					  <a href={{ data.service_link }}>{{ data.service_name }}</a>
 					{% endif %}
 				</p>
-				<p class="service-average-rating">
-					{% spaceless %}
-						{{ data.service_rating }}
-					{% endspaceless %}
-				</p>
+				<div class="rating-value-container">
+					<p class="service-average-rating">
+						{% spaceless %}
+							{{ data.service_rating }}
+						{% endspaceless %}
+					</p>
+					<div class="rating-arrow-image">
+					</div>
+				</div>
 				<div id="service-star-rating-{{ data.service_rating }}" class="star-rating">
 					<span class="star">&#9733;</span>
 					<span class="star">&#9733;</span>
