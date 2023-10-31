@@ -24,11 +24,14 @@
 				<p class="service-name">
 					{{ data.feedback_name }}
 				</p>
-				<p class="service-average-rating">
-					{% apply spaceless %}
+				<div class="rating-value-container">
+					<p class="service-average-rating">
+						{% apply spaceless %}
 						{{ data.feedback_rating }}
-					{% endapply %}
-				</p>
+						{% endapply %}
+					</p>
+					<div class="rating-arrow-image"></div>
+				</div>
 				<div id="service-star-rating-{{ data.feedback_rating }}" class="star-rating">
 					<span class="star">&#9733;</span>
 					<span class="star">&#9733;</span>

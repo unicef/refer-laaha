@@ -3843,7 +3843,15 @@ body.path-user {
   line-height: 100%;
   /* 12px */
 }
-.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .service-average-rating, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .service-average-rating, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .service-average-rating {
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .rating-value-container, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .rating-value-container, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .rating-value-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .rating-value-container .service-average-rating, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .rating-value-container .service-average-rating, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .rating-value-container .service-average-rating {
   color: #4A4A4A;
   -webkit-font-feature-settings: "clig" off, "liga" off;
           font-feature-settings: "clig" off, "liga" off;
@@ -3855,7 +3863,7 @@ body.path-user {
   letter-spacing: 0.15px;
   font-size: 16px;
 }
-.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .service-average-rating::after, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .service-average-rating::after, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .service-average-rating::after {
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .rating-value-container .service-average-rating::after, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .rating-value-container .service-average-rating::after, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .rating-value-container .service-average-rating::after {
   content: "/5";
   color: #444;
   font-family: Roboto;
@@ -3863,6 +3871,18 @@ body.path-user {
   line-height: 28px;
   /* 233.333% */
   font-size: 12px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .rating-value-container .rating-arrow-image-green, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .rating-value-container .rating-arrow-image-green, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .rating-value-container .rating-arrow-image-green {
+  content: url("../images/service-rating-green-arrow.svg");
+  height: 14px;
+  width: 14px;
+  margin-left: 9px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .rating-value-container .rating-arrow-image-red, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .rating-value-container .rating-arrow-image-red, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .rating-value-container .rating-arrow-image-red {
+  content: url("../images/service-rating-red-arrow.svg");
+  height: 14px;
+  width: 14px;
+  margin-left: 9px;
 }
 .path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .star-rating .star, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .star-rating .star, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .star-rating .star {
   color: #ffc20e;
@@ -3999,5 +4019,9 @@ body.path-user {
 
 .path-ratings-by-service-type main {
   margin-bottom: 0;
+}
+
+.config-translation-form [id*=edit-webformwebformwebform-service-rating-] #edit-settings {
+  display: none;
 }
 /*# sourceMappingURL=style.css.map */

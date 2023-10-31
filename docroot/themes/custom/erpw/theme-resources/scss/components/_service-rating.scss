@@ -428,16 +428,35 @@
                         line-height: 100%; /* 12px */
                     }
                 }
-                
-                .service-average-rating {
-                    @include average-service-rating-fonts;
-                    font-size: 16px;
-                    &::after {
-                        content: "/5";
-                        @include feedback-survey-fonts;
-                        font-size: 12px;
+
+                .rating-value-container {
+                    display: flex;
+                    align-items: center;
+
+                    .service-average-rating {
+                        @include average-service-rating-fonts;
+                        font-size: 16px;
+                        &::after {
+                            content: "/5";
+                            @include feedback-survey-fonts;
+                            font-size: 12px;
+                        }
+                    }
+
+                    .rating-arrow-image-green {
+                        content: url('../images/service-rating-green-arrow.svg');
+                        height: 14px;
+                        width: 14px;
+                        margin-left: 9px;
+                    }
+                    .rating-arrow-image-red {
+                        content: url('../images/service-rating-red-arrow.svg');
+                        height: 14px;
+                        width: 14px;
+                        margin-left: 9px;
                     }
                 }
+                
 
                 .star-rating {
                     .star {
@@ -560,5 +579,14 @@
 .path-ratings-by-service-type {
     main {
         margin-bottom: 0;
+    }
+}
+
+// Hide not used translation fields
+.config-translation-form {
+    [id*="edit-webformwebformwebform-service-rating-"] {
+      #edit-settings{
+        display: none;
+      }
     }
 }

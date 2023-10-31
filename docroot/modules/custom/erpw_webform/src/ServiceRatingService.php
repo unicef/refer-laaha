@@ -488,11 +488,15 @@ class ServiceRatingService {
    *   The average rating, rounded to nearest integer.
    */
   public function calculateAverageRating($normalized_element_values) {
+    // Flatten the values and filter out 0 values.
     $flattened_values = array_merge(...$normalized_element_values);
+    $flattened_values = array_filter($flattened_values, function ($value) {
+      return $value != 0;
+    });
+
     $average_rating = 0;
 
     if (!empty($flattened_values)) {
-      // Calculate the average rating and round it to one decimal point.
       $average_rating = round(array_sum($flattened_values) / count($flattened_values), 0);
     }
 
@@ -513,7 +517,7 @@ class ServiceRatingService {
 
     // Extract numeric values from the array.
     foreach ($normalized_element_values as $key => $value) {
-      if (is_numeric($value)) {
+      if (is_numeric($value) && $value != 0) {
         $numeric_values[] = $value;
       }
     }
@@ -521,8 +525,7 @@ class ServiceRatingService {
     $average_rating = 0;
 
     if (!empty($numeric_values)) {
-      // Calculate the average rating and round it to one decimal point.
-      $average_rating = round(array_sum($numeric_values) / count($numeric_values), 1);
+      $average_rating = round(array_sum($numeric_values) / count($numeric_values), 0);
     }
 
     return $average_rating;
@@ -535,7 +538,7 @@ class ServiceRatingService {
    * the active domain. If the user is admin, then it assigns an organisation id by itself.
    *
    * @return int|null
-   *   The organization ID for admin, or null if no matching domain is found.
+   *   The organization ID, or null if no matching domain is found for non-admin users.
    */
   public function organisationForFiltering() {
     $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
