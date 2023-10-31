@@ -118,7 +118,12 @@
                         const stars = rating.children[2].children
                         for (let i = ratingValue; i < 5; i++) {
                             stars[i].classList.add('star-empty')
-                        }                        
+                        }
+                        if (ratingValue > 3) {
+                            rating.getElementsByClassName('rating-arrow-image')[0].classList.add('rating-arrow-image-green');
+                        } else {
+                            rating.getElementsByClassName('rating-arrow-image')[0].classList.add('rating-arrow-image-red');
+                        }
                     }
                 }
             }
