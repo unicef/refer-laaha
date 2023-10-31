@@ -450,8 +450,7 @@
               var url = window.location.href;
               // Use a regular expression to extract the 'key' parameter value
               var match = url.match(/[?&]key=([^&]+)/);
-
-              if (key == match[1]) {
+              if (key == match[1].replace(/%20/g, " ")) {
                 localforageUserServiceChanges
                   .removeItem(key)
                   .then(function () {
