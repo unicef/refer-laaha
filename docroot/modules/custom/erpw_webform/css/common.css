@@ -259,7 +259,7 @@
   width: 100%;
   background: url(/themes/custom/erpw/images/arrow-right.svg) right center
     no-repeat;
-  margin-right: 9px;
+  margin-right: 5px;
 }
 .select-service-type-webform
   .row-header
@@ -863,6 +863,9 @@ span[contenteditable="true"] {
   border: 2px solid #a85766;
   border-radius: 5px;
   font-weight: bold;
+}
+.offline-add-form-dialog-box {
+  top: 10px !important;
 }
 @media only screen and (min-width: 1024px) {
   .webform-submission-form .table-format .webform-mapping-table {

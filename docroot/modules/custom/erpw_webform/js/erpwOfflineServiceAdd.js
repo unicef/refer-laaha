@@ -267,7 +267,7 @@
                 // Create and add the initial "Select Organization" option
                 const initialOption = document.createElement("option");
                 initialOption.value = "";
-                initialOption.text = Drupal.t("-- Select Organization --");
+                initialOption.text = Drupal.t("-- Select Organisation --");
                 selectElement.appendChild(initialOption);
                 // Create and add options to the select element
                 for (const optionKey in options) {
