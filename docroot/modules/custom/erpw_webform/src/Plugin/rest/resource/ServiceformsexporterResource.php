@@ -102,6 +102,15 @@ class ServiceformsexporterResource extends ResourceBase {
     foreach ($webforms as $id => $webform) {
       $webformsRevised[$id] = $webform->toArray();
       $webformsRevised[$id]['elementsFlattened'] = $webform->getElementsInitializedFlattenedAndHasValue();
+      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+      foreach ($tpa as $sid) {
+        if ($sid[0] != '') {
+          $service_type_node = \Drupal::entityTypeManager()->getStorage('node')->load($sid[0]);
+          if ($service_type_node != NULL) {
+            $webformsRevised[$id]['serviceTypeTitle'] = $service_type_node->getTitle();
+          }
+        }
+      }
     }
     $this->logger->notice('Exported service forms.');
     // Return the newly created record in the response body.
