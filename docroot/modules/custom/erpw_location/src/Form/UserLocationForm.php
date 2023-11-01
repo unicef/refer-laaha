@@ -5,6 +5,7 @@ namespace Drupal\erpw_location\Form;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -18,7 +19,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Class LocationListForm.
  */
-class UserLocationForm extends LocationListForm {
+class UserLocationForm extends FormBase {
 
   /**
    * Drupal\Core\Session\AccountInterface definition.
@@ -114,7 +115,15 @@ class UserLocationForm extends LocationListForm {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL, $page = "") {
-    $form = parent::buildForm($form, $form_state);
+    $form['location_value'] = [
+      '#type' => 'entity_autocomplete',
+      '#title' => $this->t('Enter Location'),
+      '#required' => TRUE,
+      '#target_type' => 'taxonomy_term',
+      '#target_bundle' => 'country',
+      '#selection_settings' => ['target_bundles' => ['country']],
+      '#maxlength' => 255,
+    ];
     $form['location_level']['button'] = [
       '#type' => 'submit',
       '#title' => "Change",
@@ -137,34 +146,22 @@ class UserLocationForm extends LocationListForm {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $levels = $form_state->getValues();
-
+    $values = $form_state->getValues();
+    $location_value = $values['location_value'];
     // We need this for the redirect, even if we have a higher level.
     $country_tid = NULL;
-    if (!empty($levels['location_options'])) {
-      $location_entity = $this->entityTypeManager->getStorage('location')->load($levels['location_options']);
-      if (!empty($location_entity->get('field_location_taxonomy_term')->getValue())) {
-        $country_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+    if ($location_value) {
+      if ($this->locationService->isLocationEntity($location_value)) {
+        $country_tid = $this->locationService->getCountryTidbyLocationId($location_value);
+        $location_value = $country_tid;
+      }
+      else {
+        $country_tid = $this->locationService->getAllAncestors($location_value)[0] ?? NULL;
       }
     }
-
-    if (!empty($levels['level_4'])) {
-      $location_value = $levels['level_4'];
-    }
-    elseif (!empty($levels['level_3'])) {
-      $location_value = $levels['level_3'];
-    }
-    elseif (!empty($levels['level_2'])) {
-      $location_value = $levels['level_2'];
-    }
-    elseif (!empty($levels['level_1'])) {
-      $location_value = $levels['level_1'];
-    }
-    else {
-      $location_value = $country_tid;
-    }
-    if ($levels['location_level_page'] == 'location') {
-      $url = Url::fromUri('internal:/manage-location/' . $levels['location_options'] . '/' . $location_value);
+    
+    if ($values['location_level_page'] == 'location') {
+      $url = Url::fromUri('internal:/manage-location/' . $values['location_options'] . '/' . $location_value);
       $form['location_level']['button'] = $form_state->setRedirectUrl($url);
     }
     else {

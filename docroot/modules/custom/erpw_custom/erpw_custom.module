@@ -133,31 +133,6 @@ function erpw_custom_service_type_options() {
 }
 
 /**
- * Implements hook_views_pre_render().
- */
-// This is no longer required as service_list view is not used now.
-// Function erpw_custom_views_pre_render(ViewExecutable $view) {
-//   if ($view->id() == 'service_list') {
-//     $parameters = \Drupal::routeMatch()->getParameters()->all();
-//     // Add active tid from cookies as a fallback,
-//     // when there is no query parameter from referral_pathway_on_homepage view.
-//     if (!$parameters['arg_1']) {
-//       $parameters['arg_1'] = $_COOKIE['location_tid'];
-//     }
-//     // Conditionals are here to stop a fatal error, including when previewing
-//     // the view when editing it.  @TODO get the parameter the Views way.
-//     // Alternatively, use views to provide the title.
-//     $nid = $parameters['arg_0'] ?: NULL;
-//     if (!$nid) {
-//       return;
-//     }
-//     $node = Node::load($nid);
-//     $title = ($node) ? $node->getTitle() : t('Services');
-//     $view->setTitle($title);
-//   }
-// }
-
-/**
  * Implements hook_form_alter().
  */
 function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
@@ -177,11 +152,21 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
     $form['location']['level_0']['#empty_option'] = t('Select country');
   }
-  if ($form_id == 'user_location_form') {
-    $permission = 'view location of their own country';
-    $form['location_options']['#options'] = erpw_filter_locations_permissions($form['location_options']['#options'], $permission, 'location_entity');
-    $form['location_options']['#empty_option'] = t('Select country');
-  }
+  /**
+   * No User role has permission set as 'view location of their own country'.
+   * So this filteration is useless.
+   * 
+   * The field has been changed to an Autocomplete field, instead of the drop-downs, 
+   * so in case this condition needs to be applied, 
+   * then changes need to be made in RpwEntityAutocompleteMatcher.php 
+   * from the erpw_entity_autocomplete module to filter based on permission.
+   */
+  
+  // if ($form_id == 'user_location_form') {
+  //   $permission = 'view location of their own country';
+  //   $form['location_options']['#options'] = erpw_filter_locations_permissions($form['location_options']['#options'], $permission, 'location_entity');
+  //   $form['location_options']['#empty_option'] = t('Select country');
+  // }
   if ($form_id == 'sign_up') {
     if (isset($form['location']['level_0']['#options'])) {
       $permission = 'add new user for their own country';
