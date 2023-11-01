@@ -1,0 +1,20 @@
+uuid: eb97cd26-2aec-497a-a97d-f4c89c1eb92a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_entity.field_workflow_action
+  module:
+    - erpw_in_app_notification
+id: notification_entity.notification_entity.field_workflow_action
+field_name: field_workflow_action
+entity_type: notification_entity
+bundle: notification_entity
+label: 'Workflow Action'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

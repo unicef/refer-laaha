@@ -10,6 +10,7 @@ dependencies:
     - field.field.notification_entity.notification_entity.field_event_id
     - field.field.notification_entity.notification_entity.field_excluded_users
     - field.field.notification_entity.notification_entity.field_location
+    - field.field.notification_entity.notification_entity.field_operation
     - field.field.notification_entity.notification_entity.field_organisation
     - field.field.notification_entity.notification_entity.field_priority
     - field.field.notification_entity.notification_entity.field_processed
@@ -19,6 +20,7 @@ dependencies:
     - field.field.notification_entity.notification_entity.field_specific_user
     - field.field.notification_entity.notification_entity.field_title
     - field.field.notification_entity.notification_entity.field_users_list
+    - field.field.notification_entity.notification_entity.field_workflow_action
   module:
     - erpw_in_app_notification
     - options
@@ -82,6 +84,14 @@ content:
       link: true
     third_party_settings: {  }
     weight: 4
+    region: content
+  field_operation:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 17
     region: content
   field_organisation:
     type: entity_reference_label
@@ -155,6 +165,14 @@ content:
       link: true
     third_party_settings: {  }
     weight: 13
+    region: content
+  field_workflow_action:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 18
     region: content
   name:
     type: string
