@@ -112,7 +112,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // Get workflow.
   $erpw_workflow = $webform_submission->getElementData('erpw_workflow');
 
-  // Notify Focal Point if it is in review, create Notification entity for that.
+  // Focal Point - Service Added - Review
   if ($erpw_workflow['transition'] == 'submit_to_focal_point') {
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
       'field_behavior' => 'link',
@@ -145,7 +145,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // if it is approved/rejected, create Notification entity for that.
   if ($erpw_workflow['transition'] == 'submit_for_review_to_country_admin' || $erpw_workflow['transition'] == 'rejected_by_focal_point') {
 
-    // Focal Point.
+    // Focal Point - Service Added - Approved/Rejected by Focal Point
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
       'field_behavior' => 'info',
       'field_domain' => $active_domain->id(),
@@ -170,7 +170,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
     ]);
     $notification_storage->save();
 
-    // Staff.
+    // Staff - Add Service Approved/Rejected By Focal Point
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
       'field_behavior' => 'info',
       'field_domain' => $active_domain->id(),
@@ -195,8 +195,31 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
     ]);
     $notification_storage->save();
     
+    // GBV Coordination - Service Added - Review
     if ($erpw_workflow['transition'] == 'submit_for_review_to_country_admin') {
-      // TODO: Notify in review to GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'link',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'gbv_coordination__service_added_edited_deleted__review',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_redirect_url' => '',
+        'field_role' => ['interagency_gbv_coordinator', 'country_admin'],
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => FALSE,
+        'field_users_list' => NULL,
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label()
+      ]);
+      $notification_storage->save();
     }
   }
 
