@@ -18,8 +18,8 @@ use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
-use Drupal\views\Views;
 use Drupal\views\ViewExecutable;
+use Drupal\views\Views;
 use Drupal\webform\Entity\Webform;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -155,18 +155,18 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
   /**
    * No User role has permission set as 'view location of their own country'.
    * So this filteration is useless.
-   * 
-   * The field has been changed to an Autocomplete field, instead of the drop-downs, 
-   * so in case this condition needs to be applied, 
-   * then changes need to be made in RpwEntityAutocompleteMatcher.php 
+   *
+   * The field has been changed to an Autocomplete field, instead of the drop-downs,
+   * so in case this condition needs to be applied,
+   * then changes need to be made in RpwEntityAutocompleteMatcher.php
    * from the erpw_entity_autocomplete module to filter based on permission.
    */
-  
-  // if ($form_id == 'user_location_form') {
+
+  // If ($form_id == 'user_location_form') {
   //   $permission = 'view location of their own country';
   //   $form['location_options']['#options'] = erpw_filter_locations_permissions($form['location_options']['#options'], $permission, 'location_entity');
   //   $form['location_options']['#empty_option'] = t('Select country');
-  // }
+  // }.
   if ($form_id == 'sign_up') {
     if (isset($form['location']['level_0']['#options'])) {
       $permission = 'add new user for their own country';

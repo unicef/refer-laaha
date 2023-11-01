@@ -2,13 +2,13 @@
 
 namespace Drupal\erpw_custom\Controller;
 
-use Drupal\Core\Form\FormBuilder;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Form\FormBuilder;
+use Drupal\Core\Url;
+use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Drupal\Core\Url;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\user\UserInterface;
 
 /**
  * ModalFormController class.
