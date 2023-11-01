@@ -30,19 +30,21 @@
           if (tpa) {
             var mapping = tpa.erpw_webform.webform_service_type_map;
             if (mapping.hasOwnProperty(drupalSettings.activeDomain)) {
-              // Create the div structure
-              const divRow = document.createElement("div");
-              divRow.classList.add("forms-row");
-              divRow.dataset.key = key;
-              divRow.innerHTML = `
-              <div class="service-providers-submission-row select-service-type-webform">
-                  <div class="row-header">
-                    <div class="service-type-color-logo-container">
-                      <div class="service-type-org" data-key=${key}>${valueData.title}</div>
-                    </div>
-                  </div>
-              </div>`;
-              div.appendChild(divRow);
+              if (mapping[drupalSettings.activeDomain].indexOf("") === -1) {
+                // Create the div structure
+                const divRow = document.createElement("div");
+                divRow.classList.add("forms-row");
+                divRow.dataset.key = key;
+                divRow.innerHTML = `
+                  <div class="service-providers-submission-row select-service-type-webform">
+                      <div class="row-header">
+                        <div class="service-type-color-logo-container">
+                          <div class="service-type-org" data-key=${key}>${valueData.title}</div>
+                        </div>
+                      </div>
+                  </div>`;
+                div.appendChild(divRow);
+              }
             }
           }
         });
