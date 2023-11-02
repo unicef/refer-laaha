@@ -160,8 +160,9 @@ class UserLocationForm extends FormBase {
       }
     }
 
+    $country_location_id = $this->locationService->getLocationSingleEntityIdByTid($country_tid);
     if ($values['location_level_page'] == 'location') {
-      $url = Url::fromUri('internal:/manage-location/' . $values['location_options'] . '/' . $location_value);
+      $url = Url::fromUri('internal:/manage-location/' . $country_location_id . '/' . $location_value);
       $form['location_level']['button'] = $form_state->setRedirectUrl($url);
     }
     else {
