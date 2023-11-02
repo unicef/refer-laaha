@@ -114,7 +114,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // Get workflow.
   $erpw_workflow = $webform_submission->getElementData('erpw_workflow');
 
-  // Webform submission created by staff role user.
+  // Staff role owned services.
   if (in_array('service_provider_staff', $ownerroles)) {
     /**
        * Staff Service Add flow started here.
@@ -1166,6 +1166,166 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
     }
     /**
      * Staff Service Delete flow ends here.
+     */
+  }
+
+  // Focal Point owned service.
+  if (in_array('service_provider_focal_point', $ownerroles)) {
+    /**
+     * Focal Point Add flow start here.
+     */
+    if ($erpw_workflow['transition'] == 'submit_for_review_to_country_admin') {
+      // GBV Coordination - Service Added - Review.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'link',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'gbv_coordination__service_added_edited_deleted__review',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 1,
+        'field_processed' => FALSE,
+        'field_redirect_url' => Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => $sid], [])->toString(),
+        'field_role' => ['interagency_gbv_coordinator', 'country_admin'],
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => FALSE,
+        'field_users_list' => NULL,
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_operation' => t('added'),
+        'field_workflow_action' => '',
+      ]);
+      $notification_storage->save();
+    }
+
+    if ($erpw_workflow['transition'] == 'approve') {
+      // GBV Coordination - Service Added - Approved by GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'gbv_coordination__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_redirect_url' => '',
+        'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+        'field_users_list' => NULL,
+        'field_excluded_users' => \Drupal::currentUser()->id(),
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_operation' => t('added'),
+        'field_workflow_action' => t('approved'),
+      ]);
+      $notification_storage->save();
+
+      // Focal Point - Added Service Approved By GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'focal_point__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_redirect_url' => '',
+        'field_role' => 'service_provider_focal_point',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+      // Double check this is the last edited FP.
+        'field_users_list' => $webform_submission->getOwner(),
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_operation' => t('added'),
+        'field_workflow_action' => t('approved'),
+      ]);
+      $notification_storage->save();
+    }
+
+    if ($erpw_workflow['transition'] == 'reject') {
+      // Focal Point - Added Service Rejected By GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'focal_point__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_redirect_url' => '',
+        'field_role' => 'service_provider_focal_point',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+      // Double check this is the last edited FP.
+        'field_users_list' => $webform_submission->getOwner(),
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_operation' => t('added'),
+        'field_workflow_action' => t('rejected'),
+      ]);
+      $notification_storage->save();
+
+      // GBV Coordination - Service Added - Rejected by GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'gbv_coordination__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_redirect_url' => '',
+        'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+        'field_users_list' => NULL,
+        'field_excluded_users' => \Drupal::currentUser()->id(),
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_operation' => t('added'),
+        'field_workflow_action' => t('rejected'),
+      ]);
+      $notification_storage->save();
+
+    }
+    /**
+     * Focal Point Add flow ends here.
+     */
+    /**
+     * Focal Point Edit flow start here.
+     */
+    
+    /**
+     * Focal Point Edit flow end here.
      */
   }
 }
