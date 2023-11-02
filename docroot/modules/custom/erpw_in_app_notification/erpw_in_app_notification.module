@@ -990,7 +990,90 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
     $notification_storage->save();
 
 
-    
+    // Deletion rejected by GBV Coordination.
+    if ($erpw_workflow['transition'] == 'deletion_rejected_by_gbv_coordination') {
+      // Staff - Delete Service Rejected By GBV Coordination
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'staff__delete_service_approved_rejected_by_focal_point',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_redirect_url' => '',
+        'field_role' => 'service_provider_staff',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+        'field_users_list' => $webform_submission->getOwner(),
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_operation' => t('deletion'),
+        'field_workflow_action' => t('rejected'),
+      ]);
+      $notification_storage->save();
+
+      // Focal Point - Delete Service Rejected By GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'focal_point__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_redirect_url' => '',
+        'field_role' => 'service_provider_focal_point',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+        'field_users_list' => $values['changed_user'], // Double check this is the last edited FP.
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_operation' => t('deleted'),
+        'field_workflow_action' => t('rejected'),
+      ]);
+      $notification_storage->save();
+
+      // GBV Coordination - Service Edited - Rejected by GBV Coordination
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'gbv_coordination__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_redirect_url' => '',
+        'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+        'field_users_list' => NULL,
+        'field_excluded_users' => \Drupal::currentUser()->id(),
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_operation' => t('deleted'),
+        'field_workflow_action' => t('rejected'),
+      ]);
+      $notification_storage->save();
+    }
+
 
 
   }
