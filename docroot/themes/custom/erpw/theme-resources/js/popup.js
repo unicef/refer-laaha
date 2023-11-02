@@ -42,7 +42,7 @@
         var button_text = settings.pwaA2hs.pwaA2hsPrompt.button_text;
         button.innerHTML = button_text;
         // Use jQuery once() so the button doesn't get added multiple times.
-        $(once("showButton", ".pwa-a2hs")).each(function () {
+        $(once("showButton", ".pwa-a2hs", context)).each(function () {
           $(this)
             .removeClass("pwa-a2hs hidden")
             .addClass("pwa-a2hs-active show")

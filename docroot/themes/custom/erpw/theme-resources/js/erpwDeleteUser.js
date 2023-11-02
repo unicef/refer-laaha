@@ -1,7 +1,7 @@
 (function ($, Drupal, drupalSettings, once) {
   Drupal.behaviors.erpwDeleteUser = {
     attach: function (context, settings) {
-      $(once("erpw-delete-user", ".delete-user-button")).on(
+      $(once("erpw-delete-user", ".delete-user-button", context)).on(
         "click",
         function (event) {
           event.preventDefault();
