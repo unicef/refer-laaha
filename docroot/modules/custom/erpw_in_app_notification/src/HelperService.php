@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\erpw_in_app_notification;
+
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
@@ -28,6 +29,7 @@ class HelperService implements HelperServiceInterface {
   public function getEventDetailsByEventId($machine_name) {
     $config_pages = \Drupal::service('config_pages.loader');
     $notification_events = $config_pages->getValue('notification_events', 'field_items');
-    // TODO:
+    // @todo
   }
+
 }

@@ -34,7 +34,7 @@ class NotificationEntityForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    /* @var \Drupal\erpw_in_app_notification\Entity\NotificationEntity $entity */
+    /** @var \Drupal\erpw_in_app_notification\Entity\NotificationEntity $entity */
     $form = parent::buildForm($form, $form_state);
 
     return $form;

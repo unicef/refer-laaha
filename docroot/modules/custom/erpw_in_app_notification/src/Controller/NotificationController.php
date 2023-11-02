@@ -33,28 +33,31 @@ class NotificationController extends ControllerBase {
    *   Return Hello string.
    */
   public function userNotification() {
-  
+
     $cu = \Drupal::currentUser();
     $roles = $cu->getRoles();
 
-    switch (true) {
+    switch (TRUE) {
       case in_array('service_provider_staff', $roles):
-          $role = 'staff';
-          break;
+        $role = 'staff';
+        break;
+
       case in_array('service_provider_focal_point', $roles):
-          $role = 'focal_point';
-          break;
+        $role = 'focal_point';
+        break;
+
       case in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles):
-          $role = 'gbv_coordination';
-          break;
+        $role = 'gbv_coordination';
+        break;
+
       default:
-          $role = 'default';
+        $role = 'default';
     }
     return [
       '#theme' => 'user_notification',
       '#role' => $role,
-      '#user' => [1,2,3,4,5],
-      '#service' => [1,2,3,4,5],
+      '#user' => [1, 2, 3, 4, 5],
+      '#service' => [1, 2, 3, 4, 5],
       '#common_var' => [
         'module_path' => \Drupal::service('extension.list.module')->getPath('erpw_in_app_notification'),
       ],
@@ -73,10 +76,10 @@ class NotificationController extends ControllerBase {
    *   Return Hello string.
    */
   public function userNotificationModal() {
-    // Maximum of 3 items remainings 
+    // Maximum of 3 items remainings.
     return [
       '#theme' => 'user_notification_modal',
-      '#combined' => [1,2,3],
+      '#combined' => [1, 2, 3],
       '#common_var' => [
         'module_path' => \Drupal::service('extension.list.module')->getPath('erpw_in_app_notification'),
       ],

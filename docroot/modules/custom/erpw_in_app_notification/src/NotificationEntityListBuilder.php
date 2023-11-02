@@ -26,7 +26,7 @@ class NotificationEntityListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var \Drupal\erpw_in_app_notification\Entity\NotificationEntity $entity */
+    /** @var \Drupal\erpw_in_app_notification\Entity\NotificationEntity $entity */
     $row['id'] = $entity->id();
     $row['name'] = Link::createFromRoute(
       $entity->label(),

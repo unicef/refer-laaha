@@ -28,7 +28,6 @@ class NotificationProcessedEntityAccessControlHandler extends EntityAccessContro
           return AccessResult::allowedIfHasPermission($account, 'view unpublished notification processed entity entities');
         }
 
-
         return AccessResult::allowedIfHasPermission($account, 'view published notification processed entity entities');
 
       case 'update':
@@ -50,6 +49,5 @@ class NotificationProcessedEntityAccessControlHandler extends EntityAccessContro
   protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
     return AccessResult::allowedIfHasPermission($account, 'add notification processed entity entities');
   }
-
 
 }
