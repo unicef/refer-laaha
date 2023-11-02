@@ -1,9 +1,9 @@
-(function ($, Drupal, drupalSettings) {
+(function ($, Drupal, drupalSettings, once) {
   Drupal.behaviors.erpwDeleteUser = {
     attach: function (context, settings) {
-      $(".delete-user-button", context)
-        .once("erpw-delete-user")
-        .on("click", function (event) {
+      $(once("erpw-delete-user", ".delete-user-button")).on(
+        "click",
+        function (event) {
           event.preventDefault();
           var userId = $(this).data("user-id");
           var dialogOptions = {
@@ -77,4 +77,4 @@
       }
     },
   };
-})(jQuery, Drupal, drupalSettings);
+})(jQuery, Drupal, drupalSettings, once);

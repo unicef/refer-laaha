@@ -1,4 +1,4 @@
-(function ($, Drupal, drupalSettings) {
+(function ($, Drupal, drupalSettings, once) {
     let questionFlag = false;
     Drupal.behaviors.erpw_service_rating = {
         attach: function (context, settings) {
@@ -30,7 +30,7 @@
                     let service_id = '';
                     if (service_rating_form_id != null) {
                         service_id = '/' + service_rating_form_id.split('_')[3]
-                    } 
+                    }
                     const pathPrefix = settings.path.baseUrl + settings.path.currentLanguage
                     let addNewQuestion = document.createElement("a");
                     addNewQuestion.classList.add('add-new-question');
@@ -67,7 +67,9 @@
                 }
             }
 
-            $('#service-rating-form-publish-btn').once('click').on('click', function(event) {
+            $(once("click", "#service-rating-form-publish-btn")).on(
+              "click",
+              function (event) {
                 event.preventDefault();
                 $.ajax({
                     url: `/service-rating-form/publish/${service_rating_form_id}`,
@@ -104,7 +106,7 @@
                     const stars = document.getElementById('overall-average-ratings').children
                     for (let i = avgRatingValue; i < 5; i++) {
                         stars[i].classList.add('star-empty')
-                    }                        
+                    }
                 }
             }
 
@@ -144,4 +146,4 @@
             }
         },
     };
-})(jQuery, Drupal, drupalSettings);
+})(jQuery, Drupal, drupalSettings, once);
