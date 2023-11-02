@@ -114,7 +114,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // Get workflow.
   $erpw_workflow = $webform_submission->getElementData('erpw_workflow');
 
-  // Staff role owned services.
+  // Staff role owned services, Add flow.
   if (in_array('service_provider_staff', $ownerroles)) {
     /**
        * Staff Service Add flow started here.
@@ -472,7 +472,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
      */
   }
 
-  // Focal Point owned service.
+  // Focal Point owned services, Add flow.
   if (in_array('service_provider_focal_point', $ownerroles)) {
     /**
      * Focal Point Add flow start here.
