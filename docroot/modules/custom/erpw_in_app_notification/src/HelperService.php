@@ -27,9 +27,28 @@ class HelperService implements HelperServiceInterface {
    * {@inheritdoc}
    */
   public function getEventDetailsByEventId($machine_name) {
-    $config_pages = \Drupal::service('config_pages.loader');
-    $notification_events = $config_pages->getValue('notification_events', 'field_items');
-    // @todo
+    $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $cid = 'notification.events_list.' . $language;
+    $eventlist = [];
+    if ($cache = \Drupal::cache()->get($cid)) {
+      $eventlist = $cache->data;
+    }
+    else {
+      $config_pages = \Drupal::service('config_pages.loader');
+      $events = $config_pages->getValue('notification_events', 'field_items');
+      if (!empty($events)) {
+        $paragraph_storage = $this->entityTypeManager->getStorage('paragraph');
+        foreach ($events as $item) {
+          $pobject = $paragraph_storage->load($item['target_id']);
+          $eventlist[$pobject->get('field_machine_name')->getString()] = [
+            'message' => $pobject->get('field_notification_message')->getString(),
+            'icon_uri' => $pobject->get('field_notification_icon')->entity->getFileUri(),
+          ];
+        }
+        \Drupal::cache()->set($cid, $eventlist);
+      }
+    }
+    return $eventlist[$machine_name];
   }
 
   /**
