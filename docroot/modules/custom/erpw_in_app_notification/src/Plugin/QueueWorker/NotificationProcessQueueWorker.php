@@ -60,6 +60,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
    * Process item function.
    */
   public function processItem($id) {
+    $notification = $this->entityTypeManager->getStorage('notification_entity')->load($id);
 
   }
 
