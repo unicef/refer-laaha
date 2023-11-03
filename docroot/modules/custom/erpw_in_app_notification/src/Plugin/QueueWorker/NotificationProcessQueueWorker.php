@@ -1,7 +1,9 @@
 <?php
+
 namespace Drupal\erpw_in_app_notification\Plugin\QueueWorker;
 
 use Drupal\Core\Queue\QueueWorkerBase;
+
 /**
  * Notification Process Queue Worker.
  *
@@ -12,7 +14,7 @@ use Drupal\Core\Queue\QueueWorkerBase;
  * )
  */
 class NotificationProcessQueueWorker extends QueueWorkerBase {
-  
+
   /**
    * Process item function.
    */
@@ -20,4 +22,5 @@ class NotificationProcessQueueWorker extends QueueWorkerBase {
     // Process Item.
     // @todo
   }
+
 }

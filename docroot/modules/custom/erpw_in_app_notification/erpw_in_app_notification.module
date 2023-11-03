@@ -1222,7 +1222,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
    */
 }
 
-
 /**
  * Implement ultimate_cron_callback().
  */
@@ -1230,10 +1229,10 @@ function erpw_in_app_notification__notification_process_cron_job() {
   $queue_factory = \Drupal::service('queue');
   /** @var QueueInterface $queue */
   $queue = $queue_factory->get('notification_process_queue_worker');
-  $notifications = \Drupal::service('erpw_in_app_notification.default')->getNotifications();
-  if ($notifications) {
-    foreach ($notifications as $notification) {
-      $queue->createItem($notification);
+  $ids = \Drupal::service('erpw_in_app_notification.default')->getNotificationIds();
+  if (!empty($ids)) {
+    foreach ($ids as $id) {
+      $queue->createItem($id);
     }
   }
 }

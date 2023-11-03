@@ -35,7 +35,13 @@ class HelperService implements HelperServiceInterface {
   /**
    * {@inheritdoc}
    */
-  public function getNotifications() {
-    
+  public function getNotificationIds(): array {
+    // Fetch new notifications.
+    $entity_storage = $this->entityTypeManager->getStorage('notification_entity');
+    $ids = $entity_storage->getQuery()
+      ->condition('field_processed', FALSE)
+      ->execute();
+    return $ids ?? [];
   }
+
 }
