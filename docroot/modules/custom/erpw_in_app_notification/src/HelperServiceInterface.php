@@ -18,4 +18,12 @@ interface HelperServiceInterface {
    */
   public function getEventDetailsByEventId($machine_name);
 
+  /**
+   * Get notifiations
+   *
+   * @return array
+   *   The information of notification list from notification entity.
+   */
+  public function getNotifications();
+
 }

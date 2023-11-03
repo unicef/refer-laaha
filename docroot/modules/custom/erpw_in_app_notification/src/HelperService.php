@@ -32,4 +32,10 @@ class HelperService implements HelperServiceInterface {
     // @todo
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getNotifications() {
+    
+  }
 }

@@ -1,0 +1,29 @@
+uuid: 9bd70ae9-d7f4-4dae-953e-95832c3cea2e
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_in_app_notification
+title: 'The notification process'
+id: erpw_in_app_notification__notification_process_cron_job
+weight: 0
+module: erpw_in_app_notification
+callback: erpw_in_app_notification__notification_process_cron_job
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '* * * * *'
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000

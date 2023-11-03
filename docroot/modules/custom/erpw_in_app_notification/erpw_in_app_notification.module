@@ -1221,3 +1221,19 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
    * Service Delete flow ends here.
    */
 }
+
+
+/**
+ * Implement ultimate_cron_callback().
+ */
+function erpw_in_app_notification__notification_process_cron_job() {
+  $queue_factory = \Drupal::service('queue');
+  /** @var QueueInterface $queue */
+  $queue = $queue_factory->get('notification_process_queue_worker');
+  $notifications = \Drupal::service('erpw_in_app_notification.default')->getNotifications();
+  if ($notifications) {
+    foreach ($notifications as $notification) {
+      $queue->createItem($notification);
+    }
+  }
+}
