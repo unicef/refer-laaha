@@ -68,7 +68,7 @@ function erpw_in_app_notification_theme() {
  */
 function erpw_in_app_notification_webform_submission_insert(WebformSubmissionInterface $webform_submission) {
   $webform = $webform_submission->getWebform();
-  if ($webform->get('category') == 'eRPW') {
+  if (in_array('eRPW', $webform->get('categories'))) {
     erpw_in_app_notification__service_operation($webform_submission, $webform);
   }
 
@@ -79,7 +79,7 @@ function erpw_in_app_notification_webform_submission_insert(WebformSubmissionInt
  */
 function erpw_in_app_notification_webform_submission_update(WebformSubmissionInterface $webform_submission) {
   $webform = $webform_submission->getWebform();
-  if ($webform->get('category') == 'eRPW') {
+  if (in_array('eRPW', $webform->get('categories'))) {
     erpw_in_app_notification__service_operation($webform_submission, $webform);
   }
 }
