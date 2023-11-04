@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.notification_processed_entity.notification_processed_entity.field_icon
     - field.field.notification_processed_entity.notification_processed_entity.field_message_string
     - field.field.notification_processed_entity.notification_processed_entity.field_notification_id
     - field.field.notification_processed_entity.notification_processed_entity.field_read
@@ -16,6 +17,13 @@ targetEntityType: notification_processed_entity
 bundle: notification_processed_entity
 mode: default
 content:
+  field_icon:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
   field_message_string:
     type: text_default
     label: above
