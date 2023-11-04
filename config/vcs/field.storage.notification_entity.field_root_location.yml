@@ -1,11 +1,11 @@
-uuid: 8f3fca0e-275a-4916-9795-f0b36c9779a3
+uuid: 22d57447-3fd8-4b92-8833-c9d3a38f29da
 langcode: en
 status: true
 dependencies:
   module:
     - erpw_in_app_notification
+    - erpw_location
     - field_permissions
-    - taxonomy
 third_party_settings:
   field_permissions:
     permission_type: public
@@ -14,7 +14,7 @@ field_name: field_root_location
 entity_type: notification_entity
 type: entity_reference
 settings:
-  target_type: taxonomy_term
+  target_type: location
 module: core
 locked: false
 cardinality: 1

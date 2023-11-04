@@ -1,10 +1,10 @@
-uuid: 8ecb7fe3-449b-4a9d-b610-66568d7c087e
+uuid: 87f543bc-8013-4423-80a9-eff1e8a89d35
 langcode: en
 status: true
 dependencies:
   config:
+    - erpw_location.location_type.country
     - field.storage.notification_entity.field_root_location
-    - taxonomy.vocabulary.country
   module:
     - erpw_in_app_notification
 id: notification_entity.notification_entity.field_root_location
@@ -13,18 +13,18 @@ entity_type: notification_entity
 bundle: notification_entity
 label: 'Root Location'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:taxonomy_term'
+  handler: 'default:location'
   handler_settings:
     target_bundles:
       country: country
     sort:
-      field: name
-      direction: asc
+      field: _none
+      direction: ASC
     auto_create: false
     auto_create_bundle: ''
 field_type: entity_reference
