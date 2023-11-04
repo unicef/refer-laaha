@@ -142,7 +142,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => '',
       ]);
@@ -172,7 +172,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('approved'),
       ]);
@@ -199,7 +199,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('approved'),
       ]);
@@ -226,7 +226,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => '',
       ]);
@@ -257,7 +257,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('rejected'),
       ]);
@@ -284,7 +284,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('rejected'),
       ]);
@@ -316,7 +316,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('approved'),
       ]);
@@ -344,7 +344,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('approved'),
       ]);
@@ -371,7 +371,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('approved'),
       ]);
@@ -404,7 +404,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('rejected'),
       ]);
@@ -432,7 +432,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('rejected'),
       ]);
@@ -459,7 +459,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('rejected'),
       ]);
@@ -499,7 +499,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => '',
       ]);
@@ -528,7 +528,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('approved'),
       ]);
@@ -556,7 +556,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('approved'),
       ]);
@@ -586,7 +586,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('rejected'),
       ]);
@@ -613,7 +613,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'created' => $ctime,
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' ' . $webform->label(),
+        'field_title' => $sid . ' - ' . $org->title->value . ' ' . $webform->label(),
         'field_operation' => t('added'),
         'field_workflow_action' => t('rejected'),
       ]);
