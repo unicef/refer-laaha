@@ -4,9 +4,9 @@ namespace Drupal\erpw_pathway\Services;
 
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\erpw_location\LocationService;
-use Drupal\Core\Language\LanguageManagerInterface;
 
 /**
  * ErpwPathway Service Class.

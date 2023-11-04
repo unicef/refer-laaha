@@ -1,0 +1,25 @@
+diff --git a/src/WebformEntityListBuilder.php b/src/WebformEntityListBuilder.php
+index c1e15f5f6..72ad08aab 100644
+--- a/src/WebformEntityListBuilder.php
++++ b/src/WebformEntityListBuilder.php
+@@ -619,6 +619,15 @@ class WebformEntityListBuilder extends ConfigEntityListBuilder {
+         }
+       }
+     }
++    // Remove Service Rating webforms from listing for Non-admin users.
++    $current_user_role = $this->currentUser->getRoles();
++    if (!in_array('administrator', $current_user_role)) {
++      foreach ($entities as $entity_id => $entity) {
++        if (str_contains($entity_id, 'webform_service_rating_')) {
++          unset($entities[$entity_id]);
++        }
++      }
++    }
+ 
+     return $entities;
+   }
+@@ -654,3 +663,4 @@ class WebformEntityListBuilder extends ConfigEntityListBuilder {
+   }
+ 
+ }
++

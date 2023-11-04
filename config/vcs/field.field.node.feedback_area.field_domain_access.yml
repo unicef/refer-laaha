@@ -1,0 +1,26 @@
+uuid: c93786e7-d714-428a-a5a9-a14cd2accfc0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_domain_access
+    - node.type.feedback_area
+id: node.feedback_area.field_domain_access
+field_name: field_domain_access
+entity_type: node
+bundle: feedback_area
+label: 'Select Country'
+description: 'Select the Country for this content'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: 'Drupal\domain_access\DomainAccessManager::getDefaultValue'
+settings:
+  handler: 'default:domain'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: weight
+      direction: ASC
+    auto_create: false
+field_type: entity_reference

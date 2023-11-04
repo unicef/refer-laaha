@@ -61,6 +61,7 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     $query = $node_storage->getQuery();
     $query->condition('type', 'organisation');
     $query->condition('field_domain_access', $active_domain->id());
+    $query->accessCheck(FALSE);
     $organisation_nids = $query->execute();
 
     // Retrieve the titles of the organisations.
@@ -398,6 +399,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       $query = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
       $query->condition('status', 1);
       $query->condition('field_organisation', $node_id);
+      $query->accessCheck(FALSE);
       $user_ids = $query->execute();
       // Get all services who have the node id (look into webform-submissions for services data.)
       $webform_submission_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
@@ -422,6 +424,33 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       }
       $form['description']['#markup'] = $delete_confirmation_message;
     }
+  }
+
+  if ($form_id === 'node_feedback_area_delete_form') {
+    // Get the current feeback id.
+    $feedback_area = \Drupal::routeMatch()->getParameter('node');
+    $feedback_area_id = $feedback_area->id();
+    // Extract all the webforms using a feedback area.
+    $webform_storage = \Drupal::entityTypeManager()->getStorage('webform');
+    $webform_entities = $webform_storage->loadMultiple();
+    $webform_feedback_area_count = 0;
+    $webform_names = [];
+    foreach ($webform_entities as $webform_entity) {
+      $webform_feedback_area_id = $webform_entity->getElementsInitialized()['service_submission_id']['#feedback_area'];
+      if ($webform_feedback_area_id != NULL && $webform_feedback_area_id === $feedback_area_id) {
+        $webform_feedback_area_count++;
+        $webform_names[] = $webform_entity->label();
+      }
+    }
+
+    $delete_confirmation_message = t('Deleting the feedback area will lead to deleting or distorting the existing data.');
+    if ($webform_feedback_area_count > 0) {
+      $webform_plurality = $webform_feedback_area_count > 1 ? 'webforms' : 'webform';
+      $webform_name = implode(", ", $webform_names);
+      $delete_confirmation_message = t('This feedback area is used in @webforms_count @webform_plurality (@webform_name). Please review the existing @webform_plurality first.', ['@webforms_count' => $webform_feedback_area_count, '@webform_name' => $webform_name, '@webform_plurality' => $webform_plurality]);
+      unset($form['actions']['submit']);
+    }
+    $form['description']['#markup'] = $delete_confirmation_message;
   }
 }
 
@@ -708,7 +737,8 @@ function _erpw_custom_organisation_node_form_validate(array &$form, FormStateInt
     $update_title = trim($title[0]['value']);
     $query = \Drupal::entityQuery('node')
       ->condition('type', 'organisation')
-      ->condition('title', $update_title);
+      ->condition('title', $update_title)
+      ->accessCheck(FALSE);
     $nids = $query->execute();
     if ($nids) {
       $form_state->setErrorByName('title', t('Organisation already exists, kindly update the organisation name and save it again.'));
@@ -1087,7 +1117,6 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       }
     }
     // Load the taxonomy term and get the next terms.
-    // @todo change this too
     if (!empty($cookie->getCookieValue())) {
       $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
       $parent_term = $term_storage->load($cookie->getCookieValue());
@@ -1196,6 +1225,7 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
   $query = \Drupal::entityQuery('taxonomy_term');
   $query->condition('vid', 'country');
   $query->condition('parent', 0);
+  $query->accessCheck(FALSE);
   $term_ids = $query->execute();
 
   // Get webform ids which contain approved services for given tid.
@@ -1308,6 +1338,7 @@ function erpw_custom_has_content_for_terms(array $termIds, $contentType, $taxono
       ->condition('type', $contentType)
       ->condition($taxonomyField, $tid)
       ->range(0, 1)
+      ->accessCheck(FALSE)
       ->execute();
     if ($has_content) {
       return $tid;

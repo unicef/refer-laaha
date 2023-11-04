@@ -2,12 +2,12 @@
 
 namespace Drupal\erpw_webform\Plugin\rest\resource;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
 use Drupal\rest\Plugin\ResourceBase;
+use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\rest\ResourceResponse;
 
 /**
  * Represents ServiceFormsExporter records as resources.
@@ -102,6 +102,15 @@ class ServiceformsexporterResource extends ResourceBase {
     foreach ($webforms as $id => $webform) {
       $webformsRevised[$id] = $webform->toArray();
       $webformsRevised[$id]['elementsFlattened'] = $webform->getElementsInitializedFlattenedAndHasValue();
+      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+      foreach ($tpa as $sid) {
+        if ($sid[0] != '') {
+          $service_type_node = \Drupal::entityTypeManager()->getStorage('node')->load($sid[0]);
+          if ($service_type_node != NULL) {
+            $webformsRevised[$id]['serviceTypeTitle'] = $service_type_node->getTitle();
+          }
+        }
+      }
     }
     $this->logger->notice('Exported service forms.');
     // Return the newly created record in the response body.

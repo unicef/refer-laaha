@@ -1,0 +1,24 @@
+/* Adjust the layout of option items. */
+.service-rating-options .option-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 15px;
+}
+
+/* Style the label (title) within each option item. */
+.service-rating-options .option-item label {
+  flex: 1; 
+  margin-right: 10px;
+}
+
+.service-rating-description {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.4px;
+}
+
+.form-item-service-submission-id, .form-item-service-location-tid, .form-item-service-organisation {
+  display: none;
+}

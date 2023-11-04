@@ -19,7 +19,8 @@ archive: false
 id: template_erpw_workflow
 title: 'eRPW Service Provider Form'
 description: 'A webform with eRPW Workflow.'
-category: eRPW
+categories:
+  - eRPW
 elements: |-
   location:
     '#type': location_list_element

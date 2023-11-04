@@ -5,18 +5,19 @@
  * Contains erpw_webform.module.
  */
 
-use Drupal\node\Entity\Node;
-use Drupal\Core\Entity\EntityStorageException;
-use Drupal\webform\Entity\Webform;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Url;
-use Drupal\user\Entity\User;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityStorageException;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\views\ViewExecutable;
+use Drupal\Core\Url;
+use Drupal\node\Entity\Node;
+use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\views\ViewExecutable;
 use Drupal\views\Views;
+use Drupal\webform\Entity\Webform;
+use Drupal\webform\WebformInterface;
 
 /**
  * Implements hook_webform_add_form().
@@ -29,6 +30,11 @@ function erpw_webform_webform_add_form(array &$form, FormStateInterface $form_st
   elseif ($webform_type == 'eRPW') {
     $webform = Webform::create([
       'template' => 'template_erpw_workflow',
+    ]);
+  }
+  elseif ($webform_type == 'service_rating') {
+    $webform = Webform::create([
+      'template' => 'template_service_rating',
     ]);
   }
 
@@ -94,6 +100,9 @@ function erpw_webform_preprocess_html(&$variables) {
       }
     }
   }
+  if ($currentRoute == 'erpw_webform.webform.feedback_form') {
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_service_rating';
+  }
   if ($offlinePath == '/service-providers-changes-offline') {
     $variables['attributes']['class'][] = 'offline-service-changes-page';
   }
@@ -124,6 +133,7 @@ function erpw_webform_preprocess_webform(&$variables) {
  */
 function erpw_webform_preprocess_page(&$variables) {
   $currentRoute = \Drupal::routeMatch()->getRouteName();
+
   $currentPath = \Drupal::service('path_alias.manager')->getAliasByPath(\Drupal::service('path.current')->getPath());
   if ($currentRoute == "entity.webform.canonical" || $currentRoute == 'entity.webform_submission.edit_form' || $currentRoute == 'erpw_webform.service_content' || $currentRoute == 'erpw_webform.service_content_approved' || $currentRoute == 'erpw_webform.service_moderate_content') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_js';
@@ -156,9 +166,90 @@ function erpw_webform_preprocess_page(&$variables) {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_global';
   }
   if ($currentPath == '/service-providers-changes-offline') {
+    $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
+
+    $queryTwo = \Drupal::entityQuery('node')
+      ->condition('type', 'service_type')
+      ->accessCheck(FALSE);
+    $sids = $queryTwo->execute();
+    // Load nodes.
+    $serviceTypes = Node::loadMultiple($sids);
+    // Generate key-value pairs of serviceTypes.
+    $services = [];
+    foreach ($webforms as $webform) {
+      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+      if (is_array($tpa)) {
+        if (is_array($tpa[$activeDomain])) {
+          foreach ($serviceTypes as $key => $servicetype) {
+            if ($key == $tpa[$activeDomain][0]) {
+              if ($servicetype instanceof Node) {
+                $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
+                $services[$webform->label()]['Service Type Label'] = $servicelabel;
+                $services[$webform->label()]['Service Type Color'] = $servicetype->get('field_service_type_color')->getValue()[0]['color'];
+                $services[$webform->label()]['Service Type Icon'] = $servicetype->get('field_service_type_icon')->getValue()[0]['value'];
+              }
+            }
+          }
+        }
+      }
+    }
+    $variables['#attached']['drupalSettings']['serviceTypes'] = $services;
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_listing';
     $variables['#attached']['library'][] = 'unicef_iconpicker/unicef-iconpicker';
   }
+  if ($currentPath == '/manage-services') {
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_add';
+    $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $variables['#attached']['drupalSettings']['activeDomain'] = $activeDomain;
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'organisation')
+      ->accessCheck(FALSE);
+    $nids = $query->execute();
+
+    // Load nodes.
+    $nodes = Node::loadMultiple($nids);
+    $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    // Generate key-value pairs of nid and title.
+    $nid_title_pairs = [];
+    foreach ($nodes as $node) {
+      $domains = $node->get('field_domain_access')->getValue();
+      // Loop through the array and check if the value is present.
+      foreach ($domains as $domain) {
+        if (in_array($activeDomain, $domain)) {
+          $nid = $node->id();
+          $title = $node->getTitle();
+          $nid_title_pairs[$nid] = $title;
+        }
+      }
+    }
+    asort($nid_title_pairs);
+    $variables['#attached']['drupalSettings']['activeDomainOrganisation'] = $nid_title_pairs;
+    // Current domain location.
+    $location_entities = \Drupal::entityTypeManager()->getStorage('location')->loadByProperties(
+    ['type' => 'country', 'status' => 1]);
+    $location_options = [];
+    foreach ($location_entities as $location) {
+      $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
+      if ($activeDomain == 'zm_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Zimbabwe') {
+        $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      }
+      elseif ($activeDomain == 'bn_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Bangladesh') {
+        $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      }
+      elseif ($activeDomain == 'txb_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Turkey Cross Border') {
+        $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      }
+      elseif ($activeDomain == 'sl_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Sierra Leone') {
+        $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      }
+    }
+  }
+  if ($currentRoute == 'entity.webform.canonical') {
+    $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_add_form';
+  }
+  $account = User::load(\Drupal::currentUser()->id());
+  $variables['#attached']['drupalSettings']['activeOrg'] = $account->get('field_organisation')->getValue()[0]['target_id'];
   $variables['page']['#cache']['contexts'][] = 'cookies';
   $variables['page']['#cache']['contexts'][] = 'url';
 }
@@ -197,12 +288,52 @@ function erpw_webform_entity_insert(EntityInterface $entity) {
 }
 
 /**
+ * Implementation of hook_theme()
+ */
+function erpw_webform_theme($existing, $type, $theme, $path) {
+  return [
+    'service_rating_page' => [
+      'variables' => [
+        'organisation_name' => NULL,
+        'organisation_average' => NULL,
+        'organisation_total_reviews' => NULL,
+        'service_list' => NULL,
+      ],
+    ],
+    'location_rating_page' => [
+      'variables' => [
+        'service_type_name' => NULL,
+        'service_type_average' => NULL,
+        'service_total_reviews' => NULL,
+        'location_list' => NULL,
+      ],
+    ],
+    'feedback_area_rating_page' => [
+      'variables' => [
+        'location_name' => NULL,
+        'location_average' => NULL,
+        'location_total_reviews' => NULL,
+        'feedback_area_list' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
  * Implements hook_theme().
  */
 function erpw_webform_composite_theme() {
   return [
     'location_list' => [
       'render element' => 'element',
+    ],
+    'custom_template' => [
+      'variables' => [
+        'webform_data' => NULL,
+        'webform_title' => NULL,
+        'webform_status' => NULL,
+      ],
+      'template' => 'page--manage-feedback-surveys',
     ],
   ];
 }
@@ -213,6 +344,7 @@ function erpw_webform_composite_theme() {
 function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // Check if this is the webform submission edit form.
   $currentRoute = \Drupal::routeMatch()->getRouteName();
+  $currentPath = Url::fromRoute('<current>')->toString();
   $account = User::load(\Drupal::currentUser()->id());
   $user_roles = $account->getRoles();
   if ($currentRoute == 'entity.webform_submission.edit_form') {
@@ -280,12 +412,59 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     }
     $form['elements']['step_1_add_service_details']['organisation']['#options'] = $options;
   }
+
   if ($form_id == 'views_exposed_form') {
     // Generate the action path for the view form.
     $action_path = Url::fromRoute('<current>')->toString();
     // Set the generated action path as the form's action attribute.
     $form['#action'] = $action_path;
   }
+
+  if (str_contains($form_id, "webform_submission_webform_service_rating_")) {
+    $form['actions']['submit']['#submit'][] = "erpw_webform_service_rating_submit_handler";
+  }
+
+  if (str_contains($form['#form_id'], 'webform_service_rating_')) {
+    $form['actions']['back'] = [
+      '#type' => 'submit',
+      '#value' => t('Cancel'),
+    // You can adjust the weight to control the button's position.
+      '#weight' => 0,
+    // Define a custom submit handler for the back button.
+      '#submit' => ['service_rating_webform_back_handler'],
+    ];
+  }
+
+  if ($form_id === "webform_delete_form" && str_contains($currentPath, 'webform_service_rating_')) {
+    $form['actions']['submit']['#submit'][] = "erpw_webform_service_rating_delete_handler";
+    $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
+    $form['actions']['cancel']['#url'] = $url;
+  }
+}
+
+/**
+ *
+ */
+function erpw_webform_service_rating_delete_handler(&$form, FormStateInterface $form_state) {
+  $form_state->setRedirect('erpw_webform.manage_feedback_surveys');
+  return;
+}
+
+/**
+ * Custom submit handler for the back button.
+ */
+function service_rating_webform_back_handler($form, FormStateInterface $form_state) {
+  $form_state->setRedirect('view.manage_webform_services.page_1');
+  return;
+}
+
+/**
+ *
+ */
+function erpw_webform_service_rating_submit_handler(&$form, FormStateInterface $form_state) {
+  \Drupal::service('messenger')->addMessage("Thank you for your Feedback!");
+  $form_state->setRedirect('view.manage_webform_services.page_1');
+  return;
 }
 
 /**
@@ -420,6 +599,26 @@ function erpw_webform_views_data_alter(array &$data) {
       'real field' => 'webform_submission_mode_field',
     ],
   ];
+  $data['webform_submission']['webform_submission_service_rating_status_field'] = [
+    'title' => t('Webform Submission Service Rating Status field.'),
+    'help' => t("Generic field for displaying the status of the service's feedback form."),
+    'field' => [
+      'id' => 'webform_submission_service_rating_status_field',
+      'entity type' => 'webform',
+      'label' => t('Service Rating Form Status'),
+      'real field' => 'webform_submission_service_rating_status_field',
+    ],
+  ];
+  $data['webform_submission']['webform_submission_service_rating_question_count_field'] = [
+    'title' => t('Webform Submission Service Rating Question Count field.'),
+    'help' => t("Generic field for displaying the count of feedback question of a service."),
+    'field' => [
+      'id' => 'webform_submission_service_rating_question_count_field',
+      'entity type' => 'webform',
+      'label' => t('Feedback questions count of a service.'),
+      'real field' => 'webform_submission_service_rating_question_count_field',
+    ],
+  ];
   $data['webform_submission']['webform_submission_location_field'] = [
     'title' => t('Webform Submission location field.'),
     'help' => t('Generic field for displaying location for all submissions.'),
@@ -466,6 +665,15 @@ function erpw_webform_views_data_alter(array &$data) {
       'help' => t('Provides a custom filter for organisation.'),
       'field' => 'webform_submission_organisation_field',
       'id' => 'webform_submission_organisation_filter',
+    ],
+  ];
+  $data['webform_submission']['webform_submission_service_rating_filter'] = [
+    'title' => t('Webform Submission Service Rating Form Filter'),
+    'filter' => [
+      'title' => t('Webform Submission Service Rating Form Filter'),
+      'help' => t('Provides a custom filter for service rating form.'),
+      // 'field' => 'webform_submission_organisation_field',
+      'id' => 'webform_submission_service_rating_filter',
     ],
   ];
   return $data;
@@ -531,7 +739,7 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
     }
     if (!empty($view->exposed_widgets)) {
       if (isset($view->exposed_widgets[$arrayKey]['#options'])) {
-        $serviceTypes = $view->exposed_widgets[$arrayKey]['#options'];
+        $serviceTypes = $view->exposed_widgets[$arrayKey]['#options'] ?? '';
         foreach ($serviceTypes as $key => $serviceType) {
           if ($key == 'template_erpw_workflow') {
             unset($view->exposed_widgets[$arrayKey]['#options'][$key]);
@@ -555,7 +763,7 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
   if ($view->id() == 'service_based_service_providers_listing') {
     foreach ($view->result as $key => $row) {
       $webform_submission_id = $row->sid;
-      $node = erpw_webform__load_wsa_node_by_sid($webform_submission_id);
+      $node = erpw_webform_load_wsa_node_by_sid($webform_submission_id);
 
       if ($node) {
         $node_data = json_decode($node->field_submission_data->value, TRUE);
@@ -583,10 +791,11 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
  * @return \Drupal\Core\Entity\EntityInterface | null
  *   Returns node entity if present else null.
  */
-function erpw_webform__load_wsa_node_by_sid($webform_submission_id) {
+function erpw_webform_load_wsa_node_by_sid($webform_submission_id) {
   $query = \Drupal::entityQuery('node')
     ->condition('type', 'wsa')
-    ->condition('field_sid', $webform_submission_id);
+    ->condition('field_sid', $webform_submission_id)
+    ->accessCheck(FALSE);
 
   $entity_id = $query->execute();
   $array = array_values($entity_id);
@@ -758,13 +967,20 @@ function erpw_webform_preprocess_page_title(&$variables) {
       '@title' => t('Service Forms Configuration'),
     ]);
   }
-
+  if ($route_match->getRouteName() === 'erpw_webform.webform.feedback_form') {
+    $webform = \Drupal::routeMatch()->getParameter('webform');
+    if ($webform instanceof WebformInterface) {
+      $title = str_replace("Service Rating", "Feedback Form for", $webform->label());
+      $variables['title'] = $title;
+    }
+  }
 }
 
 /**
- * @todo Add caching for Service Listing page based on changing location.
+ * Implements hook_preprocess_views_view().
  */
 function erpw_webform_preprocess_views_view(&$variables) {
+  // @todo Add caching for Service Listing page based on changing location.
   $variables['#cache']['contexts'][] = 'cookies';
   $variables['#cache']['contexts'][] = 'url';
 }
@@ -773,120 +989,133 @@ function erpw_webform_preprocess_views_view(&$variables) {
  * Implements hook_webform_submission_presave().
  */
 function erpw_webform_webform_submission_presave($webform_submission) {
-  $values = $webform_submission->getData();
-  $last_non_empty_value = '';
-  $values['location']['location_tid'] = '';
-  $composite_value = $values['location'];
-  $location_reversed = array_reverse($composite_value);
-  if (is_array($composite_value)) {
-    foreach ($location_reversed as $value) {
-      if (!empty($value)) {
-        $last_non_empty_value = $value;
-        break;
-      }
-    }
-  }
-  $values['location']['location_tid'] = $last_non_empty_value;
-  $values['orignal_data'] = json_encode($webform_submission->getOriginalData());
   $webformID = $webform_submission->get('webform_id')->getValue()[0]['target_id'];
-  $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
-  $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-  foreach ($tpa as $domain => $arr) {
-    $values['submission_domain'] = $domain;
-    $values['service_type'] = $arr[0];
-  }
-  $service_type_node = \Drupal::entityTypeManager()->getStorage('node')->load($values['service_type']);
-  $service_type = $service_type_node->getTitle();
-  $webform_submission_id = $webform_submission->id();
-  $current_transition = $values['erpw_workflow']['transition'];
-  $rejected_transitions = ['edits_rejected_by_focal_point', 'edits_rejected_by_gbv_coordination', 'deletion_rejected_by_focal_point', 'deletion_rejected_by_gbv_coordination'];
-  $edit_delete_end_transitions = ['publish_edits', 'approve_deletion'];
-
-  // Store approved data in WSA while it is in Edit or Delete Workflow.
-  if ($values['erpw_workflow']['workflow_state'] == 'approve' && !in_array($current_transition, $edit_delete_end_transitions)) {
-    // Node for Deletion workflow:
-    if ($current_transition == 'submit_for_deletion_to_focal_point' || $current_transition == 'submit_for_deletion_to_gbv_coordination') {
-      $node = erpw_webform__create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
-
-      $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Deletion Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
-      \Drupal::logger('erpw_webform__deletion')->notice($message);
-    }
-    // Node for Edit Workflow:
-    else {
-      $node = erpw_webform__create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
-
-      $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Edit Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
-      \Drupal::logger('erpw_webform__edit')->notice($message);
-    }
-  }
-  elseif ($current_transition == 'publish_edits' || $current_transition == 'approve_deletion' || $values['erpw_workflow']['workflow_state'] == 'deleted') {
-    // Delete the node once it passes the review process.
-    $node = erpw_webform__load_wsa_node_by_sid($webform_submission_id);
-    if (!empty($node)) {
-      $node->delete();
-      // End of Delete workflow.
-      if ($current_transition == 'approve_deletion' || $values['erpw_workflow']['workflow_state'] == 'deleted') {
-        \Drupal::logger('erpw_webform__deletion')->notice('The node %title of type Webform Submission Approved has been deleted, as its deletion workflow is complete.', [
-          '%title' => $node->getTitle(),
-        ]);
-
-        \Drupal::logger('erpw_webform__deletion')->notice('The Webform Submission of id %sid has been deleted. Since this submission has passed through the Deletion Workflow.', [
-          '%sid' => $webform_submission_id,
-        ]);
-        $webform_submission->delete();
-      }
-      // End of Edit workflow.
-      else {
-        \Drupal::logger('erpw_webform__edit')->notice('The node %title of type Webform Submission Approved has been deleted, as its approval workflow is complete.', [
-          '%title' => $node->getTitle(),
-        ]);
-      }
-      \Drupal::entityTypeManager()->getStorage('node')->resetCache([$node->id()]);
-    }
-    // Case where the Service is directly actioned on by the GBV Coordination.
-    else {
-      if ($current_transition == 'approve_deletion' || $values['erpw_workflow']['workflow_state'] == 'deleted') {
-        \Drupal::logger('erpw_webform__deletion')->notice('The Webform Submission of id %sid has been deleted. Since this submission has passed through the Deletion Workflow.', [
-          '%sid' => $webform_submission_id,
-        ]);
-        $webform_submission->delete();
-      }
-      // Publish Edits.
-      else {
-        $webform_submission->setData($values);
-      }
-    }
-  }
-  // Delete WSA nodes if submissions are rejected, replace the data with the old approved data.
-  elseif (in_array($current_transition, $rejected_transitions)) {
-    $node = erpw_webform__load_wsa_node_by_sid($webform_submission_id);
-    if ($node) {
-      $node_data = json_decode($node->field_submission_data->value, TRUE);
-      try {
-        $webform_submission->setData($node_data);
-      }
-      catch (EntityStorageException $e) {
-        \Drupal::logger('erpw_webform__reject')->error($e);
-      }
-      \Drupal::logger('erpw_webform__reject')->notice('Webform submission with SID %sid was updated with the old approved data, as the changes were rejected in the workflow.', ['%sid' => $webform_submission_id]);
-
-      // Delete the node as well.
-      $node->delete();
-      \Drupal::logger('erpw_webform__reject')->notice('The node %title of type Webform Submission Approved has been deleted, as its workflow changes have been rejected.', [
-        '%title' => $node->getTitle(),
-      ]);
-    }
-  }
-  else {
+  $values = $webform_submission->getData();
+  // Service Rating Form Category.
+  if (preg_match('/^webform_service_rating_\d+$/', $webformID)) {
+    // Collect filtering information from service.
+    $service = \Drupal::service('current_route_match')->getParameter('servicesid');
+    $service_data = $service->getData();
+    $values['service_submission_id'] = $service->id();
+    $values['service_location_tid'] = $service_data['location']['location_tid'];
+    $values['service_organisation'] = $service_data['organisation'];
     $webform_submission->setData($values);
   }
-  $view = Views::getView('referral_pathway_on_homepage');
-  \Drupal::service('cache_tags.invalidator')->invalidateTags(['node:' . $service_type_node->id()]);
-  $view->storage->invalidateCaches();
+  // eRPW (Services) Category.
+  else {
+    $last_non_empty_value = '';
+    $values['location']['location_tid'] = '';
+    $composite_value = $values['location'];
+    $location_reversed = array_reverse($composite_value);
+    if (is_array($composite_value)) {
+      foreach ($location_reversed as $value) {
+        if (!empty($value)) {
+          $last_non_empty_value = $value;
+          break;
+        }
+      }
+    }
+    $values['location']['location_tid'] = $last_non_empty_value;
+    $values['orignal_data'] = json_encode($webform_submission->getOriginalData());
+    $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+    $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+    foreach ($tpa as $domain => $arr) {
+      $values['submission_domain'] = $domain;
+      $values['service_type'] = $arr[0];
+    }
+    $service_type_node = \Drupal::entityTypeManager()->getStorage('node')->load($values['service_type']);
+    $service_type = $service_type_node->getTitle();
+    $webform_submission_id = $webform_submission->id();
+    $current_transition = $values['erpw_workflow']['transition'];
+    $rejected_transitions = ['edits_rejected_by_focal_point', 'edits_rejected_by_gbv_coordination', 'deletion_rejected_by_focal_point', 'deletion_rejected_by_gbv_coordination'];
+    $edit_delete_end_transitions = ['publish_edits', 'approve_deletion'];
+
+    // Store approved data in WSA while it is in Edit or Delete Workflow.
+    if ($values['erpw_workflow']['workflow_state'] == 'approve' && !in_array($current_transition, $edit_delete_end_transitions)) {
+      // Node for Deletion workflow:
+      if ($current_transition == 'submit_for_deletion_to_focal_point' || $current_transition == 'submit_for_deletion_to_gbv_coordination') {
+        $node = erpw_webform__create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
+
+        $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Deletion Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
+        \Drupal::logger('erpw_webform__deletion')->notice($message);
+      }
+      // Node for Edit Workflow:
+      else {
+        $node = erpw_webform_create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
+
+        $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Edit Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
+        \Drupal::logger('erpw_webform__edit')->notice($message);
+      }
+    }
+    elseif ($current_transition == 'publish_edits' || $current_transition == 'approve_deletion' || $values['erpw_workflow']['workflow_state'] == 'deleted') {
+      // Delete the node once it passes the review process.
+      $node = erpw_webform_load_wsa_node_by_sid($webform_submission_id);
+      if (!empty($node)) {
+        $node->delete();
+        // End of Delete workflow.
+        if ($current_transition == 'approve_deletion' || $values['erpw_workflow']['workflow_state'] == 'deleted') {
+          \Drupal::logger('erpw_webform__deletion')->notice('The node %title of type Webform Submission Approved has been deleted, as its deletion workflow is complete.', [
+            '%title' => $node->getTitle(),
+          ]);
+
+          \Drupal::logger('erpw_webform__deletion')->notice('The Webform Submission of id %sid has been deleted. Since this submission has passed through the Deletion Workflow.', [
+            '%sid' => $webform_submission_id,
+          ]);
+          $webform_submission->delete();
+        }
+        // End of Edit workflow.
+        else {
+          \Drupal::logger('erpw_webform__edit')->notice('The node %title of type Webform Submission Approved has been deleted, as its approval workflow is complete.', [
+            '%title' => $node->getTitle(),
+          ]);
+        }
+        \Drupal::entityTypeManager()->getStorage('node')->resetCache([$node->id()]);
+      }
+      // Case where the Service is directly actioned on by the GBV Coordination.
+      else {
+        if ($current_transition == 'approve_deletion' || $values['erpw_workflow']['workflow_state'] == 'deleted') {
+          \Drupal::logger('erpw_webform__deletion')->notice('The Webform Submission of id %sid has been deleted. Since this submission has passed through the Deletion Workflow.', [
+            '%sid' => $webform_submission_id,
+          ]);
+          $webform_submission->delete();
+        }
+        // Publish Edits.
+        else {
+          $webform_submission->setData($values);
+        }
+      }
+    }
+    // Delete WSA nodes if submissions are rejected, replace the data with the old approved data.
+    elseif (in_array($current_transition, $rejected_transitions)) {
+      $node = erpw_webform_load_wsa_node_by_sid($webform_submission_id);
+      if ($node) {
+        $node_data = json_decode($node->field_submission_data->value, TRUE);
+        try {
+          $webform_submission->setData($node_data);
+        }
+        catch (EntityStorageException $e) {
+          \Drupal::logger('erpw_webform__reject')->error($e);
+        }
+        \Drupal::logger('erpw_webform__reject')->notice('Webform submission with SID %sid was updated with the old approved data, as the changes were rejected in the workflow.', ['%sid' => $webform_submission_id]);
+
+        // Delete the node as well.
+        $node->delete();
+        \Drupal::logger('erpw_webform__reject')->notice('The node %title of type Webform Submission Approved has been deleted, as its workflow changes have been rejected.', [
+          '%title' => $node->getTitle(),
+        ]);
+      }
+    }
+    else {
+      $webform_submission->setData($values);
+    }
+    $view = Views::getView('referral_pathway_on_homepage');
+    \Drupal::service('cache_tags.invalidator')->invalidateTags(['node:' . $service_type_node->id()]);
+    $view->storage->invalidateCaches();
+  }
 }
 
 /**
- * Implements hook_local_tasks_alter().
+ * Implements hook_menu_local_actions_alter().
  */
 function erpw_webform_menu_local_actions_alter(&$local_tasks) {
   // Check if the contributed module's link needs to be altered.
@@ -903,13 +1132,15 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
   $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
   $current_user = User::load(\Drupal::currentUser()->id());
   $roles = $current_user->getRoles();
-  $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
+  $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'] ?? '';
   if ($view->id() == 'webform_submissions') {
     // Ensure through filters that draft is only shown to the user who submitted it.
     $user = \Drupal::currentUser();
     $conditions = &$query->where[1]['conditions'];
     if ($view->getExposedInput()['webform_submission_workflow_filter'] != 'draft') {
-      $sid_array = erpw_webform__fetch_draft_submission_ids();
+      $sid_array = erpw_webform_fetch_draft_submission_ids();
+      // Remove Service Rating Submissions.
+      $sid_array = array_merge($sid_array, erpw_webform_fetch_service_rating_submission_ids());
       $sid = implode(',', $sid_array);
       if ($sid) {
         foreach ($conditions as $key => &$conditions_group) {
@@ -947,7 +1178,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       $ptids = get_child_term_tid($cookie_tid);
 
       // For Services with only domain as location, location entity id is set instead of tid.
-      $location_entity = erpw_webform__getLocationEntityIdByTid($cookie_tid);
+      $location_entity = erpw_webform_getLocationEntityIdByTid($cookie_tid);
       if (!empty($location_entity)) {
         $ptids = array_merge([strval($location_entity)], $ptids);
       }
@@ -990,7 +1221,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
         }
       }
       // Get the current user's location ID, #522 - overcoming the service data issue.
-      if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point') || $current_user->hasRole('interagency_gbv_coordinator') || $current_user->hasRole('country_admin')) {
+      if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point')) {
         if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
           $user_location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
 
@@ -1076,7 +1307,7 @@ function erpw_webform_add_webform_submission_add_where_join(QueryPluginBase &$qu
  * @return array
  *   Returns an array of submission ids.
  */
-function erpw_webform__fetch_draft_submission_ids() {
+function erpw_webform_fetch_draft_submission_ids() {
   $query = \Drupal::database()->select('webform_submission_data', 'wsd');
   $query->fields('wsd', ['sid']);
   $query->condition('wsd.value', 'draft');
@@ -1085,9 +1316,23 @@ function erpw_webform__fetch_draft_submission_ids() {
 }
 
 /**
+ * Fetch submission IDs for webform submissions with webform_id like 'webform_service_rating_%'.
+ *
+ * @return array
+ *   An array of submission IDs.
+ */
+function erpw_webform_fetch_service_rating_submission_ids() {
+  $query = \Drupal::database()->select('webform_submission_data', 'wsd');
+  $query->fields('wsd', ['sid']);
+  $query->condition('wsd.webform_id', 'webform_service_rating_', 'LIKE');
+  $results = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
+  return $results;
+}
+
+/**
  * Get location entity.
  */
-function erpw_webform__getLocationEntityIdByTid($tid) {
+function erpw_webform_getLocationEntityIdByTid($tid) {
   $location_entity_id = "";
   $location_entity = \Drupal::service('entity_type.manager')->getStorage('location')->loadByProperties(
     [
@@ -1119,13 +1364,14 @@ function erpw_webform__getLocationEntityIdByTid($tid) {
  *
  * @throws \Drupal\Core\Entity\EntityStorageException
  */
-function erpw_webform__create_or_update_wsa_node($service_type, $submission_id, $original_data, $deletion_node = FALSE) {
+function erpw_webform_create_or_update_wsa_node($service_type, $submission_id, $original_data, $deletion_node = FALSE) {
   $entity_type_manager = \Drupal::entityTypeManager();
 
   $query = $entity_type_manager->getStorage('node')->getQuery()
     ->condition('type', 'wsa')
     ->condition('field_sid', $submission_id)
-    ->range(0, 1);
+    ->range(0, 1)
+    ->accessCheck(FALSE);
   $entity_ids = $query->execute();
 
   $node_data = [
@@ -1164,6 +1410,10 @@ function erpw_webform_preprocess_table(&$variables) {
       '#markup' => t($variables['rows'][0]['cells']['title']['content']->getText()),
     ];
     $variables['rows'][0]['cells']['title']['content'] = $erpw_service_provider_form_text;
-    unset($variables['rows'][0]['cells']['operations']['content']['preview']);
+    unset($variables['rows'][0]['cells']['title']['content']);
+    unset($variables['rows'][0]['cells']['description']['content']);
+    unset($variables['rows'][0]['cells']['category']['content']);
+    unset($variables['rows'][0]['cells']['operations']['content']);
+    unset($variables['rows'][1]['cells']['operations']['content']['preview']);
   }
 }

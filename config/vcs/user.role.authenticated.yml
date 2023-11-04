@@ -13,6 +13,7 @@ dependencies:
     - contact
     - filter
     - google_analytics
+    - node_view_permissions
     - rest
     - search
     - shortcut
@@ -31,6 +32,7 @@ permissions:
   - 'access site-wide contact form'
   - 'opt-in or out of google analytics tracking'
   - 'post comments'
+  - 'restful get erpw_webform_serviceformsexporter'
   - 'restful get webform_rest_elements'
   - 'restful get webform_rest_submission'
   - 'restful patch webform_rest_submission'
@@ -38,6 +40,6 @@ permissions:
   - 'search content'
   - 'skip comment approval'
   - 'use text format basic_html'
+  - 'view any referral_path_way content'
   - 'view any webform submission'
   - 'view own webform submission'
-  - 'restful get erpw_webform_serviceformsexporter'

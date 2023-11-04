@@ -731,7 +731,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: ' <a href="{{ path(''entity.node.canonical'', {''node'': nid }) }}"> {{ field_select_organisation }} - {{ field_service_type }}</a>'
+            text: " <a href=\"{{ path('entity.node.canonical', {'node': nid }) }}\"> {{ field_select_organisation }} - {{ field_service_type }}</a>"
             make_link: false
             path: ''
             absolute: false
@@ -1331,7 +1331,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: '<div class="new-service-type button-with-icon"><a href="{{ path(''node.add'', {''node_type'': ''service_provider''}) }}">{{ ''Add a New Service'' | t }}</a></div>'
+            value: "<div class=\"new-service-type button-with-icon\"><a href=\"{{ path('node.add', {'node_type': 'service_provider'}) }}\">{{ 'Add a New Service' | t }}</a></div>"
             format: full_html
           tokenize: true
         result:

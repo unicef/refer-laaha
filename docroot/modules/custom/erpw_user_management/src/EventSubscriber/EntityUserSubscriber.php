@@ -8,7 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
+use Drupal\core_event_dispatcher\FormHookEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\erpw_location\LocationService;
 use Drupal\erpw_pathway\Services\ErpwPathwayService;
@@ -332,7 +332,7 @@ class EntityUserSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents(): array {
     return [
-      HookEventDispatcherInterface::FORM_ALTER => 'alterForm',
+      FormHookEvents::FORM_ALTER => 'alterForm',
     ];
   }
 

@@ -46,13 +46,11 @@
             // Loop through the viewsData array and make AJAX requests.
 
             localforage.config({
-              driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+              driver: localforage.INDEXEDDB,
               name: viewClass,
               version: 1.0,
               storeName: viewClass,
             });
-            // Assuming you have included LocalForage in your project
-
             // Iterate through all items in LocalForage
             localforage
               .iterate((value, key, iterationNumber) => {
@@ -141,7 +139,7 @@
                     // Create the div structure
                     const div = document.createElement("div");
                     div.classList.add("views-row");
-                    div.dataset.key = key; // You might need to adjust this based on your structure
+                    div.dataset.key = key;
                     var linkHTML = "";
                     if (
                       viewClass ==
@@ -499,7 +497,7 @@
                             container.appendChild(disclaimer);
 
                             const editLink = document.createElement("a");
-                            editLink.href = "#"; // Set the URL you want for the link
+                            editLink.href = "#";
                             editLink.textContent = "Make edits offline"; // Set the text for the link
                             editLink.id = "offline-edit"; // Set the ID for the link
                             container.appendChild(editLink);
@@ -554,7 +552,7 @@
         // Check if the "offline-save" anchor already exists
         if ($(".".concat(saveClass)).length === 0) {
           const saveAnchor = document.createElement("a");
-          saveAnchor.href = "#"; // Set the URL you want for the link
+          saveAnchor.href = "#";
           saveAnchor.textContent = "Save changes offline"; // Set the text for the link
           saveAnchor.id = "offline-save"; // Set the ID for the link
           saveAnchor.className = saveClass;
@@ -563,14 +561,14 @@
         }
 
         localforage.config({
-          driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+          driver: localforage.INDEXEDDB,
           name: "block-views-blockmanage-webform-services-block-1",
           version: 1.0,
           storeName: "block-views-blockmanage-webform-services-block-1",
         });
-        // Inside your fetchDataAndStore function:
+        // Inside fetchDataAndStore function:
         localforageForms = localforage.createInstance({
-          driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+          driver: localforage.INDEXEDDB,
           name: "serviceFormsData",
           version: 1.0,
           storeName: "serviceFormsData",
@@ -738,10 +736,9 @@
                                 for (const optionKey in options) {
                                   const radioWrapperDiv =
                                     document.createElement("div");
-                                  radioWrapperDiv.className = "offline-radios"; // You can define a CSS class for radios.
+                                  radioWrapperDiv.className = "offline-radios";
                                   const radio = document.createElement("input");
                                   radio.type = "radio";
-                                  radio.name = "your-radio-group-name"; // Use the same name for all radio buttons in the group.
                                   radio.value = optionKey;
                                   radio.id = `option-${optionKey}`;
 
@@ -939,14 +936,14 @@
       );
       $(this).siblings("#offline-edit")[0].style.display = "block";
       localforage.config({
-        driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+        driver: localforage.INDEXEDDB,
         name: "block-views-blockmanage-webform-services-block-1",
         version: 1.0,
         storeName: "block-views-blockmanage-webform-services-block-1",
       });
-      // Inside your fetchDataAndStore function:
+      // Inside fetchDataAndStore function:
       localforageUserServiceChanges = localforage.createInstance({
-        driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+        driver: localforage.INDEXEDDB,
         name: "userServiceChanges".concat(currentUserId),
         version: 1.0,
         storeName: "userServiceChanges".concat(currentUserId),
@@ -1181,48 +1178,64 @@
 
           var currentUserId = drupalSettings.user.uid;
           if (currentUserId != 0) {
-            // Inside your fetchDataAndStore function:
+            // Inside fetchDataAndStore function:
             localforageUserServiceChanges = localforage.createInstance({
-              driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+              driver: localforage.INDEXEDDB,
               name: "userServiceChanges".concat(currentUserId),
               version: 1.0,
               storeName: "userServiceChanges".concat(currentUserId),
+            });
+
+            localforageUserServiceCreated = localforage.createInstance({
+              driver: localforage.INDEXEDDB,
+              name: "userServiceCreated".concat(currentUserId),
+              version: 1.0,
+              storeName: "userServiceCreated".concat(currentUserId),
             });
             // Check if localforageUserServiceChanges has any key-value pairs
             localforageUserServiceChanges
               .length()
               .then(function (numberOfKeys) {
-                if (numberOfKeys > 0) {
-                  const container = document.createElement("div");
-                  container.id = "reminder-details";
-                  container.className = "reminder-details-offline";
-                  container.style.backgroundColor = "rgba(243, 193, 191, 0.53)";
+                localforageUserServiceCreated
+                  .length()
+                  .then(function (count) {
+                    if (numberOfKeys > 0 || count > 0) {
+                      const container = document.createElement("div");
+                      container.id = "reminder-details";
+                      container.className = "reminder-details-offline";
+                      container.style.backgroundColor =
+                        "rgba(243, 193, 191, 0.53)";
 
-                  const reminderHeading = document.createElement("div");
-                  reminderHeading.className = "reminder-detail-heading";
-                  reminderHeading.textContent = Drupal.t(
-                    "You have made changes to service providers while being offline."
-                  );
+                      const reminderHeading = document.createElement("div");
+                      reminderHeading.className = "reminder-detail-heading";
+                      reminderHeading.textContent = Drupal.t(
+                        "You have made changes to service providers while being offline."
+                      );
 
-                  const listingAnchor = document.createElement("a");
-                  listingAnchor.href = "/service-providers-changes-offline"; // Set the URL you want for the link
-                  listingAnchor.textContent =
-                    "Click here review and submit them."; // Set the text for the link
-                  listingAnchor.id = "offline-changes-listing"; // Set the ID for the link
+                      const listingAnchor = document.createElement("a");
+                      listingAnchor.href = "/service-providers-changes-offline";
+                      listingAnchor.textContent =
+                        "Click here review and submit them."; // Set the text for the link
+                      listingAnchor.id = "offline-changes-listing"; // Set the ID for the link
 
-                  reminderHeading.appendChild(listingAnchor);
-                  container.appendChild(reminderHeading);
-                  // Get a reference to the existing <div class="region region-content">
-                  var regionContent = document.querySelector(".region-content");
+                      reminderHeading.appendChild(listingAnchor);
+                      container.appendChild(reminderHeading);
+                      // Get a reference to the existing <div class="region region-content">
+                      var regionContent =
+                        document.querySelector(".region-content");
 
-                  // Insert the new <div> as the first child inside the existing <div class="region region-content">
-                  regionContent.insertBefore(
-                    container,
-                    regionContent.firstChild
-                  );
-                } else {
-                  console.log("localforageUserServiceChanges is empty.");
-                }
+                      // Insert the new <div> as the first child inside the existing <div class="region region-content">
+                      regionContent.insertBefore(
+                        container,
+                        regionContent.firstChild
+                      );
+                    } else {
+                      console.log("localforageUserServiceChanges is empty.");
+                    }
+                  })
+                  .catch(function (error) {
+                    console.error("No offline changes: error", error);
+                  });
               })
               .catch(function (error) {
                 console.error("No offline changes: error", error);
@@ -1233,11 +1246,6 @@
         const addedDiv = document.getElementById("offline-message-div");
         if (addedDiv) {
           addedDiv.remove();
-        }
-        if (typeof $(".new-service-type a")[0] !== "undefined") {
-          $(".new-service-type a")[0].style.pointerEvents = navigator.onLine
-            ? "auto"
-            : "none";
         }
         const formElements = Array.from($("select"));
         formElements.forEach((element) => {
@@ -1306,14 +1314,14 @@
               }
 
               localforage.config({
-                driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+                driver: localforage.INDEXEDDB,
                 name: viewClass,
                 version: 1.0,
                 storeName: viewClass,
               });
-              // Inside your fetchDataAndStore function:
+              // Inside fetchDataAndStore function:
               localforageID = localforage.createInstance({
-                driver: localforage.INDEXEDDB, // You can choose the storage driver you prefer
+                driver: localforage.INDEXEDDB,
                 name: viewClass + "IDS",
                 version: 1.0,
                 storeName: viewClass + "IDS",
@@ -1422,11 +1430,6 @@
         window.addEventListener("online", function (e) {
           window.location.reload(true);
           $("#reminder-details").css("display", "block");
-          if (typeof $(".new-service-type a")[0] !== "undefined") {
-            $(".new-service-type a")[0].style.pointerEvents = navigator.onLine
-              ? "auto"
-              : "none";
-          }
           formElements.forEach((element) => {
             element.disabled = false;
           });
@@ -1442,12 +1445,6 @@
         });
         window.addEventListener("offline", function (e) {
           $("#reminder-details").css("display", "none");
-          // disable add more links.
-          if (typeof $(".new-service-type a")[0] !== "undefined") {
-            $(".new-service-type a")[0].style.pointerEvents = navigator.onLine
-              ? "auto"
-              : "none";
-          }
           // Disable form elements.
           formElements.forEach((element) => {
             element.disabled = true;

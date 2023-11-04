@@ -94,8 +94,50 @@ erpw_webform_offline_edit_form:
     - core/jquery
     - core/drupalSettings
 
+erpw_webform_offline_add_form:
+  version: 1.0
+  css:
+    theme:
+      css/common.css: {}
+  js:
+    //cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js:
+      { type: external, minified: true }
+    js/erpwOfflineServiceFormAdd.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+
+erpw_webform_offline_add:
+  version: 1.0
+  css:
+    theme:
+      css/common.css: {}
+  js:
+    //cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js:
+      { type: external, minified: true }
+    js/erpwOfflineServiceAdd.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupal.dialog
+    - core/drupal.dialog.ajax
+    - core/once
+    - core/jquery.ui
+    - core/jquery.ui.dialog
+
 erpw_webform_form:
   version: 1.0
   css:
     theme:
       css/form.css: {}
+
+erpw_service_rating:
+  version: 1.0
+  css:
+    theme:
+      css/erpwServiceRatingQuestion.css: {}
+      css/form.css: {}
+  js:
+    js/erpwServiceRatingQuestion.js: {}

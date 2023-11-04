@@ -4,7 +4,7 @@ namespace Drupal\erpw_custom\EventSubscriber;
 
 use Drupal\Core\Database\Connection;
 use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
-use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
+use Drupal\core_event_dispatcher\FormHookEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Config\ConfigFactory;
@@ -178,7 +178,7 @@ class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      HookEventDispatcherInterface::FORM_ALTER => 'alterForm',
+      FormHookEvents::FORM_ALTER => 'alterForm',
     ];
   }
 

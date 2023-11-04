@@ -6,7 +6,6 @@
  */
 
 use Drupal\menu_link_content\Entity\MenuLinkContent;
-use Drupal\webform\Entity\WebformSubmission;
 
 /**
  * Implements hook_update_N().
@@ -43,7 +42,7 @@ function erpw_webform_update_9004() {
   // Get SID for the affected service.
   $zmquery = "SELECT sid FROM `webform_submission_data` WHERE `property` = 'location_tid' && GetTopLevelParent(value) = 1 && sid IN (SELECT wsd.sid FROM webform_submission_data as wsd WHERE wsd.name = 'submission_domain' && wsd.value != 'zm_erefer_org');";
 
-  $data =  \Drupal::service('database')->query($zmquery)->fetchAll(\PDO::FETCH_ASSOC);
+  $data = \Drupal::service('database')->query($zmquery)->fetchAll(\PDO::FETCH_ASSOC);
 
   if (!empty($data)) {
     foreach ($data as $sid) {
@@ -71,7 +70,7 @@ function erpw_webform_update_9005() {
   // Get SID for the affected service.
   $zmquery = "SELECT sid FROM `webform_submission_data` WHERE `property` = 'location_tid' && GetTopLevelParent(value) = 10401 && sid IN (SELECT wsd.sid FROM webform_submission_data as wsd WHERE wsd.name = 'submission_domain' && wsd.value != 'bn_erefer_org');";
 
-  $data =  \Drupal::service('database')->query($zmquery)->fetchAll(\PDO::FETCH_ASSOC);
+  $data = \Drupal::service('database')->query($zmquery)->fetchAll(\PDO::FETCH_ASSOC);
 
   if (!empty($data)) {
     foreach ($data as $sid) {
@@ -99,7 +98,7 @@ function erpw_webform_update_9006() {
   // Get SID for the affected service.
   $zmquery = "SELECT sid FROM `webform_submission_data` WHERE `property` = 'location_tid' && GetTopLevelParent(value) = 10926 && sid IN (SELECT wsd.sid FROM webform_submission_data as wsd WHERE wsd.name = 'submission_domain' && wsd.value != 'txb_erefer_org');";
 
-  $data =  \Drupal::service('database')->query($zmquery)->fetchAll(\PDO::FETCH_ASSOC);
+  $data = \Drupal::service('database')->query($zmquery)->fetchAll(\PDO::FETCH_ASSOC);
 
   if (!empty($data)) {
     foreach ($data as $sid) {
@@ -127,7 +126,7 @@ function erpw_webform_update_9007() {
   // Get SID for the affected service.
   $zmquery = "SELECT sid FROM `webform_submission_data` WHERE `property` = 'location_tid' && GetTopLevelParent(value) = 16821 && sid IN(SELECT wsd.sid FROM webform_submission_data as wsd WHERE wsd.name = 'submission_domain' && wsd.value != 'sl_erefer_org');";
 
-  $data =  \Drupal::service('database')->query($zmquery)->fetchAll(\PDO::FETCH_ASSOC);
+  $data = \Drupal::service('database')->query($zmquery)->fetchAll(\PDO::FETCH_ASSOC);
 
   if (!empty($data)) {
     foreach ($data as $sid) {

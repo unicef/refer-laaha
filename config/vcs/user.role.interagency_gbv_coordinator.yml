@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - node.type.feedback_area
     - node.type.organisation
     - node.type.referral_path_way
     - node.type.service_provider
@@ -11,9 +12,11 @@ dependencies:
     - administerusersbyrole
     - config_translation
     - content_moderation
+    - domain_access
     - erpw_custom
     - erpw_in_app_notification
     - erpw_location
+    - erpw_webform
     - node
     - node_view_permissions
     - quick_node_clone
@@ -35,6 +38,7 @@ permissions:
   - 'add new user'
   - 'add referral pathway of their own location'
   - 'add service of their own location'
+  - 'add service rating question'
   - 'add users of their own location'
   - 'administer webform'
   - 'administer webform element access'
@@ -102,3 +106,11 @@ permissions:
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'
   - 'view notification page'
+  - 'add service rating question'
+  - 'create feedback_area content on assigned domains'
+  - 'delete feedback_area content on assigned domains'
+  - 'update feedback_area content on assigned domains'
+  - 'delete own feedback_area content'
+  - 'edit own feedback_area content'
+  - 'view any feedback_area content'
+  - 'view own feedback_area content'

@@ -3,8 +3,8 @@
 namespace Drupal\erpw_webform\Element;
 
 use Drupal\Core\Cache\CacheBackendInterface;
-use Drupal\webform\Element\WebformCompositeBase;
 use Drupal\user\Entity\User;
+use Drupal\webform\Element\WebformCompositeBase;
 
 /**
  * Provides a 'webform_example_composite'.
