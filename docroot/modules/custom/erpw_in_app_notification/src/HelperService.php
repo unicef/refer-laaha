@@ -3,11 +3,15 @@
 namespace Drupal\erpw_in_app_notification;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Class HelperService.
  */
 class HelperService implements HelperServiceInterface {
+
+  use StringTranslationTrait;
 
   /**
    * Drupal\Core\Entity\EntityTypeManagerInterface definition.
@@ -15,12 +19,20 @@ class HelperService implements HelperServiceInterface {
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
+  
+  /**
+   * Drupal\Core\Datetime\DateFormatterInterface definition.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   */
+  protected $dateFormatter;
 
   /**
    * Constructs a new HelperService object.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, DateFormatterInterface $date_formatter) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->dateFormatter = $date_formatter;
   }
 
   /**
@@ -64,4 +76,28 @@ class HelperService implements HelperServiceInterface {
     return $ids ?? [];
   }
 
+  /**
+   * Get times ago/date from timestamp.
+   *
+   * @return void
+   */
+  public function getDynamicDateFormate($timestamp, $formate = 'd F Y'): string {
+
+    // Check the timestamp not morethan 24 hours.
+    $currentTimestamp = \Drupal::time()->getRequestTime();
+
+    // Calculate the difference in seconds.
+    $timeDifference = $currentTimestamp - $timestamp;
+
+    // Check if the timestamp is not more than 24 hours old (24 hours * 60 minutes * 60 seconds).
+    if ($timeDifference <= 24 * 60 * 60) {
+      $date = $this->dateFormatter->formatInterval($currentTimestamp - $timestamp);
+      return $date . ' ' . $this->t('ago');
+    }
+    else {
+      $timezone = date_default_timezone_get();
+      $date = $this->dateFormatter->format($timestamp, 'custom', $formate, $timezone);
+      return $date;
+    }
+  }
 }

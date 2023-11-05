@@ -53,11 +53,37 @@ class NotificationController extends ControllerBase {
       default:
         $role = 'default';
     }
+    // Fetch service notificaiton.
+    $npestorage = \Drupal::entityTypeManager()->getStorage('notification_processed_entity');
+    $nestorage = \Drupal::entityTypeManager()->getStorage('notification_entity');
+    $query = $npestorage->getQuery();
+    $notify = $query->accessCheck(FALSE)
+      ->condition('field_recipient', \Drupal::currentUser()->id())
+      ->condition('field_read', 0)
+      ->execute();
+    $service = $user = [];
+    if (!empty($notify)) {
+      foreach ($notify as $item) {
+        $npe = $npestorage->load($item);
+        // Load notification entity.
+        $ne = $nestorage->load($npe->get('field_notification_id')->getString());
+        if ($ne->get('field_entity_type')->getString() == 'service') {
+          $service[$item]['icon'] = $npe->get('field_icon')->getString();
+          $service[$item]['message'] = $npe->get('field_message_string')->getString();
+          $service[$item]['link'] = $ne->get('field_redirect_url')->getString();
+          $service[$item]['behavior'] = $ne->get('field_behavior')->getString();
+          $service[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($ne->get('created')->getString());
+        }
+        else {
+          // @todo
+        }
+      }
+    }
     return [
       '#theme' => 'user_notification',
       '#role' => $role,
-      '#user' => [1, 2, 3, 4, 5],
-      '#service' => [1, 2, 3, 4, 5],
+      '#user' => $user,
+      '#service' => $service,
       '#common_var' => [
         'module_path' => \Drupal::service('extension.list.module')->getPath('erpw_in_app_notification'),
       ],

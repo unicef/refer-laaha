@@ -38,15 +38,45 @@
 
     <div id="service" class="tabcontent">
         {% for item in service %}
-            <div class="notification">
-                <div class="icon">
-                    <img src="/{{ common_var.module_path }}/images/icon.png" alt="Icon">
+            {% if item.behavior == 'link' %}
+            <a href="{{ item.link }}">
+                <div class="notification">
+                    <div class="icon">
+                        {% set imagestyle = {
+                            '#theme':      'image_style',
+                            '#style_name': 'thumbnail',
+                            '#uri':        item.icon,
+                            '#alt':        'icon',
+                            '#attributes': { class: 'circular-image' },
+                        }
+                        %}
+                        {{ imagestyle }}
+                    </div>
+                    <div class="content">
+                        <p>{{ item.message }}</p>
+                        <p class="time">{{ item.created }} | {{ "Reminder"|t }}</p>
+                    </div>
                 </div>
-                <div class="content">
-                    <p><strong>Silobile Moyo</strong> has joined your organisation as <strong>SP Staff</strong> at <strong>Mutare</strong>. </p>
-                    <p class="time">{{ '2 hrs ago' }} | {{ "Approval for New user" }}</p>
+            </a>
+            {% else %}
+                <div class="notification">
+                    <div class="icon">
+                        {% set imagestyle = {
+                            '#theme':      'image_style',
+                            '#style_name': 'thumbnail',
+                            '#uri':        item.icon,
+                            '#alt':        'icon',
+                            '#attributes': { class: 'circular-image' },
+                        }
+                        %}
+                        {{ imagestyle }}
+                    </div>
+                    <div class="content">
+                        <p>{{ item.message }}</p>
+                        <p class="time">{{ item.created }} | {{ "Updates"|t }}</p>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endif %}
