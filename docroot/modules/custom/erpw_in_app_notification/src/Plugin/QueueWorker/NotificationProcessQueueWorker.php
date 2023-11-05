@@ -78,7 +78,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
       $name = $author->get('field_first_name')->getString();
       $name .= ' ' . $author->get('field_last_name')->getString();
       $message = str_replace("@focal_point_name", $name, $message);
-      
+
       // Process the users.
       if (!$notification->get('field_specific_user')->getString()) {
         $roles = explode(', ', $notification->get('field_role')->getString());
@@ -86,7 +86,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
           // @todo
         }
         if (in_array('service_provider_focal_point', $roles)) {
-  
+
           // FP based on organisation.
           $org = $notification->get('field_organisation')->getString();
           $uids = $userquery->condition('status', 1)
@@ -118,7 +118,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 $locationid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
                 $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
                 $uids = $userquery->condition('status', 1)
-                  ->condition('roles', 'interagency_gbv_coordinator')
+                  ->condition('roles', 'country_admin')
                   ->condition('field_location', $location_list, 'IN')
                   ->accessCheck(FALSE)
                   ->execute();
@@ -128,23 +128,82 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
         }
       }
       else {
-        // @todo
+        // Never this two field have value together.
+        if (!$notification->get('field_users_list')->isEmpty()) {
+          $userstring = $notification->get('field_users_list')->getString();
+          $uids = explode(", ", $userstring);
+        }
+        if (!$notification->get('field_excluded_users')->isEmpty()) {
+          $userstring = $notification->get('field_excluded_users')->getString();
+          $excludeuids = explode(", ", $userstring);
+          $roles = explode(', ', $notification->get('field_role')->getString());
+          if (in_array('service_provider_staff', $roles)) {
+            // @todo
+          }
+          if (in_array('service_provider_focal_point', $roles)) {
+
+            // FP based on organisation.
+            $org = $notification->get('field_organisation')->getString();
+            $users = $userquery->condition('status', 1)
+              ->condition('roles', 'service_provider_focal_point')
+              ->condition('field_organisation', $org)
+              ->accessCheck(FALSE)
+              ->execute();
+          }
+          if (in_array('interagency_gbv_coordinator', $roles)) {
+            // Based on the root location or country.
+            if (!$notification->get('field_location')->isEmpty()) {
+              $locationid = $notification->get('field_location')->getString();
+              $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
+              $users = $userquery->condition('status', 1)
+                ->condition('roles', 'interagency_gbv_coordinator')
+                ->condition('field_location', $location_list, 'IN')
+                ->accessCheck(FALSE)
+                ->execute();
+            }
+          }
+          if (in_array('country_admin', $roles)) {
+            // Based on the root location or country.
+            if (!$notification->get('field_root_location')->isEmpty()) {
+              $eid = $notification->get('field_root_location')->getString();
+              $location_entity = \Drupal::entityTypeManager()->getStorage('location')->load($eid);
+              $tid = '';
+              if ($location_entity) {
+                if ($location_entity->hasField('field_location_taxonomy_term') && !$location_entity->get('field_location_taxonomy_term')->isEmpty()) {
+                  $locationid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+                  $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
+                  $users = $userquery->condition('status', 1)
+                    ->condition('roles', 'country_admin')
+                    ->condition('field_location', $location_list, 'IN')
+                    ->accessCheck(FALSE)
+                    ->execute();
+                }
+              }
+            }
+          }
+
+          // Exclude the users.
+          if (!empty($users)) {
+            $uids = array_diff($users, $excludeuids);
+          }
+        }
+
       }
 
       // Create notification.
       if (!empty($uids)) {
-        foreach($uids as $uid) {
+        foreach ($uids as $uid) {
           $npstorage->create([
             'field_notification_id' => $notification->id(),
             'field_read' => 0,
             'field_message_string' => $message,
             'field_recipient' => $uid,
             'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
-            'name' => 'Notification - ' . $uid, 
+            'name' => 'Notification - ' . $uid,
           ])->save();
         }
       }
-  
+
       // Make the Notification entity processed.
       $notification->set('field_processed', TRUE);
       $notification->save();
