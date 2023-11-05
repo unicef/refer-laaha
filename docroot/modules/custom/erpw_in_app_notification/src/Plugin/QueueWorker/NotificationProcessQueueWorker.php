@@ -3,7 +3,6 @@
 namespace Drupal\erpw_in_app_notification\Plugin\QueueWorker;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\Sql\QueryFactory;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -24,22 +23,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $entityQuery;
-
-  /**
-   * Drupal\Core\Entity\EntityTypeManagerInterface definition.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
   protected $entityTypeManager;
 
   /**
    * Constructure for NotificationProcessQueueWorker.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, QueryFactory $entity_query, EntityTypeManagerInterface $entityTypeManager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entityTypeManager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
-    $this->entityQuery = $entity_query;
     $this->entityTypeManager = $entityTypeManager;
   }
 
@@ -51,7 +42,6 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity.query'),
       $container->get('entity_type.manager')
     );
   }
@@ -89,10 +79,10 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
 
           // FP based on organisation.
           $org = $notification->get('field_organisation')->getString();
-          $uids = $userquery->condition('status', 1)
+          $uids = $userquery->accessCheck(FALSE)
+            ->condition('status', 1)
             ->condition('roles', 'service_provider_focal_point')
             ->condition('field_organisation', $org)
-            ->accessCheck(FALSE)
             ->execute();
         }
         if (in_array('interagency_gbv_coordinator', $roles)) {
@@ -100,10 +90,10 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
           if (!$notification->get('field_location')->isEmpty()) {
             $locationid = $notification->get('field_location')->getString();
             $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
-            $uids = $userquery->condition('status', 1)
+            $uids = $userquery->accessCheck(FALSE)
+              ->condition('status', 1)
               ->condition('roles', 'interagency_gbv_coordinator')
               ->condition('field_location', $location_list, 'IN')
-              ->accessCheck(FALSE)
               ->execute();
           }
         }
@@ -117,10 +107,10 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               if ($location_entity->hasField('field_location_taxonomy_term') && !$location_entity->get('field_location_taxonomy_term')->isEmpty()) {
                 $locationid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
                 $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
-                $uids = $userquery->condition('status', 1)
+                $uids = $userquery->accessCheck(FALSE)
+                  ->condition('status', 1)
                   ->condition('roles', 'country_admin')
                   ->condition('field_location', $location_list, 'IN')
-                  ->accessCheck(FALSE)
                   ->execute();
               }
             }
@@ -144,10 +134,10 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
 
             // FP based on organisation.
             $org = $notification->get('field_organisation')->getString();
-            $users = $userquery->condition('status', 1)
+            $users = $userquery->accessCheck(FALSE)
+              ->condition('status', 1)
               ->condition('roles', 'service_provider_focal_point')
               ->condition('field_organisation', $org)
-              ->accessCheck(FALSE)
               ->execute();
           }
           if (in_array('interagency_gbv_coordinator', $roles)) {
@@ -155,10 +145,10 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
             if (!$notification->get('field_location')->isEmpty()) {
               $locationid = $notification->get('field_location')->getString();
               $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
-              $users = $userquery->condition('status', 1)
+              $users = $userquery->accessCheck(FALSE)
+                ->condition('status', 1)
                 ->condition('roles', 'interagency_gbv_coordinator')
                 ->condition('field_location', $location_list, 'IN')
-                ->accessCheck(FALSE)
                 ->execute();
             }
           }
@@ -172,10 +162,10 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 if ($location_entity->hasField('field_location_taxonomy_term') && !$location_entity->get('field_location_taxonomy_term')->isEmpty()) {
                   $locationid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
                   $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
-                  $users = $userquery->condition('status', 1)
+                  $users = $userquery->accessCheck(FALSE)
+                    ->condition('status', 1)
                     ->condition('roles', 'country_admin')
                     ->condition('field_location', $location_list, 'IN')
-                    ->accessCheck(FALSE)
                     ->execute();
                 }
               }

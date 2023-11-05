@@ -58,6 +58,7 @@ class HelperService implements HelperServiceInterface {
     // Fetch new notifications.
     $entity_storage = $this->entityTypeManager->getStorage('notification_entity');
     $ids = $entity_storage->getQuery()
+      ->accessCheck(FALSE)
       ->condition('field_processed', FALSE)
       ->execute();
     return $ids ?? [];
