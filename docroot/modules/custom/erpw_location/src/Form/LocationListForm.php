@@ -42,7 +42,7 @@ class LocationListForm extends FormBase {
   /**
    * A LocationService instance.
    *
-   * @var Drupal\erpw_location\LocationService
+   * @var \Drupal\erpw_location\LocationService
    */
   protected $locationService;
 
