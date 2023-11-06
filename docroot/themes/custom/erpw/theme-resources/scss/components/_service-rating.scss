@@ -411,6 +411,9 @@
             flex-wrap: wrap;
             li {
                 @include service-card;
+                width: fit-content;
+                max-width: 200px;
+                word-wrap: break-word;
 
                 .service-name {
                     margin-bottom: 16px;
