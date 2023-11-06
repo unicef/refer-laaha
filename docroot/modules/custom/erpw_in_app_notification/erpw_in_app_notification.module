@@ -338,7 +338,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
       // Double check this is the last edited FP.
-        'field_users_list' => $values['changed_user'],
+        'field_users_list' => $erpw_workflow['changed_user'],
         'field_excluded_users' => NULL,
         'status' => 1,
         'created' => $ctime,
@@ -409,7 +409,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_workflow_action' => t('rejected'),
       ]);
       $notification_storage->save();
-
+      
       // Focal Point - Added Service Rejected By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -426,7 +426,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
       // Double check this is the last edited FP.
-        'field_users_list' => $values['changed_user'],
+        'field_users_list' => $erpw_workflow['changed_user'],
         'field_excluded_users' => NULL,
         'status' => 1,
         'created' => $ctime,
@@ -580,7 +580,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
       // Double check this is the last edited FP.
-        'field_users_list' => $values['changed_user'],
+        'field_users_list' => $webform_submission->getOwner(),
         'field_excluded_users' => NULL,
         'status' => 1,
         'created' => $ctime,
@@ -703,7 +703,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_role' => 'service_provider_staff',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
-      'field_users_list' => $values['changed_user'],
+      'field_users_list' => $erpw_workflow['changed_user'],
       'field_excluded_users' => NULL,
       'status' => 1,
       'created' => $ctime,
@@ -787,7 +787,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_role' => 'service_provider_staff',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
-      'field_users_list' => $values['changed_user'],
+      'field_users_list' => $erpw_workflow['changed_user'],
       'field_excluded_users' => NULL,
       'status' => 1,
       'created' => $ctime,
@@ -820,7 +820,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
     // Double check this is the last edited FP.
-      'field_users_list' => $values['changed_user'],
+      'field_users_list' => $erpw_workflow['changed_user'],
       'field_excluded_users' => NULL,
       'status' => 1,
       'created' => $ctime,
@@ -880,7 +880,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
     // Double check this is the last edited FP.
-      'field_users_list' => $values['changed_user'],
+      'field_users_list' => $erpw_workflow['changed_user'],
       'field_excluded_users' => NULL,
       'status' => 1,
       'created' => $ctime,
@@ -1000,7 +1000,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_role' => 'service_provider_staff',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
-      'field_users_list' => $values['changed_user'],
+      'field_users_list' => $erpw_workflow['changed_user'],
       'field_excluded_users' => NULL,
       'status' => 1,
       'created' => $ctime,
@@ -1057,7 +1057,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_role' => 'service_provider_staff',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
-      'field_users_list' => $values['changed_user'],
+      'field_users_list' => $erpw_workflow['changed_user'],
       'field_excluded_users' => NULL,
       'status' => 1,
       'created' => $ctime,
@@ -1118,7 +1118,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
     // Double check this is the last edited FP.
-      'field_users_list' => $values['changed_user'],
+      'field_users_list' => $erpw_workflow['changed_user'],
       'field_excluded_users' => NULL,
       'status' => 1,
       'created' => $ctime,
@@ -1178,7 +1178,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
     // Double check this is the last edited FP.
-      'field_users_list' => $values['changed_user'],
+      'field_users_list' => $erpw_workflow['changed_user'],
       'field_excluded_users' => NULL,
       'status' => 1,
       'created' => $ctime,
