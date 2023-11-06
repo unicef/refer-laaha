@@ -79,22 +79,48 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
 
           // FP based on organisation.
           $org = $notification->get('field_organisation')->getString();
-          $uids = $userquery->accessCheck(FALSE)
-            ->condition('status', 1)
+          $uids = $userquery->condition('status', 1)
             ->condition('roles', 'service_provider_focal_point')
             ->condition('field_organisation', $org)
+            ->accessCheck(FALSE)
             ->execute();
+          // Create notification.
+          if (!empty($uids)) {
+            foreach ($uids as $uid) {
+              $npstorage->create([
+                'field_notification_id' => $notification->id(),
+                'field_read' => 0,
+                'field_message_string' => $message,
+                'field_recipient' => $uid,
+                'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
+                'name' => 'NID ' . $notification->id() . ' EID ' . $notification->get('field_entity_id')->getString() . ' - UID ' . $uid,
+              ])->save();
+            }
+          }
         }
         if (in_array('interagency_gbv_coordinator', $roles)) {
           // Based on the root location or country.
           if (!$notification->get('field_location')->isEmpty()) {
             $locationid = $notification->get('field_location')->getString();
-            $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
-            $uids = $userquery->accessCheck(FALSE)
-              ->condition('status', 1)
+            $location_list_ia = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
+            $uids = $userquery->condition('status', 1)
               ->condition('roles', 'interagency_gbv_coordinator')
-              ->condition('field_location', $location_list, 'IN')
+              ->condition('field_location', $location_list_ia, 'IN')
+              ->accessCheck(FALSE)
               ->execute();
+          }
+          // Create notification.
+          if (!empty($uids)) {
+            foreach ($uids as $uid) {
+              $npstorage->create([
+                'field_notification_id' => $notification->id(),
+                'field_read' => 0,
+                'field_message_string' => $message,
+                'field_recipient' => $uid,
+                'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
+                'name' => 'NID ' . $notification->id() . ' EID ' . $notification->get('field_entity_id')->getString() . ' - UID ' . $uid,
+              ])->save();
+            }
           }
         }
         if (in_array('country_admin', $roles)) {
@@ -102,17 +128,30 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
           if (!$notification->get('field_root_location')->isEmpty()) {
             $eid = $notification->get('field_root_location')->getString();
             $location_entity = \Drupal::entityTypeManager()->getStorage('location')->load($eid);
-            $tid = '';
             if ($location_entity) {
               if ($location_entity->hasField('field_location_taxonomy_term') && !$location_entity->get('field_location_taxonomy_term')->isEmpty()) {
                 $locationid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
                 $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
-                $uids = $userquery->accessCheck(FALSE)
-                  ->condition('status', 1)
+                $countryuserquery = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
+                $uids = $countryuserquery->condition('status', 1)
                   ->condition('roles', 'country_admin')
                   ->condition('field_location', $location_list, 'IN')
+                  ->accessCheck(FALSE)
                   ->execute();
               }
+            }
+          }
+          // Create notification.
+          if (!empty($uids)) {
+            foreach ($uids as $uid) {
+              $npstorage->create([
+                'field_notification_id' => $notification->id(),
+                'field_read' => 0,
+                'field_message_string' => $message,
+                'field_recipient' => $uid,
+                'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
+                'name' => 'NID ' . $notification->id() . ' EID ' . $notification->get('field_entity_id')->getString() . ' - UID ' . $uid,
+              ])->save();
             }
           }
         }
@@ -122,6 +161,19 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
         if (!$notification->get('field_users_list')->isEmpty()) {
           $userstring = $notification->get('field_users_list')->getString();
           $uids = explode(", ", $userstring);
+          // Create notification.
+          if (!empty($uids)) {
+            foreach ($uids as $uid) {
+              $npstorage->create([
+                'field_notification_id' => $notification->id(),
+                'field_read' => 0,
+                'field_message_string' => $message,
+                'field_recipient' => $uid,
+                'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
+                'name' => 'NID ' . $notification->id() . ' EID ' . $notification->get('field_entity_id')->getString() . ' - UID ' . $uid,
+              ])->save();
+            }
+          }
         }
         if (!$notification->get('field_excluded_users')->isEmpty()) {
           $userstring = $notification->get('field_excluded_users')->getString();
@@ -134,22 +186,56 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
 
             // FP based on organisation.
             $org = $notification->get('field_organisation')->getString();
-            $users = $userquery->accessCheck(FALSE)
-              ->condition('status', 1)
+            $users = $userquery->condition('status', 1)
               ->condition('roles', 'service_provider_focal_point')
               ->condition('field_organisation', $org)
+              ->accessCheck(FALSE)
               ->execute();
+            // Exclude the users.
+            if (!empty($users)) {
+              $uids = array_diff($users, $excludeuids);
+            }
+            // Create notification.
+            if (!empty($uids)) {
+              foreach ($uids as $uid) {
+                $npstorage->create([
+                  'field_notification_id' => $notification->id(),
+                  'field_read' => 0,
+                  'field_message_string' => $message,
+                  'field_recipient' => $uid,
+                  'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
+                  'name' => 'NID ' . $notification->id() . ' EID ' . $notification->get('field_entity_id')->getString() . ' - UID ' . $uid,
+                ])->save();
+              }
+            }
           }
           if (in_array('interagency_gbv_coordinator', $roles)) {
             // Based on the root location or country.
             if (!$notification->get('field_location')->isEmpty()) {
               $locationid = $notification->get('field_location')->getString();
-              $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
-              $users = $userquery->accessCheck(FALSE)
-                ->condition('status', 1)
+              $location_list_ia = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
+              $users = $userquery->condition('status', 1)
                 ->condition('roles', 'interagency_gbv_coordinator')
-                ->condition('field_location', $location_list, 'IN')
+                ->condition('field_location', $location_list_ia, 'IN')
+                ->accessCheck(FALSE)
                 ->execute();
+            }
+            // Exclude the users.
+            if (!empty($users)) {
+              $uids = array_diff($users, $excludeuids);
+            }
+            // Create notification.
+            if (!empty($uids)) {
+              foreach ($uids as $uid) {
+                $npstorage->create([
+                  'field_notification_id' => $notification->id(),
+                  'field_read' => 0,
+                  'field_message_string' => $message,
+                  'field_recipient' => $uid,
+                  'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
+                  'name' => 'NID ' . $notification->id() . ' EID ' . $notification->get('field_entity_id')->getString() . ' - UID ' . $uid,
+                ])->save();
+              }
             }
           }
           if (in_array('country_admin', $roles)) {
@@ -162,36 +248,35 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 if ($location_entity->hasField('field_location_taxonomy_term') && !$location_entity->get('field_location_taxonomy_term')->isEmpty()) {
                   $locationid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
                   $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
-                  $users = $userquery->accessCheck(FALSE)
-                    ->condition('status', 1)
+                  $countryuserquery = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
+                  $uids = $countryuserquery->condition('status', 1)
                     ->condition('roles', 'country_admin')
                     ->condition('field_location', $location_list, 'IN')
+                    ->accessCheck(FALSE)
                     ->execute();
                 }
               }
             }
-          }
-
-          // Exclude the users.
-          if (!empty($users)) {
-            $uids = array_diff($users, $excludeuids);
+            // Exclude the users.
+            if (!empty($users)) {
+              $uids = array_diff($users, $excludeuids);
+            }
+            // Create notification.
+            if (!empty($uids)) {
+              foreach ($uids as $uid) {
+                $npstorage->create([
+                  'field_notification_id' => $notification->id(),
+                  'field_read' => 0,
+                  'field_message_string' => $message,
+                  'field_recipient' => $uid,
+                  'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
+                  'name' => 'NID ' . $notification->id() . ' EID ' . $notification->get('field_entity_id')->getString() . ' - UID ' . $uid,
+                ])->save();
+              }
+            }
           }
         }
 
-      }
-
-      // Create notification.
-      if (!empty($uids)) {
-        foreach ($uids as $uid) {
-          $npstorage->create([
-            'field_notification_id' => $notification->id(),
-            'field_read' => 0,
-            'field_message_string' => $message,
-            'field_recipient' => $uid,
-            'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
-            'name' => 'Notification - ' . $uid,
-          ])->save();
-        }
       }
 
       // Make the Notification entity processed.

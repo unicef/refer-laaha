@@ -60,6 +60,7 @@ class NotificationController extends ControllerBase {
     $notify = $query->accessCheck(FALSE)
       ->condition('field_recipient', \Drupal::currentUser()->id())
       ->condition('field_read', 0)
+      ->sort('created', 'DESC')
       ->execute();
     $service = $user = [];
     if (!empty($notify)) {

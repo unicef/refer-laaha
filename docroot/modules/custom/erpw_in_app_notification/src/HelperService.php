@@ -2,8 +2,8 @@
 
 namespace Drupal\erpw_in_app_notification;
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
@@ -19,7 +19,7 @@ class HelperService implements HelperServiceInterface {
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
-  
+
   /**
    * Drupal\Core\Datetime\DateFormatterInterface definition.
    *
@@ -100,4 +100,5 @@ class HelperService implements HelperServiceInterface {
       return $date;
     }
   }
+
 }
