@@ -241,9 +241,15 @@ class ServiceRatingQuestionForm extends FormBase {
    */
   public function addOneOption(array &$form, FormStateInterface $form_state) {
     $cur_options = $form_state->get('option_count');
-    $options = $cur_options + 1;
-    $form_state->set('option_count', $options);
-    $form_state->setRebuild();
+    if ($cur_options >= 5) {
+      $form['options_fieldset']['add_option']['description'] = [
+        '#markup' => '<p class = "service-rating-description-limit">' . $this->t("Maximum options limit reached.") . '</p>',
+      ];
+    } else {
+      $options = $cur_options + 1;
+      $form_state->set('option_count', $options);
+      $form_state->setRebuild();
+    }
   }
 
   /**
