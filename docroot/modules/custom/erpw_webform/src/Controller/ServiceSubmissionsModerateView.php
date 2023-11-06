@@ -380,6 +380,15 @@ class ServiceSubmissionsModerateView extends ControllerBase {
           $markup .= '</div>';
         }
       }
+      // Update notification read status.
+      $npeid = \Drupal::request()->query->get('_npeid');
+      if (isset($npeid)) {
+        if (preg_match('/^\d+$/', $npeid)) {
+          $npeidobj = $this->entityTypeManager->getStorage('notification_processed_entity')->load($npeid);
+          $npeidobj->set('field_read', 1);
+          $npeidobj->save();
+        }
+      }
       return [
         '#type' => 'markup',
         '#markup' => $markup,

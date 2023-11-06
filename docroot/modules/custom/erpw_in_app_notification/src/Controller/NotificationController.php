@@ -4,6 +4,7 @@ namespace Drupal\erpw_in_app_notification\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Url;
 
 /**
  * Class NotificationController.
@@ -59,7 +60,6 @@ class NotificationController extends ControllerBase {
     $query = $npestorage->getQuery();
     $notify = $query->accessCheck(FALSE)
       ->condition('field_recipient', \Drupal::currentUser()->id())
-      ->condition('field_read', 0)
       ->sort('created', 'DESC')
       ->execute();
     $service = $user = [];
@@ -71,9 +71,10 @@ class NotificationController extends ControllerBase {
         if ($ne->get('field_entity_type')->getString() == 'service') {
           $service[$item]['icon'] = $npe->get('field_icon')->getString();
           $service[$item]['message'] = $npe->get('field_message_string')->getString();
-          $service[$item]['link'] = $ne->get('field_redirect_url')->getString();
+          $service[$item]['link'] = Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => $ne->get('field_entity_id')->getString()], ['query' => ['_npeid' => $npe->id()]])->toString();
           $service[$item]['behavior'] = $ne->get('field_behavior')->getString();
           $service[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($ne->get('created')->getString());
+          $service[$item]['read_status'] = $npe->get('field_read')->getString() ? 'read' : 'unread';
         }
         else {
           // @todo

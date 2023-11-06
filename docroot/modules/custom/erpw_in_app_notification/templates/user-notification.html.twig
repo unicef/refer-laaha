@@ -1,7 +1,7 @@
 {% if role == 'staff' %}
 
     {% for item in service %}
-        <div class="notification">
+        <div class="notification info-{{ item.read_status }}">
             <div class="icon">
                 {% set imagestyle = {
                     '#theme':      'image_style',
@@ -48,7 +48,7 @@
         {% for item in service %}
             {% if item.behavior == 'link' %}
             <a href="{{ item.link }}">
-                <div class="notification">
+                <div class="notification link-{{ item.read_status }}">
                     <div class="icon">
                         {% set imagestyle = {
                             '#theme':      'image_style',
@@ -67,7 +67,7 @@
                 </div>
             </a>
             {% else %}
-                <div class="notification">
+                <div class="notification info-{{ item.read_status }}">
                     <div class="icon">
                         {% set imagestyle = {
                             '#theme':      'image_style',
