@@ -1,9 +1,9 @@
 {% if role == 'staff' %}
 
-    {% for item in service %}
-        <div class="notification info-{{ item.read_status }}">
-            <div class="icon">
-                {% set imagestyle = {
+	{% for item in service %}
+		<div class="notification info-{{ item.read_status }}">
+			<div class="icon">
+				{% set imagestyle = {
                     '#theme':      'image_style',
                     '#style_name': 'thumbnail',
                     '#uri':        item.icon,
@@ -11,46 +11,56 @@
                     '#attributes': { class: 'circular-image' },
                 }
                 %}
-                {{ imagestyle }}
-            </div>
-            <div class="content">
-                <p>{{ item.message }}</p>
-                <p class="time">{{ item.created }} | {{ "Information"|t }}</p>
-            </div>
-        </div>
-    {% endfor %}
+				{{ imagestyle }}
+			</div>
+			<div class="content">
+				<p>{{ item.message }}</p>
+				<p class="time">{{ item.created }}
+					|
+					{{ "Information"|t }}</p>
+			</div>
+		</div>
+	{% endfor %}
 
 {% endif %}
 
 {% if role == 'focal_point' or role == 'gbv_coordination' %}
-    <!-- Tab links -->
-    <div class="tab">
-    <button class="tablinks active" onclick="openTab(event, 'user')">{{ 'New Users'|t }}</button>
-    <button class="tablinks" onclick="openTab(event, 'service')">{{ 'Service Updates'|t }}</button>
-    </div>
+	<!-- Tab links -->
+	<div class="tab">
+		<button class="tablinks active" onclick="openTab(event, 'user')">{{ 'New Users'|t }}</button>
+		<button class="tablinks" onclick="openTab(event, 'service')">{{ 'Service Updates'|t }}</button>
+	</div>
 
-    <!-- Tab content -->
-    <div id="user" class="tabcontent" style="display:block;">
-    {% for item in user %}
-            <div class="notification">
-                <div class="icon">
-                    <img src="/{{ common_var.module_path }}/images/icon.png" alt="Icon">
-                </div>
-                <div class="content">
-                    <p><strong>Silobile Moyo</strong> has joined your organisation as <strong>SP Staff</strong> at <strong>Mutare</strong>. </p>
-                    <p class="time">{{ '2 hrs ago' }} | {{ "Approval for New user" }}</p>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+	<!-- Tab content -->
+	<div id="user" class="tabcontent notification__content" style="display:block;">
+		{% for item in user %}
+			<div class="notification">
+				<div class="icon">
+					<img src="/{{ common_var.module_path }}/images/icon.png" alt="Icon">
+				</div>
+				<div class="content">
+					<p class="notification-data">
+						<strong>Silobile Moyo</strong>
+						has joined your organisation as
+						<strong>SP Staff</strong>
+						at
+						<strong>Mutare</strong>.
+					</p>
+					<p class="time notification-status-data">{{ '2 hrs ago' }}
+						|
+						{{ "Approval for New user" }}</p>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
 
-    <div id="service" class="tabcontent">
-        {% for item in service %}
-            {% if item.behavior == 'link' %}
-            <a href="{{ item.link }}">
-                <div class="notification link-{{ item.read_status }}">
-                    <div class="icon">
-                        {% set imagestyle = {
+	<div id="service" class="tabcontent notification__content">
+		{% for item in service %}
+			{% if item.behavior == 'link' %}
+				<a href="{{ item.link }}">
+					<div class="notification link-{{ item.read_status }}">
+						<div class="icon">
+							{% set imagestyle = {
                             '#theme':      'image_style',
                             '#style_name': 'thumbnail',
                             '#uri':        item.icon,
@@ -58,18 +68,20 @@
                             '#attributes': { class: 'circular-image' },
                         }
                         %}
-                        {{ imagestyle }}
-                    </div>
-                    <div class="content">
-                        <p>{{ item.message }}</p>
-                        <p class="time">{{ item.created }} | {{ "Approval"|t }}</p>
-                    </div>
-                </div>
-            </a>
-            {% else %}
-                <div class="notification info-{{ item.read_status }}">
-                    <div class="icon">
-                        {% set imagestyle = {
+							{{ imagestyle }}
+						</div>
+						<div class="content">
+							<p class="notification-data">{{ item.message }}</p>
+							<p class="time notification-status-data">{{ item.created }}
+								|
+								{{ "Approval"|t }}</p>
+						</div>
+					</div>
+				</a>
+			{% else %}
+				<div class="notification info-{{ item.read_status }}">
+					<div class="icon">
+						{% set imagestyle = {
                             '#theme':      'image_style',
                             '#style_name': 'thumbnail',
                             '#uri':        item.icon,
@@ -77,14 +89,16 @@
                             '#attributes': { class: 'circular-image' },
                         }
                         %}
-                        {{ imagestyle }}
-                    </div>
-                    <div class="content">
-                        <p>{{ item.message }}</p>
-                        <p class="time">{{ item.created }} | {{ "Information"|t }}</p>
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+						{{ imagestyle }}
+					</div>
+					<div class="content">
+						<p class="notification-data">{{ item.message }}</p>
+						<p class="time notification-status-data">{{ item.created }}
+							|
+							{{ "Information"|t }}</p>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
 {% endif %}

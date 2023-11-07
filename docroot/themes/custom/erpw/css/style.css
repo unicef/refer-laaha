@@ -4024,4 +4024,110 @@ body.path-user {
 .config-translation-form [id*=edit-webformwebformwebform-service-rating-] #edit-settings {
   display: none;
 }
+
+.path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container {
+  position: absolute;
+  top: 2%;
+  right: 6%;
+}
+.path-frontpage #block-notificationblock .bell-container .notification-bell-icon, .path-notifications #block-notificationblock .bell-container .notification-bell-icon {
+  width: 20px;
+  height: 25px;
+  background: url("../images/bell-icon.png") no-repeat center;
+}
+.path-frontpage #block-notificationblock .bell-container .notification-count, .path-notifications #block-notificationblock .bell-container .notification-count {
+  width: 13px;
+  height: 13px;
+  background-color: green;
+  color: #FFF;
+  text-align: center;
+  -webkit-font-feature-settings: "clig" off, "liga" off;
+          font-feature-settings: "clig" off, "liga" off;
+  font-family: Roboto;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 170%;
+  letter-spacing: 0.012px;
+}
+@media screen and (min-width: 1025px) {
+  .path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container {
+    top: 19px;
+  }
+}
+
+.path-notifications #block-erpw-content .tab {
+  background: none;
+  border: none;
+}
+.path-notifications #block-erpw-content .tab button {
+  padding: 4px 12px;
+  text-align: center;
+  font-family: Arial;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 20px;
+  color: #4A4A4A;
+  font-weight: 400;
+  border-bottom: 3px solid #F4F4F4;
+}
+.path-notifications #block-erpw-content .tab button.active {
+  text-align: center;
+  font-family: Arial;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 20px;
+  color: #A85766;
+  font-weight: 700;
+  border-bottom: 3px solid #A85766;
+  background: none;
+}
+.path-notifications #block-erpw-content .notification__content {
+  margin-top: 16px;
+  padding: 0;
+  border: none;
+}
+.path-notifications #block-erpw-content .notification__content .notification {
+  padding: 12px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  gap: 10px;
+}
+.path-notifications #block-erpw-content .notification__content .notification .icon {
+  width: 50px;
+  height: 50px;
+}
+.path-notifications #block-erpw-content .notification__content .notification .icon img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.path-notifications #block-erpw-content .notification__content .notification .content {
+  margin-top: 7px;
+}
+.path-notifications #block-erpw-content .notification__content .notification .content .notification-data {
+  color: #444;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 160%;
+  font-weight: 400;
+}
+.path-notifications #block-erpw-content .notification__content .notification .content .notification-data strong {
+  font-weight: 700;
+}
+.path-notifications #block-erpw-content .notification__content .notification .content .notification-status-data {
+  color: #A85766;
+  font-family: Roboto;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18.5px;
+  letter-spacing: 0.5px;
+}
 /*# sourceMappingURL=style.css.map */
