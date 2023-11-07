@@ -1,0 +1,101 @@
+// Notification page.
+.path-notifications {
+    // notification bell
+    #block-notificationblock {
+        .bell-container {
+            position: absolute;
+            top: 2%;
+            right: 6%;
+
+            .notification-bell-icon {
+                width: 20px;
+                height: 25px;
+                background: url('../images/bell-icon.png') no-repeat center;
+            }
+            
+            .notification-count {
+                width: 13px;
+                height: 13px;
+                background-color: green;
+                color: #FFF;
+                text-align: center;
+                font-feature-settings: 'clig' off, 'liga' off;
+                font-family: Roboto;
+                font-size: 8px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 170%;
+                letter-spacing: 0.012px;
+            }
+
+            @media screen and (min-width: 1025px) {
+                top: 19px;
+            }
+        }
+    }
+
+    // notification-content
+    #block-erpw-content {
+        .tab {
+            background: none;
+            border: none;
+
+            button {
+                padding: 4px 12px;
+                @include in-app-button-font;
+                color: #4A4A4A;
+                font-weight: 400;
+                border-bottom: 3px solid #F4F4F4;
+            }
+
+            button.active {
+                @include in-app-button-font;
+                color: #A85766;
+                font-weight: 700;
+                border-bottom: 3px solid #A85766;
+                background: none;
+            }
+        }
+
+        .notification__content {
+            margin-top: 16px;
+            padding: 0;
+            border: none;
+            .notification {
+                padding: 12px 0;
+                display: flex;
+                flex: 1;
+                gap: 10px;
+                .icon {
+                    width: 50px;
+                    height: 50px;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
+                }
+                .content {
+                    margin-top: 7px;
+                    .notification-data {
+                        @include in-app-notification-content-font;
+                        font-weight: 400;
+                        strong {
+                            font-weight: 700;
+                        }
+                    }
+                    .notification-status-data {
+                        color: #A85766;
+                        font-family: Roboto;
+                        font-size: 11px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 18.5px;
+                        letter-spacing: 0.5px;
+                    }
+                    
+                }
+            }
+        }
+    }
+}

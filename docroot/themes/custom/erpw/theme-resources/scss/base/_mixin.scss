@@ -46,3 +46,19 @@
 	line-height: 100%; /* 16px */
 	letter-spacing: 0.15px;
 }
+
+@mixin in-app-button-font {
+	text-align: center;
+	font-family: Arial;
+	font-size: 14px;
+	font-style: normal;
+	line-height: 20px;
+}
+
+@mixin in-app-notification-content-font {
+	color: #444;
+	font-family: Roboto;
+	font-size: 12px;
+	font-style: normal;
+	line-height: 160%;
+}
