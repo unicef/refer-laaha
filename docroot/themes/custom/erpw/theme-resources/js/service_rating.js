@@ -67,9 +67,7 @@
                 }
             }
 
-            $(once("click", "#service-rating-form-publish-btn")).on(
-              "click",
-              function (event) {
+            $(once("click", "#service-rating-form-publish-btn")).on("click", function (event) {
                 event.preventDefault();
                 $.ajax({
                     url: `/service-rating-form/publish/${service_rating_form_id}`,
