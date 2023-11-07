@@ -1276,4 +1276,58 @@ function erpw_in_app_notification__user_operation($user) {
     ]);
     $notification_storage->save();
   }
+  // Self Registered Focal Point.
+  if ($user->get('field_transitions')->getString() == 'self-register-spfp') {
+    // GBV Coordination - User Registration - Review
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'link',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $user->id(),
+      'field_entity_type' => 'user',
+      'field_event_id' => 'gbv_coordination__user_registration__review',
+      'field_location' => $user->get('field_location')->getString(),
+      'field_organisation' => $user->get('field_organisation')->getString(),
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
+      'field_specific_user' => FALSE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => NULL,
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'User -' . $user->id(),
+      'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
+      'field_operation' => '',
+      'field_workflow_action' => '',
+    ]);
+    $notification_storage->save();
+  }
+  // Self Registered FP, FP registered staff and FP registered FP.
+  if ($user->get('field_transitions')->getString() == 'self-register-spfp' || $user->get('field_transitions')->getString() == 'spfp-register-sp-staff' || $user->get('field_transitions')->getString() == 'spfp-register-spfp') {
+    // GBV Coordination - User Registration - Review
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'link',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $user->id(),
+      'field_entity_type' => 'user',
+      'field_event_id' => 'gbv_coordination__user_registration__review',
+      'field_location' => $user->get('field_location')->getString(),
+      'field_organisation' => $user->get('field_organisation')->getString(),
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
+      'field_specific_user' => FALSE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => NULL,
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'User -' . $user->id(),
+      'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
+      'field_operation' => '',
+      'field_workflow_action' => '',
+    ]);
+    $notification_storage->save();
+  }
 }
