@@ -4025,17 +4025,17 @@ body.path-user {
   display: none;
 }
 
-.path-notifications #block-notificationblock .bell-container {
+.path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container {
   position: absolute;
   top: 2%;
   right: 6%;
 }
-.path-notifications #block-notificationblock .bell-container .notification-bell-icon {
+.path-frontpage #block-notificationblock .bell-container .notification-bell-icon, .path-notifications #block-notificationblock .bell-container .notification-bell-icon {
   width: 20px;
   height: 25px;
   background: url("../images/bell-icon.png") no-repeat center;
 }
-.path-notifications #block-notificationblock .bell-container .notification-count {
+.path-frontpage #block-notificationblock .bell-container .notification-count, .path-notifications #block-notificationblock .bell-container .notification-count {
   width: 13px;
   height: 13px;
   background-color: green;
@@ -4051,10 +4051,11 @@ body.path-user {
   letter-spacing: 0.012px;
 }
 @media screen and (min-width: 1025px) {
-  .path-notifications #block-notificationblock .bell-container {
+  .path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container {
     top: 19px;
   }
 }
+
 .path-notifications #block-erpw-content .tab {
   background: none;
   border: none;

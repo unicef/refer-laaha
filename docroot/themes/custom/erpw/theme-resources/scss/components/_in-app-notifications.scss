@@ -1,5 +1,4 @@
-// Notification page.
-.path-notifications {
+.path-frontpage, .path-notifications {
     // notification bell
     #block-notificationblock {
         .bell-container {
@@ -33,7 +32,10 @@
             }
         }
     }
+}
 
+// Notification page.
+.path-notifications {
     // notification-content
     #block-erpw-content {
         .tab {
