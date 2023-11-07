@@ -26,4 +26,25 @@ interface HelperServiceInterface {
    */
   public function getNotificationIds();
 
+  /**
+   * Get times ago/date from timestamp.
+   * 
+   * @param string $timestamp
+   *   The timestamp.
+   * 
+   * @param string $formate
+   *   The time format.
+   *
+   * @return string
+   */
+  public function getDynamicDateFormate($timestamp, $formate = 'd F Y');
+
+  /**
+   * Get userid by transition, 
+   *
+   * @return int
+   *   The user id of the evaluator.
+   */
+  public function getEvaluatorOfUser($uid, $transition);
+
 }

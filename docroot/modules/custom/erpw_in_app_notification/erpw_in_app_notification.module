@@ -1276,8 +1276,71 @@ function erpw_in_app_notification__user_operation($user) {
     ]);
     $notification_storage->save();
   }
-  // Self Registered Focal Point.
-  if ($user->get('field_transitions')->getString() == 'self-register-spfp') {
+ 
+  // Focal Point Accpeted.
+  if ($user->get('field_transitions')->getString() == 'spfp-accept') {
+    // Focal Point - User Registration - Approved by Focal Point
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $user->id(),
+      'field_entity_type' => 'user',
+      'field_event_id' => 'focal_point__user_registration__approved_rejected_by_focal_point',
+      'field_location' => $user->get('field_location')->getString(),
+      'field_organisation' => $user->get('field_organisation')->getString(),
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_role' => 'service_provider_focal_point',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'User -' . $user->id(),
+      'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
+      'field_operation' => '',
+      'field_workflow_action' => '',
+    ]);
+    $notification_storage->save();
+  }
+
+  // Focal Point Rejected.
+  if ($user->get('field_transitions')->getString() == 'spfp-reject') {
+    // Focal Point - User Registration - Rejected by Focal Point
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $user->id(),
+      'field_entity_type' => 'user',
+      'field_event_id' => 'focal_point__user_registration__approved_rejected_by_focal_point',
+      'field_location' => $user->get('field_location')->getString(),
+      'field_organisation' => $user->get('field_organisation')->getString(),
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_role' => 'service_provider_focal_point',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'User -' . $user->id(),
+      'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
+      'field_operation' => '',
+      'field_workflow_action' => '',
+    ]);
+    $notification_storage->save();
+  }
+
+  // Self Registered FP, FP registered staff and FP registered FP.
+  $gbvreviewtransition = [
+    'self-register-spfp',
+    'spfp-register-sp-staff',
+    'spfp-register-spfp',
+    'spfp-accept',
+  ];
+  if (in_array($user->get('field_transitions')->getString(), $gbvreviewtransition)) {
     // GBV Coordination - User Registration - Review
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
       'field_behavior' => 'link',
@@ -1303,22 +1366,107 @@ function erpw_in_app_notification__user_operation($user) {
     ]);
     $notification_storage->save();
   }
-  // Self Registered FP, FP registered staff and FP registered FP.
-  if ($user->get('field_transitions')->getString() == 'self-register-spfp' || $user->get('field_transitions')->getString() == 'spfp-register-sp-staff' || $user->get('field_transitions')->getString() == 'spfp-register-spfp') {
-    // GBV Coordination - User Registration - Review
+
+  // GBV coordination Accpeted.
+  if ($user->get('field_transitions')->getString() == 'gbv-coordination-accept') {
+    // GBV Coordination - User Registration - Approve by GBV Coordination
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
-      'field_behavior' => 'link',
+      'field_behavior' => 'info',
       'field_domain' => $active_domain->id(),
       'field_entity_id' => $user->id(),
       'field_entity_type' => 'user',
-      'field_event_id' => 'gbv_coordination__user_registration__review',
+      'field_event_id' => 'gbv_coordination__user_registration__approve_rejected_by_gbv_coordination',
       'field_location' => $user->get('field_location')->getString(),
       'field_organisation' => $user->get('field_organisation')->getString(),
       'field_priority' => 1,
       'field_processed' => FALSE,
       'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
-      'field_specific_user' => FALSE,
+      'field_specific_user' => TRUE,
       'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'User -' . $user->id(),
+      'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
+      'field_operation' => '',
+      'field_workflow_action' => '',
+    ]);
+    $notification_storage->save();
+
+    // Focal Point - User Registration - Approved by GBV Coordination.
+    $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-accept');
+    $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-register-spfp');
+    $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-register-sp-staff');
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $user->id(),
+      'field_entity_type' => 'user',
+      'field_event_id' => 'focal_point__user_registration__approved_rejected_by_gbv_coordination',
+      'field_location' => $user->get('field_location')->getString(),
+      'field_organisation' => $user->get('field_organisation')->getString(),
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_role' => 'service_provider_focal_point',
+      'field_specific_user' => TRUE,
+      'field_users_list' => $fpuser,
+      'field_excluded_users' => NULL,
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'User -' . $user->id(),
+      'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
+      'field_operation' => '',
+      'field_workflow_action' => '',
+    ]);
+    $notification_storage->save();
+  }
+
+  // GBV coordination Rejected.
+  if ($user->get('field_transitions')->getString() == 'gbv-coordination-reject') {
+    // GBV Coordination - User Registration - Rejected by GBV Coordination
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $user->id(),
+      'field_entity_type' => 'user',
+      'field_event_id' => 'gbv_coordination__user_registration__approve_rejected_by_gbv_coordination',
+      'field_location' => $user->get('field_location')->getString(),
+      'field_organisation' => $user->get('field_organisation')->getString(),
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'User -' . $user->id(),
+      'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
+      'field_operation' => '',
+      'field_workflow_action' => '',
+    ]);
+    $notification_storage->save();
+
+    // Focal Point - User Registration - Rejected by GBV Coordination.
+    $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-accept');
+    $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-register-spfp');
+    $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-register-sp-staff');
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $user->id(),
+      'field_entity_type' => 'user',
+      'field_event_id' => 'focal_point__user_registration__approved_rejected_by_gbv_coordination',
+      'field_location' => $user->get('field_location')->getString(),
+      'field_organisation' => $user->get('field_organisation')->getString(),
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_role' => 'service_provider_focal_point',
+      'field_specific_user' => TRUE,
+      'field_users_list' => $fpuser,
       'field_excluded_users' => NULL,
       'status' => 1,
       'created' => $ctime,

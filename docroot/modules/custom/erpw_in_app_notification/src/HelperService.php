@@ -77,9 +77,7 @@ class HelperService implements HelperServiceInterface {
   }
 
   /**
-   * Get times ago/date from timestamp.
-   *
-   * @return void
+   * {@inheritdoc}
    */
   public function getDynamicDateFormate($timestamp, $formate = 'd F Y'): string {
 
@@ -99,6 +97,24 @@ class HelperService implements HelperServiceInterface {
       $date = $this->dateFormatter->format($timestamp, 'custom', $formate, $timezone);
       return $date;
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEvaluatorOfUser($uid, $transition) {
+    $entity_storage = $this->entityTypeManager->getStorage('user_workflow_history_entity');
+    $id = $entity_storage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('field_workflow_status_after', $transition)
+      ->condition('field_user', $uid)
+      ->execute();
+    if (!empty($id)) {
+      $obj = $entity_storage->load(reset($id));
+      $uid = $obj->getOwner()->id();
+      return $uid;
+    }
+    return NULL;
   }
 
 }
