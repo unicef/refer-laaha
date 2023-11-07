@@ -10,7 +10,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
 use Drupal\webform\WebformSubmissionInterface;
-
+use Drupal\user\UserInterface;
 /**
  * Implements hook_help().
  */
@@ -138,7 +138,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 1,
         'field_processed' => FALSE,
-        'field_redirect_url' => Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => $sid], [])->toString(),
         'field_role' => 'service_provider_focal_point',
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => FALSE,
@@ -168,7 +167,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => 'service_provider_focal_point',
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -195,7 +193,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => 'service_provider_staff',
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -222,7 +219,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 1,
         'field_processed' => FALSE,
-        'field_redirect_url' => Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => $sid], [])->toString(),
         'field_role' => ['interagency_gbv_coordinator', 'country_admin'],
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => FALSE,
@@ -253,7 +249,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => 'service_provider_focal_point',
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -280,7 +275,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => 'service_provider_staff',
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -312,7 +306,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => 'service_provider_staff',
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -339,7 +332,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => 'service_provider_focal_point',
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -367,7 +359,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -400,7 +391,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => 'service_provider_staff',
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -427,7 +417,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => 'service_provider_focal_point',
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -455,7 +444,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -495,7 +483,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 1,
         'field_processed' => FALSE,
-        'field_redirect_url' => Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => $sid], [])->toString(),
         'field_role' => ['interagency_gbv_coordinator', 'country_admin'],
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => FALSE,
@@ -524,7 +511,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -551,7 +537,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => 'service_provider_focal_point',
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -581,7 +566,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => 'service_provider_focal_point',
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -609,7 +593,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_organisation' => $values['organisation'] ?? '',
         'field_priority' => 0,
         'field_processed' => FALSE,
-        'field_redirect_url' => '',
         'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
         'field_root_location' => $values['location']['location_options'] ?? '',
         'field_specific_user' => TRUE,
@@ -648,7 +631,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 1,
       'field_processed' => FALSE,
-      'field_redirect_url' => Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => $sid], [])->toString(),
       'field_role' => 'service_provider_focal_point',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => FALSE,
@@ -678,7 +660,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => 'service_provider_focal_point',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -705,7 +686,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => 'service_provider_staff',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -732,7 +712,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 1,
       'field_processed' => FALSE,
-      'field_redirect_url' => Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => $sid], [])->toString(),
       'field_role' => ['interagency_gbv_coordinator', 'country_admin'],
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => FALSE,
@@ -762,7 +741,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => 'service_provider_focal_point',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -789,7 +767,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => 'service_provider_staff',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -821,7 +798,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => 'service_provider_focal_point',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -849,7 +825,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -881,7 +856,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => 'service_provider_focal_point',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -909,7 +883,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -944,7 +917,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 1,
       'field_processed' => FALSE,
-      'field_redirect_url' => Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => $sid], [])->toString(),
       'field_role' => 'service_provider_focal_point',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => FALSE,
@@ -975,7 +947,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => 'service_provider_focal_point',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -1002,7 +973,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => 'service_provider_staff',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -1032,7 +1002,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => 'service_provider_focal_point',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -1059,7 +1028,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => 'service_provider_staff',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -1086,7 +1054,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 1,
       'field_processed' => FALSE,
-      'field_redirect_url' => Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => $sid], [])->toString(),
       'field_role' => ['interagency_gbv_coordinator', 'country_admin'],
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => FALSE,
@@ -1119,7 +1086,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => 'service_provider_focal_point',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -1147,7 +1113,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -1179,7 +1144,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => 'service_provider_focal_point',
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -1207,7 +1171,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       'field_organisation' => $values['organisation'] ?? '',
       'field_priority' => 0,
       'field_processed' => FALSE,
-      'field_redirect_url' => '',
       'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
       'field_root_location' => $values['location']['location_options'] ?? '',
       'field_specific_user' => TRUE,
@@ -1256,4 +1219,61 @@ function erpw_in_app_notification__retrive_original_data($jsonData, &$return) {
         $return[] = $data;
         return $return;
     }
+}
+
+/**
+ * Implements hook_entity_type_insert() for a user entity type.
+ */
+function erpw_in_app_notification_user_insert(UserInterface $user) {
+  $roles = $user->getRoles();
+  if (in_array('service_provider_staff', $roles) || in_array('service_provider_focal_point', $roles)) {
+    erpw_in_app_notification__user_operation($user);
+  }
+}
+
+/**
+ * Implements hook_entity_type_update() for a user entity type.
+ */
+function erpw_in_app_notification_user_update(UserInterface $user) {
+  $roles = $user->getRoles();
+  if (in_array('service_provider_staff', $roles) || in_array('service_provider_focal_point', $roles)) {
+    erpw_in_app_notification__user_operation($user);
+  }
+}
+
+/**
+ * Callback function for user operation.
+ */
+function erpw_in_app_notification__user_operation($user) {
+  // Get active domain.
+  $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+  // Get current timestamp.
+  $ctime = (new DrupalDateTime())->getTimestamp();
+  // Self Registered SP Staff.
+  if ($user->get('field_transitions')->getString() == 'self-register-sp-staff') {
+    // Focal Point - User Registration - Review
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'link',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $user->id(),
+      'field_entity_type' => 'user',
+      'field_event_id' => 'focal_point__user_registration__review',
+      'field_location' => $user->get('field_location')->getString(),
+      'field_organisation' => $user->get('field_organisation')->getString(),
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_role' => 'service_provider_focal_point',
+      'field_specific_user' => FALSE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => NULL,
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'User -' . $user->id(),
+      'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
+      'field_operation' => '',
+      'field_workflow_action' => '',
+    ]);
+    $notification_storage->save();
+  }
 }

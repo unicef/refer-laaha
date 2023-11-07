@@ -14,7 +14,6 @@ dependencies:
     - field.field.notification_entity.notification_entity.field_organisation
     - field.field.notification_entity.notification_entity.field_priority
     - field.field.notification_entity.notification_entity.field_processed
-    - field.field.notification_entity.notification_entity.field_redirect_url
     - field.field.notification_entity.notification_entity.field_role
     - field.field.notification_entity.notification_entity.field_root_location
     - field.field.notification_entity.notification_entity.field_specific_user
@@ -115,14 +114,6 @@ content:
     region: content
     settings:
       display_label: true
-    third_party_settings: {  }
-  field_redirect_url:
-    type: string_textarea
-    weight: 11
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
     third_party_settings: {  }
   field_role:
     type: entity_reference_autocomplete
