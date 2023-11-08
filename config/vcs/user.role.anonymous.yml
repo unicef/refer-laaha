@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - filter.format.restricted_html
+    - rest.resource.erpw_webform_serviceslatestupdate
   module:
     - administerusersbyrole
     - comment
@@ -11,6 +12,7 @@ dependencies:
     - erpw_custom
     - filter
     - node_view_permissions
+    - rest
     - search
     - system
     - webform
@@ -25,6 +27,7 @@ permissions:
   - 'access content'
   - 'access site-wide contact form'
   - 'add new user'
+  - 'restful get erpw_webform_serviceslatestupdate'
   - 'role-assign users by role'
   - 'role-assign users with role service_provider_focal_point'
   - 'role-assign users with role service_provider_staff'
