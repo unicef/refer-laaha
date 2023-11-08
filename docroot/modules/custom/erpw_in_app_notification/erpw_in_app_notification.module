@@ -1401,8 +1401,12 @@ function erpw_in_app_notification__user_operation($user) {
 
     // Focal Point - User Registration - Approved by GBV Coordination.
     $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-accept');
-    $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-register-spfp');
-    $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-register-sp-staff');
+    if (empty($fpuser)) {
+      $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-register-spfp');
+    }
+    if (empty($fpuser)) {
+      $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-register-sp-staff');
+    }
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
       'field_behavior' => 'info',
       'field_domain' => $active_domain->id(),
@@ -1459,8 +1463,12 @@ function erpw_in_app_notification__user_operation($user) {
 
     // Focal Point - User Registration - Rejected by GBV Coordination.
     $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-accept');
-    $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-register-spfp');
-    $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-register-sp-staff');
+    if (empty($fpuser)) {
+      $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-register-spfp');
+    }
+    if (empty($fpuser)) {
+      $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'spfp-register-sp-staff');
+    }
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
       'field_behavior' => 'info',
       'field_domain' => $active_domain->id(),
