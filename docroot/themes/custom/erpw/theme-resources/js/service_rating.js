@@ -43,6 +43,7 @@
                     let publish = document.createElement("button");
                     // publish.textContent = "Publish";
                     publish.id = "service-rating-form-publish-btn";
+                    publish.textContent = 'Loading..'
 
                     $.ajax({
                         url: `/service-rating-form/${service_rating_form_id}`,
