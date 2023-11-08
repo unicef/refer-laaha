@@ -48,7 +48,7 @@
         "drupal/field_group": "^3.4",
         "drupal/field_permissions": "^1.2",
         "drupal/google_analytics": "^4.0",
-        "drupal/google_tag": "^2.0",
+        "drupal/google_tag": "^1.4",
         "drupal/hal": "^2.0",
         "drupal/hook_event_dispatcher": "^4.0@RC",
         "drupal/jquery_ui_dialog": "^2.0",
@@ -97,7 +97,7 @@
         "drupal/drupal": "*"
     },
     "minimum-stability": "dev",
-    "prefer-stable": false,
+    "prefer-stable": true,
     "config": {
         "sort-packages": true,
         "allow-plugins": {
@@ -140,8 +140,7 @@
                 "Available on current domain doesn't instantiate": "https://www.drupal.org/files/issues/2023-06-21/3367785-domain-php8-boolean.patch"
             },
             "drupal/domain_language_negotiation": {
-                "lang issue": "patches/active_lang.patch",
-                "Drupal 10 compatibility": "https://www.drupal.org/files/issues/2022-07-18/domain_language_negotiation.3.0.x-dev.rector.patch"
+                "lang issue": "patches/active_lang.patch"
             },
             "drupal/domain_lang": {
                 "Drupal 10 compatibility": "patches/domain_lang-drupal-10-ready-3287031-16.patch"
