@@ -108,15 +108,17 @@
                     }
                 }
             }
-
+            
             // Star ratings
             const serviceRatingsList = document.getElementsByClassName('service-ratings-services-list')[0];
+            const serviceRatingListClass = serviceRatingsList.classList;
             if (serviceRatingsList != null && serviceRatingsList.children != null) {
                 for (rating of serviceRatingsList.children) {
                     const ratingValue = rating.getElementsByClassName('service-average-rating')[0]?.innerText.replace(/\s/g, "");
                     if (ratingValue != null) {
                         // const stars = rating.getElementById(`service-star-rating-${ratingValue}`).children
-                        const stars = rating.children[2].children
+                        const stars = serviceRatingListClass.length > 1 ? rating.children[1].children : rating.children[2].children;
+
                         for (let i = ratingValue; i < 5; i++) {
                             stars[i].classList.add('star-empty')
                         }

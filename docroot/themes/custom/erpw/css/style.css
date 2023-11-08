@@ -3603,7 +3603,7 @@ body.path-user {
 
 .block-share-feedback-block {
   background: #F6FAFF;
-  margin-top: 10px;
+  margin-top: 16px;
   padding: 16px;
   border-radius: 20px;
   text-align: left;
@@ -3849,6 +3849,17 @@ body.path-user {
   font-weight: 700;
   line-height: 100%;
   /* 12px */
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .location-name, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .location-name, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .location-name {
+  margin-top: 16px;
+  margin-bottom: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 4px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .location-name::before, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .location-name::before, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .location-name::before {
+  content: url("../images/service-rating-location-pin.svg");
 }
 .path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .rating-value-container, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .rating-value-container, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .rating-value-container {
   display: -webkit-box;
