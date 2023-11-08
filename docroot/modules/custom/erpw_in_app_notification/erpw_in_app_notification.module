@@ -1300,7 +1300,7 @@ function erpw_in_app_notification__user_operation($user) {
       'name' => 'User -' . $user->id(),
       'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
       'field_operation' => '',
-      'field_workflow_action' => '',
+      'field_workflow_action' => 'approved',
     ]);
     $notification_storage->save();
   }
@@ -1328,7 +1328,7 @@ function erpw_in_app_notification__user_operation($user) {
       'name' => 'User -' . $user->id(),
       'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
       'field_operation' => '',
-      'field_workflow_action' => '',
+      'field_workflow_action' => 'rejected',
     ]);
     $notification_storage->save();
   }
@@ -1390,7 +1390,7 @@ function erpw_in_app_notification__user_operation($user) {
       'name' => 'User -' . $user->id(),
       'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
       'field_operation' => '',
-      'field_workflow_action' => '',
+      'field_workflow_action' => 'approved',
     ]);
     $notification_storage->save();
 
@@ -1418,7 +1418,7 @@ function erpw_in_app_notification__user_operation($user) {
       'name' => 'User -' . $user->id(),
       'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
       'field_operation' => '',
-      'field_workflow_action' => '',
+      'field_workflow_action' => 'approved',
     ]);
     $notification_storage->save();
   }
@@ -1446,7 +1446,7 @@ function erpw_in_app_notification__user_operation($user) {
       'name' => 'User -' . $user->id(),
       'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
       'field_operation' => '',
-      'field_workflow_action' => '',
+      'field_workflow_action' => 'rejected',
     ]);
     $notification_storage->save();
 
@@ -1474,7 +1474,7 @@ function erpw_in_app_notification__user_operation($user) {
       'name' => 'User -' . $user->id(),
       'field_title' => $user->id() . ' - ' . $user->get('field_transitions')->getString(),
       'field_operation' => '',
-      'field_workflow_action' => '',
+      'field_workflow_action' => 'rejected',
     ]);
     $notification_storage->save();
   }
