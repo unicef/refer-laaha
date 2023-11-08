@@ -77,7 +77,12 @@ class NotificationController extends ControllerBase {
           $service[$item]['read_status'] = $npe->get('field_read')->getString() ? 'read' : 'unread';
         }
         else {
-          // @todo
+          $user[$item]['icon'] = $npe->get('field_icon')->getString();
+          $user[$item]['message'] = $npe->get('field_message_string')->getString();
+          $user[$item]['link'] = Url::fromRoute('entity.user.canonical', ['user' => $ne->get('field_entity_id')->getString()], ['query' => ['_npeid' => $npe->id()]])->toString();
+          $user[$item]['behavior'] = $ne->get('field_behavior')->getString();
+          $user[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($ne->get('created')->getString());
+          $user[$item]['read_status'] = $npe->get('field_read')->getString() ? 'read' : 'unread';
         }
       }
     }
