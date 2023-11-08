@@ -7,10 +7,10 @@
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
-use Drupal\webform\WebformSubmissionInterface;
 use Drupal\user\UserInterface;
+use Drupal\webform\WebformSubmissionInterface;
+
 /**
  * Implements hook_help().
  */
@@ -405,7 +405,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'field_workflow_action' => t('rejected'),
       ]);
       $notification_storage->save();
-      
+
       // Focal Point - Added Service Rejected By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -1206,19 +1206,19 @@ function erpw_in_app_notification__notification_process_cron_job() {
   }
 }
 
-
 /**
  * Retrive the original data from webform_submission.
  */
 function erpw_in_app_notification__retrive_original_data($jsonData, &$return) {
-    $data = json_decode($jsonData, true);
-    if (isset($data['orignal_data'])) {
-        $return[] = $data;
-        return erpw_in_app_notification__retrive_original_data($data['orignal_data'], $return);
-    } else {
-        $return[] = $data;
-        return $return;
-    }
+  $data = json_decode($jsonData, TRUE);
+  if (isset($data['orignal_data'])) {
+    $return[] = $data;
+    return erpw_in_app_notification__retrive_original_data($data['orignal_data'], $return);
+  }
+  else {
+    $return[] = $data;
+    return $return;
+  }
 }
 
 /**
@@ -1251,7 +1251,7 @@ function erpw_in_app_notification__user_operation($user) {
   $ctime = (new DrupalDateTime())->getTimestamp();
   // Self Registered SP Staff.
   if ($user->get('field_transitions')->getString() == 'self-register-sp-staff') {
-    // Focal Point - User Registration - Review
+    // Focal Point - User Registration - Review.
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
       'field_behavior' => 'link',
       'field_domain' => $active_domain->id(),
@@ -1277,10 +1277,10 @@ function erpw_in_app_notification__user_operation($user) {
     ]);
     $notification_storage->save();
   }
- 
+
   // Focal Point Accpeted.
   if ($user->get('field_transitions')->getString() == 'spfp-accept') {
-    // Focal Point - User Registration - Approved by Focal Point
+    // Focal Point - User Registration - Approved by Focal Point.
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
       'field_behavior' => 'info',
       'field_domain' => $active_domain->id(),
@@ -1309,7 +1309,7 @@ function erpw_in_app_notification__user_operation($user) {
 
   // Focal Point Rejected.
   if ($user->get('field_transitions')->getString() == 'spfp-reject') {
-    // Focal Point - User Registration - Rejected by Focal Point
+    // Focal Point - User Registration - Rejected by Focal Point.
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
       'field_behavior' => 'info',
       'field_domain' => $active_domain->id(),
@@ -1344,7 +1344,7 @@ function erpw_in_app_notification__user_operation($user) {
     'spfp-accept',
   ];
   if (in_array($user->get('field_transitions')->getString(), $gbvreviewtransition)) {
-    // GBV Coordination - User Registration - Review
+    // GBV Coordination - User Registration - Review.
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
       'field_behavior' => 'link',
       'field_domain' => $active_domain->id(),
@@ -1373,7 +1373,7 @@ function erpw_in_app_notification__user_operation($user) {
 
   // GBV coordination Accpeted.
   if ($user->get('field_transitions')->getString() == 'gbv-coordination-accept') {
-    // GBV Coordination - User Registration - Approve by GBV Coordination
+    // GBV Coordination - User Registration - Approve by GBV Coordination.
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
       'field_behavior' => 'info',
       'field_domain' => $active_domain->id(),
@@ -1431,7 +1431,7 @@ function erpw_in_app_notification__user_operation($user) {
 
   // GBV coordination Rejected.
   if ($user->get('field_transitions')->getString() == 'gbv-coordination-reject') {
-    // GBV Coordination - User Registration - Rejected by GBV Coordination
+    // GBV Coordination - User Registration - Rejected by GBV Coordination.
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
       'field_behavior' => 'info',
       'field_domain' => $active_domain->id(),

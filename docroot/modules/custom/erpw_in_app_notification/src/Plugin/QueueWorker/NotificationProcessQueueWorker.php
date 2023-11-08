@@ -5,8 +5,8 @@ namespace Drupal\erpw_in_app_notification\Plugin\QueueWorker;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\user\Entity\User;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Notification Process Queue Worker.
@@ -52,8 +52,8 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
    */
   public function processItem($id) {
     $notification = $this->entityTypeManager->getStorage('notification_entity')->load($id);
-    $npstorage = \Drupal::entityTypeManager()->getStorage('notification_processed_entity');
-    $userquery = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
+    $npstorage = $this->entityTypeManager->getStorage('notification_processed_entity');
+    $userquery = $this->entityTypeManager->getStorage('user')->getQuery();
     // Service entity.
     if ($notification->get('field_entity_type')->getString() == 'service') {
       // Load event details.
