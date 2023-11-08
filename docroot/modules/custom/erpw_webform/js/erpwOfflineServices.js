@@ -1327,101 +1327,228 @@
                 storeName: viewClass + "IDS",
               });
               viewClassFinal = viewClass;
-              fetch(urlFetch)
-                .then((response) => response.json())
-                .then((dataArray) => {
-                  // Use localForage to store data
-                  dataArray.forEach((dataItem) => {
-                    try {
-                      const webformData = JSON.parse(
-                        dataItem.webform_submission_all_data
-                      );
-                      if (webformData && webformData.sid) {
-                        const key = webformData.sid; // Use 'sid' property from the parsed object
+              if (localStorage.getItem(viewClassFinal) !== null) {
+                var changedTime = localStorage.getItem(viewClassFinal);
+                // Get the current Unix timestamp in seconds.
+                urlFetchTime = `${baseUrl}/api/erpw-webform-serviceslatestupdate/service`;
+                fetch(urlFetchTime)
+                  .then((responseTime) => responseTime.json())
+                  .then((responseTimeArray) => {
+                    if (responseTimeArray[0].changed > changedTime) {
+                      fetch(urlFetch)
+                        .then((response) => response.json())
+                        .then((dataArray) => {
+                          // Use localForage to store data
+                          dataArray.forEach((dataItem) => {
+                            try {
+                              const webformData = JSON.parse(
+                                dataItem.webform_submission_all_data
+                              );
+                              if (webformData && webformData.sid) {
+                                const key = webformData.sid; // Use 'sid' property from the parsed object
 
-                        // Check if key already exists
-                        localforage
-                          .getItem(key)
-                          .then((existingData) => {
-                            if (existingData) {
-                              // Update the value
-                              localforage
-                                .setItem(
-                                  key,
-                                  dataItem.webform_submission_all_data
-                                )
-                                .then(() => {
-                                  console.log(
-                                    `Data for key ${key} updated successfully.`
+                                // Check if key already exists
+                                localforage
+                                  .getItem(key)
+                                  .then((existingData) => {
+                                    if (existingData) {
+                                      // Update the value
+                                      localforage
+                                        .setItem(
+                                          key,
+                                          dataItem.webform_submission_all_data
+                                        )
+                                        .then(() => {
+                                          console.log(
+                                            `Data for key ${key} updated successfully.`
+                                          );
+                                        })
+                                        .catch((error) =>
+                                          console.error(
+                                            `Error updating data for key ${key}`,
+                                            error
+                                          )
+                                        );
+                                    } else {
+                                      // Key doesn't exist, create a new entry
+                                      localforage
+                                        .setItem(
+                                          key,
+                                          dataItem.webform_submission_all_data
+                                        )
+                                        .then(() => {
+                                          console.log(
+                                            `Data for key ${key} stored successfully.`
+                                          );
+                                        })
+                                        .catch((error) =>
+                                          console.error(
+                                            `Error storing data for key ${key}`,
+                                            error
+                                          )
+                                        );
+                                    }
+                                  })
+                                  .catch((error) =>
+                                    console.error(
+                                      `Error checking existing data for key ${key}`,
+                                      error
+                                    )
                                   );
-                                })
-                                .catch((error) =>
-                                  console.error(
-                                    `Error updating data for key ${key}`,
-                                    error
-                                  )
-                                );
-                            } else {
-                              // Key doesn't exist, create a new entry
-                              localforage
-                                .setItem(
-                                  key,
-                                  dataItem.webform_submission_all_data
-                                )
-                                .then(() => {
-                                  console.log(
-                                    `Data for key ${key} stored successfully.`
+
+                                if (!keysArray.includes(key)) {
+                                  keysArray.push(key);
+                                }
+                                // Update the value in localforageID with the updated array
+                                localforageID
+                                  .setItem("keys", keysArray)
+                                  .then(() => {
+                                    console.log(
+                                      `Data for keys Array updated successfully.`
+                                    );
+                                  })
+                                  .catch((error) =>
+                                    console.error(
+                                      `Error updating data for keys array`,
+                                      error
+                                    )
                                   );
-                                })
-                                .catch((error) =>
-                                  console.error(
-                                    `Error storing data for key ${key}`,
-                                    error
-                                  )
+                                localStorage.setItem(
+                                  viewClassFinal,
+                                  Math.floor(Date.now() / 1000)
                                 );
+                              } else {
+                                console.error(
+                                  `'sid' property not found in webform_submission_all_data`,
+                                  dataItem
+                                );
+                              }
+                            } catch (parseError) {
+                              console.error(
+                                `Error parsing 'webform_submission_all_data' property`,
+                                dataItem
+                              );
                             }
-                          })
-                          .catch((error) =>
-                            console.error(
-                              `Error checking existing data for key ${key}`,
-                              error
-                            )
-                          );
+                          });
+                        })
+                        .catch((error) =>
+                          console.error(
+                            `Error fetching data from REST endpoint`,
+                            error
+                          )
+                        );
+                    }
+                  })
+                  .catch((error) =>
+                    console.error(
+                      `Error fetching data from REST endpoint`,
+                      error
+                    )
+                  );
+              } else {
+                fetch(urlFetch)
+                  .then((response) => response.json())
+                  .then((dataArray) => {
+                    // Use localForage to store data
+                    dataArray.forEach((dataItem) => {
+                      try {
+                        const webformData = JSON.parse(
+                          dataItem.webform_submission_all_data
+                        );
+                        if (webformData && webformData.sid) {
+                          const key = webformData.sid; // Use 'sid' property from the parsed object
 
-                        if (!keysArray.includes(key)) {
-                          keysArray.push(key);
-                        }
-                        // Update the value in localforageID with the updated array
-                        localforageID
-                          .setItem("keys", keysArray)
-                          .then(() => {
-                            console.log(
-                              `Data for keys Array updated successfully.`
+                          // Check if key already exists
+                          localforage
+                            .getItem(key)
+                            .then((existingData) => {
+                              if (existingData) {
+                                // Update the value
+                                localforage
+                                  .setItem(
+                                    key,
+                                    dataItem.webform_submission_all_data
+                                  )
+                                  .then(() => {
+                                    console.log(
+                                      `Data for key ${key} updated successfully.`
+                                    );
+                                  })
+                                  .catch((error) =>
+                                    console.error(
+                                      `Error updating data for key ${key}`,
+                                      error
+                                    )
+                                  );
+                              } else {
+                                // Key doesn't exist, create a new entry
+                                localforage
+                                  .setItem(
+                                    key,
+                                    dataItem.webform_submission_all_data
+                                  )
+                                  .then(() => {
+                                    console.log(
+                                      `Data for key ${key} stored successfully.`
+                                    );
+                                  })
+                                  .catch((error) =>
+                                    console.error(
+                                      `Error storing data for key ${key}`,
+                                      error
+                                    )
+                                  );
+                              }
+                            })
+                            .catch((error) =>
+                              console.error(
+                                `Error checking existing data for key ${key}`,
+                                error
+                              )
                             );
-                          })
-                          .catch((error) =>
-                            console.error(
-                              `Error updating data for keys array`,
-                              error
-                            )
+
+                          if (!keysArray.includes(key)) {
+                            keysArray.push(key);
+                          }
+                          // Update the value in localforageID with the updated array
+                          localforageID
+                            .setItem("keys", keysArray)
+                            .then(() => {
+                              console.log(
+                                `Data for keys Array updated successfully.`
+                              );
+                            })
+                            .catch((error) =>
+                              console.error(
+                                `Error updating data for keys array`,
+                                error
+                              )
+                            );
+                          localStorage.setItem(
+                            viewClassFinal,
+                            Math.floor(Date.now() / 1000)
                           );
-                      } else {
+                        } else {
+                          console.error(
+                            `'sid' property not found in webform_submission_all_data`,
+                            dataItem
+                          );
+                        }
+                      } catch (parseError) {
                         console.error(
-                          `'sid' property not found in webform_submission_all_data`,
+                          `Error parsing 'webform_submission_all_data' property`,
                           dataItem
                         );
                       }
-                    } catch (parseError) {
-                      console.error(
-                        `Error parsing 'webform_submission_all_data' property`,
-                        dataItem
-                      );
-                    }
-                  });
-                })
-                .catch((error) =>
-                  console.error(`Error fetching data from REST endpoint`, error)
-                );
+                    });
+                  })
+                  .catch((error) =>
+                    console.error(
+                      `Error fetching data from REST endpoint`,
+                      error
+                    )
+                  );
+              }
             }
           }
         }
