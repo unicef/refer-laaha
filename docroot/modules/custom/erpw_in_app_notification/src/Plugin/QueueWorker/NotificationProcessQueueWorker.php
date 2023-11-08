@@ -6,6 +6,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\user\Entity\User;
 
 /**
  * Notification Process Queue Worker.
@@ -286,8 +287,8 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
       // Process the message.
       $message = $event['message'];
       // Generate username.
-      $referencedentities = $notification->get('field_entity_id')->referencedEntities();
-      $ruser = reset($referencedentities);
+      $ruserid = $notification->get('field_entity_id')->getString();
+      $ruser = User::load($ruserid);
       $username = $ruser->get('field_first_name')->getString() . ' ' . $ruser->get('field_last_name')->getString();
       $message = str_replace("@username", $username, $message);
       if (!$notification->get('field_workflow_action')->isEmpty()) {
