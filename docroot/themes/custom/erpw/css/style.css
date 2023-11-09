@@ -4025,17 +4025,17 @@ body.path-user {
   display: none;
 }
 
-.path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container {
+.path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container, .user-logged-in #block-notificationblock .bell-container {
   position: absolute;
   top: 2%;
   right: 6%;
 }
-.path-frontpage #block-notificationblock .bell-container .notification-bell-icon, .path-notifications #block-notificationblock .bell-container .notification-bell-icon {
+.path-frontpage #block-notificationblock .bell-container .notification-bell-icon, .path-notifications #block-notificationblock .bell-container .notification-bell-icon, .user-logged-in #block-notificationblock .bell-container .notification-bell-icon {
   width: 20px;
   height: 25px;
   background: url("../images/bell-icon.png") no-repeat center;
 }
-.path-frontpage #block-notificationblock .bell-container .notification-count, .path-notifications #block-notificationblock .bell-container .notification-count {
+.path-frontpage #block-notificationblock .bell-container .notification-count, .path-notifications #block-notificationblock .bell-container .notification-count, .user-logged-in #block-notificationblock .bell-container .notification-count {
   width: 13px;
   height: 13px;
   background-color: green;
@@ -4051,7 +4051,7 @@ body.path-user {
   letter-spacing: 0.012px;
 }
 @media screen and (min-width: 1025px) {
-  .path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container {
+  .path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container, .user-logged-in #block-notificationblock .bell-container {
     top: 19px;
   }
 }
@@ -4071,6 +4071,18 @@ body.path-user {
   font-weight: 400;
   border-bottom: 3px solid #F4F4F4;
 }
+.path-notifications #block-erpw-content .tab button span {
+  padding: 2px 5px;
+  border-radius: 32px;
+  background: #767676;
+  text-align: center;
+  color: #FFF;
+  font-family: Arial;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
 .path-notifications #block-erpw-content .tab button.active {
   text-align: center;
   font-family: Arial;
@@ -4081,6 +4093,9 @@ body.path-user {
   font-weight: 700;
   border-bottom: 3px solid #A85766;
   background: none;
+}
+.path-notifications #block-erpw-content .tab button.active span {
+  background: #A85766;
 }
 .path-notifications #block-erpw-content .notification__content {
   margin-top: 16px;
