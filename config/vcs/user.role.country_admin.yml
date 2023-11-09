@@ -8,6 +8,7 @@ dependencies:
     - node.type.referral_path_way
     - node.type.service_provider
     - node.type.service_type
+    - rest.resource.notification_count_resource
     - workflows.workflow.service_editorial
   module:
     - administerusersbyrole
@@ -22,6 +23,7 @@ dependencies:
     - node
     - node_view_permissions
     - quick_node_clone
+    - rest
     - system
     - webform
     - webform_submission_log
@@ -113,6 +115,7 @@ permissions:
   - 'erpw location view location'
   - 'erpw view pending service block'
   - 'reject registered user'
+  - 'restful get notification_count_resource'
   - 'role-assign users by role'
   - 'role-assign users with role country_admin'
   - 'role-assign users with role interagency_gbv_coordinator'

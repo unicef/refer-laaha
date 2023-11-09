@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - node.type.service_provider
+    - rest.resource.notification_count_resource
     - workflows.workflow.service_editorial
   module:
     - content_moderation
@@ -12,6 +13,7 @@ dependencies:
     - node
     - node_view_permissions
     - quick_node_clone
+    - rest
     - system
     - webform
 id: service_provider_staff
@@ -33,6 +35,7 @@ permissions:
   - 'edit own webform submission'
   - 'edit service of their own location'
   - 'edit service of their own location and organisation'
+  - 'restful get notification_count_resource'
   - 'use service_editorial transition create_new_draft'
   - 'use service_editorial transition restore'
   - 'view any referral_path_way content'
