@@ -425,13 +425,16 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
   }
 
   if (str_contains($form['#form_id'], 'webform_service_rating_')) {
-    $form['actions']['back'] = [
-      '#type' => 'submit',
-      '#value' => t('Cancel'),
-    // You can adjust the weight to control the button's position.
-      '#weight' => 0,
-    // Define a custom submit handler for the back button.
-      '#submit' => ['service_rating_webform_back_handler'],
+    $url = Url::fromRoute('view.manage_webform_services.page_1');
+    $form['actions']['cancel'] = [
+      '#type' => 'link',
+      '#title' => t('Cancel'),
+      '#url' => $url,
+      '#options' => [
+        'attributes' => [
+          'class' => ['button'],
+        ],
+      ],
     ];
   }
 
@@ -440,6 +443,22 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
     $form['actions']['cancel']['#url'] = $url;
   }
+
+  if ($form_id === "webform_edit_form" && str_contains($currentPath, 'webform_service_rating_')) {
+    $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
+    $form['actions']['cancel'] = [
+      '#type' => 'link',
+      '#title' => t('Cancel'),
+      '#url' => $url,
+      '#options' => [
+        'attributes' => [
+          'class' => ['button'],
+        ],
+      ],
+      '#weight' => 105,
+    ];
+    $form['#attributes']['class'][] = 'webform-service-rating-edit';
+  }
 }
 
 /**
@@ -447,14 +466,6 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
  */
 function erpw_webform_service_rating_delete_handler(&$form, FormStateInterface $form_state) {
   $form_state->setRedirect('erpw_webform.manage_feedback_surveys');
-  return;
-}
-
-/**
- * Custom submit handler for the back button.
- */
-function service_rating_webform_back_handler($form, FormStateInterface $form_state) {
-  $form_state->setRedirect('view.manage_webform_services.page_1');
   return;
 }
 
