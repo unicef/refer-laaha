@@ -1,12 +1,12 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Acquia application run security check and deployed Application
+name: Deploy to main
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on pushed tags on main
+  # Triggers the workflow on push or pull request events but only for the 9.x branch
   push:
-    tags: [ '*' ]
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -22,10 +22,6 @@ jobs:
 
 
     steps:
-      - name: Exit if not on main branch
-        if: endsWith(github.event.base_ref, 'main') == false
-        run: exit -1
-
       - name: Check out code
         uses: actions/checkout@v3
 
@@ -44,24 +40,23 @@ jobs:
         run: >
           ./vendor/bin/phpcs -p -s
       - name: Run phplint with Drupal coding standards.
-        run: > 
-           ./vendor/bin/phplint 
+        run: >
+           ./vendor/bin/phplint
       - name: Install SSH key for accessing Acquia Repository
         uses: shimataro/ssh-key-action@v2
         with:
             key: ${{ secrets.SSH_PRIVATE }}
             known_hosts: ${{ secrets.SSH_KNOWN_HOST }}
-        
+
       # - name: Install composer dependencies
       #   run:  composer install --prefer-dist --no-progress
-        
+
       # - name: Get Modifield files list
       #   run: files= $(git diff-tree --no-commit-id --name-only -r ${{ github.sha }});
-        
+
       # This will be run when a tag added on main
       - name: Trigger BLT script to deploy to Acquia Dev env on tag
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        run:  ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for Build" --branch main --ignore-dirty --no-interaction --verbose
+        run:  ./vendor/bin/blt artifact:deploy --commit-msg "Automated commit by BLT for main Build" --branch main --ignore-dirty --no-interaction --verbose
 
       # This will be run when code pushed into Stage Env
       # - name: Trigger BLT script to deploy to Acquia Stage ENV
@@ -83,11 +78,11 @@ jobs:
       #   if: ${{ startsWith(github.ref, 'refs/tags/tags') }}
       #   run: |
       #     ./vendor/bin/drush @vss2.prod cr -y; ./vendor/bin/drush @vss2.prod cr -l https://erefer.org; ./vendor/bin/drush @vss2.prod updb -y; ./vendor/bin/drush @vss2.prod updb -y -l https://erefer.org; ./vendor/bin/drush @vss2.prod cim -y; ./vendor/bin/drush @vss2.prod cim -y -l https://erefer.org; ./vendor/bin/drush @vss2.prod cr -y; ./vendor/bin/drush @vss2.prod cr -l https://erefer.org;
-      
+
       # - name: Excecute Drush Commands at Dev
       #   if: github.ref == 'refs/heads/develop'
       #   run : ./vendor/bin/drush @vss2.dev cr -y; ./vendor/bin/drush @vss2.dev cr -l https://dev.erefer.org; ./vendor/bin/drush @vss2.dev updb -y; ./vendor/bin/drush @vss2.dev updb -y -l https://dev.erefer.org; ./vendor/bin/drush @vss2.dev cim -y; ./vendor/bin/drush @vss2.dev cim -y -l https://dev.erefer.org; ./vendor/bin/drush @vss2.dev cr -y; ./vendor/bin/drush @vss2.dev cr -l https://dev.erefer.org;
-       
+
       # - name: Excecute Drush Commands at Stage
       #   if: github.ref == 'refs/heads/stage'
       #   run : ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cr -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test updb -y; ./vendor/bin/drush @vss2.test updb -y -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test cim -y; ./vendor/bin/drush @vss2.test cim -y -l https://stage.erefer.org; ./vendor/bin/drush @vss2.test cr -y; ./vendor/bin/drush @vss2.test cr -l https://stage.erefer.org;
@@ -100,7 +95,7 @@ jobs:
       #- name: Install dependency and Run tests
       #  run: |
       #    cd tests/nightwatch && npm install && npm run test:cucumber:e2e
-           
+
       # - name: Deployment Status - Acquia BLT
       #   uses: ravsamhq/notify-slack-action@master
       #   if: always()
@@ -109,7 +104,7 @@ jobs:
       #     notification_title: '{workflow} has {status_message}'
       #     notify_when: 'success,failure,warnings'
       #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} 
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
       #- name:  Deployment Status - Acquia BLT
       #  uses: 8398a7/action-slack@v3
       #  with:

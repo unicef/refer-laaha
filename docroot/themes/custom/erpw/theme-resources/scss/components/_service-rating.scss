@@ -236,6 +236,11 @@
 }
 
 #block-erpw-content {
+    .service-rating-question-form, .service-rating-new-question-form {
+        .service-rating-description-limit {
+            color: red;
+        }   
+    }
     .webform-ajax-form-wrapper {
         .table-format {
             margin-bottom: 16px;
@@ -411,6 +416,9 @@
             flex-wrap: wrap;
             li {
                 @include service-card;
+                width: fit-content;
+                max-width: 200px;
+                word-wrap: break-word;
 
                 .service-name {
                     margin-bottom: 16px;

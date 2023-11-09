@@ -2,24 +2,24 @@
 
 namespace Drupal\erpw_custom\Form;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Form\FormBase;
-use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\InvokeCommand;
-use Drupal\Core\Ajax\RedirectCommand;
-use Drupal\Core\Url;
-use Drupal\Core\Database\Connection;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\domain\DomainNegotiatorInterface;
-use Drupal\erpw_location\LocationService;
-use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Ajax\RedirectCommand;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Url;
+use Drupal\domain\DomainNegotiatorInterface;
+use Drupal\erpw_location\LocationService;
 use Drupal\erpw_pathway\Services\ErpwPathwayService;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class user signup form.

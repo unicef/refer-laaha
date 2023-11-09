@@ -307,7 +307,7 @@ form input[type=submit].button-border {
 .ui-autocomplete {
   border: 1px solid #f3c1bf !important;
   border-radius: 5px;
-  height: 194px;
+  height: auto;
   width: calc(100% - 40px) !important;
   overflow-y: scroll;
 }
@@ -3591,6 +3591,9 @@ body.path-user {
   line-height: 32px;
 }
 
+#block-erpw-content .service-rating-question-form .service-rating-description-limit, #block-erpw-content .service-rating-new-question-form .service-rating-description-limit {
+  color: red;
+}
 #block-erpw-content .webform-ajax-form-wrapper .table-format {
   margin-bottom: 16px;
 }
@@ -3817,6 +3820,11 @@ body.path-user {
           box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   width: 150px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 200px;
+  word-wrap: break-word;
 }
 .path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .service-name, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .service-name, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .service-name {
   margin-bottom: 16px;
