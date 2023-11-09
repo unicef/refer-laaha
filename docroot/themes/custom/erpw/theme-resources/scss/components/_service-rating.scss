@@ -246,6 +246,13 @@
         .table-format {
             margin-bottom: 16px;
         }
+        .webform-service-rating-edit {
+            .table-format .webform-ui-elements-table {
+                .duplicate {
+                    display: none;
+                }
+            }
+        }
     }
     @media screen and (max-width: 768px) {
         .tabledrag-toggle-weight-wrapper {

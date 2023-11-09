@@ -457,6 +457,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       ],
       '#weight' => 105,
     ];
+    $form['#attributes']['class'][] = 'webform-service-rating-edit';
   }
 }
 
