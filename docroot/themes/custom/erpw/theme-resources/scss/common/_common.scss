@@ -344,6 +344,10 @@ label.error + .select2-container .select2-selection {
   display: none;
 }
 
+.ui-autocomplete::-webkit-scrollbar {
+  display: none;
+}
+
 .path-sign-up {
   -ms-overflow-style: none;
   scrollbar-width: none;  
