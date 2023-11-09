@@ -417,6 +417,10 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   display: none;
 }
 
+.ui-autocomplete::-webkit-scrollbar {
+  display: none;
+}
+
 .path-sign-up {
   -ms-overflow-style: none;
   scrollbar-width: none;
