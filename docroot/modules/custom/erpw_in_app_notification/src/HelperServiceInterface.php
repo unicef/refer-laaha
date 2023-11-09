@@ -49,15 +49,15 @@ interface HelperServiceInterface {
 
   /**
    * Get notification count.
-   * 
+   *
    * @param int
-   *  Optional uid.
-   * 
+   *   Optional uid.
+   *
    * @param string
-   *  entity type, service or user.
-   * 
+   *   entity type, service or user.
+   *
    * @return init
-   *  Count of notification.
+   *   Count of notification.
    */
   public function getCountByUid($uid = NULL, $type = NULL);
 
