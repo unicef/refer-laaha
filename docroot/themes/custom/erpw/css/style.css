@@ -3453,20 +3453,18 @@ body.path-user {
   display: flex;
   gap: 22px;
 }
-[class*=webform-submission-webform-service-rating-] .form-actions #edit-back {
-  border-radius: 4px;
-  border: 1px solid #A85766;
-  color: #A85766;
+[class*=webform-submission-webform-service-rating-] .form-actions #edit-submit {
+  margin: 0;
+}
+[class*=webform-submission-webform-service-rating-] .form-actions #edit-cancel {
+  margin: 0;
+  width: 100%;
   text-align: center;
-  -webkit-font-feature-settings: "clig" off, "liga" off;
-          font-feature-settings: "clig" off, "liga" off;
-  font-family: Roboto;
-  font-size: 14px;
-  font-style: normal;
+  padding: 10px 0;
+  border-radius: 4px;
   font-weight: 500;
-  line-height: 32px;
-  /* 228.571% */
-  letter-spacing: 0.021px;
+  color: #A85766;
+  border: 2px solid #A85766;
   background: #FFF;
 }
 
@@ -3597,6 +3595,9 @@ body.path-user {
 #block-erpw-content .webform-ajax-form-wrapper .table-format {
   margin-bottom: 16px;
 }
+#block-erpw-content .webform-ajax-form-wrapper .webform-service-rating-edit .table-format .webform-ui-elements-table .duplicate {
+  display: none;
+}
 @media screen and (max-width: 768px) {
   #block-erpw-content .tabledrag-toggle-weight-wrapper {
     float: none;
@@ -3605,7 +3606,7 @@ body.path-user {
 
 .block-share-feedback-block {
   background: #F6FAFF;
-  margin-top: 10px;
+  margin-top: 16px;
   padding: 16px;
   border-radius: 20px;
   text-align: left;
@@ -3621,6 +3622,7 @@ body.path-user {
   gap: 10px;
 }
 .block-share-feedback-block .share-feedback-block .feedback-text-block .feedback-text-header p {
+  margin-bottom: 6px;
   color: #444;
   font-family: Roboto;
   font-style: normal;
@@ -3851,6 +3853,17 @@ body.path-user {
   line-height: 100%;
   /* 12px */
 }
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .location-name, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .location-name, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .location-name {
+  margin-top: 16px;
+  margin-bottom: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 4px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .location-name::before, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .location-name::before, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .location-name::before {
+  content: url("../images/service-rating-location-pin.svg");
+}
 .path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .rating-value-container, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .rating-value-container, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .rating-value-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3969,6 +3982,7 @@ body.path-user {
   border-bottom: 1px solid #D7D7D7;
 }
 .path-manage-feedback-surveys .layout-content ul li .feedback-survey-card .feedback-survey-card-content p {
+  margin-bottom: 20px;
   color: #444;
   font-family: Roboto;
   font-style: normal;
@@ -4031,5 +4045,26 @@ body.path-user {
 
 .config-translation-form [id*=edit-webformwebformwebform-service-rating-] #edit-settings {
   display: none;
+}
+
+.webform-edit-form .form-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.webform-edit-form .form-actions #edit-cancel {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 4px;
+  font-weight: 500;
+  color: #A85766;
+  border: 2px solid #A85766;
+  background: #FFF;
 }
 /*# sourceMappingURL=style.css.map */
