@@ -36,9 +36,11 @@ class NotificationBlock extends BlockBase implements ContainerFactoryPluginInter
    * {@inheritdoc}
    */
   public function build() {
+    // Check current user notification count.
+    $count = $this->erpwInAppNotificationDefault->getCountByUid();
     $build = [];
     $build['#theme'] = 'notification_block';
-    $build['#count'] = 1;
+    $build['#count'] = $count;
     $build['#attached'] = [
       'library' => [
         'erpw_in_app_notification/notification-bell',

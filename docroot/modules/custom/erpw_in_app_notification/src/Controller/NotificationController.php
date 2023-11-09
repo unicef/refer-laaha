@@ -63,6 +63,7 @@ class NotificationController extends ControllerBase {
       ->sort('id', 'DESC')
       ->execute();
     $service = $user = [];
+    $servicecount = $usercount = 0;
     if (!empty($notify)) {
       foreach ($notify as $item) {
         $npe = $npestorage->load($item);
@@ -75,6 +76,9 @@ class NotificationController extends ControllerBase {
           $service[$item]['behavior'] = $ne->get('field_behavior')->getString();
           $service[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($ne->get('created')->getString());
           $service[$item]['read_status'] = $npe->get('field_read')->getString() ? 'read' : 'unread';
+          if (!$npe->get('field_read')->getString()) {
+            $servicecount++;
+          }
         }
         else {
           $user[$item]['icon'] = $npe->get('field_icon')->getString();
@@ -83,6 +87,16 @@ class NotificationController extends ControllerBase {
           $user[$item]['behavior'] = $ne->get('field_behavior')->getString();
           $user[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($ne->get('created')->getString());
           $user[$item]['read_status'] = $npe->get('field_read')->getString() ? 'read' : 'unread';
+          if (!$npe->get('field_read')->getString()) {
+            $usercount++;
+          }
+        }
+        // Once the info notification delivered, that mark as read.
+        if ($ne->get('field_behavior')->getString() == 'info') {
+          if ($npe->get('field_read')->getString() == 0) {
+            $npe->set('field_read', 1);
+            $npe->save();
+          }
         }
       }
     }
@@ -91,6 +105,10 @@ class NotificationController extends ControllerBase {
       '#role' => $role,
       '#user' => $user,
       '#service' => $service,
+      '#count' => [
+        'service' => $servicecount,
+        'user' => $usercount,
+      ],
       '#common_var' => [
         'module_path' => \Drupal::service('extension.list.module')->getPath('erpw_in_app_notification'),
       ],

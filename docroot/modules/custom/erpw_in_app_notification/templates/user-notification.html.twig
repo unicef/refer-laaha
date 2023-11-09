@@ -27,8 +27,8 @@
 {% if role == 'focal_point' or role == 'gbv_coordination' %}
 	<!-- Tab links -->
 	<div class="tab">
-		<button class="tablinks active" onclick="openTab(event, 'user')">{{ 'New Users'|t }} <span>{{ user|length }}</span></button>
-		<button class="tablinks" onclick="openTab(event, 'service')">{{ 'Service Updates'|t }} <span>{{ service|length }}</span></button>
+		<button class="tablinks active" onclick="openTab(event, 'user')">{{ 'New Users'|t }} <span>{{ count.user }}</span></button>
+		<button class="tablinks" onclick="openTab(event, 'service')">{{ 'Service Updates'|t }} <span>{{ count.service }}</span></button>
 	</div>
 
 	<!-- Tab content -->

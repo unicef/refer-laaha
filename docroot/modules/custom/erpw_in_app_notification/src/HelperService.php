@@ -117,4 +117,50 @@ class HelperService implements HelperServiceInterface {
     return NULL;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getCountByUid($uid = NULL, $type = NULL): int {
+    if (empty($uid)) {
+      $uid = \Drupal::currentUser()->id();
+    }
+    if (!in_array($type, ['service', 'user'])) {
+      $type = NULL;
+    }
+    // Fetch notificaitons.
+    if ($type == NULL) {
+      $npestorage = \Drupal::entityTypeManager()->getStorage('notification_processed_entity');
+      $query = $npestorage->getQuery();
+      $count = $query->accessCheck(FALSE)
+        ->condition('field_recipient', $uid)
+        ->condition('field_read', 0)
+        ->count()
+        ->execute();
+    }
+    else {
+      $count = 0;
+      $npestorage = \Drupal::entityTypeManager()->getStorage('notification_processed_entity');
+      $nestorage = \Drupal::entityTypeManager()->getStorage('notification_entity');
+      $query = $npestorage->getQuery();
+      $notify = $query->accessCheck(FALSE)
+        ->condition('field_recipient', $uid)
+        ->condition('field_read', 0)
+        ->execute();
+      if (!empty($notify)) {
+        foreach ($notify as $item) {
+          $npe = $npestorage->load($item);
+          // Load notification entity.
+          $ne = $nestorage->load($npe->get('field_notification_id')->getString());
+          if ($ne->get('field_entity_type')->getString() == $type) {
+            $count++;
+          }
+          else {
+            $count++;
+          }
+        }
+      }
+    }
+    return $count;
+  }
+
 }
