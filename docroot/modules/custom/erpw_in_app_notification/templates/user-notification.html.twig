@@ -14,7 +14,7 @@
 				{{ imagestyle }}
 			</div>
 			<div class="content">
-				<p>{{ item.message }}</p>
+				<p>{{ item.message|raw }}</p>
 				<p class="time">{{ item.created }}
 					|
 					{{ "Information"|t }}</p>
@@ -49,7 +49,7 @@
 							{{ imagestyle }}
 						</div>
 						<div class="content">
-							<p class="notification-data">{{ item.message }}</p>
+							<p class="notification-data">{{ item.message|raw }}</p>
 							<p class="time notification-status-data">{{ item.created }}
 								|
 								{{ "Approval"|t }}</p>
@@ -70,7 +70,7 @@
 						{{ imagestyle }}
 					</div>
 					<div class="content">
-						<p class="notification-data">{{ item.message }}</p>
+						<p class="notification-data">{{ item.message|raw }}</p>
 						<p class="time notification-status-data">{{ item.created }}
 							|
 							{{ "Information"|t }}</p>
@@ -97,7 +97,7 @@
 							{{ imagestyle }}
 						</div>
 						<div class="content">
-							<p class="notification-data">{{ item.message }}</p>
+							<p class="notification-data">{{ item.message|raw }}</p>
 							<p class="time notification-status-data">{{ item.created }}
 								|
 								{{ "Approval"|t }}</p>
@@ -118,7 +118,7 @@
 						{{ imagestyle }}
 					</div>
 					<div class="content">
-						<p class="notification-data">{{ item.message }}</p>
+						<p class="notification-data">{{ item.message|raw }}</p>
 						<p class="time notification-status-data">{{ item.created }}
 							|
 							{{ "Information"|t }}</p>

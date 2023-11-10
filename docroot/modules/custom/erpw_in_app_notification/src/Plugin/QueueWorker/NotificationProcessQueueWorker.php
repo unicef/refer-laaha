@@ -60,15 +60,15 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
       $event = \Drupal::service('erpw_in_app_notification.default')->getEventDetailsByEventId($notification->get('field_event_id')->getString());
       // Process the message.
       $message = $event['message'];
-      $message = str_replace("@service_name", $notification->get('field_title')->getString(), $message);
-      $message = str_replace("@operation", $notification->get('field_operation')->getString(), $message);
+      $message = str_replace("@service_name", '<strong>' . $notification->get('field_title')->getString() . '</strong>', $message);
+      $message = str_replace("@operation", '<strong>' . $notification->get('field_operation')->getString() . '</strong>', $message);
       if (!$notification->get('field_workflow_action')->isEmpty()) {
-        $message = str_replace("@status", $notification->get('field_workflow_action')->getString(), $message);
+        $message = str_replace("@status", '<strong>' . $notification->get('field_workflow_action')->getString() . '</strong>', $message);
       }
       $author = $notification->getOwner();
       $name = $author->get('field_first_name')->getString();
       $name .= ' ' . $author->get('field_last_name')->getString();
-      $message = str_replace("@name", $name, $message);
+      $message = str_replace("@name", '<strong>'. $name . '</strong>', $message);
 
       // Process the users.
       if (!$notification->get('field_specific_user')->getString()) {
@@ -290,14 +290,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
       $ruserid = $notification->get('field_entity_id')->getString();
       $ruser = User::load($ruserid);
       $username = $ruser->get('field_first_name')->getString() . ' ' . $ruser->get('field_last_name')->getString();
-      $message = str_replace("@username", $username, $message);
+      $message = str_replace("@username", '<strong>' . $username . '</strong>', $message);
       if (!$notification->get('field_workflow_action')->isEmpty()) {
-        $message = str_replace("@status", $notification->get('field_workflow_action')->getString(), $message);
+        $message = str_replace("@status", '<strong>' . $notification->get('field_workflow_action')->getString() . '</strong>', $message);
       }
       $author = $notification->getOwner();
       $name = $author->get('field_first_name')->getString();
       $name .= ' ' . $author->get('field_last_name')->getString();
-      $message = str_replace("@name", $name, $message);
+      $message = str_replace("@name", '<strong>' . $name . '</strong>', $message);
 
       // Process the users.
       if (!$notification->get('field_specific_user')->getString()) {
