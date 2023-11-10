@@ -479,7 +479,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                   $locationid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
                   $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
                   $countryuserquery = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
-                  $uids = $countryuserquery->condition('status', 1)
+                  $users = $countryuserquery->condition('status', 1)
                     ->condition('roles', 'country_admin')
                     ->condition('field_location', $location_list, 'IN')
                     ->accessCheck(FALSE)
