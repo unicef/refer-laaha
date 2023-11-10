@@ -81,6 +81,7 @@ class UserWorkflowController extends ControllerBase {
           'field_workflow_status_after' => 'spfp-accept',
         ]);
         $euwh->save();
+        erpw_in_app_notification__user_operation($user);
       }
       else {
         $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
@@ -111,6 +112,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-accept',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
         if ($user->get('field_transitions')->getString() == 'spfp-register-sp-staff') {
           // Update the user with new transition.
@@ -128,6 +130,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-accept',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
       }
       elseif ($user->hasRole('service_provider_focal_point')) {
@@ -147,6 +150,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-accept',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
         if ($user->get('field_transitions')->getString() == 'spfp-register-spfp') {
           // Update the user with new transition.
@@ -164,6 +168,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-accept',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
       }
       else {
@@ -219,6 +224,7 @@ class UserWorkflowController extends ControllerBase {
           'field_workflow_status_after' => 'spfp-reject',
         ]);
         $euwh->save();
+        erpw_in_app_notification__user_operation($user);
       }
       else {
         $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
@@ -259,6 +265,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-reject',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
         if ($user->get('field_transitions')->getString() == 'spfp-register-sp-staff') {
           // Update the user with new transition.
@@ -286,6 +293,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-reject',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
       }
       elseif ($user->hasRole('service_provider_focal_point')) {
@@ -315,6 +323,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-reject',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
         if ($user->get('field_transitions')->getString() == 'spfp-register-spfp') {
           // Update the user with new transition.
@@ -342,6 +351,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-reject',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
       }
       else {

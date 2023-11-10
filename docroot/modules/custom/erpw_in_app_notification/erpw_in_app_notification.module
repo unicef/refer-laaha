@@ -1345,25 +1345,25 @@ function erpw_in_app_notification__retrive_original_data($jsonData, &$return) {
   }
 }
 
-/**
- * Implements hook_entity_type_insert() for a user entity type.
- */
-function erpw_in_app_notification_user_insert(UserInterface $user) {
-  $roles = $user->getRoles();
-  if (in_array('service_provider_staff', $roles) || in_array('service_provider_focal_point', $roles)) {
-    erpw_in_app_notification__user_operation($user);
-  }
-}
+// /**
+//  * Implements hook_entity_type_insert() for a user entity type.
+//  */
+// function erpw_in_app_notification_user_insert(UserInterface $user) {
+//   $roles = $user->getRoles();
+//   if (in_array('service_provider_staff', $roles) || in_array('service_provider_focal_point', $roles)) {
+//     erpw_in_app_notification__user_operation($user);
+//   }
+// }
 
-/**
- * Implements hook_entity_type_update() for a user entity type.
- */
-function erpw_in_app_notification_user_update(UserInterface $user) {
-  $roles = $user->getRoles();
-  if (in_array('service_provider_staff', $roles) || in_array('service_provider_focal_point', $roles)) {
-    erpw_in_app_notification__user_operation($user);
-  }
-}
+// /**
+//  * Implements hook_entity_type_update() for a user entity type.
+//  */
+// function erpw_in_app_notification_user_update(UserInterface $user) {
+//   $roles = $user->getRoles();
+//   if (in_array('service_provider_staff', $roles) || in_array('service_provider_focal_point', $roles)) {
+//     erpw_in_app_notification__user_operation($user);
+//   }
+// }
 
 /**
  * Callback function for user operation.
