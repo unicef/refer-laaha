@@ -8,7 +8,6 @@
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\node\Entity\Node;
-use Drupal\user\UserInterface;
 use Drupal\webform\WebformSubmissionInterface;
 
 /**
@@ -1354,7 +1353,6 @@ function erpw_in_app_notification__retrive_original_data($jsonData, &$return) {
 //     erpw_in_app_notification__user_operation($user);
 //   }
 // }
-
 // /**
 //  * Implements hook_entity_type_update() for a user entity type.
 //  */

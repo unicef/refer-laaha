@@ -68,7 +68,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
       $author = $notification->getOwner();
       $name = $author->get('field_first_name')->getString();
       $name .= ' ' . $author->get('field_last_name')->getString();
-      $message = str_replace("@name", '<strong>'. $name . '</strong>', $message);
+      $message = str_replace("@name", '<strong>' . $name . '</strong>', $message);
 
       // Process the users.
       if (!$notification->get('field_specific_user')->getString()) {
