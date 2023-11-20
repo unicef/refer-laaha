@@ -1,0 +1,21 @@
+uuid: c6681fb8-585f-4663-aeb8-6235a7b69cdc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_transitions
+  module:
+    - options
+    - user
+id: user.user.field_transitions
+field_name: field_transitions
+entity_type: user
+bundle: user
+label: Transitions
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

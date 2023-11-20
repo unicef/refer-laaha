@@ -1,0 +1,23 @@
+uuid: 58b5b69e-b01f-4835-9757-b2c3cc31fd97
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.multiple_block
+    - field.storage.block_content.field_blocks
+id: block_content.multiple_block.field_blocks
+field_name: field_blocks
+entity_type: block_content
+bundle: multiple_block
+label: Blocks
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:block'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference

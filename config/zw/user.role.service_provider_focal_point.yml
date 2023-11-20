@@ -1,0 +1,74 @@
+uuid: e607f283-a7cf-4568-ae57-70cf89428e97
+langcode: sn
+status: true
+dependencies:
+  config:
+    - node.type.service_provider
+    - workflows.workflow.service_editorial
+  module:
+    - administerusersbyrole
+    - content_moderation
+    - erpw_custom
+    - erpw_location
+    - node
+    - node_view_permissions
+    - quick_node_clone
+    - system
+    - webform
+id: service_provider_focal_point
+label: 'Service Provider - Focal Point'
+weight: -7
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access webform submission user'
+  - 'accpet registered user'
+  - 'add new user'
+  - 'add service of their own location'
+  - 'add service of their own location and organisation'
+  - 'add users of their own location and organisation'
+  - 'cancel users by role'
+  - 'cancel users with role service_provider_staff'
+  - 'cancel users with role service_provider_staff'
+  - 'clone service_provider content'
+  - 'create service_provider content'
+  - 'delete own service_provider content'
+  - 'delete own webform submission'
+  - 'delete service_provider revisions'
+  - 'edit any service_provider content'
+  - 'edit any service_provider content'
+  - 'edit own service_provider content'
+  - 'edit own webform submission'
+  - 'edit service of their own location'
+  - 'edit service of their own location and organisation'
+  - 'edit users by role'
+  - 'edit users of their own location and organisation'
+  - 'edit users with role service_provider_staff'
+  - 'erpw view pending service block'
+  - 'reject registered user'
+  - 'role-assign users by role'
+  - 'role-assign users with role service_provider_focal_point'
+  - 'role-assign users with role service_provider_staff'
+  - 'update user'
+  - 'use service_editorial transition create_new_draft'
+  - 'use service_editorial transition publish'
+  - 'use service_editorial transition reject'
+  - 'use service_editorial transition restore'
+  - 'view all revisions'
+  - 'view any service_provider content'
+  - 'view any unpublished content'
+  - 'view any webform submission'
+  - 'view dashboard'
+  - 'view latest version'
+  - 'view own service_provider content'
+  - 'view own unpublished content'
+  - 'view own webform submission'
+  - 'view service of their own location'
+  - 'view service of their own location and organisation'
+  - 'view service_provider revisions'
+  - 'view users by role'
+  - 'view users of their own organisation'
+  - 'view users with role country_admin'
+  - 'view users with role interagency_gbv_coordinator'
+  - 'view users with role service_provider_focal_point'
+  - 'view users with role service_provider_staff'

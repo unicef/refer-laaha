@@ -1,0 +1,22 @@
+uuid: d857390e-7faf-4879-bbaf-883793531327
+langcode: en
+status: true
+dependencies:
+  module:
+    - serialization
+    - user
+    - webform
+id: entity.webform_submission
+plugin_id: 'entity:webform_submission'
+granularity: resource
+configuration:
+  methods:
+    - GET
+    - POST
+    - DELETE
+    - PATCH
+  formats:
+    1: json
+    2: xml
+  authentication:
+    - cookie

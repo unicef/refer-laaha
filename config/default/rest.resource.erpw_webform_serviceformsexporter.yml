@@ -1,0 +1,18 @@
+uuid: 847f8b06-55ca-4ac7-a1c5-800d313cdc70
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_webform
+    - serialization
+    - user
+id: erpw_webform_serviceformsexporter
+plugin_id: erpw_webform_serviceformsexporter
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - cookie

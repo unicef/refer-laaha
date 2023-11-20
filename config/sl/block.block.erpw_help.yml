@@ -1,0 +1,22 @@
+uuid: c63bc106-cbaf-48e3-9aa8-3ab6d36da5eb
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - erpw
+_core:
+  default_config_hash: 8I8iACSa0sKO3k3jlvUG1ge52rfcKX7USJAQYnzuBgg
+id: erpw_help
+theme: erpw
+region: content
+weight: -7
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

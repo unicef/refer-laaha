@@ -1,0 +1,29 @@
+display:
+  default:
+    display_options:
+      filters:
+        field_organisation_target_id_verf:
+          expose:
+            label: ভূমিকা
+        roles_target_id:
+          expose:
+            label: ভূমিকা
+      title: 'পরিচালনা করুন অ্যাপ্লিকেশন ব্যবহারকারীদের পরিচালনা'
+      header:
+        result:
+          content: '<div class="service-count more-link">@total ব্যবহারকারীরা</div>'
+  page_1:
+    display_title: 'পরিচালনা করুন অ্যাপ্লিকেশন ব্যবহারকারীদের পরিচালনা'
+    display_options:
+      empty:
+        area:
+          content:
+            value: "<p>There are currently no users available for you to manage.</p>\r\n"
+            format: basic_html
+      filters:
+        field_organisation_target_id_verf:
+          expose:
+            label: সংস্থা
+        roles_target_id:
+          expose:
+            label: ভূমিকা

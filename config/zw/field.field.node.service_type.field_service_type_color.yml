@@ -1,0 +1,25 @@
+uuid: ceed707c-46fe-44c7-a96a-90be337eca47
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_service_type_color
+    - node.type.service_type
+  module:
+    - color_field
+id: node.service_type.field_service_type_color
+field_name: field_service_type_color
+entity_type: node
+bundle: service_type
+label: 'Pick a color to represent service type'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    color: '#F9D14A'
+    opacity: null
+default_value_callback: ''
+settings:
+  opacity: 0
+field_type: color_field_type

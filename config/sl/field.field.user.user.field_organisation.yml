@@ -1,0 +1,26 @@
+uuid: 599c1a31-8d0c-4100-9e6f-63bcdfcf735b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_organisation
+  module:
+    - user
+id: user.user.field_organisation
+field_name: field_organisation
+entity_type: user
+bundle: user
+label: Organisation
+description: 'Please add the organisation corresponding to the current domain.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: organisations
+      display_name: org_entity_reference
+      arguments: {  }
+field_type: entity_reference

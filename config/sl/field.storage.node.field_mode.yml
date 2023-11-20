@@ -1,0 +1,27 @@
+uuid: dcaa8d70-d2b1-42e4-8a9a-30540bcebb92
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_mode
+field_name: field_mode
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 'In person'
+      label: 'In Person'
+    -
+      value: Remote
+      label: Remote
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

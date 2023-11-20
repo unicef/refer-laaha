@@ -1,0 +1,21 @@
+uuid: 16cd3bdc-deda-457b-9f55-e5cf4d4ab050
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_name_backup_focalpoint_ref
+field_name: field_name_backup_focalpoint_ref
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

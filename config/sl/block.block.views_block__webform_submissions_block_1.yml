@@ -1,0 +1,29 @@
+uuid: 55b7fff8-c69a-4701-94dc-153f6ebcef30
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.webform_submissions
+  module:
+    - system
+    - views
+  theme:
+    - erpw
+id: views_block__webform_submissions_block_1
+theme: erpw
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:webform_submissions-block_1'
+settings:
+  id: 'views_block:webform_submissions-block_1'
+  label: 'List of Services'
+  label_display: '0'
+  provider: views
+  views_label: 'List of Services'
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /service-providers

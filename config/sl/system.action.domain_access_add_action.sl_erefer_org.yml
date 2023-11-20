@@ -1,0 +1,14 @@
+uuid: 267bc5ec-717d-4b3d-88ef-10b1f09c60d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.sl_erefer_org
+  module:
+    - domain_access
+id: domain_access_add_action.sl_erefer_org
+label: 'Add selected content to the Sierra Leone (sl) domain'
+type: node
+plugin: domain_access_add_action
+configuration:
+  domain_id: sl_erefer_org

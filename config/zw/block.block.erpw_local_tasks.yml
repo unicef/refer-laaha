@@ -1,0 +1,36 @@
+uuid: b7587812-4c69-44a9-a5ac-243cb907effd
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - system
+  theme:
+    - erpw
+_core:
+  default_config_hash: X9I1OB0W3WlWtrK-CNcg6hNWwa8wficanpH8pYnDZDE
+id: erpw_local_tasks
+theme: erpw
+region: content
+weight: -8
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: false
+  secondary: false
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: /user/login
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      service_type: service_type

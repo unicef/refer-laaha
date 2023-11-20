@@ -1,0 +1,14 @@
+uuid: a493608f-75b9-4b56-aabe-40812f6fa871
+langcode: sn
+status: true
+dependencies:
+  config:
+    - user.role.service_provider_focal_point
+  module:
+    - user
+id: user_add_role_action.service_provider_focal_point
+label: 'Add the Service provider/ focal point role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: service_provider_focal_point

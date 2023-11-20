@@ -1,0 +1,29 @@
+uuid: b1b395a3-9b54-433a-a55b-feafcbf2f3bd
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.wsa.field_domain_access
+    - field.field.node.wsa.field_domain_source
+    - field.field.node.wsa.field_sid
+    - field.field.node.wsa.field_submission_data
+    - node.type.wsa
+  module:
+    - user
+id: node.wsa.teaser
+targetEntityType: node
+bundle: wsa
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_source: true
+  field_sid: true
+  field_submission_data: true
+  langcode: true

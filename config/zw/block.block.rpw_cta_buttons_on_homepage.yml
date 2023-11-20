@@ -1,0 +1,30 @@
+uuid: 5b4c0197-c1fc-4451-86a4-46213f1933d8
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:cta_buttons_on_rpw_homepage:fb552cd1-4ca2-4777-986a-cd028461fdf9'
+  module:
+    - block_content
+    - system
+  theme:
+    - erpw
+id: rpw_cta_buttons_on_homepage
+theme: erpw
+region: content
+weight: -2
+provider: null
+plugin: 'block_content:fb552cd1-4ca2-4777-986a-cd028461fdf9'
+settings:
+  id: 'block_content:fb552cd1-4ca2-4777-986a-cd028461fdf9'
+  label: 'Call To Action Buttons on RPW Homepage'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

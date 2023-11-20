@@ -1,0 +1,23 @@
+uuid: bf248bfd-6556-426c-816d-0c3ffdad7277
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - file
+id: block_content.field_upload_gbv_referrals_guide
+field_name: field_upload_gbv_referrals_guide
+entity_type: block_content
+type: file
+settings:
+  target_type: file
+  display_field: false
+  display_default: false
+  uri_scheme: public
+module: file
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

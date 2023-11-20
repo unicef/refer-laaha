@@ -1,0 +1,14 @@
+uuid: ebc3599f-38ae-4dd9-83b9-224d3dc7a939
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.sl_erefer_org
+  module:
+    - domain_access
+id: domain_access_add_editor_action.sl_erefer_org
+label: 'Add editors to the Sierra Leone (sl) domain'
+type: user
+plugin: domain_access_add_editor_action
+configuration:
+  domain_id: sl_erefer_org

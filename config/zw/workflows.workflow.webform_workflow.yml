@@ -1,0 +1,158 @@
+uuid: 2a87573e-8d14-4336-bf51-fcdf6c8f9717
+langcode: en
+status: true
+dependencies:
+  module:
+    - webform_workflows_element
+id: webform_workflow
+label: 'Webform Workflow'
+type: webform_workflows_element
+type_settings:
+  initial_state: draft
+  states:
+    approve:
+      label: Approved
+      weight: 2
+    deleted:
+      label: Deleted
+      weight: 4
+    deletion_in_review_with_focal_point:
+      label: 'Deletion In - Review with Focal point'
+      weight: 0
+    deletion_in_review_with_gbv_coordination:
+      label: 'Deletion In - Review with GBV Coordination'
+      weight: 1
+    draft:
+      label: Draft
+      weight: -5
+    edits_in_review_with_focal_point:
+      label: 'Edits In - Review with Focal Point'
+      weight: -2
+    edits_in_review_with_gbv_coordination:
+      label: 'Edits In - Review with GBV Coordination'
+      weight: -1
+    in_review:
+      label: 'In - Review with GBV Coordination'
+      weight: -3
+    in_review_with_focal_point:
+      label: 'In - Review with Focal Point'
+      weight: -4
+    reject:
+      label: Rejected
+      weight: 3
+  transitions:
+    approve:
+      label: Approve
+      from:
+        - draft
+        - in_review
+      to: approve
+      weight: -6
+    approve_deletion:
+      label: 'Delete Service'
+      from:
+        - approve
+        - deletion_in_review_with_gbv_coordination
+        - reject
+      to: deleted
+      weight: 7
+    deletion_rejected_by_focal_point:
+      label: 'Deletion Rejected by Focal point'
+      from:
+        - deletion_in_review_with_focal_point
+      to: reject
+      weight: 5
+    deletion_rejected_by_gbv_coordination:
+      label: 'Deletion Rejected by GBV Coordination'
+      from:
+        - deletion_in_review_with_gbv_coordination
+      to: reject
+      weight: 6
+    edits_rejected_by_focal_point:
+      label: 'Edits Rejected by Focal Point'
+      from:
+        - edits_in_review_with_focal_point
+      to: reject
+      weight: 1
+    edits_rejected_by_gbv_coordination:
+      label: 'Edits Rejected by GBV Coordination'
+      from:
+        - edits_in_review_with_gbv_coordination
+      to: reject
+      weight: 2
+    publish_edits:
+      label: 'Publish Edits'
+      from:
+        - approve
+        - edits_in_review_with_gbv_coordination
+      to: approve
+      weight: 0
+    reject:
+      label: 'Rejected by GBV Coordination'
+      from:
+        - in_review
+      to: reject
+      weight: -4
+    rejected_by_focal_point:
+      label: 'Rejected by Focal Point'
+      from:
+        - in_review_with_focal_point
+      to: reject
+      weight: -7
+    restore:
+      label: 'Request for edits'
+      from:
+        - reject
+      to: draft
+      weight: -3
+    save_as_draft:
+      label: 'Save as Draft'
+      from:
+        - draft
+      to: draft
+      weight: -5
+    submit_edits_to_focal_point:
+      label: 'Submit Edits to Focal Point'
+      from:
+        - approve
+        - reject
+      to: edits_in_review_with_focal_point
+      weight: -2
+    submit_edits_to_gbv_coordination:
+      label: 'Submit Edits to GBV Coordination'
+      from:
+        - approve
+        - edits_in_review_with_focal_point
+        - reject
+      to: edits_in_review_with_gbv_coordination
+      weight: -1
+    submit_for_deletion_to_focal_point:
+      label: 'Submit for Deletion to Focal Point'
+      from:
+        - approve
+        - reject
+      to: deletion_in_review_with_focal_point
+      weight: 3
+    submit_for_deletion_to_gbv_coordination:
+      label: 'Submit for Deletion to GBV Coordination'
+      from:
+        - approve
+        - deletion_in_review_with_focal_point
+        - reject
+      to: deletion_in_review_with_gbv_coordination
+      weight: 4
+    submit_for_review_to_country_admin:
+      label: 'Submit to GBV Coordination'
+      from:
+        - draft
+        - in_review_with_focal_point
+        - reject
+      to: in_review
+      weight: -8
+    submit_to_focal_point:
+      label: 'Submit to Focal Point'
+      from:
+        - draft
+        - reject
+      to: in_review_with_focal_point
+      weight: -9

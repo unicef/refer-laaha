@@ -1,0 +1,20 @@
+uuid: 131817ab-44c7-4ef6-9908-10f5d8d65988
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_position
+  module:
+    - user
+id: user.user.field_position
+field_name: field_position
+entity_type: user
+bundle: user
+label: Position
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

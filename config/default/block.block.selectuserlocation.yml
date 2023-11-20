@@ -1,0 +1,25 @@
+uuid: e35fc4ea-68f4-4e47-a75d-fc0a39e55760
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_location
+    - system
+  theme:
+    - erpw
+id: selectuserlocation
+theme: erpw
+region: content
+weight: -6
+provider: null
+plugin: select_user_location
+settings:
+  id: select_user_location
+  label: 'Select User Location'
+  label_display: '0'
+  provider: erpw_location
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

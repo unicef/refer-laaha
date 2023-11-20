@@ -1,0 +1,64 @@
+uuid: a68d0b42-ea6d-4837-8f58-6b4133c62636
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.service_type.field_domain_access
+    - field.field.node.service_type.field_domain_all_affiliates
+    - field.field.node.service_type.field_domain_source
+    - field.field.node.service_type.field_service_type_color
+    - field.field.node.service_type.field_service_type_icon
+    - node.type.service_type
+  module:
+    - color_field
+    - unicef_iconpicker
+id: node.service_type.default
+targetEntityType: node
+bundle: service_type
+mode: default
+content:
+  field_domain_access:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_service_type_color:
+    type: color_field_widget_box
+    weight: 3
+    region: content
+    settings:
+      default_colors: '#f9d14a,#f4cbca,#b2a0d9,#7fbc72'
+    third_party_settings: {  }
+  field_service_type_icon:
+    type: unicef_iconpicker
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Enter service type name. eg:  Health care'
+    third_party_settings: {  }
+  translation:
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  langcode: true
+  moderation_state: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true

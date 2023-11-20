@@ -1,0 +1,30 @@
+uuid: d208b7de-dcf1-4784-812e-1acf3c643855
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.user_count_approval_block
+  module:
+    - system
+    - views
+  theme:
+    - erpw
+id: views_block__user_count_approval_block_block_2
+theme: erpw
+region: content
+weight: -5
+provider: null
+plugin: 'views_block:user_count_approval_block-block_2'
+settings:
+  id: 'views_block:user_count_approval_block-block_2'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '/user/*'

@@ -140,26 +140,26 @@ class LocationCookieService {
     $subdomain = $parts[0];
     if (!empty($subdomain)) {
       switch ($subdomain) {
-        case 'bn':{
-          $cookie_name = 'bn_location_tid';
-          break;
-}
-        case 'zw':{
-          $cookie_name = 'zw_location_tid';
-          break;
-}
-        case 'sl':{
-          $cookie_name = 'sl_location_tid';
-          break;
-}
-        case 'txb':{
-          $cookie_name = 'txb_location_tid';
-          break;
-}
-        default:{
-          $cookie_name = 'zw_location_tid';
-          break;
-}
+        case 'bn': {
+            $cookie_name = 'bn_location_tid';
+            break;
+          }
+        case 'zw': {
+            $cookie_name = 'zw_location_tid';
+            break;
+          }
+        case 'sl': {
+            $cookie_name = 'sl_location_tid';
+            break;
+          }
+        case 'txb': {
+            $cookie_name = 'txb_location_tid';
+            break;
+          }
+        default: {
+            $cookie_name = 'zw_location_tid';
+            break;
+          }
       }
     }
     return $cookie_name;
@@ -235,31 +235,31 @@ class LocationCookieService {
     $subdomain = $parts[0];
     if (!empty($subdomain)) {
       switch ($subdomain) {
-        case 'bn':{
-          $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('bn_location_tid') ?
-          $this->currentRequest->getCurrentRequest()->cookies->get('bn_location_tid') : $domain_tid;
-          break;
-}
-        case 'zw':{
-          $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('zw_location_tid') ?
-          $this->currentRequest->getCurrentRequest()->cookies->get('zw_location_tid') : $domain_tid;
-          break;
-}
-        case 'sl':{
-          $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('sl_location_tid') ?
-          $this->currentRequest->getCurrentRequest()->cookies->get('sl_location_tid') : $domain_tid;
-          break;
-}
-        case 'txb':{
-          $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('txb_location_tid') ?
-          $this->currentRequest->getCurrentRequest()->cookies->get('txb_location_tid') : $domain_tid;
-          break;
-}
-        default:{
-          $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('zw_location_tid') ?
-          $this->currentRequest->getCurrentRequest()->cookies->get('zw_location_tid') : $domain_tid;
-          break;
-}
+        case 'bn': {
+            $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('bn_location_tid') ?
+              $this->currentRequest->getCurrentRequest()->cookies->get('bn_location_tid') : $domain_tid;
+            break;
+          }
+        case 'zw': {
+            $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('zw_location_tid') ?
+              $this->currentRequest->getCurrentRequest()->cookies->get('zw_location_tid') : $domain_tid;
+            break;
+          }
+        case 'sl': {
+            $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('sl_location_tid') ?
+              $this->currentRequest->getCurrentRequest()->cookies->get('sl_location_tid') : $domain_tid;
+            break;
+          }
+        case 'txb': {
+            $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('txb_location_tid') ?
+              $this->currentRequest->getCurrentRequest()->cookies->get('txb_location_tid') : $domain_tid;
+            break;
+          }
+        default: {
+            $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('zw_location_tid') ?
+              $this->currentRequest->getCurrentRequest()->cookies->get('zw_location_tid') : $domain_tid;
+            break;
+          }
       }
     }
     $cookie_name = $this->getCookieName();

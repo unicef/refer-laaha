@@ -1,0 +1,29 @@
+uuid: 4115f46b-fd18-4058-90f9-4ec0bd485071
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.dashboard-menu
+  module:
+    - system
+  theme:
+    - erpw
+id: dashboardmenu
+theme: erpw
+region: content
+weight: -1
+provider: null
+plugin: 'system_menu_block:dashboard-menu'
+settings:
+  id: 'system_menu_block:dashboard-menu'
+  label: 'Dashboard Menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /dashboard

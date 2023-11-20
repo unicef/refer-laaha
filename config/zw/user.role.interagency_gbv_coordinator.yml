@@ -1,0 +1,114 @@
+uuid: a21fc2ab-a037-494e-87e0-c217ef6b2dc9
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.feedback_area
+    - node.type.organisation
+    - node.type.referral_path_way
+    - node.type.service_provider
+    - workflows.workflow.service_editorial
+  module:
+    - administerusersbyrole
+    - config_translation
+    - content_moderation
+    - domain_access
+    - erpw_custom
+    - erpw_location
+    - erpw_webform
+    - node
+    - node_view_permissions
+    - quick_node_clone
+    - system
+    - webform
+    - webform_submission_log
+id: interagency_gbv_coordinator
+label: 'Interagency GBV Coordinator'
+weight: -6
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access own webform configuration'
+  - 'access webform help'
+  - 'access webform overview'
+  - 'access webform submission log'
+  - 'access webform submission user'
+  - 'accpet registered user'
+  - 'add new user'
+  - 'add referral pathway of their own location'
+  - 'add service of their own location'
+  - 'add service rating question'
+  - 'add users of their own location'
+  - 'administer webform'
+  - 'administer webform element access'
+  - 'administer webform submission'
+  - 'cancel users by role'
+  - 'cancel users with role service_provider_focal_point'
+  - 'cancel users with role service_provider_staff'
+  - 'clone service_provider content'
+  - 'create organisation content'
+  - 'create referral_path_way content'
+  - 'create service_provider content'
+  - 'create webform'
+  - 'delete any organisation content'
+  - 'delete any webform'
+  - 'delete any webform submission'
+  - 'delete own service_provider content'
+  - 'delete own webform'
+  - 'delete own webform submission'
+  - 'edit any organisation content'
+  - 'edit any referral_path_way content'
+  - 'edit any service_provider content'
+  - 'edit any webform'
+  - 'edit any webform submission'
+  - 'edit own organisation content'
+  - 'edit own referral_path_way content'
+  - 'edit own service_provider content'
+  - 'edit own webform'
+  - 'edit own webform submission'
+  - 'edit referral pathway of their own location'
+  - 'edit service of their own location'
+  - 'edit users by role'
+  - 'edit users of their own location'
+  - 'edit users with role service_provider_focal_point'
+  - 'edit users with role service_provider_staff'
+  - 'erpw view pending service block'
+  - 'reject registered user'
+  - 'role-assign users by role'
+  - 'role-assign users with role interagency_gbv_coordinator'
+  - 'role-assign users with role service_provider_focal_point'
+  - 'role-assign users with role service_provider_staff'
+  - 'translate configuration'
+  - 'update user'
+  - 'use service_editorial transition create_new_draft'
+  - 'use service_editorial transition publish'
+  - 'use service_editorial transition reject'
+  - 'use service_editorial transition restore'
+  - 'view all revisions'
+  - 'view any referral_path_way content'
+  - 'view any service_provider content'
+  - 'view any unpublished content'
+  - 'view any webform submission'
+  - 'view dashboard'
+  - 'view latest version'
+  - 'view own organisation content'
+  - 'view own referral_path_way content'
+  - 'view own service_provider content'
+  - 'view own unpublished content'
+  - 'view own webform submission'
+  - 'view referral pathway of their own location'
+  - 'view service of their own location'
+  - 'view users by role'
+  - 'view users of their own location'
+  - 'view users with role country_admin'
+  - 'view users with role interagency_gbv_coordinator'
+  - 'view users with role service_provider_focal_point'
+  - 'view users with role service_provider_staff'
+  - 'add service rating question'
+  - 'create feedback_area content on assigned domains'
+  - 'delete feedback_area content on assigned domains'
+  - 'update feedback_area content on assigned domains'
+  - 'delete own feedback_area content'
+  - 'edit own feedback_area content'
+  - 'view any feedback_area content'
+  - 'view own feedback_area content'

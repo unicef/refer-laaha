@@ -7,6 +7,7 @@ use Drupal\erpw_location\LocationCookieService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
@@ -165,6 +166,19 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
       $this->locationCookie->setShouldUpdate(FALSE);
       $this->locationCookie->setCookieValue($cookie_name, $cookie_value);
     }
+
+    // $domain_current_url = explode(".", \Drupal::service('request_stack')->getCurrentRequest()->server->get('SERVER_NAME'));
+    // $domains_without_subdomain = ['refer-laaha', 'stage', 'erefer'];
+    // if (in_array($domain_current_url[0], $domains_without_subdomain)) {
+    //   // $event->setResponse(new RedirectResponse($domain_current_url[0]));
+    //   $location = \Drupal::service('smart_ip.smart_ip_location');
+    //   echo 'This domain is without subdomain, and the country code is: '. $_SESSION['smart_ip']['location']['country_code'];
+    // }
+    // dump($domain_current_url[0]);
+    // exit;
+
+
+    
     // If ($this->getShouldUpdateCookie()) {
     //     $my_new_cookie = new Cookie($this->getCookieName(), $this->getCookieValue(), strtotime('+7 days'), '/', $full_url, NULL, FALSE);
     //     $response->headers->setCookie($my_new_cookie);

@@ -1,0 +1,24 @@
+uuid: 991c897d-f4e1-44e1-b01f-ccd5c3ca0dbb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_soft_delete
+  module:
+    - user
+id: user.user.field_soft_delete
+field_name: field_soft_delete
+entity_type: user
+bundle: user
+label: 'Soft Delete'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

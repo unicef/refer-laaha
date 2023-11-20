@@ -1,0 +1,19 @@
+uuid: ccb4d060-cc21-415d-a438-8e00651cf9bf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email_backup_focal_point
+    - node.type.service_provider
+id: node.service_provider.field_email_backup_focal_point
+field_name: field_email_backup_focal_point
+entity_type: node
+bundle: service_provider
+label: 'Email of back-up focal point'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

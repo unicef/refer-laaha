@@ -1,0 +1,19 @@
+uuid: a3be1ddd-af82-4323-af06-d61e2d024947
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_submission_data
+    - node.type.wsa
+id: node.wsa.field_submission_data
+field_name: field_submission_data
+entity_type: node
+bundle: wsa
+label: 'Submission Data'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

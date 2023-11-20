@@ -1,0 +1,39 @@
+uuid: d02ba661-4868-4e94-9a37-f494c479955d
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_age_group
+field_name: field_age_group
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 0-5
+      label: 0-5
+    -
+      value: 6-11
+      label: 6-11
+    -
+      value: 12-14
+      label: 12-14
+    -
+      value: 15-17
+      label: 15-17
+    -
+      value: 18+
+      label: 18-64
+    -
+      value: 65+
+      label: 65+
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

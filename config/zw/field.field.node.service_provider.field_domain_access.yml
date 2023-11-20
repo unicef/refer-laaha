@@ -1,0 +1,26 @@
+uuid: 9376d968-7b52-4c68-aaa4-6de4cdc17564
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_domain_access
+    - node.type.service_provider
+id: node.service_provider.field_domain_access
+field_name: field_domain_access
+entity_type: node
+bundle: service_provider
+label: Country
+description: 'Select the country domain for which this service is available.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: 'Drupal\domain_access\DomainAccessManager::getDefaultValue'
+settings:
+  handler: 'default:domain'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: weight
+      direction: ASC
+    auto_create: false
+field_type: entity_reference

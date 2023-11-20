@@ -1,0 +1,73 @@
+uuid: 52a0f236-0f53-449b-bed4-2bd59b1e6417
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.service_provider.field_accessibility_for_persons_
+    - field.field.node.service_provider.field_add_more_details_service
+    - field.field.node.service_provider.field_age_group
+    - field.field.node.service_provider.field_cost_of_service
+    - field.field.node.service_provider.field_domain_access
+    - field.field.node.service_provider.field_domain_all_affiliates
+    - field.field.node.service_provider.field_domain_source
+    - field.field.node.service_provider.field_email_backup_focal_point
+    - field.field.node.service_provider.field_email_of_focal_point
+    - field.field.node.service_provider.field_location
+    - field.field.node.service_provider.field_mode
+    - field.field.node.service_provider.field_name_backup_focalpoint_ref
+    - field.field.node.service_provider.field_name_of_the_focal_point
+    - field.field.node.service_provider.field_number_of_staff_providing_
+    - field.field.node.service_provider.field_opening_hours
+    - field.field.node.service_provider.field_p_code
+    - field.field.node.service_provider.field_phone_number
+    - field.field.node.service_provider.field_phone_number_backup_focalp
+    - field.field.node.service_provider.field_phone_number_of_focal_poin
+    - field.field.node.service_provider.field_select_organisation
+    - field.field.node.service_provider.field_service_type
+    - field.field.node.service_provider.field_target_group
+    - field.field.node.service_provider.field_transportation_available
+    - node.type.service_provider
+  module:
+    - user
+id: node.service_provider.teaser
+targetEntityType: node
+bundle: service_provider
+mode: teaser
+content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  content_moderation_control: true
+  field_accessibility_for_persons_: true
+  field_add_more_details_service: true
+  field_age_group: true
+  field_cost_of_service: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  field_email_backup_focal_point: true
+  field_email_of_focal_point: true
+  field_location: true
+  field_mode: true
+  field_name_backup_focalpoint_ref: true
+  field_name_of_the_focal_point: true
+  field_number_of_staff_providing_: true
+  field_opening_hours: true
+  field_p_code: true
+  field_phone_number: true
+  field_phone_number_backup_focalp: true
+  field_phone_number_of_focal_poin: true
+  field_select_organisation: true
+  field_service_type: true
+  field_target_group: true
+  field_transportation_available: true
+  langcode: true
