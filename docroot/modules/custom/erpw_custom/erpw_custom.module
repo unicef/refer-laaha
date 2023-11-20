@@ -466,7 +466,14 @@ function user_form_validation_organisation_validate($form, &$form_state) {
       if ($organization_node) {
         $field_domain_access = $organization_node->get('field_domain_access')->getValue();
         if (!empty($field_domain_access)) {
-          $organisation_domain_access = $field_domain_access[0]['target_id'];
+          if (count($field_domain_access) > 1) {
+            for ($i = 0; $i < count($field_domain_access); $i++) {
+              $organisation_domain_access[] = $field_domain_access[$i]['target_id'];
+            }
+          }
+          else {
+            $organisation_domain_access[] = $field_domain_access[0]['target_id'];
+          }
         }
       }
       else {
@@ -498,8 +505,8 @@ function user_form_validation_organisation_validate($form, &$form_state) {
 /**
  * Checks if a user's organization domain access matches one of the given location PTIDs.
  *
- * @param string $organisation_domain_access
- *   The organization domain access to check.
+ * @param string|array $organisation_domain_access
+ *   The organization(s) domain access to check.
  * @param int[] $location_ptids
  *   An array of location PTIDs to compare against.
  *
@@ -509,36 +516,47 @@ function user_form_validation_organisation_validate($form, &$form_state) {
  */
 function match_user_organisation_domain_location($organisation_domain_access, $location_ptids) {
   $location_match = FALSE;
-  foreach ($location_ptids as $ptid) {
-    switch ($organisation_domain_access) {
-      case 'zm_erefer_org':
-        if ($ptid === 1) {
-          $location_match = TRUE;
-        }
-        break;
 
-      case 'bn_erefer_org':
-        if ($ptid === 10401) {
-          $location_match = TRUE;
-        }
-        break;
+  // If $organisation_domain_access is not an array, convert it to an array
+  $org_access_array = is_array($organisation_domain_access) ? $organisation_domain_access : [$organisation_domain_access];
 
-      case 'sl_erefer_org':
-        if ($ptid === 16821) {
-          $location_match = TRUE;
-        }
-        break;
+  foreach ($org_access_array as $org_access) {
+    foreach ($location_ptids as $ptid) {
+      switch ($org_access) {
+        case 'zm_erefer_org':
+          if ($ptid === 1) {
+            $location_match = TRUE;
+          }
+          break;
 
-      case 'txb_erefer_org':
-        if ($ptid === 10926) {
-          $location_match = TRUE;
-        }
-        break;
+        case 'bn_erefer_org':
+          if ($ptid === 10401) {
+            $location_match = TRUE;
+          }
+          break;
 
-      default:
-        $location_match = FALSE;
+        case 'sl_erefer_org':
+          if ($ptid === 16821) {
+            $location_match = TRUE;
+          }
+          break;
+
+        case 'txb_erefer_org':
+          if ($ptid === 10926) {
+            $location_match = TRUE;
+          }
+          break;
+
+        default:
+          $location_match = FALSE;
+      }
+
+      if ($location_match) {
+        break;
+      }
     }
 
+    // If a match is found for any organisation_domain_access, break out of the outer loop
     if ($location_match) {
       break;
     }
@@ -546,6 +564,7 @@ function match_user_organisation_domain_location($organisation_domain_access, $l
 
   return $location_match;
 }
+
 
 /**
  * Returns roles which present user can assigne, suitable for form options.
