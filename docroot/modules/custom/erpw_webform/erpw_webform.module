@@ -248,6 +248,20 @@ function erpw_webform_preprocess_page(&$variables) {
   if ($currentRoute == 'entity.webform.canonical') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_add_form';
   }
+  if ($currentRoute === "erpw_webform.manage_feedback_surveys") {
+    $page_data = $variables['page']['data'];
+    $new_page_data = [];
+    foreach ($page_data as $data) {
+      $service_rating_form_title = $data['webform_title'];
+      $webform_name_last_word = end(explode(' ', $service_rating_form_title));
+      if ($service_rating_form_title != NULL && $webform_name_last_word !== "Rating") {
+        $new_service_rating_form_title = explode('Rating ', $service_rating_form_title)[1] . ' - ' . t('Service Rating');
+        $data['webform_title'] = $new_service_rating_form_title;
+      }
+      $new_page_data[] = $data;
+    }
+    $variables['page']['data'] = $new_page_data;
+  }
   $account = User::load(\Drupal::currentUser()->id());
   $variables['#attached']['drupalSettings']['activeOrg'] = $account->get('field_organisation')->getValue()[0]['target_id'] ?? NULL;
   $variables['page']['#cache']['contexts'][] = 'cookies';
@@ -443,7 +457,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
     $form['actions']['cancel']['#url'] = $url;
   }
-
+  
   if ($form_id === "webform_edit_form" && str_contains($currentPath, 'webform_service_rating_')) {
     $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
     $form['actions']['cancel'] = [
@@ -458,6 +472,15 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       '#weight' => 105,
     ];
     $form['#attributes']['class'][] = 'webform-service-rating-edit';
+
+    $service_rating_form_id = end(explode('/', $currentPath));
+    $webform_entity = Webform::load($service_rating_form_id);
+    $webform_name_last_word = end(explode(' ', $webform_entity->label()));
+    if ($webform_name_last_word !== "Rating" && $webform_entity) {
+      $new_service_rating_form_title = explode('Rating ', $webform_entity->label())[1] . ' - ' . t('Service Rating');
+      $webform_entity->set('title', $new_service_rating_form_title);
+      $webform_entity->save();
+    }
   }
 }
 
