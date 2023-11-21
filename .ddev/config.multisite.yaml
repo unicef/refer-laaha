@@ -1,0 +1,12 @@
+additional_hostnames:
+  - zw.refer-laaha
+  - bn.refer-laaha
+  - sl.refer-laaha
+  - txb.refer-laaha
+
+hooks:
+  post-start:
+  - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS db; GRANT ALL ON db.* to 'db'@'%';"
+    service: db
+  - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS bn; GRANT ALL ON bn.* to 'db'@'%';"
+    service: db
