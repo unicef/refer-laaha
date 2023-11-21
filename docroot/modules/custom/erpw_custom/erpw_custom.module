@@ -205,6 +205,19 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       '#limit_validation_errors' => [],
     ];
   }
+  if ($form_id == 'node_feedback_area_form') {
+    $form['revision_information']['#access'] = FALSE;
+    $form['actions']['preview']['#access'] = FALSE;
+    $form['title']['widget'][0]['value']['#attributes']['placeholder'] = t('Enter feedback area name');
+    $form['actions']['submit']['#submit'][] = 'cancel_feedback_area';
+    $form['actions']['cancel'] = [
+      '#type' => 'submit',
+      '#value' => t('CANCEL'),
+      '#submit' => ['cancel_feedback_area'],
+      '#weight' => 30,
+      '#limit_validation_errors' => [],
+    ];
+  }
 
   if ($form_id == 'user_login_form') {
     // Code to modify your form input.
@@ -673,6 +686,16 @@ function _erpw_custom_service_provider_form(array $form, FormStateInterface $for
  */
 function cancelorganisation(array &$form, FormStateInterface $form_state) {
   $url = Url::fromRoute('view.organisations.page_1');
+  $response = new RedirectResponse($url->toString());
+  $response->send();
+  return $response;
+}
+
+/**
+ * {@inheritdoc}
+ */
+function cancel_feedback_area(array &$form, FormStateInterface $form_state) {
+  $url = Url::fromRoute('view.manage_feedback.page_1');
   $response = new RedirectResponse($url->toString());
   $response->send();
   return $response;
