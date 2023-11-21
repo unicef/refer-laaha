@@ -79,27 +79,3 @@ erpw_custom.reject_registration:
     parameters:
       user:
         type: entity:user
-
-erpw_custom.delete_content_page:
-  path: '/delete-content-other-domains'
-  defaults:
-    _controller: '\Drupal\erpw_custom\Controller\DeleteContentController::deleteContentPage'
-    _title: 'Delete Content of other Domains'
-  requirements:
-    _permission: 'administer site configuration'
-
-erpw_custom.delete_nodes:
-  path: '/delete-nodes-multisite/{content_type}'
-  options:
-    _controller: '\Drupal\erpw_custom\Controller\DeleteContentController::deleteNodes'
-    _title: 'Delete Nodes of other domains'
-  requirements:
-    _permission: 'administer site configuration'
-
-erpw_custom.delete_webforms_and_submissions:
-  path: '/delete-webforms-submissions-multisite'
-  options:
-    _controller: '\Drupal\erpw_custom\Controller\DeleteContentController::deleteWebformsAndSubmissions'
-    _title: 'Delete Webforms and Submissions of other domains'
-  requirements:
-    _permission: 'administer site configuration'
