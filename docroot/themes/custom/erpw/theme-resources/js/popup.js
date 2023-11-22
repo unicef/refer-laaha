@@ -73,7 +73,7 @@
 
 
         // Use jQuery once() so the button doesn't get added multiple times.
-        $('.pwa-a2hs', context).once('showButton').each(function () {
+        $(once("showButton", ".pwa-a2hs", context)).each(function () {
           $(this).removeClass('pwa-a2hs hidden').addClass('pwa-a2hs-active show').append(button);
         });
 
