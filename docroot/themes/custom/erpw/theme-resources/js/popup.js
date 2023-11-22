@@ -37,7 +37,7 @@
         $('.block-pwa-add-to-home-screen').addClass('hidden');
       }
 
-      if(navigator.userAgent.indexOf('Firefox') != -1) {
+      //if(navigator.userAgent.indexOf('Firefox') != -1) {
         let button = document.createElement("button");
         var button_text = settings.pwaA2hs.pwaA2hsPrompt.button_text;
         button.innerHTML = button_text;
@@ -48,7 +48,7 @@
             .addClass("pwa-a2hs-active show")
             .append(button);
         });
-      }
+      //}
     }
   };
 }(jQuery, Drupal, drupalSettings, once));
