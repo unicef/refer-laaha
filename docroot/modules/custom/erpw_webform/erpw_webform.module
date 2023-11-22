@@ -482,6 +482,20 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       $webform_entity->save();
     }
   }
+  
+  if (($currentRoute === 'view.manage_webform_services.page_1' && $form['#id'] === 'views-exposed-form-manage-webform-services-page-1') || $form['#id'] === 'views-exposed-form-manage-webform-services-block-1') {
+    $service_type_filter_options = $form['webform_id']['#options'];
+    if ($service_type_filter_options !== NULL) {
+      $service_type_filter_options_keys = array_keys($service_type_filter_options);
+      $new_service_type_filter = [];
+      foreach ($service_type_filter_options_keys as $option) {
+        if (!str_contains($option, 'service_rating')) {
+          $new_service_type_filter[$option] = $service_type_filter_options[$option];
+        }
+      }
+      $form['webform_id']['#options'] = $new_service_type_filter;
+    }
+  }
 }
 
 /**
