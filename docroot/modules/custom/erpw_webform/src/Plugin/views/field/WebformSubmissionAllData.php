@@ -258,6 +258,7 @@ class WebformSubmissionAllData extends FieldPluginBase {
                 if ($element['#title'] = 'Organisation') {
                   if (!empty($content)) {
                     $org = \Drupal::entityTypeManager()->getStorage('node')->load($content);
+                    // Null check for org.
                     $orgLabel = is_null($org) ? 'N/A' : $org->get('title')->getValue()[0]['value'];
                     $output[] = [$element['#title'] => $orgLabel];
                   }
