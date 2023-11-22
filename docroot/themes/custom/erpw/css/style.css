@@ -4051,6 +4051,27 @@ body.path-user {
   display: none;
 }
 
+.webform-edit-form .form-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.webform-edit-form .form-actions #edit-cancel {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 4px;
+  font-weight: 500;
+  color: #A85766;
+  border: 2px solid #A85766;
+  background: #FFF;
+}
+
 .path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container, .user-logged-in #block-notificationblock .bell-container {
   position: absolute;
   top: 2%;
@@ -4060,6 +4081,30 @@ body.path-user {
   width: 20px;
   height: 25px;
   background: url("../images/bell-icon.png") no-repeat center;
+}
+.path-frontpage #block-notificationblock .bell-container .scaled, .path-notifications #block-notificationblock .bell-container .scaled, .user-logged-in #block-notificationblock .bell-container .scaled {
+  -webkit-animation: bell-animation 0.5s ease-in-out infinite;
+          animation: bell-animation 0.5s ease-in-out infinite;
+}
+@-webkit-keyframes bell-animation {
+  0%, 100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+}
+@keyframes bell-animation {
+  0%, 100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
 }
 .path-frontpage #block-notificationblock .bell-container .notification-count, .path-notifications #block-notificationblock .bell-container .notification-count, .user-logged-in #block-notificationblock .bell-container .notification-count {
   width: 13px;
@@ -4174,24 +4219,5 @@ body.path-user {
   font-weight: 400;
   line-height: 18.5px;
   letter-spacing: 0.5px;
-.webform-edit-form .form-actions {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-.webform-edit-form .form-actions #edit-cancel {
-  margin: 0;
-  width: 100%;
-  text-align: center;
-  padding: 10px 0;
-  border-radius: 4px;
-  font-weight: 500;
-  color: #A85766;
-  border: 2px solid #A85766;
-  background: #FFF;
 }
 /*# sourceMappingURL=style.css.map */
