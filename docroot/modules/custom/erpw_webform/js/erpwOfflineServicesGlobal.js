@@ -1,14 +1,14 @@
-(function ($, Drupal, drupalSettings, localforage) {
+(function ($, Drupal, drupalSettings, localforage, localStorage) {
   var alreadyExecuted = false; // Flag to track whether the code has already run
+  localforage.config({
+    driver: localforage.INDEXEDDB,
+    name: "serviceFormsData",
+    version: 1.0,
+    storeName: "serviceFormsData",
+  });
   function fetchDataAndStoreForms() {
     // Get the current domain dynamically
     var baseUrl = window.location.protocol + "//" + window.location.host;
-    localforage.config({
-      driver: localforage.INDEXEDDB,
-      name: "serviceFormsData",
-      version: 1.0,
-      storeName: "serviceFormsData",
-    });
     urlFetch = `${baseUrl}/api/erpw-webform-serviceformsexporter`;
     fetch(urlFetch)
       .then((response) => response.json())
@@ -38,9 +38,42 @@
       .catch((error) =>
         console.error(`Error fetching data from REST endpoint`, error)
       );
+    localStorage.setItem("serviceFormsData",new Date().getTime());
   }
+  // Check the length of items in the IndexedDB
+  localforage
+    .length()
+    .then((numberOfItems) => {
+      // Retrieve the stored timestamp from localStorage
+      const storedTimestamp = localStorage.getItem("serviceFormsData");
 
-  fetchDataAndStoreForms();
+      // Check if the stored timestamp is available
+      if (storedTimestamp) {
+        const storedTimestampNumber = parseInt(storedTimestamp, 10);
+
+        // Get the current timestamp
+        const currentTimestamp = new Date().getTime();
+
+        // Calculate the difference in milliseconds
+        const timeDifference = currentTimestamp - storedTimestampNumber;
+
+        // Convert the time difference to days
+        const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+        // Check if the stored timestamp is less than 2 days old
+        if (daysDifference >= 2) {
+          fetchDataAndStoreForms();
+        }
+      } else {
+        fetchDataAndStoreForms();
+      }
+      if (numberOfItems == 0) {
+        fetchDataAndStoreForms();
+      }
+    })
+    .catch((err) => {
+      console.error("Error checking the length of items:", err);
+    });
   Drupal.behaviors.erpwOfflineServicesGlobal = {
     attach: function (context, settings) {
       // Check if the code has already been executed
@@ -117,4 +150,4 @@
       });
     },
   };
-})(jQuery, Drupal, drupalSettings, localforage);
+})(jQuery, Drupal, drupalSettings, localforage, localStorage);
