@@ -38,35 +38,13 @@
       .catch((error) =>
         console.error(`Error fetching data from REST endpoint`, error)
       );
-    localStorage.setItem("serviceFormsData",new Date().getTime());
+    localStorage.setItem("serviceFormsData", new Date().getTime());
   }
+
   // Check the length of items in the IndexedDB
   localforage
     .length()
     .then((numberOfItems) => {
-      // Retrieve the stored timestamp from localStorage
-      const storedTimestamp = localStorage.getItem("serviceFormsData");
-
-      // Check if the stored timestamp is available
-      if (storedTimestamp) {
-        const storedTimestampNumber = parseInt(storedTimestamp, 10);
-
-        // Get the current timestamp
-        const currentTimestamp = new Date().getTime();
-
-        // Calculate the difference in milliseconds
-        const timeDifference = currentTimestamp - storedTimestampNumber;
-
-        // Convert the time difference to days
-        const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
-
-        // Check if the stored timestamp is less than 2 days old
-        if (daysDifference >= 2) {
-          fetchDataAndStoreForms();
-        }
-      } else {
-        fetchDataAndStoreForms();
-      }
       if (numberOfItems == 0) {
         fetchDataAndStoreForms();
       }
@@ -74,6 +52,31 @@
     .catch((err) => {
       console.error("Error checking the length of items:", err);
     });
+
+  // Retrieve the stored timestamp from localStorage
+  const storedTimestamp = localStorage.getItem("serviceFormsData");
+
+  // Check if the stored timestamp is available
+  if (storedTimestamp) {
+    const storedTimestampNumber = parseInt(storedTimestamp, 10);
+
+    // Get the current timestamp
+    const currentTimestamp = new Date().getTime();
+
+    // Calculate the difference in milliseconds
+    const timeDifference = currentTimestamp - storedTimestampNumber;
+
+    // Convert the time difference to days
+    const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+    // Check if the stored timestamp is less than 2 days old
+    if (daysDifference >= 2) {
+      fetchDataAndStoreForms();
+    }
+  } else {
+    fetchDataAndStoreForms();
+  }
+
   Drupal.behaviors.erpwOfflineServicesGlobal = {
     attach: function (context, settings) {
       // Check if the code has already been executed
