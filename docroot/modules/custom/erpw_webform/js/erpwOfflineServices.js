@@ -741,6 +741,8 @@
                                   radio.type = "radio";
                                   radio.value = optionKey;
                                   radio.id = `option-${optionKey}`;
+                                  // Set a unique name for the radio button group
+                                  radio.name = labelText;
 
                                   const label = document.createElement("label");
                                   label.htmlFor = `option-${optionKey}`;
