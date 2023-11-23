@@ -457,7 +457,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
     $form['actions']['cancel']['#url'] = $url;
   }
-  
+
   if ($form_id === "webform_edit_form" && str_contains($currentPath, 'webform_service_rating_')) {
     $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
     $form['actions']['cancel'] = [
@@ -482,7 +482,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       $webform_entity->save();
     }
   }
-  
+
   if (($currentRoute === 'view.manage_webform_services.page_1' && $form['#id'] === 'views-exposed-form-manage-webform-services-page-1') || $form['#id'] === 'views-exposed-form-manage-webform-services-block-1') {
     $service_type_filter_options = $form['webform_id']['#options'];
     if ($service_type_filter_options !== NULL) {
@@ -496,6 +496,13 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       $form['webform_id']['#options'] = $new_service_type_filter;
     }
   }
+
+  if ($currentRoute === "entity.webform.test_form" && str_contains($currentPath, 'webform_service_rating') && str_contains($currentPath, '/test')) {
+    $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
+    $form['actions']['cancel']['#url'] = $url;
+    unset($form['actions']['submit']);
+  }
+  
 }
 
 /**
