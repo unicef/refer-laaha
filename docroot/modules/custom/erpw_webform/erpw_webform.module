@@ -496,7 +496,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       $form['webform_id']['#options'] = $new_service_type_filter;
     }
   }
-  
+
   if ($currentRoute === "entity.webform.test_form" && str_contains($currentPath, 'webform_service_rating') && str_contains($currentPath, '/test')) {
     $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
     $form['actions']['cancel']['#url'] = $url;
@@ -1277,10 +1277,14 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       // Get the current user's location ID, #522 - overcoming the service data issue.
       if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point')) {
         if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-          $user_location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
 
-          // Get the child term IDs for the user's location.
-          $ptids = get_child_term_tid($user_location_id);
+          // A user may have multiple location values.
+          $user_location = $current_user->get('field_location')->getValue();
+          $user_location_ids = array_column($user_location, 'target_id');
+
+          // Get all sub-locations/child term ids of the given user's location(s).
+          $ctids = array_map('get_child_term_tid', $user_location_ids);
+          $ptids = array_merge(...$ctids);
 
           // Add a condition to the query to filter by location.
           $extra[] = [
