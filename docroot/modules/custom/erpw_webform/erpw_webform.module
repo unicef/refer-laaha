@@ -501,6 +501,12 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     $form['actions']['cancel']['#url'] = $url;
     unset($form['actions']['submit']);
   }
+
+  if ($currentRoute === "entity.webform.test_form" && str_contains($currentPath, 'webform_service_rating') && str_contains($currentPath, '/test')) {
+    $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
+    $form['actions']['cancel']['#url'] = $url;
+    unset($form['actions']['submit']);
+  }
 }
 
 /**
