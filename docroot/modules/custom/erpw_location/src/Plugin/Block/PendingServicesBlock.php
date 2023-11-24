@@ -102,7 +102,7 @@ class PendingServicesBlock extends BlockBase implements ContainerFactoryPluginIn
         unset($view->result[$key]);
       }
     }
-    $count = count($view->result);
+    $count = $view->query->query()->countQuery()->execute()->fetchField();
 
     return [
       '#theme' => 'pending_service_count',
