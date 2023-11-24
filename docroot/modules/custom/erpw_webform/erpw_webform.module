@@ -489,7 +489,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       $service_type_filter_options_keys = array_keys($service_type_filter_options);
       $new_service_type_filter = [];
       foreach ($service_type_filter_options_keys as $option) {
-        if (!str_contains($option, 'service_rating')) {
+        if (!str_contains($option, 'service_rating') && !str_contains($option, 'service_provider') && !str_contains($option, 'template_erpw_workflow')) {
           $new_service_type_filter[$option] = $service_type_filter_options[$option];
         }
       }
