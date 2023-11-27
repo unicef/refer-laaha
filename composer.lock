@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df6b6356848b9fc05a2715d6fd97c58d",
+    "content-hash": "d93ed27ecc7e014232bd66b070cbe50e",
     "packages": [
         {
             "name": "acquia/blt",
@@ -149,6 +149,47 @@
                 "source": "https://github.com/acquia/drupal-environment-detector/tree/1.6.0"
             },
             "time": "2023-02-28T18:45:28+00:00"
+        },
+        {
+            "name": "acquia/memcache-settings",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/acquia/memcache-settings.git",
+                "reference": "543cb19afcd9d75000dceb924b85c2ff16997003"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/acquia/memcache-settings/zipball/543cb19afcd9d75000dceb924b85c2ff16997003",
+                "reference": "543cb19afcd9d75000dceb924b85c2ff16997003",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/memcache": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Acquia Engineering",
+                    "homepage": "https://www.acquia.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Recommended Memcache settings for use with Acquia hosting.",
+            "support": {
+                "issues": "https://github.com/acquia/memcache-settings/issues",
+                "source": "https://github.com/acquia/memcache-settings/tree/v1.2.0"
+            },
+            "time": "2022-08-03T15:14:53+00:00"
         },
         {
             "name": "asm89/stack-cors",
