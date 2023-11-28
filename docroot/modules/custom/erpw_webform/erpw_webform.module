@@ -231,16 +231,16 @@ function erpw_webform_preprocess_page(&$variables) {
     $location_options = [];
     foreach ($location_entities as $location) {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
-      if ($activeDomain == 'zm_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Zimbabwe') {
+      if ($activeDomain == 'zm_erefer_org') {
         $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
       }
-      elseif ($activeDomain == 'bn_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Bangladesh') {
+      elseif ($activeDomain == 'bn_erefer_org') {
         $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
       }
-      elseif ($activeDomain == 'txb_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Turkey Cross Border') {
+      elseif ($activeDomain == 'txb_erefer_org') {
         $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
       }
-      elseif ($activeDomain == 'sl_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Sierra Leone') {
+      elseif ($activeDomain == 'sl_erefer_org') {
         $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
       }
     }
