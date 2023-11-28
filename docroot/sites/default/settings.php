@@ -84,7 +84,7 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 // (Drupal 5 or 6) or $databases (Drupal 7 or 8) as described in comments above.
 if (file_exists('/var/www/site-php/vss2/erpw-settings.inc')) {
   require('/var/www/site-php/vss2/erpw-settings.inc');
-  
+
   // Memcached settings for Acquia Hosting
   $memcache_settings_file = DRUPAL_ROOT . "/../vendor/acquia/memcache-settings/memcache.settings.php";
   if (file_exists($memcache_settings_file)) {
