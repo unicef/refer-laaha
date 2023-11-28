@@ -486,6 +486,7 @@ class SignUpForm extends FormBase {
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#attached']['library'][] = 'erpw_custom/erpw_js';
+    $form['#attached']['library'][] = 'erpw_custom/signup_js';
     return $form;
   }
 
