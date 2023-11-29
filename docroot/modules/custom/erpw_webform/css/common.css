@@ -196,7 +196,7 @@
 .erpw-webform-manage-services .view-filters {
   padding-top: 10px;
   margin-top: 15px;
-  border-top: 2px solid rgba(243, 193, 191, 0.53);
+  /* border-top: 2px solid rgba(243, 193, 191, 0.53); */
 }
 
 .erpw-webform-manage-services .view-filters .form--inline {
@@ -314,6 +314,13 @@
   box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.08);
   padding: 14px 17px;
 }
+.webform-submission-form .node-service-provider-form summary:focus {
+  color: white !important;
+  border-radius: 10px !important;
+}
+.webform-submission-form .node-service-provider-form summary::before {
+  content: unset;
+}
 .webform-submission-form .node-service-provider-form summary::after {
   background: #ffffff;
   -webkit-mask: url(/themes/custom/erpw/images/arrow.svg) center center
@@ -326,6 +333,11 @@
   display: inline-block;
   height: 6px;
   width: 12px;
+
+  position: unset;
+  border-radius: unset;
+  box-shadow: unset;
+  opacity: unset;
 }
 .webform-submission-form
   .node-service-provider-form
