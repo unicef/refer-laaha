@@ -231,8 +231,110 @@ function erpw_webform_preprocess_page(&$variables) {
     $location_options = [];
     foreach ($location_entities as $location) {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
-      $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      $locationName = strtolower($location->get('name')->getValue()[0]['value']);
+      if ($activeDomain == 'zm_erefer_org' && strpos($locationName, 'zimbabwe') !== FALSE) {
+        $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      }
+      elseif ($activeDomain == 'bn_erefer_org' && strpos($locationName, 'bangladesh') !== FALSE) {
+        $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      }
+      elseif ($activeDomain == 'txb_erefer_org' && strpos($locationName, 'turkey cross border') !== FALSE) {
+        $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      }
+      elseif ($activeDomain == 'sl_erefer_org' && strpos($locationName, 'sierra leone') !== FALSE) {
+        $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
+      }
     }
+    // Terms Array.
+    $level_zero_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+      'country',
+      0,
+      1,
+      TRUE
+    );
+    $terms_array = [];
+    foreach ($level_zero_tree as $level_zero) {
+      $termid = $level_zero->get('tid')->value;
+      foreach ($location_options as $key => $value) {
+        if ($value == $level_zero->get('name')->value) {
+          $terms_array[$key] = ['name' => $level_zero->get('name')->value];
+          $tid = $key;
+          $terms_array[$key]['level_label'] =
+              ucfirst(
+              strtolower(
+                $location_entities[$key]->get('level_1')->getValue()[0]['value']
+              )
+            );
+        }
+      }
+      $level_one_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+        'country',
+        $termid,
+        1,
+        TRUE
+      );
+      foreach ($level_one_tree as $level_one) {
+        $terms_array[$tid]['children'][$level_one->get('tid')->value] = [
+          'name' => $level_one->get('name')->value,
+          'parent_id' => $tid,
+        ];
+        $terms_array[$tid]['children'][$level_one->get('tid')->value]['level_label'] =
+            ucfirst(
+          strtolower(
+            $location_entities[$tid]->get('level_2')->getValue()[0]['value']
+            )
+          );
+        $level_two_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+        'country',
+        $level_one->get('tid')->value,
+        1,
+        TRUE
+        );
+        foreach ($level_two_tree as $level_two) {
+          $terms_array[$tid]['children'][$level_one->get('tid')->value]['children'][$level_two->get('tid')->value] =
+              [
+                'name' => $level_two->get('name')->value,
+                'parent_id' => $level_one->get('tid')->value,
+              ];
+          $terms_array[$tid]['children'][$level_one->get('tid')->value]['children'][$level_two->get('tid')->value]['level_label'] =
+              ucfirst(
+              strtolower(
+          $location_entities[$tid]->get('level_3')->getValue()[0]['value']
+              )
+            );
+          $level_three_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+            'country',
+            $level_two->get('tid')->value,
+            1,
+            TRUE
+          );
+          foreach ($level_three_tree as $level_three) {
+            $terms_array[$tid]['children'][$level_one->get('tid')->value]['children'][$level_two->get('tid')->value]['children'][$level_three->get('tid')->value] =
+                  [
+                    'name' => $level_three->get('name')->value,
+                    'parent_id' => $level_two->get('tid')->value,
+                  ];
+            $terms_array[$tid]['children'][$level_one->get('tid')->value]['children'][$level_two->get('tid')->value]['children'][$level_three->get('tid')->value]['level_label'] =
+                  $location_entities[$tid]->get('level_4')->getValue() != [] ?
+                  ucfirst(strtolower($location_entities[$tid]->get('level_4')->getValue()[0]['value'])) : '';
+            $level_four_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+            'country',
+            $level_three->get('tid')->value,
+            1,
+            TRUE
+            );
+            foreach ($level_four_tree as $level_four) {
+              $terms_array[$tid]['children'][$level_one->get('tid')->value]['children'][$level_two->get('tid')->value]['children'][$level_three->get('tid')->value]['children'][$level_four->get('tid')->value] =
+                                    [
+                                      'name' => $level_four->get('name')->value,
+                                      'parent_id' => $level_three->get('tid')->value,
+                                    ];
+            }
+          }
+        }
+      }
+    }
+    $variables['#attached']['drupalSettings']['termsArray'] = $terms_array;
   }
   if ($currentRoute == 'entity.webform.canonical') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_add_form';
