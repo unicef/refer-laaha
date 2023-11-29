@@ -584,6 +584,18 @@ display:
           granularity: second
       defaults:
         sorts: false
+        header: false
+      header:
+        result:
+          id: result
+          table: views
+          field: result
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: result
+          empty: false
+          content: '<div class="service-count more-link">@total Services</div>'
       display_extenders:
         library_in_views_display_extender:
           attach_library:
