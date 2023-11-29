@@ -284,9 +284,7 @@
                 divElement.appendChild(selectElement);
                 form.appendChild(divElement);
               } else if (element["#type"] == "location_list_element") {
-                termsArray = JSON.parse(
-                  localStorage.getItem("termArray") || "[]"
-                );
+                termsArray = drupalSettings.termsArray;
                 var optionMarkup = ``;
                 for (term in termsArray) {
                   optionMarkup += `<option value="${term}">${Drupal.t(
