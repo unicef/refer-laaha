@@ -201,13 +201,7 @@
             defaultValues["level_3"] != "" &&
             defaultValues["level_3"] != "0"
           ) {
-            $("select.level_4").parent().css({
-              display: "block",
-            });
             $("select.level_3").val(LevelThreeID);
-            $("select.level_4").parent().css({
-              display: "block",
-            });
             $("select.level_4").empty();
             level4_options =
               termsArray[countryID]["children"][LevelOneID]["children"][
@@ -228,6 +222,15 @@
                 new Option(level4_options[newKey]["name"], newKey)
               );
             }
+          }
+
+          // Only show the level 4 location field if it has options.
+          if (
+            $('#edit-location-level-4 option').length > 1
+          ) {
+            $("select.level_4").parent().css({
+              display: "block",
+            });
           }
 
           // Options for level4.
