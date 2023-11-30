@@ -4,6 +4,20 @@
         attach: function (context, settings) {
 
             const pathName = window.location.pathname;
+            if (pathName.includes('users-list')) {
+                const viewContent = document.getElementsByClassName('edit-delete-links');
+                for (i = 0; i < viewContent.length; i++) {
+                    const user_id = viewContent[i].attributes[1].value;
+                    const current_logged_in_user_id = settings.erpw_webform.current_user_id ?? null;
+                    if (current_logged_in_user_id != null && user_id != null) {
+                        if (current_logged_in_user_id === user_id) {
+                            if (viewContent[i].style.display != "none") {
+                                viewContent[i].style.display = "none";
+                            }
+                        }
+                    }
+                }
+            }
             const path = pathName.split('/');
             const service_rating_form_id = path[path.length - 1];
             if (pathName.includes('admin/structure/webform/manage/webform_service_rating_')) {
