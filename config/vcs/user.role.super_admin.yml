@@ -27,7 +27,7 @@ dependencies:
     - webform_submission_log
 id: super_admin
 label: 'Super Admin'
-weight: -4
+weight: -3
 is_admin: null
 permissions:
   - 'access any webform configuration'
@@ -127,12 +127,11 @@ permissions:
   - 'revert all revisions'
   - 'role-assign users by role'
   - 'role-assign users with role country_admin'
+  - 'role-assign users with role gbv_focal_point'
   - 'role-assign users with role interagency_gbv_coordinator'
   - 'role-assign users with role service_provider_focal_point'
   - 'role-assign users with role service_provider_staff'
   - 'translate configuration'
-  - 'translate referral_path_way node'
-  - 'translate service_type node'
   - 'update content translations'
   - 'update feedback_area content on assigned domains'
   - 'update service_type content on assigned domains'
@@ -167,6 +166,7 @@ permissions:
   - 'view users by role'
   - 'view users of their own country'
   - 'view users with role country_admin'
+  - 'view users with role gbv_focal_point'
   - 'view users with role interagency_gbv_coordinator'
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'

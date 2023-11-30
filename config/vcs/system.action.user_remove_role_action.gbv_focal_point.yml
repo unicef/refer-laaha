@@ -1,0 +1,14 @@
+uuid: 157fbd72-e00f-4f0f-818a-a531e79afe24
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.gbv_focal_point
+  module:
+    - user
+id: user_remove_role_action.gbv_focal_point
+label: 'Remove the GBV Focal Point role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: gbv_focal_point

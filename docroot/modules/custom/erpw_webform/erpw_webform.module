@@ -660,11 +660,11 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
         $x++;
         return AccessResult::allowed();
       }
-      if (($role == 'service_provider_focal_point' || $role == 'service_provider_staff') && $currentRoute == 'entity.node.canonical') {
+      if (($role == 'service_provider_focal_point' || $role == 'service_provider_staff') || $role == 'gbv_focal_point' && $currentRoute == 'entity.node.canonical') {
         $x++;
         return AccessResult::allowed();
       }
-      if (($role == 'service_provider_focal_point' || $role == 'service_provider_staff') && $currentRoute == 'entity.webform.canonical') {
+      if (($role == 'service_provider_focal_point' || $role == 'service_provider_staff') || $role == 'gbv_focal_point' && $currentRoute == 'entity.webform.canonical') {
         $x++;
         return AccessResult::allowed();
       }
@@ -679,7 +679,7 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
     $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
     $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
     foreach ($user_roles as $key_r => $role) {
-      if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator' || $role == 'service_provider_staff' || $role == 'service_provider_focal_point') {
+      if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator' || $role == 'service_provider_staff' || $role == 'service_provider_focal_point' || $role == 'gbv_focal_point') {
         foreach ($domainAccess as $key => $domain) {
           if (is_array($tpa)) {
             if (array_key_exists($domain['target_id'], $tpa)) {
@@ -1366,7 +1366,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
         }
       }
       // Get the current user's location ID, #522 - overcoming the service data issue.
-      if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point')) {
+      if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point') || $current_user->hasRole('gbv_focal_point')) {
         if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
 
           // A user may have multiple location values.
@@ -1388,6 +1388,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
               4 => 'level_4',
             ],
           ];
+          // Filter services by location.
           erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
         }
       }

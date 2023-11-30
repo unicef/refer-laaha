@@ -23,7 +23,7 @@ class ErpwWebformSubmissionListBuilder extends WebformSubmissionListBuilder {
     $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
     $domainAccess = $user->get('field_domain_access')->getValue();
     foreach ($user_roles as $key_r => $role) {
-      if ($role['target_id'] == 'country_admin' || $role['target_id'] == 'interagency_gbv_coordinator' || $role['target_id'] == 'service_provider_staff' || $role['target_id'] == 'service_provider_focal_point') {
+      if ($role['target_id'] == 'country_admin' || $role['target_id'] == 'interagency_gbv_coordinator' || $role['target_id'] == 'service_provider_staff' || $role['target_id'] == 'service_provider_focal_point' || $role['target_id'] == 'gbv_focal_point') {
         foreach ($domainAccess as $key => $domain) {
           if (array_key_exists($domain['target_id'], $tpa)) {
             return parent::buildRow($entity);

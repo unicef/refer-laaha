@@ -99,6 +99,11 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
       }
     }
 
+    // Remove GBV Focal Point role from filter of all domains except bangladesh.
+    if ($active_domain->id() != 'bn_erefer_org') {
+      unset($form['roles_target_id']['#options']['gbv_focal_point']);
+    }
+
   }
 
   if ($form_id == 'views_exposed_form' && $form_state->get('view')->id() == 'user_listing_by_status') {
@@ -107,6 +112,11 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     $form['status']['#options']['blocked'] = t('Blocked');
     unset($form['roles_target_id']['#options']['super_admin']);
     unset($form['roles_target_id']['#options']['administrator']);
+    
+    // Remove GBV Focal Point role from filter of all domains except bangladesh.
+    if ($active_domain->id() != 'bn_erefer_org') {
+      unset($form['roles_target_id']['#options']['gbv_focal_point']);
+    }
   }
 }
 
@@ -587,11 +597,15 @@ function erpw_custom_current_user_assignable_system_roles($uid) {
   $system_roles = [];
   $roles = \Drupal::entityTypeManager()->getStorage('user_role')->loadMultiple();
   $current_user = \Drupal::entityTypeManager()->getStorage('user')->load($uid);
+  $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
   foreach ($roles as $role) {
     $permission = "role-assign users with role " . $role->id();
     if ($current_user->hasPermission($permission) && !in_array($role->id(), ['anonymous', 'authenticated', 'administrator'])) {
       $system_roles[$role->id()] = $role->label();
     }
+  }
+  if ($active_domain_id != 'bn_erefer_org') {
+    unset($system_roles['gbv_focal_point']);
   }
   return $system_roles;
 }

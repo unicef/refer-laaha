@@ -24,7 +24,7 @@ dependencies:
     - webform_submission_log
 id: interagency_gbv_coordinator
 label: 'Interagency GBV Coordinator'
-weight: -6
+weight: -5
 is_admin: null
 permissions:
   - 'access content'
@@ -80,6 +80,7 @@ permissions:
   - 'erpw view pending service block'
   - 'reject registered user'
   - 'role-assign users by role'
+  - 'role-assign users with role gbv_focal_point'
   - 'role-assign users with role interagency_gbv_coordinator'
   - 'role-assign users with role service_provider_focal_point'
   - 'role-assign users with role service_provider_staff'
@@ -109,6 +110,7 @@ permissions:
   - 'view users by role'
   - 'view users of their own location'
   - 'view users with role country_admin'
+  - 'view users with role gbv_focal_point'
   - 'view users with role interagency_gbv_coordinator'
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'
