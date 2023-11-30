@@ -1,5 +1,5 @@
 (function ($, Drupal, drupalSettings) {
-  Drupal.behaviors.catapult_img_preview = {
+  Drupal.behaviors.signup_next = {
     attach: function (context, settings) {
 
       // Sign Up form: Prevent going to next page before AJAX load is completed.
