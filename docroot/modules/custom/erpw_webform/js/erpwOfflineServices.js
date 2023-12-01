@@ -1633,7 +1633,8 @@
   }
   
   $(document).ready(function() {
-    // Run the first time; all subsequent calls will take care of themselves
+    // Run the first time; all subsequent calls will take care of themselves.
+    localStorage.setItem('onlinestatus', true);
     setTimeout(checkNetwork, 5000);
   });
 
