@@ -1,4 +1,4 @@
-uuid: 259327a8-c591-4683-ba1b-4ae73f53011f
+uuid: 0c81aa0a-1bc6-4853-b753-8b1e50142961
 langcode: en
 status: true
 dependencies:
@@ -7,19 +7,19 @@ dependencies:
     - system
   theme:
     - erpw
-id: customaddnewuserblock
+id: returntolistblock
 theme: erpw
 region: content
-weight: -11
+weight: 1
 provider: null
-plugin: custom_add_user_block
+plugin: return_to_list_button
 settings:
-  id: custom_add_user_block
-  label: 'Custom Add New User Block'
+  id: return_to_list_button
+  label: 'Return To List Block'
   label_display: '0'
   provider: erpw_custom
 visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /users-list
+    pages: "/service/*\r\n/view-location/*"
