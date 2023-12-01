@@ -1365,7 +1365,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"location-card\">\r\n  <div class=\"title-with-icons\">\r\n    <a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div id=\"location-title\" class=\"location-title\">{{ field_first_name }} {{ field_last_name }} </div></a>\r\n    <div class=\"location-operations\"><div class=\"edit-delete-links\">\r\n      {% if edit_user %}\r\n        <span class=\"edit-link\"><a href=\"{{ path('entity.user.edit_form', {'user': uid}, {'query': {'destination': path('<current>') }}) }}\">{{ 'Edit'|t }}</a></span>\r\n        <span class=\"delete-link\"><a  href=\"#\" class=\"delete-user-button\" data-user-id=\"{{ uid }}\">{{ 'Cancel'|t }}</a></span>\r\n      {% endif %}\r\n    </div>\r\n  </div>\r\n</div>\r\n  <a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div><div class=\"level\">{{ 'Organisation'|t }} : {{ field_organisation }}</div><div class=\"level\">{{ 'Role'|t }} : {{ roles_target_id }}</div><div class=\"level\">{{ 'Contact No.'|t }} : {{ field_phone }}</div></div></a>\r\n</div>"
+            text: "<div class=\"location-card\">\r\n  <div class=\"title-with-icons\">\r\n    <a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div id=\"location-title\" class=\"location-title\">{{ field_first_name }} {{ field_last_name }} </div></a>\r\n    <div class=\"location-operations\"><div class=\"edit-delete-links\" data-uid=\"{{ uid }}\">\r\n      {% if edit_user %}\r\n        <span class=\"edit-link\"><a href=\"{{ path('entity.user.edit_form', {'user': uid}, {'query': {'destination': path('<current>') }}) }}\">{{ 'Edit'|t }}</a></span>\r\n        <span class=\"delete-link\"><a  href=\"#\" class=\"delete-user-button\" data-user-id=\"{{ uid }}\">{{ 'Cancel'|t }}</a></span>\r\n      {% endif %}\r\n    </div>\r\n  </div>\r\n</div>\r\n  <a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div><div class=\"level\">{{ 'Organisation'|t }} : {{ field_organisation }}</div><div class=\"level\">{{ 'Role'|t }} : {{ roles_target_id }}</div><div class=\"level\">{{ 'Contact No.'|t }} : {{ field_phone }}</div></div></a>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
@@ -1753,7 +1753,7 @@ display:
           entity_type: user
           plugin_id: user_current
           operator: '='
-          value: '0'
+          value: '1'
           group: 2
           exposed: false
           expose:
@@ -1786,7 +1786,7 @@ display:
         operator: AND
         groups:
           1: AND
-          2: AND
+          2: OR
       defaults:
         empty: false
         fields: false

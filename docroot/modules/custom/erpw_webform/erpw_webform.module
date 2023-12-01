@@ -18,6 +18,7 @@ use Drupal\views\ViewExecutable;
 use Drupal\views\Views;
 use Drupal\webform\Entity\Webform;
 use Drupal\webform\WebformInterface;
+use Drupal\Core\Cache\CacheableMetadata;
 
 /**
  * Implements hook_webform_add_form().
@@ -924,6 +925,7 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
       }
     }
   }
+
   return $view;
 }
 
@@ -1600,4 +1602,8 @@ function erpw_webform_get_child_term_ids() {
   $ptids = array_merge(...$ctids);
 
   return $ptids;
+}
+
+function erpw_webform_pwa_exclude_urls_alter(&$excludeUrls, CacheableMetadata &$cacheableMetadata) {
+  $excludeUrls[] = "available.php";
 }
