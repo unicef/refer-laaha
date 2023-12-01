@@ -1629,12 +1629,12 @@
           }
       }
     });
-    setTimeout(checkNetwork, 30000);
+    setTimeout(checkNetwork, 15000);
   }
   
   $(document).ready(function() {
     // Run the first time; all subsequent calls will take care of themselves
-    setTimeout(checkNetwork, 30000);
+    setTimeout(checkNetwork, 5000);
   });
 
 })(jQuery, Drupal, drupalSettings, localforage);
