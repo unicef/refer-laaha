@@ -83,7 +83,8 @@ class PendingServicesBlock extends BlockBase implements ContainerFactoryPluginIn
       $current_user = User::load(\Drupal::currentUser()->id());
       // Get the user's roles.
       $roles = $current_user->getRoles();
-      if (in_array('service_provider_focal_point', $roles)) {
+      if (in_array('service_provider_focal_point', $roles)
+       || in_array('gbv_focal_point', $roles)) {
         if ($state != 'in_review_with_focal_point' && $state != 'edits_in_review_with_focal_point' && $state != 'deletion_in_review_with_focal_point') {
           unset($view->result[$key]);
         }
