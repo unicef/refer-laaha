@@ -3,7 +3,7 @@
   var additionalInfoClick = [];
   var alreadyExecuted = false;
 
-  window.addEventListener("offline", function (e) {
+  $(document).on('customOffline', function(event, data) {
     // Get the current domain dynamically
     var baseUrl = window.location.protocol + "//" + window.location.host;
     var dynamicValue =
@@ -39,7 +39,7 @@
         }
         $(".load-more-button a").on("click", function (event) {
           customElement.style.display = "none";
-          if (!navigator.onLine) {
+          if (localStorage.getItem('onlinestatus') === 'false') {
             event.preventDefault(); // Prevent default link behavior
             // Define a mapping of view classes to their respective REST export paths.
 
@@ -334,13 +334,13 @@
       "click",
       ".service-detail-heading a",
       function (event) {
-        if (!navigator.onLine) {
+        if (localStorage.getItem('onlinestatus') === 'false') {
           event.preventDefault();
         }
       }
     );
     $(".views-row").each(function () {
-      if (!navigator.onLine) {
+      if (localStorage.getItem('onlinestatus') === 'false') {
         // Find the anchor tag inside .service-detail-heading
         var anchorTag = $(this).find(".service-detail-heading a");
 
@@ -349,7 +349,7 @@
       }
     });
     $(".views-row").each(function () {
-      if (!navigator.onLine) {
+      if (localStorage.getItem('onlinestatus') === 'false') {
         // Find the edit anchor tag inside .service-detail-heading
         var anchorTag = $(this).find(
           ".service-detail-heading .edit-delete-links .edit-link a"
@@ -365,7 +365,7 @@
       "click",
       ".views-row .row-header a",
       function (event) {
-        if (!navigator.onLine) {
+        if (localStorage.getItem('onlinestatus') === 'false') {
           event.preventDefault(); // Prevent default link behavior
           var viewRow = $(this).closest(".views-row");
           // Get the href value of the <a> tag in .service-detail-heading
@@ -533,7 +533,7 @@
 
     // Integrate form on edit offline link click.
     $(".view-content").on("click", "#offline-edit", function (event) {
-      if (!navigator.onLine) {
+      if (localStorage.getItem('onlinestatus') === 'false') {
         event.preventDefault();
         $(this)[0].style.display = "none";
         // Find the edit-link within the same parent div.
@@ -1170,7 +1170,7 @@
     attach: function (context, settings) {
       $(document).ready(function () {
         // Reminder details
-        if (navigator.onLine) {
+        $(document).on('customOnline', function(event, data) {
           // Check if the code has already been executed
           if (alreadyExecuted) {
             return;
@@ -1243,7 +1243,7 @@
                 console.error("No offline changes: error", error);
               });
           }
-        }
+        });
 
         const addedDiv = document.getElementById("offline-message-div");
         if (addedDiv) {
@@ -1556,7 +1556,7 @@
         }
         fetchDataAndStore();
         // Check if the user is online and start the interval only if online
-        window.addEventListener("online", function (e) {
+        $(document).on('customOnline', function(event, data) {
           window.location.reload(true);
           $("#reminder-details").css("display", "block");
           formElements.forEach((element) => {
@@ -1572,7 +1572,7 @@
           const intervalTime = 2 * 60 * 1000; // 2 minutes in milliseconds
           setInterval(fetchDataAndStore, intervalTime);
         });
-        window.addEventListener("offline", function (e) {
+        $(document).on('customOffline', function(event, data) {
           $("#reminder-details").css("display", "none");
           // Disable form elements.
           formElements.forEach((element) => {
@@ -1582,4 +1582,59 @@
       });
     },
   };
+
+  function checkNetwork() {
+    $.ajax({
+      type: "GET",
+      url: document.location.origin + '/' + 'available.php',
+      success: function(msg){
+        if (msg.code) {
+          console.log("Connection active!");
+          var eventData = { status: true };
+          if (localStorage.getItem('onlinestatus') === null) {
+            localStorage.setItem('onlinestatus', true);
+          } else {
+            if (localStorage.getItem('onlinestatus') !== 'true') {
+              localStorage.setItem('onlinestatus', true);
+              $(document).trigger('customOnline', eventData);
+            }
+          }
+        }
+        else {
+          console.log("Connection seems dead!")
+          var eventData = { status: false };
+          if (localStorage.getItem('onlinestatus') === null) {
+            localStorage.setItem('onlinestatus', false);
+          } else {
+            if (localStorage.getItem('onlinestatus') !== 'false') {
+              localStorage.setItem('onlinestatus', false);
+              $(document).trigger('customOffline', eventData);
+            }
+          }
+        }
+        
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+          if(textStatus == 'timeout') {
+            console.log('Connection seems dead!');
+            var eventData = { status: false };
+            if (localStorage.getItem('onlinestatus') === null) {
+              localStorage.setItem('onlinestatus', false);
+            } else {
+              if (localStorage.getItem('onlinestatus') !== 'false') {
+                localStorage.setItem('onlinestatus', false);
+                $(document).trigger('customOffline', eventData);
+              }
+            }
+          }
+      }
+    });
+    setTimeout(checkNetwork, 30000);
+  }
+  
+  $(document).ready(function() {
+    // Run the first time; all subsequent calls will take care of themselves
+    setTimeout(checkNetwork, 30000);
+  });
+
 })(jQuery, Drupal, drupalSettings, localforage);
