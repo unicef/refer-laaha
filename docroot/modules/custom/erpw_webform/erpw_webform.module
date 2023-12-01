@@ -18,6 +18,7 @@ use Drupal\views\ViewExecutable;
 use Drupal\views\Views;
 use Drupal\webform\Entity\Webform;
 use Drupal\webform\WebformInterface;
+use Drupal\Core\Cache\CacheableMetadata;
 
 /**
  * Implements hook_webform_add_form().
@@ -1566,4 +1567,8 @@ function erpw_webform_preprocess_table(&$variables) {
     unset($variables['rows'][0]['cells']['operations']['content']);
     unset($variables['rows'][1]['cells']['operations']['content']['preview']);
   }
+}
+
+function erpw_webform_pwa_exclude_urls_alter(&$excludeUrls, CacheableMetadata &$cacheableMetadata) {
+  $excludeUrls[] = "available.php";
 }
