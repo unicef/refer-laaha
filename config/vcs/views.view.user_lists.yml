@@ -1749,7 +1749,7 @@ display:
           entity_type: user
           plugin_id: user_current
           operator: '='
-          value: '0'
+          value: '1'
           group: 2
           exposed: false
           expose:
@@ -1782,7 +1782,7 @@ display:
         operator: AND
         groups:
           1: AND
-          2: AND
+          2: OR
       defaults:
         empty: false
         fields: false
