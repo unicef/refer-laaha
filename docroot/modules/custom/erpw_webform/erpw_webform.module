@@ -1598,6 +1598,6 @@ function erpw_webform_get_child_term_ids() {
   // Get all sub-locations/child term ids of the given user's location(s).
   $ctids = array_map('get_child_term_tid', $user_location_ids);
   $ptids = array_merge(...$ctids);
-  
+
   return $ptids;
 }

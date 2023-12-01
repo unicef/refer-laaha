@@ -112,7 +112,7 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     $form['status']['#options']['blocked'] = t('Blocked');
     unset($form['roles_target_id']['#options']['super_admin']);
     unset($form['roles_target_id']['#options']['administrator']);
-    
+
     // Remove GBV Focal Point role from filter of all domains except bangladesh.
     if ($active_domain->id() != 'bn_erefer_org') {
       unset($form['roles_target_id']['#options']['gbv_focal_point']);
@@ -541,7 +541,7 @@ function user_form_validation_organisation_validate($form, &$form_state) {
 function match_user_organisation_domain_location($organisation_domain_access, $location_ptids) {
   $location_match = FALSE;
 
-  // If $organisation_domain_access is not an array, convert it to an array
+  // If $organisation_domain_access is not an array, convert it to an array.
   $org_access_array = is_array($organisation_domain_access) ? $organisation_domain_access : [$organisation_domain_access];
 
   foreach ($org_access_array as $org_access) {
@@ -580,7 +580,7 @@ function match_user_organisation_domain_location($organisation_domain_access, $l
       }
     }
 
-    // If a match is found for any organisation_domain_access, break out of the outer loop
+    // If a match is found for any organisation_domain_access, break out of the outer loop.
     if ($location_match) {
       break;
     }
@@ -588,7 +588,6 @@ function match_user_organisation_domain_location($organisation_domain_access, $l
 
   return $location_match;
 }
-
 
 /**
  * Returns roles which present user can assigne, suitable for form options.

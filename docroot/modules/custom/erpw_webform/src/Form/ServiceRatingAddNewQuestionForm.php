@@ -239,7 +239,8 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
       $form['options_fieldset']['add_option']['description'] = [
         '#markup' => '<p class = "service-rating-description-limit">' . $this->t("Maximum options limit reached.") . '</p>',
       ];
-    } else {
+    }
+    else {
       $options = $cur_options + 1;
       $form_state->set('option_count', $options);
       $form_state->setRebuild();
@@ -255,7 +256,8 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
       $question_type = $form_state->getValue('question_type');
       $minimum_options = ($question_type == 'rating') ? 3 : 2;
       $form_state->setErrorByName('options_fieldset', $this->t('Please add options. At least @count options are required for the selected question type.', ['@count' => $minimum_options]));
-    } else if ($form_state->getValue('op') != 'Add Option') {
+    }
+    elseif ($form_state->getValue('op') != 'Add Option') {
       $question_type = $form_state->getValue('question_type');
 
       $valid_option_count = $this->serviceRating->validOptionCount($form_state);
