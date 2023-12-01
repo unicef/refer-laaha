@@ -7,12 +7,14 @@
             if (pathName.includes('users-list')) {
                 const viewContent = document.getElementsByClassName('edit-delete-links');
                 for (i = 0; i < viewContent.length; i++) {
-                    const user_id = viewContent[i].attributes[1].value;
-                    const current_logged_in_user_id = settings.erpw_webform.current_user_id ?? null;
-                    if (current_logged_in_user_id != null && user_id != null) {
-                        if (current_logged_in_user_id === user_id) {
-                            if (viewContent[i].style.display != "none") {
-                                viewContent[i].style.display = "none";
+                    const user_id = viewContent[i]?.attributes[1]?.value;
+                    if (user_id != null) {
+                        const current_logged_in_user_id = drupalSettings.user.uid ?? null;
+                        if (current_logged_in_user_id != null && user_id != null && parseInt(drupalSettings.user.uid) > 0) {
+                            if (current_logged_in_user_id === user_id) {
+                                if (viewContent[i].style.display != "none") {
+                                    viewContent[i].style.display = "none";
+                                }
                             }
                         }
                     }
