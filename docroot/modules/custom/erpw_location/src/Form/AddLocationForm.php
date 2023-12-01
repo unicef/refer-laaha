@@ -379,14 +379,24 @@ class AddLocationForm extends FormBase {
           ],
         ];
       }
-      $form['top_wrapper']['submit_wrapper']['button'] = [
-        '#type' => 'submit',
-        '#value' => $this->t('Publish'),
-        '#ajax' => [
-          'callback' => '::sendMessageForm',
-        ],
-        '#suffix' => '</div>',
-      ];
+      if (empty($id)) {
+        $form['top_wrapper']['submit_wrapper']['button'] = [
+          '#type' => 'submit',
+          '#value' => $this->t('Publish'),
+          '#ajax' => [
+            'callback' => '::sendMessageForm',
+          ],
+          '#suffix' => '</div>',
+        ];
+      }
+      else {
+        $form['top_wrapper']['submit_wrapper']['button'] = [
+          '#type' => 'submit',
+          '#value' => $this->t('Update'),
+          '#submit' => ['::submitForm'],
+          '#suffix' => '</div>',
+        ];
+      }
     }
     $url = $this->urlGenerator->generateFromRoute('erpw_location.manage_location');
     $form['#cache']['max-age'] = 0;
@@ -429,13 +439,178 @@ class AddLocationForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    // parent::validateForm($form, $form_state);.
+    // Validate submission for update location.
+    // Check if not disabled fields are not made empty.
+    $pattern = '/\((\d+)\)/';
+    if (isset($form['top_wrapper']['all_wrapper']['level1_wrapper'])) {
+      if ($form['top_wrapper']['all_wrapper']['level1_wrapper']['level1']['#attributes']['disabled'] === FALSE) {
+        $defaultValue = $form['top_wrapper']['all_wrapper']['level1_wrapper']['level1']['#default_value'];
+        if ($form_state->getValue('level1') == '') {
+          // Set an error message for the level1 field.
+          $form_state->setErrorByName('level1', $this->t('@defaultValue cannot be empty.', ['@defaultValue' => $defaultValue]));
+        }
+        if (!preg_match($pattern, $form_state->getValue('level1'))) {
+          // Set an error message for the level1 field.
+          $form_state->setErrorByName('level1', $this->t('@defaultValue do not remove the number from the field. Enter in same format', ['@defaultValue' => $defaultValue]));
+        }
+        preg_match($pattern, $form_state->getValue('level1'), $matches);
+        preg_match($pattern, $defaultValue, $matchesold);
+        if ($matches[1] != $matchesold[1]) {
+          // Set an error message for the level1 field.
+          $form_state->setErrorByName('level1', $this->t('@defaultValue number cannot be changed.', ['@defaultValue' => $defaultValue]));
+        }
+      }
+    }
+    if (isset($form['top_wrapper']['all_wrapper']['level2_wrapper'])) {
+      if ($form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#attributes']['disabled'] === FALSE) {
+        $defaultValue = $form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#default_value'];
+        if ($form_state->getValue('level2') == '') {
+          // Set an error message for the level2 field.
+          $form_state->setErrorByName('level2', $this->t('@defaultValue cannot be empty.', ['@defaultValue' => $defaultValue]));
+        }
+        if (!preg_match($pattern, $form_state->getValue('level2'))) {
+          // Set an error message for the level2 field.
+          $form_state->setErrorByName('level2', $this->t('@defaultValue do not remove the number from the field. Enter in same format', ['@defaultValue' => $defaultValue]));
+        }
+        preg_match($pattern, $form_state->getValue('level2'), $matches);
+        preg_match($pattern, $defaultValue, $matchesold);
+        if ($matches[1] != $matchesold[1]) {
+          // Set an error message for the level2 field.
+          $form_state->setErrorByName('level2', $this->t('@defaultValue number cannot be changed.', ['@defaultValue' => $defaultValue]));
+        }
+      }
+    }
+    if (isset($form['top_wrapper']['all_wrapper']['level3_wrapper'])) {
+      if ($form['top_wrapper']['all_wrapper']['level3_wrapper']['level3']['#attributes']['disabled'] === FALSE) {
+        $defaultValue = $form['top_wrapper']['all_wrapper']['level3_wrapper']['level3']['#default_value'];
+        if ($form_state->getValue('level3') == '') {
+          // Set an error message for the level3 field.
+          $form_state->setErrorByName('level3', $this->t('@defaultValue cannot be empty.', ['@defaultValue' => $defaultValue]));
+        }
+        if (!preg_match($pattern, $form_state->getValue('level3'))) {
+          // Set an error message for the level3 field.
+          $form_state->setErrorByName('level3', $this->t('@defaultValue do not remove the number from the field. Enter in same format', ['@defaultValue' => $defaultValue]));
+        }
+        preg_match($pattern, $form_state->getValue('level3'), $matches);
+        preg_match($pattern, $defaultValue, $matchesold);
+        if ($matches[1] != $matchesold[1]) {
+          // Set an error message for the level3 field.
+          $form_state->setErrorByName('level3', $this->t('@defaultValue number cannot be changed.', ['@defaultValue' => $defaultValue]));
+        }
+      }
+    }
+    if (isset($form['top_wrapper']['all_wrapper']['level4_wrapper'])) {
+      if ($form['top_wrapper']['all_wrapper']['level4_wrapper']['level4']['#attributes']['disabled'] === FALSE) {
+        $defaultValue = $form['top_wrapper']['all_wrapper']['level4_wrapper']['level4']['#default_value'];
+        if ($form_state->getValue('level4') == '') {
+          // Set an error message for the level4 field.
+          $form_state->setErrorByName('level4', $this->t('@defaultValue cannot be empty.', ['@defaultValue' => $defaultValue]));
+        }
+        if (!preg_match($pattern, $form_state->getValue('level4'))) {
+          // Set an error message for the level4 field.
+          $form_state->setErrorByName('level4', $this->t('@defaultValue do not remove the number from the field. Enter in same format', ['@defaultValue' => $defaultValue]));
+        }
+        preg_match($pattern, $form_state->getValue('level4'), $matches);
+        preg_match($pattern, $defaultValue, $matchesold);
+        if ($matches[1] != $matchesold[1]) {
+          // Set an error message for the level4 field.
+          $form_state->setErrorByName('level4', $this->t('@defaultValue number cannot be changed.', ['@defaultValue' => $defaultValue]));
+        }
+      }
+    }
   }
 
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state, $id = '') {
+    // Submit for UPDATE location.
+    $pattern = '/\((\d+)\)/';
+    if (isset($form['top_wrapper']['all_wrapper']['level1_wrapper'])) {
+      if ($form['top_wrapper']['all_wrapper']['level1_wrapper']['level1']['#attributes']['disabled'] === FALSE) {
+        if ($form_state->getValue('level1') != '') {
+          if (preg_match($pattern, $form_state->getValue('level1'), $matches)) {
+            $editedTermID = $matches[1];
+            // Load the taxonomy term using EntityTypeManager.
+            $term_storage = $this->entityManager->getStorage('taxonomy_term');
+            $term = $term_storage->load($editedTermID);
+            if ($term) {
+              // Update the title.
+              $term->setName(trim(preg_replace($pattern, '', $form_state->getValue('level1'))));
+              $term->save();
+              // Show success message.
+              \Drupal::messenger()->addMessage(t('Location updated successfully.'));
+
+              // Redirect to listing page.
+              $form_state->setRedirect('erpw_location.manage_location');
+            }
+          }
+        }
+      }
+    }
+    if (isset($form['top_wrapper']['all_wrapper']['level2_wrapper'])) {
+      if ($form['top_wrapper']['all_wrapper']['level2_wrapper']['level2']['#attributes']['disabled'] === FALSE) {
+        if ($form_state->getValue('level2') != '') {
+          if (preg_match($pattern, $form_state->getValue('level2'), $matches)) {
+            $editedTermID = $matches[1];
+            $term_storage = $this->entityManager->getStorage('taxonomy_term');
+            $term = $term_storage->load($editedTermID);
+            if ($term) {
+              // Update the title.
+              $term->setName(trim(preg_replace($pattern, '', $form_state->getValue('level2'))));
+              $term->save();
+              // Show success message.
+              \Drupal::messenger()->addMessage(t('Location updated successfully.'));
+
+              // Redirect to listing page.
+              $form_state->setRedirect('erpw_location.manage_location');
+            }
+          }
+        }
+      }
+    }
+    if (isset($form['top_wrapper']['all_wrapper']['level3_wrapper'])) {
+      if ($form['top_wrapper']['all_wrapper']['level3_wrapper']['level3']['#attributes']['disabled'] === FALSE) {
+        if ($form_state->getValue('level3') != '') {
+          if (preg_match($pattern, $form_state->getValue('level3'), $matches)) {
+            $editedTermID = $matches[1];
+            $term_storage = $this->entityManager->getStorage('taxonomy_term');
+            $term = $term_storage->load($editedTermID);
+            if ($term) {
+              // Update the title.
+              $term->setName(trim(preg_replace($pattern, '', $form_state->getValue('level3'))));
+              $term->save();
+              // Show success message.
+              \Drupal::messenger()->addMessage(t('Location updated successfully.'));
+
+              // Redirect to listing page.
+              $form_state->setRedirect('erpw_location.manage_location');
+            }
+          }
+        }
+      }
+    }
+    if (isset($form['top_wrapper']['all_wrapper']['level4_wrapper'])) {
+      if ($form['top_wrapper']['all_wrapper']['level4_wrapper']['level4']['#attributes']['disabled'] === FALSE) {
+        if ($form_state->getValue('level4') != '') {
+          if (preg_match($pattern, $form_state->getValue('level4'), $matches)) {
+            $editedTermID = $matches[1];
+            $term_storage = $this->entityManager->getStorage('taxonomy_term');
+            $term = $term_storage->load($editedTermID);
+            if ($term) {
+              // Update the title.
+              $term->setName(trim(preg_replace($pattern, '', $form_state->getValue('level4'))));
+              $term->save();
+              // Show success message.
+              \Drupal::messenger()->addMessage(t('Location updated successfully.'));
+
+              // Redirect to listing page.
+              $form_state->setRedirect('erpw_location.manage_location');
+            }
+          }
+        }
+      }
+    }
   }
 
   /**
