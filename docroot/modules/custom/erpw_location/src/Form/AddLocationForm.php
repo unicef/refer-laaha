@@ -358,7 +358,7 @@ class AddLocationForm extends FormBase {
       }
       if (isset($location_levels[3]) && !empty($location_levels[3])) {
         if ($id) {
-          if (isset($ancestors[4]) && $id != $ancestors[4]) {
+          if ($level_4_name == '') {
             $readonly_level4 = 'disabled';
           }
           else {
