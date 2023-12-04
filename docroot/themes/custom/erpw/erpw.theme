@@ -152,6 +152,25 @@ function erpw_preprocess_node(&$variables) {
 
       $variables['#cache']['contexts'][] = 'url.query_args';
 
+      if ($node->bundle() == 'service_type') {
+        if (!empty($query_path) && $query_path === 'delete') {
+          $can_delete = TRUE;
+          $service_type_id = $node->id();
+          $storage = \Drupal::entityTypeManager()->getStorage('node');
+          $nids = $storage->getQuery()
+          ->condition('type', 'service_provider')
+          ->condition('field_service_type', $service_type_id)
+          ->accessCheck(FALSE)
+          ->execute();
+  
+          if ($nids != NULL && !empty($nids)) {
+            $can_delete = FALSE;
+          }
+  
+          $variables['can_delete'] = $can_delete;
+        }
+      }
+
       $url = Url::fromRoute('view.manage_service_types.page_1');
       $variables['#attached']['library'][] = 'erpw_custom/erpw_js';
       $variables['#attached']['drupalSettings']['erpw_custom']['manage_service_type_page'] = $url->toString();
