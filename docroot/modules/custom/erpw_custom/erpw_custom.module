@@ -85,12 +85,13 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     }
 
     // Exposed roles fields option restriction based on the current role.
-    // SPFP can only review SP staff.
+    // SPFP & GBVFP can only review SP staff.
     if ($form_state->get('view')->current_display == 'page_2') {
-      if ($current_user->hasRole('service_provider_focal_point')) {
+      if ($current_user->hasRole('service_provider_focal_point') || $current_user->hasRole('gbv_focal_point')) {
         unset($form['roles_target_id']['#options']['interagency_gbv_coordinator']);
         unset($form['roles_target_id']['#options']['country_admin']);
         unset($form['roles_target_id']['#options']['service_provider_focal_point']);
+        unset($form['roles_target_id']['#options']['gbv_focal_point']);
       }
       // IA Coordinator can only see SP Staff and SPFP.
       if ($current_user->hasRole('interagency_gbv_coordinator')) {
@@ -980,7 +981,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       $join = Views::pluginManager('join')->createInstance('standard', $configuration);
       $query->queueTable('user__roles', 'users_field_data', $join, 'user__roles');
 
-      // Current user SP FP.
+      // Current user SP FP or GBV FP.
       if (in_array('service_provider_focal_point', $roles)
        || in_array('gbv_focal_point', $roles)) {
         $query->where[] = [
@@ -1009,6 +1010,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
                 ":user__roles_roles_target_id[]" => [
                   "service_provider_staff" => "service_provider_staff",
                   "service_provider_focal_point" => "service_provider_focal_point",
+                  "gbv_focal_point" => "gbv_focal_point",
                 ],
               ],
               "operator" => "formula",
@@ -1028,8 +1030,8 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
           $pattern = '/IN\((.*?)\)/';
           preg_match($pattern, $condition['field'], $fieldname);
 
-          // For SPFP users.
-          if (in_array('service_provider_focal_point', $roles)) {
+          // For SPFP & GBVFP users.
+          if (in_array('service_provider_focal_point', $roles) || in_array('gbv_focal_point', $roles)) {
             $value = [
               $fieldname[1] => [
                 "self-register-sp-staff" => "self-register-sp-staff",
@@ -1045,6 +1047,11 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
                 "spfp-accept" => "spfp-accept",
                 "spfp-register-spfp" => "spfp-register-spfp",
                 "spfp-register-sp-staff" => "spfp-register-sp-staff",
+                "gbvfp-accept" => "gbvfp-accept",
+                "self-register-gbvfp" => "self-register-gbvfp",
+                "gbvfp-register-sp-staff" => "gbvfp-register-sp-staff",
+                "gbvfp-register-spfp" => "gbvfp-register-spfp",
+                "gbvfp-register-gbvfp" => "gbvfp-register-gbvfp"
               ],
             ];
             $condition['value'] = $value;
@@ -1098,6 +1105,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
               ":user__roles_roles_target_id[]" => [
                 "service_provider_staff" => "service_provider_staff",
                 "service_provider_focal_point" => "service_provider_focal_point",
+                "gbv_focal_point" => "gbv_focal_point"
               ],
             ],
             "operator" => "formula",
@@ -1129,6 +1137,11 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
                 "spfp-accept" => "spfp-accept",
                 "spfp-register-spfp" => "spfp-register-spfp",
                 "spfp-register-sp-staff" => "spfp-register-sp-staff",
+                "gbvfp-accept" => "gbvfp-accept",
+                "self-register-gbvfp" => "self-register-gbvfp",
+                "gbvfp-register-sp-staff" => "gbvfp-register-sp-staff",
+                "gbvfp-register-spfp" => "gbvfp-register-spfp",
+                "gbvfp-register-gbvfp" => "gbvfp-register-gbvfp",
               ],
             ];
             $condition['value'] = $value;
@@ -1141,6 +1154,11 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
                 "spfp-accept" => "spfp-accept",
                 "spfp-register-spfp" => "spfp-register-spfp",
                 "spfp-register-sp-staff" => "spfp-register-sp-staff",
+                "gbvfp-accept" => "gbvfp-accept",
+                "self-register-gbvfp" => "self-register-gbvfp",
+                "gbvfp-register-sp-staff" => "gbvfp-register-sp-staff",
+                "gbvfp-register-spfp" => "gbvfp-register-spfp",
+                "gbvfp-register-gbvfp" => "gbvfp-register-gbvfp",
               ],
             ];
             $condition['value'] = $value;
@@ -1712,12 +1730,20 @@ function erpw_custom_can_edit_user(AccountProxyInterface $current_user, $user) {
   $role_permissions = [
     'service_provider_staff' => [
       'service_provider_focal_point',
+      'gbv_focal_point',
       'interagency_gbv_coordinator',
       'country_admin',
       'super_admin',
       'administrator',
     ],
     'service_provider_focal_point' => [
+      'gbv_focal_point',
+      'interagency_gbv_coordinator',
+      'country_admin',
+      'super_admin',
+      'administrator',
+    ],
+    'gbv_focal_point' => [
       'interagency_gbv_coordinator',
       'country_admin',
       'super_admin',

@@ -2488,6 +2488,7 @@ display:
           value:
             service_provider_staff: service_provider_staff
             service_provider_focal_point: service_provider_focal_point
+            gbv_focal_point: gbv_focal_point
             interagency_gbv_coordinator: interagency_gbv_coordinator
             country_admin: country_admin
           group: 1
@@ -2509,6 +2510,7 @@ display:
               anonymous: '0'
               service_provider_staff: '0'
               service_provider_focal_point: '0'
+              gbv_focal_point: '0'
               interagency_gbv_coordinator: '0'
               country_admin: '0'
               super_admin: '0'
@@ -2672,7 +2674,12 @@ display:
             self-register-spfp: self-register-spfp
             spfp-register-sp-staff: spfp-register-sp-staff
             spfp-register-spfp: spfp-register-spfp
+            self-register-gbvfp: self-register-gbvfp
+            gbvfp-register-sp-staff: gbvfp-register-sp-staff
+            gbvfp-register-spfp: gbvfp-register-spfp
+            gbvfp-register-gbvfp: gbvfp-register-gbvfp
             spfp-accept: spfp-accept
+            gbvfp-accept: gbvfp-accept
           group: 3
           exposed: false
           expose:

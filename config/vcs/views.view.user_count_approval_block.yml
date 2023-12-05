@@ -474,6 +474,10 @@ display:
     display_plugin: block
     position: 1
     display_options:
+      pager:
+        type: none
+        options:
+          offset: 0
       filters:
         status:
           id: status
@@ -663,7 +667,9 @@ display:
           value:
             self-register-sp-staff: self-register-sp-staff
             self-register-spfp: self-register-spfp
+            self-register-gbvfp: self-register-gbvfp
             spfp-accept: spfp-accept
+            gbvfp-accept: gbvfp-accept
           group: 1
           exposed: false
           expose:
@@ -699,6 +705,7 @@ display:
         groups:
           1: AND
       defaults:
+        pager: false
         filters: false
         filter_groups: false
       display_description: ''

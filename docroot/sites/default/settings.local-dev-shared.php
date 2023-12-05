@@ -213,3 +213,8 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
 
   }
 }
+
+/**
+ * Enable local development services.
+ */
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';

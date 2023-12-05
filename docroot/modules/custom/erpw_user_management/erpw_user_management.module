@@ -36,6 +36,7 @@ function erpw_user_management_entity_form_display_alter(&$form_display, $context
  */
 function erpw_user_management_user_presave($account) {
   $location_values = $account->field_location->getValue();
+  $parent_id = [];
   // Loop through field_location to find the parent id of each location.
   foreach ($location_values as $value) {
     $parent = \Drupal::service('erpw_location.location_services')->getAllAncestors($value['target_id']);

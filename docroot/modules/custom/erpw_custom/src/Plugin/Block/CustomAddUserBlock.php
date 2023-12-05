@@ -64,13 +64,7 @@ class CustomAddUserBlock extends BlockBase implements ContainerFactoryPluginInte
     $user = \Drupal::currentUser();
     $hasPermission = $user->hasPermission('view users of their own country');
 
-    // Don't allow GBV Focal Point to add users until their user workflow is setup.
-    if (!in_array('gbv_focal_point', $user->getRoles())) {
-      $markup = '<div class="plus-icon button-with-icon">' . $link->toString() . '</div>';
-    }
-    else {
-      $markup = NULL;
-    }
+    $markup = '<div class="plus-icon button-with-icon">' . $link->toString() . '</div>';
 
     // Check if the user has the permission to show the additional markup.
     if ($hasPermission) {
