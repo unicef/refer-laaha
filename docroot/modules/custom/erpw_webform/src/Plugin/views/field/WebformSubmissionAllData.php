@@ -234,7 +234,7 @@ class WebformSubmissionAllData extends FieldPluginBase {
                 }
               }
               elseif ($element['#type'] == 'radios') {
-                if ($element['#options'][$content] != NULL) {
+                if ($content != NULL && !empty($content) && $element['#options'][$content] != NULL) {
                   $output[] = [$element['#title'] => $element['#options'][$content]];
                 }
               }

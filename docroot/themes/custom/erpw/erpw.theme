@@ -20,8 +20,12 @@ function erpw_preprocess_fieldset(&$variables) {
   if (str_contains($current_path, 'service-feedback-form')) {
     $options = $variables['element']['#options'];
     $ratingSteps = [];
-    $ratingSteps[] = explode('-- ', reset($options))[1];
-    $ratingSteps[] = explode('-- ', end($options))[1];
+    if (explode('-- ', reset($options))[1] != NULL) {
+      $ratingSteps[] = explode('-- ', reset($options))[1];
+    }
+    if (explode('-- ', end($options))[1] != NULL) {
+      $ratingSteps[] = explode('-- ', end($options))[1];
+    }
     $variables['rating_steps_description_1'] = t('@description_1', ['@description_1' => $ratingSteps[0]]);
     $variables['rating_steps_description_2'] = t('@description_2', ['@description_2' => $ratingSteps[1]]);
   }
