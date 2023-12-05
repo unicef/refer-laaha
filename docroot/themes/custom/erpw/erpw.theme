@@ -164,7 +164,7 @@ function erpw_preprocess_node(&$variables) {
         $query->condition('value', $service_type_id);
         $submission_ids = $query->execute()->fetchAll();
 
-        // If there are no services then check if there is service form for the respective service type.
+        // If there are no services then check if there is service form.
         if (empty($submission_ids)) {
           $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
           foreach ($webforms as $webform) {
