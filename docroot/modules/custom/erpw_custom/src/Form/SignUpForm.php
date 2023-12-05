@@ -80,9 +80,17 @@ class SignUpForm extends FormBase {
   /**
    * A erpwpathway variable.
    *
-   * @var Drupal\erpw_pathway\Services\ErpwPathwayService
+   * @var \Drupal\erpw_pathway\Services\ErpwPathwayService
    */
   protected $erpwpathway;
+
+  
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
 
   /**
    * {@inheritdoc}
@@ -290,6 +298,7 @@ class SignUpForm extends FormBase {
         '#validate' => ['::validatePageOne'],
       ];
     }
+    
     $form['#cache']['max-age'] = 0;
     return $form;
   }
@@ -544,7 +553,7 @@ class SignUpForm extends FormBase {
       '#markup' => '<div class="step">' . $this->t('Step 3: Request Registration') . '</div>',
     ];
     $roles = $this->currentUser->getRoles();
-    if ($this->currentUser->id() && (!in_array('service_provider_focal_point', $roles))) {
+    if ($this->currentUser->id() && !in_array('service_provider_focal_point', $roles) && !in_array('gbv_focal_point', $roles)) {
       $form['message-info'] = [
         '#prefix' => '<div id="status-message" class="password-creation">',
         '#markup' => '<div class="notify-messsage">' .
@@ -573,7 +582,7 @@ class SignUpForm extends FormBase {
         '#limit_validation_errors' => [],
       ];
     }
-    elseif (in_array('service_provider_focal_point', $roles)) {
+    elseif (in_array('service_provider_focal_point', $roles) || in_array('gbv_focal_point', $roles)) {
       $form['#prefix'] = '<div id="status-message"></div>';
       $values = $form_state->get('page_values');
       $form['message-info'] = [
@@ -708,6 +717,9 @@ class SignUpForm extends FormBase {
         if ($values['system_role'] == 'service_provider_focal_point') {
           $ws = 'self-register-spfp';
         }
+        if ($values['system_role'] == 'gbv_focal_point') {
+          $ws = 'self-register-gbvfp';
+        }
         $user->set('field_transitions', $ws);
       }
       $user->set('field_soft_delete', 0);
@@ -777,6 +789,9 @@ class SignUpForm extends FormBase {
         if ($values['system_role'] == 'service_provider_focal_point') {
           $ws = 'gbv-coordination-register-spfp';
         }
+        if ($values['system_role'] == 'gbv_focal_point') {
+          $ws = 'gbv-coordination-register-gbvfp';
+        }
         if ($values['system_role'] == 'interagency_gbv_coordinator') {
           $ws = 'ia-coordinator-register-ia-coordinator';
         }
@@ -790,6 +805,9 @@ class SignUpForm extends FormBase {
         }
         if ($values['system_role'] == 'service_provider_focal_point') {
           $ws = 'gbv-coordination-register-spfp';
+        }
+        if ($values['system_role'] == 'gbv_focal_point') {
+          $ws = 'gbv-coordination-register-gbvfp';
         }
         if ($values['system_role'] == 'interagency_gbv_coordinator') {
           $ws = 'country-admin-register-ai-coordinator';
@@ -864,6 +882,20 @@ class SignUpForm extends FormBase {
         }
         if ($values['system_role'] == 'service_provider_focal_point') {
           $ws = 'spfp-register-spfp';
+        }
+        $user->set('field_transitions', $ws);
+      }
+
+      // For GBVFP worflow.
+      if (in_array('gbv_focal_point', $roles)) {
+        if ($values['system_role'] == 'service_provider_staff') {
+          $ws = 'gbvfp-register-sp-staff';
+        }
+        if ($values['system_role'] == 'service_provider_focal_point') {
+          $ws = 'gbvfp-register-spfp';
+        }
+        if ($values['system_role'] == 'gbv_focal_point') {
+          $ws = 'gbvfp-register-gbvfp';
         }
         $user->set('field_transitions', $ws);
       }
