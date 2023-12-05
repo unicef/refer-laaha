@@ -151,18 +151,30 @@ function erpw_preprocess_node(&$variables) {
       $variables['location'] = \Drupal::request()->query->get('location');
 
       $variables['#cache']['contexts'][] = 'url.query_args';
-      
 
       if (!empty($query_path) && $query_path === 'delete') {
-        $service_type_title = strtolower(str_contains($node->getTitle(), ' ') ? explode(' ', $node->getTitle())[0] : $node->getTitle());
-
-        $webform_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
-        $wids = $webform_storage->getQuery()
+        $service_form_exists = FALSE;
+        $services_exist = FALSE;
+        $service_type_title = strtolower(str_contains($node->getTitle(), ' ') ? explode(' ', $node->getTitle())[1] : $node->getTitle());
+        
+        $webform_submission_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
+        $submission_ids = $webform_submission_storage->getQuery()
           ->condition('webform_id', '%'. $service_type_title .'%', 'LIKE')
           ->accessCheck(FALSE)
-          ->execute();
+          ->execute();  
 
-        $variables['can_delete'] = is_array($wids) && !empty($wids) ? FALSE : TRUE;
+        if (is_array($submission_ids) && empty($submission_ids)) {
+          $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
+          foreach ($webforms as $webform) {
+            if (str_contains($webform->id(), $service_type_title)) {
+              $service_form_exists = TRUE;
+            }
+          }
+        } elseif (is_array($submission_ids) && !empty($submission_ids)) {
+          $services_exist = TRUE;
+        }
+
+        $variables['can_delete'] = $service_form_exists || $services_exist ? FALSE : TRUE;
       }
     
 
