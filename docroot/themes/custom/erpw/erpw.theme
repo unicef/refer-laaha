@@ -175,13 +175,13 @@ function erpw_preprocess_node(&$variables) {
               }
             }
           }
-        } elseif (is_array($submission_ids) && !empty($submission_ids)) {
+        }
+        elseif (is_array($submission_ids) && !empty($submission_ids)) {
           $services_exist = TRUE;
         }
 
         $variables['can_delete'] = $service_form_exists || $services_exist ? FALSE : TRUE;
       }
-    
 
       $url = Url::fromRoute('view.manage_service_types.page_1');
       $variables['#attached']['library'][] = 'erpw_custom/erpw_js';
