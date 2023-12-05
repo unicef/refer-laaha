@@ -1629,7 +1629,7 @@
           }
       }
     });
-    setTimeout(checkNetwork, 15000);
+    setTimeout(checkNetwork, 5000);
   }
   
   $(document).ready(function() {
