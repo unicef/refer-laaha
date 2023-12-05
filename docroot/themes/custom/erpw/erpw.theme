@@ -155,19 +155,24 @@ function erpw_preprocess_node(&$variables) {
       if (!empty($query_path) && $query_path === 'delete') {
         $service_form_exists = FALSE;
         $services_exist = FALSE;
-        $service_type_title = strtolower(str_contains($node->getTitle(), ' ') ? explode(' ', $node->getTitle())[1] : $node->getTitle());
-        
-        $webform_submission_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
-        $submission_ids = $webform_submission_storage->getQuery()
-          ->condition('webform_id', '%'. $service_type_title .'%', 'LIKE')
-          ->accessCheck(FALSE)
-          ->execute();  
+        $service_type_id = $node->id();
 
+        // Checking if there are any services of the respective service type.
+        $query = \Drupal::database()->select('webform_submission_data', 'wsd');
+        $query->fields('wsd');
+        $query->condition('name', 'service_type');
+        $query->condition('value', $service_type_id);
+        $submission_ids = $query->execute()->fetchAll();
+
+        // If there are no services then check if there is service form for the respective service type.
         if (is_array($submission_ids) && empty($submission_ids)) {
           $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
           foreach ($webforms as $webform) {
-            if (str_contains($webform->id(), $service_type_title)) {
-              $service_form_exists = TRUE;
+            $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+            foreach ($tpa as $tpa_key => $tpa_value) {
+              if (is_array($tpa_value) && !empty($tpa_value[0]) && $tpa_value[0] === strval($service_type_id)) {
+                $service_form_exists = TRUE;
+              }
             }
           }
         } elseif (is_array($submission_ids) && !empty($submission_ids)) {
