@@ -151,25 +151,20 @@ function erpw_preprocess_node(&$variables) {
       $variables['location'] = \Drupal::request()->query->get('location');
 
       $variables['#cache']['contexts'][] = 'url.query_args';
+      
 
-      if ($node->bundle() == 'service_type') {
-        if (!empty($query_path) && $query_path === 'delete') {
-          $can_delete = TRUE;
-          $service_type_id = $node->id();
-          $storage = \Drupal::entityTypeManager()->getStorage('node');
-          $nids = $storage->getQuery()
-          ->condition('type', 'service_provider')
-          ->condition('field_service_type', $service_type_id)
+      if (!empty($query_path) && $query_path === 'delete') {
+        $service_type_title = strtolower(str_contains($node->getTitle(), ' ') ? explode(' ', $node->getTitle())[0] : $node->getTitle());
+
+        $webform_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
+        $wids = $webform_storage->getQuery()
+          ->condition('webform_id', '%'. $service_type_title .'%', 'LIKE')
           ->accessCheck(FALSE)
           ->execute();
-  
-          if ($nids != NULL && !empty($nids)) {
-            $can_delete = FALSE;
-          }
-  
-          $variables['can_delete'] = $can_delete;
-        }
+
+        $variables['can_delete'] = is_array($wids) && !empty($wids) ? FALSE : TRUE;
       }
+    
 
       $url = Url::fromRoute('view.manage_service_types.page_1');
       $variables['#attached']['library'][] = 'erpw_custom/erpw_js';
