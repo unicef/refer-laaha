@@ -8,3 +8,9 @@ entity.notification_processed_entity.add_form:
   title: 'Add Notification processed entity'
   appears_on:
     - entity.notification_processed_entity.collection
+
+broadcast_notification_entity.add_form:
+  title: 'Add broadcast notification entity'
+  route_name: entity.broadcast_notification_entity.add_form
+  appears_on:
+    - entity.broadcast_notification_entity.collection

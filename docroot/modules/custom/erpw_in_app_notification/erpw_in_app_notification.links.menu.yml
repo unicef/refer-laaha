@@ -12,3 +12,14 @@ notification_processed_entity.admin.structure.settings:
   description: 'Configure Notification processed entity entities'
   route_name: notification_processed_entity.settings
   parent: user.admin_index
+
+entity.broadcast_notification_entity.settings:
+  title: 'Broadcast Notification Entity'
+  description: 'Configure a Broadcast Notification Entity entity type.'
+  route_name:  entity.broadcast_notification_entity.settings
+  parent: system.admin_structure
+entity.broadcast_notification_entity.collection:
+  title: 'Broadcast Notification Entities'
+  description: 'List of broadcast notification entities.'
+  route_name: entity.broadcast_notification_entity.collection
+  parent: system.admin_content

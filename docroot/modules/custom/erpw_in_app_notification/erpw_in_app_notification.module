@@ -9,6 +9,9 @@ use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\node\Entity\Node;
 use Drupal\webform\WebformSubmissionInterface;
+use Drupal\Core\Render\Element;
+use Drupal\erpw_in_app_notification\Entity\BroadcastNotificationEntity;
+use Drupal\user\UserInterface;
 
 /**
  * Implements hook_help().
@@ -62,6 +65,9 @@ function erpw_in_app_notification_theme() {
         'combined' => '',
         'common_var' => '',
       ],
+    ],
+    'broadcast_notification_entity' => [
+      'render element' => 'elements',
     ],
   ];
 }
@@ -1616,4 +1622,67 @@ function erpw_in_app_notification__user_operation($user) {
     ]);
     $notification_storage->save();
   }
+}
+
+/**
+ * Prepares variables for broadcast notification entity templates.
+ *
+ * Default template: broadcast-notification-entity.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the broadcast notification entity information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_broadcast_notification_entity(array &$variables) {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_user_cancel().
+ */
+function erpw_in_app_notification_user_cancel($edit, UserInterface $account, $method) {
+  switch ($method) {
+    case 'user_cancel_block_unpublish':
+      // Unpublish broadcast notification entities.
+      $storage = \Drupal::entityTypeManager()->getStorage('broadcast_notification_entity');
+      $broadcast_notification_entity_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->condition('status', 1)
+        ->execute();
+      foreach ($storage->loadMultiple($broadcast_notification_entity_ids) as $broadcast_notification_entity) {
+        $broadcast_notification_entity->set('status', FALSE);
+        $broadcast_notification_entity->save();
+      }
+      break;
+
+    case 'user_cancel_reassign':
+      // Anonymize broadcast notification entities.
+      $storage = \Drupal::entityTypeManager()->getStorage('broadcast_notification_entity');
+      $broadcast_notification_entity_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->execute();
+      foreach ($storage->loadMultiple($broadcast_notification_entity_ids) as $broadcast_notification_entity) {
+        $broadcast_notification_entity->setOwnerId(0);
+        $broadcast_notification_entity->save();
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete() for user entities.
+ */
+function erpw_in_app_notification_user_predelete(UserInterface $account) {
+  // Delete broadcast notification entities.
+  $storage = \Drupal::entityTypeManager()->getStorage('broadcast_notification_entity');
+  $broadcast_notification_entity_ids = $storage->getQuery()
+    ->condition('uid', $account->id())
+    ->execute();
+  $broadcast_notification_entities = $storage->loadMultiple($broadcast_notification_entity_ids);
+  $storage->delete($broadcast_notification_entities);
 }

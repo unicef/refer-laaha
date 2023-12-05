@@ -41,3 +41,15 @@ view unpublished notification processed entity entities:
 # Access controll for notification page.
 view notification page:
   title: 'View notification page'
+
+administer broadcast notification entity:
+  title: 'Administer broadcast notification entity settings'
+  restrict access: true
+delete broadcast notification entity:
+  title: Delete broadcast notification entity
+create broadcast notification entity:
+  title: Create broadcast notification entity
+view broadcast notification entity:
+  title: View broadcast notification entity
+edit broadcast notification entity:
+  title: Edit broadcast notification entity

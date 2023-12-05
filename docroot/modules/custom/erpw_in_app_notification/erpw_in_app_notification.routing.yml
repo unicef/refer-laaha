@@ -12,3 +12,11 @@ erpw_in_app_notification.user_notification_modal:
     _title: 'Notifications'
   requirements:
     _permission: 'view notification page'
+
+entity.broadcast_notification_entity.settings:
+  path: 'admin/structure/broadcast-notification-entity'
+  defaults:
+    _form: '\Drupal\erpw_in_app_notification\Form\BroadcastNotificationEntitySettingsForm'
+    _title: 'Broadcast Notification Entity'
+  requirements:
+    _permission: 'administer broadcast notification entity'
