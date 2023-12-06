@@ -341,7 +341,7 @@ function erpw_preprocess_views_view_field(&$variables) {
 
       // Load user lists.
       $view = Views::getView('user_lists');
-      $view->setDisplay('page_2');
+      $view->setDisplay('page_3');
       $view->execute();
 
       // Replace characters in the field output.
