@@ -163,7 +163,9 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
   }
   if ($form_id == 'node_referral_path_way_edit_form' || $form_id == 'node_referral_path_way_form') {
     $permission = ($form_id == 'node_referral_path_way_edit_form') ? 'edit referral pathway of their own country' : 'add referral pathway of their own country';
-    $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
+    if (isset($form['location'])) {
+      $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
+    }
     $form['location']['level_0']['#empty_option'] = t('Select country');
   }
   /**
@@ -1200,7 +1202,8 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
      * from the nearest lower level of the active location,
      * if there is no referral pathway for the active location.
      */
-
+    $current_tid = NULL;
+    $has_content = NULL;
     // Load active tid from the location field.
     foreach ($query->where[1]['conditions'] as $condition) {
       if (isset($condition['field']) && $condition['field'] === 'node__field_location.field_location_target_id') {
@@ -1208,7 +1211,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       }
     }
     // Load the taxonomy term and get the next terms.
-    if (!empty($cookie->getCookieValue())) {
+    if (!empty($cookie->getCookieValue()) && $current_tid != NULL) {
       $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
       $parent_term = $term_storage->load($cookie->getCookieValue());
       $tree = $term_storage->loadTree($parent_term->bundle(), $current_tid);
@@ -1218,12 +1221,14 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       }
 
       // Check if there is content for the current ID or any of its child terms.
-      $has_content = erpw_custom_has_content_for_terms(
-        [$current_tid, ...$child_tids], 'referral_path_way', 'field_location');
+      if ($current_tid != NULL) {
+        $has_content = erpw_custom_has_content_for_terms(
+          [$current_tid, ...$child_tids], 'referral_path_way', 'field_location');
+      }
     }
 
     // Use the first term with content found as the current term.
-    if ($has_content) {
+    if ($has_content != NULL) {
       $current_tid = $has_content;
     }
 

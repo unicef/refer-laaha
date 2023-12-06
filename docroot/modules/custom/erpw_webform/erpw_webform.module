@@ -1284,7 +1284,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
     // Ensure through filters that draft is only shown to the user who submitted it.
     $user = \Drupal::currentUser();
     $conditions = &$query->where[1]['conditions'];
-    if ($view->getExposedInput()['webform_submission_workflow_filter'] != 'draft') {
+    if (isset($view->getExposedInput()['webform_submission_workflow_filter']) && $view->getExposedInput()['webform_submission_workflow_filter'] != 'draft') {
       $sid_array = erpw_webform_fetch_draft_submission_ids();
       // Remove Service Rating Submissions.
       $sid_array = array_merge($sid_array, erpw_webform_fetch_service_rating_submission_ids());
