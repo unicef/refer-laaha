@@ -531,7 +531,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
   }
 
   if (str_contains($form['#form_id'], 'webform_service_rating_')) {
-    $url = Url::fromRoute('view.manage_webform_services.page_1');
+    $url = Url::fromRoute('view.manage_webform_services.feedback');
     $form['actions']['cancel'] = [
       '#type' => 'link',
       '#title' => t('Cancel'),
@@ -575,7 +575,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     }
   }
 
-  if (($currentRoute === 'view.manage_webform_services.page_1' && $form['#id'] === 'views-exposed-form-manage-webform-services-page-1') || $form['#id'] === 'views-exposed-form-manage-webform-services-block-1') {
+  if ($form['#id'] === 'views-exposed-form-manage-webform-services-feedback' || $form['#id'] === 'views-exposed-form-manage-webform-services-block-1') {
     $service_type_filter_options = $form['webform_id']['#options'];
     if ($service_type_filter_options !== NULL) {
       $service_type_filter_options_keys = array_keys($service_type_filter_options);
@@ -609,7 +609,7 @@ function erpw_webform_service_rating_delete_handler(&$form, FormStateInterface $
  */
 function erpw_webform_service_rating_submit_handler(&$form, FormStateInterface $form_state) {
   \Drupal::service('messenger')->addMessage("Thank you for your Feedback!");
-  $form_state->setRedirect('view.manage_webform_services.page_1');
+  $form_state->setRedirect('view.manage_webform_services.feedback');
   return;
 }
 

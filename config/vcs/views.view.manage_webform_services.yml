@@ -561,7 +561,7 @@ display:
       tags: {  }
   block_1:
     id: block_1
-    display_title: Block
+    display_title: 'Manage webform services'
     display_plugin: block
     position: 1
     display_options:
@@ -585,6 +585,7 @@ display:
       defaults:
         sorts: false
         header: false
+      display_description: ''
       header:
         result:
           id: result
@@ -600,6 +601,45 @@ display:
         library_in_views_display_extender:
           attach_library:
             attach_library: 'erpw_webform/erpw_webform_js,erpw_custom/erpw_js,unicef_iconpicker/unicef-iconpicker,erpw_webform/erpw_webform_offline'
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
+      tags: {  }
+  feedback:
+    id: feedback
+    display_title: 'Share Feedback Block'
+    display_plugin: block
+    position: 1
+    display_options:
+      title: 'Share Feedback'
+      sorts:
+        created:
+          id: created
+          table: webform_submission
+          field: created
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: webform_submission
+          entity_field: created
+          plugin_id: date
+          order: DESC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
+          granularity: second
+      defaults:
+        title: false
+        sorts: false
+      display_description: ''
+      display_extenders:
+        library_in_views_display_extender: {  }
     cache_metadata:
       max-age: -1
       contexts:
@@ -641,7 +681,7 @@ display:
         library_in_views_display_extender:
           attach_library:
             attach_library: 'erpw_webform/erpw_webform_js,erpw_custom/erpw_js,unicef_iconpicker/unicef-iconpicker,erpw_webform/erpw_webform_offline'
-      path: share-feedback
+      path: share-services-feedback
     cache_metadata:
       max-age: -1
       contexts:
