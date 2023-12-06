@@ -1,0 +1,35 @@
+uuid: 838746e6-8006-43e8-956e-5978cd880f73
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.broadcast_icons.field_message_icon
+    - taxonomy.vocabulary.broadcast_icons
+  module:
+    - unicef_iconpicker
+id: taxonomy_term.broadcast_icons.default
+targetEntityType: taxonomy_term
+bundle: broadcast_icons
+mode: default
+content:
+  field_message_icon:
+    type: unicef_iconpicker
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Enter icon name.'
+    third_party_settings: {  }
+hidden:
+  description: true
+  langcode: true
+  path: true
+  status: true

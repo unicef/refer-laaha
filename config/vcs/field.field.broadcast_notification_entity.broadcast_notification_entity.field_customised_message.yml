@@ -1,0 +1,37 @@
+uuid: a7b816ec-51d4-4ecb-a81d-5d2dd7cfb18e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.broadcast_notification_entity.field_customised_message
+    - paragraphs.paragraphs_type.customised_broadcast_message
+  module:
+    - entity_reference_revisions
+    - erpw_in_app_notification
+id: broadcast_notification_entity.broadcast_notification_entity.field_customised_message
+field_name: field_customised_message
+entity_type: broadcast_notification_entity
+bundle: broadcast_notification_entity
+label: 'Customised Message'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      customised_broadcast_message: customised_broadcast_message
+    negate: 0
+    target_bundles_drag_drop:
+      customised_broadcast_message:
+        weight: 4
+        enabled: true
+      notification_event_item:
+        weight: 5
+        enabled: false
+      sections:
+        weight: 6
+        enabled: false
+field_type: entity_reference_revisions

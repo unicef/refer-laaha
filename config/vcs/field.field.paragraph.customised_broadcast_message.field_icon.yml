@@ -1,0 +1,29 @@
+uuid: e30b839d-4510-4245-809c-4ab3eef536b4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_icon
+    - paragraphs.paragraphs_type.customised_broadcast_message
+    - taxonomy.vocabulary.broadcast_icons
+id: paragraph.customised_broadcast_message.field_icon
+field_name: field_icon
+entity_type: paragraph
+bundle: customised_broadcast_message
+label: Icon
+description: 'Select the icon for the broadcast message.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      broadcast_icons: broadcast_icons
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

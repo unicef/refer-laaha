@@ -1,0 +1,16 @@
+uuid: 035972a0-0184-48bc-8c34-79d31d2e7bcb
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.predefined_broadcast_messages
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: taxonomy_term.predefined_broadcast_messages
+target_entity_type_id: taxonomy_term
+target_bundle: predefined_broadcast_messages
+default_langcode: site_default
+language_alterable: false

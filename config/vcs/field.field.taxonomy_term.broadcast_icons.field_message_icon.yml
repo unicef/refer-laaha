@@ -1,0 +1,19 @@
+uuid: 46ceb735-b6b6-45b7-a748-b07cfa0adc03
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_message_icon
+    - taxonomy.vocabulary.broadcast_icons
+id: taxonomy_term.broadcast_icons.field_message_icon
+field_name: field_message_icon
+entity_type: taxonomy_term
+bundle: broadcast_icons
+label: 'Message Icon'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

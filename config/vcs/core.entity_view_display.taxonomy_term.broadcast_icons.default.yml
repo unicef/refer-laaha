@@ -1,0 +1,23 @@
+uuid: b2d800e4-b3af-4dd7-951e-32c746f922da
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.broadcast_icons.field_message_icon
+    - taxonomy.vocabulary.broadcast_icons
+id: taxonomy_term.broadcast_icons.default
+targetEntityType: taxonomy_term
+bundle: broadcast_icons
+mode: default
+content:
+  field_message_icon:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  description: true
+  langcode: true

@@ -1,0 +1,24 @@
+uuid: bd9b8fc6-37d3-4453-9e8f-c09a74e93e98
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.broadcast_color
+id: taxonomy_term.broadcast_color.default
+targetEntityType: taxonomy_term
+bundle: broadcast_color
+mode: default
+content:
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Enter color name.'
+    third_party_settings: {  }
+hidden:
+  description: true
+  langcode: true
+  path: true
+  status: true

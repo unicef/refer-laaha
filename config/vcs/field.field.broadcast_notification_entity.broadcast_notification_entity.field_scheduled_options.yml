@@ -1,0 +1,21 @@
+uuid: ce162c23-ad85-4f11-b9bd-a7fc8a9ebc81
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.broadcast_notification_entity.field_scheduled_options
+  module:
+    - erpw_in_app_notification
+    - options
+id: broadcast_notification_entity.broadcast_notification_entity.field_scheduled_options
+field_name: field_scheduled_options
+entity_type: broadcast_notification_entity
+bundle: broadcast_notification_entity
+label: 'Scheduled options'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

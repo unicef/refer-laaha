@@ -82,7 +82,7 @@ class BroadcastNotificationEntity extends ContentEntityBase implements Broadcast
 
     $fields['label'] = BaseFieldDefinition::create('string')
       ->setTranslatable(TRUE)
-      ->setLabel(t('Label'))
+      ->setLabel(t('Title'))
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [

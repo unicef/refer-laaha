@@ -1,0 +1,21 @@
+uuid: 1d6f9a16-4e22-4192-af4f-4727a13c6133
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.broadcast_notification_entity.field_type
+  module:
+    - erpw_in_app_notification
+    - options
+id: broadcast_notification_entity.broadcast_notification_entity.field_type
+field_name: field_type
+entity_type: broadcast_notification_entity
+bundle: broadcast_notification_entity
+label: Type
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

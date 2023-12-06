@@ -1,0 +1,39 @@
+uuid: 364105bb-e1ed-43b2-8812-54b20fdca8bf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.customised_broadcast_message.field_color
+    - field.field.paragraph.customised_broadcast_message.field_icon
+    - field.field.paragraph.customised_broadcast_message.field_message
+    - paragraphs.paragraphs_type.customised_broadcast_message
+id: paragraph.customised_broadcast_message.default
+targetEntityType: paragraph
+bundle: customised_broadcast_message
+mode: default
+content:
+  field_color:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_icon:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_message:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden: {  }

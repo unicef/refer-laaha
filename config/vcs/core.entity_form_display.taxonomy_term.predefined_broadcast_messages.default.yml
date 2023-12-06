@@ -1,0 +1,24 @@
+uuid: a4bebca6-203f-4436-85a8-cdabd3282681
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.predefined_broadcast_messages
+id: taxonomy_term.predefined_broadcast_messages.default
+targetEntityType: taxonomy_term
+bundle: predefined_broadcast_messages
+mode: default
+content:
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 2000
+      placeholder: 'Enter message'
+    third_party_settings: {  }
+hidden:
+  description: true
+  langcode: true
+  path: true
+  status: true
