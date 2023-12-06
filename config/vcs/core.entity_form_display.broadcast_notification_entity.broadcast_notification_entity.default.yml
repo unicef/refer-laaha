@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_customised_message
+    - field.field.broadcast_notification_entity.broadcast_notification_entity.field_last_sent
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_location
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_message_type
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_organisation
@@ -153,6 +154,7 @@ content:
 hidden:
   created: true
   description: true
+  field_last_sent: true
   langcode: true
   status: true
   uid: true

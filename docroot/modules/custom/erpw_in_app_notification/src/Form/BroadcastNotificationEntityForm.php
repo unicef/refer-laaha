@@ -35,9 +35,12 @@ class BroadcastNotificationEntityForm extends ContentEntityForm {
         $this->logger('erpw_in_app_notification')->notice('Updated broadcast notification entity %label.', $logger_arguments);
         break;
     }
-
-    $form_state->setRedirect('entity.broadcast_notification_entity.canonical', ['broadcast_notification_entity' => $entity->id()]);
-
+    if ($form_state->getValue('field_message_type')[0]['value'] == 'custom') {
+      $form_state->setRedirect('entity.broadcast_notification_entity.content_translation_overview', ['broadcast_notification_entity' => $entity->id()]);
+    }
+    else {
+      $form_state->setRedirect('entity.broadcast_notification_entity.collection');
+    }
     return $result;
   }
 

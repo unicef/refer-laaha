@@ -67,12 +67,11 @@ class BroadcastNotificationEntityListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['id'] = $this->t('ID');
-    $header['label'] = $this->t('Label');
-    $header['status'] = $this->t('Status');
-    $header['uid'] = $this->t('Author');
-    $header['created'] = $this->t('Created');
-    $header['changed'] = $this->t('Updated');
+    $header['title'] = $this->t('Title');
+    $header['type'] = $this->t('Type');
+    $header['scheduled_option'] = $this->t('Scheduled Option');
+    $header['message_type'] = $this->t('Message Type');
+    $header['last_sent'] = $this->t('Sent Time');
     return $header + parent::buildHeader();
   }
 
@@ -81,16 +80,36 @@ class BroadcastNotificationEntityListBuilder extends EntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     /** @var \Drupal\erpw_in_app_notification\BroadcastNotificationEntityInterface $entity */
-    $row['id'] = $entity->id();
-    $row['label'] = $entity->toLink();
-    $row['status'] = $entity->get('status')->value ? $this->t('Enabled') : $this->t('Disabled');
-    $row['uid']['data'] = [
-      '#theme' => 'username',
-      '#account' => $entity->getOwner(),
-    ];
-    $row['created'] = $this->dateFormatter->format($entity->get('created')->value);
-    $row['changed'] = $this->dateFormatter->format($entity->getChangedTime());
+    $row['title'] = $entity->toLink();
+    $row['type'] = $entity->get('field_type')->value == 'scheduled' ? t('Scheduled') : t('No recurrence');
+    if (!is_null($entity->get('field_scheduled_options')->value)) {
+      $row['scheduled_option'] = $entity->get('field_scheduled_options')->getFieldDefinition()->getSettings()['allowed_values'][$entity->get('field_scheduled_options')->value];
+    }
+    else {
+      $row['scheduled_option'] = t('N/A');
+    }
+    $row['message_type'] = $entity->get('field_message_type')->getFieldDefinition()->getSettings()['allowed_values'][$entity->get('field_message_type')->value];
+    $row['last_sent'] = date('d/m/y - H:i:s', $entity->get('field_last_sent')->value);
     return $row + parent::buildRow($entity);
+  }
+
+  /**
+   * Builds a renderable list of operation links for the entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity on which the linked operations will be performed.
+   *
+   * @return array
+   *   A renderable array of operation links.
+   *
+   * @see \Drupal\Core\Entity\EntityListBuilder::buildRow()
+   */
+  public function buildOperations(EntityInterface $entity) {
+    $build = parent::buildOperations($entity);
+    if ($entity->get('field_message_type')->value == 'predefined') {
+      unset($build['#links']['translate']);
+    }
+    return $build;
   }
 
 }
