@@ -93,6 +93,13 @@ class SignUpForm extends FormBase {
   protected $entityTypeManager;
 
   /**
+   * The connection variable
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $database;
+
+  /**
    * {@inheritdoc}
    */
   public function getFormId() {

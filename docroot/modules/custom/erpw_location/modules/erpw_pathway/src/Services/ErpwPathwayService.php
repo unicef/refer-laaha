@@ -104,7 +104,8 @@ class ErpwPathwayService {
     }
     if ($country_id = $form_state->getValue('level_0')) {
       $level_count = count(self::$levelLabel[$country_id]);
-      unset($child_location['level_' . $level_count]['#ajax']);
+      // Not required to unset the ajax callback.
+      //unset($child_location['level_' . $level_count]['#ajax']);
       $child_location['level_' . $level_count]['#attributes']['class'][] = 'add_multiple';
     }
     $default_value = $parent_list[0] ?? '';
