@@ -60,6 +60,8 @@ class AutocompleteController extends ControllerBase {
         'tid' => $key,
       ];
     }
+
+    // @todo Cache the result.
     return new JsonResponse($results);
   }
 

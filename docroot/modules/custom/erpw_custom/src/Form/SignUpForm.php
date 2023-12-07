@@ -84,7 +84,7 @@ class SignUpForm extends FormBase {
    */
   protected $erpwpathway;
 
-  
+
   /**
    * The entity type manager.
    *
@@ -93,7 +93,7 @@ class SignUpForm extends FormBase {
   protected $entityTypeManager;
 
   /**
-   * The connection variable
+   * The connection variable.
    *
    * @var \Drupal\Core\Database\Connection
    */
@@ -305,7 +305,7 @@ class SignUpForm extends FormBase {
         '#validate' => ['::validatePageOne'],
       ];
     }
-    
+
     $form['#cache']['max-age'] = 0;
     return $form;
   }

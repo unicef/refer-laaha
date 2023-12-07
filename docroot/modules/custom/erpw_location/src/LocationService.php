@@ -221,6 +221,8 @@ class LocationService {
     foreach ($location_entities as $location) {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
     }
+
+    // @todo Cache the result.
     return $location_options;
   }
 
@@ -253,6 +255,8 @@ class LocationService {
   public function getAllAncestors($tid) {
     $ancestors = $this->entityTypeManager->getStorage('taxonomy_term')->loadAllParents($tid);
     $ancestors = array_reverse(array_keys($ancestors));
+
+    // @todo Cache the result.
     return $ancestors;
   }
 
@@ -333,6 +337,7 @@ class LocationService {
     $query->fields('t', ['tid']);
     $result = $query->execute();
 
+    // @todo Cache the query executed result.
     return $result->fetchField();
   }
 

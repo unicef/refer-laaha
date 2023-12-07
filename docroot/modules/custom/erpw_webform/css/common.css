@@ -104,11 +104,7 @@
   display: flex;
   flex-direction: row;
 }
-.services-webform-submissions-list
-  .view-filters
-  .form--inline
-  .form-actions
-  input {
+.services-webform-submissions-list .view-filters .form--inline .form-actions input {
   width: 20%;
   margin-right: 12px;
 }
@@ -127,26 +123,18 @@
   margin-bottom: 5px;
   padding-bottom: 10px;
 }
-.service-providers-submission-row
-  .row-header
-  .service-type-color-logo-container {
+.service-providers-submission-row .row-header .service-type-color-logo-container {
   display: flex;
   width: fit-content;
   position: relative;
 }
-.service-providers-submission-row
-  .row-header
-  .service-type-color-logo-container
-  .service-type-color {
+.service-providers-submission-row .row-header .service-type-color-logo-container .service-type-color {
   display: block;
   width: 50px;
   height: 50px;
   border-radius: 100%;
 }
-.service-providers-submission-row
-  .row-header
-  .service-type-color-logo-container
-  .service-type-logo {
+.service-providers-submission-row .row-header .service-type-color-logo-container .service-type-logo {
   top: 17px;
   position: relative;
   height: fit-content;
@@ -180,9 +168,7 @@
   font-size: 12px;
   font-family: Roboto;
 }
-.service-providers-submission-row
-  .service-provider-details
-  .service-detail-heading {
+.service-providers-submission-row .service-provider-details .service-detail-heading {
   border-bottom: none;
   border-top: 0.5px solid #d7d7d7;
   margin-top: 15px;
@@ -206,11 +192,7 @@
   margin-right: 0;
   width: 100%;
 }
-.service-provider-details
-  .service-detail-heading
-  .view-delete-links
-  .view-link
-  a {
+.service-provider-details .service-detail-heading .view-delete-links .view-link a {
   color: #a85766;
   border-bottom: 1px solid #a85766;
   text-decoration: none;
@@ -219,13 +201,9 @@
   display: block;
   margin-right: 10px;
 }
-.service-provider-details
-  .service-detail-heading
-  .view-delete-links
-  .view-link
-  a::after {
+.service-provider-details .service-detail-heading .view-delete-links .view-link a::after {
   background: url(/themes/custom/erpw/images/arrow-small.svg) center right
-    no-repeat;
+  no-repeat;
   content: "";
   height: 7px;
   display: inline-block;
@@ -241,36 +219,23 @@
   align-items: center;
   width: 100%;
 }
-.select-service-type-webform
-  .row-header
-  .service-type-color-logo-container
-  .service-type-logo
-  i {
+.select-service-type-webform .row-header .service-type-color-logo-container .service-type-logo i {
   color: black;
 }
-.select-service-type-webform
-  .row-header
-  .service-type-color-logo-container
-  .service-type-org {
+.select-service-type-webform .row-header .service-type-color-logo-container .service-type-org {
   color: #a85766;
   font-family: Roboto;
   font-size: 14px;
   display: block;
   width: 100%;
   background: url(/themes/custom/erpw/images/arrow-right.svg) right center
-    no-repeat;
+  no-repeat;
   margin-right: 5px;
 }
-.select-service-type-webform
-  .row-header
-  .service-type-color-logo-container
-  .service-type-logo {
+.select-service-type-webform .row-header .service-type-color-logo-container .service-type-logo {
   top: unset;
 }
-.select-service-type-webform
-  .row-header
-  .service-type-color-logo-container
-  .service-type-color {
+.select-service-type-webform .row-header .service-type-color-logo-container .service-type-color {
   max-width: 50px;
   width: 100%;
 }
@@ -324,7 +289,7 @@
 .webform-submission-form .node-service-provider-form summary::after {
   background: #ffffff;
   -webkit-mask: url(/themes/custom/erpw/images/arrow.svg) center center
-    no-repeat;
+  no-repeat;
   mask: url(/themes/custom/erpw/images/arrow.svg) center center no-repeat;
   transform: rotate(180deg);
   background-position: inherit;
@@ -333,15 +298,12 @@
   display: inline-block;
   height: 6px;
   width: 12px;
-
   position: unset;
   border-radius: unset;
   box-shadow: unset;
   opacity: unset;
 }
-.webform-submission-form
-  .node-service-provider-form
-  summary[aria-expanded="false"]::after {
+.webform-submission-form .node-service-provider-form summary[aria-expanded="false"]::after {
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
   background-position: right center;
@@ -519,9 +481,7 @@
   float: none;
   text-align: center;
 }
-.ui-dialog.delete-service-popup
-  .ui-dialog-buttonpane
-  .ui-dialog-buttonset.form-actions {
+.ui-dialog.delete-service-popup .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -530,18 +490,12 @@
   justify-content: space-between;
   margin: 20px 10px 0px;
 }
-.ui-dialog.delete-service-popup
-  .ui-dialog-buttonpane
-  .ui-dialog-buttonset.form-actions
-  button {
+.ui-dialog.delete-service-popup .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions button {
   background: none;
   border: 1px solid #a85766;
   color: #a85766;
 }
-.ui-dialog.delete-service-popup
-  .ui-dialog-buttonpane
-  .ui-dialog-buttonset.form-actions
-  .js-form-submit {
+.ui-dialog.delete-service-popup .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions .js-form-submit {
   -webkit-box-ordinal-group: 2;
   -ms-flex-order: 1;
   order: 1;
@@ -699,25 +653,15 @@ span[contenteditable="true"] {
   text-decoration: underline;
   color: blue;
 }
-.offline-service-changes-page
-  .service-providers-submission-row
-  .views-field
-  .views-label {
+.offline-service-changes-page .service-providers-submission-row .views-field .views-label {
   max-width: 200px;
   color: black;
 }
-.offline-service-changes-page
-  .service-providers-submission-row
-  .views-field
-  .field-content {
+.offline-service-changes-page .service-providers-submission-row .views-field .field-content {
   display: flex;
   width: 100%;
 }
-.offline-service-changes-page
-  .service-providers-submission-row
-  .views-field
-  .field-content
-  span {
+.offline-service-changes-page .service-providers-submission-row .views-field .field-content span {
   padding: 5px;
   color: black;
   min-width: 100px;
@@ -728,19 +672,11 @@ span[contenteditable="true"] {
   justify-content: center;
   align-self: center;
 }
-.offline-service-changes-page
-  .service-providers-submission-row
-  .views-field
-  .field-content
-  .before {
+.offline-service-changes-page .service-providers-submission-row .views-field .field-content .before {
   background: rgb(245, 5, 5, 0.3);
   min-height: 12px;
 }
-.offline-service-changes-page
-  .service-providers-submission-row
-  .views-field
-  .field-content
-  .after {
+.offline-service-changes-page .service-providers-submission-row .views-field .field-content .after {
   background: rgb(20, 250, 7, 0.3);
   min-height: 12px;
 }

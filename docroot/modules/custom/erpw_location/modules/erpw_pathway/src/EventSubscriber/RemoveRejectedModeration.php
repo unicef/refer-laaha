@@ -117,6 +117,7 @@ class RemoveRejectedModeration implements EventSubscriberInterface {
       $query = $query->execute();
       $revision_id = $query->fetchCol();
 
+      // @todo Cache the query executed result.
       if (empty($revision_id)) {
         return;
       }

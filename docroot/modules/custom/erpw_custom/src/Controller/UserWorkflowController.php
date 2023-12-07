@@ -583,7 +583,7 @@ class UserWorkflowController extends ControllerBase {
           $euwh->save();
         }
       }
-      
+
       elseif ($user->hasRole('service_provider_focal_point')) {
         if ($user->get('field_transitions')->getString() == 'self-register-gbvfp') {
           // Update the user with new transition.

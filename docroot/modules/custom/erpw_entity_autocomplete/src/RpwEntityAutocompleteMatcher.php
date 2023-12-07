@@ -88,6 +88,7 @@ class RpwEntityAutocompleteMatcher extends EntityAutocompleteMatcher {
       }
     }
 
+    // @todo Add Cache.
     return $matches;
   }
 

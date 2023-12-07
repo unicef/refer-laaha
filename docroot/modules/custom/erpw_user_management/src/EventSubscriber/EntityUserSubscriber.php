@@ -6,17 +6,17 @@ use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
 use Drupal\core_event_dispatcher\FormHookEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\erpw_location\LocationService;
 use Drupal\erpw_pathway\Services\ErpwPathwayService;
-use Drupal\user\UserInterface;
 use Drupal\user\Entity\User;
-use Drupal\Core\Session\AccountProxyInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\user\UserInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class EntityLocationSubscriber.

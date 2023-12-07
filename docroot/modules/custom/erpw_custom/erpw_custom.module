@@ -64,6 +64,7 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     $query->accessCheck(FALSE);
     $organisation_nids = $query->execute();
 
+    // @todo Cache the query executed result.
     // Retrieve the titles of the organisations.
     $organisations = $node_storage->loadMultiple($organisation_nids);
     $organisation_options = ['All' => t('All')];
@@ -140,6 +141,8 @@ function erpw_custom_service_type_options() {
   foreach ($results as $value) {
     $options[$value->nid] = $value->title;
   }
+
+  // @todo Cache the query executed result.
   return $options;
 }
 
@@ -410,6 +413,8 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       $query->condition('field_organisation', $node_id);
       $query->accessCheck(FALSE);
       $user_ids = $query->execute();
+
+      // @todo Cache the query executed result.
       // Get all services who have the node id (look into webform-submissions for services data.)
       $webform_submission_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
       $webform_submissions = $webform_submission_storage->loadMultiple();
@@ -462,7 +467,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     }
     $form['description']['#markup'] = $delete_confirmation_message;
   }
-
 
 }
 
@@ -609,6 +613,8 @@ function erpw_custom_current_user_assignable_system_roles($uid) {
   if ($active_domain_id != 'bn_erefer_org') {
     unset($system_roles['gbv_focal_point']);
   }
+
+  // @todo Cache system_roles.
   return $system_roles;
 }
 
@@ -764,6 +770,8 @@ function _erpw_custom_check_title_exist(&$form, &$form_state) {
     ->fields('n', ['title'])
     ->condition('n.type', 'service_type')
     ->execute();
+
+  // @todo Cache the query executed result.
   foreach ($results as $record) {
     $title_compared = substr($record->title, 0, -1);
     if ($title_compared === $title_entered) {
@@ -784,6 +792,8 @@ function _erpw_custom_organisation_node_form_validate(array &$form, FormStateInt
       ->condition('title', $update_title)
       ->accessCheck(FALSE);
     $nids = $query->execute();
+
+    // @todo Cache the query executed result.
     if ($nids) {
       $form_state->setErrorByName('title', t('Organisation already exists, kindly update the organisation name and save it again.'));
     }
@@ -1053,7 +1063,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
                 "self-register-gbvfp" => "self-register-gbvfp",
                 "gbvfp-register-sp-staff" => "gbvfp-register-sp-staff",
                 "gbvfp-register-spfp" => "gbvfp-register-spfp",
-                "gbvfp-register-gbvfp" => "gbvfp-register-gbvfp"
+                "gbvfp-register-gbvfp" => "gbvfp-register-gbvfp",
               ],
             ];
             $condition['value'] = $value;
@@ -1107,7 +1117,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
               ":user__roles_roles_target_id[]" => [
                 "service_provider_staff" => "service_provider_staff",
                 "service_provider_focal_point" => "service_provider_focal_point",
-                "gbv_focal_point" => "gbv_focal_point"
+                "gbv_focal_point" => "gbv_focal_point",
               ],
             ],
             "operator" => "formula",
@@ -1303,6 +1313,7 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
   $query->accessCheck(FALSE);
   $term_ids = $query->execute();
 
+  // @todo Cache the query executed result.
   // Get webform ids which contain approved services for given tid.
   $query = \Drupal::database()->select('webform_submission_data', 'wsd');
   $query->fields('wsd', ['sid', 'webform_id']);
@@ -1332,6 +1343,8 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
   }
 
   $results = $query->execute()->fetchAll();
+
+  // @todo Cache the query executed result.
   $webform_ids = array_column($results, 'webform_id');
 
   $service_type_titles = [];
@@ -1351,6 +1364,8 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
       }
     }
   }
+
+  // @todo Cache the query executed result.
   return $service_type_titles;
 }
 
@@ -1415,6 +1430,7 @@ function erpw_custom_has_content_for_terms(array $termIds, $contentType, $taxono
       ->range(0, 1)
       ->accessCheck(FALSE)
       ->execute();
+    // @todo Cache the query executed result.
     if ($has_content) {
       return $tid;
     }
@@ -1641,6 +1657,7 @@ function get_child_term_tid($ptid) {
   foreach ($tree as $term) {
     $result[$term->tid] = $term->tid;
   }
+  // @todo Cache the query executed result.
   return $result;
 }
 
