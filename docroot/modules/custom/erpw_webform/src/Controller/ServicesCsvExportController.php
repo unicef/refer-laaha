@@ -19,6 +19,8 @@ class ServicesCsvExportController extends ControllerBase {
 
   /**
    * Add a private property to store the EntityTypeManager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
@@ -38,7 +40,7 @@ class ServicesCsvExportController extends ControllerBase {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
@@ -48,7 +50,7 @@ class ServicesCsvExportController extends ControllerBase {
   }
 
   /**
-   *
+   * Get Child Term.
    */
   public function getChildTermId($ptid) {
     $tree = $this->entityTypeManager->getStorage('taxonomy_term')->loadTree(
@@ -64,7 +66,7 @@ class ServicesCsvExportController extends ControllerBase {
   }
 
   /**
-   *
+   * Query helper function.
    */
   public function erpwQuery(QueryPluginBase &$query, mixed $column_value, string $alias_slug, string $op = '=') {
     $configuration = [
@@ -109,7 +111,7 @@ class ServicesCsvExportController extends ControllerBase {
     $servicelabel = '';
 
     // For Services with only domain as location, location entity id is set instead of tid.
-    $location_entity = erpw_webform_getLocationEntityIdByTid($cookie_tid);
+    $location_entity = erpw_webform_get_location_entity_id_by_tid($cookie_tid);
     if (!empty($location_entity)) {
       $ptids = array_merge([strval($location_entity)], $ptids);
     }
@@ -125,7 +127,11 @@ class ServicesCsvExportController extends ControllerBase {
     $this->erpwQuery($query, $ptids, 'location', 'IN');
 
     // Workflow join.
-    $workflow_states = ['approve', 'edits_in_review_with_focal_point', 'edits_in_review_with_gbv_coordination'];
+    $workflow_states = [
+      'approve',
+      'edits_in_review_with_focal_point',
+      'edits_in_review_with_gbv_coordination',
+    ];
     $this->erpwQuery($query, $workflow_states, 'workflow', 'IN');
     // Execute the View to ensure the query is built.
     $view->execute();

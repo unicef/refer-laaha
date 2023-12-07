@@ -221,7 +221,7 @@ class LanguageSelector extends FormBase {
         // $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
       }
       // Else {
-      //   $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
+      // $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
       // }.
       setcookie($this->locationCookie->getCookieName(), $default_location, strtotime('+1 year'), '/', $url, FALSE);
       $form_state->setRedirectUrl($redirect_url);

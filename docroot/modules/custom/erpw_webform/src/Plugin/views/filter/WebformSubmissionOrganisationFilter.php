@@ -91,7 +91,7 @@ class WebformSubmissionOrganisationFilter extends ManyToOne {
     $nids = $this->entityTypeManager->getStorage('node')->getQuery()->condition('type', 'organisation')->accessCheck(FALSE)->execute();
     $organizations = Node::loadMultiple($nids);
 
-    // Create an array to store the organization name and machine name key-value pairs.
+    // Array to store organization name and machine name key-value pairs.
     $organizationNames = [];
 
     foreach ($organizations as $organization) {

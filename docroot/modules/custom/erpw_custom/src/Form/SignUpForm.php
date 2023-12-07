@@ -109,9 +109,23 @@ class SignUpForm extends FormBase {
   /**
    * {@inheritdoc}
    *
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   The current user details.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
+   *   The form builder service.
+   * @param \Drupal\erpw_location\LocationService $location_service
+   *   The location service.
+   * @param \Drupal\erpw_pathway\Services\ErpwPathwayService $erpwp_athway
+   *   The erpw pathway service.
    * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
    *   The domain negotiator service.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The config factory service.
    */
   public function __construct(

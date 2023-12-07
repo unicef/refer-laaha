@@ -25,7 +25,7 @@ erpw_webform.service_content:
 erpw_webform.service_content_approved:
   path: '/service/{webform_submission}/approved'
   defaults:
-    _controller: '\Drupal\erpw_webform\Controller\ServiceSubmissionsView::content_approved'
+    _controller: '\Drupal\erpw_webform\Controller\ServiceSubmissionsView::contentApproved'
     _title: 'Service Information'
   requirements:
     _permission: 'access content'

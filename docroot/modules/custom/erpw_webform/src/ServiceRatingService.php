@@ -2,6 +2,7 @@
 
 namespace Drupal\erpw_webform;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
@@ -53,6 +54,8 @@ class ServiceRatingService {
    *   Entity Manager Object.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   Location Manager object.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   Current user details.
    */
   public function __construct(
     DomainNegotiatorInterface $domain_negotiator,
@@ -293,7 +296,7 @@ class ServiceRatingService {
    * @return array
    *   An array of options for the radios element.
    */
-  public function getMultipleChoiceOptions($form_state) {
+  public function getMultipleChoiceOptions(array $form_state) {
     $options = [];
     $option_count = $form_state->get('option_count');
 
@@ -320,7 +323,7 @@ class ServiceRatingService {
    *   An associative array of rating options, where each option may have a label
    *   and description based on form state values.
    */
-  public function getRatingOptions($form_state, $lastOptionCountWithValue) {
+  public function getRatingOptions(FormStateInterface $form_state, $lastOptionCountWithValue) {
     $options = [];
 
     for ($option_no = 0; $option_no < $lastOptionCountWithValue; $option_no++) {
@@ -348,7 +351,7 @@ class ServiceRatingService {
    * @return int
    *   The valid count of options based on the form state.
    */
-  public function validOptionCount($form_state) {
+  public function validOptionCount(FormStateInterface $form_state) {
     $valid_option_count = 0;
     $option_count = $form_state->get('option_count');
 
@@ -373,11 +376,11 @@ class ServiceRatingService {
    *   The ID of the webform.
    * @param string $element1
    *   The name of the first webform element. (optional)
-   * @param array $element2
+   * @param array|null $element2
    *   An associative array containing the element key and value for the second element.
    *   - 'key': The name of the second webform element.
    *   - 'value': The value to match for the second element.
-   * @param array $element3
+   * @param array|null $element3
    *   An associative array containing the element key and value for the third element.
    *   - 'key': The name of the third webform element.
    *   - 'value': The value to match for the third element.
@@ -436,7 +439,7 @@ class ServiceRatingService {
    * @return array
    *   An array of submission IDs that match both element-key-value pairs.
    */
-  public function getSubmissionIdsForSingleElement($webform_id, $element) {
+  public function getSubmissionIdsForSingleElement($webform_id, array $element) {
     $database = \Drupal::database();
 
     $query = $database->select('webform_submission_data', 'wsd1');
@@ -473,7 +476,7 @@ class ServiceRatingService {
    * @return float
    *   The normalized rating value.
    */
-  public function normalizeRating($value, $options) {
+  public function normalizeRating($value, array $options) {
     $max_value = count($options);
     return (($value - 1) / ($max_value - 1)) * 4 + 1;
   }
@@ -487,7 +490,7 @@ class ServiceRatingService {
    * @return int
    *   The average rating, rounded to nearest integer.
    */
-  public function calculateAverageRating($normalized_element_values) {
+  public function calculateAverageRating(array $normalized_element_values) {
     // Flatten the values and filter out 0 values.
     $flattened_values = array_merge(...$normalized_element_values);
     $flattened_values = array_filter($flattened_values, function ($value) {
@@ -512,7 +515,7 @@ class ServiceRatingService {
    * @return float
    *   The average of the numeric values, rounded to one decimal point.
    */
-  public function calculateTotalAverageRating($normalized_element_values) {
+  public function calculateTotalAverageRating(array $normalized_element_values) {
     $numeric_values = [];
 
     // Extract numeric values from the array.

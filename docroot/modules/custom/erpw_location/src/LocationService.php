@@ -47,6 +47,8 @@ class LocationService {
    *   Location Manager object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
+   * @param \Drupal\erpw_location\LocationCookieService $location_cookie
+   *   Location cookie service.
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
@@ -502,7 +504,8 @@ class LocationService {
    * @param string $termName
    *   The name of the term to search for.
    *
-   * @return int|null The taxonomy term ID if found, or null if not found.
+   * @return int|null
+   *   The taxonomy term ID if found, or null if not found.
    */
   public function getTaxonomyTermIdByName($vocabulary, $termName) {
     $query = \Drupal::entityQuery('taxonomy_term')

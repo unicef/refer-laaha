@@ -296,7 +296,10 @@ class ImportLocationModalForm extends FormBase {
     }
     // Create taxonomy with country name.
     $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-    $terms = $term_storage->loadByProperties(['name' => $country_name, 'vid' => 'country']);
+    $terms = $term_storage->loadByProperties([
+      'name' => $country_name,
+      'vid' => 'country',
+    ]);
     if (empty($terms)) {
       $term = Term::create([
         'name' => $country_name,
@@ -334,7 +337,10 @@ class ImportLocationModalForm extends FormBase {
         // Check if term exists at level $i+1.
         if (isset($location[$j + $k])) {
           $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-          $terms = $term_storage->loadByProperties(['name' => $location[$j + $k], 'vid' => 'country']);
+          $terms = $term_storage->loadByProperties([
+            'name' => $location[$j + $k],
+            'vid' => 'country',
+          ]);
           if (!empty($terms)) {
             foreach ($terms as $term) {
               $tid = $term->id();

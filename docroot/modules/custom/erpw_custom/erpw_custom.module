@@ -168,7 +168,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     }
     $form['location']['level_0']['#empty_option'] = t('Select country');
   }
-  /**
+  /*
    * No User role has permission set as 'view location of their own country'.
    * So this filteration is useless.
    *
@@ -179,9 +179,9 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
    */
 
   // If ($form_id == 'user_location_form') {
-  //   $permission = 'view location of their own country';
-  //   $form['location_options']['#options'] = erpw_filter_locations_permissions($form['location_options']['#options'], $permission, 'location_entity');
-  //   $form['location_options']['#empty_option'] = t('Select country');
+  // $permission = 'view location of their own country';
+  // $form['location_options']['#options'] = erpw_filter_locations_permissions($form['location_options']['#options'], $permission, 'location_entity');
+  // $form['location_options']['#empty_option'] = t('Select country');
   // }.
   if ($form_id == 'sign_up') {
     if (isset($form['location']['level_0']['#options'])) {
@@ -429,14 +429,16 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       }
 
       $delete_confirmation_message = t('Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.');
+      $delete_confirmation_message_placeholders = ['@domains' => count($user_ids)];
+      $delete_confirmation_message_placeholders['@services'] = $number_of_services_provided_by_the_organisation;
       if (count($user_ids) > 0 && $number_of_services_provided_by_the_organisation > 0) {
-        $delete_confirmation_message = t('This organization is related to @domains users and @services services. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', ['@domains' => count($user_ids), '@services' => $number_of_services_provided_by_the_organisation]);
+        $delete_confirmation_message = t('This organization is related to @domains users and @services services. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', $delete_confirmation_message_placeholders);
       }
       elseif (count($user_ids) === 0 && $number_of_services_provided_by_the_organisation > 0) {
-        $delete_confirmation_message = t('This organization is related to @services services. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', ['@domains' => count($user_ids), '@services' => $number_of_services_provided_by_the_organisation]);
+        $delete_confirmation_message = t('This organization is related to @services services. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', $delete_confirmation_message_placeholders);
       }
       elseif (count($user_ids) > 0 && $number_of_services_provided_by_the_organisation === 0) {
-        $delete_confirmation_message = t('This organization is related to @domains users. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', ['@domains' => count($user_ids), '@services' => $number_of_services_provided_by_the_organisation]);
+        $delete_confirmation_message = t('This organization is related to @domains users. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', $delete_confirmation_message_placeholders);
       }
       $form['description']['#markup'] = $delete_confirmation_message;
     }
@@ -464,7 +466,10 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     if ($webform_feedback_area_count > 0) {
       $webform_plurality = $webform_feedback_area_count > 1 ? 'feedback surveys' : 'feedback survey';
       $webform_name = implode(", ", $webform_names);
-      $delete_confirmation_message = t('This feedback area has @webforms_count @webform_plurality (@webform_name). Please review the existing @webform_plurality first.', ['@webforms_count' => $webform_feedback_area_count, '@webform_name' => $webform_name, '@webform_plurality' => $webform_plurality]);
+      $message_placeholders = ['@webforms_count' => $webform_feedback_area_count];
+      $message_placeholders['@webform_name'] = $webform_name;
+      $message_placeholders['@webform_plurality'] = $webform_plurality;
+      $delete_confirmation_message = t('This feedback area has @webforms_count @webform_plurality (@webform_name). Please review the existing @webform_plurality first.', $message_placeholders);
       unset($form['actions']['submit']);
     }
     $form['description']['#markup'] = $delete_confirmation_message;
@@ -547,7 +552,7 @@ function user_form_validation_organisation_validate($form, &$form_state) {
  *   TRUE if there is a match between the organization domain access and any of the location PTIDs,
  *   FALSE otherwise.
  */
-function match_user_organisation_domain_location($organisation_domain_access, $location_ptids) {
+function match_user_organisation_domain_location($organisation_domain_access, array $location_ptids) {
   $location_match = FALSE;
 
   // If $organisation_domain_access is not an array, convert it to an array.
@@ -609,7 +614,8 @@ function erpw_custom_current_user_assignable_system_roles($uid) {
   $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
   foreach ($roles as $role) {
     $permission = "role-assign users with role " . $role->id();
-    if ($current_user->hasPermission($permission) && !in_array($role->id(), ['anonymous', 'authenticated', 'administrator'])) {
+    $not_allowed_roles = ['anonymous', 'authenticated', 'administrator'];
+    if ($current_user->hasPermission($permission) && !in_array($role->id(), $not_allowed_roles)) {
       $system_roles[$role->id()] = $role->label();
       if ($current_user->hasRole('anonymous') && $active_domain_id == 'bn_erefer_org') {
         $system_roles['service_provider_staff'] = "GBV Service Provider Staff";
@@ -1300,7 +1306,10 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       $join_configuration['table'] = 'user__field_transitions';
       $join_configuration['field'] = 'entity_id';
       $query->addRelationship('transition', Views::pluginManager('join')->createInstance('standard', $join_configuration), 'users_field_data');
-      $query->addWhere(1, 'transition.field_transitions_value', ['spfp-reject', 'gbv-coordination-reject'], 'IN');
+      $query->addWhere(1,
+        'transition.field_transitions_value',
+        ['spfp-reject', 'gbv-coordination-reject'],
+      'IN');
     }
   }
 
@@ -1685,7 +1694,7 @@ function erpw_custom_entity_presave(EntityInterface $entity) {
   if ($entity->getEntityTypeId() == 'node' && $entity->getType() == 'service_type') {
     $node_title = trim($entity->get('title')->value);
     // If (strpos($node_title, '(') !== FALSE) {
-    //   $node_title = preg_replace('/\s+/', '', $node_title);
+    // $node_title = preg_replace('/\s+/', '', $node_title);
     // }.
     if (preg_match("/'/u", $node_title)) {
       $node_title = str_replace("'", '', $node_title);
@@ -1696,14 +1705,14 @@ function erpw_custom_entity_presave(EntityInterface $entity) {
   // (current!  Not future! pure madness) domains on save?
   // For assign domain id to domain access field.
   // if (in_array($entity->getentityTypeId(), ['node', 'user']) && $entity->hasField('field_domain_access')) {
-  //  $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
-  //  foreach ($all_domains as $domain) {
-  //    $domain_status = $domain->get('status');
-  //    if ($domain_status) {
-  //      $domain_id[] = $domain->get('id');
-  //    }
-  //  }
-  //  $entity->set('field_domain_access', $domain_id);
+  // $all_domains = \Drupal::service('entity_type.manager')->getStorage('domain')->loadMultipleSorted(NULL);
+  // foreach ($all_domains as $domain) {
+  // $domain_status = $domain->get('status');
+  // if ($domain_status) {
+  // $domain_id[] = $domain->get('id');
+  // }
+  // }
+  // $entity->set('field_domain_access', $domain_id);
   // }.
 }
 
@@ -1752,7 +1761,7 @@ function erpw_custom_node_view(array &$build, EntityInterface $entity, EntityVie
  * @return bool
  *   TRUE if the current user can edit the user, FALSE otherwise.
  */
-function erpw_custom_can_edit_user(AccountProxyInterface $current_user, $user) {
+function erpw_custom_can_edit_user(AccountProxyInterface $current_user, User $user) {
   $user_roles = $user->getRoles();
   $current_user_roles = $current_user->getRoles();
 

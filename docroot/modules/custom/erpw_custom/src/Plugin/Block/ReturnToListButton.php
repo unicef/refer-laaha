@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Provides a custom block to Add back button to return to a specific list of data.
+ * Black button block to return to a specific list of data.
  *
  * @Block(
  *   id = "return_to_list_button",

@@ -93,7 +93,7 @@ class WebformSubmissionWorkflowFilter extends ManyToOne {
       'deletion_in_review_with_gbv_coordination' => 'Deletion In Review with GBV Coordination',
       'reject' => 'Rejected',
     ];
-    // You can add your custom code here to add custom labels for state transitions.
+    // You can add your custom labels for state transitions.
     return $states;
   }
 

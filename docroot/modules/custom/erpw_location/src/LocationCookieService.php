@@ -32,42 +32,47 @@ class LocationCookieService {
    *
    * @var array
    */
-  protected $cookie_name = ['zw_location_tid', 'bn_location_tid', 'sl_location_tid', 'txb_location_tid'];
+  protected $cookie_name = [
+    'zw_location_tid',
+    'bn_location_tid',
+    'sl_location_tid',
+    'txb_location_tid',
+  ];
 
   /**
    * New Cookie Name.
    *
    * @var string
    */
-  protected $new_cookie_name;
+  protected $newCookieName;
 
   /**
    * The cookie value that will be set during the respond event.
    *
    * @var mixed
    */
-  protected $cookie_value;
+  protected $cookieValue;
 
   /**
    * The cookie value saved in UserLocationForm.
    *
    * @var mixed
    */
-  protected $saved_cookie;
+  protected $savedCookie;
 
   /**
    * Whether or not the cookie should be updated during the response.
    *
    * @var bool
    */
-  protected $should_update = FALSE;
+  protected $shouldUpdate = FALSE;
 
   /**
    * The Changed hostname found.
    *
    * @var mixed
    */
-  protected $new_url;
+  protected $newUrl;
 
   /**
    * Language Manager service.
@@ -92,11 +97,15 @@ class LocationCookieService {
    *   Domain negotiator service.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   Language Manager service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   Config Factory service.
    */
-  public function __construct(RequestStack $requestStack,
-      DomainNegotiatorInterface $domain_negotiator,
+  public function __construct(
+    RequestStack $requestStack,
+    DomainNegotiatorInterface $domain_negotiator,
     LanguageManagerInterface $language_manager,
-    ConfigFactoryInterface $config_factory) {
+    ConfigFactoryInterface $config_factory
+  ) {
     $this->currentRequest = $requestStack;
     $this->domainNegotiator = $domain_negotiator;
     $this->languageManager = $language_manager;
@@ -110,11 +119,11 @@ class LocationCookieService {
    *   Returns the cookie value set in browser.
    */
   public function getCookieValue() {
-    if (empty($this->cookie_value)) {
+    if (empty($this->cookieValue)) {
       $cookie_value = $this->currentRequest->getCurrentRequest()->cookies->get($this->getCookieName());
     }
     else {
-      $cookie_value = $this->cookie_value;
+      $cookie_value = $this->cookieValue;
     }
     return $cookie_value;
   }
@@ -122,7 +131,7 @@ class LocationCookieService {
   /**
    * Get Cookie name according to active domain.
    *
-   * @param mixed
+   * @param mixed $domain_id
    *   Optional parameter, in case domain id is passed.
    *
    * @return string
@@ -143,23 +152,23 @@ class LocationCookieService {
         case 'bn':{
           $cookie_name = 'bn_location_tid';
           break;
-}
+        }
         case 'zw':{
           $cookie_name = 'zw_location_tid';
           break;
-}
+        }
         case 'sl':{
           $cookie_name = 'sl_location_tid';
           break;
-}
+        }
         case 'txb':{
           $cookie_name = 'txb_location_tid';
           break;
-}
+        }
         default:{
           $cookie_name = 'zw_location_tid';
           break;
-}
+        }
       }
     }
     return $cookie_name;
@@ -174,15 +183,15 @@ class LocationCookieService {
    *   Value of the cookie being set.
    */
   public function setCookieValue($cookie_name, $cookie_value) {
-    $this->cookie_value = $cookie_value;
+    $this->cookieValue = $cookie_value;
     $domain = $this->domainNegotiator->getActiveDomain();
     $url = preg_replace('/^[^.]+\./', '', $domain->getHostname());
     if ($cookie_name != $this->getCookieName()) {
       // This means that the cookie doesn't correspond to the domain.
-      $this->should_update = TRUE;
-      $this->saved_cookie = $cookie_value;
-      $this->new_cookie_name = $cookie_name;
-      $url = $this->new_url;
+      $this->shouldUpdate = TRUE;
+      $this->savedCookie = $cookie_value;
+      $this->newCookieName = $cookie_name;
+      $url = $this->newUrl;
     }
     setcookie($cookie_name, $cookie_value, strtotime('+7 days'), '/', $url, TRUE, FALSE);
   }
@@ -204,7 +213,7 @@ class LocationCookieService {
   /**
    * Change cookie name according to location selected.
    *
-   * @param mixed
+   * @param mixed $country_tid
    *   Taxonomy ID of the country the location belongs to.
    *
    * @return string
@@ -218,7 +227,7 @@ class LocationCookieService {
       $domain_id = $id;
       break;
     }
-    $this->new_url = preg_replace('/^[^.]+\./', '', $new_hostname);
+    $this->newUrl = preg_replace('/^[^.]+\./', '', $new_hostname);
     return $this->getCookieName($domain_id);
   }
 
@@ -239,27 +248,27 @@ class LocationCookieService {
           $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('bn_location_tid') ?
           $this->currentRequest->getCurrentRequest()->cookies->get('bn_location_tid') : $domain_tid;
           break;
-}
+        }
         case 'zw':{
           $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('zw_location_tid') ?
           $this->currentRequest->getCurrentRequest()->cookies->get('zw_location_tid') : $domain_tid;
           break;
-}
+        }
         case 'sl':{
           $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('sl_location_tid') ?
           $this->currentRequest->getCurrentRequest()->cookies->get('sl_location_tid') : $domain_tid;
           break;
-}
+        }
         case 'txb':{
           $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('txb_location_tid') ?
           $this->currentRequest->getCurrentRequest()->cookies->get('txb_location_tid') : $domain_tid;
           break;
-}
+        }
         default:{
           $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('zw_location_tid') ?
           $this->currentRequest->getCurrentRequest()->cookies->get('zw_location_tid') : $domain_tid;
           break;
-}
+        }
       }
     }
     $cookie_name = $this->getCookieName();
@@ -270,43 +279,44 @@ class LocationCookieService {
    * Get the cookie value saved in UserLocationForm.
    *
    * @return mixed
+   *   Return mixed value.
    */
   public function getSavedCookie() {
-    return $this->saved_cookie;
+    return $this->savedCookie;
   }
 
   /**
    * Get whether or not the cookie should be updated during the response.
    *
    * @return bool
+   *   Return boolean value.
    */
   public function getShouldUpdate() {
-    return $this->should_update;
+    return $this->shouldUpdate;
   }
 
   /**
    * Set whether or not the cookie should be updated during the response.
    *
-   * @param bool
+   * @param bool $value
+   *   Boolean value.
    */
   public function setShouldUpdate($value) {
-    $this->should_update = $value;
+    $this->shouldUpdate = $value;
   }
 
   /**
    * Get new Cookie Name.
    *
    * @return string
+   *   Returns string value.
    */
   public function getNewCookieName() {
-    return $this->new_cookie_name;
+    return $this->newCookieName;
   }
 
   /**
-   * When domain changes, if the current language is not supported
-   * by the new domain, set the language cookie to the first supported.
-   *
-   * @return void
+   * When domain changes, if the current language is not supported by the new domain, set the language cookie to the first supported.
    */
   public function updateLanguageCookie() {
     $langs_for_this_domain = $this->configFactory->get('domain.language.' . $this->domainNegotiator->getActiveId() . '.language.negotiation')->get('languages');

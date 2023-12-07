@@ -14,11 +14,11 @@ use Drupal\user\EntityOwnerInterface;
  * @ingroup erpw_location
  */
 interface LocationEntityInterface extends
-  ContentEntityInterface,
-  RevisionLogInterface,
-  EntityChangedInterface,
-  EntityPublishedInterface,
-  EntityOwnerInterface {
+    ContentEntityInterface,
+    RevisionLogInterface,
+    EntityChangedInterface,
+    EntityPublishedInterface,
+    EntityOwnerInterface {
 
   /**
    * Add get/set methods for your configuration properties here.

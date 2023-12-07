@@ -132,7 +132,7 @@ class ManageLocationForm extends FormBase {
    *   The location service.
    * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
    *   The domain negotiator service.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The config factory service.
    * @param \Drupal\Core\State\StateInterface $stateService
    *   The state storage service.
@@ -220,7 +220,7 @@ class ManageLocationForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Export'),
       '#ajax' => [
-        'callback' => '::erpw_location_open_export_modal_callback',
+        'callback' => '::erpwLocationOpenExportModalCallback',
         'event' => 'click',
         'progress' => [
           'type' => 'throbber',
@@ -329,7 +329,7 @@ class ManageLocationForm extends FormBase {
       $domain = $this->domainNegotiator->getActiveDomain();
       $config = $this->configFactory->get('domain.location.' . $domain->get('id'));
       $location_value = $config->get('location');
-      $countryHierarchy = getCountryHierarchy($location_value);
+      $countryHierarchy = get_country_hierarchy($location_value);
 
       // Output the key-value pairs as an array.
       $finalArray = [];
@@ -424,7 +424,7 @@ class ManageLocationForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function erpw_location_open_export_modal_callback(array &$form, FormStateInterface $form_state) {
+  public function erpwLocationOpenExportModalCallback(array &$form, FormStateInterface $form_state) {
     $this->stateService->set('export_location_form_data', $form);
     $this->stateService->set('export_location_form_state_data', $form_state);
     $response = new AjaxResponse();
@@ -437,9 +437,9 @@ class ManageLocationForm extends FormBase {
 }
 
 /**
- *
+ * Get term hierarchy.
  */
-function getTermHierarchy($vid, $parent = 0, &$result = [], $depth = 0) {
+function get_term_hierarchy($vid, $parent = 0, &$result = [], $depth = 0) {
   $query = \Drupal::entityQuery('taxonomy_term');
   $query->condition('vid', $vid);
   $query->condition('parent', $parent);
@@ -448,14 +448,14 @@ function getTermHierarchy($vid, $parent = 0, &$result = [], $depth = 0) {
   foreach ($tids as $tid) {
     $term = Term::load($tid);
     $result[$term->id()] = $term->getName();
-    getTermHierarchy($vid, $term->id(), $result, $depth + 1);
+    get_term_hierarchy($vid, $term->id(), $result, $depth + 1);
   }
 }
 
 /**
- *
+ * Get country hierarchy.
  */
-function getCountryHierarchy($cid) {
+function get_country_hierarchy($cid) {
   $query = \Drupal::entityQuery('taxonomy_term');
   $query->condition('vid', 'country');
   $query->condition('tid', $cid);
@@ -463,7 +463,7 @@ function getCountryHierarchy($cid) {
 
   $result = [];
   foreach ($countryTids as $countryTid) {
-    getTermHierarchy('country', $countryTid, $result);
+    get_term_hierarchy('country', $countryTid, $result);
   }
 
   return $result;

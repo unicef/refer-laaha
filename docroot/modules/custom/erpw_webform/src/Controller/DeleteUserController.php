@@ -14,13 +14,13 @@ class DeleteUserController extends ControllerBase {
   /**
    * Delete user and display delete success message.
    *
-   * @param \Drupal\user\Entity\User $user
+   * @param \Drupal\user\Entity\User $id
    *   The user entity to be deleted.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   A JSON response indicating the status of the delete operation.
    */
-  public function deleteUser($id) {
+  public function deleteUser(User $id) {
     // Load current user role.
     $currentUserRole = User::load(\Drupal::currentUser()->id())->getRoles();
 
