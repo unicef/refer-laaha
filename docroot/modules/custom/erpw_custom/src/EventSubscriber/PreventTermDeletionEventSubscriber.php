@@ -2,16 +2,16 @@
 
 namespace Drupal\erpw_custom\EventSubscriber;
 
-use Drupal\Core\Database\Connection;
-use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
-use Drupal\core_event_dispatcher\FormHookEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Config\ConfigFactory;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Path\CurrentPathStack;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
+use Drupal\core_event_dispatcher\FormHookEvents;
 use Drupal\domain\DomainNegotiatorInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class PreventTermDeletionEventSubscriber.

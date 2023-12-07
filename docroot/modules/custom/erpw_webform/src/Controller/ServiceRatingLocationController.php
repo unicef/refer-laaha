@@ -165,6 +165,7 @@ class ServiceRatingLocationController extends ControllerBase {
         ];
       }
 
+      // @todo Cache computed value.
       return [
         '#theme' => 'location_rating_page',
         '#title' => $this->t('Service Ratings'),

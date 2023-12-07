@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Form\FormStateInterface;
@@ -18,7 +19,6 @@ use Drupal\views\ViewExecutable;
 use Drupal\views\Views;
 use Drupal\webform\Entity\Webform;
 use Drupal\webform\WebformInterface;
-use Drupal\Core\Cache\CacheableMetadata;
 
 /**
  * Implements hook_webform_add_form().
@@ -1478,6 +1478,7 @@ function erpw_webform_fetch_draft_submission_ids() {
   $query->fields('wsd', ['sid']);
   $query->condition('wsd.value', 'draft');
   $results = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
+  // @todo Cache computed value, invalidate data based on `draft`.
   return $results;
 }
 
@@ -1492,6 +1493,7 @@ function erpw_webform_fetch_service_rating_submission_ids() {
   $query->fields('wsd', ['sid']);
   $query->condition('wsd.webform_id', 'webform_service_rating_', 'LIKE');
   $results = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
+  // @todo Cache computed value.
   return $results;
 }
 
@@ -1510,6 +1512,7 @@ function erpw_webform_getLocationEntityIdByTid($tid) {
   if (!empty($location_entity)) {
     $location_entity_id = array_keys($location_entity)[0];
   }
+  // @todo Cache computed value.
   return $location_entity_id;
 }
 
@@ -1604,6 +1607,9 @@ function erpw_webform_get_child_term_ids() {
   return $ptids;
 }
 
+/**
+ * Implements hook_pwa_exclude_urls_alter().
+ */
 function erpw_webform_pwa_exclude_urls_alter(&$excludeUrls, CacheableMetadata &$cacheableMetadata) {
   $excludeUrls[] = "available.php";
 }
