@@ -598,16 +598,22 @@ function match_user_organisation_domain_location($organisation_domain_access, $l
 
 /**
  * Returns roles which present user can assigne, suitable for form options.
+ * It is recommended to be only used for Sign up form.
  */
 function erpw_custom_current_user_assignable_system_roles($uid) {
   $system_roles = [];
   $roles = \Drupal::entityTypeManager()->getStorage('user_role')->loadMultiple();
-  $current_user = \Drupal::entityTypeManager()->getStorage('user')->load($uid);
+  $current_user = User::load($uid);
   $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
   foreach ($roles as $role) {
     $permission = "role-assign users with role " . $role->id();
     if ($current_user->hasPermission($permission) && !in_array($role->id(), ['anonymous', 'authenticated', 'administrator'])) {
       $system_roles[$role->id()] = $role->label();
+      if ($current_user->hasRole('anonymous') && $active_domain_id == 'bn_erefer_org') {
+        $system_roles['service_provider_staff'] = "GBV Service Provider Staff";
+        $system_roles['service_provider_focal_point'] = "GBV Service Provider Focal Point";
+        $system_roles['gbv_focal_point'] = "GBV Camp Focal Point";
+      }
     }
   }
   if ($active_domain_id != 'bn_erefer_org') {
