@@ -217,12 +217,7 @@ class LanguageSelector extends FormBase {
       }
       if (empty($this->locationCookie->getCookieValue())) {
         $this->locationCookie->setDefaultCookieValue();
-        // $this->locationCookie->setCookieValue(base64_encode('country_tid_' . time()));
-        // $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
       }
-      // Else {
-      // $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $default_location);
-      // }.
       setcookie($this->locationCookie->getCookieName(), $default_location, strtotime('+1 year'), '/', $url, FALSE);
       $form_state->setRedirectUrl($redirect_url);
     }
