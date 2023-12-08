@@ -1729,6 +1729,7 @@ function erpw_custom_node_view(array &$build, EntityInterface $entity, EntityVie
         $url = Url::fromRoute($route_name, $route_parameters)->toString();
         $response = new RedirectResponse($url);
         $response->send();
+        exit;
       }
     }
   }
