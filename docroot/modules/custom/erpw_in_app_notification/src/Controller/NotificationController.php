@@ -47,6 +47,10 @@ class NotificationController extends ControllerBase {
         $role = 'focal_point';
         break;
 
+      case in_array('gbv_focal_point', $roles):
+        $role = 'gbv_focal_point';
+        break;
+
       case in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles):
         $role = 'gbv_coordination';
         break;
