@@ -109,6 +109,10 @@ class BroadcastNotificationEntityListBuilder extends EntityListBuilder {
     if ($entity->get('field_message_type')->value == 'predefined') {
       unset($build['#links']['translate']);
     }
+    if ($entity->get('field_type')->value != 'scheduled') {
+      unset($build['#links']['edit']);
+      unset($build['#links']['delete']);
+    }
     return $build;
   }
 

@@ -1335,6 +1335,21 @@ function erpw_in_app_notification__notification_process_cron_job() {
 }
 
 /**
+ * Implement ultimate_cron_callback().
+ */
+function erpw_in_app_notification__broadcast_notification_process_cron_job() {
+  $queue_factory = \Drupal::service('queue');
+  /** @var QueueInterface $queue */
+  $queue = $queue_factory->get('broadcast_process_queue_worker');
+  $ids = \Drupal::service('erpw_in_app_notification.default')->getBroadcastNotificationIds();
+  if (!empty($ids)) {
+    foreach ($ids as $id) {
+      $queue->createItem($id);
+    }
+  }
+}
+
+/**
  * Retrive the original data from webform_submission.
  */
 function erpw_in_app_notification__retrive_original_data($jsonData, &$return) {

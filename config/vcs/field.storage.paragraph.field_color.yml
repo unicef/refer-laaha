@@ -1,21 +1,21 @@
-uuid: 7514a093-572b-45cf-a191-aa8a8ae9f0ae
+uuid: b92ca9fc-5bce-46ea-8a98-d019107f96e8
 langcode: en
 status: true
 dependencies:
   module:
+    - color_field
     - field_permissions
     - paragraphs
-    - taxonomy
 third_party_settings:
   field_permissions:
     permission_type: public
 id: paragraph.field_color
 field_name: field_color
 entity_type: paragraph
-type: entity_reference
+type: color_field_type
 settings:
-  target_type: taxonomy_term
-module: core
+  format: '#HEXHEX'
+module: color_field
 locked: false
 cardinality: 1
 translatable: true

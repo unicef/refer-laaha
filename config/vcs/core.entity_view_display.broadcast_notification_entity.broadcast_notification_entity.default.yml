@@ -55,7 +55,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 7
+    weight: 6
     region: content
   field_message_type:
     type: list_default
@@ -65,13 +65,12 @@ content:
     weight: 8
     region: content
   field_organisation:
-    type: entity_reference_revisions_entity_view
+    type: entity_reference_label
     label: above
     settings:
-      view_mode: default
-      link: ''
+      link: true
     third_party_settings: {  }
-    weight: 6
+    weight: 7
     region: content
   field_predefined_messages:
     type: entity_reference_label

@@ -20,14 +20,14 @@ definitions:
     expanded: false
     enabled: true
   notification_entity__admin__structure__settings:
-    parent: config_pages.notification_events
     menu_name: admin
-    enabled: true
-    expanded: false
+    parent: config_pages.notification_events
     weight: 0
+    expanded: false
+    enabled: true
   notification_processed_entity__admin__structure__settings:
-    weight: 1
-    parent: config_pages.notification_events
     menu_name: admin
+    parent: config_pages.notification_events
+    weight: 1
     expanded: false
     enabled: true

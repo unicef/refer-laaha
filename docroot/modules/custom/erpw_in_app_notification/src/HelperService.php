@@ -77,6 +77,18 @@ class HelperService implements HelperServiceInterface {
   }
 
   /**
+   * Returns the broadcast entity ids.
+   */
+  public function getBroadcastNotificationIds() : array {
+    // Fetch new notifications.
+    $entity_storage = $this->entityTypeManager->getStorage('broadcast_notification_entity');
+    $ids = $entity_storage->getQuery()
+      ->accessCheck(FALSE)
+      ->execute();
+    return $ids ?? [];
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getDynamicDateFormate($timestamp, $formate = 'd F Y'): string {

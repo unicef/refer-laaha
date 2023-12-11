@@ -13,6 +13,24 @@ class BroadcastNotificationEntityForm extends ContentEntityForm {
   /**
    * {@inheritdoc}
    */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    /** @var \Drupal\erpw_in_app_notification\Entity\NotificationEntity $entity */
+    $form = parent::buildForm($form, $form_state);
+    unset($form['field_roles']['widget']['#options']['administrator']);
+    unset($form['field_roles']['widget']['#options']['anonymous']);
+    unset($form['field_roles']['widget']['#options']['authenticated']);
+    unset($form['field_roles']['widget']['#options']['super_admin']);
+    if (in_array('broadcast-notification-entity-edit-form', $form['#attributes']['class'])) {
+      $form['field_location']['#disabled'] = TRUE;
+      $form['field_organisation']['#disabled'] = TRUE;
+      $form['field_type']['#disabled'] = TRUE;
+    }
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function save(array $form, FormStateInterface $form_state) {
     $result = parent::save($form, $form_state);
 

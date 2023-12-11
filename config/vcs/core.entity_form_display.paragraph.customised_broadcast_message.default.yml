@@ -7,22 +7,27 @@ dependencies:
     - field.field.paragraph.customised_broadcast_message.field_icon
     - field.field.paragraph.customised_broadcast_message.field_message
     - paragraphs.paragraphs_type.customised_broadcast_message
+  module:
+    - color_field
+    - unicef_iconpicker
 id: paragraph.customised_broadcast_message.default
 targetEntityType: paragraph
 bundle: customised_broadcast_message
 mode: default
 content:
   field_color:
-    type: options_select
+    type: color_field_widget_html5
     weight: 1
     region: content
     settings: {  }
     third_party_settings: {  }
   field_icon:
-    type: options_select
+    type: unicef_iconpicker
     weight: 0
     region: content
-    settings: {  }
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_message:
     type: string_textarea
