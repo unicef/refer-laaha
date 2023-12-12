@@ -76,6 +76,7 @@ class NotificationController extends ControllerBase {
           $user[$item]['color'] = $npe->get('field_color')->getString();
           $user[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($broadcast->get('created')->getString());
           $user[$item]['read_status'] = $npe->get('field_read')->getString() ? 'read' : 'unread';
+          $user[$item]['notification_type'] = 'broadcast';
           if (!$npe->get('field_read')->getString()) {
             $usercount++;
           }
@@ -95,6 +96,7 @@ class NotificationController extends ControllerBase {
             $service[$item]['behavior'] = $ne->get('field_behavior')->getString();
             $service[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($ne->get('created')->getString());
             $service[$item]['read_status'] = $npe->get('field_read')->getString() ? 'read' : 'unread';
+            $service[$item]['notification_type'] = 'notification';
             if (!$npe->get('field_read')->getString()) {
               $servicecount++;
             }
@@ -106,6 +108,7 @@ class NotificationController extends ControllerBase {
             $user[$item]['behavior'] = $ne->get('field_behavior')->getString();
             $user[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($ne->get('created')->getString());
             $user[$item]['read_status'] = $npe->get('field_read')->getString() ? 'read' : 'unread';
+            $user[$item]['notification_type'] = 'notification';
             if (!$npe->get('field_read')->getString()) {
               $usercount++;
             }
