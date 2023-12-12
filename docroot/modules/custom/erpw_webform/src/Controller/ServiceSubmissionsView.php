@@ -2,6 +2,8 @@
 
 namespace Drupal\erpw_webform\Controller;
 
+use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\Markup;
@@ -32,9 +34,10 @@ class ServiceSubmissionsView extends ControllerBase {
   /**
    * Constructs a new ServiceWebforms object.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser, ConfigFactory $config_factory,) {
     $this->entityTypeManager = $entityTypeManager;
     $this->currentUser = $currentUser;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -44,6 +47,7 @@ class ServiceSubmissionsView extends ControllerBase {
     return new static(
     $container->get('entity_type.manager'),
     $container->get('current_user'),
+    $container->get('config.factory'),
     );
   }
 
@@ -81,6 +85,19 @@ class ServiceSubmissionsView extends ControllerBase {
         }
         $output[] = ['Service Type' => $servicelabel];
       }
+
+      // Get the elements directly from the configuration object.
+      $webform_config = $this->configFactory->get('webform.webform.' . $webformID);
+      $elements = $webform_config->get('elements');
+
+      // Ensure that $elements is an array before decoding from YAML.
+      if (is_string($elements)) {
+        $elements = Yaml::decode($elements);
+      }
+      $ordered_elements = [];
+      // Get the element titles for reference of setting the order.
+      $this->orderElements($elements, $ordered_elements);
+
       $fields = $webform_submission->getData();
       $location = '';
       $country = '';
@@ -330,11 +347,12 @@ class ServiceSubmissionsView extends ControllerBase {
             </div>
           </div>';
       }
-      // Sort the output alphabetically.
-      usort($output, function ($a, $b) {
-          $keyA = key($a);
-          $keyB = key($b);
-          return strcmp($keyA, $keyB);
+      // Sort the elements based on their order in the webform.
+      usort($output, function ($a, $b) use ($ordered_elements) {
+        $key_a = array_search(key($a), $ordered_elements);
+        $key_b = array_search(key($b), $ordered_elements);
+
+        return $key_a - $key_b;
       });
       foreach ($output as $item) {
         foreach ($item as $key => $value) {
@@ -398,6 +416,18 @@ class ServiceSubmissionsView extends ControllerBase {
       else {
         $fields = $webform_submission->getData();
       }
+
+      // Get the elements directly from the configuration object.
+      $webform_config = $this->configFactory->get('webform.webform.' . $webformID);
+      $elements = $webform_config->get('elements');
+
+      // Ensure that $elements is an array before decoding from YAML.
+      if (is_string($elements)) {
+        $elements = Yaml::decode($elements);
+      }
+      $ordered_elements = [];
+      // Get the element titles for reference of setting the order.
+      $this->orderElements($elements, $ordered_elements);
 
       $location = '';
       $country = '';
@@ -637,8 +667,7 @@ class ServiceSubmissionsView extends ControllerBase {
         $service_rating_text = t('Give Feedback');
         $service_rating_url = $url->toString();
 
-        // The extra ZZ is so that it always comes in the last place in the pair container.
-        $output[]['ZZ Service Rating Link'] = [
+        $output[]['Service Rating Link'] = [
           '#markup' => '<a class="service-feedback-form" href="' . $service_rating_url . '">' . $service_rating_text . '</a>',
         ];
       }
@@ -685,15 +714,26 @@ class ServiceSubmissionsView extends ControllerBase {
           </div>';
         }
       }
-      // Sort the output alphabetically.
-      usort($output, function ($a, $b) {
-          $keyA = key($a);
-          $keyB = key($b);
-          return strcmp($keyA, $keyB);
+
+      // Sort the elements based on their order in the webform.
+      usort($output, function ($a, $b) use ($ordered_elements) {
+        // Ensure 'Service Rating Link' is always placed at the end.
+        if (key($a) === 'Service Rating Link') {
+          return 1;
+        }
+        elseif (key($b) === 'Service Rating Link') {
+          return -1;
+        }
+
+        $key_a = array_search(key($a), $ordered_elements);
+        $key_b = array_search(key($b), $ordered_elements);
+
+        return $key_a - $key_b;
       });
+
       foreach ($output as $item) {
         foreach ($item as $key => $value) {
-          if ($key == 'ZZ Service Rating Link') {
+          if ($key == 'Service Rating Link') {
             $markup .= '<div class="pair-container"><span class="service-rating-label">' . Markup::create($key) . ':</span>';
           }
           else {
@@ -722,6 +762,33 @@ class ServiceSubmissionsView extends ControllerBase {
         '#type' => 'markup',
         '#markup' => '<h3>' . t('No submission found.') . '</h3>',
       ];
+    }
+  }
+
+  /**
+   * Provides a reference of the order of the elements by extracting titles
+   * from the given nested elements array.
+   *
+   * @param array $elements
+   *   The array of nested elements to be processed.
+   * @param array $filtered_elements
+   *   (Reference) An array to store the extracted titles of the elements.
+   */
+  private function orderElements(array $elements, array &$filtered_elements) {
+    foreach ($elements as $key => $value) {
+      // Check if the current element has a '#type' key and is not a 'details' type.
+      if (isset($value['#type']) && $value['#type'] !== 'details') {
+        // Extract the title if it exists, otherwise use an empty string.
+        $title = $value['#title'] ?? '';
+
+        // Add the title to the filtered elements array.
+        $filtered_elements[] = $title;
+      }
+
+      // If the current element has nested elements, recursively call the function.
+      if (is_array($value) && !empty($value)) {
+        $this->orderElements($value, $filtered_elements);
+      }
     }
   }
 
