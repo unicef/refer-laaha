@@ -20,3 +20,15 @@ entity.broadcast_notification_entity.settings:
     _title: 'Broadcast Notification Entity'
   requirements:
     _permission: 'administer broadcast notification entity'
+
+erpw_in_app_notification.duplicatebroadcast:
+  path: '/duplicate/broadcastentity/{id}'
+  defaults:
+    _title: 'Duplicate Broadcast Entity'
+    _controller: '\Drupal\erpw_in_app_notification\Controller\DuplicateBroadcastEntity::duplicate'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      id:
+        type: 'entity:broadcast_notification_entity'

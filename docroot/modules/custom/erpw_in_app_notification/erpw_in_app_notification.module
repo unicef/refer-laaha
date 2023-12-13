@@ -47,10 +47,12 @@ function erpw_in_app_notification_theme() {
         'user' => '',
         'role' => '',
         'service' => '',
+        'broadcast' => '',
         'common_var' => '',
         'count' => [
           'user' => 0,
           'service' => 0,
+          'broadcast' => 0,
         ],
       ],
     ],
@@ -1724,5 +1726,21 @@ function erpw_in_app_notification_preprocess_table(&$variables) {
       }
     }
     $variables['rows'] = $languages;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function erpw_in_app_notification_form_broadcast_notification_entity_edit_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'broadcast_notification_entity_edit_form') {
+    // Check if 'duplicate' is present in the query parameters.
+    if (\Drupal::request()->query->has('duplicate')) {
+      if (\Drupal::request()->query->get('duplicate') == 'TRUE') {
+        $form['field_location']['#disabled'] = FALSE;
+        $form['field_organisation']['#disabled'] = FALSE;
+        $form['field_type']['#disabled'] = FALSE;
+      }
+    }
   }
 }

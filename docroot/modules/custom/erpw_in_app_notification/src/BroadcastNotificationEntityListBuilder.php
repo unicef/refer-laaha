@@ -7,6 +7,8 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -89,7 +91,7 @@ class BroadcastNotificationEntityListBuilder extends EntityListBuilder {
       $row['scheduled_option'] = t('N/A');
     }
     $row['message_type'] = $entity->get('field_message_type')->getFieldDefinition()->getSettings()['allowed_values'][$entity->get('field_message_type')->value];
-    $row['last_sent'] = date('d/m/y - H:i:s', $entity->get('field_last_sent')->value);
+    $row['last_sent'] = $entity->get('field_last_sent')->value == '1701367200' ? t('Pending') : date('d/m/y - H:i:s', $entity->get('field_last_sent')->value);
     return $row + parent::buildRow($entity);
   }
 
@@ -113,6 +115,16 @@ class BroadcastNotificationEntityListBuilder extends EntityListBuilder {
       unset($build['#links']['edit']);
       unset($build['#links']['delete']);
     }
+    // Generate the URL for the add form with the duplicateid parameter.
+    $url = Url::fromRoute('erpw_in_app_notification.duplicatebroadcast', ['id' => $entity->get('id')->value]);
+    $duplicatebroadcast = Link::fromTextAndUrl(t('Duplicate'), $url);
+    $duplicateLink = [
+      'title' => $duplicatebroadcast->getText(),
+      'weight' => 90,
+      'url' => $duplicatebroadcast->getUrl(),
+    ];
+    // Add the "duplicatebroadcast" link to the operations.
+    $build['#links']['duplicatebroadcast'] = $duplicateLink;
     return $build;
   }
 

@@ -21,10 +21,10 @@
 			</div>
 		</div>
 	{% endfor %}
-	{% for item in user %}
+	{% for item in broadcast %}
 		{% if item.notification_type == 'broadcast' %}
 			<div class="notification info-{{ item.read_status }}" style="background-color:{{ item.color }};">
-				<div class="icon">
+				<div class="icon broadcast-icon">
 					<i class="{{ item.icon }}"></i>
 				</div>
 				<div class="content">
@@ -47,48 +47,17 @@
 		<button class="tablinks" onclick="openTab(event, 'service')">{{ 'Service Updates'|t }}
 			<span>{{ count.service }}</span>
 		</button>
+		<button class="tablinks" onclick="openTab(event, 'broadcast')">{{ 'Broadcast'|t }}
+			<span>{{ count.broadcast }}</span>
+		</button>
 	</div>
 
 	<!-- Tab content -->
 	<div id="user" class="tabcontent notification__content" style="display:block;">
 		{% for item in user %}
-			{% if item.notification_type == 'broadcast' %}
-				<div class="notification info-{{ item.read_status }}" style="background-color:{{ item.color }};">
-					<div class="icon">
-						<i class="{{ item.icon }}"></i>
-					</div>
-					<div class="content">
-						<p>{{ item.message|raw }}</p>
-						<p class="time">{{ item.created }}
-							|
-							{{ "Information"|t }}</p>
-					</div>
-				</div>
-			{% else %}
-				{% if item.behavior == 'link' %}
-					<a href="{{ item.link }}">
-						<div class="notification link-{{ item.read_status }}">
-							<div class="icon">
-								{% set imagestyle = {
-                            '#theme':      'image_style',
-                            '#style_name': 'thumbnail',
-                            '#uri':        item.icon,
-                            '#alt':        'icon',
-                            '#attributes': { class: 'circular-image' },
-                        }
-                        %}
-								{{ imagestyle }}
-							</div>
-							<div class="content">
-								<p class="notification-data">{{ item.message|raw }}</p>
-								<p class="time notification-status-data">{{ item.created }}
-									|
-									{{ "Review"|t }}</p>
-							</div>
-						</div>
-					</a>
-				{% else %}
-					<div class="notification info-{{ item.read_status }}">
+			{% if item.behavior == 'link' %}
+				<a href="{{ item.link }}">
+					<div class="notification link-{{ item.read_status }}">
 						<div class="icon">
 							{% set imagestyle = {
                             '#theme':      'image_style',
@@ -104,12 +73,31 @@
 							<p class="notification-data">{{ item.message|raw }}</p>
 							<p class="time notification-status-data">{{ item.created }}
 								|
-								{{ "Information"|t }}</p>
+								{{ "Review"|t }}</p>
 						</div>
 					</div>
-				{% endif %}
+				</a>
+			{% else %}
+				<div class="notification info-{{ item.read_status }}">
+					<div class="icon">
+						{% set imagestyle = {
+                            '#theme':      'image_style',
+                            '#style_name': 'thumbnail',
+                            '#uri':        item.icon,
+                            '#alt':        'icon',
+                            '#attributes': { class: 'circular-image' },
+                        }
+                        %}
+						{{ imagestyle }}
+					</div>
+					<div class="content">
+						<p class="notification-data">{{ item.message|raw }}</p>
+						<p class="time notification-status-data">{{ item.created }}
+							|
+							{{ "Information"|t }}</p>
+					</div>
+				</div>
 			{% endif %}
-
 		{% endfor %}
 	</div>
 
@@ -153,6 +141,24 @@
 					<div class="content">
 						<p class="notification-data">{{ item.message|raw }}</p>
 						<p class="time notification-status-data">{{ item.created }}
+							|
+							{{ "Information"|t }}</p>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+
+	<div id="broadcast" class="tabcontent notification__content">
+		{% for item in broadcast %}
+			{% if item.notification_type == 'broadcast' %}
+				<div class="broadcast-notification notification info-{{ item.read_status }}" style="background-color:{{ item.color }};">
+					<div class="icon broadcast-icon">
+						<i class="{{ item.icon }}"></i>
+					</div>
+					<div class="content">
+						<p>{{ item.message|raw }}</p>
+						<p class="time">{{ item.created }}
 							|
 							{{ "Information"|t }}</p>
 					</div>

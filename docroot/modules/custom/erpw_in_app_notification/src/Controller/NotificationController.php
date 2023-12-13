@@ -63,22 +63,22 @@ class NotificationController extends ControllerBase {
       ->condition('field_recipient', \Drupal::currentUser()->id())
       ->sort('id', 'DESC')
       ->execute();
-    $service = $user = [];
-    $servicecount = $usercount = 0;
+    $service = $user = $broadcasts = [];
+    $servicecount = $usercount = $broadcastcount = 0;
     if (!empty($notify)) {
       foreach ($notify as $item) {
         $npe = $npestorage->load($item);
         if ($npe->get('field_type_of_notification')->getString() == 'broadcast') {
           // Load notification entity.
           $broadcast = $broadcaststorage->load($npe->get('field_notification_id')->getString());
-          $user[$item]['icon'] = $npe->get('field_icon')->getString();
-          $user[$item]['message'] = $npe->get('field_message_string')->getString();
-          $user[$item]['color'] = $npe->get('field_color')->getString();
-          $user[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($broadcast->get('created')->getString());
-          $user[$item]['read_status'] = $npe->get('field_read')->getString() ? 'read' : 'unread';
-          $user[$item]['notification_type'] = 'broadcast';
+          $broadcasts[$item]['icon'] = $npe->get('field_icon')->getString();
+          $broadcasts[$item]['message'] = $npe->get('field_message_string')->getString();
+          $broadcasts[$item]['color'] = $npe->get('field_color')->getString();
+          $broadcasts[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($broadcast->get('created')->getString());
+          $broadcasts[$item]['read_status'] = $npe->get('field_read')->getString() ? 'read' : 'unread';
+          $broadcasts[$item]['notification_type'] = 'broadcast';
           if (!$npe->get('field_read')->getString()) {
-            $usercount++;
+            $broadcastcount++;
           }
           // Once the info notification delivered, that mark as read.
           if ($npe->get('field_read')->getString() == 0) {
@@ -128,9 +128,11 @@ class NotificationController extends ControllerBase {
       '#role' => $role,
       '#user' => $user,
       '#service' => $service,
+      '#broadcast' => $broadcasts,
       '#count' => [
         'service' => $servicecount,
         'user' => $usercount,
+        'broadcast' => $broadcastcount,
       ],
       '#common_var' => [
         'module_path' => \Drupal::service('extension.list.module')->getPath('erpw_in_app_notification'),
@@ -138,6 +140,7 @@ class NotificationController extends ControllerBase {
       '#attached' => [
         'library' => [
           'erpw_in_app_notification/notification',
+          'unicef_iconpicker/unicef-iconpicker',
         ],
       ],
     ];
