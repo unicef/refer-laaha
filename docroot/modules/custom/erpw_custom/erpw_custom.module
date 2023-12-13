@@ -54,27 +54,17 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
 
     /* Filter Organisation by the active domain */
-    
+
     // Load Organisation nodes for the active domain.
-    // @todo Cache the query executed result. - DONE.
-    // TODO: Cache invalidation.
-    $cid = 'erpw_custom_organisation_nodes';
-    $organisation_nids = NULL;
-    $organistion_cache = \Drupal::cache()->get($cid);
     $entity_type_manager = \Drupal::entityTypeManager();
     $node_storage = $entity_type_manager->getStorage('node');
-    if ($organistion_cache->data != NULL) {
-      $organisation_nids = $organistion_cache->data;
-    }
-    else {
-      $query = $node_storage->getQuery();
-      $query->condition('type', 'organisation');
-      $query->condition('field_domain_access', $active_domain->id());
-      $query->accessCheck(FALSE);
-      $organisation_nids = $query->execute();
-      \Drupal::cache()->set($cid, $organisation_nids);
-    }
+    $query = $node_storage->getQuery();
+    $query->condition('type', 'organisation');
+    $query->condition('field_domain_access', $active_domain->id());
+    $query->accessCheck(FALSE);
+    $organisation_nids = $query->execute();
 
+    // @todo Cache the query executed result.
     // Retrieve the titles of the organisations.
     $organisations = $node_storage->loadMultiple($organisation_nids);
     $organisation_options = ['All' => t('All')];
@@ -136,47 +126,23 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
  * Callback to get service type options array.
  */
 function erpw_custom_service_type_options() {
-  // $languagecode = \Drupal::languageManager()->getCurrentLanguage()->getId();
-  // $query = \Drupal::database()->select("node_field_data", "n");
-  // $query->innerJoin('node__field_service_type', 'ns', 'n.nid = ns.field_service_type_target_id AND n.langcode = ns.langcode');
-  // $query->fields('n', ['nid', 'title']);
-  // $query->condition('n.type', 'service_type');
-  // $query->condition('ns.bundle', 'service_provider');
-  // $query->condition('ns.langcode', $languagecode);
-  // $query->condition('n.status', '1');
-  // $query->orderBy('n.title', 'ASC');
-  // $query = $query->execute();
-  // $results = $query->fetchAll();
-  // $options[''] = t('All');
-  // foreach ($results as $value) {
-  //   $options[$value->nid] = $value->title;
-  // }
-  $cid = 'erpw_custom_service_type_options';
-  $options = NULL;
-  $cache = \Drupal::cache()->get($cid);
-  if ($cache->data != NULL) {
-    $options = $cache->data;
-  }
-  else {
-    $languagecode = \Drupal::languageManager()->getCurrentLanguage()->getId();
-    $query = \Drupal::database()->select("node_field_data", "n");
-    $query->innerJoin('node__field_service_type', 'ns', 'n.nid = ns.field_service_type_target_id AND n.langcode = ns.langcode');
-    $query->fields('n', ['nid', 'title']);
-    $query->condition('n.type', 'service_type');
-    $query->condition('ns.bundle', 'service_provider');
-    $query->condition('ns.langcode', $languagecode);
-    $query->condition('n.status', '1');
-    $query->orderBy('n.title', 'ASC');
-    $query = $query->execute();
-    $results = $query->fetchAll();
-    $options[''] = t('All');
-    foreach ($results as $value) {
-      $options[$value->nid] = $value->title;
-    }
-    \Drupal::cache()->set($cid, $options);
+  $languagecode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $query = \Drupal::database()->select("node_field_data", "n");
+  $query->innerJoin('node__field_service_type', 'ns', 'n.nid = ns.field_service_type_target_id AND n.langcode = ns.langcode');
+  $query->fields('n', ['nid', 'title']);
+  $query->condition('n.type', 'service_type');
+  $query->condition('ns.bundle', 'service_provider');
+  $query->condition('ns.langcode', $languagecode);
+  $query->condition('n.status', '1');
+  $query->orderBy('n.title', 'ASC');
+  $query = $query->execute();
+  $results = $query->fetchAll();
+  $options[''] = t('All');
+  foreach ($results as $value) {
+    $options[$value->nid] = $value->title;
   }
 
-  // @todo Cache the query executed result. - DONE.
+  // @todo Cache the query executed result.
   return $options;
 }
 
@@ -442,28 +408,13 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       $node = \Drupal::routeMatch()->getParameter('node');
       // Get all users who have the node id.
       $node_id = $node->id();
-      // $query = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
-      // $query->condition('status', 1);
-      // $query->condition('field_organisation', $node_id);
-      // $query->accessCheck(FALSE);
-      // $user_ids = $query->execute();
+      $query = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
+      $query->condition('status', 1);
+      $query->condition('field_organisation', $node_id);
+      $query->accessCheck(FALSE);
+      $user_ids = $query->execute();
 
-      $users_cid = 'erpw_custom' . $node_id . '_user_ids';
-      $user_ids_cache = \Drupal::cache()->get($users_cid);
-      $user_ids = NULL;
-      if ($user_ids_cache->data != NULL) {
-        $user_ids = $user_ids_cache->data;
-      }
-      else {
-        $query = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
-        $query->condition('status', 1);
-        $query->condition('field_organisation', $node_id);
-        $query->accessCheck(FALSE);
-        $user_ids = $query->execute();
-        \Drupal::cache()->set($users_cid, $user_ids);
-      }
-
-      // @todo Cache the query executed result. - DONE.
+      // @todo Cache the query executed result.
       // Get all services who have the node id (look into webform-submissions for services data.)
       $webform_submission_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
       $webform_submissions = $webform_submission_storage->loadMultiple();
