@@ -97,20 +97,29 @@ class ServiceformsexporterResource extends ResourceBase {
    *   The response containing the record.
    */
   public function get() {
-    $webforms = $this->entityTypeManager->getStorage('webform')->loadMultiple();
+    $cid = 'service_forms_exporter_resource';
     $webformsRevised = [];
-    foreach ($webforms as $id => $webform) {
-      $webformsRevised[$id] = $webform->toArray();
-      $webformsRevised[$id]['elementsFlattened'] = $webform->getElementsInitializedFlattenedAndHasValue();
-      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-      foreach ($tpa as $sid) {
-        if ($sid[0] != '') {
-          $service_type_node = \Drupal::entityTypeManager()->getStorage('node')->load($sid[0]);
-          if ($service_type_node != NULL) {
-            $webformsRevised[$id]['serviceTypeTitle'] = $service_type_node->getTitle();
+    if ($cache = \Drupal::cache()
+      ->get($cid)) {
+      $webformsRevised = $cache->data;
+    }
+    else {
+      $webforms = $this->entityTypeManager->getStorage('webform')->loadMultiple();
+      foreach ($webforms as $id => $webform) {
+        $webformsRevised[$id] = $webform->toArray();
+        $webformsRevised[$id]['elementsFlattened'] = $webform->getElementsInitializedFlattenedAndHasValue();
+        $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+        foreach ($tpa as $sid) {
+          if ($sid[0] != '') {
+            $service_type_node = \Drupal::entityTypeManager()->getStorage('node')->load($sid[0]);
+            if ($service_type_node != NULL) {
+              $webformsRevised[$id]['serviceTypeTitle'] = $service_type_node->getTitle();
+            }
           }
         }
       }
+      \Drupal::cache()
+        ->set($cid, $webformsRevised);
     }
     $this->logger->notice('Exported service forms.');
     // Return the newly created record in the response body.
