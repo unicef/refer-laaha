@@ -60,35 +60,41 @@ class ServiceWebforms extends ControllerBase {
    * Generate and return list of links of current domain's webform.
    */
   public function listForms() {
-    // Build an array of links of all the webforms of the current domain.
-    $currentDomain = $this->domainNegotiator->getActiveDomain()->id();
-    $webforms = $this->entityTypeManager->getStorage('webform')->loadMultiple();
-    $markup = '<h4 class="details-heading">' . t('Select the service type.') . '</h4>';
-    // Loop through $webform.
-    foreach ($webforms as $webform) {
-      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-      if (!is_null($tpa)) {
-        if (array_key_exists($currentDomain, $tpa)) {
-          $url = Url::fromRoute('entity.webform.canonical', ['webform' => $webform->id()])->toString();
-          $serviceType = $this->entityTypeManager->getStorage('node')->load($tpa[$currentDomain][0]);
-          if ($serviceType && $serviceType->hasField('field_service_type_color')) {
-            $bgcolor = $serviceType->get('field_service_type_color')?->getValue()[0]['color'];
-            if ($bgcolor == '#B2A0D9') {
-              $bgclass = 'apply-lavender';
-            }
-            elseif ($bgcolor == '#F4CBCA') {
-              $bgclass = 'apply-peach';
-            }
-            elseif ($bgcolor == '#7FBC72') {
-              $bgclass = 'apply-green';
-            }
-            elseif ($bgcolor == '#F9D14A') {
-              $bgclass = 'apply-mustard-yellow';
-            }
-            else {
-              $bgclass = '';
-            }
-            $markup = $markup . '
+    $cid = 'service_webforms_list';
+    $markup = '';
+    if ($cache = \Drupal::cache()->get($cid)) {
+      $markup = $cache->data;
+    }
+    else {
+      // Build an array of links of all the webforms of the current domain.
+      $currentDomain = $this->domainNegotiator->getActiveDomain()->id();
+      $webforms = $this->entityTypeManager->getStorage('webform')->loadMultiple();
+      $markup = '<h4 class="details-heading">' . t('Select the service type.') . '</h4>';
+      // Loop through $webform.
+      foreach ($webforms as $webform) {
+        $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+        if (!is_null($tpa)) {
+          if (array_key_exists($currentDomain, $tpa)) {
+            $url = Url::fromRoute('entity.webform.canonical', ['webform' => $webform->id()])->toString();
+            $serviceType = $this->entityTypeManager->getStorage('node')->load($tpa[$currentDomain][0]);
+            if ($serviceType && $serviceType->hasField('field_service_type_color')) {
+              $bgcolor = $serviceType->get('field_service_type_color')?->getValue()[0]['color'];
+              if ($bgcolor == '#B2A0D9') {
+                $bgclass = 'apply-lavender';
+              }
+              elseif ($bgcolor == '#F4CBCA') {
+                $bgclass = 'apply-peach';
+              }
+              elseif ($bgcolor == '#7FBC72') {
+                $bgclass = 'apply-green';
+              }
+              elseif ($bgcolor == '#F9D14A') {
+                $bgclass = 'apply-mustard-yellow';
+              }
+              else {
+                $bgclass = '';
+              }
+              $markup = $markup . '
           <div class="service-providers-submission-row select-service-type-webform">
             <a href="' . $url . '">
               <div class="row-header">
@@ -104,15 +110,17 @@ class ServiceWebforms extends ControllerBase {
               </div>
             </a>
           </div>';
-          }
-          else {
-            \Drupal::logger('erpw_webform')->error(
+            }
+            else {
+              \Drupal::logger('erpw_webform')->error(
               'Service Type does not exist or has been deleted for Webform id %webform_id.',
               ['%webform_id' => $webform->id()]
                       );
+            }
           }
         }
       }
+      \Drupal::cache()->set($cid, $markup);
     }
 
     // @todo Cache computed value.
