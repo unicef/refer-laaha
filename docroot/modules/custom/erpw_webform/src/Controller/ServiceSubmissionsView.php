@@ -55,7 +55,7 @@ class ServiceSubmissionsView extends ControllerBase {
    * Generate key value pair of elements in the webform submission.
    */
   public function content(WebformSubmission $webform_submission) {
-    $cid = 'service_submissions_view';
+    $cid = 'service_submissions_view' . $webform_submission->id();
     $markup = '';
     if ($cache = \Drupal::cache()->get($cid)) {
       $markup = $cache->data;
