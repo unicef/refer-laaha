@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "22ab4a472e0c42a9e0780767d24db6d3",
+    "content-hash": "d10201d9163743053cb269a1f26a93e4",
     "packages": [
         {
             "name": "acquia/blt",
@@ -8053,6 +8053,110 @@
             "time": "2023-03-21T19:06:37+00:00"
         },
         {
+            "name": "mglaman/phpstan-drupal",
+            "version": "1.1.37",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mglaman/phpstan-drupal.git",
+                "reference": "a40fb539b55d47aeabc308d99b3088a40abcff30"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mglaman/phpstan-drupal/zipball/a40fb539b55d47aeabc308d99b3088a40abcff30",
+                "reference": "a40fb539b55d47aeabc308d99b3088a40abcff30",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "phpstan/phpstan": "^1.10.1",
+                "symfony/finder": "~3.4.5 ||^4.2 || ^5.0 || ^6.0",
+                "symfony/yaml": "~3.4.5 || ^4.2|| ^5.0 || ^6.0",
+                "webflo/drupal-finder": "^1.2"
+            },
+            "require-dev": {
+                "behat/mink": "^1.8",
+                "composer/installers": "^1.9",
+                "drupal/core-recommended": "^8.8@alpha || ^9.0",
+                "drush/drush": "^9.6 || ^10.0 || ^11",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-strict-rules": "^1.0",
+                "phpunit/phpunit": "^6.5 || ^7.5 || ^8.0 || ^9",
+                "slevomat/coding-standard": "^7.1",
+                "squizlabs/php_codesniffer": "^3.3",
+                "symfony/phpunit-bridge": "^3.4.3 || ^4.4 || ^5.4 || ^6.0"
+            },
+            "suggest": {
+                "jangregor/phpstan-prophecy": "Provides a prophecy/prophecy extension for phpstan/phpstan.",
+                "phpstan/phpstan-deprecation-rules": "For catching deprecations, especially in Drupal core.",
+                "phpstan/phpstan-phpunit": "PHPUnit extensions and rules for PHPStan."
+            },
+            "type": "phpstan-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.0-dev"
+                },
+                "installer-paths": {
+                    "tests/fixtures/drupal/core": [
+                        "type:drupal-core"
+                    ],
+                    "tests/fixtures/drupal/libraries/{$name}": [
+                        "type:drupal-library"
+                    ],
+                    "tests/fixtures/drupal/modules/contrib/{$name}": [
+                        "type:drupal-module"
+                    ],
+                    "tests/fixtures/drupal/profiles/contrib/{$name}": [
+                        "type:drupal-profile"
+                    ],
+                    "tests/fixtures/drupal/themes/contrib/{$name}": [
+                        "type:drupal-theme"
+                    ]
+                },
+                "phpstan": {
+                    "includes": [
+                        "extension.neon",
+                        "rules.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "mglaman\\PHPStanDrupal\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matt Glaman",
+                    "email": "nmd.matt@gmail.com"
+                }
+            ],
+            "description": "Drupal extension and rules for PHPStan",
+            "support": {
+                "issues": "https://github.com/mglaman/phpstan-drupal/issues",
+                "source": "https://github.com/mglaman/phpstan-drupal/tree/1.1.37"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/mglaman",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/phpstan-drupal",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/mglaman/phpstan-drupal",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-07-25T14:24:06+00:00"
+        },
+        {
             "name": "mkalkbrenner/php-htmldiff-advanced",
             "version": "0.0.8",
             "source": {
@@ -8545,6 +8649,69 @@
                 "source": "https://github.com/phpowermove/docblock/tree/v4.0"
             },
             "time": "2021-09-22T16:57:06+00:00"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "version": "1.10.46",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan.git",
+                "reference": "90d3d25c5b98b8068916bbf08ce42d5cb6c54e70"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/90d3d25c5b98b8068916bbf08ce42d5cb6c54e70",
+                "reference": "90d3d25c5b98b8068916bbf08ce42d5cb6c54e70",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2|^8.0"
+            },
+            "conflict": {
+                "phpstan/phpstan-shim": "*"
+            },
+            "default-branch": true,
+            "bin": [
+                "phpstan",
+                "phpstan.phar"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan - PHP Static Analysis Tool",
+            "keywords": [
+                "dev",
+                "static analysis"
+            ],
+            "support": {
+                "docs": "https://phpstan.org/user-guide/getting-started",
+                "forum": "https://github.com/phpstan/phpstan/discussions",
+                "issues": "https://github.com/phpstan/phpstan/issues",
+                "security": "https://github.com/phpstan/phpstan/security/policy",
+                "source": "https://github.com/phpstan/phpstan-src"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/phpstan",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-11-28T14:57:26+00:00"
         },
         {
             "name": "politsin/jquery-ui-touch-punch",
@@ -13706,110 +13873,6 @@
             "time": "2022-10-01T20:16:33+00:00"
         },
         {
-            "name": "mglaman/phpstan-drupal",
-            "version": "1.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mglaman/phpstan-drupal.git",
-                "reference": "57b2cc67fb4416e8484db37a3d8502ac8fb3c0d6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mglaman/phpstan-drupal/zipball/57b2cc67fb4416e8484db37a3d8502ac8fb3c0d6",
-                "reference": "57b2cc67fb4416e8484db37a3d8502ac8fb3c0d6",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.4 || ^8.0",
-                "phpstan/phpstan": "^1.10.1",
-                "phpstan/phpstan-deprecation-rules": "^1.1.4",
-                "symfony/finder": "^4.2 || ^5.0 || ^6.0 || ^7.0",
-                "symfony/yaml": "^4.2|| ^5.0 || ^6.0 || ^7.0",
-                "webflo/drupal-finder": "^1.2"
-            },
-            "require-dev": {
-                "behat/mink": "^1.8",
-                "composer/installers": "^1.9",
-                "drupal/core-recommended": "^9.0",
-                "drush/drush": "^10.0 || ^11 || ^12",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan-strict-rules": "^1.0",
-                "phpunit/phpunit": "^8.5 || ^9",
-                "slevomat/coding-standard": "^7.1",
-                "squizlabs/php_codesniffer": "^3.3",
-                "symfony/phpunit-bridge": "^4.4 || ^5.4 || ^6.0 || ^7.0"
-            },
-            "suggest": {
-                "jangregor/phpstan-prophecy": "Provides a prophecy/prophecy extension for phpstan/phpstan.",
-                "phpstan/phpstan-deprecation-rules": "For catching deprecations, especially in Drupal core.",
-                "phpstan/phpstan-phpunit": "PHPUnit extensions and rules for PHPStan."
-            },
-            "type": "phpstan-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "1.0-dev"
-                },
-                "installer-paths": {
-                    "tests/fixtures/drupal/core": [
-                        "type:drupal-core"
-                    ],
-                    "tests/fixtures/drupal/libraries/{$name}": [
-                        "type:drupal-library"
-                    ],
-                    "tests/fixtures/drupal/modules/contrib/{$name}": [
-                        "type:drupal-module"
-                    ],
-                    "tests/fixtures/drupal/profiles/contrib/{$name}": [
-                        "type:drupal-profile"
-                    ],
-                    "tests/fixtures/drupal/themes/contrib/{$name}": [
-                        "type:drupal-theme"
-                    ]
-                },
-                "phpstan": {
-                    "includes": [
-                        "extension.neon",
-                        "rules.neon"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "mglaman\\PHPStanDrupal\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matt Glaman",
-                    "email": "nmd.matt@gmail.com"
-                }
-            ],
-            "description": "Drupal extension and rules for PHPStan",
-            "support": {
-                "issues": "https://github.com/mglaman/phpstan-drupal/issues",
-                "source": "https://github.com/mglaman/phpstan-drupal/tree/1.2.4"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/mglaman",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/phpstan-drupal",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/mglaman/phpstan-drupal",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2023-11-14T22:47:32+00:00"
-        },
-        {
             "name": "mikey179/vfsstream",
             "version": "v1.x-dev",
             "source": {
@@ -14545,117 +14608,6 @@
                 "source": "https://github.com/phpstan/phpdoc-parser/tree/1.24.4"
             },
             "time": "2023-11-26T18:29:22+00:00"
-        },
-        {
-            "name": "phpstan/phpstan",
-            "version": "1.10.46",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "90d3d25c5b98b8068916bbf08ce42d5cb6c54e70"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/90d3d25c5b98b8068916bbf08ce42d5cb6c54e70",
-                "reference": "90d3d25c5b98b8068916bbf08ce42d5cb6c54e70",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2|^8.0"
-            },
-            "conflict": {
-                "phpstan/phpstan-shim": "*"
-            },
-            "default-branch": true,
-            "bin": [
-                "phpstan",
-                "phpstan.phar"
-            ],
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PHPStan - PHP Static Analysis Tool",
-            "keywords": [
-                "dev",
-                "static analysis"
-            ],
-            "support": {
-                "docs": "https://phpstan.org/user-guide/getting-started",
-                "forum": "https://github.com/phpstan/phpstan/discussions",
-                "issues": "https://github.com/phpstan/phpstan/issues",
-                "security": "https://github.com/phpstan/phpstan/security/policy",
-                "source": "https://github.com/phpstan/phpstan-src"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/ondrejmirtes",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/phpstan",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2023-11-28T14:57:26+00:00"
-        },
-        {
-            "name": "phpstan/phpstan-deprecation-rules",
-            "version": "1.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpstan/phpstan-deprecation-rules.git",
-                "reference": "788ea1bd84f7848abf27ba29b92c6c9d285dfc95"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/788ea1bd84f7848abf27ba29b92c6c9d285dfc95",
-                "reference": "788ea1bd84f7848abf27ba29b92c6c9d285dfc95",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2 || ^8.0",
-                "phpstan/phpstan": "^1.11"
-            },
-            "require-dev": {
-                "php-parallel-lint/php-parallel-lint": "^1.2",
-                "phpstan/phpstan-phpunit": "^1.0",
-                "phpunit/phpunit": "^9.5"
-            },
-            "default-branch": true,
-            "type": "phpstan-extension",
-            "extra": {
-                "phpstan": {
-                    "includes": [
-                        "rules.neon"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PHPStan\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PHPStan rules for detecting usage of deprecated classes, methods, properties, constants and traits.",
-            "support": {
-                "issues": "https://github.com/phpstan/phpstan-deprecation-rules/issues",
-                "source": "https://github.com/phpstan/phpstan-deprecation-rules/tree/1.2.x"
-            },
-            "time": "2023-09-19T08:17:29+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -16989,5 +16941,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
