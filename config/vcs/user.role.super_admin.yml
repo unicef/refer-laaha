@@ -8,6 +8,7 @@ dependencies:
     - node.type.referral_path_way
     - node.type.service_provider
     - node.type.service_type
+    - taxonomy.vocabulary.predefined_broadcast_messages
     - workflows.workflow.service_editorial
   module:
     - administerusersbyrole
@@ -16,13 +17,17 @@ dependencies:
     - content_translation
     - domain_access
     - erpw_custom
+    - erpw_in_app_notification
     - erpw_location
     - erpw_webform
     - field_permissions
+    - field_ui
     - node
     - node_view_permissions
+    - queue_ui
     - quick_node_clone
     - system
+    - taxonomy
     - webform
     - webform_submission_log
 id: super_admin
@@ -44,6 +49,10 @@ permissions:
   - 'add new user'
   - 'add service rating question'
   - 'add service rating question'
+  - 'administer broadcast notification entity'
+  - 'administer broadcast_notification_entity display'
+  - 'administer broadcast_notification_entity fields'
+  - 'administer broadcast_notification_entity form display'
   - 'administer users'
   - 'administer webform'
   - 'administer webform'
@@ -58,6 +67,7 @@ permissions:
   - 'cancel users with role service_provider_staff'
   - 'clone referral_path_way content'
   - 'clone service_type content'
+  - 'create broadcast notification entity'
   - 'create content translations'
   - 'create feedback_area content on assigned domains'
   - 'create field_domain_access'
@@ -66,6 +76,7 @@ permissions:
   - 'create service_provider content'
   - 'create service_type content'
   - 'create service_type content on assigned domains'
+  - 'create terms in predefined_broadcast_messages'
   - 'create webform'
   - 'create webform'
   - 'delete any organisation content'
@@ -75,6 +86,7 @@ permissions:
   - 'delete any webform'
   - 'delete any webform submission'
   - 'delete any webform submission'
+  - 'delete broadcast notification entity'
   - 'delete feedback_area content on assigned domains'
   - 'delete location entity entities'
   - 'delete own feedback_area content'
@@ -85,6 +97,7 @@ permissions:
   - 'delete own webform submission'
   - 'delete own webform submission'
   - 'delete service_type content on assigned domains'
+  - 'delete terms in predefined_broadcast_messages'
   - 'edit any organisation content'
   - 'edit any referral_path_way content'
   - 'edit any service_provider content'
@@ -93,6 +106,7 @@ permissions:
   - 'edit any webform'
   - 'edit any webform submission'
   - 'edit any webform submission'
+  - 'edit broadcast notification entity'
   - 'edit field_domain_access'
   - 'edit location entity entities'
   - 'edit own feedback_area content'
@@ -105,6 +119,7 @@ permissions:
   - 'edit own webform'
   - 'edit own webform submission'
   - 'edit own webform submission'
+  - 'edit terms in predefined_broadcast_messages'
   - 'edit users by role'
   - 'edit users with role country_admin'
   - 'edit users with role interagency_gbv_coordinator'
@@ -124,13 +139,16 @@ permissions:
   - 'erpw location user location settings'
   - 'erpw location view location'
   - 'erpw view pending service block'
+  - 'process broadcast_process_queue_worker queue'
   - 'revert all revisions'
   - 'role-assign users by role'
   - 'role-assign users with role country_admin'
   - 'role-assign users with role interagency_gbv_coordinator'
   - 'role-assign users with role service_provider_focal_point'
   - 'role-assign users with role service_provider_staff'
+  - 'translate broadcast_notification_entity'
   - 'translate configuration'
+  - 'translate predefined_broadcast_messages taxonomy_term'
   - 'translate referral_path_way node'
   - 'translate service_type node'
   - 'update content translations'
@@ -150,6 +168,7 @@ permissions:
   - 'view any unpublished content'
   - 'view any webform submission'
   - 'view any webform submission'
+  - 'view broadcast notification entity'
   - 'view dashboard'
   - 'view field_domain_access'
   - 'view latest version'
