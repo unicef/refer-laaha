@@ -157,6 +157,8 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
+    // Always needed the library.
+    $form['#attached']['library'][] = 'erpw_custom/signup_browser_control';
     $this->userId = $id;
     $organisation = "";
     $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
@@ -189,10 +191,12 @@ class SignUpForm extends FormBase {
       $system_role = $user_details->getRoles();
     }
     if ($form_state->has('page') && $this->userId == "") {
+      $form['#attached']['drupalSettings']['formSettings']['step'] = 3;
       if ($form_state->get('page') == 3) {
         return self::formPageThree($form, $form_state);
       }
       elseif ($form_state->get('page') == 2) {
+        $form['#attached']['drupalSettings']['formSettings']['step'] = 2;
         return self::formPageTwo($form, $form_state);
       }
     }
@@ -313,6 +317,7 @@ class SignUpForm extends FormBase {
     }
 
     $form['#cache']['max-age'] = 0;
+    $form['#attached']['drupalSettings']['formSettings']['step'] = 1; 
     return $form;
   }
 
