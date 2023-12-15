@@ -1,0 +1,22 @@
+uuid: f20c26c7-e0b5-4059-9481-cac8031c5d56
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.customised_broadcast_message
+id: paragraph.customised_broadcast_message.status
+field_name: status
+entity_type: paragraph
+bundle: customised_broadcast_message
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
