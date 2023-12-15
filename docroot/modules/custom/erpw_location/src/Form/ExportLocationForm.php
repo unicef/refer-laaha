@@ -26,7 +26,7 @@ class ExportLocationForm extends FormBase {
   /**
    * A entityManager instance.
    *
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityManager;
 
@@ -49,7 +49,7 @@ class ExportLocationForm extends FormBase {
    *
    * @param \Drupal\Core\State\StateInterface $stateService
    *   The state API service.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   EntityManager object.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager service.

@@ -1,0 +1,54 @@
+diff --git a/src/Form/DomainLangNegotiationConfigureForm.php b/src/Form/DomainLangNegotiationConfigureForm.php
+index 56d7850..c67381d 100644
+--- a/src/Form/DomainLangNegotiationConfigureForm.php
++++ b/src/Form/DomainLangNegotiationConfigureForm.php
+@@ -5,6 +5,7 @@ namespace Drupal\domain_lang\Form;
+ use Drupal\Core\Block\BlockManagerInterface;
+ use Drupal\Core\Config\ConfigFactoryInterface;
+ use Drupal\Core\Entity\EntityStorageInterface;
++use Drupal\Core\Entity\EntityTypeManagerInterface;
+ use Drupal\Core\Extension\ThemeHandlerInterface;
+ use Drupal\Core\Form\FormStateInterface;
+ use Drupal\Core\Routing\RouteProviderInterface;
+@@ -22,6 +23,13 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
+  */
+ class DomainLangNegotiationConfigureForm extends NegotiationConfigureForm {
+ 
++  /**
++   * A entityManager instance.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
++   */
++  protected $entityManager;
++
+   /**
+    * The domain lang handler.
+    *
+@@ -46,6 +54,8 @@ class DomainLangNegotiationConfigureForm extends NegotiationConfigureForm {
+   /**
+    * Constructs a NegotiationConfigureForm object.
+    *
++   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
++   *   Entity Type Manager object.
+    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+    *   The factory for configuration objects.
+    * @param \Drupal\language\ConfigurableLanguageManagerInterface $language_manager
+@@ -63,8 +73,9 @@ class DomainLangNegotiationConfigureForm extends NegotiationConfigureForm {
+    * @param \Drupal\Core\Routing\RouteProviderInterface $route_provider
+    *   Route provider.
+    */
+-  public function __construct(ConfigFactoryInterface $config_factory, ConfigurableLanguageManagerInterface $language_manager, LanguageNegotiatorInterface $negotiator, BlockManagerInterface $block_manager, ThemeHandlerInterface $theme_handler, EntityStorageInterface $block_storage = NULL, DomainLangHandlerInterface $domain_lang_handler, RouteProviderInterface $route_provider) {
++  public function __construct(EntityTypeManagerInterface $entity_manager, ConfigFactoryInterface $config_factory, ConfigurableLanguageManagerInterface $language_manager, LanguageNegotiatorInterface $negotiator, BlockManagerInterface $block_manager, ThemeHandlerInterface $theme_handler, EntityStorageInterface $block_storage = NULL, DomainLangHandlerInterface $domain_lang_handler, RouteProviderInterface $route_provider) {
+     parent::__construct($config_factory, $language_manager, $negotiator, $block_manager, $theme_handler, $block_storage);
++    $this->entityManager = $entity_manager;
+     $this->domainLangHandler = $domain_lang_handler;
+     $this->routeProvider = $route_provider;
+     $this->languageTypesConfig = $this->domainLangHandler->getDomainConfigName('language.types');
+@@ -80,7 +91,6 @@ class DomainLangNegotiationConfigureForm extends NegotiationConfigureForm {
+    * {@inheritdoc}
+    */
+   public static function create(ContainerInterface $container) {
+-    /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager */
+     $entity_manager = $container->get('entity_type.manager');
+     $block_storage = $entity_manager->hasHandler('block', 'storage') ? $entity_manager->getStorage('block') : NULL;
+     return new static(

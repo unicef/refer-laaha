@@ -8,6 +8,7 @@
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -52,19 +53,38 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
   }
   if ($form_id == 'views_exposed_form' && $form_state->get('view')->id() == 'user_lists') {
     $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $node_storage = $entity_type_manager->getStorage('node');
 
     /* Filter Organisation by the active domain */
 
-    // Load Organisation nodes for the active domain.
-    $entity_type_manager = \Drupal::entityTypeManager();
-    $node_storage = $entity_type_manager->getStorage('node');
-    $query = $node_storage->getQuery();
-    $query->condition('type', 'organisation');
-    $query->condition('field_domain_access', $active_domain->id());
-    $query->accessCheck(FALSE);
-    $organisation_nids = $query->execute();
+    // Define cache tags.
+    $cache_tags = ['node_list:organisation'];
 
-    // @todo Cache the query executed result.
+    // Define cache ID based on your query conditions.
+    $cache_id = 'organisation_query_tag_' . $active_domain->id();
+
+    // Try to load data from cache.
+    $cache_data = \Drupal::cache()->get($cache_id);
+
+    // Check if data is not in cache.
+    if (!$cache_data) {
+      // If data is not in cache, execute the query.
+      $query = $node_storage->getQuery();
+      $query->condition('type', 'organisation');
+      $query->condition('field_domain_access', $active_domain->id());
+      $query->accessCheck(FALSE);
+      $organisation_nids = $query->execute();
+
+      // Store the result in cache.
+      \Drupal::cache()->set($cache_id, $organisation_nids, Cache::PERMANENT, $cache_tags);
+    }
+    else {
+      // If data is in cache, use the cached result.
+      $organisation_nids = $cache_data->data;
+    }
+
+    // @todo Cache the query executed result. - DONE
     // Retrieve the titles of the organisations.
     $organisations = $node_storage->loadMultiple($organisation_nids);
     $organisation_options = ['All' => t('All')];
@@ -142,7 +162,8 @@ function erpw_custom_service_type_options() {
     $options[$value->nid] = $value->title;
   }
 
-  // @todo Cache the query executed result.
+  // @todo Cache the query executed result. - NOT REQUIRED
+  // This function might not be required as Service Provider content type is no longer in use.
   return $options;
 }
 
@@ -406,15 +427,34 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $type = \Drupal::routeMatch()->getParameter('node')->bundle();
     if ($type == 'organisation') {
       $node = \Drupal::routeMatch()->getParameter('node');
+
       // Get all users who have the node id.
       $node_id = $node->id();
-      $query = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
-      $query->condition('status', 1);
-      $query->condition('field_organisation', $node_id);
-      $query->accessCheck(FALSE);
-      $user_ids = $query->execute();
+      $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+      // Define cache tags.
+      $cache_tags = ['node_list:organisation'];
 
-      // @todo Cache the query executed result.
+      // Define cache ID based on your query conditions.
+      $cache_id = 'organisation_delete_query_tag_' . $active_domain->id();
+
+      // Load data from cache.
+      $cache_data = \Drupal::cache()->get($cache_id);
+      if (!$cache_data) {
+        $query = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
+        $query->condition('status', 1);
+        $query->condition('field_organisation', $node_id);
+        $query->accessCheck(FALSE);
+        $user_ids = $query->execute();
+
+        // Store the result in cache.
+        \Drupal::cache()->set($cache_id, $user_ids, Cache::PERMANENT, $cache_tags);
+      }
+      else {
+        // If data is in cache, use the cached result.
+        $user_ids = $cache_data->data;
+      }
+
+      // @todo Cache the query executed result. - DONE
       // Get all services who have the node id (look into webform-submissions for services data.)
       $webform_submission_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
       $webform_submissions = $webform_submission_storage->loadMultiple();
@@ -527,7 +567,7 @@ function user_form_validation_organisation_validate($form, &$form_state) {
   elseif (in_array($form_user_role[1], ['administrator', 'super_admin'])) {
     // Location field is required and this is missing for both the admin roles above.
     if (empty($form_state->getValue('field_location'))) {
-      // @todo change this hard-coded location value when doing multisite.
+      // @todo change this hard-coded location value when doing multisite. - DONE in multisite.
       $form_state->setValue('field_location', 1);
     }
   }
@@ -765,14 +805,35 @@ function _erpw_custom_check_title_exist(&$form, &$form_state) {
   // Remove the last character from the string.
   $title_entered = substr($form_state->getValue('title')[0]['value'], 0, -1);
   $title_compared = '';
-  $db = \Drupal::database();
-  $results = $db->select('node_field_data', 'n')
-    ->fields('n', ['title'])
-    ->condition('n.type', 'service_type')
-    ->execute();
+  $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
 
-  // @todo Cache the query executed result.
-  foreach ($results as $record) {
+  $cache_tags = ['node_list:service_type'];
+  $cache_id = 'service_type_title_query_' . $active_domain->id();
+  $cache_data = \Drupal::cache()->get($cache_id);
+
+  if (!$cache_data) {
+    $db = \Drupal::database();
+    $results = $db->select('node_field_data', 'n')
+      ->fields('n', ['title'])
+      ->condition('n.type', 'service_type')
+      ->execute()
+      ->fetchAllAssoc('title');
+
+    // Convert the results into an array before caching.
+    $results_array = [];
+    foreach ($results as $title) {
+      $results_array[] = $title;
+    }
+
+    \Drupal::cache()->set($cache_id, $results_array, Cache::PERMANENT, $cache_tags);
+  }
+  else {
+    $results_array = $cache_data->data;
+  }
+
+  // @todo Cache the query executed result. - DONE
+  // Though this might not be required as the drupal's validation works even before this.
+  foreach ($results_array as $record) {
     $title_compared = substr($record->title, 0, -1);
     if ($title_compared === $title_entered) {
       $form_state->setErrorByName('title', t('Service Type Already Exists. Please update the Name and Save it again.'));
@@ -1377,15 +1438,15 @@ function erpw_custom_preprocess_node(&$variables) {
   $current_path = \Drupal::service('path.current')->getPath();
   $cookie = \Drupal::service('erpw_location.location_cookie');
   if (!is_null($cookie->getCookieValue())) {
-    // The active Service Types for the current location.
-    $service_types = erpw_custom_load_submissions_by_term($cookie->getCookieValue());
-    $variables['#cache']['contexts'][] = 'url';
-    $variables['#cache']['contexts'][] = 'cookies';
-    $is_incognito = \Drupal::request()->headers->has('incognito');
-    if ($is_incognito) {
-      $variables['#cache']['contexts'][] = 'headers:incognito';
-    }
     if ($current_path == '/referral-pathway') {
+      // The active Service Types for the current location.
+      $service_types = erpw_custom_load_submissions_by_term($cookie->getCookieValue());
+      $variables['#cache']['contexts'][] = 'url';
+      $variables['#cache']['contexts'][] = 'cookies';
+      $is_incognito = \Drupal::request()->headers->has('incognito');
+      if ($is_incognito) {
+        $variables['#cache']['contexts'][] = 'headers:incognito';
+      }
       if (!in_array($node->getTitle(), $service_types)) {
         // Add no-service class to titles which are not in $service_types.
         $variables['service_status'] = 'no-service';
