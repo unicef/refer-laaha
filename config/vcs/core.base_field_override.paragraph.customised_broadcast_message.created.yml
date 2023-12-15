@@ -1,0 +1,18 @@
+uuid: 35f68e67-1a6b-4c8a-b039-150fb76c1649
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.customised_broadcast_message
+id: paragraph.customised_broadcast_message.created
+field_name: created
+entity_type: paragraph
+bundle: customised_broadcast_message
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

@@ -1,0 +1,44 @@
+uuid: a4bebca6-203f-4436-85a8-cdabd3282681
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.predefined_broadcast_messages.field_color
+    - field.field.taxonomy_term.predefined_broadcast_messages.field_icon
+    - taxonomy.vocabulary.predefined_broadcast_messages
+  module:
+    - color_field
+    - unicef_iconpicker
+id: taxonomy_term.predefined_broadcast_messages.default
+targetEntityType: taxonomy_term
+bundle: predefined_broadcast_messages
+mode: default
+content:
+  field_color:
+    type: color_field_widget_html5
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_icon:
+    type: unicef_iconpicker
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 2000
+      placeholder: 'Enter message'
+    third_party_settings: {  }
+hidden:
+  description: true
+  langcode: true
+  path: true
+  status: true
+  translation: true

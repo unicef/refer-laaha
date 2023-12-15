@@ -77,6 +77,41 @@ class HelperService implements HelperServiceInterface {
   }
 
   /**
+   * Returns the broadcast entity ids.
+   */
+  public function getBroadcastNotificationIds() : array {
+    // Fetch new notifications.
+    $entity_storage = $this->entityTypeManager->getStorage('broadcast_notification_entity');
+    $ids = $entity_storage->getQuery()
+      ->accessCheck(FALSE)
+      ->execute();
+    return $ids ?? [];
+  }
+
+  /**
+   * Returns the message of the broadcast notification.
+   */
+  public function getBroadcastNotificationMessage($notification) : array {
+    $messageType = $notification->get('field_message_type')->getString();
+    $message = [];
+    if ($messageType == 'custom') {
+      $customID = explode(', ', $notification->get('field_customised_message')->getString())[0];
+      $paragraph = $this->entityTypeManager->getStorage('paragraph')->load($customID);
+      $message['message'] = $paragraph->get('field_message')->getString();
+      $message['color'] = $paragraph->get('field_color')->getString();
+      $message['icon'] = $paragraph->get('field_icon')->getString();
+    }
+    if ($messageType == 'predefined') {
+      $predefinedID = $notification->get('field_predefined_messages')->getString();
+      $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($predefinedID);
+      $message['message'] = $term->get('name')->getString();
+      $message['color'] = $term->get('field_color')->getString();
+      $message['icon'] = $term->get('field_icon')->getString();
+    }
+    return $message;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getDynamicDateFormate($timestamp, $formate = 'd F Y'): string {

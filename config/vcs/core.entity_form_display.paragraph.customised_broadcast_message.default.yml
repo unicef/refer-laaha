@@ -1,0 +1,42 @@
+uuid: b87cf59d-c765-424c-91b6-3831466ef063
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.customised_broadcast_message.field_color
+    - field.field.paragraph.customised_broadcast_message.field_icon
+    - field.field.paragraph.customised_broadcast_message.field_message
+    - paragraphs.paragraphs_type.customised_broadcast_message
+  module:
+    - color_field
+    - unicef_iconpicker
+id: paragraph.customised_broadcast_message.default
+targetEntityType: paragraph
+bundle: customised_broadcast_message
+mode: default
+content:
+  field_color:
+    type: color_field_widget_html5
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_icon:
+    type: unicef_iconpicker
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_message:
+    type: string_textarea
+    weight: 2
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,42 @@
+uuid: eb37e343-c139-43c9-a349-bd1694b296c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.predefined_broadcast_messages.field_color
+    - field.field.taxonomy_term.predefined_broadcast_messages.field_icon
+    - taxonomy.vocabulary.predefined_broadcast_messages
+  module:
+    - color_field
+    - text
+id: taxonomy_term.predefined_broadcast_messages.default
+targetEntityType: taxonomy_term
+bundle: predefined_broadcast_messages
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_color:
+    type: color_field_formatter_text
+    label: above
+    settings:
+      format: hex
+      opacity: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_icon:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  langcode: true

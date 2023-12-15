@@ -1,0 +1,18 @@
+uuid: 075347af-7848-4ab0-8479-d75e4edb97a9
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.customised_broadcast_message
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: paragraph.customised_broadcast_message
+target_entity_type_id: paragraph
+target_bundle: customised_broadcast_message
+default_langcode: site_default
+language_alterable: true

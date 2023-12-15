@@ -1,0 +1,22 @@
+uuid: 328d143f-e591-4cf0-b7ba-f83f1b317c84
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_in_app_notification
+    - field_permissions
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: broadcast_notification_entity.field_last_sent
+field_name: field_last_sent
+entity_type: broadcast_notification_entity
+type: timestamp
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

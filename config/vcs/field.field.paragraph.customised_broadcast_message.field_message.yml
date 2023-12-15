@@ -1,0 +1,19 @@
+uuid: 1fbcbe91-5329-4a59-8a8b-440f7a777200
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_message
+    - paragraphs.paragraphs_type.customised_broadcast_message
+id: paragraph.customised_broadcast_message.field_message
+field_name: field_message
+entity_type: paragraph
+bundle: customised_broadcast_message
+label: Message
+description: 'Enter broadcast message.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

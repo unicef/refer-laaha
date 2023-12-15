@@ -9,6 +9,7 @@ dependencies:
     - node.type.service_provider
     - node.type.service_type
     - rest.resource.notification_count_resource
+    - taxonomy.vocabulary.predefined_broadcast_messages
     - workflows.workflow.service_editorial
   module:
     - administerusersbyrole
@@ -20,11 +21,14 @@ dependencies:
     - erpw_in_app_notification
     - erpw_location
     - erpw_webform
+    - field_ui
     - node
     - node_view_permissions
+    - queue_ui
     - quick_node_clone
     - rest
     - system
+    - taxonomy
     - webform
     - webform_submission_log
 id: country_admin
@@ -34,6 +38,7 @@ is_admin: null
 permissions:
   - 'access content'
   - 'access own webform configuration'
+  - 'access taxonomy overview'
   - 'access webform help'
   - 'access webform overview'
   - 'access webform submission log'
@@ -47,7 +52,12 @@ permissions:
   - 'add service of their own country'
   - 'add service rating question'
   - 'add service rating question'
+  - 'add service rating question'
   - 'add users of their own location'
+  - 'administer broadcast notification entity'
+  - 'administer broadcast_notification_entity display'
+  - 'administer broadcast_notification_entity fields'
+  - 'administer broadcast_notification_entity form display'
   - 'administer webform'
   - 'administer webform element access'
   - 'administer webform submission'
@@ -58,21 +68,27 @@ permissions:
   - 'cancel users with role service_provider_staff'
   - 'clone referral_path_way content'
   - 'clone service_type content'
+  - 'create broadcast notification entity'
   - 'create content translations'
+  - 'create feedback_area content on assigned domains'
   - 'create feedback_area content on assigned domains'
   - 'create organisation content'
   - 'create referral_path_way content'
   - 'create service_provider content'
   - 'create service_type content'
   - 'create service_type content on assigned domains'
+  - 'create terms in predefined_broadcast_messages'
   - 'create webform'
   - 'delete any organisation content'
   - 'delete any referral_path_way content'
   - 'delete any service_type content'
   - 'delete any webform'
   - 'delete any webform submission'
+  - 'delete broadcast notification entity'
+  - 'delete feedback_area content on assigned domains'
   - 'delete feedback_area content on assigned domains'
   - 'delete location entity entities'
+  - 'delete own feedback_area content'
   - 'delete own feedback_area content'
   - 'delete own organisation content'
   - 'delete own referral_path_way content'
@@ -81,13 +97,16 @@ permissions:
   - 'delete own webform'
   - 'delete own webform submission'
   - 'delete service_type content on assigned domains'
+  - 'delete terms in predefined_broadcast_messages'
   - 'edit any organisation content'
   - 'edit any referral_path_way content'
   - 'edit any service_type content'
   - 'edit any webform'
   - 'edit any webform submission'
+  - 'edit broadcast notification entity'
   - 'edit location entity entities'
   - 'edit location of their own country'
+  - 'edit own feedback_area content'
   - 'edit own feedback_area content'
   - 'edit own organisation content'
   - 'edit own referral_path_way content'
@@ -97,6 +116,7 @@ permissions:
   - 'edit own webform submission'
   - 'edit referral pathway of their own country'
   - 'edit service of their own country'
+  - 'edit terms in predefined_broadcast_messages'
   - 'edit users by role'
   - 'edit users of their own country'
   - 'edit users with role country_admin'
@@ -114,6 +134,7 @@ permissions:
   - 'erpw location user location settings'
   - 'erpw location view location'
   - 'erpw view pending service block'
+  - 'process broadcast_process_queue_worker queue'
   - 'reject registered user'
   - 'restful get notification_count_resource'
   - 'role-assign users by role'
@@ -121,10 +142,13 @@ permissions:
   - 'role-assign users with role interagency_gbv_coordinator'
   - 'role-assign users with role service_provider_focal_point'
   - 'role-assign users with role service_provider_staff'
+  - 'translate broadcast_notification_entity'
   - 'translate configuration'
+  - 'translate predefined_broadcast_messages taxonomy_term'
   - 'translate referral_path_way node'
   - 'translate service_type node'
   - 'update content translations'
+  - 'update feedback_area content on assigned domains'
   - 'update feedback_area content on assigned domains'
   - 'update service_type content on assigned domains'
   - 'update user'
@@ -134,14 +158,18 @@ permissions:
   - 'use service_editorial transition restore'
   - 'view all revisions'
   - 'view any feedback_area content'
+  - 'view any feedback_area content'
   - 'view any organisation content'
   - 'view any referral_path_way content'
   - 'view any service_provider content'
   - 'view any service_type content'
   - 'view any unpublished content'
   - 'view any webform submission'
+  - 'view broadcast notification entity'
   - 'view dashboard'
   - 'view latest version'
+  - 'view notification page'
+  - 'view own feedback_area content'
   - 'view own feedback_area content'
   - 'view own organisation content'
   - 'view own referral_path_way content'
@@ -159,12 +187,3 @@ permissions:
   - 'view users with role interagency_gbv_coordinator'
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'
-  - 'view notification page'
-  - 'add service rating question'
-  - 'create feedback_area content on assigned domains'
-  - 'delete feedback_area content on assigned domains'
-  - 'update feedback_area content on assigned domains'
-  - 'delete own feedback_area content'
-  - 'edit own feedback_area content'
-  - 'view any feedback_area content'
-  - 'view own feedback_area content'
