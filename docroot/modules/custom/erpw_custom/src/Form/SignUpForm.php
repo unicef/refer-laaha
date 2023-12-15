@@ -170,6 +170,12 @@ class SignUpForm extends FormBase {
     foreach ($organisation_nodes as $node) {
       $organisations[$node->id()] = $node->label();
     }
+
+    // Remove extra spaces from values.
+    foreach ($organisations as &$value) {
+      $value = trim($value);
+    }
+
     asort($organisations);
     if ($this->userId != "") {
       $user_details = $this->entityTypeManager->getStorage('user')->load($this->userId);

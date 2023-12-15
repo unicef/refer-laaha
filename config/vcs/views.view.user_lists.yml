@@ -2375,6 +2375,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: 'No users found!'
+            format: basic_html
+          tokenize: false
       filters:
         field_location_target_id:
           id: field_location_target_id
@@ -2717,6 +2731,7 @@ display:
           2: AND
           3: AND
       defaults:
+        empty: false
         title: false
         fields: false
         filters: false
@@ -2746,11 +2761,11 @@ display:
         - node_list
   page_3:
     id: page_3
-    display_title: 'New User Registrations'
+    display_title: 'New User Registrations Count'
     display_plugin: page
     position: 1
     display_options:
-      title: 'New User Registrations'
+      title: 'New User Registrations Count'
       fields:
         uid:
           id: uid
@@ -3652,10 +3667,10 @@ display:
         fields: false
         filters: false
         filter_groups: false
-      display_description: ''
+      display_description: 'This view page is only used to get the number of users.'
       display_extenders:
         library_in_views_display_extender: {  }
-      path: registered-users
+      path: registered-users-count
     cache_metadata:
       max-age: -1
       contexts:

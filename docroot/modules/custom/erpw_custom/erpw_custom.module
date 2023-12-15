@@ -67,12 +67,19 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     // @todo Cache the query executed result.
     // Retrieve the titles of the organisations.
     $organisations = $node_storage->loadMultiple($organisation_nids);
-    $organisation_options = ['All' => t('All')];
     foreach ($organisations as $organisation) {
       if ($organisation instanceof NodeInterface) {
         $organisation_options[$organisation->id()] = $organisation->label();
       }
     }
+
+    // Remove extra spaces from values.
+    foreach ($organisation_options as &$value) {
+      $value = trim($value);
+    }
+
+    asort($organisation_options);
+    $organisation_options = ['All' => t('All')] + $organisation_options;
 
     // Set the filtered options for the field_organisation_target_id_verf exposed filter.
     $form['field_organisation_target_id_verf']['#options'] = $organisation_options;
@@ -87,7 +94,8 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
 
     // Exposed roles fields option restriction based on the current role.
     // SPFP & GBVFP can only review SP staff.
-    if ($form_state->get('view')->current_display == 'page_2') {
+    $current_diplay = $form_state->get('view')->current_display;
+    if ($current_diplay == 'page_2' || $current_diplay == 'page_3') {
       if ($current_user->hasRole('service_provider_focal_point') || $current_user->hasRole('gbv_focal_point')) {
         unset($form['roles_target_id']['#options']['interagency_gbv_coordinator']);
         unset($form['roles_target_id']['#options']['country_admin']);
