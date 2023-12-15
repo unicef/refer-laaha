@@ -139,34 +139,28 @@ elements: |-
   erpw_workflow:
     '#type': webform_workflows_element
     '#title': 'eRPW Workflow'
-    '#description': |-
-      <br />
-      <quillbot-extension-portal></quillbot-extension-portal>
-    '#more': |-
-      <br />
-      <quillbot-extension-portal></quillbot-extension-portal>
+    '#description': '<p><br><quillbot-extension-portal></quillbot-extension-portal></p>'
+    '#more': '<p><br><quillbot-extension-portal></quillbot-extension-portal></p>'
     '#required': true
-    '#multiple__no_items_message': 'No items entered. Please add items below.<quillbot-extension-portal></quillbot-extension-portal>'
-    '#admin_notes': |-
-      <br />
-      <quillbot-extension-portal></quillbot-extension-portal>
+    '#multiple__no_items_message': '<p>No items entered. Please add items below.<quillbot-extension-portal></quillbot-extension-portal></p>'
+    '#admin_notes': '<p><br><quillbot-extension-portal></quillbot-extension-portal></p>'
     '#access_create_roles':
       - authenticated
     '#access_create_workflow_enabled': true
     '#access_view_roles':
       - authenticated
-    '#access_transition_save_as_draft_roles':
-      - authenticated
     '#access_transition_submit_to_focal_point_roles':
       - service_provider_staff
       - super_admin
       - administrator
-    '#access_transition_rejected_by_focal_point_roles':
-      - service_provider_focal_point
-      - super_admin
-      - administrator
     '#access_transition_submit_for_review_to_country_admin_roles':
       - service_provider_focal_point
+      - gbv_focal_point
+      - super_admin
+      - administrator
+    '#access_transition_rejected_by_focal_point_roles':
+      - service_provider_focal_point
+      - gbv_focal_point
       - super_admin
       - administrator
     '#access_transition_approve_roles':
@@ -174,6 +168,8 @@ elements: |-
       - country_admin
       - super_admin
       - administrator
+    '#access_transition_save_as_draft_roles':
+      - authenticated
     '#access_transition_reject_roles':
       - interagency_gbv_coordinator
       - country_admin
@@ -187,6 +183,7 @@ elements: |-
       - administrator
     '#access_transition_submit_edits_to_gbv_coordination_roles':
       - service_provider_focal_point
+      - gbv_focal_point
       - super_admin
       - administrator
     '#access_transition_publish_edits_roles':
@@ -196,6 +193,7 @@ elements: |-
       - administrator
     '#access_transition_edits_rejected_by_focal_point_roles':
       - service_provider_focal_point
+      - gbv_focal_point
       - super_admin
       - administrator
     '#access_transition_edits_rejected_by_gbv_coordination_roles':
@@ -209,10 +207,12 @@ elements: |-
       - administrator
     '#access_transition_submit_for_deletion_to_gbv_coordination_roles':
       - service_provider_focal_point
+      - gbv_focal_point
       - super_admin
       - administrator
     '#access_transition_deletion_rejected_by_focal_point_roles':
       - service_provider_focal_point
+      - gbv_focal_point
       - super_admin
       - administrator
     '#access_transition_deletion_rejected_by_gbv_coordination_roles':
@@ -529,7 +529,7 @@ handlers:
                   notes: ''
                   status: true
                   conditions: {  }
-                  weight: -50
+                  weight: null
                   settings:
                     id: redirect_to_drafts
                     handler_id: null
@@ -545,7 +545,7 @@ handlers:
                       notes: ''
                       status: true
                       conditions: {  }
-                      weight: null
+                      weight: -50
                       settings:
                         id: redirect_to_drafts
                         handler_id: null
@@ -588,13 +588,29 @@ handlers:
                                 weight: null
                                 settings:
                                   id: redirect_to_drafts
-                                  handler_id: redirect_to_drafts
-                                  label: 'Redirect to Drafts'
+                                  handler_id: null
+                                  label: 'Redirect on Transition changes.'
                                   notes: ''
                                   status: true
                                   conditions: {  }
-                                  weight: 0
-                                  settings: {  }
+                                  weight: null
+                                  settings:
+                                    id: redirect_to_drafts
+                                    handler_id: null
+                                    label: 'Redirect on Transition changes.'
+                                    notes: ''
+                                    status: true
+                                    conditions: {  }
+                                    weight: null
+                                    settings:
+                                      id: redirect_to_drafts
+                                      handler_id: redirect_to_drafts
+                                      label: 'Redirect to Drafts'
+                                      notes: ''
+                                      status: true
+                                      conditions: {  }
+                                      weight: 0
+                                      settings: {  }
   duplicate_services_handler:
     id: handle_duplicate_services
     handler_id: duplicate_services_handler

@@ -33,7 +33,7 @@ dependencies:
     - webform_submission_log
 id: country_admin
 label: 'Country Admin'
-weight: -5
+weight: -4
 is_admin: null
 permissions:
   - 'access content'
@@ -120,6 +120,7 @@ permissions:
   - 'edit users by role'
   - 'edit users of their own country'
   - 'edit users with role country_admin'
+  - 'edit users with role gbv_focal_point'
   - 'edit users with role interagency_gbv_coordinator'
   - 'edit users with role service_provider_focal_point'
   - 'edit users with role service_provider_staff'
@@ -139,6 +140,7 @@ permissions:
   - 'restful get notification_count_resource'
   - 'role-assign users by role'
   - 'role-assign users with role country_admin'
+  - 'role-assign users with role gbv_focal_point'
   - 'role-assign users with role interagency_gbv_coordinator'
   - 'role-assign users with role service_provider_focal_point'
   - 'role-assign users with role service_provider_staff'
@@ -184,6 +186,7 @@ permissions:
   - 'view users by role'
   - 'view users of their own country'
   - 'view users with role country_admin'
+  - 'view users with role gbv_focal_point'
   - 'view users with role interagency_gbv_coordinator'
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'

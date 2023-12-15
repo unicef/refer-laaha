@@ -76,6 +76,7 @@ class CustomAddUserBlock extends BlockBase implements ContainerFactoryPluginInte
       '#markup' => $markup,
     ];
 
+    // @todo Block cache.
     return $build;
   }
 

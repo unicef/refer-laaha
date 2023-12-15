@@ -94,6 +94,7 @@ class ShareFeedbackBlock extends BlockBase implements ContainerFactoryPluginInte
       $blockTitle = str_contains($requestUri, 'ratings-by-service-type') ? t('Improvise your Service Information') : t('Feedback Reminder');
       $blockDescription = str_contains($requestUri, 'ratings-by-service-type') ? t('Help other service providers reach you without any hassle by updating information as per feedback.') : t('Help Service Providers to improvise their Service Provision information with your valuable feedback.');
 
+      // @todo enable Block cache and move the markup to twig template.
       return [
         '#markup' => '<div class="share-feedback-block">
                 <div class="feedback-text-block">

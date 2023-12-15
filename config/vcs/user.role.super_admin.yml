@@ -32,7 +32,7 @@ dependencies:
     - webform_submission_log
 id: super_admin
 label: 'Super Admin'
-weight: -4
+weight: -3
 is_admin: null
 permissions:
   - 'access any webform configuration'
@@ -123,6 +123,7 @@ permissions:
   - 'edit terms in predefined_broadcast_messages'
   - 'edit users by role'
   - 'edit users with role country_admin'
+  - 'edit users with role gbv_focal_point'
   - 'edit users with role interagency_gbv_coordinator'
   - 'edit users with role service_provider_focal_point'
   - 'edit users with role service_provider_staff'
@@ -144,6 +145,7 @@ permissions:
   - 'revert all revisions'
   - 'role-assign users by role'
   - 'role-assign users with role country_admin'
+  - 'role-assign users with role gbv_focal_point'
   - 'role-assign users with role interagency_gbv_coordinator'
   - 'role-assign users with role service_provider_focal_point'
   - 'role-assign users with role service_provider_staff'
@@ -187,6 +189,7 @@ permissions:
   - 'view users by role'
   - 'view users of their own country'
   - 'view users with role country_admin'
+  - 'view users with role gbv_focal_point'
   - 'view users with role interagency_gbv_coordinator'
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'

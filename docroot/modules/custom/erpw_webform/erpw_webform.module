@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Form\FormStateInterface;
@@ -231,22 +232,127 @@ function erpw_webform_preprocess_page(&$variables) {
     $location_options = [];
     foreach ($location_entities as $location) {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
-      if ($activeDomain == 'zm_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Zimbabwe') {
+      $locationName = strtolower($location->get('name')->getValue()[0]['value']);
+      if ($activeDomain == 'zm_erefer_org' && strpos($locationName, 'zimbabwe') !== FALSE) {
         $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
       }
-      elseif ($activeDomain == 'bn_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Bangladesh') {
+      elseif ($activeDomain == 'bn_erefer_org' && strpos($locationName, 'bangladesh') !== FALSE) {
         $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
       }
-      elseif ($activeDomain == 'txb_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Turkey Cross Border') {
+      elseif ($activeDomain == 'txb_erefer_org' && strpos($locationName, 'turkey cross border') !== FALSE) {
         $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
       }
-      elseif ($activeDomain == 'sl_erefer_org' && $location->get('name')->getValue()[0]['value'] == 'Sierra Leone') {
+      elseif ($activeDomain == 'sl_erefer_org' && strpos($locationName, 'sierra leone') !== FALSE) {
         $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
       }
     }
+    // Terms Array.
+    $level_zero_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+      'country',
+      0,
+      1,
+      TRUE
+    );
+    $terms_array = [];
+    foreach ($level_zero_tree as $level_zero) {
+      $termid = $level_zero->get('tid')->value;
+      foreach ($location_options as $key => $value) {
+        if ($value == $level_zero->get('name')->value) {
+          $terms_array[$key] = ['name' => $level_zero->get('name')->value];
+          $tid = $key;
+          $terms_array[$key]['level_label'] =
+              ucfirst(
+              strtolower(
+                $location_entities[$key]->get('level_1')->getValue()[0]['value']
+              )
+            );
+        }
+      }
+      $level_one_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+        'country',
+        $termid,
+        1,
+        TRUE
+      );
+      foreach ($level_one_tree as $level_one) {
+        $terms_array[$tid]['children'][$level_one->get('tid')->value] = [
+          'name' => $level_one->get('name')->value,
+          'parent_id' => $tid,
+        ];
+        $terms_array[$tid]['children'][$level_one->get('tid')->value]['level_label'] =
+            ucfirst(
+          strtolower(
+            $location_entities[$tid]->get('level_2')->getValue()[0]['value']
+            )
+          );
+        $level_two_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+        'country',
+        $level_one->get('tid')->value,
+        1,
+        TRUE
+        );
+        foreach ($level_two_tree as $level_two) {
+          $terms_array[$tid]['children'][$level_one->get('tid')->value]['children'][$level_two->get('tid')->value] =
+              [
+                'name' => $level_two->get('name')->value,
+                'parent_id' => $level_one->get('tid')->value,
+              ];
+          $terms_array[$tid]['children'][$level_one->get('tid')->value]['children'][$level_two->get('tid')->value]['level_label'] =
+              ucfirst(
+              strtolower(
+          $location_entities[$tid]->get('level_3')->getValue()[0]['value']
+              )
+            );
+          $level_three_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+            'country',
+            $level_two->get('tid')->value,
+            1,
+            TRUE
+          );
+          foreach ($level_three_tree as $level_three) {
+            $terms_array[$tid]['children'][$level_one->get('tid')->value]['children'][$level_two->get('tid')->value]['children'][$level_three->get('tid')->value] =
+                  [
+                    'name' => $level_three->get('name')->value,
+                    'parent_id' => $level_two->get('tid')->value,
+                  ];
+            $terms_array[$tid]['children'][$level_one->get('tid')->value]['children'][$level_two->get('tid')->value]['children'][$level_three->get('tid')->value]['level_label'] =
+                  $location_entities[$tid]->get('level_4')->getValue() != [] ?
+                  ucfirst(strtolower($location_entities[$tid]->get('level_4')->getValue()[0]['value'])) : '';
+            $level_four_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+            'country',
+            $level_three->get('tid')->value,
+            1,
+            TRUE
+            );
+            foreach ($level_four_tree as $level_four) {
+              $terms_array[$tid]['children'][$level_one->get('tid')->value]['children'][$level_two->get('tid')->value]['children'][$level_three->get('tid')->value]['children'][$level_four->get('tid')->value] =
+                                    [
+                                      'name' => $level_four->get('name')->value,
+                                      'parent_id' => $level_three->get('tid')->value,
+                                    ];
+            }
+          }
+        }
+      }
+    }
+    $variables['#attached']['drupalSettings']['termsArray'] = $terms_array;
   }
   if ($currentRoute == 'entity.webform.canonical') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_add_form';
+  }
+  if ($currentRoute === "erpw_webform.manage_feedback_surveys") {
+    $page_data = $variables['page']['data'];
+    $new_page_data = [];
+    foreach ($page_data as $data) {
+      $service_rating_form_title = $data['webform_title'];
+      $webform_name_last_word = end(explode(' ', $service_rating_form_title));
+      if ($service_rating_form_title != NULL && $webform_name_last_word !== "Rating") {
+        $new_service_rating_form_title = explode('Rating ', $service_rating_form_title)[1] . ' - ' . t('Service Rating');
+        $data['webform_title'] = $new_service_rating_form_title;
+      }
+      $new_page_data[] = $data;
+    }
+    $variables['page']['data'] = $new_page_data;
   }
   $account = User::load(\Drupal::currentUser()->id());
   $variables['#attached']['drupalSettings']['activeOrg'] = $account->get('field_organisation')->getValue()[0]['target_id'] ?? NULL;
@@ -425,7 +531,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
   }
 
   if (str_contains($form['#form_id'], 'webform_service_rating_')) {
-    $url = Url::fromRoute('view.manage_webform_services.page_1');
+    $url = Url::fromRoute('view.manage_webform_services.feedback');
     $form['actions']['cancel'] = [
       '#type' => 'link',
       '#title' => t('Cancel'),
@@ -458,6 +564,35 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       '#weight' => 105,
     ];
     $form['#attributes']['class'][] = 'webform-service-rating-edit';
+
+    $service_rating_form_id = end(explode('/', $currentPath));
+    $webform_entity = Webform::load($service_rating_form_id);
+    $webform_name_last_word = end(explode(' ', $webform_entity->label()));
+    if ($webform_name_last_word !== "Rating" && $webform_entity) {
+      $new_service_rating_form_title = explode('Rating ', $webform_entity->label())[1] . ' - ' . t('Service Rating');
+      $webform_entity->set('title', $new_service_rating_form_title);
+      $webform_entity->save();
+    }
+  }
+
+  if ($form['#id'] === 'views-exposed-form-manage-webform-services-feedback' || $form['#id'] === 'views-exposed-form-manage-webform-services-block-1') {
+    $service_type_filter_options = $form['webform_id']['#options'];
+    if ($service_type_filter_options !== NULL) {
+      $service_type_filter_options_keys = array_keys($service_type_filter_options);
+      $new_service_type_filter = [];
+      foreach ($service_type_filter_options_keys as $option) {
+        if (!str_contains($option, 'service_rating') && !str_contains($option, 'service_provider') && !str_contains($option, 'template_erpw_workflow')) {
+          $new_service_type_filter[$option] = $service_type_filter_options[$option];
+        }
+      }
+      $form['webform_id']['#options'] = $new_service_type_filter;
+    }
+  }
+
+  if ($currentRoute === "entity.webform.test_form" && str_contains($currentPath, 'webform_service_rating') && str_contains($currentPath, '/test')) {
+    $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
+    $form['actions']['cancel']['#url'] = $url;
+    unset($form['actions']['submit']);
   }
 }
 
@@ -474,7 +609,7 @@ function erpw_webform_service_rating_delete_handler(&$form, FormStateInterface $
  */
 function erpw_webform_service_rating_submit_handler(&$form, FormStateInterface $form_state) {
   \Drupal::service('messenger')->addMessage("Thank you for your Feedback!");
-  $form_state->setRedirect('view.manage_webform_services.page_1');
+  $form_state->setRedirect('view.manage_webform_services.feedback');
   return;
 }
 
@@ -526,11 +661,11 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
         $x++;
         return AccessResult::allowed();
       }
-      if (($role == 'service_provider_focal_point' || $role == 'service_provider_staff') && $currentRoute == 'entity.node.canonical') {
+      if (($role == 'service_provider_focal_point' || $role == 'service_provider_staff') || $role == 'gbv_focal_point' && $currentRoute == 'entity.node.canonical') {
         $x++;
         return AccessResult::allowed();
       }
-      if (($role == 'service_provider_focal_point' || $role == 'service_provider_staff') && $currentRoute == 'entity.webform.canonical') {
+      if (($role == 'service_provider_focal_point' || $role == 'service_provider_staff') || $role == 'gbv_focal_point' && $currentRoute == 'entity.webform.canonical') {
         $x++;
         return AccessResult::allowed();
       }
@@ -545,7 +680,7 @@ function erpw_webform_entity_access(EntityInterface $entity, $operation, Account
     $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
     $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
     foreach ($user_roles as $key_r => $role) {
-      if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator' || $role == 'service_provider_staff' || $role == 'service_provider_focal_point') {
+      if ($role == 'country_admin' || $role == 'interagency_gbv_coordinator' || $role == 'service_provider_staff' || $role == 'service_provider_focal_point' || $role == 'gbv_focal_point') {
         foreach ($domainAccess as $key => $domain) {
           if (is_array($tpa)) {
             if (array_key_exists($domain['target_id'], $tpa)) {
@@ -790,6 +925,7 @@ function erpw_webform_views_pre_render(ViewExecutable $view) {
       }
     }
   }
+
   return $view;
 }
 
@@ -1232,12 +1368,10 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
         }
       }
       // Get the current user's location ID, #522 - overcoming the service data issue.
-      if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point')) {
+      if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point') || $current_user->hasRole('gbv_focal_point')) {
         if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-          $user_location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
 
-          // Get the child term IDs for the user's location.
-          $ptids = get_child_term_tid($user_location_id);
+          $ptids = erpw_webform_get_child_term_ids();
 
           // Add a condition to the query to filter by location.
           $extra[] = [
@@ -1250,6 +1384,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
               4 => 'level_4',
             ],
           ];
+          // Filter services by location.
           erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
         }
       }
@@ -1259,15 +1394,35 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
   }
   // Unset rows that are not in review workflow states as per roles.
   if ($view->id() == 'manage_in_review_webform_services_listing') {
+    $extra[] = [
+      'field' => 'property',
+      'value' => [
+        0 => 'location_tid',
+        1 => 'level_1',
+        2 => 'level_2',
+        3 => 'level_3',
+        4 => 'level_4',
+      ],
+    ];
+    $ptids = erpw_webform_get_child_term_ids();
     erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
     if (in_array('service_provider_focal_point', $roles)) {
       $workflow_states = ['in_review_with_focal_point', 'edits_in_review_with_focal_point', 'deletion_in_review_with_focal_point'];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
       erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
+      erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
+    }
+    elseif (in_array('gbv_focal_point', $roles)) {
+      $workflow_states = ['in_review_with_focal_point', 'edits_in_review_with_focal_point', 'deletion_in_review_with_focal_point'];
+      erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
+      erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
     }
     elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
       $workflow_states = ['in_review', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_gbv_coordination'];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
+      if (in_array('interagency_gbv_coordinator', $roles)) {
+        erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
+      }
     }
     elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
       $workflow_states = ['in_review', 'in_review_with_focal_point', 'edits_in_review_with_focal_point', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_focal_point', 'deletion_in_review_with_gbv_coordination'];
@@ -1323,6 +1478,7 @@ function erpw_webform_fetch_draft_submission_ids() {
   $query->fields('wsd', ['sid']);
   $query->condition('wsd.value', 'draft');
   $results = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
+  // @todo Cache computed value, invalidate data based on `draft`.
   return $results;
 }
 
@@ -1337,6 +1493,7 @@ function erpw_webform_fetch_service_rating_submission_ids() {
   $query->fields('wsd', ['sid']);
   $query->condition('wsd.webform_id', 'webform_service_rating_', 'LIKE');
   $results = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
+  // @todo Cache computed value.
   return $results;
 }
 
@@ -1355,6 +1512,7 @@ function erpw_webform_getLocationEntityIdByTid($tid) {
   if (!empty($location_entity)) {
     $location_entity_id = array_keys($location_entity)[0];
   }
+  // @todo Cache computed value.
   return $location_entity_id;
 }
 
@@ -1427,4 +1585,31 @@ function erpw_webform_preprocess_table(&$variables) {
     unset($variables['rows'][0]['cells']['operations']['content']);
     unset($variables['rows'][1]['cells']['operations']['content']['preview']);
   }
+}
+
+/**
+ * Gets the child term ids for the locations associated with the current user.
+ *
+ * @return array
+ *   An array of term ids representing the child terms of the user's locations.
+ */
+function erpw_webform_get_child_term_ids() {
+  $current_user = User::load(\Drupal::currentUser()->id());
+
+  // A user may have multiple location values.
+  $user_location = $current_user->get('field_location')->getValue();
+  $user_location_ids = array_column($user_location, 'target_id');
+
+  // Get all sub-locations/child term ids of the given user's location(s).
+  $ctids = array_map('get_child_term_tid', $user_location_ids);
+  $ptids = array_merge(...$ctids);
+
+  return $ptids;
+}
+
+/**
+ * Implements hook_pwa_exclude_urls_alter().
+ */
+function erpw_webform_pwa_exclude_urls_alter(&$excludeUrls, CacheableMetadata &$cacheableMetadata) {
+  $excludeUrls[] = "available.php";
 }

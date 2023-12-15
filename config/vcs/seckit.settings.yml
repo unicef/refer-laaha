@@ -8,7 +8,7 @@ seckit_xss:
       webkit: false
     report-only: false
     default-src: "'self' *.erefer.org:* 'unsafe-inline' 'unsafe-eval' *.sharethis.com:* *.cloudflare.com:* *.google-analytics.com:* *.googletagmanager.com:* *.gstatic.com:* *.googleapis.com:* *.fontawesome.com:* *.addtoany.com:* *.disqus.com:* *.facebook.com:* *.facebook.net:* *.google.com:* *.linkedin.com:* *.twitter.com:* *.youtube.com:* *.vimeo.com:* *.instagram.com *.newrelic.com:* *.nr-data.net:* *.jquery.js:* *.chosen.css:* *.opencagedata.com:* *.jsdelivr.net:* unpkg.com:* data:"
-    script-src: "'self' 'unsafe-inline' 'unsafe-eval' *.erefer.org:* *.google-analytics.com:* *.googletagmanager.com:* *.jsdelivr.net:* cdnjs.cloudflare.com:* unpkg.com:*"
+    script-src: "'self' 'unsafe-inline' 'unsafe-eval' *.erefer.org:* *.google-analytics.com:* *.googletagmanager.com:* *.jsdelivr.net:* cdnjs.cloudflare.com:* unpkg.com:* https://js-agent.newrelic.com"
     object-src: ''
     style-src: "'self' 'unsafe-inline' *.jsdelivr.net:* *.googleapis.com:* *.cloudflare.com:* unpkg.com:*"
     img-src: "'self' *.google-analytics.com:* data:"

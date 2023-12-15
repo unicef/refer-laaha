@@ -57,13 +57,16 @@ class WebformSubmissionAllData extends FieldPluginBase {
           $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype));
           if ($servicetype instanceof Node) {
             $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
+            $output[] = ['Service Type' => $servicelabel];
+            $output[] = ['Service Type Color' => $servicetype->get('field_service_type_color')->getValue()[0]['color']];
+            $output[] = ['Service Type Icon' => $servicetype->get('field_service_type_icon')->getValue()[0]['value']];
           }
           else {
             $servicelabel = t('Not available');
+            $output[] = ['Service Type' => $servicelabel];
+            $output[] = ['Service Type Color' => ''];
+            $output[] = ['Service Type Icon' => ''];
           }
-          $output[] = ['Service Type' => $servicelabel];
-          $output[] = ['Service Type Color' => $servicetype->get('field_service_type_color')->getValue()[0]['color']];
-          $output[] = ['Service Type Icon' => $servicetype->get('field_service_type_icon')->getValue()[0]['value']];
         }
         $fields = $webformSubmission->getData();
         $location = '';
@@ -254,7 +257,9 @@ class WebformSubmissionAllData extends FieldPluginBase {
               elseif ($element['#type'] === 'webform_entity_select') {
                 if ($element['#title'] = 'Organisation') {
                   if (!empty($content)) {
-                    $orgLabel = \Drupal::entityTypeManager()->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                    $org = \Drupal::entityTypeManager()->getStorage('node')->load($content);
+                    // Null check for org.
+                    $orgLabel = is_null($org) ? 'N/A' : $org->get('title')->getValue()[0]['value'];
                     $output[] = [$element['#title'] => $orgLabel];
                   }
                 }
