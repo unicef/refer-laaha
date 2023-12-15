@@ -14,3 +14,11 @@ broadcast_notification_entity.add_form:
   route_name: entity.broadcast_notification_entity.add_form
   appears_on:
     - entity.broadcast_notification_entity.collection
+
+broadcast_notification_entity.add_custom_message:
+  route_name: entity.broadcast_notification_entity.add_form
+  title: 'Add predefined message'
+  route_parameters:
+    taxonomy_vocabulary: 'predefined_broadcast_messages'
+  appears_on:
+    - entity.broadcast_notification_entity.collection
