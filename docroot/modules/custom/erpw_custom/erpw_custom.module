@@ -486,7 +486,7 @@ function _erpw_custom_entity_special_character_handler($form, &$form_state) {
 
   if ($character_index_1 != NULL && $character_index_1 !== FALSE) {
     $entity_title_length = strlen($entity_title);
-    if ($character_index_1 > 0 && $character_index_1 < $entity_title_length - 1 && $entity_title[$character_index_1 - 1] === " ") {
+    if ($character_index_1 > 0 && $character_index_1 < $entity_title_length - 1 && ($entity_title[$character_index_1 - 1] === " " || $entity_title[$character_index_1 + 1] === " ")) {
       $form_state->setErrorByName('title', t('There should be no spaces before and after the bracket "@special_character".', ['@special_character' => $special_character_1]));
     }
   }
