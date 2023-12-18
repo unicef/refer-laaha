@@ -61,7 +61,7 @@ class ServiceWebforms extends ControllerBase {
    * Generate and return list of links of current domain's webform.
    */
   public function listForms() {
-    $cid = 'service_webforms_list';
+    $cid = 'service_webforms_list' . $this->domainNegotiator->getActiveDomain()->id();
     $markup = '';
     // Specify cache tags related to webforms.
     $cacheTags = ['webform'];
