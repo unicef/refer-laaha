@@ -296,6 +296,12 @@ class ServiceSubmissionsView extends ControllerBase {
           }
         }
       }
+      // Get the last updated timestamp.
+      $last_updated_timestamp = $webform_submission->getChangedTime();
+
+      // You can format the timestamp as needed.
+      $formatted_last_updated = \Drupal::service('date.formatter')->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
+      $output[] = ['Last updated time' => $formatted_last_updated];
       $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
         'webform' => $webform_submission->getWebform()->id(),
         'webform_submission' => $webform_submission->id(),
