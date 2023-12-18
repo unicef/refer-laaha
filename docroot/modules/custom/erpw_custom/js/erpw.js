@@ -6,9 +6,25 @@
       // Redirect user to Language selector screen.
       let langCookieSelector = getCookie('userLanguageSelection');
       if (langCookieSelector !== "TRUE" && window.location.pathname !== "/select-language") {
-       window.location.href = "/select-language";
+        window.location.href = "/select-language";
       }
 
+      if (window.location.pathname == "/select-language") {
+        const countryList = document.getElementById('country-dropdown').children;
+        let activeCountry = null;
+        // Get the active country.
+        for (let i = 0; i < countryList.length; i++) {
+          if (countryList[i].getAttribute('selected') != null && countryList[i].getAttribute('selected').length > 0) {
+            activeCountry = countryList[i].attributes.value.nodeValue;
+          }
+        }
+        // If the active country is Sierra Leone then remove the language selector.
+        if ((activeCountry != null && activeCountry.includes('sl')) || (window.location.hostname.includes('sl') && activeCountry.includes('sl'))) {
+          document.getElementsByClassName('choose-language-text')[0].style.display = 'none';
+          document.getElementsByClassName('form-radios')[0].style.display = 'none';
+        }
+      }
+      
       /**
        * Get cookie value.
        */
