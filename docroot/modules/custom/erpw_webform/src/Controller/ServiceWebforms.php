@@ -2,6 +2,7 @@
 
 namespace Drupal\erpw_webform\Controller;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Url;
@@ -62,6 +63,8 @@ class ServiceWebforms extends ControllerBase {
   public function listForms() {
     $cid = 'service_webforms_list';
     $markup = '';
+    // Specify cache tags related to webforms.
+    $cacheTags = ['webform'];
     if ($cache = \Drupal::cache()->get($cid)) {
       $markup = $cache->data;
     }
@@ -119,8 +122,11 @@ class ServiceWebforms extends ControllerBase {
             }
           }
         }
+
+        // Add cache tag for each webform.
+        $cacheTags[] = 'webform:' . $webform->id();
       }
-      \Drupal::cache()->set($cid, $markup);
+      \Drupal::cache()->set($cid, $markup, Cache::PERMANENT, $cacheTags);
     }
 
     // @todo Cache computed value.

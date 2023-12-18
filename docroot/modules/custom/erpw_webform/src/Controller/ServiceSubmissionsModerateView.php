@@ -2,6 +2,7 @@
 
 namespace Drupal\erpw_webform\Controller;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\Markup;
@@ -52,6 +53,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
   public function content(WebformSubmission $webform_submission) {
     $cid = 'service_submissions_moderate_view';
     $markup = '';
+    $cache_tags = ['webform_submission'];
     if ($cache = \Drupal::cache()->get($cid)) {
       $markup = $cache->data;
       return [
@@ -391,7 +393,10 @@ class ServiceSubmissionsModerateView extends ControllerBase {
           }
         }
 
-        \Drupal::cache()->set($cid, $markup);
+        // Invalidate cache tag when a new submission is created or edited.
+        $cache_tags = ['webform_submission:' . $webform_submission->id()];
+        \Drupal::cache()->set($cid, $markup, Cache::PERMANENT, $cache_tags);
+
         // @todo Cache computed value.
         return [
           '#type' => 'markup',

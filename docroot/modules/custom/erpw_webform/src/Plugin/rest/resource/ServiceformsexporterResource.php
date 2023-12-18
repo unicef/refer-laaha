@@ -2,6 +2,7 @@
 
 namespace Drupal\erpw_webform\Plugin\rest\resource;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
 use Drupal\rest\Plugin\ResourceBase;
@@ -99,6 +100,8 @@ class ServiceformsexporterResource extends ResourceBase {
   public function get() {
     $cid = 'service_forms_exporter_resource';
     $webformsRevised = [];
+    // Specify cache tags related to webforms.
+    $cacheTags = ['webform'];
     if ($cache = \Drupal::cache()
       ->get($cid)) {
       $webformsRevised = $cache->data;
@@ -117,9 +120,12 @@ class ServiceformsexporterResource extends ResourceBase {
             }
           }
         }
+
+        // Add cache tag for each webform.
+        $cacheTags[] = 'webform:' . $id;
       }
       \Drupal::cache()
-        ->set($cid, $webformsRevised);
+        ->set($cid, $webformsRevised, Cache::PERMANENT, $cacheTags);
     }
     $this->logger->notice('Exported service forms.');
     // Return the newly created record in the response body.
