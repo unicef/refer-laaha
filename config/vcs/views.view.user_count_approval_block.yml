@@ -934,8 +934,9 @@ display:
           plugin_id: user_roles
           operator: or
           value:
-            service_provider_focal_point: service_provider_focal_point
             service_provider_staff: service_provider_staff
+            service_provider_focal_point: service_provider_focal_point
+            gbv_focal_point: gbv_focal_point
           group: 1
           exposed: false
           expose:
