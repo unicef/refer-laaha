@@ -9,7 +9,18 @@
         window.location.href = "/select-language";
       }
 
-      if (window.location.pathname == "/select-language") {
+      // To avoid the duplication of RPWs on homepage.
+      const subDomain = window.location.hostname.split(".")[0];
+      if (subDomain != null && subDomain.length < 3) {
+        if (document.referrer != null && !document.referrer.includes(subDomain) && window.location.hostname.includes(subDomain)) {
+          window.location.reload();
+        }
+      }
+
+      // Sierra Leone domain handler code.
+      if (window.location.hostname.includes('sl') && window.location.pathname == "/select-language") {
+        window.location.href = '/en';
+      } else if (window.location.pathname == "/select-language") {
         const countryList = document.getElementById('country-dropdown').children;
         let activeCountry = null;
         // Get the active country.
