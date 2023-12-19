@@ -475,10 +475,12 @@ class SignUpForm extends FormBase {
         $ptids = [reset($parent_list)];
       }
     }
-    $form = $this->erpwpathway->getLocationForm($form, $form_state, $parent_list, $ptids);
-    $form['location']['all_wrapper']['intro_text'] = [
-      '#type' => 'markup',
-      '#markup' => '<div id="intro-text">' . $this->t('Select country to view its Hierarchy.') . '</div>',
+
+    $form['autocomplete_location'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Location'),
+      '#required' => TRUE,
+      '#autocomplete_route_name' => 'erpw_entity_autocomplete.signup.location',
     ];
 
     $form['actions'] = [
@@ -533,12 +535,8 @@ class SignUpForm extends FormBase {
    */
   public function submitPageTwo(array &$form, FormStateInterface $form_state) {
     $location_tid = '';
-    for ($i = self::MAX_LEVEL; $i >= 0; $i--) {
-      $location_tid = $form_state->getValue('level_' . $i);
-      if (!empty($location_tid)) {
-        break;
-      }
-    }
+    $location_autocomplete_value = $form_state->getValue('autocomplete_location');
+    $location_tid = (int) preg_match('/\{(\d+)\}/', $location_autocomplete_value, $matches) ? $matches[1] : NULL;
     $form_state->set('page_two_values', [
       'personal_details' => $form_state->get('page_values'),
       'location_tid' => $location_tid,

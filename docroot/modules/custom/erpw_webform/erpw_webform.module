@@ -531,7 +531,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
   }
 
   if (str_contains($form['#form_id'], 'webform_service_rating_')) {
-    $url = Url::fromRoute('view.manage_webform_services.feedback');
+    $url = '/share-feedback';
     $form['actions']['cancel'] = [
       '#type' => 'link',
       '#title' => t('Cancel'),
@@ -609,7 +609,9 @@ function erpw_webform_service_rating_delete_handler(&$form, FormStateInterface $
  */
 function erpw_webform_service_rating_submit_handler(&$form, FormStateInterface $form_state) {
   \Drupal::service('messenger')->addMessage("Thank you for your Feedback!");
-  $form_state->setRedirect('view.manage_webform_services.feedback');
+  $alias = $form_state->getValue('share-feedback');
+  $url = Url::fromUserInput($alias);
+  $form_state->setRedirectUrl($url);
   return;
 }
 
