@@ -6,9 +6,36 @@
       // Redirect user to Language selector screen.
       let langCookieSelector = getCookie('userLanguageSelection');
       if (langCookieSelector !== "TRUE" && window.location.pathname !== "/select-language") {
-       window.location.href = "/select-language";
+        window.location.href = "/select-language";
       }
 
+      // To avoid the duplication of RPWs on homepage.
+      const subDomain = window.location.hostname.split(".")[0];
+      if (subDomain != null && subDomain.length < 3) {
+        if (document.referrer != null && !document.referrer.includes(subDomain) && window.location.hostname.includes(subDomain)) {
+          window.location.reload();
+        }
+      }
+
+      // Sierra Leone domain handler code.
+      if (window.location.hostname.includes('sl') && window.location.pathname == "/select-language") {
+        window.location.href = '/en';
+      } else if (window.location.pathname == "/select-language") {
+        const countryList = document.getElementById('country-dropdown').children;
+        let activeCountry = null;
+        // Get the active country.
+        for (let i = 0; i < countryList.length; i++) {
+          if (countryList[i].getAttribute('selected') != null && countryList[i].getAttribute('selected').length > 0) {
+            activeCountry = countryList[i].attributes.value.nodeValue;
+          }
+        }
+        // If the active country is Sierra Leone then remove the language selector.
+        if ((activeCountry != null && activeCountry.includes('sl')) || (window.location.hostname.includes('sl') && activeCountry.includes('sl'))) {
+          document.getElementsByClassName('choose-language-text')[0].style.display = 'none';
+          document.getElementsByClassName('form-radios')[0].style.display = 'none';
+        }
+      }
+      
       /**
        * Get cookie value.
        */

@@ -174,6 +174,16 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
     $form['location']['level_0']['#empty_option'] = t('Select country');
   }
+  if ($form_id === 'language_selector') {
+    $domain_current_url = explode(".", \Drupal::requestStack()->getCurrentRequest()->server->get('SERVER_NAME'));
+    if ($domain_current_url[0] != NULL && $domain_current_url[0] === 'sl') {
+      $domain_slice = array_slice($domain_current_url, -2);
+      $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
+  
+      setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', $domain_site, FALSE);
+      setcookie('userLanguage', 'en', strtotime('+1 year'), '/', $domain_site, FALSE);
+    }
+  }
   /**
    * No User role has permission set as 'view location of their own country'.
    * So this filteration is useless.
