@@ -52,7 +52,7 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
   }
   if ($form_id == 'views_exposed_form' && $form_state->get('view')->id() == 'user_lists') {
     $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-
+    $activeDomainID = $active_domain->id();
     /* Filter Organisation by the active domain */
 
     // Load Organisation nodes for the active domain.
@@ -113,7 +113,9 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     if ($active_domain->id() != 'bn_erefer_org') {
       unset($form['roles_target_id']['#options']['gbv_focal_point']);
     }
-
+    if ($activeDomainID == 'sl_erefer_org' || $activeDomainID == 'bn_erefer_org') {
+      unset($form['roles_target_id']['#options']['service_provider_staff']);
+    }
   }
 
   if ($form_id == 'views_exposed_form' && $form_state->get('view')->id() == 'user_listing_by_status') {
@@ -1849,4 +1851,25 @@ function erpw_custom_theme() {
       'template' => 'user-count-approval-block',
     ],
   ];
+}
+
+/**
+ * Implements hook_block_view_alter().
+ */
+function erpw_custom_preprocess_block__pendingapproval(&$variables) {
+  // Check if the block is the one you want to hide.
+  $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+  $activeDomainID = $active_domain->id();
+  if ($activeDomainID == 'sl_erefer_org' || $activeDomainID == 'bn_erefer_org') {
+    // Get the current user object.
+    $current_user = \Drupal::currentUser();
+    foreach ($current_user->getRoles() as $role) {
+      if ($role == 'service_provider_focal_point') {
+        if ($variables['elements']['#id'] == 'pendingapproval') {
+          // Add your custom class to the block.
+          $variables['attributes']['class'][] = 'hide-block-sl-bn';
+        }
+      }
+    }
+  }
 }
