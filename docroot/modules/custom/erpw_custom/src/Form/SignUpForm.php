@@ -315,9 +315,13 @@ class SignUpForm extends FormBase {
         '#validate' => ['::validatePageOne'],
       ];
     }
-
+    // Get active domain's tid.
+    $domainID = $this->domainNegotiator->getActiveDomain()->id();
+    if ($domainID == 'bn_erefer_org' || $domainID == 'sl_erefer_org') {
+      unset($form['system_role']['#options']['service_provider_staff']);
+    }
     $form['#cache']['max-age'] = 0;
-    $form['#attached']['drupalSettings']['formSettings']['step'] = 1; 
+    $form['#attached']['drupalSettings']['formSettings']['step'] = 1;
     return $form;
   }
 
