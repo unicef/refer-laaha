@@ -13,6 +13,15 @@ type_settings:
     approve:
       label: Approved
       weight: 2
+    archive_in_review_with_focal_point:
+      label: 'Archive In - Review with Focal Point'
+      weight: 5
+    archive_in_review_with_gbv_coordination:
+      label: 'Archive In -  Review with GBV Coordination'
+      weight: 6
+    archived:
+      label: Archived
+      weight: 7
     deleted:
       label: Deleted
       weight: 4
@@ -56,6 +65,14 @@ type_settings:
         - reject
       to: deleted
       weight: 7
+    archive_service:
+      label: 'Archive Service'
+      from:
+        - approve
+        - deletion_in_review_with_gbv_coordination
+        - reject
+      to: archived
+      weight: 10
     deletion_rejected_by_focal_point:
       label: 'Deletion Rejected by Focal point'
       from:
@@ -126,6 +143,21 @@ type_settings:
         - reject
       to: edits_in_review_with_gbv_coordination
       weight: -1
+    submit_for_archive_to_focal_point:
+      label: 'Submit for Archive to Focal Point'
+      from:
+        - approve
+        - reject
+      to: archive_in_review_with_focal_point
+      weight: 8
+    submit_for_archive_to_gbv_coordination:
+      label: 'Submit for Archive to GBV Coordination'
+      from:
+        - approve
+        - archive_in_review_with_focal_point
+        - reject
+      to: archive_in_review_with_gbv_coordination
+      weight: 9
     submit_for_deletion_to_focal_point:
       label: 'Submit for Deletion to Focal Point'
       from:

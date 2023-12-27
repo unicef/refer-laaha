@@ -32,6 +32,15 @@
           tdElement.classList.add("deletion-in-review-coordination-workflow"); // Add the class "edits-in-review-coordination-workflow"
         } else if (tdElement.textContent.trim().toLowerCase() === "deleted") {
           tdElement.classList.add("deleted-workflow"); // Add the class "deleted-workflow"
+        } else if (tdElement.textContent.trim().toLowerCase() === "archive in review with focal point") {
+          // Add the class "archive-in-review-focal-point-workflow"
+          tdElement.classList.add("archive-in-review-focal-point-workflow");
+        } else if (tdElement.textContent.trim().toLowerCase() === "archive in review with gbv coordination") {
+          // Add the class "archive-in-review-coordination-workflow"
+          tdElement.classList.add("archive-in-review-coordination-workflow");
+        } else if (tdElement.textContent.trim().toLowerCase() === "archived") {
+          // Add the class "archived-workflow"
+          tdElement.classList.add("archived-workflow");
         }
       });
     },
