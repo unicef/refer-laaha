@@ -488,7 +488,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['description']['#markup'] = $delete_confirmation_message;
   }
 
-  if ($form_id === "node_service_type_form") {
+  if ($form_id === "node_service_type_form" || $form_id === "node_service_type_edit_form") {
     $form['#validate'][] = '_erpw_custom_entity_special_character_handler';
   }
 
@@ -498,9 +498,20 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
  * Service type special character handling.
  */
 function _erpw_custom_entity_special_character_handler($form, &$form_state) {
-  $entity_title = $form_state->getValue('title')[0]['value'];
+  $title_value = $form_state->getValue('title')[0]['value'];
+  $entity_title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title_value)));
+  $form_state->setValue('title', [['value' => $entity_title]]);
   $special_character_1 = '(';
   $special_character_2 = ')';
+  if ($entity_title != NULL) {
+    if (str_contains($entity_title, '[')) {
+      $special_character_1 = '[';
+      $special_character_2 = ']';
+    } else if (str_contains($entity_title, '{')) {
+      $special_character_1 = '{';
+      $special_character_2 = '}';
+    }
+  }
   $character_index_1 = strpos($entity_title, $special_character_1);
   $character_index_2 = strpos($entity_title, $special_character_2);
 
@@ -1001,7 +1012,7 @@ function erpw_custom_preprocess_status_messages(&$variables) {
         }
         if (strpos((string) $message, 'has not been activated or is blocked.') !== FALSE) {
           $variables['message_list']['error'][$delta] = t(
-            "You will be notified via email, once your registration is approved."
+              "You will be notified via email, once your registration is approved."
           );
         }
       }
