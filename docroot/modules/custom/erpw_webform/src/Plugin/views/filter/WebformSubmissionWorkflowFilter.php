@@ -92,6 +92,9 @@ class WebformSubmissionWorkflowFilter extends ManyToOne {
       'deletion_in_review_with_focal_point' => 'Deletion In Review with Focal Point',
       'deletion_in_review_with_gbv_coordination' => 'Deletion In Review with GBV Coordination',
       'reject' => 'Rejected',
+      'archive_in_review_with_focal_point' => 'Archive In Review With Focal Point',
+      'archive_in_review_with_gbv_coordination' => 'Archive In Review With GBV Coordination',
+      'archived' => 'Archived',
     ];
     // You can add your custom code here to add custom labels for state transitions.
     return $states;
