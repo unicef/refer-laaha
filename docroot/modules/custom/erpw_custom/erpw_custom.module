@@ -179,7 +179,7 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     if ($domain_current_url[0] != NULL && $domain_current_url[0] === 'sl') {
       $domain_slice = array_slice($domain_current_url, -2);
       $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
-  
+
       setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', $domain_site, FALSE);
       setcookie('userLanguage', 'en', strtotime('+1 year'), '/', $domain_site, FALSE);
     }
@@ -1243,7 +1243,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
   if ($view->id() == "referral_pathway_on_homepage") {
     /*
      * Modify referral pathways to show results
-     * from the nearest lower level of the active location,
+     * from country or level 1 of the active location,
      * if there is no referral pathway for the active location.
      */
 
@@ -1253,19 +1253,29 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
         $current_tid = $condition['value'];
       }
     }
-    // Load the taxonomy term and get the next terms.
-    if (!empty($cookie->getCookieValue())) {
-      $term_storage = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term');
-      $parent_term = $term_storage->load($cookie->getCookieValue());
-      $tree = $term_storage->loadTree($parent_term->bundle(), $current_tid);
-      $child_tids = [];
-      foreach ($tree as $term) {
-        $child_tids[] = $term->tid;
-      }
 
-      // Check if there is content for the current ID or any of its child terms.
+    $cookie_tid = $cookie->getCookieValue();
+    if (!empty($cookie_tid)) {
+      // Get the ancestors of the current taxonomy term.
+      $parent_terms = \Drupal::service('erpw_location.location_services')->getAllAncestors($cookie_tid);
+
+      /**
+       * This array should consist of the active tid, the level 1 tid (in case of lower levels)
+       * and country tid.
+       * This is done so that for all levels below level 1,
+       * a separate referral pathway is not required.
+      */
+      $term_array = [$cookie_tid, $parent_terms[1], $parent_terms[0]];
+
+      // Clean up the array.
+      $term_array = array_filter($term_array, function ($value) {
+        return $value !== NULL;
+      });
+      $term_array = array_unique($term_array);
+
+      // Check if there is content for the current ID or its first 2 ancestors.
       $has_content = erpw_custom_has_content_for_terms(
-        [$current_tid, ...$child_tids], 'referral_path_way', 'field_location');
+        $term_array, 'referral_path_way', 'field_location');
     }
 
     // Use the first term with content found as the current term.
