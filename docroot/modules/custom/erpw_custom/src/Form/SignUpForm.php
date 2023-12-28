@@ -311,6 +311,7 @@ class SignUpForm extends FormBase {
             'signup-next',
           ],
         ],
+        '#name' => 'next_button_1',
         '#submit' => ['::submitPageOne'],
         '#validate' => ['::validatePageOne'],
       ];
@@ -420,10 +421,6 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function formPageTwo(array &$form, FormStateInterface $form_state, $id = NULL) {
-    if (!empty($form_state->getValue('level_0'))) {
-      $form['top_wrapper']['all_wrapper']['#prefix'] = '<div class="location-container">';
-      $form['top_wrapper']['all_wrapper']['#suffix'] = '</div>';
-    }
     $form['#prefix'] = '<div id="status-message"></div>';
     $form['progress_step1'] = [
       '#markup' => '<div class="steps-highlight">
@@ -440,45 +437,6 @@ class SignUpForm extends FormBase {
     $form['message-step'] = [
       '#markup' => '<div class="step">' . $this->t('Step 2: Geographical coverage of your role') . '</div>',
     ];
-    $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
-
-    // Get active domain's tid.
-    $domain = $this->domainNegotiator->getActiveDomain();
-    $config = $this->configFactory->get('domain.location.' . $domain->get('id'));
-    $domain_tid = $config->get('location');
-
-    if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-      $locations = $current_user->get('field_location')->getValue();
-      foreach ($locations as $location) {
-        $location_ids[] = $location['target_id'];
-      }
-    }
-    else {
-      $location_ids = $domain_tid;
-    }
-    $ptids = $parent_list = $combined_ptids = [];
-    if (!isset($form_state->getTriggeringElement()['#level'])
-      && $current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator')) {
-      if (is_array($location_ids)) {
-        foreach ($location_ids as $location_id) {
-          $parent_list = $this->locationService->getAllAncestors($location_id);
-          $combined_ptids = array_merge($combined_ptids, $parent_list);
-        }
-        $parent_list = $combined_ptids;
-      }
-      else {
-        $parent_list = $this->locationService->getAllAncestors($location_ids);
-      }
-      $permission1 = 'add users of their own location and organisation';
-      $permission2 = 'add users of their own location';
-
-      if ($current_user->hasPermission($permission1) || $current_user->hasPermission($permission2)) {
-        $ptids = $parent_list;
-      }
-      else {
-        $ptids = [reset($parent_list)];
-      }
-    }
 
     $form['autocomplete_location'] = [
       '#type' => 'textfield',
@@ -502,9 +460,11 @@ class SignUpForm extends FormBase {
           'button-border',
         ],
       ],
+      '#name' => 'back_button',
       '#submit' => ['::pageOneBack'],
       '#limit_validation_errors' => [],
     ];
+
     $form['action-wrapper']['actions']['next'] = [
       '#type' => 'submit',
       '#button_type' => 'primary',
@@ -513,8 +473,11 @@ class SignUpForm extends FormBase {
         'class' => [
           'signup-next hidden',
         ],
+        'id' => ['next_button_2'],
       ],
+      '#name' => 'next_button_2',
       '#submit' => ['::submitPageTwo'],
+      '#validate' => ['::validatePageTwo'],
     ];
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
@@ -547,6 +510,17 @@ class SignUpForm extends FormBase {
     ])
       ->set('page', 3)
       ->setRebuild(TRUE);
+  }
+
+  /**
+   * Sets an error if wrong data is entered for location field.
+   */
+  public function validatePageTwo(array &$form, FormStateInterface $form_state) {
+    $location_autocomplete_value = $form_state->getValue('autocomplete_location');
+    $location_tid = (int) preg_match('/\{(\d+)\}/', $location_autocomplete_value, $matches) ? $matches[1] : NULL;
+    if (!$location_tid) {
+      $form_state->setErrorByName('autocomplete_location', $this->t('Please enter a valid location.'));
+    }
   }
 
   /**
@@ -588,6 +562,7 @@ class SignUpForm extends FormBase {
             'use-ajax',
           ],
         ],
+        '#name' => 'submit_button_3',
         '#ajax' => [
           'callback' => [$this, 'requestActivationMail'],
           "wrapper" => "requestActivationMail",
@@ -597,6 +572,7 @@ class SignUpForm extends FormBase {
       ];
       $form['back'] = [
         '#type' => 'submit',
+        '#name' => 'back_button_2',
         '#value' => $this->t('Back'),
         '#submit' => ['::pageTwoBack'],
         '#limit_validation_errors' => [],
@@ -621,6 +597,7 @@ class SignUpForm extends FormBase {
       $form['back'] = [
         '#type' => 'submit',
         '#value' => $this->t('Back'),
+        '#name' => 'back_button_2',
         '#submit' => ['::pageTwoBack'],
         '#limit_validation_errors' => [],
       ];
@@ -633,6 +610,7 @@ class SignUpForm extends FormBase {
             'arrow-btn',
           ],
         ],
+        '#name' => 'submit_button_3',
         '#ajax' => [
           'callback' => [$this, 'requestRegistrationApproval'],
           "wrapper" => "requestRegistrationApproval",
@@ -659,6 +637,7 @@ class SignUpForm extends FormBase {
       $form['back'] = [
         '#type' => 'submit',
         '#value' => $this->t('Back'),
+        '#name' => 'back_button_2',
         '#submit' => ['::pageTwoBack'],
         '#limit_validation_errors' => [],
       ];
@@ -671,6 +650,7 @@ class SignUpForm extends FormBase {
             'arrow-btn',
           ],
         ],
+        '#name' => 'submit_button_3',
         '#ajax' => [
           'callback' => [$this, 'requestRegistration'],
           "wrapper" => "requestregistration",
