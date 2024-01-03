@@ -63,7 +63,7 @@
 
 	{% if rows %}
 		<div class="download-services-csv">
-			<a href="/services-csv-export/{{ serviceTypeID }}">{% trans %}Download Services{% endtrans %}</a>
+			<a href="/services/{{ serviceTypeID }}/export">{% trans %}Download Services{% endtrans %}</a>
 		</div>
 		<div class="view-content">
 			{{ rows }}
