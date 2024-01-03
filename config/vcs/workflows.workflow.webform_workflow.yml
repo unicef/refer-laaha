@@ -52,9 +52,6 @@ type_settings:
     rejected_archive_service_request:
       label: 'Rejected Archive Service Request'
       weight: 4
-    rejected_restoration_service_request:
-      label: 'Rejected Restoration Service Request'
-      weight: 9
     restore_service_in_review_with_focal_point:
       label: 'Restore Service In - Review with Focal Point'
       weight: 5
@@ -68,7 +65,7 @@ type_settings:
         - draft
         - in_review
       to: approve
-      weight: -8
+      weight: -11
     approve_deletion:
       label: 'Delete Service'
       from:
@@ -76,7 +73,7 @@ type_settings:
         - deletion_in_review_with_gbv_coordination
         - reject
       to: deleted
-      weight: 5
+      weight: 2
     archive_service:
       label: 'Archive Service'
       from:
@@ -84,100 +81,100 @@ type_settings:
         - archive_in_review_with_gbv_coordination
         - reject
       to: archived
-      weight: 10
+      weight: 7
     deletion_rejected_by_focal_point:
       label: 'Deletion Rejected by Focal point'
       from:
         - deletion_in_review_with_focal_point
       to: reject
-      weight: 3
+      weight: 0
     deletion_rejected_by_gbv_coordination:
       label: 'Deletion Rejected by GBV Coordination'
       from:
         - deletion_in_review_with_gbv_coordination
       to: reject
-      weight: 4
+      weight: 1
     edits_rejected_by_focal_point:
       label: 'Edits Rejected by Focal Point'
       from:
         - edits_in_review_with_focal_point
       to: reject
-      weight: -1
+      weight: -4
     edits_rejected_by_gbv_coordination:
       label: 'Edits Rejected by GBV Coordination'
       from:
         - edits_in_review_with_gbv_coordination
       to: reject
-      weight: 0
+      weight: -3
     publish_edits:
       label: 'Publish Edits'
       from:
         - approve
         - edits_in_review_with_gbv_coordination
       to: approve
-      weight: -2
+      weight: -5
     reject:
       label: 'Rejected by GBV Coordination'
       from:
         - in_review
       to: reject
-      weight: -6
+      weight: -9
     rejected_by_focal_point:
       label: 'Rejected by Focal Point'
       from:
         - in_review_with_focal_point
       to: reject
-      weight: -9
+      weight: -12
     restore:
       label: 'Request for edits'
       from:
         - reject
       to: draft
-      weight: -5
+      weight: -8
     restore_service:
       label: 'Restore Service'
       from:
         - archived
         - restore_service_in_review_with_gbv_coordination
       to: approve
-      weight: 13
+      weight: 10
     save_as_draft:
       label: 'Save as Draft'
       from:
         - draft
       to: draft
-      weight: -7
+      weight: -10
     service_archive_rejected_by_focal_point:
       label: 'Service Archive Rejected by Focal Point'
       from:
         - archive_in_review_with_focal_point
-      to: rejected_archive_service_request
-      weight: 8
+      to: approve
+      weight: 5
     service_archive_rejected_by_gbv_coordination:
       label: 'Service Archive Rejected by GBV Coordination'
       from:
         - archive_in_review_with_gbv_coordination
-      to: rejected_archive_service_request
-      weight: 9
+      to: approve
+      weight: 6
     service_restore_rejected_by_focal_point:
       label: 'Service Restore Rejected by Focal Point'
       from:
         - restore_service_in_review_with_focal_point
-      to: rejected_restoration_service_request
-      weight: 14
+      to: archived
+      weight: 11
     service_restore_rejected_by_gbv_coordination:
       label: 'Service Restore Rejected by GBV Coordination'
       from:
         - restore_service_in_review_with_gbv_coordination
-      to: rejected_restoration_service_request
-      weight: 15
+      to: archived
+      weight: 12
     submit_edits_to_focal_point:
       label: 'Submit Edits to Focal Point'
       from:
         - approve
         - reject
       to: edits_in_review_with_focal_point
-      weight: -4
+      weight: -7
     submit_edits_to_gbv_coordination:
       label: 'Submit Edits to GBV Coordination'
       from:
@@ -185,14 +182,14 @@ type_settings:
         - edits_in_review_with_focal_point
         - reject
       to: edits_in_review_with_gbv_coordination
-      weight: -3
+      weight: -6
     submit_for_archive_to_focal_point:
       label: 'Submit for Archive to Focal Point'
       from:
         - approve
         - reject
       to: archive_in_review_with_focal_point
-      weight: 6
+      weight: 3
     submit_for_archive_to_gbv_coordination:
       label: 'Submit for Archive to GBV Coordination'
       from:
@@ -200,14 +197,14 @@ type_settings:
         - archive_in_review_with_focal_point
         - reject
       to: archive_in_review_with_gbv_coordination
-      weight: 7
+      weight: 4
     submit_for_deletion_to_focal_point:
       label: 'Submit for Deletion to Focal Point'
       from:
         - approve
         - reject
       to: deletion_in_review_with_focal_point
-      weight: 1
+      weight: -2
     submit_for_deletion_to_gbv_coordination:
       label: 'Submit for Deletion to GBV Coordination'
       from:
@@ -215,20 +212,20 @@ type_settings:
         - deletion_in_review_with_focal_point
         - reject
       to: deletion_in_review_with_gbv_coordination
-      weight: 2
+      weight: -1
     submit_for_restoration_to_focal_point:
       label: 'Submit for Restoration to Focal Point'
       from:
         - archived
       to: restore_service_in_review_with_focal_point
-      weight: 11
+      weight: 8
     submit_for_restoration_to_gbv_coordination:
       label: 'Submit for Restoration to GBV Coordination'
       from:
         - archived
         - restore_service_in_review_with_focal_point
       to: restore_service_in_review_with_gbv_coordination
-      weight: 12
+      weight: 9
     submit_for_review_to_country_admin:
       label: 'Submit to GBV Coordination'
       from:
@@ -236,11 +233,11 @@ type_settings:
         - in_review_with_focal_point
         - reject
       to: in_review
-      weight: -10
+      weight: -13
     submit_to_focal_point:
       label: 'Submit to Focal Point'
       from:
         - draft
         - reject
       to: in_review_with_focal_point
-      weight: -11
+      weight: -14

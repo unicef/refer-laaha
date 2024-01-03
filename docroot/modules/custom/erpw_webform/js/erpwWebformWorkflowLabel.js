@@ -41,6 +41,18 @@
         } else if (tdElement.textContent.trim().toLowerCase() === "archived") {
           // Add the class "archived-workflow"
           tdElement.classList.add("archived-workflow");
+        } else if (tdElement.textContent.trim().toLowerCase() === "restore service in review with focal point") {
+          // Add the class "restore-service-in-review-with-focal-point"
+          tdElement.classList.add("restore-service-in-review-with-focal-point");
+        } else if (tdElement.textContent.trim().toLowerCase() === "restore service in review with gbv coordination") {
+          // Add the class "restore-service-in-review-with-gbv-coordination"
+          tdElement.classList.add("restore-service-in-review-with-gbv-coordination");
+        } else if (tdElement.textContent.trim().toLowerCase() === "rejected restore service request") {
+          // Add the class "rejected-restore-service-request"
+          tdElement.classList.add("rejected-restore-service-request");
+        } else if (tdElement.textContent.trim().toLowerCase() === "rejected archive service request") {
+          // Add the class "rejected-archive-service-request"
+          tdElement.classList.add("rejected-archive-service-request");
         }
       });
     },
