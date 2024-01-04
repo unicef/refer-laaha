@@ -1288,16 +1288,30 @@ function erpw_webform_webform_submission_presave($webform_submission) {
     $service_type = $service_type_node->getTitle();
     $webform_submission_id = $webform_submission->id();
     $current_transition = $values['erpw_workflow']['transition'];
-    $rejected_transitions = ['edits_rejected_by_focal_point', 'edits_rejected_by_gbv_coordination', 'deletion_rejected_by_focal_point', 'deletion_rejected_by_gbv_coordination'];
+    $rejected_transitions = ['edits_rejected_by_focal_point', 'edits_rejected_by_gbv_coordination', 'deletion_rejected_by_focal_point', 'deletion_rejected_by_gbv_coordination', 'service_restore_rejected_by_focal_point', 'service_restore_rejected_by_gbv_coordination'];
     $edit_delete_end_transitions = ['publish_edits', 'approve_deletion'];
+    $restore_archive_service_transitions = ['submit_for_restoration_to_focal_point', 'submit_for_restoration_to_gbv_coordination'];
+    $archive_restore_transitions = ['archive_service', 'restore_service'];
 
     // Store approved data in WSA while it is in Edit or Delete Workflow.
-    if ($values['erpw_workflow']['workflow_state'] == 'approve' && !in_array($current_transition, $edit_delete_end_transitions)) {
+    if (($values['erpw_workflow']['workflow_state'] == 'approve' && !in_array($current_transition, $edit_delete_end_transitions)) || (in_array($current_transition, $restore_archive_service_transitions))) {
       // Node for Deletion workflow:
       if ($current_transition == 'submit_for_deletion_to_focal_point' || $current_transition == 'submit_for_deletion_to_gbv_coordination') {
         $node = erpw_webform_create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
 
         $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Deletion Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
+        \Drupal::logger('erpw_webform__deletion')->notice($message);
+      } else if ($current_transition == 'submit_for_archive_to_focal_point' || $current_transition == 'submit_for_archive_to_gbv_coordination') {
+        // Node for Archive Workflow:
+        $node = erpw_webform_create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
+
+        $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Archive Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
+        \Drupal::logger('erpw_webform__deletion')->notice($message);
+      } else if ($current_transition == 'submit_for_restoration_to_focal_point' || $current_transition == 'submit_for_restoration_to_gbv_coordination') {
+        // Node for Restore Archive Service Workflow:
+        $node = erpw_webform_create_or_update_wsa_node($service_type, $webform_submission_id, $values['orignal_data']);
+
+        $message = 'The submission for service of <em>' . $service_type . '</em>, with Submission Id - ' . $webform_submission->id() . ' has entered the Restore Archive Service Workflow.<br>The previous approved data is stored in the node id ' . $node->id();
         \Drupal::logger('erpw_webform__deletion')->notice($message);
       }
       // Node for Edit Workflow:
@@ -1323,7 +1337,7 @@ function erpw_webform_webform_submission_presave($webform_submission) {
             '%sid' => $webform_submission_id,
           ]);
           $webform_submission->delete();
-        }
+        } 
         // End of Edit workflow.
         else {
           \Drupal::logger('erpw_webform__edit')->notice('The node %title of type Webform Submission Approved has been deleted, as its approval workflow is complete.', [
@@ -1347,17 +1361,28 @@ function erpw_webform_webform_submission_presave($webform_submission) {
       }
     }
     // Delete WSA nodes if submissions are rejected, replace the data with the old approved data.
-    elseif (in_array($current_transition, $rejected_transitions)) {
+    elseif (in_array($current_transition, $rejected_transitions) || in_array($current_transition, $archive_restore_transitions)) {
       $node = erpw_webform_load_wsa_node_by_sid($webform_submission_id);
       if ($node) {
         $node_data = json_decode($node->field_submission_data->value, TRUE);
         try {
+          if (in_array($current_transition, $archive_restore_transitions)) {
+            $node_data['erpw_workflow'] = $webform_submission->getData()['erpw_workflow'];
+          }
+
           $webform_submission->setData($node_data);
         }
         catch (EntityStorageException $e) {
           \Drupal::logger('erpw_webform__reject')->error($e);
         }
-        \Drupal::logger('erpw_webform__reject')->notice('Webform submission with SID %sid was updated with the old approved data, as the changes were rejected in the workflow.', ['%sid' => $webform_submission_id]);
+
+        if ($current_transition == 'archive_service') {
+          \Drupal::logger('erpw_webform__reject')->notice('Webform submission with SID %sid was updated with the old approved data, since this submission has passed through the Archive Workflow.', ['%sid' => $webform_submission_id]);
+        } else if ($current_transition == 'restore_service') {
+          \Drupal::logger('erpw_webform__reject')->notice('Webform submission with SID %sid was updated with the old approved data, since this submission has passed through the Restore Archive Service Workflow.', ['%sid' => $webform_submission_id]);
+        } else {
+          \Drupal::logger('erpw_webform__reject')->notice('Webform submission with SID %sid was updated with the old approved data, as the changes were rejected in the workflow.', ['%sid' => $webform_submission_id]);
+        }
 
         // Delete the node as well.
         $node->delete();
