@@ -6,8 +6,10 @@
  */
 
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\node\Entity\Node;
+use Drupal\user\UserInterface;
 use Drupal\webform\WebformSubmissionInterface;
 
 /**
@@ -45,10 +47,12 @@ function erpw_in_app_notification_theme() {
         'user' => '',
         'role' => '',
         'service' => '',
+        'broadcast' => '',
         'common_var' => '',
         'count' => [
           'user' => 0,
           'service' => 0,
+          'broadcast' => 0,
         ],
       ],
     ],
@@ -62,6 +66,9 @@ function erpw_in_app_notification_theme() {
         'combined' => '',
         'common_var' => '',
       ],
+    ],
+    'broadcast_notification_entity' => [
+      'render element' => 'elements',
     ],
   ];
 }
@@ -1331,6 +1338,21 @@ function erpw_in_app_notification__notification_process_cron_job() {
 }
 
 /**
+ * Implement ultimate_cron_callback().
+ */
+function erpw_in_app_notification__broadcast_notification_process_cron_job() {
+  $queue_factory = \Drupal::service('queue');
+  /** @var QueueInterface $queue */
+  $queue = $queue_factory->get('broadcast_process_queue_worker');
+  $ids = \Drupal::service('erpw_in_app_notification.default')->getBroadcastNotificationIds();
+  if (!empty($ids)) {
+    foreach ($ids as $id) {
+      $queue->createItem($id);
+    }
+  }
+}
+
+/**
  * Retrive the original data from webform_submission.
  */
 function erpw_in_app_notification__retrive_original_data($jsonData, &$return) {
@@ -1616,5 +1638,110 @@ function erpw_in_app_notification__user_operation($user) {
       'field_workflow_action' => 'rejected',
     ]);
     $notification_storage->save();
+  }
+}
+
+/**
+ * Prepares variables for broadcast notification entity templates.
+ *
+ * Default template: broadcast-notification-entity.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the broadcast notification entity information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_broadcast_notification_entity(array &$variables) {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_user_cancel().
+ */
+function erpw_in_app_notification_user_cancel($edit, UserInterface $account, $method) {
+  switch ($method) {
+    case 'user_cancel_block_unpublish':
+      // Unpublish broadcast notification entities.
+      $storage = \Drupal::entityTypeManager()->getStorage('broadcast_notification_entity');
+      $broadcast_notification_entity_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->condition('status', 1)
+        ->execute();
+      foreach ($storage->loadMultiple($broadcast_notification_entity_ids) as $broadcast_notification_entity) {
+        $broadcast_notification_entity->set('status', FALSE);
+        $broadcast_notification_entity->save();
+      }
+      break;
+
+    case 'user_cancel_reassign':
+      // Anonymize broadcast notification entities.
+      $storage = \Drupal::entityTypeManager()->getStorage('broadcast_notification_entity');
+      $broadcast_notification_entity_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->execute();
+      foreach ($storage->loadMultiple($broadcast_notification_entity_ids) as $broadcast_notification_entity) {
+        $broadcast_notification_entity->setOwnerId(0);
+        $broadcast_notification_entity->save();
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete() for user entities.
+ */
+function erpw_in_app_notification_user_predelete(UserInterface $account) {
+  // Delete broadcast notification entities.
+  $storage = \Drupal::entityTypeManager()->getStorage('broadcast_notification_entity');
+  $broadcast_notification_entity_ids = $storage->getQuery()
+    ->condition('uid', $account->id())
+    ->execute();
+  $broadcast_notification_entities = $storage->loadMultiple($broadcast_notification_entity_ids);
+  $storage->delete($broadcast_notification_entities);
+}
+
+/**
+ * Implements hook_preprocess_table().
+ */
+function erpw_in_app_notification_preprocess_table(&$variables) {
+  $current_path = \Drupal::service('path.current')->getPath();
+  if (str_contains($current_path, 'broadcast-notification-entity') && !str_contains($current_path, 'admin') && str_contains($current_path, 'translations')) {
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $lang = \Drupal::configFactory()->get('domain.language.' . $active_domain->id() . '.language.negotiation');
+    $prefixes = $lang->get('languages');
+    $domain_languages = [];
+    foreach ($prefixes as $lang_code) {
+      $lang_name = \Drupal::service('language_manager')->getLanguage($lang_code)->getName();
+      $domain_languages[] = $lang_name;
+    }
+    $table_rows = $variables['rows'];
+    $languages[] = $table_rows[0];
+    for ($x = 1; $x < count($variables['rows']); $x++) {
+      $table_row_lang_name = $table_rows[$x]['cells'][0]['content'];
+      if (in_array($table_row_lang_name, $domain_languages)) {
+        $languages[] = $table_rows[$x];
+      }
+    }
+    $variables['rows'] = $languages;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function erpw_in_app_notification_form_broadcast_notification_entity_edit_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'broadcast_notification_entity_edit_form') {
+    // Check if 'duplicate' is present in the query parameters.
+    if (\Drupal::request()->query->has('duplicate')) {
+      if (\Drupal::request()->query->get('duplicate') == 'TRUE') {
+        $form['field_location']['#disabled'] = FALSE;
+        $form['field_organisation']['#disabled'] = FALSE;
+        $form['field_type']['#disabled'] = FALSE;
+      }
+    }
   }
 }

@@ -4,7 +4,9 @@ status: true
 dependencies:
   config:
     - taxonomy.vocabulary.country
+    - user.role.administrator
     - user.role.country_admin
+    - user.role.gbv_focal_point
     - user.role.interagency_gbv_coordinator
     - user.role.service_provider_focal_point
     - user.role.service_provider_staff
@@ -239,10 +241,12 @@ display:
         type: role
         options:
           role:
-            super_admin: super_admin
-            country_admin: country_admin
-            interagency_gbv_coordinator: interagency_gbv_coordinator
             service_provider_focal_point: service_provider_focal_point
+            gbv_focal_point: gbv_focal_point
+            interagency_gbv_coordinator: interagency_gbv_coordinator
+            country_admin: country_admin
+            super_admin: super_admin
+            administrator: administrator
       cache:
         type: tag
         options: {  }
@@ -470,6 +474,10 @@ display:
     display_plugin: block
     position: 1
     display_options:
+      pager:
+        type: none
+        options:
+          offset: 0
       filters:
         status:
           id: status
@@ -659,7 +667,9 @@ display:
           value:
             self-register-sp-staff: self-register-sp-staff
             self-register-spfp: self-register-spfp
+            self-register-gbvfp: self-register-gbvfp
             spfp-accept: spfp-accept
+            gbvfp-accept: gbvfp-accept
           group: 1
           exposed: false
           expose:
@@ -695,6 +705,7 @@ display:
         groups:
           1: AND
       defaults:
+        pager: false
         filters: false
         filter_groups: false
       display_description: ''

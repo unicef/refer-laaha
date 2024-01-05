@@ -30,3 +30,36 @@ function erpw_user_management_entity_form_display_alter(&$form_display, $context
     }
   }
 }
+
+/**
+ * Implements hook_user_presave().
+ */
+function erpw_user_management_user_presave($account) {
+  $location_values = $account->field_location->getValue();
+  $parent_id = [];
+  // Loop through field_location to find the parent id of each location.
+  foreach ($location_values as $value) {
+    $parent = \Drupal::service('erpw_location.location_services')->getAllAncestors($value['target_id']);
+    $parent_id[] = $parent[0] ?? NULL;
+  }
+
+  if ($parent_id) {
+    // Generate a domain list with tid as key & machine name as value.
+    $all_domains = \Drupal::entityQuery('domain')->accessCheck(FALSE)->execute();
+    foreach ($all_domains as $domain) {
+      $domain_config = \Drupal::service('config.factory')->getEditable('domain.location.' . $domain);
+      $domain_list[$domain_config->get('location')] = $domain;
+    }
+
+    // Match domain access based on location of the user.
+    foreach ($domain_list as $key => $value) {
+      foreach (array_unique($parent_id) as $domain_id) {
+        if ($domain_id == $key) {
+          $domain_access[] = $value;
+        }
+      }
+    }
+    // Set domain access based on user's location.
+    $account->field_domain_access->setValue($domain_access);
+  }
+}

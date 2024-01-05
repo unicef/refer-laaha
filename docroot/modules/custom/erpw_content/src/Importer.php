@@ -2,22 +2,22 @@
 
 namespace Drupal\erpw_content;
 
-use Drupal\file\FileInterface;
 use Drupal\Component\Graph\Graph;
-use Drupal\Core\Serialization\Yaml;
-use Drupal\Core\Extension\ExtensionPathResolver;
-use Drupal\user\EntityOwnerInterface;
-use Drupal\Core\File\FileSystemInterface;
-use Symfony\Component\Serializer\Serializer;
-use Drupal\default_content\Event\ImportEvent;
-use Drupal\hal\LinkManager\LinkManagerInterface;
-use Drupal\Core\Session\AccountSwitcherInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
-use Drupal\default_content\Event\DefaultContentEvents;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ExtensionPathResolver;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Serialization\Yaml;
+use Drupal\Core\Session\AccountSwitcherInterface;
 use Drupal\default_content\ContentFileStorageInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Drupal\default_content\Event\DefaultContentEvents;
+use Drupal\default_content\Event\ImportEvent;
 use Drupal\default_content\Normalizer\ContentEntityNormalizerInterface;
+use Drupal\file\FileInterface;
+use Drupal\hal\LinkManager\LinkManagerInterface;
+use Drupal\user\EntityOwnerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * A service for handling import of default content.

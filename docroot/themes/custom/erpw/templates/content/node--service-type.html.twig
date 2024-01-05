@@ -115,9 +115,16 @@
     <span style="background-color:  {{ node.field_service_type_color.entity.field_service_type_color.color }}"></span>
   </div>
   {% if query is not empty %}
-    <a href="/node/{{ query }}/{{ nid }}" class="use-ajax modal-popup button-red">{{ 'DELETE SERVICE TYPE' | t }}</a>
-    <div class="msg-note">
-      {{ 'This action cannot be reversed ! Please note that deleting a service type will remove any mapping it has with existing referral pathways and Organisation Services of application.' | t }}
-    </div>
+    {% if can_delete %}
+      <a href="/node/{{ query }}/{{ nid }}" class="use-ajax modal-popup button-red">{{ 'DELETE SERVICE TYPE' | t }}</a>
+      <div class="msg-note">
+        {{ 'This action cannot be reversed ! Please note that deleting a service type will remove any mapping it has with existing referral pathways and Organisation Services of application.' | t }}
+      </div>
+    {% else %}
+      <a href="/manage-service-types" class="button button-red">{{ 'CANCEL' | t }}</a>
+      <div class="msg-note">
+        {{ 'Since it is currently in use, this service type cannot be deleted until all of the services that fall under it have been removed.' | t }}
+      </div>
+    {% endif %}
   {% endif %}
 </div>

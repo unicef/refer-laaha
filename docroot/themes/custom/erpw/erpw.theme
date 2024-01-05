@@ -152,6 +152,37 @@ function erpw_preprocess_node(&$variables) {
 
       $variables['#cache']['contexts'][] = 'url.query_args';
 
+      if (!empty($query_path) && $query_path === 'delete') {
+        $service_form_exists = FALSE;
+        $services_exist = FALSE;
+        $service_type_id = $node->id();
+
+        // Checking if there are any services of the respective service type.
+        $query = \Drupal::database()->select('webform_submission_data', 'wsd');
+        $query->fields('wsd');
+        $query->condition('name', 'service_type');
+        $query->condition('value', $service_type_id);
+        $submission_ids = $query->execute()->fetchAll();
+
+        // If there are no services then check if there is service form for the respective service type.
+        if (empty($submission_ids)) {
+          $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
+          foreach ($webforms as $webform) {
+            $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+            foreach ($tpa as $tpa_key => $tpa_value) {
+              if (is_array($tpa_value) && !empty($tpa_value[0]) && $tpa_value[0] === strval($service_type_id)) {
+                $service_form_exists = TRUE;
+              }
+            }
+          }
+        }
+        elseif (is_array($submission_ids) && !empty($submission_ids)) {
+          $services_exist = TRUE;
+        }
+
+        $variables['can_delete'] = $service_form_exists || $services_exist ? FALSE : TRUE;
+      }
+
       $url = Url::fromRoute('view.manage_service_types.page_1');
       $variables['#attached']['library'][] = 'erpw_custom/erpw_js';
       $variables['#attached']['drupalSettings']['erpw_custom']['manage_service_type_page'] = $url->toString();
@@ -310,7 +341,7 @@ function erpw_preprocess_views_view_field(&$variables) {
 
       // Load user lists.
       $view = Views::getView('user_lists');
-      $view->setDisplay('page_2');
+      $view->setDisplay('page_3');
       $view->execute();
 
       // Replace characters in the field output.

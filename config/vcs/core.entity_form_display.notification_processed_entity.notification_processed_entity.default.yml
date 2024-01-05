@@ -3,11 +3,13 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.notification_processed_entity.notification_processed_entity.field_color
     - field.field.notification_processed_entity.notification_processed_entity.field_icon
     - field.field.notification_processed_entity.notification_processed_entity.field_message_string
     - field.field.notification_processed_entity.notification_processed_entity.field_notification_id
     - field.field.notification_processed_entity.notification_processed_entity.field_read
     - field.field.notification_processed_entity.notification_processed_entity.field_recipient
+    - field.field.notification_processed_entity.notification_processed_entity.field_type_of_notification
   module:
     - erpw_in_app_notification
     - text
@@ -16,6 +18,14 @@ targetEntityType: notification_processed_entity
 bundle: notification_processed_entity
 mode: default
 content:
+  field_color:
+    type: string_textfield
+    weight: 13
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_icon:
     type: string_textarea
     weight: 11
@@ -56,6 +66,14 @@ content:
     settings:
       match_operator: CONTAINS
       match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_type_of_notification:
+    type: string_textfield
+    weight: 12
+    region: content
+    settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }

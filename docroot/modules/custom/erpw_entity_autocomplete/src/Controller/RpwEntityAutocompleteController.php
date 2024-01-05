@@ -2,9 +2,9 @@
 
 namespace Drupal\erpw_entity_autocomplete\Controller;
 
-use Drupal\system\Controller\EntityAutocompleteController;
 use Drupal\Core\KeyValueStore\KeyValueStoreInterface;
 use Drupal\erpw_entity_autocomplete\RpwEntityAutocompleteMatcher;
+use Drupal\system\Controller\EntityAutocompleteController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

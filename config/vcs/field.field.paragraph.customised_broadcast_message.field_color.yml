@@ -1,0 +1,22 @@
+uuid: e0314665-889e-4007-ae8f-13eec9414613
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_color
+    - paragraphs.paragraphs_type.customised_broadcast_message
+  module:
+    - color_field
+id: paragraph.customised_broadcast_message.field_color
+field_name: field_color
+entity_type: paragraph
+bundle: customised_broadcast_message
+label: Color
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  opacity: 0
+field_type: color_field_type

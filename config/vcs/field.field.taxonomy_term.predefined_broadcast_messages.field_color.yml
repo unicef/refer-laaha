@@ -1,0 +1,22 @@
+uuid: 6b8e7709-8447-4f80-b4aa-5e78bf3449a6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_color
+    - taxonomy.vocabulary.predefined_broadcast_messages
+  module:
+    - color_field
+id: taxonomy_term.predefined_broadcast_messages.field_color
+field_name: field_color
+entity_type: taxonomy_term
+bundle: predefined_broadcast_messages
+label: Color
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  opacity: 0
+field_type: color_field_type

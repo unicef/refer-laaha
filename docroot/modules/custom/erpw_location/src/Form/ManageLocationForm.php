@@ -21,6 +21,7 @@ use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\Core\Url;
 use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\erpw_location\LocationService;
+use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -240,7 +241,6 @@ class ManageLocationForm extends FormBase {
       $domain = $this->domainNegotiator->getActiveDomain();
       $config = $this->configFactory->get('domain.location.' . $domain->get('id'));
       $location_value = $config->get('location');
-
       $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($location_value);
       $upper_ancestors = array_reverse(array_keys($ancestors));
       $mylocation = "";
@@ -325,14 +325,26 @@ class ManageLocationForm extends FormBase {
       else {
         $locations[$location_tid] = $this->locationService->getTaxonomyTermById($location_tid);
       }
+      // Get active domain's tid.
+      $domain = $this->domainNegotiator->getActiveDomain();
+      $config = $this->configFactory->get('domain.location.' . $domain->get('id'));
+      $location_value = $config->get('location');
+      $countryHierarchy = getCountryHierarchy($location_value);
+
+      // Output the key-value pairs as an array.
+      $finalArray = [];
+      foreach ($countryHierarchy as $tid => $termName) {
+        $finalArray[$tid] = $termName;
+      }
       natcasesort($locations);
       $form['location_list']['location_count'] = [
         '#type' => 'markup',
         '#markup' => '<div class="location-count edit-delete-links margin-space">' .
-        count($locations) . ' ' . $this->t('Locations') .
+        count($finalArray) . ' ' . $this->t('Locations') .
         '</div>',
       ];
-      foreach ($locations as $tid => $location) {
+
+      foreach ($finalArray as $tid => $location) {
         $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
         $ancestors = array_reverse(array_keys($ancestors));
         $location_details = '';
@@ -422,4 +434,37 @@ class ManageLocationForm extends FormBase {
     return $response;
   }
 
+}
+
+/**
+ *
+ */
+function getTermHierarchy($vid, $parent = 0, &$result = [], $depth = 0) {
+  $query = \Drupal::entityQuery('taxonomy_term');
+  $query->condition('vid', $vid);
+  $query->condition('parent', $parent);
+  $tids = $query->accessCheck(TRUE)->execute();
+
+  foreach ($tids as $tid) {
+    $term = Term::load($tid);
+    $result[$term->id()] = $term->getName();
+    getTermHierarchy($vid, $term->id(), $result, $depth + 1);
+  }
+}
+
+/**
+ *
+ */
+function getCountryHierarchy($cid) {
+  $query = \Drupal::entityQuery('taxonomy_term');
+  $query->condition('vid', 'country');
+  $query->condition('tid', $cid);
+  $countryTids = $query->accessCheck(TRUE)->execute();
+
+  $result = [];
+  foreach ($countryTids as $countryTid) {
+    getTermHierarchy('country', $countryTid, $result);
+  }
+
+  return $result;
 }
