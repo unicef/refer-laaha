@@ -630,6 +630,8 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   /**
    * Service Edit flow started here.
    */
+
+  // Send message for review to all focal points.
   if ($erpw_workflow['transition'] == 'submit_edits_to_focal_point') {
     // SP Focal Point/ GBV Focal Point - Service Edit - Review.
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
@@ -978,6 +980,8 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   /**
    * Service Delete flow start here.
    */
+
+  // Send message for review to all focal points.
   if ($erpw_workflow['transition'] == 'submit_for_deletion_to_focal_point') {
     // SP Focal Point/ GBV Focal Point - Service Delete - Review.
     $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
@@ -1320,6 +1324,706 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   /**
    * Service Delete flow ends here.
    */
+
+  // Global Archive and Restore.
+  /**
+   * Service Archive flow started here.
+   */
+
+  // Send message for review to all focal points.
+  if ($erpw_workflow['transition'] == 'submit_for_archive_to_focal_point') {
+    // SP Focal Point/ GBV Focal Point - Service Archive - Review.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'link',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'focal_point__service_archive_restore__review',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => FALSE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => NULL,
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('archive'),
+      'field_workflow_action' => '',
+    ]);
+    $notification_storage->save();
+  }
+
+  // Archive Approved by focal point - notify other focal points.
+  if ($erpw_workflow['transition'] == 'submit_for_archive_to_gbv_coordination') {
+    // SP Focal Point/ GBV Focal Point - Service Archive - Approved by Focal Point.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'other_focal_points__service_archive_restore__approved_rejected_by_focal_point',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('archive'),
+      'field_workflow_action' => t('approved'),
+    ]);
+    $notification_storage->save();
+
+    // Staff - requested to Archive the Service - Approved By Focal Point.
+    if (!empty($history[0]) && $history[0]['erp_workflow']['transition'] == 'submit_for_archive_to_focal_point') {
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'staff__archive_restore_service_approved_rejected_by_focal_point',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => 'service_provider_staff',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+        'field_users_list' => $history[0]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('archive'),
+        'field_workflow_action' => t('approved'),
+      ]);
+      $notification_storage->save();
+    }
+
+    // Send message to all GBV Coordination - Service Archive - Review.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'link',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'gbv_coordination__service_archived_restored__review',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_role' => ['interagency_gbv_coordinator', 'country_admin'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => FALSE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => NULL,
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('archive'),
+      'field_workflow_action' => '',
+    ]);
+    $notification_storage->save();
+  }
+
+  // Archive Rejected by Focal Point - notify other focal points.
+  if ($erpw_workflow['transition'] == 'service_archive_rejected_by_focal_point') {
+    // SP Focal Point/ GBV Focal Point - Service Archive - Rejected by Focal Point.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'other_focal_points__service_archive_restore__approved_rejected_by_focal_point',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('archive'),
+      'field_workflow_action' => t('rejected'),
+    ]);
+    $notification_storage->save();
+
+    if (!empty($history[0]) && $history[0]['erp_workflow']['transition'] == 'submit_for_archive_to_focal_point') {
+      // Staff - requested to Archive Service - Rejected By Focal Point.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'staff__archive_restore_service_approved_rejected_by_focal_point',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => 'service_provider_staff',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+        'field_users_list' => $history[0]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('archive'),
+        'field_workflow_action' => t('rejected'),
+      ]);
+      $notification_storage->save();
+    }
+  }
+
+  // Archive approved by GBV Coordination.
+  if ($erpw_workflow['transition'] == 'archive_service') {
+
+    if (!empty($history[1]) && $history[1]['erp_workflow']['transition'] == 'submit_for_archive_to_focal_point') {
+      // Staff - requested to Archive Service - Approved By GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'staff__archive_restore_service_approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => 'service_provider_staff',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+      // Double check this is the last edited Staff.
+        'field_users_list' => $history[1]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('archive'),
+        'field_workflow_action' => t('approved'),
+      ]);
+      $notification_storage->save();
+    }
+    if (!empty($history[0]) && $history[0]['erp_workflow']['transition'] == 'submit_for_archive_to_gbv_coordination') {
+      // SP Focal Point/ GBV Focal Point - Archive Service - Approved By GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'focal_point__service_archive_restore__approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+      // Double check this is the last edited FP.
+        'field_users_list' => $history[0]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('archive'),
+        'field_workflow_action' => t('approved'),
+      ]);
+      $notification_storage->save();
+    }
+
+    // Inform other GBV Coordinators - Service Archive - Approved by GBV Coordination.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'other_gbv_coordinations__service_archived_restored__approved_rejected_by_gbv_coordination',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('archive'),
+      'field_workflow_action' => t('approved'),
+    ]);
+    $notification_storage->save();
+  }
+
+  // Archive rejected by GBV Coordination.
+  if ($erpw_workflow['transition'] == 'service_archive_rejected_by_gbv_coordination') {
+
+    if (!empty($history[1]) && $history[1]['erp_workflow']['transition'] == 'submit_for_archive_to_focal_point') {
+      // Staff - requested to Archive Service - Rejected By GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'staff__archive_restore_service_approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => 'service_provider_staff',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+      // Double check this is the last edited FP.
+        'field_users_list' => $history[1]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('archive'),
+        'field_workflow_action' => t('rejected'),
+      ]);
+      $notification_storage->save();
+    }
+    // SP Focal Point/ GBV Focal Point - Archive Service - Rejected By GBV Coordination.
+    if (!empty($history[0]) && $history[0]['erp_workflow']['transition'] == 'submit_for_archive_to_gbv_coordination') {
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'focal_point__service_archive_restore__approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+      // Double check this is the last edited FP.
+        'field_users_list' => $history[0]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('archive'),
+        'field_workflow_action' => t('rejected'),
+      ]);
+      $notification_storage->save();
+    }
+
+    // Inform other GBV Coordination - Service Archive - Rejected by GBV Coordination.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'other_gbv_coordinations__service_archived_restored__approved_rejected_by_gbv_coordination',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('archive'),
+      'field_workflow_action' => t('rejected'),
+    ]);
+    $notification_storage->save();
+  }
+  /**
+   * Service Archive flow ended here.
+   */
+
+  /**
+   * Service Restore from Archive flow start here.
+   */
+
+  // Send message for review to all focal points.
+  if ($erpw_workflow['transition'] == 'submit_for_restoration_to_focal_point') {
+    // SP Focal Point/ GBV Focal Point - Service Restore - Review.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'link',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'focal_point__service_archive_restore__review',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => FALSE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => NULL,
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('restore'),
+      'field_workflow_action' => '',
+    ]);
+    $notification_storage->save();
+  }
+
+  // Restoration Rejected by focal point - alert other focal points.
+  if ($erpw_workflow['transition'] == 'service_restore_rejected_by_focal_point') {
+
+    // SP Focal Point/ GBV Focal Point - Service Restore - Rejected by Focal Point.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'other_focal_points__service_archive_restore__approved_rejected_by_focal_point',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('restore'),
+      'field_workflow_action' => t('rejected'),
+    ]);
+    $notification_storage->save();
+
+    // Staff - Restore Service Rejected By Focal Point.
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_for_restoration_to_focal_point') {
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'staff__archive_restore_service_approved_rejected_by_focal_point',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => 'service_provider_staff',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+        'field_users_list' => $history[0]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('restore'),
+        'field_workflow_action' => t('rejected'),
+      ]);
+      $notification_storage->save();
+    }
+  }
+
+  // Restoration approved by focal point - alert other focal points.
+  if ($erpw_workflow['transition'] == 'submit_for_restoration_to_gbv_coordination') {
+    // SP Focal Point/ GBV Focal Point - Service Restore - Approved by Focal Point.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'other_focal_points__service_archive_restore__approved_rejected_by_focal_point',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('restore'),
+      'field_workflow_action' => t('approved'),
+    ]);
+    $notification_storage->save();
+
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_for_restoration_to_focal_point') {
+      // Staff - Restore Service Approved By Focal Point.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'staff__archive_restore_service_approved_rejected_by_focal_point',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => 'service_provider_staff',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+        'field_users_list' => $history[0]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('restore'),
+        'field_workflow_action' => t('approved'),
+      ]);
+      $notification_storage->save();
+    }
+
+    // GBV Coordination - Service Restore - Review.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'link',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'gbv_coordination__service_archived_restored__review',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 1,
+      'field_processed' => FALSE,
+      'field_role' => ['interagency_gbv_coordinator', 'country_admin'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => FALSE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => NULL,
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('restore'),
+      'field_workflow_action' => '',
+    ]);
+    $notification_storage->save();
+
+  }
+
+  // Restore rejected by GBV Coordination.
+  if ($erpw_workflow['transition'] == 'service_restore_rejected_by_gbv_coordination') {
+
+    if (!empty($history[1]) && $history[1]['erp_workflow']['transition'] == 'submit_for_restoration_to_focal_point') {
+      // Staff - Restore Service Rejected By GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'staff__archive_restore_service_approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => 'service_provider_staff',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+      // Double check this is the last edited FP.
+        'field_users_list' => $history[1]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('restore'),
+        'field_workflow_action' => t('rejected'),
+      ]);
+      $notification_storage->save();
+    }
+    // SP Focal Point/ GBV Focal Point - Restore Service Rejected By GBV Coordination.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'focal_point__service_archive_restore__approved_rejected_by_gbv_coordination',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+    // Double check this is the last edited FP.
+      'field_users_list' => $history[0]['erpw_workflow']['changed_user'],
+      'field_excluded_users' => NULL,
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('restore'),
+      'field_workflow_action' => t('rejected'),
+    ]);
+    $notification_storage->save();
+
+    // GBV Coordination - Service Restore - Rejected by GBV Coordination.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'other_gbv_coordinations__service_archived_restored__approved_rejected_by_gbv_coordination',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('restore'),
+      'field_workflow_action' => t('rejected'),
+    ]);
+    $notification_storage->save();
+  }
+
+  // Restoration approved by GBV Coordination.
+  if ($erpw_workflow['transition'] == 'restore_service') {
+
+    if (!empty($history[1]) && $history[1]['erp_workflow']['workflow_state'] == 'submit_for_restoration_to_focal_point') {
+      // Staff - Restore Service Rejected By GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'staff__archive_restore_service_approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => 'service_provider_staff',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+      // Double check this is the last edited FP.
+        'field_users_list' => $history[1]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('restore'),
+        'field_workflow_action' => t('approved'),
+      ]);
+      $notification_storage->save();
+    }
+    // SP Focal Point/ GBV Focal Point - Restore Service Approved By GBV Coordination.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'focal_point__service_archive_restore__approved_rejected_by_gbv_coordination',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+    // Double check this is the last edited FP.
+      'field_users_list' => $history[0]['erpw_workflow']['changed_user'],
+      'field_excluded_users' => NULL,
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('restore'),
+      'field_workflow_action' => t('approved'),
+    ]);
+    $notification_storage->save();
+
+    // GBV Coordination - Service Restore - Approved by GBV Coordination.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'other_gbv_coordinations__service_archived_restored__approved_rejected_by_gbv_coordination',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('restore'),
+      'field_workflow_action' => t('approved'),
+    ]);
+    $notification_storage->save();
+  }
+  /**
+   * Service Restore from Archive flow ends here.
+   */
+
 }
 
 /**
