@@ -110,9 +110,9 @@ class ManageLocationForm extends FormBase {
 
   /**
    * The Pager manager.
-   * 
+   *
    * @var \Drupal\Core\Pager\PagerManagerInterface
-  */
+   */
   protected $pagerManager;
 
   /**
@@ -370,7 +370,7 @@ class ManageLocationForm extends FormBase {
       $offset = ($current_page - 1) * $limit;
 
       // Loop through locations with pagination.
-      $pagedLocations = array_slice($finalArray, $offset, $limit, true);
+      $pagedLocations = array_slice($finalArray, $offset, $limit, TRUE);
 
       foreach ($pagedLocations as $tid => $location) {
         $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
@@ -416,8 +416,8 @@ class ManageLocationForm extends FormBase {
             <div class="location-card">
               <div class="title-with-icons">
                 <a href="' . $view_url . '">
-                  <div id="location-title" class="location-title">' . $current_location_level . 
-                  ' : ' . $location . '</div>
+                  <div id="location-title" class="location-title">' . $current_location_level .
+          ' : ' . $location . '</div>
                 </a>
                 <div class="location-operations">' . $location_operations . '</div>
                 </div><a href="' . $view_url . '"><div class="location-details>' . $location_details .
