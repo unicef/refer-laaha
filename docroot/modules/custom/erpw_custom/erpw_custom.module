@@ -668,8 +668,7 @@ function erpw_custom_current_user_assignable_system_roles($uid) {
     $permission = "role-assign users with role " . $role->id();
     if ($current_user->hasPermission($permission) && !in_array($role->id(), ['anonymous', 'authenticated', 'administrator'])) {
       $system_roles[$role->id()] = $role->label();
-      if ($current_user->hasRole('anonymous') && $active_domain_id == 'bn_erefer_org') {
-        $system_roles['service_provider_staff'] = "GBV Service Provider Staff";
+      if ($active_domain_id == 'bn_erefer_org') {
         $system_roles['service_provider_focal_point'] = "GBV Service Provider Focal Point";
         $system_roles['gbv_focal_point'] = "GBV Camp Focal Point";
       }

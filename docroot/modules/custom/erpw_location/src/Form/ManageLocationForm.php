@@ -14,6 +14,7 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Pager\PagerManagerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\State\StateInterface;
@@ -47,21 +48,21 @@ class ManageLocationForm extends FormBase {
   /**
    * A entityManager instance.
    *
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityManager;
 
   /**
    * A UrlService instance.
    *
-   * @var Drupal\Core\Routing\UrlGeneratorInterface
+   * @var \Drupal\Core\Routing\UrlGeneratorInterface
    */
   protected $urlGenerator;
 
   /**
    * The Current user service.
    *
-   * @var Drupal\Core\Session\AccountProxyInterface
+   * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
 
@@ -108,13 +109,20 @@ class ManageLocationForm extends FormBase {
   protected $stateService;
 
   /**
+   * The Pager manager.
+   *
+   * @var \Drupal\Core\Pager\PagerManagerInterface
+   */
+  protected $pagerManager;
+
+  /**
    * ManageLocation constructor.
    *
    * @param \Psr\Log\LoggerChannelFactory $logger
    *   Logger object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   EntityManager object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
@@ -136,6 +144,8 @@ class ManageLocationForm extends FormBase {
    *   The config factory service.
    * @param \Drupal\Core\State\StateInterface $stateService
    *   The state storage service.
+   * @param \Drupal\Core\Pager\PagerManagerInterface $pagerManager
+   *   The pager manager.
    */
   public function __construct(
     LoggerChannelFactory $logger,
@@ -150,7 +160,8 @@ class ManageLocationForm extends FormBase {
     LocationService $location_service,
     DomainNegotiatorInterface $domain_negotiator,
     ConfigFactoryInterface $configFactory,
-    StateInterface $stateService
+    StateInterface $stateService,
+    PagerManagerInterface $pagerManager
   ) {
 
     $this->logger = $logger;
@@ -166,6 +177,7 @@ class ManageLocationForm extends FormBase {
     $this->domainNegotiator = $domain_negotiator;
     $this->configFactory = $configFactory;
     $this->stateService = $stateService;
+    $this->pagerManager = $pagerManager;
   }
 
   /**
@@ -185,7 +197,8 @@ class ManageLocationForm extends FormBase {
       $container->get('erpw_location.location_services'),
       $container->get('domain.negotiator'),
       $container->get('config.factory'),
-      $container->get('state')
+      $container->get('state'),
+      $container->get('pager.manager')
     );
   }
 
@@ -344,7 +357,22 @@ class ManageLocationForm extends FormBase {
         '</div>',
       ];
 
-      foreach ($finalArray as $tid => $location) {
+      // Define the pager limit.
+      $limit = 10;
+
+      // Get the total count of locations.
+      $total_locations = count($finalArray);
+
+      // Get the current page.
+      $current_page = $this->pagerManager->createPager($total_locations, $limit)->getCurrentPage();
+
+      // Calculate the offset.
+      $offset = ($current_page - 1) * $limit;
+
+      // Loop through locations with pagination.
+      $pagedLocations = array_slice($finalArray, $offset, $limit, TRUE);
+
+      foreach ($pagedLocations as $tid => $location) {
         $ancestors = $this->entityManager->getStorage('taxonomy_term')->loadAllParents($tid);
         $ancestors = array_reverse(array_keys($ancestors));
         $location_details = '';
@@ -359,6 +387,9 @@ class ManageLocationForm extends FormBase {
           }
           if ($key !== array_key_last($location_levels)) {
             $location_details .= '<div class="level">' . $level . " : " . $level_data_name . '</div>';
+          }
+          if ($location == $level_data_name) {
+            $current_location_level = $level;
           }
         }
 
@@ -385,7 +416,8 @@ class ManageLocationForm extends FormBase {
             <div class="location-card">
               <div class="title-with-icons">
                 <a href="' . $view_url . '">
-                  <div id="location-title" class="location-title">' . $location . '</div>
+                  <div id="location-title" class="location-title">' . $current_location_level .
+          ' : ' . $location . '</div>
                 </a>
                 <div class="location-operations">' . $location_operations . '</div>
                 </div><a href="' . $view_url . '"><div class="location-details>' . $location_details .
@@ -393,6 +425,10 @@ class ManageLocationForm extends FormBase {
         ];
       }
     }
+    // Add pager element.
+    $form['pager'] = [
+      '#type' => 'pager',
+    ];
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
     $form['#theme'] = 'manage_location_form';
