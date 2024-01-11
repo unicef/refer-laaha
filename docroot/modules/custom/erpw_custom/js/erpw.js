@@ -13,8 +13,8 @@
         // Redirect to en page for Sierra leone domain.
         window.location.href = '/en';
       }
-      else {
-        // Redirect user to Language selector screen.
+      else if (!window.location.hostname.includes('sl')) {
+        // Redirect user to Language selector screen for all other domains.
         let langCookieSelector = getCookie('userLanguageSelection');
         if (langCookieSelector !== "TRUE" && window.location.pathname !== "/select-language") {
           window.location.href = "/select-language";
