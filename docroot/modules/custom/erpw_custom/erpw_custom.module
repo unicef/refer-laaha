@@ -186,7 +186,6 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
    * then changes need to be made in RpwEntityAutocompleteMatcher.php
    * from the erpw_entity_autocomplete module to filter based on permission.
    */
-
   // If ($form_id == 'user_location_form') {
   //   $permission = 'view location of their own country';
   //   $form['location_options']['#options'] = erpw_filter_locations_permissions($form['location_options']['#options'], $permission, 'location_entity');
