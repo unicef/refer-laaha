@@ -4,8 +4,12 @@
       //Home page guideline link add attr
       $('.field--name-field-upload-gbv-referrals-guide .file--application-pdf a').attr('target', '_blank');
 
-      // Ignore select language page.
+      // Ignore select language page for Sierra leone domain.
       if (window.location.hostname.includes('sl') && window.location.pathname == "/") {
+        // Redirect to en page for Sierra leone domain.
+        window.location.href = '/en';
+      }
+      else if (window.location.hostname.includes('sl') && window.location.pathname == "/select-language") {
         // Redirect to en page for Sierra leone domain.
         window.location.href = '/en';
       }
