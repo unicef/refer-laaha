@@ -727,13 +727,28 @@ class ServiceSubmissionsView extends ControllerBase {
       // Sort the elements based on their order in the webform.
       usort($output, function ($a, $b) use ($ordered_elements) {
         // Ensure 'Service Rating Link' is always placed at the end.
-        if (key($a) === 'Service Rating Link') {
+        if (key($a) == 'Service Rating Link') {
           return 1;
         }
-        elseif (key($b) === 'Service Rating Link') {
+        elseif (key($b) == 'Service Rating Link') {
           return -1;
         }
 
+        // If 'Service Rating Link' exists, adjust the position of 'Last updated time'.
+        if (array_key_exists('Service Rating Link', array_flip(array_keys([$a, $b])))) {
+          // 'Last updated time' should be second last.
+          if (key($a) == 'Last updated time') {
+            return 1;
+          }
+        }
+        // 'Last updated time' should be last.
+        else {
+          if (key($b) == 'Last updated time') {
+            return -1;
+          }
+        }
+
+        // Default sorting based on $ordered_elements.
         $key_a = array_search(key($a), $ordered_elements);
         $key_b = array_search(key($b), $ordered_elements);
 
