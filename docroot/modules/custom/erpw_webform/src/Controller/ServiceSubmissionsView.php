@@ -352,13 +352,24 @@ class ServiceSubmissionsView extends ControllerBase {
             </div>
           </div>';
       }
+
       // Sort the elements based on their order in the webform.
       usort($output, function ($a, $b) use ($ordered_elements) {
+        // Ensure 'Last updated time' is always placed at the end.
+        if (key($a) == 'Last updated time') {
+          return 1;
+        }
+        elseif (key($b) == 'Last updated time') {
+          return -1;
+        }
+
+        // Default sorting based on $ordered_elements.
         $key_a = array_search(key($a), $ordered_elements);
         $key_b = array_search(key($b), $ordered_elements);
 
         return $key_a - $key_b;
       });
+
       foreach ($output as $item) {
         foreach ($item as $key => $value) {
           $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
