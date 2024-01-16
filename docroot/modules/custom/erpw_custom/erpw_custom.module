@@ -113,6 +113,10 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     if ($active_domain->id() != 'bn_erefer_org') {
       unset($form['roles_target_id']['#options']['gbv_focal_point']);
     }
+    else {
+      $form['roles_target_id']['#options']['service_provider_focal_point'] = 'GBV Service Provider Focal Point';
+    }
+
     if ($activeDomainID == 'sl_erefer_org' || $activeDomainID == 'bn_erefer_org') {
       unset($form['roles_target_id']['#options']['service_provider_staff']);
     }
