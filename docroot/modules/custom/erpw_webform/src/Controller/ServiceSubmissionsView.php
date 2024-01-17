@@ -903,6 +903,8 @@ class ServiceSubmissionsView extends ControllerBase {
       case 'in_review_with_focal_point':
       case 'edits_in_review_with_focal_point':
       case 'deletion_in_review_with_focal_point':
+      case 'archive_in_review_with_focal_point':
+      case 'restore_service_in_review_with_focal_point':
         if (in_array($user_role, $focal_point_roles)) {
           $can_edit = TRUE;
         }
@@ -911,6 +913,8 @@ class ServiceSubmissionsView extends ControllerBase {
       case 'in_review':
       case 'edits_in_review_with_gbv_coordination':
       case 'deletion_in_review_with_gbv_coordination':
+      case 'archive_in_review_with_gbv_coordination':
+      case 'restore_service_in_review_with_gbv_coordination':
         if (in_array($user_role, $gbv_coordination_roles)) {
           $can_edit = TRUE;
         }
@@ -919,6 +923,8 @@ class ServiceSubmissionsView extends ControllerBase {
       case 'draft':
       case 'approve':
       case 'reject':
+      case 'archived':
+      case 'rejected_archive_service_request':
         $can_edit = TRUE;
         break;
 
