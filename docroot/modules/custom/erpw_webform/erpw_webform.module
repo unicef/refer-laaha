@@ -1555,25 +1555,35 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
     $ptids = erpw_webform_get_child_term_ids();
     erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
     if (in_array('service_provider_focal_point', $roles)) {
-      $workflow_states = ['in_review_with_focal_point', 'edits_in_review_with_focal_point', 'deletion_in_review_with_focal_point'];
+      $workflow_states = ['in_review_with_focal_point', 'edits_in_review_with_focal_point', 'deletion_in_review_with_focal_point',
+      'archive_in_review_with_focal_point',
+      'restore_service_in_review_with_focal_point'];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
       erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
       erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
     }
     elseif (in_array('gbv_focal_point', $roles)) {
-      $workflow_states = ['in_review_with_focal_point', 'edits_in_review_with_focal_point', 'deletion_in_review_with_focal_point'];
+      $workflow_states = ['in_review_with_focal_point', 'edits_in_review_with_focal_point', 'deletion_in_review_with_focal_point',
+      'archive_in_review_with_focal_point',
+      'restore_service_in_review_with_focal_point'];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
       erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
     }
     elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
-      $workflow_states = ['in_review', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_gbv_coordination'];
+      $workflow_states = ['in_review', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_gbv_coordination',
+      'archive_in_review_with_gbv_coordination',
+      'restore_service_in_review_with_gbv_coordination'];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
       if (in_array('interagency_gbv_coordinator', $roles)) {
         erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
       }
     }
     elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
-      $workflow_states = ['in_review', 'in_review_with_focal_point', 'edits_in_review_with_focal_point', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_focal_point', 'deletion_in_review_with_gbv_coordination'];
+      $workflow_states = ['in_review', 'in_review_with_focal_point', 'edits_in_review_with_focal_point', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_focal_point', 'deletion_in_review_with_gbv_coordination',
+      'archive_in_review_with_focal_point',
+      'archive_in_review_with_gbv_coordination',
+      'restore_service_in_review_with_focal_point',
+      'restore_service_in_review_with_gbv_coordination'];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
     }
   }
