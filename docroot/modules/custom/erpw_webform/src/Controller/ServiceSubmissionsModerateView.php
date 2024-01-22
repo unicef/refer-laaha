@@ -2,6 +2,8 @@
 
 namespace Drupal\erpw_webform\Controller;
 
+use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\Markup;
@@ -31,9 +33,12 @@ class ServiceSubmissionsModerateView extends ControllerBase {
   /**
    * Constructs a new ServiceWebforms object.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager,
+  AccountInterface $currentUser,
+  ConfigFactory $config_factory) {
     $this->entityTypeManager = $entityTypeManager;
     $this->currentUser = $currentUser;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -43,6 +48,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
     return new static(
     $container->get('entity_type.manager'),
     $container->get('current_user'),
+    $container->get('config.factory'),
     );
   }
 
@@ -52,6 +58,19 @@ class ServiceSubmissionsModerateView extends ControllerBase {
   public function content(WebformSubmission $webform_submission) {
     if (!is_null($webform_submission)) {
       $output = [];
+      $webformID = $webform_submission->get('webform_id')->getValue()[0]['target_id'];
+      // Get the elements directly from the configuration object.
+      $webform_config = $this->configFactory->get('webform.webform.' . $webformID);
+      $elements = $webform_config->get('elements');
+
+      // Ensure that $elements is an array before decoding from YAML.
+      if (is_string($elements)) {
+        $elements = Yaml::decode($elements);
+      }
+      $ordered_elements = [];
+      // Get the element titles for reference of setting the order.
+      $this->orderElements($elements, $ordered_elements);
+
       $fields = $webform_submission->getData();
       $orginalData = json_decode($fields['orignal_data'], TRUE);
       $changedData = !is_null($orginalData) ? array_diff_assoc($orginalData, $fields) : '';
@@ -161,7 +180,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
                 elseif ($element['#type'] == 'webform_mapping') {
                   $form_data = $webform_submission->getData();
                   if (isset($form_data['opening_times'])) {
-                    $service_submission_view = new ServiceSubmissionsView($this->entityTypeManager, $this->currentUser);
+                    $service_submission_view = new ServiceSubmissionsView($this->entityTypeManager, $this->currentUser, $this->configFactory);
                     $opening_hours_structured_data = $service_submission_view->getOpeningHoursData($form_data['opening_times']);
                     if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
                       $output[]['Opening Times'] = $opening_hours_structured_data;
@@ -263,7 +282,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
             elseif ($element['#type'] == 'webform_mapping') {
               $form_data = $webform_submission->getData();
               if (isset($form_data['opening_times'])) {
-                $service_submission_view = new ServiceSubmissionsView($this->entityTypeManager, $this->currentUser);
+                $service_submission_view = new ServiceSubmissionsView($this->entityTypeManager, $this->currentUser, $this->configFactory);
                 $opening_hours_structured_data = $service_submission_view->getOpeningHoursData($form_data['opening_times']);
                 if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
                   $output[]['Opening Times'] = $opening_hours_structured_data;
@@ -334,12 +353,15 @@ class ServiceSubmissionsModerateView extends ControllerBase {
           }
         }
       }
-      // Sort the output alphabetically.
-      usort($output, function ($a, $b) {
-          $keyA = key($a);
-          $keyB = key($b);
-          return strcmp($keyA, $keyB);
+
+      // Sort the elements based on their order in the webform.
+      usort($output, function ($a, $b) use ($ordered_elements) {
+        $key_a = array_search(key($a), $ordered_elements);
+        $key_b = array_search(key($b), $ordered_elements);
+
+        return $key_a - $key_b;
       });
+
       foreach ($output as $item) {
         foreach ($item as $key => $value) {
           $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
@@ -392,6 +414,33 @@ class ServiceSubmissionsModerateView extends ControllerBase {
         '#type' => 'markup',
         '#markup' => '<h3>' . t('No submission found.') . '</h3>',
       ];
+    }
+  }
+
+  /**
+   * Provides a reference of the order of the elements by extracting titles
+   * from the given nested elements array.
+   *
+   * @param array $elements
+   *   The array of nested elements to be processed.
+   * @param array $filtered_elements
+   *   (Reference) An array to store the extracted titles of the elements.
+   */
+  private function orderElements(array $elements, array &$filtered_elements) {
+    foreach ($elements as $key => $value) {
+      // Check if the current element has a '#type' key and is not a 'details' type.
+      if (isset($value['#type']) && $value['#type'] !== 'details') {
+        // Extract the title if it exists, otherwise use an empty string.
+        $title = $value['#title'] ?? '';
+
+        // Add the title to the filtered elements array.
+        $filtered_elements[] = $title;
+      }
+
+      // If the current element has nested elements, recursively call the function.
+      if (is_array($value) && !empty($value)) {
+        $this->orderElements($value, $filtered_elements);
+      }
     }
   }
 
