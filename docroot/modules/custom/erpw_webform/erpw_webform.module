@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageException;
@@ -1556,23 +1557,26 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
     erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
     if (in_array('service_provider_focal_point', $roles)) {
       $workflow_states = ['in_review_with_focal_point', 'edits_in_review_with_focal_point', 'deletion_in_review_with_focal_point',
-      'archive_in_review_with_focal_point',
-      'restore_service_in_review_with_focal_point'];
+        'archive_in_review_with_focal_point',
+        'restore_service_in_review_with_focal_point',
+      ];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
       erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
       erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
     }
     elseif (in_array('gbv_focal_point', $roles)) {
       $workflow_states = ['in_review_with_focal_point', 'edits_in_review_with_focal_point', 'deletion_in_review_with_focal_point',
-      'archive_in_review_with_focal_point',
-      'restore_service_in_review_with_focal_point'];
+        'archive_in_review_with_focal_point',
+        'restore_service_in_review_with_focal_point',
+      ];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
       erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
     }
     elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
       $workflow_states = ['in_review', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_gbv_coordination',
-      'archive_in_review_with_gbv_coordination',
-      'restore_service_in_review_with_gbv_coordination'];
+        'archive_in_review_with_gbv_coordination',
+        'restore_service_in_review_with_gbv_coordination',
+      ];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
       if (in_array('interagency_gbv_coordinator', $roles)) {
         erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
@@ -1580,10 +1584,11 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
     }
     elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
       $workflow_states = ['in_review', 'in_review_with_focal_point', 'edits_in_review_with_focal_point', 'edits_in_review_with_gbv_coordination', 'deletion_in_review_with_focal_point', 'deletion_in_review_with_gbv_coordination',
-      'archive_in_review_with_focal_point',
-      'archive_in_review_with_gbv_coordination',
-      'restore_service_in_review_with_focal_point',
-      'restore_service_in_review_with_gbv_coordination'];
+        'archive_in_review_with_focal_point',
+        'archive_in_review_with_gbv_coordination',
+        'restore_service_in_review_with_focal_point',
+        'restore_service_in_review_with_gbv_coordination',
+      ];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
     }
   }
@@ -1647,11 +1652,29 @@ function erpw_webform_fetch_draft_submission_ids() {
  *   An array of submission IDs.
  */
 function erpw_webform_fetch_service_rating_submission_ids() {
-  $query = \Drupal::database()->select('webform_submission_data', 'wsd');
-  $query->fields('wsd', ['sid']);
-  $query->condition('wsd.webform_id', 'webform_service_rating_', 'LIKE');
-  $results = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
-  // @todo Cache computed value.
+
+  $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+  $cache_tags = ['webform_service_rating_submission_ids'];
+  $cache_id = 'webform_service_rating_submission_ids_query_' . md5($active_domain_id);
+  $cache_data = \Drupal::cache()->get($cache_id);
+
+  // Check if data is not in cache.
+  if (!$cache_data) {
+    // If data is not in cache, execute the build logic.
+    $query = \Drupal::database()->select('webform_submission_data', 'wsd');
+    $query->fields('wsd', ['sid']);
+    $query->condition('wsd.webform_id', 'webform_service_rating_', 'LIKE');
+    $results = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
+
+    // Store the result in cache.
+    \Drupal::cache()->set($cache_id, $results, Cache::PERMANENT, $cache_tags);
+  }
+  else {
+    // If data is in cache, use the cached result.
+    $results = $cache_data->data;
+  }
+
+  // @todo Cache computed value - Done
   return $results;
 }
 
@@ -1659,18 +1682,37 @@ function erpw_webform_fetch_service_rating_submission_ids() {
  * Get location entity.
  */
 function erpw_webform_getLocationEntityIdByTid($tid) {
-  $location_entity_id = "";
-  $location_entity = \Drupal::service('entity_type.manager')->getStorage('location')->loadByProperties(
-    [
-      'field_location_taxonomy_term' => $tid,
-      'status' => 1,
-      'type' => 'country',
-    ]
-  );
-  if (!empty($location_entity)) {
-    $location_entity_id = array_keys($location_entity)[0];
+
+  $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+  $cache_tags = ['webform_location_entity_id'];
+  $cache_id = 'webform_location_entity_id_query_' . md5($tid . $active_domain_id);
+  $cache_data = \Drupal::cache()->get($cache_id);
+
+  // Check if data is not in cache.
+  if (!$cache_data) {
+    // If data is not in cache, execute the build logic.
+    $location_entity_id = "";
+    $location_entity = \Drupal::service('entity_type.manager')->getStorage('location')->loadByProperties(
+      [
+        'field_location_taxonomy_term' => $tid,
+        'status' => 1,
+        'type' => 'country',
+      ]
+    );
+
+    if (!empty($location_entity)) {
+      $location_entity_id = array_keys($location_entity)[0];
+    }
+
+    // Store the result in cache.
+    \Drupal::cache()->set($cache_id, $location_entity_id, Cache::PERMANENT, $cache_tags);
   }
-  // @todo Cache computed value.
+  else {
+    // If data is in cache, use the cached result.
+    $location_entity_id = $cache_data->data;
+  }
+
+  // @todo Cache computed value - Done
   return $location_entity_id;
 }
 
