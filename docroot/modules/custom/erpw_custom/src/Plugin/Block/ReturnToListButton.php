@@ -3,6 +3,7 @@
 namespace Drupal\erpw_custom\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -70,15 +71,31 @@ class ReturnToListButton extends BlockBase implements ContainerFactoryPluginInte
    * {@inheritdoc}
    */
   public function build() {
-    $request = $this->requestStack->getCurrentRequest();
-    $referer = $request->headers->get('referer');
-    $markup = '<a href="' . $referer . '" class="button button-border">' . t('Return to list') . '</a>';
-    $build = [
-      '#markup' => $markup,
-      '#weight' => 105,
-    ];
 
-    // @todo Block cache.
+    $referer = $this->requestStack->getCurrentRequest()->headers->get('referer');
+    $cache_tags = ['return_to_list_button'];
+    $cache_id = 'return_to_list_button_query_' . md5(serialize($referer));
+    $cache_data = \Drupal::cache()->get($cache_id);
+
+    // Check if data is not in cache.
+    if (!$cache_data) {
+      // If data is not in cache, execute the build logic.
+      $referer = $this->requestStack->getCurrentRequest()->headers->get('referer');
+      $markup = '<a href="' . $referer . '" class="button button-border">' . t('Return to list') . '</a>';
+      $build = [
+        '#markup' => $markup,
+        '#weight' => 105,
+      ];
+
+      // Store the result in cache.
+      \Drupal::cache()->set($cache_id, $build, Cache::PERMANENT, $cache_tags);
+    }
+    else {
+      // If data is in cache, use the cached result.
+      $build = $cache_data->data;
+    }
+
+    // @todo Block cache - Done
     return $build;
   }
 

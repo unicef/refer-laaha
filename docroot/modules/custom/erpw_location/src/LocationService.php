@@ -2,6 +2,7 @@
 
 namespace Drupal\erpw_location;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
@@ -215,16 +216,34 @@ class LocationService {
    * Get location entities.
    */
   public function getLocationEntities() {
-    $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
-      ['type' => 'country', 'status' => 1]);
-    $location_options = [];
-    foreach ($location_entities as $location) {
-      $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
+
+    $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $cache_tags = ['location_entities'];
+    $cache_id = 'location_entities_query_' . $active_domain_id;
+    $cache_data = \Drupal::cache()->get($cache_id);
+
+    // Check if data is not in cache.
+    if (!$cache_data) {
+      // If data is not in cache, execute the build logic.
+      $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
+        ['type' => 'country', 'status' => 1]);
+      $location_options = [];
+      foreach ($location_entities as $location) {
+        $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
+      }
+
+      // Store the result in cache.
+      \Drupal::cache()->set($cache_id, $location_options, Cache::PERMANENT, $cache_tags);
+    }
+    else {
+      // If data is in cache, use the cached result.
+      $location_options = $cache_data->data;
     }
 
-    // @todo Cache the result.
     return $location_options;
   }
+
+  // @todo Cache the result - Done
 
   /**
    * Get location entities.
@@ -253,10 +272,27 @@ class LocationService {
    * Get ancestors of taxonomy.
    */
   public function getAllAncestors($tid) {
-    $ancestors = $this->entityTypeManager->getStorage('taxonomy_term')->loadAllParents($tid);
-    $ancestors = array_reverse(array_keys($ancestors));
 
-    // @todo Cache the result.
+    $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $cache_tags = ['all_ancestors'];
+    $cache_id = 'all_ancestors_query_' . md5(serialize($tid . $active_domain_id));
+    $cache_data = \Drupal::cache()->get($cache_id);
+
+    // Check if data is not in cache.
+    if (!$cache_data) {
+      // If data is not in cache, execute the build logic.
+      $ancestors = $this->entityTypeManager->getStorage('taxonomy_term')->loadAllParents($tid);
+      $ancestors = array_reverse(array_keys($ancestors));
+
+      // Store the result in cache.
+      \Drupal::cache()->set($cache_id, $ancestors, Cache::PERMANENT, $cache_tags);
+    }
+    else {
+      // If data is in cache, use the cached result.
+      $ancestors = $cache_data->data;
+    }
+
+    // @todo Cache the result - Done
     return $ancestors;
   }
 
@@ -332,13 +368,30 @@ class LocationService {
    *   Return of default location id.
    */
   public function getDefaultLocation() {
-    $query = $this->connection->select('location__field_location_taxonomy_term', 'tm');
-    $query->innerJoin('taxonomy_term_data', 't', 't.tid = tm.field_location_taxonomy_term_target_id');
-    $query->fields('t', ['tid']);
-    $result = $query->execute();
 
-    // @todo Cache the query executed result.
-    return $result->fetchField();
+    $cache_tags = ['default_location'];
+    $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $cache_id = 'default_location_query_' . md5($active_domain_id);
+    $cache_data = \Drupal::cache()->get($cache_id);
+
+    // Check if data is not in cache.
+    if (!$cache_data) {
+      // If data is not in cache, execute the build logic.
+      $query = $this->connection->select('location__field_location_taxonomy_term', 'tm');
+      $query->innerJoin('taxonomy_term_data', 't', 't.tid = tm.field_location_taxonomy_term_target_id');
+      $query->fields('t', ['tid']);
+      $result = $query->execute();
+
+      // Store the result in cache.
+      \Drupal::cache()->set($cache_id, $result->fetchField(), Cache::PERMANENT, $cache_tags);
+    }
+    else {
+      // If data is in cache, use the cached result.
+      $result = $cache_data->data;
+    }
+
+    // @todo Cache the query executed result - Done
+    return $result;
   }
 
   /**
