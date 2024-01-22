@@ -1655,7 +1655,7 @@ function erpw_webform_fetch_service_rating_submission_ids() {
 
   $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
   $cache_tags = ['webform_service_rating_submission_ids'];
-  $cache_id = 'webform_service_rating_submission_ids_query_' . md5($active_domain_id);
+  $cache_id = 'webform_service_rating_submission_ids_query_' . $active_domain_id;
   $cache_data = \Drupal::cache()->get($cache_id);
 
   // Check if data is not in cache.
@@ -1685,7 +1685,7 @@ function erpw_webform_getLocationEntityIdByTid($tid) {
 
   $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
   $cache_tags = ['webform_location_entity_id'];
-  $cache_id = 'webform_location_entity_id_query_' . md5($tid . $active_domain_id);
+  $cache_id = 'webform_location_entity_id_query_' . $tid . $active_domain_id;
   $cache_data = \Drupal::cache()->get($cache_id);
 
   // Check if data is not in cache.
