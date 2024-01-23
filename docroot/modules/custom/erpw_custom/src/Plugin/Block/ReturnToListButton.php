@@ -73,8 +73,9 @@ class ReturnToListButton extends BlockBase implements ContainerFactoryPluginInte
   public function build() {
 
     $referer = $this->requestStack->getCurrentRequest()->headers->get('referer');
+    $route_name = $this->routeMatch->getRouteName();
     $cache_tags = ['return_to_list_button'];
-    $cache_id = 'return_to_list_button_query_' . serialize($referer);
+    $cache_id = 'return_to_list_button_query_' . $route_name;
     $cache_data = \Drupal::cache()->get($cache_id);
 
     // Check if data is not in cache.

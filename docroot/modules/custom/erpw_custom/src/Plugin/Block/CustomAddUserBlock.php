@@ -64,7 +64,7 @@ class CustomAddUserBlock extends BlockBase implements ContainerFactoryPluginInte
     $user = \Drupal::currentUser();
     $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
     $cache_tags = ['custom_block', 'user_list'];
-    $cache_id = 'custom_add_user_block_query_' . serialize($user->id()) . $active_domain_id;
+    $cache_id = 'custom_add_user_block_query_' . $user->id() . $active_domain_id;
 
     // Try to load data from cache.
     $cache_data = \Drupal::cache()->get($cache_id);

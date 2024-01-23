@@ -275,7 +275,7 @@ class LocationService {
 
     $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
     $cache_tags = ['all_ancestors'];
-    $cache_id = 'all_ancestors_query_' . serialize($tid . $active_domain_id);
+    $cache_id = 'all_ancestors_query_' . $tid . $active_domain_id;
     $cache_data = \Drupal::cache()->get($cache_id);
 
     // Check if data is not in cache.
