@@ -27,7 +27,6 @@ $settings['memcache']['key_prefix'] = '';
 $settings['cache']['bins']['bootstrap'] = 'cache.backend.memcache';
 $settings['cache']['bins']['discovery'] = 'cache.backend.memcache';
 $settings['cache']['bins']['config'] = 'cache.backend.memcache';
-$settings['cache']['bins']['milaha_stock'] = 'cache.backend.memcache';
 $settings['cache']['default'] = 'cache.backend.memcache';
 # Dynamic blocks cache.
 $settings['cache']['bins']['render'] = 'cache.backend.memcache';
