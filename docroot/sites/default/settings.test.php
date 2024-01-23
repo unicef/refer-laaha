@@ -37,3 +37,6 @@ $settings['cache']['bins']['config'] = 'cache.backend.memcache';
 $settings['cache']['default'] = 'cache.backend.memcache';
 # Dynamic blocks cache.
 $settings['cache']['bins']['render'] = 'cache.backend.memcache';
+
+// Enable stampede protection.
+$settings['memcache']['stampede_protection'] = TRUE;
