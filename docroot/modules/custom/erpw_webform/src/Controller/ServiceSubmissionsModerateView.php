@@ -2,8 +2,8 @@
 
 namespace Drupal\erpw_webform\Controller;
 
-use Drupal\Core\Cache\Cache;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -57,7 +57,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
    * Generate key value pair of elements in the webform submission.
    */
   public function content(WebformSubmission $webform_submission) {
-    $cid = 'service_submissions_moderate_view';
+    $cid = 'service_submissions_moderate_view_' . $webform_submission->id();
     $markup = '';
     $cache_tags = ['webform_submission'];
     if ($cache = \Drupal::cache()->get($cid)) {
@@ -74,7 +74,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
         // Get the elements directly from the configuration object.
         $webform_config = $this->configFactory->get('webform.webform.' . $webformID);
         $elements = $webform_config->get('elements');
-  
+
         // Ensure that $elements is an array before decoding from YAML.
         if (is_string($elements)) {
           $elements = Yaml::decode($elements);
@@ -82,7 +82,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
         $ordered_elements = [];
         // Get the element titles for reference of setting the order.
         $this->orderElements($elements, $ordered_elements);
-  
+
         $fields = $webform_submission->getData();
         $orginalData = json_decode($fields['orignal_data'], TRUE);
         $changedData = !is_null($orginalData) ? array_diff_assoc($orginalData, $fields) : '';
@@ -200,7 +200,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
                     }
                   }
                   elseif ($key == 'orignal_data') {
-  
+
                   }
                   else {
                     if ($content != "") {
@@ -302,7 +302,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
                 }
               }
               elseif ($key == 'orignal_data') {
-  
+
               }
               else {
                 if ($content != "") {
@@ -311,13 +311,13 @@ class ServiceSubmissionsModerateView extends ControllerBase {
               }
             }
           }
-  
+
         }
         $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
           'webform' => $webform_submission->getWebform()->id(),
           'webform_submission' => $webform_submission->id(),
         ])->toString();
-  
+
         if ($this->currentUser->isAnonymous()) {
           $markup = '
             <div class="service-provider-details">
@@ -365,15 +365,15 @@ class ServiceSubmissionsModerateView extends ControllerBase {
             }
           }
         }
-  
+
         // Sort the elements based on their order in the webform.
         usort($output, function ($a, $b) use ($ordered_elements) {
           $key_a = array_search(key($a), $ordered_elements);
           $key_b = array_search(key($b), $ordered_elements);
-  
+
           return $key_a - $key_b;
         });
-  
+
         foreach ($output as $item) {
           foreach ($item as $key => $value) {
             $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
@@ -397,7 +397,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
                 }
                 else {
                   $markup .= '<span  class="value">' . Markup::create($value) . '</span>';
-  
+
                 }
                 $markup .= '</div>';
               }
@@ -408,19 +408,17 @@ class ServiceSubmissionsModerateView extends ControllerBase {
               }
               else {
                 $markup .= '<span  class="value">' . Markup::create($value) . '</span>';
-  
+
               }
             }
             $markup .= '</div>';
           }
         }
-  
 
         // Invalidate cache tag when a new submission is created or edited.
         $cache_tags = ['webform_submission:' . $webform_submission->id()];
         \Drupal::cache()->set($cid, $markup, Cache::PERMANENT, $cache_tags);
         // @todo Cache computed value - Done
-
         return [
           '#type' => 'markup',
           '#markup' => $markup,

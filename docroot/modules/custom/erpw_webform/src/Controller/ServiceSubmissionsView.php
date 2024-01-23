@@ -97,11 +97,11 @@ class ServiceSubmissionsView extends ControllerBase {
           }
           $output[] = ['Service Type' => $servicelabel];
         }
-
+  
         // Get the elements directly from the configuration object.
         $webform_config = $this->configFactory->get('webform.webform.' . $webformID);
         $elements = $webform_config->get('elements');
-
+  
         // Ensure that $elements is an array before decoding from YAML.
         if (is_string($elements)) {
           $elements = Yaml::decode($elements);
@@ -109,7 +109,7 @@ class ServiceSubmissionsView extends ControllerBase {
         $ordered_elements = [];
         // Get the element titles for reference of setting the order.
         $this->orderElements($elements, $ordered_elements);
-
+  
         $fields = $webform_submission->getData();
         $location = '';
         $country = '';
@@ -214,7 +214,7 @@ class ServiceSubmissionsView extends ControllerBase {
                     }
                   }
                   elseif ($key == 'orignal_data') {
-
+  
                   }
                   else {
                     if ($content != "") {
@@ -315,7 +315,7 @@ class ServiceSubmissionsView extends ControllerBase {
                 }
               }
               elseif ($key == 'orignal_data') {
-
+  
               }
               else {
                 if ($content != "") {
@@ -325,85 +325,63 @@ class ServiceSubmissionsView extends ControllerBase {
             }
           }
         }
-      }
-
-      $last_updated_timestamp = $webform_submission->getChangedTime();
-      $formatted_last_updated = \Drupal::service('date.formatter')->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
-      $output[] = ['Last updated time' => $formatted_last_updated];
-
-      $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
-        'webform' => $webform_submission->getWebform()->id(),
-        'webform_submission' => $webform_submission->id(),
-      ])->toString();
-
+  
+        $last_updated_timestamp = $webform_submission->getChangedTime();
+        $formatted_last_updated = \Drupal::service('date.formatter')->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
+        $output[] = ['Last updated time' => $formatted_last_updated];
+  
+        $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
+          'webform' => $webform_submission->getWebform()->id(),
+          'webform_submission' => $webform_submission->id(),
+        ])->toString();
+  
         if ($this->currentUser->isAnonymous()) {
           $markup = '
-          <div class="service-provider-details">
-            <div class="service-detail-heading">
-            <h3>' . t('Service Details') . '</h3>
-            </div>
-          </div>';
+            <div class="service-provider-details">
+              <div class="service-detail-heading">
+              <h3>' . t('Service Details') . '</h3>
+              </div>
+            </div>';
         }
         elseif (!$can_edit) {
           $markup = '
-          <div class="service-provider-details">
-            <div class="service-detail-heading">
-              <h3>' . t('Service Details') . '</h3>
-            </div>
-          </div>';
+            <div class="service-provider-details">
+              <div class="service-detail-heading">
+                <h3>' . t('Service Details') . '</h3>
+              </div>
+            </div>';
         }
         else {
           $markup = '
-          <div class="service-provider-details">
-            <div class="service-detail-heading">
-              <h3>' . t('Service Details') . '</h3>
-              <div class="edit-delete-links">
-                <span class="edit-link">
-                  <a href=' . $edit_url . '>Edit</a>
-                </span>
+            <div class="service-provider-details">
+              <div class="service-detail-heading">
+                <h3>' . t('Service Details') . '</h3>
+                <div class="edit-delete-links">
+                  <span class="edit-link">
+                    <a href=' . $edit_url . '>Edit</a>
+                  </span>
+                </div>
               </div>
-            </div>
-          </div>';
-      }
-
-      // Sort the elements based on their order in the webform.
-      usort($output, function ($a, $b) use ($ordered_elements) {
-        // Ensure 'Last updated time' is always placed at the end.
-        if (key($a) == 'Last updated time') {
-          return 1;
+            </div>';
         }
-        elseif (key($b) == 'Last updated time') {
-          return -1;
-        }
-
-        // Default sorting based on $ordered_elements.
-        $key_a = array_search(key($a), $ordered_elements);
-        $key_b = array_search(key($b), $ordered_elements);
-
-        return $key_a - $key_b;
-      });
-
-      foreach ($output as $item) {
-        foreach ($item as $key => $value) {
-          $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
-          if ($key == 'Opening Times' && is_array($value)) {
-            $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
-          }
-          elseif (is_array($value)) {
-            $markup .= '<span class="value">' . Markup::create(implode(", ", $value)) . '</span>';
-          }
-          else {
-            $markup .= '<span  class="value">' . Markup::create($value) . '</span>';
-          }
-          $markup .= '</div>';
-        }
+  
         // Sort the elements based on their order in the webform.
         usort($output, function ($a, $b) use ($ordered_elements) {
+          // Ensure 'Last updated time' is always placed at the end.
+          if (key($a) == 'Last updated time') {
+            return 1;
+          }
+          elseif (key($b) == 'Last updated time') {
+            return -1;
+          }
+  
+          // Default sorting based on $ordered_elements.
           $key_a = array_search(key($a), $ordered_elements);
           $key_b = array_search(key($b), $ordered_elements);
-
+  
           return $key_a - $key_b;
         });
+  
         foreach ($output as $item) {
           foreach ($item as $key => $value) {
             $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
@@ -419,12 +397,12 @@ class ServiceSubmissionsView extends ControllerBase {
             $markup .= '</div>';
           }
         }
-
+  
         // Invalidate cache tag when a new submission is created or edited.
         $cache_tags = ['webform_submission:' . $webform_submission->id()];
         \Drupal::cache()->set($cid, $markup, Cache::PERMANENT, $cache_tags);
-
-        // @todo Cache computed value.
+        
+        // @todo Cache computed value - done
         return [
           '#type' => 'markup',
           '#markup' => $markup,
@@ -437,7 +415,6 @@ class ServiceSubmissionsView extends ControllerBase {
         ];
       }
     }
-
   }
 
   /**
