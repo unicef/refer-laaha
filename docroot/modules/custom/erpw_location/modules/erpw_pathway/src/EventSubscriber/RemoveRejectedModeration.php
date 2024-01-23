@@ -29,7 +29,7 @@ class RemoveRejectedModeration implements EventSubscriberInterface {
   /**
    * A entityTypeManager instance.
    *
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
@@ -56,7 +56,7 @@ class RemoveRejectedModeration implements EventSubscriberInterface {
    *   Route match service.
    * @param \Drupal\Core\Database\Connection $connection
    *   Database service.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   EntityManager object.
    */
   public function __construct(RequestStack $request_stack,
@@ -117,7 +117,7 @@ class RemoveRejectedModeration implements EventSubscriberInterface {
       $query = $query->execute();
       $revision_id = $query->fetchCol();
 
-      // @todo Cache the query executed result.
+      // @todo Cache the query executed result. NOT REQUIRED probably.
       if (empty($revision_id)) {
         return;
       }

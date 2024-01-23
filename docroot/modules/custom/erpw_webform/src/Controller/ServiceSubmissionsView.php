@@ -35,7 +35,7 @@ class ServiceSubmissionsView extends ControllerBase {
   /**
    * Constructs a new ServiceWebforms object.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser, ConfigFactory $config_factory,) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser, ConfigFactory $config_factory) {
     $this->entityTypeManager = $entityTypeManager;
     $this->currentUser = $currentUser;
     $this->configFactory = $config_factory;
@@ -325,10 +325,16 @@ class ServiceSubmissionsView extends ControllerBase {
             }
           }
         }
-        $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
-          'webform' => $webform_submission->getWebform()->id(),
-          'webform_submission' => $webform_submission->id(),
-        ])->toString();
+      }
+
+      $last_updated_timestamp = $webform_submission->getChangedTime();
+      $formatted_last_updated = \Drupal::service('date.formatter')->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
+      $output[] = ['Last updated time' => $formatted_last_updated];
+
+      $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
+        'webform' => $webform_submission->getWebform()->id(),
+        'webform_submission' => $webform_submission->id(),
+      ])->toString();
 
         if ($this->currentUser->isAnonymous()) {
           $markup = '
@@ -358,6 +364,38 @@ class ServiceSubmissionsView extends ControllerBase {
               </div>
             </div>
           </div>';
+      }
+
+      // Sort the elements based on their order in the webform.
+      usort($output, function ($a, $b) use ($ordered_elements) {
+        // Ensure 'Last updated time' is always placed at the end.
+        if (key($a) == 'Last updated time') {
+          return 1;
+        }
+        elseif (key($b) == 'Last updated time') {
+          return -1;
+        }
+
+        // Default sorting based on $ordered_elements.
+        $key_a = array_search(key($a), $ordered_elements);
+        $key_b = array_search(key($b), $ordered_elements);
+
+        return $key_a - $key_b;
+      });
+
+      foreach ($output as $item) {
+        foreach ($item as $key => $value) {
+          $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
+          if ($key == 'Opening Times' && is_array($value)) {
+            $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
+          }
+          elseif (is_array($value)) {
+            $markup .= '<span class="value">' . Markup::create(implode(", ", $value)) . '</span>';
+          }
+          else {
+            $markup .= '<span  class="value">' . Markup::create($value) . '</span>';
+          }
+          $markup .= '</div>';
         }
         // Sort the elements based on their order in the webform.
         usort($output, function ($a, $b) use ($ordered_elements) {
@@ -690,6 +728,10 @@ class ServiceSubmissionsView extends ControllerBase {
         ];
       }
 
+      $last_updated_timestamp = $webform_submission->getChangedTime();
+      $formatted_last_updated = \Drupal::service('date.formatter')->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
+      $output[] = ['Last updated time' => $formatted_last_updated];
+
       // Edit URL.
       $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
         'webform' => $webform_submission->getWebform()->id(),
@@ -736,13 +778,28 @@ class ServiceSubmissionsView extends ControllerBase {
       // Sort the elements based on their order in the webform.
       usort($output, function ($a, $b) use ($ordered_elements) {
         // Ensure 'Service Rating Link' is always placed at the end.
-        if (key($a) === 'Service Rating Link') {
+        if (key($a) == 'Service Rating Link') {
           return 1;
         }
-        elseif (key($b) === 'Service Rating Link') {
+        elseif (key($b) == 'Service Rating Link') {
           return -1;
         }
 
+        // If 'Service Rating Link' exists, adjust the position of 'Last updated time'.
+        if (array_key_exists('Service Rating Link', array_flip(array_keys([$a, $b])))) {
+          // 'Last updated time' should be second last.
+          if (key($a) == 'Last updated time') {
+            return 1;
+          }
+        }
+        // 'Last updated time' should be last.
+        else {
+          if (key($b) == 'Last updated time') {
+            return -1;
+          }
+        }
+
+        // Default sorting based on $ordered_elements.
         $key_a = array_search(key($a), $ordered_elements);
         $key_b = array_search(key($b), $ordered_elements);
 
@@ -886,6 +943,8 @@ class ServiceSubmissionsView extends ControllerBase {
       case 'in_review_with_focal_point':
       case 'edits_in_review_with_focal_point':
       case 'deletion_in_review_with_focal_point':
+      case 'archive_in_review_with_focal_point':
+      case 'restore_service_in_review_with_focal_point':
         if (in_array($user_role, $focal_point_roles)) {
           $can_edit = TRUE;
         }
@@ -894,6 +953,8 @@ class ServiceSubmissionsView extends ControllerBase {
       case 'in_review':
       case 'edits_in_review_with_gbv_coordination':
       case 'deletion_in_review_with_gbv_coordination':
+      case 'archive_in_review_with_gbv_coordination':
+      case 'restore_service_in_review_with_gbv_coordination':
         if (in_array($user_role, $gbv_coordination_roles)) {
           $can_edit = TRUE;
         }
@@ -902,6 +963,8 @@ class ServiceSubmissionsView extends ControllerBase {
       case 'draft':
       case 'approve':
       case 'reject':
+      case 'archived':
+      case 'rejected_archive_service_request':
         $can_edit = TRUE;
         break;
 

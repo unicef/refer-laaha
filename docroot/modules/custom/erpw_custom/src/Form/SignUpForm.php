@@ -157,6 +157,8 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
+    // Always needed the library.
+    $form['#attached']['library'][] = 'erpw_custom/signup_browser_control';
     $this->userId = $id;
     $organisation = "";
     $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
@@ -170,6 +172,12 @@ class SignUpForm extends FormBase {
     foreach ($organisation_nodes as $node) {
       $organisations[$node->id()] = $node->label();
     }
+
+    // Remove extra spaces from values.
+    foreach ($organisations as &$value) {
+      $value = trim($value);
+    }
+
     asort($organisations);
     if ($this->userId != "") {
       $user_details = $this->entityTypeManager->getStorage('user')->load($this->userId);
@@ -183,10 +191,12 @@ class SignUpForm extends FormBase {
       $system_role = $user_details->getRoles();
     }
     if ($form_state->has('page') && $this->userId == "") {
+      $form['#attached']['drupalSettings']['formSettings']['step'] = 3;
       if ($form_state->get('page') == 3) {
         return self::formPageThree($form, $form_state);
       }
       elseif ($form_state->get('page') == 2) {
+        $form['#attached']['drupalSettings']['formSettings']['step'] = 2;
         return self::formPageTwo($form, $form_state);
       }
     }
@@ -301,12 +311,18 @@ class SignUpForm extends FormBase {
             'signup-next',
           ],
         ],
+        '#name' => 'next_button_1',
         '#submit' => ['::submitPageOne'],
         '#validate' => ['::validatePageOne'],
       ];
     }
-
+    // Get active domain's tid.
+    $domainID = $this->domainNegotiator->getActiveDomain()->id();
+    if ($domainID == 'bn_erefer_org' || $domainID == 'sl_erefer_org') {
+      unset($form['system_role']['#options']['service_provider_staff']);
+    }
     $form['#cache']['max-age'] = 0;
+    $form['#attached']['drupalSettings']['formSettings']['step'] = 1;
     return $form;
   }
 
@@ -405,10 +421,6 @@ class SignUpForm extends FormBase {
    * {@inheritdoc}
    */
   public function formPageTwo(array &$form, FormStateInterface $form_state, $id = NULL) {
-    if (!empty($form_state->getValue('level_0'))) {
-      $form['top_wrapper']['all_wrapper']['#prefix'] = '<div class="location-container">';
-      $form['top_wrapper']['all_wrapper']['#suffix'] = '</div>';
-    }
     $form['#prefix'] = '<div id="status-message"></div>';
     $form['progress_step1'] = [
       '#markup' => '<div class="steps-highlight">
@@ -425,49 +437,12 @@ class SignUpForm extends FormBase {
     $form['message-step'] = [
       '#markup' => '<div class="step">' . $this->t('Step 2: Geographical coverage of your role') . '</div>',
     ];
-    $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
 
-    // Get active domain's tid.
-    $domain = $this->domainNegotiator->getActiveDomain();
-    $config = $this->configFactory->get('domain.location.' . $domain->get('id'));
-    $domain_tid = $config->get('location');
-
-    if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
-      $locations = $current_user->get('field_location')->getValue();
-      foreach ($locations as $location) {
-        $location_ids[] = $location['target_id'];
-      }
-    }
-    else {
-      $location_ids = $domain_tid;
-    }
-    $ptids = $parent_list = $combined_ptids = [];
-    if (!isset($form_state->getTriggeringElement()['#level'])
-      && $current_user->get('uid')->value != 1 && !$current_user->hasRole('administrator')) {
-      if (is_array($location_ids)) {
-        foreach ($location_ids as $location_id) {
-          $parent_list = $this->locationService->getAllAncestors($location_id);
-          $combined_ptids = array_merge($combined_ptids, $parent_list);
-        }
-        $parent_list = $combined_ptids;
-      }
-      else {
-        $parent_list = $this->locationService->getAllAncestors($location_ids);
-      }
-      $permission1 = 'add users of their own location and organisation';
-      $permission2 = 'add users of their own location';
-
-      if ($current_user->hasPermission($permission1) || $current_user->hasPermission($permission2)) {
-        $ptids = $parent_list;
-      }
-      else {
-        $ptids = [reset($parent_list)];
-      }
-    }
-    $form = $this->erpwpathway->getLocationForm($form, $form_state, $parent_list, $ptids);
-    $form['location']['all_wrapper']['intro_text'] = [
-      '#type' => 'markup',
-      '#markup' => '<div id="intro-text">' . $this->t('Select country to view its Hierarchy.') . '</div>',
+    $form['autocomplete_location'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Location'),
+      '#required' => TRUE,
+      '#autocomplete_route_name' => 'erpw_entity_autocomplete.signup.location',
     ];
 
     $form['actions'] = [
@@ -485,9 +460,11 @@ class SignUpForm extends FormBase {
           'button-border',
         ],
       ],
+      '#name' => 'back_button',
       '#submit' => ['::pageOneBack'],
       '#limit_validation_errors' => [],
     ];
+
     $form['action-wrapper']['actions']['next'] = [
       '#type' => 'submit',
       '#button_type' => 'primary',
@@ -496,8 +473,11 @@ class SignUpForm extends FormBase {
         'class' => [
           'signup-next hidden',
         ],
+        'id' => ['next_button_2'],
       ],
+      '#name' => 'next_button_2',
       '#submit' => ['::submitPageTwo'],
+      '#validate' => ['::validatePageTwo'],
     ];
     $form['#cache']['max-age'] = 0;
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
@@ -522,18 +502,25 @@ class SignUpForm extends FormBase {
    */
   public function submitPageTwo(array &$form, FormStateInterface $form_state) {
     $location_tid = '';
-    for ($i = self::MAX_LEVEL; $i >= 0; $i--) {
-      $location_tid = $form_state->getValue('level_' . $i);
-      if (!empty($location_tid)) {
-        break;
-      }
-    }
+    $location_autocomplete_value = $form_state->getValue('autocomplete_location');
+    $location_tid = (int) preg_match('/\{(\d+)\}/', $location_autocomplete_value, $matches) ? $matches[1] : NULL;
     $form_state->set('page_two_values', [
       'personal_details' => $form_state->get('page_values'),
       'location_tid' => $location_tid,
     ])
       ->set('page', 3)
       ->setRebuild(TRUE);
+  }
+
+  /**
+   * Sets an error if wrong data is entered for location field.
+   */
+  public function validatePageTwo(array &$form, FormStateInterface $form_state) {
+    $location_autocomplete_value = $form_state->getValue('autocomplete_location');
+    $location_tid = (int) preg_match('/\{(\d+)\}/', $location_autocomplete_value, $matches) ? $matches[1] : NULL;
+    if (!$location_tid) {
+      $form_state->setErrorByName('autocomplete_location', $this->t('Please enter a valid location.'));
+    }
   }
 
   /**
@@ -575,6 +562,7 @@ class SignUpForm extends FormBase {
             'use-ajax',
           ],
         ],
+        '#name' => 'submit_button_3',
         '#ajax' => [
           'callback' => [$this, 'requestActivationMail'],
           "wrapper" => "requestActivationMail",
@@ -584,6 +572,7 @@ class SignUpForm extends FormBase {
       ];
       $form['back'] = [
         '#type' => 'submit',
+        '#name' => 'back_button_2',
         '#value' => $this->t('Back'),
         '#submit' => ['::pageTwoBack'],
         '#limit_validation_errors' => [],
@@ -608,6 +597,7 @@ class SignUpForm extends FormBase {
       $form['back'] = [
         '#type' => 'submit',
         '#value' => $this->t('Back'),
+        '#name' => 'back_button_2',
         '#submit' => ['::pageTwoBack'],
         '#limit_validation_errors' => [],
       ];
@@ -620,6 +610,7 @@ class SignUpForm extends FormBase {
             'arrow-btn',
           ],
         ],
+        '#name' => 'submit_button_3',
         '#ajax' => [
           'callback' => [$this, 'requestRegistrationApproval'],
           "wrapper" => "requestRegistrationApproval",
@@ -646,6 +637,7 @@ class SignUpForm extends FormBase {
       $form['back'] = [
         '#type' => 'submit',
         '#value' => $this->t('Back'),
+        '#name' => 'back_button_2',
         '#submit' => ['::pageTwoBack'],
         '#limit_validation_errors' => [],
       ];
@@ -658,6 +650,7 @@ class SignUpForm extends FormBase {
             'arrow-btn',
           ],
         ],
+        '#name' => 'submit_button_3',
         '#ajax' => [
           'callback' => [$this, 'requestRegistration'],
           "wrapper" => "requestregistration",

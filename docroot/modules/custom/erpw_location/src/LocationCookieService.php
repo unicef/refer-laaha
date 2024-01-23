@@ -97,7 +97,7 @@ class LocationCookieService {
       DomainNegotiatorInterface $domain_negotiator,
     LanguageManagerInterface $language_manager,
     ConfigFactoryInterface $config_factory) {
-    $this->currentRequest = $requestStack;
+    $this->currentRequest = $requestStack->getCurrentRequest();
     $this->domainNegotiator = $domain_negotiator;
     $this->languageManager = $language_manager;
     $this->configFactory = $config_factory;
@@ -111,7 +111,7 @@ class LocationCookieService {
    */
   public function getCookieValue() {
     if (empty($this->cookie_value)) {
-      $cookie_value = $this->currentRequest->getCurrentRequest()->cookies->get($this->getCookieName());
+      $cookie_value = $this->currentRequest->cookies->get($this->getCookieName());
     }
     else {
       $cookie_value = $this->cookie_value;
@@ -236,28 +236,28 @@ class LocationCookieService {
     if (!empty($subdomain)) {
       switch ($subdomain) {
         case 'bn':{
-          $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('bn_location_tid') ?
-          $this->currentRequest->getCurrentRequest()->cookies->get('bn_location_tid') : $domain_tid;
+          $new_cookie_value = $this->currentRequest->cookies->has('bn_location_tid') ?
+          $this->currentRequest->cookies->get('bn_location_tid') : $domain_tid;
           break;
 }
         case 'zw':{
-          $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('zw_location_tid') ?
-          $this->currentRequest->getCurrentRequest()->cookies->get('zw_location_tid') : $domain_tid;
+          $new_cookie_value = $this->currentRequest->cookies->has('zw_location_tid') ?
+          $this->currentRequest->cookies->get('zw_location_tid') : $domain_tid;
           break;
 }
         case 'sl':{
-          $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('sl_location_tid') ?
-          $this->currentRequest->getCurrentRequest()->cookies->get('sl_location_tid') : $domain_tid;
+          $new_cookie_value = $this->currentRequest->cookies->has('sl_location_tid') ?
+          $this->currentRequest->cookies->get('sl_location_tid') : $domain_tid;
           break;
 }
         case 'txb':{
-          $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('txb_location_tid') ?
-          $this->currentRequest->getCurrentRequest()->cookies->get('txb_location_tid') : $domain_tid;
+          $new_cookie_value = $this->currentRequest->cookies->has('txb_location_tid') ?
+          $this->currentRequest->cookies->get('txb_location_tid') : $domain_tid;
           break;
 }
         default:{
-          $new_cookie_value = $this->currentRequest->getCurrentRequest()->cookies->has('zw_location_tid') ?
-          $this->currentRequest->getCurrentRequest()->cookies->get('zw_location_tid') : $domain_tid;
+          $new_cookie_value = $this->currentRequest->cookies->has('zw_location_tid') ?
+          $this->currentRequest->cookies->get('zw_location_tid') : $domain_tid;
           break;
 }
       }
@@ -311,10 +311,18 @@ class LocationCookieService {
   public function updateLanguageCookie() {
     $langs_for_this_domain = $this->configFactory->get('domain.language.' . $this->domainNegotiator->getActiveId() . '.language.negotiation')->get('languages');
     $currentLang = $this->languageManager->getCurrentLanguage()->getId();
-    if (!in_array($currentLang, $langs_for_this_domain)) {
-      $this->currentRequest->getCurrentRequest()->cookies->set('userLanguage', $langs_for_this_domain[0]);
-      $response = new RedirectResponse(preg_replace('/\/[^\/]+\//', '/en/', $this->currentRequest->getCurrentRequest()->getRequestUri()));
-      $response->send();
+    $domain_current_url = explode(".", $this->currentRequest->server->get('SERVER_NAME'));
+    // Set language cookie for sl as it has only 1 language.
+    if ($domain_current_url[0] != NULL && $domain_current_url[0] === 'sl') {
+      $this->currentRequest->cookies->set('userLanguage', 'TRUE');
+      $this->currentRequest->cookies->set('userLanguage', 'en');
+    } 
+    else {
+      if (!in_array($currentLang, $langs_for_this_domain)) {
+        $this->currentRequest->cookies->set('userLanguage', $langs_for_this_domain[0]);
+        $response = new RedirectResponse(preg_replace('/\/[^\/]+\//', '/en/', $this->currentRequest->getRequestUri()));
+        $response->send();
+      }
     }
   }
 

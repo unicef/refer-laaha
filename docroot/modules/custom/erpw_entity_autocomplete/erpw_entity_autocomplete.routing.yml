@@ -1,0 +1,7 @@
+erpw_entity_autocomplete.signup.location:
+  path: '/admin/erpw_entity_autocomplete/autocomplete/location'
+  defaults: 
+    _controller: '\Drupal\erpw_entity_autocomplete\Controller\LocationAutocompleteController::handleAutocomplete'
+    _format: json
+  requirements:
+    _permission: 'access content'
