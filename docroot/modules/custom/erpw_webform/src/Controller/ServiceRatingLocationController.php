@@ -2,6 +2,8 @@
 
 namespace Drupal\erpw_webform\Controller;
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
@@ -37,6 +39,13 @@ class ServiceRatingLocationController extends ControllerBase {
   protected $location;
 
   /**
+   * Drupal\domain\DomainNegotiatorInterface definition.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -44,6 +53,7 @@ class ServiceRatingLocationController extends ControllerBase {
     $instance->routeMatch = $container->get('current_route_match');
     $instance->serviceRating = $container->get('erpw_webform.service_rating_service');
     $instance->location = $container->get('erpw_location.location_services');
+    $instance->domainNegotiator = $container->get('domain.negotiator');
     return $instance;
   }
 
@@ -70,35 +80,51 @@ class ServiceRatingLocationController extends ControllerBase {
       // Initialize an array to store normalized element values.
       $normalized_element_values = [];
 
-      // Iterate through each submission.
-      foreach ($submission_ids as $submission_id) {
-        $submission = WebformSubmission::load($submission_id);
+      // Serialize and hash the sorted submission IDs.
+      $submission_ids_hash = hash('sha256', Json::encode($submission_ids));
+      $active_domain_id = $this->domainNegotiator->getActiveDomain()->id();
+      $cache_tags = ['webform_submission:' . $submission_ids_hash];
+      $cache_id = 'service_rating_location_normalized_values_' . $active_domain_id . $webform_id . $org_id;
+      $cache_data = \Drupal::cache()->get($cache_id);
 
-        // Get the service_location_tid element value for this submission.
-        $service_location_tid = $submission->getElementData('service_location_tid');
+      if (!$cache_data) {
+        // Iterate through each submission.
+        foreach ($submission_ids as $submission_id) {
+          $submission = WebformSubmission::load($submission_id);
 
-        // Initialize an array to store normalized values for this submission.
-        $normalized_values = [];
+          // Get the service_location_tid element value for this submission.
+          $service_location_tid = $submission->getElementData('service_location_tid');
 
-        // Get all elements of the webform.
-        $elements = $webform->getElementsDecodedAndFlattened();
+          // Initialize an array to store normalized values for this submission.
+          $normalized_values = [];
 
-        // Iterate through each element of the webform.
-        foreach ($elements as $element_key => $element) {
-          if ($element['#type'] == 'radios') {
-            $element_value = $submission->getElementData($element_key);
+          // Get all elements of the webform.
+          $elements = $webform->getElementsDecodedAndFlattened();
 
-            // Check if the element value is numeric.
-            if (is_numeric($element_value)) {
-              // Normalize the rating to the range of 1 to 5.
-              $normalized_rating = $this->serviceRating->normalizeRating($element_value, $element['#options']);
-              $normalized_values[] = $normalized_rating;
+          // Iterate through each element of the webform.
+          foreach ($elements as $element_key => $element) {
+            if ($element['#type'] == 'radios') {
+              $element_value = $submission->getElementData($element_key);
+
+              // Check if the element value is numeric.
+              if (is_numeric($element_value)) {
+                // Normalize the rating to the range of 1 to 5.
+                $normalized_rating = $this->serviceRating->normalizeRating($element_value, $element['#options']);
+                $normalized_values[] = $normalized_rating;
+              }
             }
           }
+
+          // Store the normalized values for this submission under the service_location_tid value.
+          $normalized_element_values[$service_location_tid][] = $normalized_values;
         }
 
-        // Store the normalized values for this submission under the service_location_tid value.
-        $normalized_element_values[$service_location_tid][] = $normalized_values;
+        // Cache the computed value.
+        \Drupal::cache()->set($cache_id, $normalized_element_values, Cache::PERMANENT, $cache_tags);
+      }
+      else {
+        // Retrieve the data from the cache.
+        $normalized_element_values = $cache_data->data;
       }
 
       // Calculate the average rating for each service_location_tid group and round to the nearest integer.
@@ -165,7 +191,7 @@ class ServiceRatingLocationController extends ControllerBase {
         ];
       }
 
-      // @todo Cache computed value.
+      // @todo Cache computed value. - Done
       return [
         '#theme' => 'location_rating_page',
         '#title' => $this->t('Service Ratings'),
