@@ -30,6 +30,9 @@ class WebformSubmissionWorkflow extends FieldPluginBase {
       elseif ($output == 'reject') {
         $output = 'Rejected';
       }
+      elseif ($output == 'archived') {
+        $output = 'Archived';
+      }
       elseif ($output == 'draft') {
         $output = 'Draft';
       }
@@ -50,6 +53,24 @@ class WebformSubmissionWorkflow extends FieldPluginBase {
       }
       elseif ($output == 'deletion_in_review_with_gbv_coordination') {
         $output = 'Deletion In Review with GBV Coordination';
+      }
+      elseif ($output == 'archive_in_review_with_focal_point') {
+        $output = 'Archive In Review with Focal Point';
+      }
+      elseif ($output == 'archive_in_review_with_gbv_coordination') {
+        $output = 'Archive In Review with GBV Coordination';
+      }
+      elseif ($output == 'restore_service_in_review_with_focal_point') {
+        $output = 'Restore Service In Review with Focal Point';
+      }
+      elseif ($output == 'restore_service_in_review_with_gbv_coordination') {
+        $output = 'Restore Service In Review with GBV Coordination';
+      }
+      elseif ($output == 'rejected_restoration_service_request') {
+        $output = 'Rejected Restore Service Request';
+      }
+      elseif ($output == 'rejected_archive_service_request') {
+        $output = 'Rejected Archive Service Request';
       }
     }
     else {

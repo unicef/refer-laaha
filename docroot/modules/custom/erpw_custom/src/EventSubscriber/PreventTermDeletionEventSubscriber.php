@@ -41,7 +41,7 @@ class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
   /**
    * A currentPathStack instance.
    *
-   * @var Drupal\Core\Path\CurrentPathStack
+   * @var \Drupal\Core\Path\CurrentPathStack
    */
   protected $currentPathStack;
 
@@ -55,7 +55,7 @@ class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
   /**
    * A entityManager instance.
    *
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityManager;
 
@@ -66,7 +66,7 @@ class PreventTermDeletionEventSubscriber implements EventSubscriberInterface {
    *   Connection Object.
    * @param \Drupal\Core\Config\ConfigFactory $config_factory
    *   Drupal Configuration Object.
-   * @param Drupal\Core\Path\CurrentPathStack $current_path_stack
+   * @param \Drupal\Core\Path\CurrentPathStack $current_path_stack
    *   The Current Path service.
    * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
    *   DomainNegotiator object.

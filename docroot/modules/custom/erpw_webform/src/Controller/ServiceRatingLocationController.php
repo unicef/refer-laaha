@@ -119,7 +119,7 @@ class ServiceRatingLocationController extends ControllerBase {
         $service_type_name = $node->getTitle();
       }
       else {
-        $service_type_name = $this->t('Invalid Organisation');
+        $service_type_name = $this->t('Invalid Service Type');
       }
       $service_type_average = $this->serviceRating->calculateTotalAverageRating($averages);
       $country_ids = array_keys($this->location->getLocationEntities());
