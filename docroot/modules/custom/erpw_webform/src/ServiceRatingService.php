@@ -572,4 +572,36 @@ class ServiceRatingService {
     return $organisation_id;
   }
 
+  /**
+   * Fetches domain values associated with a service type based on a webform ID.
+   *
+   * @param string $webform_id
+   *   The webform ID containing the service type information.
+   *
+   * @return array
+   *   An array containing domain values associated with the service type.
+   */
+  public function fetchServiceTypeDomains($webform_id) {
+    $domains = [];
+
+    // Extract service type ID from the webform ID.
+    if (preg_match('/webform_service_rating_(\d+)/', $webform_id, $matches)) {
+      $service_type_id = $matches[1];
+      $service_type_node = Node::load($service_type_id);
+
+      if ($service_type_node && $service_type_node->hasField('field_domain_access')) {
+        $domain_values = $service_type_node->get('field_domain_access')->getValue();
+        foreach ($domain_values as $item) {
+          $target_id = $item['target_id'] ?? NULL;
+          if ($target_id !== NULL) {
+            $domains[] = $target_id;
+          }
+        }
+        $domains = array_unique($domains);
+      }
+    }
+
+    return $domains;
+  }
+
 }

@@ -2,6 +2,7 @@
 
 namespace Drupal\erpw_webform\Controller;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -39,6 +40,13 @@ class ManageFeedbackSurveys extends ControllerBase {
   protected $entityTypeManager;
 
   /**
+   * Drupal\domain\DomainNegotiatorInterface definition.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -47,6 +55,7 @@ class ManageFeedbackSurveys extends ControllerBase {
     $instance->serviceRating = $container->get('erpw_webform.service_rating_service');
     $instance->location = $container->get('erpw_location.location_services');
     $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->domainNegotiator = $container->get('domain.negotiator');
     return $instance;
   }
 
@@ -68,21 +77,45 @@ class ManageFeedbackSurveys extends ControllerBase {
    * Gives the service rating webforms from the list of multiple webforms.
    */
   public function getServiceRatingForms(array $webforms) {
-    $service_rating_webforms = [];
-    foreach ($webforms as $webform => $webform_data) {
-      if (str_contains($webform, 'webform_service_rating_')) {
-        $form_questions_count = $this->getServiceRatingFormQuestionCount($webform_data->getElementsDecoded());
-        $service_rating_webforms[] = [
-          'webform_data' => $webform_data,
-          'webform_id' => $webform_data->id(),
-          'webform_title' => $webform_data->label(),
-          'webform_questions_count' => $form_questions_count,
-          'webform_status' => $webform_data->isOpen() ? 'Published' : 'Draft',
-        ];
+    $active_domain_id = $this->domainNegotiator->getActiveDomain()->id();
+    $cache_tags = ['webform'];
+    $cache_id = 'service_rating_forms_query_' . $active_domain_id;
+    $cache_data = \Drupal::cache()->get($cache_id);
+
+    // Check if data is not in cache.
+    if (!$cache_data) {
+      // If data is not in cache, execute the build logic.
+      $service_rating_webforms = [];
+
+      foreach ($webforms as $webform => $webform_data) {
+        if (str_contains($webform, 'webform_service_rating_')) {
+          // Omit the webform if it does not belong to current domain.
+          $service_type_domain = $this->serviceRating->fetchServiceTypeDomains($webform_data->id());
+          if (in_array($active_domain_id, $service_type_domain)) {
+            $form_questions_count = $this->getServiceRatingFormQuestionCount($webform_data->getElementsDecoded());
+            $service_rating_webforms[] = [
+              'webform_data' => $webform_data,
+              'webform_id' => $webform_data->id(),
+              'webform_title' => $webform_data->label(),
+              'webform_questions_count' => $form_questions_count,
+              'webform_status' => $webform_data->isOpen() ? 'Published' : 'Draft',
+            ];
+          }
+          else {
+            continue;
+          }
+        }
       }
+
+      // Store the result in cache.
+      \Drupal::cache()->set($cache_id, $service_rating_webforms, Cache::PERMANENT, $cache_tags);
+    }
+    else {
+      // If data is in cache, use the cached result.
+      $service_rating_webforms = $cache_data->data;
     }
 
-    // @todo Cache computed value.
+    // @todo Cache computed value - Done
     return $service_rating_webforms;
   }
 

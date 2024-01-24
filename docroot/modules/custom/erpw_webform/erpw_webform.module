@@ -425,6 +425,12 @@ function erpw_webform_theme($existing, $type, $theme, $path) {
         'feedback_area_list' => NULL,
       ],
     ],
+    'share_feedback_block' => [
+      'variables' => [
+        'blockTitle' => NULL,
+        'blockDescription' => NULL,
+      ],
+    ],
   ];
 }
 

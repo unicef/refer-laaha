@@ -2,6 +2,8 @@
 
 namespace Drupal\erpw_webform\Controller;
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\node\Entity\Node;
 use Drupal\webform\Entity\Webform;
@@ -76,16 +78,28 @@ class ServiceRatingQuestionsController extends ControllerBase {
           ];
 
           $submission_ids = $this->serviceRating->getSubmissionIdsForMultipleElements($webform_id, $element_key, $element2, $element3);
+          $submission_ids_hash = hash('sha256', Json::encode($submission_ids));
+          $cache_tags = ['webform_submission:' . $submission_ids_hash];
+          $cache_id = 'service_rating_question_normalized_values_' . $element_feedback . $webform_id . $org_id;
+          $cache_data = \Drupal::cache()->get($cache_id);
 
-          foreach ($submission_ids as $submission_id) {
-            $submission = WebformSubmission::load($submission_id);
-            $element_value = $submission->getElementData($element_key);
+          if (!$cache_data) {
+            foreach ($submission_ids as $submission_id) {
+              $submission = WebformSubmission::load($submission_id);
+              $element_value = $submission->getElementData($element_key);
 
-            if (is_numeric($element_value)) {
-              // Normalize the rating to the range of 1 to 5.
-              $normalized_rating = $this->serviceRating->normalizeRating($element_value, $element['#options']);
-              $normalized_element_values[] = $normalized_rating;
+              if (is_numeric($element_value)) {
+                // Normalize the rating to the range of 1 to 5.
+                $normalized_rating = $this->serviceRating->normalizeRating($element_value, $element['#options']);
+                $normalized_element_values[] = $normalized_rating;
+              }
             }
+            // Cache the computed value.
+            \Drupal::cache()->set($cache_id, $normalized_element_values, Cache::PERMANENT, $cache_tags);
+          }
+          else {
+            // Retrieve the data from the cache.
+            $normalized_element_values = $cache_data->data;
           }
 
           if (!empty($normalized_element_values)) {
@@ -148,7 +162,7 @@ class ServiceRatingQuestionsController extends ControllerBase {
       ];
     }
 
-    // @todo Cache computed value.
+    // @todo Cache computed value. - Done
     return [
       '#theme' => 'feedback_area_rating_page',
       '#title' => $this->t('Feedback Area Ratings'),
