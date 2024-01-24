@@ -84,7 +84,7 @@ class ServiceRatingLocationController extends ControllerBase {
       $submission_ids_hash = hash('sha256', Json::encode($submission_ids));
       $active_domain_id = $this->domainNegotiator->getActiveDomain()->id();
       $cache_tags = ['webform_submission:' . $submission_ids_hash];
-      $cache_id = 'service_rating_location_normalized_values_' . $active_domain_id . $webform_id . $org_id;
+      $cache_id = 'rating_location_normalized_values_' . $active_domain_id . $webform_id;
       $cache_data = \Drupal::cache()->get($cache_id);
 
       if (!$cache_data) {
