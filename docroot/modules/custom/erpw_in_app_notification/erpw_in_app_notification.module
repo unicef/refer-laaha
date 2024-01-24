@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\node\Entity\Node;
@@ -2447,5 +2448,15 @@ function erpw_in_app_notification_form_broadcast_notification_entity_edit_form_a
         $form['field_type']['#disabled'] = FALSE;
       }
     }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function erpw_in_app_notification_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'config_pages_notification_events_form') {
+    $form['actions']['reset']['#access'] = FALSE;
+    $form['other_context']['#access'] = FALSE;
   }
 }
