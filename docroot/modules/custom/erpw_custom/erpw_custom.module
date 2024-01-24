@@ -44,6 +44,8 @@ function erpw_custom_user_login_form_submit($form, FormStateInterface $form_stat
  */
 function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $view_ids = ['manage_service', 'moderated_content'];
+  $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+  $activeDomainID = $active_domain->id();
   if ($form['#id'] === 'views-exposed-form-user-lists-page-1') {
     $form['#attached']['library'][] = "erpw_custom/vss2_css";
   }
@@ -52,8 +54,6 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     $form['field_service_type_target_id']['#options'] = erpw_custom_service_type_options();
   }
   if ($form_id == 'views_exposed_form' && $form_state->get('view')->id() == 'user_lists') {
-    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-    $activeDomainID = $active_domain->id();
     $entity_type_manager = \Drupal::entityTypeManager();
     $node_storage = $entity_type_manager->getStorage('node');
 
@@ -63,7 +63,7 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     $cache_tags = ['node_list:organisation'];
 
     // Define cache ID based on your query conditions.
-    $cache_id = 'organisation_query_tag_' . $active_domain->id();
+    $cache_id = 'organisation_query_tag_' . $activeDomainID;
 
     // Try to load data from cache.
     $cache_data = \Drupal::cache()->get($cache_id);
@@ -73,7 +73,7 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
       // If data is not in cache, execute the query.
       $query = $node_storage->getQuery();
       $query->condition('type', 'organisation');
-      $query->condition('field_domain_access', $active_domain->id());
+      $query->condition('field_domain_access', $activeDomainID);
       $query->accessCheck(FALSE);
       $organisation_nids = $query->execute();
 
@@ -151,7 +151,7 @@ function erpw_custom_form_views_exposed_form_alter(&$form, FormStateInterface $f
     unset($form['roles_target_id']['#options']['administrator']);
 
     // Remove GBV Focal Point role from filter of all domains except bangladesh.
-    if ($active_domain->id() != 'bn_erefer_org') {
+    if ($activeDomainID != 'bn_erefer_org') {
       unset($form['roles_target_id']['#options']['gbv_focal_point']);
     }
   }
