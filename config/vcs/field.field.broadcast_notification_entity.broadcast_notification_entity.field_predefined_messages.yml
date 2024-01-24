@@ -1,0 +1,30 @@
+uuid: b7746d14-c01c-41cc-a8ff-54b026eb51fb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.broadcast_notification_entity.field_predefined_messages
+    - taxonomy.vocabulary.predefined_broadcast_messages
+  module:
+    - erpw_in_app_notification
+id: broadcast_notification_entity.broadcast_notification_entity.field_predefined_messages
+field_name: field_predefined_messages
+entity_type: broadcast_notification_entity
+bundle: broadcast_notification_entity
+label: 'Predefined Messages'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      predefined_broadcast_messages: predefined_broadcast_messages
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

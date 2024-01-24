@@ -1,0 +1,21 @@
+uuid: 01c9131b-5db1-4bc5-af60-c11283f25993
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_processed_entity.field_message_string
+  module:
+    - erpw_in_app_notification
+    - text
+id: notification_processed_entity.notification_processed_entity.field_message_string
+field_name: field_message_string
+entity_type: notification_processed_entity
+bundle: notification_processed_entity
+label: 'Message String'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text

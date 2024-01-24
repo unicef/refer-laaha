@@ -735,6 +735,7 @@ class SignUpForm extends FormBase {
         'field_workflow_status_after' => $ws,
       ]);
       $euwh->save();
+      erpw_in_app_notification__user_operation($user);
 
       _user_mail_notify('register_pending_approval', $user);
       $response = new AjaxResponse();
@@ -830,6 +831,7 @@ class SignUpForm extends FormBase {
         'field_workflow_status_after' => $ws,
       ]);
       $euwh->save();
+      erpw_in_app_notification__user_operation($user);
 
       _user_mail_notify('register_admin_created', $user);
       $response = new AjaxResponse();
@@ -912,6 +914,7 @@ class SignUpForm extends FormBase {
         'field_workflow_status_after' => $ws,
       ]);
       $euwh->save();
+      erpw_in_app_notification__user_operation($user);
 
       _user_mail_notify('register_pending_approval', $user);
       $response = new AjaxResponse();

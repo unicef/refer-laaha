@@ -1,0 +1,18 @@
+uuid: 0b46dc40-5d55-440b-8d5f-0ff3b4e35eb5
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_in_app_notification
+    - serialization
+    - user
+id: notification_count_resource
+plugin_id: notification_count_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - cookie

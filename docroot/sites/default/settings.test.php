@@ -27,8 +27,16 @@ $settings['trusted_host_patterns'] = [
   '^.+\.test\.refer\.laaha\.org$',
 ];
 
-# Disabled the memcache on stage.
-// $settings['memcache']['servers'] = ['127.0.0.1:11211' => 'default'];
-// $settings['memcache']['bins'] = ['default' => 'default'];
-// $settings['memcache']['key_prefix'] = '';
-// $settings['cache']['default'] = 'cache.backend.memcache';
+# Memcached configuration.
+$settings['memcache']['servers'] = ['127.0.0.1:11211' => 'default'];
+$settings['memcache']['bins'] = ['default' => 'default'];
+$settings['memcache']['key_prefix'] = '';
+$settings['cache']['bins']['bootstrap'] = 'cache.backend.memcache';
+$settings['cache']['bins']['discovery'] = 'cache.backend.memcache';
+$settings['cache']['bins']['config'] = 'cache.backend.memcache';
+$settings['cache']['default'] = 'cache.backend.memcache';
+# Dynamic blocks cache.
+$settings['cache']['bins']['render'] = 'cache.backend.memcache';
+
+// Enable stampede protection.
+$settings['memcache']['stampede_protection'] = TRUE;
