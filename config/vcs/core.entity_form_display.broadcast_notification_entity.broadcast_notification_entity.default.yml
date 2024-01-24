@@ -1,0 +1,159 @@
+uuid: 9bbf5ee8-6b8a-4793-a0e0-d296e4e4c6e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.broadcast_notification_entity.broadcast_notification_entity.field_customised_message
+    - field.field.broadcast_notification_entity.broadcast_notification_entity.field_last_sent
+    - field.field.broadcast_notification_entity.broadcast_notification_entity.field_location
+    - field.field.broadcast_notification_entity.broadcast_notification_entity.field_message_type
+    - field.field.broadcast_notification_entity.broadcast_notification_entity.field_organisation
+    - field.field.broadcast_notification_entity.broadcast_notification_entity.field_predefined_messages
+    - field.field.broadcast_notification_entity.broadcast_notification_entity.field_roles
+    - field.field.broadcast_notification_entity.broadcast_notification_entity.field_scheduled_options
+    - field.field.broadcast_notification_entity.broadcast_notification_entity.field_type
+  module:
+    - conditional_fields
+    - erpw_in_app_notification
+    - paragraphs_asymmetric_translation_widgets
+id: broadcast_notification_entity.broadcast_notification_entity.default
+targetEntityType: broadcast_notification_entity
+bundle: broadcast_notification_entity
+mode: default
+content:
+  field_customised_message:
+    type: paragraphs_classic_asymmetric
+    weight: 8
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings:
+      conditional_fields:
+        be1b73e4-551b-4b03-bf53-7ec722005a7d:
+          entity_type: broadcast_notification_entity
+          bundle: broadcast_notification_entity
+          dependee: field_message_type
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: custom
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_location:
+    type: entity_reference_autocomplete
+    weight: 4
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_message_type:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_organisation:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_predefined_messages:
+    type: options_select
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields:
+        2638105e-7f58-4727-8a37-2f72e6c78444:
+          entity_type: broadcast_notification_entity
+          bundle: broadcast_notification_entity
+          dependee: field_message_type
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: predefined
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_roles:
+    type: options_buttons
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_scheduled_options:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields:
+        a6de5e72-6045-4ef9-a1ba-4e887c363d72:
+          entity_type: broadcast_notification_entity
+          bundle: broadcast_notification_entity
+          dependee: field_type
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: scheduled
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_type:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields: {  }
+  label:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 9
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  description: true
+  field_last_sent: true
+  langcode: true
+  status: true
+  uid: true

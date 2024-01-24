@@ -1,0 +1,30 @@
+uuid: 0d4b7eb2-e7ce-4fcb-a9e9-79fa1e6d3598
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_entity.field_location
+    - taxonomy.vocabulary.country
+  module:
+    - erpw_in_app_notification
+id: notification_entity.notification_entity.field_location
+field_name: field_location
+entity_type: notification_entity
+bundle: notification_entity
+label: Location
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      country: country
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
