@@ -5,6 +5,7 @@ namespace Drupal\erpw_in_app_notification\Plugin\QueueWorker;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
+use Drupal\domain\DomainNegotiatorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -26,12 +27,24 @@ class BroadcastProcessQueueWorker extends QueueWorkerBase implements ContainerFa
   protected $entityTypeManager;
 
   /**
+   * Drupal\domain\DomainNegotiatorInterface definition.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
    * Constructure for NotificationProcessQueueWorker.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entityTypeManager) {
+  public function __construct(array $configuration,
+  $plugin_id,
+  $plugin_definition,
+  EntityTypeManagerInterface $entityTypeManager,
+  DomainNegotiatorInterface $domain_negotiator) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->entityTypeManager = $entityTypeManager;
+    $this->domainNegotiator = $domain_negotiator;
   }
 
   /**
@@ -42,7 +55,8 @@ class BroadcastProcessQueueWorker extends QueueWorkerBase implements ContainerFa
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('domain.negotiator')
     );
   }
 
@@ -50,7 +64,6 @@ class BroadcastProcessQueueWorker extends QueueWorkerBase implements ContainerFa
    * {@inheritdoc}
    */
   public function processItem($id) {
-    // @todo Process data here.
     $notification = $this->entityTypeManager->getStorage('broadcast_notification_entity')->load($id);
     $npstorage = $this->entityTypeManager->getStorage('notification_processed_entity');
     // Process the users.
@@ -116,6 +129,7 @@ class BroadcastProcessQueueWorker extends QueueWorkerBase implements ContainerFa
    */
   public function roleBasedNotification($notification) : array {
     $userquery = $this->entityTypeManager->getStorage('user')->getQuery();
+    $org_type = $notification->get('field_organisation')->getString();
     $org = $notification->get('field_organisation')->getString();
     $location = $notification->get('field_location')->getString();
     $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location);
@@ -123,20 +137,26 @@ class BroadcastProcessQueueWorker extends QueueWorkerBase implements ContainerFa
     if ($notification->get('field_roles')[0] != '') {
       $roles = explode(', ', $notification->get('field_roles')->getString());
       if (in_array('service_provider_staff', $roles)) {
-        $uids = array_merge($uids, $userquery->condition('status', 1)
+        $userquery->condition('status', 1)
           ->condition('roles', 'service_provider_staff')
           ->condition('field_location', $location, 'IN')
-          ->condition('field_organisation', $org)
-          ->accessCheck(FALSE)
-          ->execute());
+          ->accessCheck(FALSE);
+        if ($org_type != 'all') {
+          $userquery->condition('field_organisation', $org);
+        }
+        $userquery = $userquery->execute();
+        $uids = array_merge($uids, $userquery);
       }
       if (in_array('service_provider_focal_point', $roles)) {
-        $uids = array_merge($uids, $userquery->condition('status', 1)
+        $userquery->condition('status', 1)
           ->condition('roles', 'service_provider_focal_point')
           ->condition('field_location', $location, 'IN')
-          ->condition('field_organisation', $org)
-          ->accessCheck(FALSE)
-          ->execute());
+          ->accessCheck(FALSE);
+        if ($org_type != 'all') {
+          $userquery->condition('field_organisation', $org);
+        }
+        $userquery = $userquery->execute();
+        $uids = array_merge($uids, $userquery);
       }
       if (in_array('interagency_gbv_coordinator', $roles)) {
         // Based on the root location or country.
@@ -155,11 +175,14 @@ class BroadcastProcessQueueWorker extends QueueWorkerBase implements ContainerFa
       }
     }
     else {
-      $uids = array_merge($uids, $userquery->condition('status', 1)
+      $userquery->condition('status', 1)
         ->condition('field_location', $location, 'IN')
-        ->condition('field_organisation', $org)
-        ->accessCheck(FALSE)
-        ->execute());
+        ->accessCheck(FALSE);
+      if ($org_type != 'all') {
+        $userquery->condition('field_organisation', $org);
+      }
+      $userquery = $userquery->execute();
+      $uids = array_merge($uids, $userquery);
     }
     // Remove duplicates.
     $uids = array_unique($uids);

@@ -4,6 +4,7 @@ namespace Drupal\erpw_in_app_notification\Form;
 
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Form controller for the broadcast notification entity entity edit forms.
@@ -11,15 +12,48 @@ use Drupal\Core\Form\FormStateInterface;
 class BroadcastNotificationEntityForm extends ContentEntityForm {
 
   /**
+   * Drupal\domain\DomainNegotiatorInterface definition.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+    $instance->domainNegotiator = $container->get('domain.negotiator');
+    return $instance;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     /** @var \Drupal\erpw_in_app_notification\Entity\NotificationEntity $entity */
     $form = parent::buildForm($form, $form_state);
+    $current_domain_id = $this->domainNegotiator->getActiveDomain()->id();
     unset($form['field_roles']['widget']['#options']['administrator']);
     unset($form['field_roles']['widget']['#options']['anonymous']);
     unset($form['field_roles']['widget']['#options']['authenticated']);
     unset($form['field_roles']['widget']['#options']['super_admin']);
+    if (in_array($current_domain_id, ['bn_erefer_org', 'sl_erefer_org'])) {
+      unset($form['field_roles']['widget']['#options']['service_provider_staff']);
+      if ($current_domain_id == 'bn_erefer_org') {
+        $form['field_roles']['widget']['#options']['service_provider_focal_point'] = 'GBV Service Provider Focal Point';
+      }
+    }
+    $organisation_options = $form['field_organisation']['widget']['#options'];
+    foreach ($organisation_options as &$value) {
+      $value = trim($value);
+    }
+
+    // Alphabetic sorting.
+    asort($organisation_options);
+
+    // Set the updated options back to the form.
+    $form['field_organisation']['widget']['#options'] = $organisation_options;
     if (in_array('broadcast-notification-entity-edit-form', $form['#attributes']['class'])) {
       $form['field_location']['#disabled'] = TRUE;
       $form['field_organisation']['#disabled'] = TRUE;

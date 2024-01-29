@@ -8,6 +8,7 @@ dependencies:
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_location
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_message_type
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_organisation
+    - field.field.broadcast_notification_entity.broadcast_notification_entity.field_organisation_type
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_predefined_messages
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_roles
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_scheduled_options
@@ -71,6 +72,13 @@ content:
       link: true
     third_party_settings: {  }
     weight: 7
+    region: content
+  field_organisation_type:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 13
     region: content
   field_predefined_messages:
     type: entity_reference_label
