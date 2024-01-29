@@ -5,6 +5,7 @@ dependencies:
   module:
     - administerusersbyrole
     - erpw_custom
+    - erpw_in_app_notification
     - erpw_location
     - node
     - webform
@@ -37,6 +38,7 @@ permissions:
   - 'update user'
   - 'view all revisions'
   - 'view dashboard'
+  - 'view notification page'
   - 'view own unpublished content'
   - 'view service of their own location'
   - 'view users by role'

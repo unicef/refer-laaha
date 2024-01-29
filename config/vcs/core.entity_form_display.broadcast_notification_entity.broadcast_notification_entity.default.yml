@@ -8,6 +8,7 @@ dependencies:
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_location
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_message_type
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_organisation
+    - field.field.broadcast_notification_entity.broadcast_notification_entity.field_organisation_type
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_predefined_messages
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_roles
     - field.field.broadcast_notification_entity.broadcast_notification_entity.field_scheduled_options
@@ -23,7 +24,7 @@ mode: default
 content:
   field_customised_message:
     type: paragraphs_classic_asymmetric
-    weight: 8
+    weight: 9
     region: content
     settings:
       title: Paragraph
@@ -64,11 +65,36 @@ content:
     third_party_settings: {  }
   field_message_type:
     type: options_select
-    weight: 6
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
   field_organisation:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields:
+        40129222-4ba2-4c07-9dda-c5039985d0d6:
+          entity_type: broadcast_notification_entity
+          bundle: broadcast_notification_entity
+          dependee: field_organisation_type
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: choose
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_organisation_type:
     type: options_select
     weight: 5
     region: content
@@ -76,7 +102,7 @@ content:
     third_party_settings: {  }
   field_predefined_messages:
     type: options_select
-    weight: 7
+    weight: 8
     region: content
     settings: {  }
     third_party_settings:
@@ -146,7 +172,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 9
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
