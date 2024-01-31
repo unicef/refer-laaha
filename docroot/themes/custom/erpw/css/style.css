@@ -4186,7 +4186,7 @@ body.path-user {
   background: #F8F9F9;
   border-bottom: 1px solid #F4F4F4;
 }
-.path-notifications #block-erpw-content .notification__content .notification {
+.path-notifications #block-erpw-content .notification {
   padding: 12px 0;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -4196,20 +4196,20 @@ body.path-user {
           flex: 1;
   gap: 10px;
 }
-.path-notifications #block-erpw-content .notification__content .notification .icon {
+.path-notifications #block-erpw-content .notification .icon {
   width: 50px;
   height: 50px;
 }
-.path-notifications #block-erpw-content .notification__content .notification .icon img {
+.path-notifications #block-erpw-content .notification .icon img {
   width: 100%;
   height: 100%;
   -o-object-fit: contain;
      object-fit: contain;
 }
-.path-notifications #block-erpw-content .notification__content .notification .content {
+.path-notifications #block-erpw-content .notification .content {
   margin-top: 7px;
 }
-.path-notifications #block-erpw-content .notification__content .notification .content .notification-data {
+.path-notifications #block-erpw-content .notification .content .notification-data {
   color: #444;
   font-family: Roboto;
   font-size: 12px;
@@ -4217,10 +4217,10 @@ body.path-user {
   line-height: 160%;
   font-weight: 400;
 }
-.path-notifications #block-erpw-content .notification__content .notification .content .notification-data strong {
+.path-notifications #block-erpw-content .notification .content .notification-data strong {
   font-weight: 700;
 }
-.path-notifications #block-erpw-content .notification__content .notification .content .notification-status-data {
+.path-notifications #block-erpw-content .notification .content .notification-status-data, .path-notifications #block-erpw-content .notification .content .time {
   color: #A85766;
   font-family: Roboto;
   font-size: 11px;
