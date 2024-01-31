@@ -3,11 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.taxonomy_term.predefined_broadcast_messages.field_color
     - field.field.taxonomy_term.predefined_broadcast_messages.field_icon
     - taxonomy.vocabulary.predefined_broadcast_messages
   module:
-    - color_field
     - text
 id: taxonomy_term.predefined_broadcast_messages.default
 targetEntityType: taxonomy_term
@@ -20,15 +18,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 0
-    region: content
-  field_color:
-    type: color_field_formatter_text
-    label: above
-    settings:
-      format: hex
-      opacity: true
-    third_party_settings: {  }
-    weight: 2
     region: content
   field_icon:
     type: string

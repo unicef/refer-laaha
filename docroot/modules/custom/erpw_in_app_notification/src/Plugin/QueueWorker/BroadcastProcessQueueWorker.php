@@ -113,7 +113,6 @@ class BroadcastProcessQueueWorker extends QueueWorkerBase implements ContainerFa
           'field_message_string' => $message['message'],
           'field_type_of_notification' => 'broadcast',
           'field_recipient' => $uid,
-          'field_color' => $message['color'],
           'field_icon' => $message['icon'],
           'name' => 'NID ' . $notification->id() . ' Type Broadcast ' . ' - UID ' . $uid,
         ])->save();
@@ -128,7 +127,7 @@ class BroadcastProcessQueueWorker extends QueueWorkerBase implements ContainerFa
    * Role based notification processing.
    */
   public function roleBasedNotification($notification) : array {
-    $org_type = $notification->get('field_organisation')->getString();
+    $org_type = $notification->get('field_organisation_type')->getString();
     $org = $notification->get('field_organisation')->getString();
     $location = $notification->get('field_location')->getString();
     $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($location);
