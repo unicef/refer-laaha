@@ -1241,7 +1241,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // Deletion approved by GBV Coordination.
   if ($erpw_workflow['transition'] == 'approve_deletion') {
 
-    if (!empty($history[1]) && $history[1]['erp_workflow']['workflow_state'] == 'submit_for_deletion_to_focal_point') {
+    if (!empty($history[1]) && $history[1]['erpw_workflow']['workflow_state'] == 'submit_for_deletion_to_focal_point') {
       // Staff - Edited Service Rejected By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
