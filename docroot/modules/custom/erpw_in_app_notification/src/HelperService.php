@@ -159,7 +159,7 @@ class HelperService implements HelperServiceInterface {
     if (empty($uid)) {
       $uid = \Drupal::currentUser()->id();
     }
-    if (!in_array($type, ['service', 'user'])) {
+    if (!in_array($type, ['service', 'user', 'broadcast'])) {
       $type = NULL;
     }
     // Fetch notificaitons.
