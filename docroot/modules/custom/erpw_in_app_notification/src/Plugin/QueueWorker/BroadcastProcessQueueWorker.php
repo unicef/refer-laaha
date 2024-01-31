@@ -128,7 +128,6 @@ class BroadcastProcessQueueWorker extends QueueWorkerBase implements ContainerFa
    * Role based notification processing.
    */
   public function roleBasedNotification($notification) : array {
-    $userquery = $this->entityTypeManager->getStorage('user')->getQuery();
     $org_type = $notification->get('field_organisation')->getString();
     $org = $notification->get('field_organisation')->getString();
     $location = $notification->get('field_location')->getString();
@@ -137,52 +136,72 @@ class BroadcastProcessQueueWorker extends QueueWorkerBase implements ContainerFa
     if ($notification->get('field_roles')[0] != '') {
       $roles = explode(', ', $notification->get('field_roles')->getString());
       if (in_array('service_provider_staff', $roles)) {
-        $userquery->condition('status', 1)
+        $staffuserquery = $this->entityTypeManager->getStorage('user')->getQuery();
+        $staffuserquery->condition('status', 1)
           ->condition('roles', 'service_provider_staff')
-          ->condition('field_location', $location, 'IN')
+          ->condition('field_location', $location_list, 'IN')
           ->accessCheck(FALSE);
         if ($org_type != 'all') {
-          $userquery->condition('field_organisation', $org);
+          $staffuserquery->condition('field_organisation', $org);
         }
-        $userquery = $userquery->execute();
-        $uids = array_merge($uids, $userquery);
+        $staffuserquery_result = $staffuserquery->execute();
+        if ($staffuserquery_result) {
+          $uids = array_merge($uids, $staffuserquery_result);
+        }
       }
       if (in_array('service_provider_focal_point', $roles)) {
-        $userquery->condition('status', 1)
+        $spfpuserquery = $this->entityTypeManager->getStorage('user')->getQuery();
+        $spfpuserquery->condition('status', 1)
           ->condition('roles', 'service_provider_focal_point')
-          ->condition('field_location', $location, 'IN')
+          ->condition('field_location', $location_list, 'IN')
           ->accessCheck(FALSE);
         if ($org_type != 'all') {
-          $userquery->condition('field_organisation', $org);
+          $spfpuserquery->condition('field_organisation', $org);
         }
-        $userquery = $userquery->execute();
-        $uids = array_merge($uids, $userquery);
+        $spfpuserquery_result = $spfpuserquery->execute();
+        if ($spfpuserquery_result) {
+          $uids = array_merge($uids, $spfpuserquery_result);
+        }
+      }
+      if (in_array('gbv_focal_point', $roles)) {
+        $gbvfpuserquery = $this->entityTypeManager->getStorage('user')->getQuery();
+        $gbvfpuserquery_result = $gbvfpuserquery
+          ->condition('status', 1)
+          ->condition('roles', 'gbv_focal_point')
+          ->condition('field_location', $location_list, 'IN')
+          ->accessCheck(FALSE)
+          ->execute();
+
+        if ($gbvfpuserquery_result) {
+          $uids = array_merge($uids, $gbvfpuserquery_result);
+        }
       }
       if (in_array('interagency_gbv_coordinator', $roles)) {
-        // Based on the root location or country.
-        $uids = array_merge($uids, $userquery->condition('status', 1)
+        $iauserquery = $this->entityTypeManager->getStorage('user')->getQuery();
+        $iauserquery_result = $iauserquery
+          ->condition('status', 1)
           ->condition('roles', 'interagency_gbv_coordinator')
           ->condition('field_location', $location_list, 'IN')
           ->accessCheck(FALSE)
-          ->execute());
+          ->execute();
+
+        if ($iauserquery_result) {
+          $uids = array_merge($uids, $iauserquery_result);
+        }
       }
       if (in_array('country_admin', $roles)) {
-        $uids = array_merge($uids, $userquery->condition('status', 1)
+        $causerquery = $this->entityTypeManager->getStorage('user')->getQuery();
+        $causerquery_result = $causerquery
+          ->condition('status', 1)
           ->condition('roles', 'country_admin')
           ->condition('field_location', $location_list, 'IN')
           ->accessCheck(FALSE)
-          ->execute());
+          ->execute();
+
+        if ($causerquery_result) {
+          $uids = array_merge($uids, $causerquery_result);
+        }
       }
-    }
-    else {
-      $userquery->condition('status', 1)
-        ->condition('field_location', $location, 'IN')
-        ->accessCheck(FALSE);
-      if ($org_type != 'all') {
-        $userquery->condition('field_organisation', $org);
-      }
-      $userquery = $userquery->execute();
-      $uids = array_merge($uids, $userquery);
     }
     // Remove duplicates.
     $uids = array_unique($uids);
