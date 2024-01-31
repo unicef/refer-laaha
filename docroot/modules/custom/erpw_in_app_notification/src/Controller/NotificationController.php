@@ -77,7 +77,6 @@ class NotificationController extends ControllerBase {
           $broadcast = $broadcaststorage->load($npe->get('field_notification_id')->getString());
           $broadcasts[$item]['icon'] = $npe->get('field_icon')->getString();
           $broadcasts[$item]['message'] = $npe->get('field_message_string')->getString();
-          $broadcasts[$item]['color'] = $npe->get('field_color')->getString();
           $broadcasts[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($broadcast->get('created')->getString());
           $broadcasts[$item]['read_status'] = $npe->get('field_read')->getString() ? 'read' : 'unread';
           $broadcasts[$item]['notification_type'] = 'broadcast';
