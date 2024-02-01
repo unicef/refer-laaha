@@ -1660,7 +1660,7 @@ function erpw_webform_fetch_draft_submission_ids() {
 function erpw_webform_fetch_service_rating_submission_ids() {
 
   $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-  $cache_tags = ['webform_service_rating_submission_ids'];
+  $cache_tags = ['webform_submission'];
   $cache_id = 'webform_service_rating_submission_ids_query_' . $active_domain_id;
   $cache_data = \Drupal::cache()->get($cache_id);
 
@@ -1690,7 +1690,7 @@ function erpw_webform_fetch_service_rating_submission_ids() {
 function erpw_webform_getLocationEntityIdByTid($tid) {
 
   $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-  $cache_tags = ['webform_location_entity_id'];
+  $cache_tags = ['webform_submission', 'location', 'taxonomy_term_list'];
   $cache_id = 'webform_location_entity_id_query_' . $tid . $active_domain_id;
   $cache_data = \Drupal::cache()->get($cache_id);
 
