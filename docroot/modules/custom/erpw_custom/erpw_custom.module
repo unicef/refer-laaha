@@ -715,7 +715,7 @@ function match_user_organisation_domain_location($organisation_domain_access, $l
 function erpw_custom_current_user_assignable_system_roles($uid) {
 
   $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-  $cache_tags = ['assignable_system_roles'];
+  $cache_tags = ['user:' . $uid];
   $cache_id = 'assignable_system_roles_query_' . $active_domain_id;
   $cache_data = \Drupal::cache()->get($cache_id);
 
@@ -1513,7 +1513,7 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
 
   // @todo Cache the query executed result. - Done
   // Get webform ids which contain approved services for given tid.
-  $cache_tags = ['webform_submission_data_list'];
+  $cache_tags = ['webform'];
 
   // Define cache ID based on your query conditions.
   $cache_id = 'webform_submission_data_query_' . serialize($taxonomy_term_id . $active_domain->id());
@@ -1567,7 +1567,7 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
 
   $service_type_titles = [];
   // Fetch Service Type titles using webform ids.
-  $cache_tags = ['webform_service_type_titles'];
+  $cache_tags = ['node_list:service_type'];
   $cache_id = 'webform_service_type_titles_query_' . serialize($webform_ids) . $active_domain->id();
   $cache_data = \Drupal::cache()->get($cache_id);
 
@@ -1659,7 +1659,7 @@ function erpw_custom_page_attachments(array &$attachments) {
  */
 function erpw_custom_has_content_for_terms(array $termIds, $contentType, $taxonomyField) {
 
-  $cache_tags = ['content_for_terms'];
+  $cache_tags = ['taxonomy_term_list'];
   $cache_id = 'content_for_terms_query_' . serialize($termIds) . $contentType . $taxonomyField;
   $cache_data = \Drupal::cache()->get($cache_id);
 
@@ -1920,7 +1920,7 @@ function erpw_filter_locations_permissions($location_options, $permission, $type
 function get_child_term_tid($ptid) {
 
   $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-  $cache_tags = ['child_term_ids'];
+  $cache_tags = ['taxonomy_term_list'];
   $cache_id = 'child_term_ids_query_' . $ptid . $active_domain->id();
   $cache_data = \Drupal::cache()->get($cache_id);
 

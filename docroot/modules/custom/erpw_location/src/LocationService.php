@@ -218,7 +218,7 @@ class LocationService {
   public function getLocationEntities() {
 
     $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-    $cache_tags = ['location_entities'];
+    $cache_tags = ['location'];
     $cache_id = 'location_entities_query_' . $active_domain_id;
     $cache_data = \Drupal::cache()->get($cache_id);
 
@@ -274,7 +274,7 @@ class LocationService {
   public function getAllAncestors($tid) {
 
     $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-    $cache_tags = ['all_ancestors'];
+    $cache_tags = ['taxonomy_term_list'];
     $cache_id = 'all_ancestors_query_' . $tid . $active_domain_id;
     $cache_data = \Drupal::cache()->get($cache_id);
 
@@ -369,7 +369,7 @@ class LocationService {
    */
   public function getDefaultLocation() {
 
-    $cache_tags = ['default_location'];
+    $cache_tags = ['location', 'taxonomy_term_list'];
     $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
     $cache_id = 'default_location_query_' . $active_domain_id;
     $cache_data = \Drupal::cache()->get($cache_id);
