@@ -689,7 +689,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
     ]);
     $notification_storage->save();
 
-    if (!empty($history[0]) && $history[0]['erp_workflow']['workflow_state'] == 'submit_edits_to_focal_point') {
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_edits_to_focal_point') {
       // Staff - edited Service Approved By Focal Point.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -772,7 +772,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
     ]);
     $notification_storage->save();
 
-    if (!empty($history[0]) && $history[0]['erp_workflow']['workflow_state'] == 'submit_edits_to_focal_point') {
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_edits_to_focal_point') {
       // Staff - Edit Service Rejected By Focal Point.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -804,7 +804,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // Edit approved by GBV Coordination.
   if ($erpw_workflow['transition'] == 'publish_edits') {
 
-    if (!empty($history[1]) && $history[1]['erp_workflow']['workflow_state'] == 'submit_edits_to_focal_point') {
+    if (!empty($history[1]) && $history[1]['erpw_workflow']['transition'] == 'submit_edits_to_focal_point') {
       // Staff - Edited Service Approved By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -832,7 +832,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       ]);
       $notification_storage->save();
     }
-    if (!empty($history[0]) && $history[0]['erp_workflow']['workflow_state'] == 'submit_edits_to_gbv_coordination') {
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_edits_to_gbv_coordination') {
       // SP Focal Point/ GBV Focal Point - Edited Service Approved By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -891,7 +891,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // Edit rejected by GBV Coordination.
   if ($erpw_workflow['transition'] == 'edits_rejected_by_gbv_coordination') {
 
-    if (!empty($history[1]) && $history[1]['erp_workflow']['workflow_state'] == 'submit_edits_to_focal_point') {
+    if (!empty($history[1]) && $history[1]['erpw_workflow']['transition'] == 'submit_edits_to_focal_point') {
       // Staff - Edited Service Rejected By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -920,7 +920,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       $notification_storage->save();
     }
     // SP Focal Point/ GBV Focal Point - Edit Service Rejected By GBV Coordination.
-    if (!empty($history[0]) && $history[0]['erp_workflow']['workflow_state'] == 'submit_edits_to_gbv_coordination') {
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_edits_to_gbv_coordination') {
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
         'field_domain' => $active_domain->id(),
@@ -1041,7 +1041,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
     $notification_storage->save();
 
     // Staff - Delete Service Rejected By Focal Point.
-    if (!empty($history[0]) && $history[0]['erpw_workflow']['workflow_state'] == 'submit_for_deletion_to_focal_point') {
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_for_deletion_to_focal_point') {
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
         'field_domain' => $active_domain->id(),
@@ -1097,7 +1097,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
     ]);
     $notification_storage->save();
 
-    if (!empty($history[0]) && $history[0]['erpw_workflow']['workflow_state'] == 'submit_for_deletion_to_focal_point') {
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_for_deletion_to_focal_point') {
       // Staff - Delete Service Approved By Focal Point.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -1156,7 +1156,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // Deletion rejected by GBV Coordination.
   if ($erpw_workflow['transition'] == 'deletion_rejected_by_gbv_coordination') {
 
-    if (!empty($history[1]) && $history[1]['erp_workflow']['workflow_state'] == 'submit_for_deletion_to_focal_point') {
+    if (!empty($history[1]) && $history[1]['erpw_workflow']['transition'] == 'submit_for_deletion_to_focal_point') {
       // Staff - Edited Service Rejected By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -1241,7 +1241,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // Deletion approved by GBV Coordination.
   if ($erpw_workflow['transition'] == 'approve_deletion') {
 
-    if (!empty($history[1]) && $history[1]['erpw_workflow']['workflow_state'] == 'submit_for_deletion_to_focal_point') {
+    if (!empty($history[1]) && $history[1]['erpw_workflow']['transition'] == 'submit_for_deletion_to_focal_point') {
       // Staff - Edited Service Rejected By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -1389,7 +1389,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
     $notification_storage->save();
 
     // Staff - requested to Archive the Service - Approved By Focal Point.
-    if (!empty($history[0]) && $history[0]['erp_workflow']['transition'] == 'submit_for_archive_to_focal_point') {
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_for_archive_to_focal_point') {
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
         'field_domain' => $active_domain->id(),
@@ -1471,7 +1471,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
     ]);
     $notification_storage->save();
 
-    if (!empty($history[0]) && $history[0]['erp_workflow']['transition'] == 'submit_for_archive_to_focal_point') {
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_for_archive_to_focal_point') {
       // Staff - requested to Archive Service - Rejected By Focal Point.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -1503,7 +1503,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // Archive approved by GBV Coordination.
   if ($erpw_workflow['transition'] == 'archive_service') {
 
-    if (!empty($history[1]) && $history[1]['erp_workflow']['transition'] == 'submit_for_archive_to_focal_point') {
+    if (!empty($history[1]) && $history[1]['erpw_workflow']['transition'] == 'submit_for_archive_to_focal_point') {
       // Staff - requested to Archive Service - Approved By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -1531,7 +1531,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       ]);
       $notification_storage->save();
     }
-    if (!empty($history[0]) && $history[0]['erp_workflow']['transition'] == 'submit_for_archive_to_gbv_coordination') {
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_for_archive_to_gbv_coordination') {
       // SP Focal Point/ GBV Focal Point - Archive Service - Approved By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -1590,7 +1590,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // Archive rejected by GBV Coordination.
   if ($erpw_workflow['transition'] == 'service_archive_rejected_by_gbv_coordination') {
 
-    if (!empty($history[1]) && $history[1]['erp_workflow']['transition'] == 'submit_for_archive_to_focal_point') {
+    if (!empty($history[1]) && $history[1]['erpw_workflow']['transition'] == 'submit_for_archive_to_focal_point') {
       // Staff - requested to Archive Service - Rejected By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -1619,7 +1619,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
       $notification_storage->save();
     }
     // SP Focal Point/ GBV Focal Point - Archive Service - Rejected By GBV Coordination.
-    if (!empty($history[0]) && $history[0]['erp_workflow']['transition'] == 'submit_for_archive_to_gbv_coordination') {
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_for_archive_to_gbv_coordination') {
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
         'field_domain' => $active_domain->id(),
@@ -1855,7 +1855,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // Restore rejected by GBV Coordination.
   if ($erpw_workflow['transition'] == 'service_restore_rejected_by_gbv_coordination') {
 
-    if (!empty($history[1]) && $history[1]['erp_workflow']['transition'] == 'submit_for_restoration_to_focal_point') {
+    if (!empty($history[1]) && $history[1]['erpw_workflow']['transition'] == 'submit_for_restoration_to_focal_point') {
       // Staff - Restore Service Rejected By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
@@ -1940,7 +1940,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   // Restoration approved by GBV Coordination.
   if ($erpw_workflow['transition'] == 'restore_service') {
 
-    if (!empty($history[1]) && $history[1]['erp_workflow']['workflow_state'] == 'submit_for_restoration_to_focal_point') {
+    if (!empty($history[1]) && $history[1]['erpw_workflow']['transition'] == 'submit_for_restoration_to_focal_point') {
       // Staff - Restore Service Rejected By GBV Coordination.
       $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
         'field_behavior' => 'info',
