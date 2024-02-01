@@ -110,14 +110,14 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
   $last_non_empty_value = '';
   $composite_value = $values['location'];
-  $location_reversed = array_reverse($composite_value);
-  if (is_array($composite_value)) {
-    foreach ($location_reversed as $value) {
-      if (!empty($value)) {
-        $last_non_empty_value = $value;
-        break;
-      }
-    }
+
+  // If only country level has value then it is a location entity, which needs to be converted to tid.
+  $only_country_value = \Drupal::service('erpw_in_app_notification.default')->onlyCountryValuePresent($composite_value);
+  if ($only_country_value) {
+    $last_non_empty_value = \Drupal::service('erpw_location.location_services')->getCountryTidbyLocationId($composite_value['location_tid']);
+  }
+  else {
+    $last_non_empty_value = $composite_value['location_tid'];
   }
   // Get Service owner roles.
   $ownerroles = $webform_submission->getOwner()->getRoles(TRUE);

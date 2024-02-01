@@ -110,6 +110,44 @@ class HelperService implements HelperServiceInterface {
   }
 
   /**
+   * Check if only Country level has entry, that is:
+   * only the 'location_options' and 'location_tid' keys have values,
+   * while all other keys are empty in the given $location_value array.
+   *
+   * @param array $location_value
+   *   The input array containing location values.
+   *
+   * @return bool
+   *   TRUE if only 'location_options' and 'location_tid' have values and all other keys are empty,
+   *   FALSE otherwise.
+   */
+  public function onlyCountryValuePresent(array $location_value): bool {
+    // Extract 'location_options' and 'location_tid' from the input array.
+    $locationOptions = $location_value['location_options'];
+    $locationTid = $location_value['location_tid'];
+
+    // Check if 'location_options' and 'location_tid' have values while others are empty.
+    $hasValues = !empty($locationOptions) && !empty($locationTid);
+
+    // Iterate through other keys and check if they are empty.
+    foreach ($location_value as $key => $value) {
+      // Skip 'location_options' and 'location_tid'.
+      if ($key === 'location_options' || $key === 'location_tid') {
+        continue;
+      }
+
+      // Check if the value is not empty.
+      if (!empty($value)) {
+        $hasValues = FALSE;
+        // Break the loop if any non-empty value is found.
+        break;
+      }
+    }
+
+    return $hasValues;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getDynamicDateFormate($timestamp, $formate = 'd F Y'): string {
