@@ -257,14 +257,24 @@ function erpw_preprocess_user(&$variables) {
   $current_user_id = \Drupal::currentUser()->id();
   $roles_ar = $form_user->getRoles();
   $roles = [];
-  foreach ($roles_ar as $key => $role) {
+  $activeDomain = \Drupal::service('domain.negotiator')->getActiveId();
+
+  foreach ($roles_ar as $role) {
     if ($role != 'authenticated') {
-      $arr = explode("_", $role);
-      $role = implode(" ", $arr);
-      $roles[] = ucfirst(strtolower($role));
+      // Change name of SP FP for bangladesh domain.
+      if ($activeDomain == 'bn_erefer_org' && $role == 'service_provider_focal_point') {
+        $roles[] = 'GBV Service Provider Focal Point';
+      } 
+      else {
+        $arr = explode("_", $role);
+        $role = implode(" ", $arr);
+        $roles[] = ucfirst(strtolower($role));
+      }
     }
   }
+
   $variables['roles'] = $roles;
+
   if ($current_user_id == $form_user_id) {
     $variables['hide_list_button'] = TRUE;
   }
