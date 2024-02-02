@@ -165,6 +165,9 @@ class LocationCookieSubscriber implements EventSubscriberInterface {
       $this->locationCookie->setShouldUpdate(FALSE);
       $this->locationCookie->setCookieValue($cookie_name, $cookie_value);
     }
+    if (!$this->locationCookie->getCookieValue()) {
+      $this->locationCookie->setDefaultCookieValue();
+    }
 
     // If ($this->getShouldUpdateCookie()) {
     //     $my_new_cookie = new Cookie($this->getCookieName(), $this->getCookieValue(), strtotime('+7 days'), '/', $full_url, NULL, FALSE);

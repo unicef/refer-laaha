@@ -1473,10 +1473,13 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
   }
   // Unset rows that are not in approve, edit or delete workflow states.
   if ($view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing') {
-    // $query->addWhere(1, 'webform_submission_data_workflow.property', 'workflow_state', '=');
     if ($view->id() == 'service_based_service_providers_listing') {
       // Filter out rows which do not belong to the current location.
       $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
+      // Add a default cookie value in case there is no location cookie set.
+      if (!$cookie_tid) {
+        $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getDefaultDomainCookieValue();
+      }
       $ptids = get_child_term_tid($cookie_tid);
 
       // For Services with only domain as location, location entity id is set instead of tid.
