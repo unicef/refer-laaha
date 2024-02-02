@@ -267,6 +267,19 @@ class LocationCookieService {
   }
 
   /**
+   * Gets Default location cookie according to active domain.
+   * 
+   * @return int
+   *   The country tid based on active domain.
+   */
+  public function getDefaultDomainCookieValue() {
+    $domain_id = $this->domainNegotiator->getActiveDomain()->id();
+    $config = \Drupal::config('domain.location.' . $domain_id);
+    $domain_tid = $config->get('location');
+    return $domain_tid;
+  }
+
+  /**
    * Get the cookie value saved in UserLocationForm.
    *
    * @return mixed

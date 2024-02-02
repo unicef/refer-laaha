@@ -111,8 +111,8 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
   $last_non_empty_value = '';
   $composite_value = $values['location'];
 
-  // If only country level has value then it is a location entity, which needs to be converted to tid.
-  $only_country_value = \Drupal::service('erpw_in_app_notification.default')->onlyCountryValuePresent($composite_value);
+  // If only country level has value then it might be location entity, which needs to be converted to tid.
+  $only_country_value = \Drupal::service('erpw_location.location_services')->onlyCountryValuePresent($composite_value);
   if ($only_country_value) {
     $last_non_empty_value = \Drupal::service('erpw_location.location_services')->getCountryTidbyLocationId($composite_value['location_tid']);
   }

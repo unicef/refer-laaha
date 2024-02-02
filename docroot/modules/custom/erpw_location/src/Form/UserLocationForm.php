@@ -151,7 +151,7 @@ class UserLocationForm extends FormBase {
     // We need this for the redirect, even if we have a higher level.
     $country_tid = NULL;
     if ($location_value) {
-      if ($this->locationService->isLocationEntity($location_value)) {
+      if ($this->locationService->onlyCountryValuePresent($location_value)) {
         $country_tid = $this->locationService->getCountryTidbyLocationId($location_value);
         $location_value = $country_tid;
       }
