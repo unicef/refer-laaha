@@ -801,179 +801,6 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
     }
   }
 
-  // Edit approved by GBV Coordination.
-  if ($erpw_workflow['transition'] == 'publish_edits') {
-
-    if (!empty($history[1]) && $history[1]['erpw_workflow']['transition'] == 'submit_edits_to_focal_point') {
-      // Staff - Edited Service Approved By GBV Coordination.
-      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
-        'field_behavior' => 'info',
-        'field_domain' => $active_domain->id(),
-        'field_entity_id' => $sid,
-        'field_entity_type' => 'service',
-        'field_event_id' => 'staff__add_edit_service_approved_rejected_by_gbv_coordination',
-        'field_location' => $last_non_empty_value,
-        'field_organisation' => $values['organisation'] ?? '',
-        'field_priority' => 0,
-        'field_processed' => FALSE,
-        'field_role' => 'service_provider_staff',
-        'field_root_location' => $values['location']['location_options'] ?? '',
-        'field_specific_user' => TRUE,
-      // Double check this is the last edited FP.
-        'field_users_list' => $history[1]['erpw_workflow']['changed_user'],
-        'field_excluded_users' => NULL,
-        'status' => 1,
-        'created' => $ctime,
-        'changed' => $ctime,
-        'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('edited'),
-        'field_workflow_action' => t('approved'),
-      ]);
-      $notification_storage->save();
-    }
-    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_edits_to_gbv_coordination') {
-      // SP Focal Point/ GBV Focal Point - Edited Service Approved By GBV Coordination.
-      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
-        'field_behavior' => 'info',
-        'field_domain' => $active_domain->id(),
-        'field_entity_id' => $sid,
-        'field_entity_type' => 'service',
-        'field_event_id' => 'focal_point__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
-        'field_location' => $last_non_empty_value,
-        'field_organisation' => $values['organisation'] ?? '',
-        'field_priority' => 0,
-        'field_processed' => FALSE,
-        'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
-        'field_root_location' => $values['location']['location_options'] ?? '',
-        'field_specific_user' => TRUE,
-      // Double check this is the last edited FP.
-        'field_users_list' => $history[0]['erpw_workflow']['changed_user'],
-        'field_excluded_users' => NULL,
-        'status' => 1,
-        'created' => $ctime,
-        'changed' => $ctime,
-        'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('edited'),
-        'field_workflow_action' => t('approved'),
-      ]);
-      $notification_storage->save();
-    }
-
-    // GBV Coordination - Service Edited - Approved by GBV Coordination.
-    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
-      'field_behavior' => 'info',
-      'field_domain' => $active_domain->id(),
-      'field_entity_id' => $sid,
-      'field_entity_type' => 'service',
-      'field_event_id' => 'gbv_coordination__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
-      'field_location' => $last_non_empty_value,
-      'field_organisation' => $values['organisation'] ?? '',
-      'field_priority' => 0,
-      'field_processed' => FALSE,
-      'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
-      'field_root_location' => $values['location']['location_options'] ?? '',
-      'field_specific_user' => TRUE,
-      'field_users_list' => NULL,
-      'field_excluded_users' => \Drupal::currentUser()->id(),
-      'status' => 1,
-      'created' => $ctime,
-      'changed' => $ctime,
-      'name' => 'Service -' . $sid,
-      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-      'field_operation' => t('edited'),
-      'field_workflow_action' => t('approved'),
-    ]);
-    $notification_storage->save();
-  }
-
-  // Edit rejected by GBV Coordination.
-  if ($erpw_workflow['transition'] == 'edits_rejected_by_gbv_coordination') {
-
-    if (!empty($history[1]) && $history[1]['erpw_workflow']['transition'] == 'submit_edits_to_focal_point') {
-      // Staff - Edited Service Rejected By GBV Coordination.
-      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
-        'field_behavior' => 'info',
-        'field_domain' => $active_domain->id(),
-        'field_entity_id' => $sid,
-        'field_entity_type' => 'service',
-        'field_event_id' => 'staff__add_edit_service_approved_rejected_by_gbv_coordination',
-        'field_location' => $last_non_empty_value,
-        'field_organisation' => $values['organisation'] ?? '',
-        'field_priority' => 0,
-        'field_processed' => FALSE,
-        'field_role' => 'service_provider_staff',
-        'field_root_location' => $values['location']['location_options'] ?? '',
-        'field_specific_user' => TRUE,
-      // Double check this is the last edited FP.
-        'field_users_list' => $history[1]['erpw_workflow']['changed_user'],
-        'field_excluded_users' => NULL,
-        'status' => 1,
-        'created' => $ctime,
-        'changed' => $ctime,
-        'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('edited'),
-        'field_workflow_action' => t('rejected'),
-      ]);
-      $notification_storage->save();
-    }
-    // SP Focal Point/ GBV Focal Point - Edit Service Rejected By GBV Coordination.
-    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_edits_to_gbv_coordination') {
-      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
-        'field_behavior' => 'info',
-        'field_domain' => $active_domain->id(),
-        'field_entity_id' => $sid,
-        'field_entity_type' => 'service',
-        'field_event_id' => 'focal_point__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
-        'field_location' => $last_non_empty_value,
-        'field_organisation' => $values['organisation'] ?? '',
-        'field_priority' => 0,
-        'field_processed' => FALSE,
-        'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
-        'field_root_location' => $values['location']['location_options'] ?? '',
-        'field_specific_user' => TRUE,
-      // Double check this is the last edited FP.
-        'field_users_list' => $history[0]['erpw_workflow']['changed_user'],
-        'field_excluded_users' => NULL,
-        'status' => 1,
-        'created' => $ctime,
-        'changed' => $ctime,
-        'name' => 'Service -' . $sid,
-        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('edited'),
-        'field_workflow_action' => t('rejected'),
-      ]);
-      $notification_storage->save();
-    }
-
-    // GBV Coordination - Service Edited - Rejected by GBV Coordination.
-    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
-      'field_behavior' => 'info',
-      'field_domain' => $active_domain->id(),
-      'field_entity_id' => $sid,
-      'field_entity_type' => 'service',
-      'field_event_id' => 'gbv_coordination__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
-      'field_location' => $last_non_empty_value,
-      'field_organisation' => $values['organisation'] ?? '',
-      'field_priority' => 0,
-      'field_processed' => FALSE,
-      'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
-      'field_root_location' => $values['location']['location_options'] ?? '',
-      'field_specific_user' => TRUE,
-      'field_users_list' => NULL,
-      'field_excluded_users' => \Drupal::currentUser()->id(),
-      'status' => 1,
-      'created' => $ctime,
-      'changed' => $ctime,
-      'name' => 'Service -' . $sid,
-      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-      'field_operation' => t('edited'),
-      'field_workflow_action' => t('rejected'),
-    ]);
-    $notification_storage->save();
-  }
   /**
    * Service Edit flow ended here.
    */
@@ -2458,5 +2285,217 @@ function erpw_in_app_notification_form_alter(&$form, FormStateInterface $form_st
   if ($form_id == 'config_pages_notification_events_form') {
     $form['actions']['reset']['#access'] = FALSE;
     $form['other_context']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_webform_submission_presave().
+ */
+function erpw_in_app_notification_webform_submission_presave($webform_submission) {
+
+  $values = $webform_submission->getData();
+  // Get SID of webform submission.
+  $sid = $webform_submission->id();
+  // Get current timestamp.
+  $ctime = (new DrupalDateTime())->getTimestamp();
+  // Get Orgnization name.
+  $org = Node::load($values['organisation']);
+  // General data preparation.
+  $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+  $last_non_empty_value = '';
+  $composite_value = $values['location'];
+  $location_reversed = array_reverse($composite_value);
+  if (is_array($composite_value)) {
+    foreach ($location_reversed as $value) {
+      if (!empty($value)) {
+        $last_non_empty_value = $value;
+        break;
+      }
+    }
+  }
+  // Get Service owner roles.
+  // $ownerroles = $webform_submission->getOwner()->getRoles(TRUE);
+  // Get workflow.
+  $erpw_workflow = $webform_submission->getElementData('erpw_workflow');
+
+  // History of the webform.
+  $jsonData = json_encode($webform_submission->getOriginalData());
+  static $return = [];
+  $stack = erpw_in_app_notification__retrive_original_data($jsonData, $return);
+  $history = array_filter($stack);
+
+  $webform = $webform_submission->getWebform();
+
+  // Edit rejected by GBV Coordination.
+  if ($erpw_workflow['transition'] == 'edits_rejected_by_gbv_coordination') {
+    if (!empty($history[1]) && $history[1]['erpw_workflow']['transition'] == 'submit_edits_to_focal_point') {
+      // Staff - Edited Service Rejected By GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'staff__add_edit_service_approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => 'service_provider_staff',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+      // Double check this is the last edited FP.
+        'field_users_list' => $history[1]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('edited'),
+        'field_workflow_action' => t('rejected'),
+      ]);
+      $notification_storage->save();
+    }
+    // SP Focal Point/ GBV Focal Point - Edit Service Rejected By GBV Coordination.
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_edits_to_gbv_coordination') {
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'focal_point__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+      // Double check this is the last edited FP.
+        'field_users_list' => $history[0]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('edited'),
+        'field_workflow_action' => t('rejected'),
+      ]);
+      $notification_storage->save();
+    }
+
+    // GBV Coordination - Service Edited - Rejected by GBV Coordination.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'gbv_coordination__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('edited'),
+      'field_workflow_action' => t('rejected'),
+    ]);
+    $notification_storage->save();
+  }
+
+  // Edit approved by GBV Coordination.
+  if ($erpw_workflow['transition'] == 'publish_edits') {
+
+    if (!empty($history[1]) && $history[1]['erpw_workflow']['transition'] == 'submit_edits_to_focal_point') {
+      // Staff - Edited Service Approved By GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'staff__add_edit_service_approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => 'service_provider_staff',
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+      // Double check this is the last edited FP.
+        'field_users_list' => $history[1]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('edited'),
+        'field_workflow_action' => t('approved'),
+      ]);
+      $notification_storage->save();
+    }
+    if (!empty($history[0]) && $history[0]['erpw_workflow']['transition'] == 'submit_edits_to_gbv_coordination') {
+      // SP Focal Point/ GBV Focal Point - Edited Service Approved By GBV Coordination.
+      $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+        'field_behavior' => 'info',
+        'field_domain' => $active_domain->id(),
+        'field_entity_id' => $sid,
+        'field_entity_type' => 'service',
+        'field_event_id' => 'focal_point__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
+        'field_location' => $last_non_empty_value,
+        'field_organisation' => $values['organisation'] ?? '',
+        'field_priority' => 0,
+        'field_processed' => FALSE,
+        'field_role' => ['service_provider_focal_point', 'gbv_focal_point'],
+        'field_root_location' => $values['location']['location_options'] ?? '',
+        'field_specific_user' => TRUE,
+      // Double check this is the last edited FP.
+        'field_users_list' => $history[0]['erpw_workflow']['changed_user'],
+        'field_excluded_users' => NULL,
+        'status' => 1,
+        'created' => $ctime,
+        'changed' => $ctime,
+        'name' => 'Service -' . $sid,
+        'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+        'field_operation' => t('edited'),
+        'field_workflow_action' => t('approved'),
+      ]);
+      $notification_storage->save();
+    }
+
+    // GBV Coordination - Service Edited - Approved by GBV Coordination.
+    $notification_storage = \Drupal::entityTypeManager()->getStorage('notification_entity')->create([
+      'field_behavior' => 'info',
+      'field_domain' => $active_domain->id(),
+      'field_entity_id' => $sid,
+      'field_entity_type' => 'service',
+      'field_event_id' => 'gbv_coordination__service_added_edited_deleted__approved_rejected_by_gbv_coordination',
+      'field_location' => $last_non_empty_value,
+      'field_organisation' => $values['organisation'] ?? '',
+      'field_priority' => 0,
+      'field_processed' => FALSE,
+      'field_role' => ['country_admin', 'interagency_gbv_coordinator'],
+      'field_root_location' => $values['location']['location_options'] ?? '',
+      'field_specific_user' => TRUE,
+      'field_users_list' => NULL,
+      'field_excluded_users' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'created' => $ctime,
+      'changed' => $ctime,
+      'name' => 'Service -' . $sid,
+      'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
+      'field_operation' => t('edited'),
+      'field_workflow_action' => t('approved'),
+    ]);
+    $notification_storage->save();
   }
 }
