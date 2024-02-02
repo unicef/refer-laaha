@@ -2315,7 +2315,6 @@ function erpw_in_app_notification_webform_submission_presave($webform_submission
   }
   // Get Service owner roles.
   // $ownerroles = $webform_submission->getOwner()->getRoles(TRUE);
-
   // Get workflow.
   $erpw_workflow = $webform_submission->getElementData('erpw_workflow');
 
