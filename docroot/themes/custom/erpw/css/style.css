@@ -4116,8 +4116,11 @@ body.path-user {
   }
 }
 .path-frontpage #block-notificationblock .bell-container .notification-count, .path-notifications #block-notificationblock .bell-container .notification-count, .user-logged-in #block-notificationblock .bell-container .notification-count {
-  width: 13px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   height: 13px;
+  padding: 1px;
   background-color: green;
   color: #FFF;
   text-align: center;
@@ -4129,6 +4132,8 @@ body.path-user {
   font-weight: 500;
   line-height: 170%;
   letter-spacing: 0.012px;
+  min-width: 13px;
+  max-width: 20px;
 }
 @media screen and (min-width: 1025px) {
   .path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container, .user-logged-in #block-notificationblock .bell-container {
