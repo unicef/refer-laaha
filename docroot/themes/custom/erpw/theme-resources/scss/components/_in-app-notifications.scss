@@ -26,8 +26,9 @@
             }
             
             .notification-count {
-                width: 13px;
+                width: fit-content;
                 height: 13px;
+                padding: 1px;
                 background-color: green;
                 color: #FFF;
                 text-align: center;
@@ -38,6 +39,8 @@
                 font-weight: 500;
                 line-height: 170%;
                 letter-spacing: 0.012px;
+                min-width: 13px;
+                max-width: 20px;
             }
 
             @media screen and (min-width: 1025px) {
