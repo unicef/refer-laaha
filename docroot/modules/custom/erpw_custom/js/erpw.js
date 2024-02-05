@@ -3,12 +3,24 @@
     attach: function (context, settings) {
       //Home page guideline link add attr
       $('.field--name-field-upload-gbv-referrals-guide .file--application-pdf a').attr('target', '_blank');
-      // Redirect user to Language selector screen.
-      let langCookieSelector = getCookie('userLanguageSelection');
-      if (langCookieSelector !== "TRUE" && window.location.pathname !== "/select-language") {
-       window.location.href = "/select-language";
-      }
 
+      // Ignore select language page for Sierra leone domain.
+      if (window.location.hostname.includes('sl') && window.location.pathname == "/") {
+        // Redirect to en page for Sierra leone domain.
+        window.location.href = '/en';
+      }
+      else if (window.location.hostname.includes('sl') && window.location.pathname == "/select-language") {
+        // Redirect to en page for Sierra leone domain.
+        window.location.href = '/en';
+      }
+      else if (!window.location.hostname.includes('sl')) {
+        // Redirect user to Language selector screen for all other domains.
+        let langCookieSelector = getCookie('userLanguageSelection');
+        if (langCookieSelector !== "TRUE" && window.location.pathname !== "/select-language") {
+          window.location.href = "/select-language";
+        }
+      }
+      
       /**
        * Get cookie value.
        */
@@ -158,37 +170,6 @@
        }
     }
   };
-
-  /**
-   * Commenting this as removing nids or tids doesn't make sense, 
-   * instead creates issues when the labels are the same.
-  */
-  // Removing nid from autocomplete of user forms.
-  // Drupal.behaviors.user_location_autocomplete = {
-  //   attach: function(context) {
-  //     // Remove TID's onload.
-  //     Drupal.user_location_autocomplete.remove_tid();
-  //     // Remove TID's onchange.
-  //     jQuery('body').find('.form-autocomplete').on('autocompleteclose', function() {
-  //       Drupal.user_location_autocomplete.remove_tid();
-  //     });
-  //   }
-  // };
-
-  // Drupal.user_location_autocomplete = {
-  //   remove_tid: function () {
-  //     let field_autocomplete = jQuery('body').find('.form-autocomplete');
-  //     field_autocomplete.each(function (event, node) {
-  //       let str = $(this).val();
-  //       let val = str.replace(/("|')/g, "");
-  //       let match = val.match(/\s\(.*?\)/g);
-  //       if (match) {
-  //         $(this).data('real-value', val);
-  //         $(this).val(val.replace(/\s\(.*?\)/g, '' ));
-  //       }
-  //     });
-  //   }
-  // };
 
   Drupal.behaviors.disableCountrySelector = {
     attach: function (context, settings) {

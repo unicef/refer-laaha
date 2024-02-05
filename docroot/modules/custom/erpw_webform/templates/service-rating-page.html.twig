@@ -20,13 +20,14 @@
 	</div>
 
 	<ul class="service-ratings-services-list">
+	{% if service_list %}
 		{% for data in service_list %}
 			<li>
 				<p class="service-name">
 					{% if data.service_rating == 0 %}
-					  <span class = "no-service-rating">{{ data.service_name }}</span>
+						<span class="no-service-rating">{{ data.service_name }}</span>
 					{% else %}
-					  <a href={{ data.service_link }}>{{ data.service_name }}</a>
+						<a href={{ data.service_link }}>{{ data.service_name }}</a>
 					{% endif %}
 				</p>
 				<div class="rating-value-container">
@@ -47,5 +48,8 @@
 				<p class="reviews">{{ '(' }}{{ data.service_review_count }}{{ ')' }}</p>
 			</li>
 		{% endfor %}
+	{% else %}
+	  {{ 'No Feedback Form available' | t }}
+	{% endif %}	
 	</ul>
 </div>

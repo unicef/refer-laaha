@@ -19,3 +19,15 @@ definitions:
     weight: -44
     expanded: false
     enabled: true
+  notification_entity__admin__structure__settings:
+    menu_name: admin
+    parent: config_pages.notification_events
+    weight: 0
+    expanded: false
+    enabled: true
+  notification_processed_entity__admin__structure__settings:
+    menu_name: admin
+    parent: config_pages.notification_events
+    weight: 1
+    expanded: false
+    enabled: true

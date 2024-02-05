@@ -2,6 +2,9 @@
 
 namespace Drupal\erpw_webform\Controller;
 
+use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\Markup;
@@ -32,9 +35,10 @@ class ServiceSubmissionsView extends ControllerBase {
   /**
    * Constructs a new ServiceWebforms object.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser, ConfigFactory $config_factory) {
     $this->entityTypeManager = $entityTypeManager;
     $this->currentUser = $currentUser;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -44,6 +48,7 @@ class ServiceSubmissionsView extends ControllerBase {
     return new static(
     $container->get('entity_type.manager'),
     $container->get('current_user'),
+    $container->get('config.factory'),
     );
   }
 
@@ -51,316 +56,363 @@ class ServiceSubmissionsView extends ControllerBase {
    * Generate key value pair of elements in the webform submission.
    */
   public function content(WebformSubmission $webform_submission) {
-    if (!is_null($webform_submission)) {
-      $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($webform_submission->id());
-      $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
-      $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
-      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-      $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-      $stype = '';
-      $form_data = $webform_submission->getData();
-      $workflow_state = $form_data['erpw_workflow']['workflow_state'];
-      $current_user = $this->currentUser;
-      $user_role = $current_user->getRoles();
-      if ($user_role[0] == 'authenticated') {
-        $can_edit = $this->checkUserEditRights($workflow_state, $user_role[1]);
-      }
-      foreach ($tpa as $domain => $servicetype) {
-        if ($domain == $activeDomain) {
-          $stype = $servicetype[0];
-        }
-      }
-      $output = [];
-      if (!is_null($stype) && !empty($stype)) {
-        $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype));
-        if ($servicetype instanceof Node) {
-          $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
-        }
-        else {
-          $servicelabel = t('Not available');
-        }
-        $output[] = ['Service Type' => $servicelabel];
-      }
-      $fields = $webform_submission->getData();
-      $location = '';
-      $country = '';
-      $level_1 = '';
-      $level_2 = '';
-      $level_3 = '';
-      $level_4 = '';
-      foreach ($fields as $key => $content) {
-        $element = $this->entityTypeManager->getStorage('webform')->load($webform_submission->getWebform()->id())->getElement($key);
-        if ($key != 'erpw_workflow' && $key != 'submission_domain' && $key != 'service_type') {
-          $roles = $this->currentUser->getRoles();
-          if (isset($element['#access_view_roles'])) {
-            foreach ($roles as $role) {
-              if (in_array($role, $element['#access_view_roles'])) {
-                if ($key == 'location') {
-                  foreach ($content as $lkey => $lvalue) {
-                    if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                      $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
-                      $location = $location . $country . '.';
-                    }
-                    if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                      $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                      $location = $level_1 . ', ' . $location;
-                    }
-                    if ($lkey == 'level_2' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                      $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                      $location = $level_2 . ', ' . $location;
-                    }
-                    if ($lkey == 'level_3' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                      $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                      $location = $level_3 . ', ' . $location;
-                    }
-                    if ($lkey == 'level_4' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                      $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                      $location = $level_4 . ', ' . $location;
-                    }
-                  }
-                  $output[] = ['Location' => $location];
-                }
-                elseif ($element['#type'] == 'checkbox') {
-                  if ($content != NULL) {
-                    if ($content == 1) {
-                      $output[] = [$element['#title'] => t('Yes')];
-                    }
-                    else {
-                      $output[] = [$element['#title'] => t('No')];
-                    }
-                  }
-                }
-                elseif ($element['#type'] == 'checkboxes') {
-                  $values = [];
-                  if (gettype($content) == 'array' & $content != NULL) {
-                    foreach ($content as $key) {
-                      if ($element['#options'][$key] != NULL) {
-                        array_push($values, $element['#options'][$key]);
-                      }
-                    }
-                    $output[] = [$element['#title'] => $values];
-                  }
-                  else {
-                    if ($content != NULL) {
-                      $output[] = [$element['#title'] => $element['#options'][$content]];
-                    }
-                  }
-                }
-                elseif ($element['#type'] == 'radios') {
-                  if ($element['#options'][$content] != NULL) {
-                    $output[] = [$element['#title'] => $element['#options'][$content]];
-                  }
-                }
-                elseif ($element['#type'] == 'select') {
-                  $values = [];
-                  if (gettype($content) == 'array' & $content != NULL) {
-                    foreach ($content as $key) {
-                      if ($element['#options'][$key] != NULL) {
-                        array_push($values, $element['#options'][$key]);
-                      }
-                    }
-                    $output[] = [$element['#title'] => $values];
-                  }
-                  else {
-                    if ($content != NULL) {
-                      $output[] = [$element['#title'] => $element['#options'][$content]];
-                    }
-                  }
-                }
-                elseif ($element['#type'] == 'webform_entity_select') {
-                  if ($element['#title'] = 'Organisation') {
-                    if (!empty($content)) {
-                      $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                      $output[] = [$element['#title'] => $orgLabel];
-                    }
-                  }
-                }
-                elseif ($element['#type'] == 'webform_mapping') {
-                  $form_data = $webform_submission->getData();
-                  if (isset($form_data['opening_times'])) {
-                    $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
-                    if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
-                      $output[]['Opening Times'] = $opening_hours_structured_data;
-                    }
-                  }
-                }
-                elseif ($key == 'orignal_data') {
-
-                }
-                else {
-                  if ($content != "") {
-                    $output[] = [$element['#title'] => $content];
-                  }
-                }
-              }
-            }
-          }
-          else {
-            if ($key == 'location') {
-              foreach ($content as $lkey => $lvalue) {
-                if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                  $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
-                  $location = $location . $country . '.';
-                }
-                if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                  $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                  $location = $level_1 . ', ' . $location;
-                }
-                if ($lkey == 'level_2' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                  $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                  $location = $level_2 . ', ' . $location;
-                }
-                if ($lkey == 'level_3' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                  $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                  $location = $level_3 . ', ' . $location;
-                }
-                if ($lkey == 'level_4' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                  $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                  $location = $level_4 . ', ' . $location;
-                }
-              }
-              $output[] = ['Location' => $location];
-            }
-            elseif ($element['#type'] == 'checkbox') {
-              if ($content != NULL) {
-                if ($content == 1) {
-                  $output[] = [$element['#title'] => t('Yes')];
-                }
-                else {
-                  $output[] = [$element['#title'] => t('No')];
-                }
-              }
-            }
-            elseif ($element['#type'] == 'checkboxes') {
-              $values = [];
-              if (gettype($content) == 'array' & $content != NULL) {
-                foreach ($content as $key) {
-                  if ($element['#options'][$key] != NULL) {
-                    array_push($values, $element['#options'][$key]);
-                  }
-                }
-                $output[] = [$element['#title'] => $values];
-              }
-              else {
-                if ($content != NULL) {
-                  $output[] = [$element['#title'] => $element['#options'][$content]];
-                }
-              }
-            }
-            elseif ($element['#type'] == 'radios') {
-              if ($element['#options'][$content] != NULL) {
-                $output[] = [$element['#title'] => $element['#options'][$content]];
-              }
-            }
-            elseif ($element['#type'] == 'select') {
-              $values = [];
-              if (gettype($content) == 'array' & $content != NULL) {
-                foreach ($content as $key) {
-                  if ($element['#options'][$key] != NULL) {
-                    array_push($values, $element['#options'][$key]);
-                  }
-                }
-                $output[] = [$element['#title'] => $values];
-              }
-              else {
-                if ($content != NULL) {
-                  $output[] = [$element['#title'] => $element['#options'][$content]];
-                }
-              }
-            }
-            elseif ($element['#type'] == 'webform_entity_select') {
-              if ($element['#title'] = 'Organisation') {
-                if (!empty($content)) {
-                  $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                  $output[] = [$element['#title'] => $orgLabel];
-                }
-              }
-            }
-            elseif ($element['#type'] == 'webform_mapping') {
-              $form_data = $webform_submission->getData();
-              if (isset($form_data['opening_times'])) {
-                $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
-                if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
-                  $output[]['Opening Times'] = $opening_hours_structured_data;
-                }
-              }
-            }
-            elseif ($key == 'orignal_data') {
-
-            }
-            else {
-              if ($content != "") {
-                $output[] = [$element['#title'] => $content];
-              }
-            }
-          }
-        }
-      }
-      $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
-        'webform' => $webform_submission->getWebform()->id(),
-        'webform_submission' => $webform_submission->id(),
-      ])->toString();
-
-      if ($this->currentUser->isAnonymous()) {
-        $markup = '
-          <div class="service-provider-details">
-            <div class="service-detail-heading">
-            <h3>' . t('Service Details') . '</h3>
-            </div>
-          </div>';
-      }
-      elseif (!$can_edit) {
-        $markup = '
-          <div class="service-provider-details">
-            <div class="service-detail-heading">
-              <h3>' . t('Service Details') . '</h3>
-            </div>
-          </div>';
-      }
-      else {
-        $markup = '
-          <div class="service-provider-details">
-            <div class="service-detail-heading">
-              <h3>' . t('Service Details') . '</h3>
-              <div class="edit-delete-links">
-                <span class="edit-link">
-                  <a href=' . $edit_url . '>Edit</a>
-                </span>
-              </div>
-            </div>
-          </div>';
-      }
-      // Sort the output alphabetically.
-      usort($output, function ($a, $b) {
-          $keyA = key($a);
-          $keyB = key($b);
-          return strcmp($keyA, $keyB);
-      });
-      foreach ($output as $item) {
-        foreach ($item as $key => $value) {
-          $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
-          if ($key == 'Opening Times' && is_array($value)) {
-            $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
-          }
-          elseif (is_array($value)) {
-            $markup .= '<span class="value">' . Markup::create(implode(", ", $value)) . '</span>';
-          }
-          else {
-            $markup .= '<span  class="value">' . Markup::create($value) . '</span>';
-          }
-          $markup .= '</div>';
-        }
-      }
+    $cid = 'service_submissions_view' . $webform_submission->id();
+    $markup = '';
+    $cache_tags = ['webform_submission:' . $webform_submission->id()];
+    if ($cache = \Drupal::cache()->get($cid)) {
+      $markup = $cache->data;
       return [
         '#type' => 'markup',
         '#markup' => $markup,
       ];
     }
     else {
-      return [
-        '#type' => 'markup',
-        '#markup' => '<h3>' . t('No submission found.') . '</h3>',
-      ];
+      if (!is_null($webform_submission)) {
+        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($webform_submission->id());
+        $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
+        $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+        $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+        $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+        $stype = '';
+        $form_data = $webform_submission->getData();
+        $workflow_state = $form_data['erpw_workflow']['workflow_state'];
+        $current_user = $this->currentUser;
+        $user_role = $current_user->getRoles();
+        if ($user_role[0] == 'authenticated') {
+          $can_edit = $this->checkUserEditRights($workflow_state, $user_role[1]);
+        }
+        foreach ($tpa as $domain => $servicetype) {
+          if ($domain == $activeDomain) {
+            $stype = $servicetype[0];
+          }
+        }
+        $output = [];
+        if (!is_null($stype) && !empty($stype)) {
+          $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype));
+          if ($servicetype instanceof Node) {
+            $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
+          }
+          else {
+            $servicelabel = t('Not available');
+          }
+          $output[] = ['Service Type' => $servicelabel];
+        }
+
+        // Get the elements directly from the configuration object.
+        $webform_config = $this->configFactory->get('webform.webform.' . $webformID);
+        $elements = $webform_config->get('elements');
+
+        // Ensure that $elements is an array before decoding from YAML.
+        if (is_string($elements)) {
+          $elements = Yaml::decode($elements);
+        }
+        $ordered_elements = [];
+        // Get the element titles for reference of setting the order.
+        $this->orderElements($elements, $ordered_elements);
+
+        $fields = $webform_submission->getData();
+        $location = '';
+        $country = '';
+        $level_1 = '';
+        $level_2 = '';
+        $level_3 = '';
+        $level_4 = '';
+        foreach ($fields as $key => $content) {
+          $element = $this->entityTypeManager->getStorage('webform')->load($webform_submission->getWebform()->id())->getElement($key);
+          if ($key != 'erpw_workflow' && $key != 'submission_domain' && $key != 'service_type') {
+            $roles = $this->currentUser->getRoles();
+            if (isset($element['#access_view_roles'])) {
+              foreach ($roles as $role) {
+                if (in_array($role, $element['#access_view_roles'])) {
+                  if ($key == 'location') {
+                    foreach ($content as $lkey => $lvalue) {
+                      if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                        $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
+                        $location = $location . $country . '.';
+                      }
+                      if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                        $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                        $location = $level_1 . ', ' . $location;
+                      }
+                      if ($lkey == 'level_2' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                        $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                        $location = $level_2 . ', ' . $location;
+                      }
+                      if ($lkey == 'level_3' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                        $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                        $location = $level_3 . ', ' . $location;
+                      }
+                      if ($lkey == 'level_4' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                        $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                        $location = $level_4 . ', ' . $location;
+                      }
+                    }
+                    $output[] = ['Location' => $location];
+                  }
+                  elseif ($element['#type'] == 'checkbox') {
+                    if ($content != NULL) {
+                      if ($content == 1) {
+                        $output[] = [$element['#title'] => t('Yes')];
+                      }
+                      else {
+                        $output[] = [$element['#title'] => t('No')];
+                      }
+                    }
+                  }
+                  elseif ($element['#type'] == 'checkboxes') {
+                    $values = [];
+                    if (gettype($content) == 'array' & $content != NULL) {
+                      foreach ($content as $key) {
+                        if ($element['#options'][$key] != NULL) {
+                          array_push($values, $element['#options'][$key]);
+                        }
+                      }
+                      $output[] = [$element['#title'] => $values];
+                    }
+                    else {
+                      if ($content != NULL) {
+                        $output[] = [$element['#title'] => $element['#options'][$content]];
+                      }
+                    }
+                  }
+                  elseif ($element['#type'] == 'radios') {
+                    if ($element['#options'][$content] != NULL) {
+                      $output[] = [$element['#title'] => $element['#options'][$content]];
+                    }
+                  }
+                  elseif ($element['#type'] == 'select') {
+                    $values = [];
+                    if (gettype($content) == 'array' & $content != NULL) {
+                      foreach ($content as $key) {
+                        if ($element['#options'][$key] != NULL) {
+                          array_push($values, $element['#options'][$key]);
+                        }
+                      }
+                      $output[] = [$element['#title'] => $values];
+                    }
+                    else {
+                      if ($content != NULL) {
+                        $output[] = [$element['#title'] => $element['#options'][$content]];
+                      }
+                    }
+                  }
+                  elseif ($element['#type'] == 'webform_entity_select') {
+                    if ($element['#title'] = 'Organisation') {
+                      if (!empty($content)) {
+                        $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                        $output[] = [$element['#title'] => $orgLabel];
+                      }
+                    }
+                  }
+                  elseif ($element['#type'] == 'webform_mapping') {
+                    $form_data = $webform_submission->getData();
+                    if (isset($form_data['opening_times'])) {
+                      $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
+                      if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                        $output[]['Opening Times'] = $opening_hours_structured_data;
+                      }
+                    }
+                  }
+                  elseif ($key == 'orignal_data') {
+
+                  }
+                  else {
+                    if ($content != "") {
+                      $output[] = [$element['#title'] => $content];
+                    }
+                  }
+                }
+              }
+            }
+            else {
+              if ($key == 'location') {
+                foreach ($content as $lkey => $lvalue) {
+                  if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                    $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
+                    $location = $location . $country . '.';
+                  }
+                  if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                    $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                    $location = $level_1 . ', ' . $location;
+                  }
+                  if ($lkey == 'level_2' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                    $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                    $location = $level_2 . ', ' . $location;
+                  }
+                  if ($lkey == 'level_3' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                    $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                    $location = $level_3 . ', ' . $location;
+                  }
+                  if ($lkey == 'level_4' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                    $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                    $location = $level_4 . ', ' . $location;
+                  }
+                }
+                $output[] = ['Location' => $location];
+              }
+              elseif ($element['#type'] == 'checkbox') {
+                if ($content != NULL) {
+                  if ($content == 1) {
+                    $output[] = [$element['#title'] => t('Yes')];
+                  }
+                  else {
+                    $output[] = [$element['#title'] => t('No')];
+                  }
+                }
+              }
+              elseif ($element['#type'] == 'checkboxes') {
+                $values = [];
+                if (gettype($content) == 'array' & $content != NULL) {
+                  foreach ($content as $key) {
+                    if ($element['#options'][$key] != NULL) {
+                      array_push($values, $element['#options'][$key]);
+                    }
+                  }
+                  $output[] = [$element['#title'] => $values];
+                }
+                else {
+                  if ($content != NULL) {
+                    $output[] = [$element['#title'] => $element['#options'][$content]];
+                  }
+                }
+              }
+              elseif ($element['#type'] == 'radios') {
+                if ($element['#options'][$content] != NULL) {
+                  $output[] = [$element['#title'] => $element['#options'][$content]];
+                }
+              }
+              elseif ($element['#type'] == 'select') {
+                $values = [];
+                if (gettype($content) == 'array' & $content != NULL) {
+                  foreach ($content as $key) {
+                    if ($element['#options'][$key] != NULL) {
+                      array_push($values, $element['#options'][$key]);
+                    }
+                  }
+                  $output[] = [$element['#title'] => $values];
+                }
+                else {
+                  if ($content != NULL) {
+                    $output[] = [$element['#title'] => $element['#options'][$content]];
+                  }
+                }
+              }
+              elseif ($element['#type'] == 'webform_entity_select') {
+                if ($element['#title'] = 'Organisation') {
+                  if (!empty($content)) {
+                    $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                    $output[] = [$element['#title'] => $orgLabel];
+                  }
+                }
+              }
+              elseif ($element['#type'] == 'webform_mapping') {
+                $form_data = $webform_submission->getData();
+                if (isset($form_data['opening_times'])) {
+                  $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
+                  if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                    $output[]['Opening Times'] = $opening_hours_structured_data;
+                  }
+                }
+              }
+              elseif ($key == 'orignal_data') {
+
+              }
+              else {
+                if ($content != "") {
+                  $output[] = [$element['#title'] => $content];
+                }
+              }
+            }
+          }
+        }
+
+        $last_updated_timestamp = $webform_submission->getChangedTime();
+        $formatted_last_updated = \Drupal::service('date.formatter')->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
+        $output[] = ['Last updated time' => $formatted_last_updated];
+
+        $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
+          'webform' => $webform_submission->getWebform()->id(),
+          'webform_submission' => $webform_submission->id(),
+        ])->toString();
+
+        if ($this->currentUser->isAnonymous()) {
+          $markup = '
+            <div class="service-provider-details">
+              <div class="service-detail-heading">
+              <h3>' . t('Service Details') . '</h3>
+              </div>
+            </div>';
+        }
+        elseif (!$can_edit) {
+          $markup = '
+            <div class="service-provider-details">
+              <div class="service-detail-heading">
+                <h3>' . t('Service Details') . '</h3>
+              </div>
+            </div>';
+        }
+        else {
+          $markup = '
+            <div class="service-provider-details">
+              <div class="service-detail-heading">
+                <h3>' . t('Service Details') . '</h3>
+                <div class="edit-delete-links">
+                  <span class="edit-link">
+                    <a href=' . $edit_url . '>Edit</a>
+                  </span>
+                </div>
+              </div>
+            </div>';
+        }
+
+        // Sort the elements based on their order in the webform.
+        usort($output, function ($a, $b) use ($ordered_elements) {
+          // Ensure 'Last updated time' is always placed at the end.
+          if (key($a) == 'Last updated time') {
+            return 1;
+          }
+          elseif (key($b) == 'Last updated time') {
+            return -1;
+          }
+
+          // Default sorting based on $ordered_elements.
+          $key_a = array_search(key($a), $ordered_elements);
+          $key_b = array_search(key($b), $ordered_elements);
+
+          return $key_a - $key_b;
+        });
+
+        foreach ($output as $item) {
+          foreach ($item as $key => $value) {
+            $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
+            if ($key == 'Opening Times' && is_array($value)) {
+              $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
+            }
+            elseif (is_array($value)) {
+              $markup .= '<span class="value">' . Markup::create(implode(", ", $value)) . '</span>';
+            }
+            else {
+              $markup .= '<span  class="value">' . Markup::create($value) . '</span>';
+            }
+            $markup .= '</div>';
+          }
+        }
+
+        // Invalidate cache tag when a new submission is created or edited.
+        \Drupal::cache()->set($cid, $markup, Cache::PERMANENT, $cache_tags);
+
+        // @todo Cache computed value - done
+        return [
+          '#type' => 'markup',
+          '#markup' => $markup,
+        ];
+      }
+      else {
+        return [
+          '#type' => 'markup',
+          '#markup' => '<h3>' . t('No submission found.') . '</h3>',
+        ];
+      }
     }
   }
 
@@ -369,357 +421,441 @@ class ServiceSubmissionsView extends ControllerBase {
    * workflow.
    */
   public function content_approved(WebformSubmission $webform_submission) {
-    if (!is_null($webform_submission)) {
-      $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($webform_submission->id());
-      $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
-      $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
-      $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-      $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-      $stype = '';
-      foreach ($tpa as $domain => $servicetype) {
-        if ($domain == $activeDomain) {
-          $stype = $servicetype[0];
-        }
-      }
-      $output = [];
-      if (!is_null($stype) && !empty($stype)) {
-        $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype));
-        $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
-        $output[] = ['Service Type' => $servicelabel];
-      }
-
-      // Check if the service is in Edit workflow.
-      $node = erpw_webform_load_wsa_node_by_sid($webform_submission->id());
-      if ($node) {
-        $fields = json_decode($node->field_submission_data->value, TRUE);
-      }
-      else {
-        $fields = $webform_submission->getData();
-      }
-
-      $location = '';
-      $country = '';
-      $level_1 = '';
-      $level_2 = '';
-      $level_3 = '';
-      $level_4 = '';
-      foreach ($fields as $key => $content) {
-        $element = $this->entityTypeManager->getStorage('webform')->load($webform_submission->getWebform()->id())->getElement($key);
-        if ($key != 'erpw_workflow' && $key != 'submission_domain' && $key != 'service_type') {
-          $roles = $this->currentUser->getRoles();
-          if (isset($element['#access_view_roles'])) {
-            foreach ($roles as $role) {
-              if (in_array($role, $element['#access_view_roles'])) {
-                if ($key == 'location') {
-                  foreach ($content as $lkey => $lvalue) {
-                    if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                      $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
-                      $location = $location . $country . '.';
-                    }
-                    if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                      $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                      $location = $level_1 . ', ' . $location;
-                    }
-                    if ($lkey == 'level_2' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                      $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                      $location = $level_2 . ', ' . $location;
-                    }
-                    if ($lkey == 'level_3' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                      $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                      $location = $level_3 . ', ' . $location;
-                    }
-                    if ($lkey == 'level_4' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                      $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                      $location = $level_4 . ', ' . $location;
-                    }
-                  }
-                  $output[] = ['Location' => $location];
-                }
-                elseif ($element['#type'] == 'checkbox') {
-                  if ($content != NULL) {
-                    if ($content == 1) {
-                      $output[] = [$element['#title'] => t('Yes')];
-                    }
-                    else {
-                      $output[] = [$element['#title'] => t('No')];
-                    }
-                  }
-                }
-                elseif ($element['#type'] == 'checkboxes') {
-                  $values = [];
-                  if (gettype($content) == 'array' & $content != NULL) {
-                    foreach ($content as $key) {
-                      if ($element['#options'][$key] != NULL) {
-                        array_push($values, $element['#options'][$key]);
-                      }
-                    }
-                    $output[] = [$element['#title'] => $values];
-                  }
-                  else {
-                    if ($content != NULL) {
-                      $output[] = [$element['#title'] => $element['#options'][$content]];
-                    }
-                  }
-                }
-                elseif ($element['#type'] == 'radios') {
-                  if ($element['#options'][$content] != NULL) {
-                    $output[] = [$element['#title'] => $element['#options'][$content]];
-                  }
-                }
-                elseif ($element['#type'] == 'select') {
-                  $values = [];
-                  if (gettype($content) == 'array' & $content != NULL) {
-                    foreach ($content as $key) {
-                      if ($element['#options'][$key] != NULL) {
-                        array_push($values, $element['#options'][$key]);
-                      }
-                    }
-                    $output[] = [$element['#title'] => $values];
-                  }
-                  else {
-                    if ($content != NULL) {
-                      $output[] = [$element['#title'] => $element['#options'][$content]];
-                    }
-                  }
-                }
-                elseif ($element['#type'] == 'webform_entity_select') {
-                  if ($element['#title'] = 'Organisation') {
-                    if (!empty($content)) {
-                      $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                      $output[] = [$element['#title'] => $orgLabel];
-                    }
-                  }
-                }
-                elseif ($element['#type'] == 'webform_mapping') {
-                  $form_data = $webform_submission->getData();
-                  if (isset($form_data['opening_times'])) {
-                    $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
-                    if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
-                      $output[]['Opening Times'] = $opening_hours_structured_data;
-                    }
-                  }
-                }
-                elseif ($key == 'orignal_data') {
-
-                }
-                else {
-                  if ($content != "") {
-                    $output[] = [$element['#title'] => $content];
-                  }
-                }
-              }
-            }
-          }
-          else {
-            if ($key == 'location') {
-              foreach ($content as $lkey => $lvalue) {
-                if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                  $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
-                  $location = $location . $country . '.';
-                }
-                if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                  $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                  $location = $level_1 . ', ' . $location;
-                }
-                if ($lkey == 'level_2' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                  $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                  $location = $level_2 . ', ' . $location;
-                }
-                if ($lkey == 'level_3' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                  $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                  $location = $level_3 . ', ' . $location;
-                }
-                if ($lkey == 'level_4' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                  $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
-                  $location = $level_4 . ', ' . $location;
-                }
-              }
-              $output[] = ['Location' => $location];
-            }
-            elseif ($element['#type'] == 'checkbox') {
-              if ($content != NULL) {
-                if ($content == 1) {
-                  $output[] = [$element['#title'] => t('Yes')];
-                }
-                else {
-                  $output[] = [$element['#title'] => t('No')];
-                }
-              }
-            }
-            elseif ($element['#type'] == 'checkboxes') {
-              $values = [];
-              if (gettype($content) == 'array' & $content != NULL) {
-                foreach ($content as $key) {
-                  if ($element['#options'][$key] != NULL) {
-                    array_push($values, $element['#options'][$key]);
-                  }
-                }
-                $output[] = [$element['#title'] => $values];
-              }
-              else {
-                if ($content != NULL) {
-                  $output[] = [$element['#title'] => $element['#options'][$content]];
-                }
-              }
-            }
-            elseif ($element['#type'] == 'radios') {
-              if ($element['#options'][$content] != NULL) {
-                $output[] = [$element['#title'] => $element['#options'][$content]];
-              }
-            }
-            elseif ($element['#type'] == 'select') {
-              $values = [];
-              if (gettype($content) == 'array' & $content != NULL) {
-                foreach ($content as $key) {
-                  if ($element['#options'][$key] != NULL) {
-                    array_push($values, $element['#options'][$key]);
-                  }
-                }
-                $output[] = [$element['#title'] => $values];
-              }
-              else {
-                if ($content != NULL) {
-                  $output[] = [$element['#title'] => $element['#options'][$content]];
-                }
-              }
-            }
-            elseif ($element['#type'] == 'webform_entity_select') {
-              if ($element['#title'] = 'Organisation') {
-                if (!empty($content)) {
-                  $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                  $output[] = [$element['#title'] => $orgLabel];
-                }
-              }
-            }
-            elseif ($element['#type'] == 'webform_mapping') {
-              $form_data = $webform_submission->getData();
-              if (isset($form_data['opening_times'])) {
-                $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
-                if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
-                  $output[]['Opening Times'] = $opening_hours_structured_data;
-                }
-              }
-            }
-            elseif ($key == 'orignal_data') {
-
-            }
-            else {
-              if ($content != "") {
-                $output[] = [$element['#title'] => $content];
-              }
-            }
-          }
-        }
-      }
-      // Service Rating Link.
-      $service_type_id = $servicetype->get('nid')->getValue()[0]['value'];
-      $rating_webform = 'webform_service_rating_' . $service_type_id;
-      $feedback_webform = \Drupal::entityTypeManager()
-        ->getStorage('webform')
-        ->load($rating_webform);
-
-      if ($feedback_webform && $feedback_webform->isOpen() && $this->currentUser->isAuthenticated()) {
-        // Get the URL for the loaded webform.
-        $routeName = 'erpw_webform.webform.feedback_form';
-
-        // Define the route parameters as an associative array.
-        $routeParameters = [
-          'webform' => $rating_webform,
-          'servicesid' => $webform_submission->id(),
-        ];
-
-        // Create a URL object based on the route name and parameters.
-        $url = Url::fromRoute($routeName, $routeParameters);
-
-        // Create a Link object with a link text and the URL.
-        $service_rating_text = t('Give Feedback');
-        $service_rating_url = $url->toString();
-
-        // The extra ZZ is so that it always comes in the last place in the pair container.
-        $output[]['ZZ Service Rating Link'] = [
-          '#markup' => '<a class="service-feedback-form" href="' . $service_rating_url . '">' . $service_rating_text . '</a>',
-        ];
-      }
-
-      // Edit URL.
-      $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
-        'webform' => $webform_submission->getWebform()->id(),
-        'webform_submission' => $webform_submission->id(),
-      ])->toString();
-
-      if ($this->currentUser->isAnonymous()) {
-        $markup = '
-          <div class="service-provider-details">
-            <div class="service-detail-heading">
-            <h3>' . t('Service Details') . '</h3>
-            </div>
-          </div>';
-      }
-      else {
-        if ($node) {
-          $markup = '
-          <div class="service-provider-details">
-            <div class="service-detail-heading">
-              <h3>' . t('Service Details') . '</h3>
-              <div class="edit-delete-links">
-                <span class="edit-link">
-                  <p>' . t('This service is currently going through the review process. Hence direct edits are not allowed.') . '</p>
-                </span>
-              </div>
-            </div>
-          </div>';
-        }
-        else {
-          $markup = '
-          <div class="service-provider-details">
-            <div class="service-detail-heading">
-              <h3>' . t('Service Details') . '</h3>
-              <div class="edit-delete-links">
-                <span class="edit-link">
-                  <a href=' . $edit_url . '>Edit</a>
-                </span>
-              </div>
-            </div>
-          </div>';
-        }
-      }
-      // Sort the output alphabetically.
-      usort($output, function ($a, $b) {
-          $keyA = key($a);
-          $keyB = key($b);
-          return strcmp($keyA, $keyB);
-      });
-      foreach ($output as $item) {
-        foreach ($item as $key => $value) {
-          if ($key == 'ZZ Service Rating Link') {
-            $markup .= '<div class="pair-container"><span class="service-rating-label">' . Markup::create($key) . ':</span>';
-          }
-          else {
-            $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
-          }
-
-          if ($key == 'Opening Times' && is_array($value)) {
-            $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
-          }
-          elseif (is_array($value)) {
-            $markup .= '<span class="value">' . Markup::create(implode(", ", $value)) . '</span>';
-          }
-          else {
-            $markup .= '<span  class="value">' . Markup::create($value) . '</span>';
-          }
-          $markup .= '</div>';
-        }
-      }
+    $cid = 'service_submissions_view' . $webform_submission->id();
+    $markup = '';
+    $cache_tags = ['webform_submission:' . $webform_submission->id()];
+    if ($cache = \Drupal::cache()->get($cid)) {
+      $markup = $cache->data;
       return [
         '#type' => 'markup',
         '#markup' => $markup,
       ];
     }
     else {
-      return [
-        '#type' => 'markup',
-        '#markup' => '<h3>' . t('No submission found.') . '</h3>',
-      ];
+      if (!is_null($webform_submission)) {
+        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($webform_submission->id());
+        $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
+        $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+        $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+        $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+        $stype = '';
+        foreach ($tpa as $domain => $servicetype) {
+          if ($domain == $activeDomain) {
+            $stype = $servicetype[0];
+          }
+        }
+        $output = [];
+        if (!is_null($stype) && !empty($stype)) {
+          $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype));
+          $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
+          $output[] = ['Service Type' => $servicelabel];
+        }
+
+        // Check if the service is in Edit workflow.
+        $node = erpw_webform_load_wsa_node_by_sid($webform_submission->id());
+        if ($node) {
+          $fields = json_decode($node->field_submission_data->value, TRUE);
+        }
+        else {
+          $fields = $webform_submission->getData();
+        }
+
+        // Get the elements directly from the configuration object.
+        $webform_config = $this->configFactory->get('webform.webform.' . $webformID);
+        $elements = $webform_config->get('elements');
+
+        // Ensure that $elements is an array before decoding from YAML.
+        if (is_string($elements)) {
+          $elements = Yaml::decode($elements);
+        }
+        $ordered_elements = [];
+        // Get the element titles for reference of setting the order.
+        $this->orderElements($elements, $ordered_elements);
+
+        $location = '';
+        $country = '';
+        $level_1 = '';
+        $level_2 = '';
+        $level_3 = '';
+        $level_4 = '';
+        foreach ($fields as $key => $content) {
+          $element = $this->entityTypeManager->getStorage('webform')->load($webform_submission->getWebform()->id())->getElement($key);
+          if ($key != 'erpw_workflow' && $key != 'submission_domain' && $key != 'service_type') {
+            $roles = $this->currentUser->getRoles();
+            if (isset($element['#access_view_roles'])) {
+              foreach ($roles as $role) {
+                if (in_array($role, $element['#access_view_roles'])) {
+                  if ($key == 'location') {
+                    foreach ($content as $lkey => $lvalue) {
+                      if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                        $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
+                        $location = $location . $country . '.';
+                      }
+                      if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                        $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                        $location = $level_1 . ', ' . $location;
+                      }
+                      if ($lkey == 'level_2' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                        $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                        $location = $level_2 . ', ' . $location;
+                      }
+                      if ($lkey == 'level_3' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                        $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                        $location = $level_3 . ', ' . $location;
+                      }
+                      if ($lkey == 'level_4' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                        $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                        $location = $level_4 . ', ' . $location;
+                      }
+                    }
+                    $output[] = ['Location' => $location];
+                  }
+                  elseif ($element['#type'] == 'checkbox') {
+                    if ($content != NULL) {
+                      if ($content == 1) {
+                        $output[] = [$element['#title'] => t('Yes')];
+                      }
+                      else {
+                        $output[] = [$element['#title'] => t('No')];
+                      }
+                    }
+                  }
+                  elseif ($element['#type'] == 'checkboxes') {
+                    $values = [];
+                    if (gettype($content) == 'array' & $content != NULL) {
+                      foreach ($content as $key) {
+                        if ($element['#options'][$key] != NULL) {
+                          array_push($values, $element['#options'][$key]);
+                        }
+                      }
+                      $output[] = [$element['#title'] => $values];
+                    }
+                    else {
+                      if ($content != NULL) {
+                        $output[] = [$element['#title'] => $element['#options'][$content]];
+                      }
+                    }
+                  }
+                  elseif ($element['#type'] == 'radios') {
+                    if ($element['#options'][$content] != NULL) {
+                      $output[] = [$element['#title'] => $element['#options'][$content]];
+                    }
+                  }
+                  elseif ($element['#type'] == 'select') {
+                    $values = [];
+                    if (gettype($content) == 'array' & $content != NULL) {
+                      foreach ($content as $key) {
+                        if ($element['#options'][$key] != NULL) {
+                          array_push($values, $element['#options'][$key]);
+                        }
+                      }
+                      $output[] = [$element['#title'] => $values];
+                    }
+                    else {
+                      if ($content != NULL) {
+                        $output[] = [$element['#title'] => $element['#options'][$content]];
+                      }
+                    }
+                  }
+                  elseif ($element['#type'] == 'webform_entity_select') {
+                    if ($element['#title'] = 'Organisation') {
+                      if (!empty($content)) {
+                        $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                        $output[] = [$element['#title'] => $orgLabel];
+                      }
+                    }
+                  }
+                  elseif ($element['#type'] == 'webform_mapping') {
+                    $form_data = $webform_submission->getData();
+                    if (isset($form_data['opening_times'])) {
+                      $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
+                      if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                        $output[]['Opening Times'] = $opening_hours_structured_data;
+                      }
+                    }
+                  }
+                  elseif ($key == 'orignal_data') {
+
+                  }
+                  else {
+                    if ($content != "") {
+                      $output[] = [$element['#title'] => $content];
+                    }
+                  }
+                }
+              }
+            }
+            else {
+              if ($key == 'location') {
+                foreach ($content as $lkey => $lvalue) {
+                  if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                    $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
+                    $location = $location . $country . '.';
+                  }
+                  if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                    $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                    $location = $level_1 . ', ' . $location;
+                  }
+                  if ($lkey == 'level_2' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                    $level_2 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                    $location = $level_2 . ', ' . $location;
+                  }
+                  if ($lkey == 'level_3' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                    $level_3 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                    $location = $level_3 . ', ' . $location;
+                  }
+                  if ($lkey == 'level_4' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
+                    $level_4 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                    $location = $level_4 . ', ' . $location;
+                  }
+                }
+                $output[] = ['Location' => $location];
+              }
+              elseif ($element['#type'] == 'checkbox') {
+                if ($content != NULL) {
+                  if ($content == 1) {
+                    $output[] = [$element['#title'] => t('Yes')];
+                  }
+                  else {
+                    $output[] = [$element['#title'] => t('No')];
+                  }
+                }
+              }
+              elseif ($element['#type'] == 'checkboxes') {
+                $values = [];
+                if (gettype($content) == 'array' & $content != NULL) {
+                  foreach ($content as $key) {
+                    if ($element['#options'][$key] != NULL) {
+                      array_push($values, $element['#options'][$key]);
+                    }
+                  }
+                  $output[] = [$element['#title'] => $values];
+                }
+                else {
+                  if ($content != NULL) {
+                    $output[] = [$element['#title'] => $element['#options'][$content]];
+                  }
+                }
+              }
+              elseif ($element['#type'] == 'radios') {
+                if ($element['#options'][$content] != NULL) {
+                  $output[] = [$element['#title'] => $element['#options'][$content]];
+                }
+              }
+              elseif ($element['#type'] == 'select') {
+                $values = [];
+                if (gettype($content) == 'array' & $content != NULL) {
+                  foreach ($content as $key) {
+                    if ($element['#options'][$key] != NULL) {
+                      array_push($values, $element['#options'][$key]);
+                    }
+                  }
+                  $output[] = [$element['#title'] => $values];
+                }
+                else {
+                  if ($content != NULL) {
+                    $output[] = [$element['#title'] => $element['#options'][$content]];
+                  }
+                }
+              }
+              elseif ($element['#type'] == 'webform_entity_select') {
+                if ($element['#title'] = 'Organisation') {
+                  if (!empty($content)) {
+                    $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                    $output[] = [$element['#title'] => $orgLabel];
+                  }
+                }
+              }
+              elseif ($element['#type'] == 'webform_mapping') {
+                $form_data = $webform_submission->getData();
+                if (isset($form_data['opening_times'])) {
+                  $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
+                  if ($opening_hours_structured_data != NULL && !empty($opening_hours_structured_data)) {
+                    $output[]['Opening Times'] = $opening_hours_structured_data;
+                  }
+                }
+              }
+              elseif ($key == 'orignal_data') {
+
+              }
+              else {
+                if ($content != "") {
+                  $output[] = [$element['#title'] => $content];
+                }
+              }
+            }
+          }
+        }
+        // Service Rating Link.
+        $service_type_id = $servicetype->get('nid')->getValue()[0]['value'];
+        $rating_webform = 'webform_service_rating_' . $service_type_id;
+        $feedback_webform = \Drupal::entityTypeManager()
+          ->getStorage('webform')
+          ->load($rating_webform);
+
+        if ($feedback_webform && $feedback_webform->isOpen() && $this->currentUser->isAuthenticated()) {
+          // Get the URL for the loaded webform.
+          $routeName = 'erpw_webform.webform.feedback_form';
+
+          // Define the route parameters as an associative array.
+          $routeParameters = [
+            'webform' => $rating_webform,
+            'servicesid' => $webform_submission->id(),
+          ];
+
+          // Create a URL object based on the route name and parameters.
+          $url = Url::fromRoute($routeName, $routeParameters);
+
+          // Create a Link object with a link text and the URL.
+          $service_rating_text = t('Give Feedback');
+          $service_rating_url = $url->toString();
+
+          $output[]['Service Rating Link'] = [
+            '#markup' => '<a class="service-feedback-form" href="' . $service_rating_url . '">' . $service_rating_text . '</a>',
+          ];
+        }
+
+        $last_updated_timestamp = $webform_submission->getChangedTime();
+        $formatted_last_updated = \Drupal::service('date.formatter')->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
+        $output[] = ['Last updated time' => $formatted_last_updated];
+
+        // Edit URL.
+        $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
+          'webform' => $webform_submission->getWebform()->id(),
+          'webform_submission' => $webform_submission->id(),
+        ])->toString();
+
+        if ($this->currentUser->isAnonymous()) {
+          $markup = '
+            <div class="service-provider-details">
+              <div class="service-detail-heading">
+              <h3>' . t('Service Details') . '</h3>
+              </div>
+            </div>';
+        }
+        else {
+          if ($node) {
+            $markup = '
+            <div class="service-provider-details">
+              <div class="service-detail-heading">
+                <h3>' . t('Service Details') . '</h3>
+                <div class="edit-delete-links">
+                  <span class="edit-link">
+                    <p>' . t('This service is currently going through the review process. Hence direct edits are not allowed.') . '</p>
+                  </span>
+                </div>
+              </div>
+            </div>';
+          }
+          else {
+            $markup = '
+            <div class="service-provider-details">
+              <div class="service-detail-heading">
+                <h3>' . t('Service Details') . '</h3>
+                <div class="edit-delete-links">
+                  <span class="edit-link">
+                    <a href=' . $edit_url . '>Edit</a>
+                  </span>
+                </div>
+              </div>
+            </div>';
+          }
+        }
+
+        // Sort the elements based on their order in the webform.
+        usort($output, function ($a, $b) use ($ordered_elements) {
+          // Ensure 'Service Rating Link' is always placed at the end.
+          if (key($a) == 'Service Rating Link') {
+            return 1;
+          }
+          elseif (key($b) == 'Service Rating Link') {
+            return -1;
+          }
+
+          // If 'Service Rating Link' exists, adjust the position of 'Last updated time'.
+          if (array_key_exists('Service Rating Link', array_flip(array_keys([$a, $b])))) {
+            // 'Last updated time' should be second last.
+            if (key($a) == 'Last updated time') {
+              return 1;
+            }
+          }
+          // 'Last updated time' should be last.
+          else {
+            if (key($b) == 'Last updated time') {
+              return -1;
+            }
+          }
+
+          // Default sorting based on $ordered_elements.
+          $key_a = array_search(key($a), $ordered_elements);
+          $key_b = array_search(key($b), $ordered_elements);
+
+          return $key_a - $key_b;
+        });
+
+        foreach ($output as $item) {
+          foreach ($item as $key => $value) {
+            if ($key == 'Service Rating Link') {
+              $markup .= '<div class="pair-container"><span class="service-rating-label">' . Markup::create($key) . ':</span>';
+            }
+            else {
+              $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
+            }
+
+            if ($key == 'Opening Times' && is_array($value)) {
+              $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
+            }
+            elseif (is_array($value)) {
+              $markup .= '<span class="value">' . Markup::create(implode(", ", $value)) . '</span>';
+            }
+            else {
+              $markup .= '<span  class="value">' . Markup::create($value) . '</span>';
+            }
+            $markup .= '</div>';
+          }
+        }
+
+        // Invalidate cache tag when a new submission is created or edited.
+        \Drupal::cache()->set($cid, $markup, Cache::PERMANENT, $cache_tags);
+
+        return [
+          '#type' => 'markup',
+          '#markup' => $markup,
+        ];
+      }
+      else {
+        return [
+          '#type' => 'markup',
+          '#markup' => '<h3>' . t('No submission found.') . '</h3>',
+        ];
+      }
+    }
+  }
+
+  /**
+   * Provides a reference of the order of the elements by extracting titles
+   * from the given nested elements array.
+   *
+   * @param array $elements
+   *   The array of nested elements to be processed.
+   * @param array $filtered_elements
+   *   (Reference) An array to store the extracted titles of the elements.
+   */
+  private function orderElements(array $elements, array &$filtered_elements) {
+    foreach ($elements as $key => $value) {
+      // Check if the current element has a '#type' key and is not a 'details' type.
+      if (isset($value['#type']) && $value['#type'] !== 'details') {
+        // Extract the title if it exists, otherwise use an empty string.
+        $title = $value['#title'] ?? '';
+
+        // Add the title to the filtered elements array.
+        $filtered_elements[] = $title;
+      }
+
+      // If the current element has nested elements, recursively call the function.
+      if (is_array($value) && !empty($value)) {
+        $this->orderElements($value, $filtered_elements);
+      }
     }
   }
 
@@ -799,6 +935,8 @@ class ServiceSubmissionsView extends ControllerBase {
       case 'in_review_with_focal_point':
       case 'edits_in_review_with_focal_point':
       case 'deletion_in_review_with_focal_point':
+      case 'archive_in_review_with_focal_point':
+      case 'restore_service_in_review_with_focal_point':
         if (in_array($user_role, $focal_point_roles)) {
           $can_edit = TRUE;
         }
@@ -807,6 +945,8 @@ class ServiceSubmissionsView extends ControllerBase {
       case 'in_review':
       case 'edits_in_review_with_gbv_coordination':
       case 'deletion_in_review_with_gbv_coordination':
+      case 'archive_in_review_with_gbv_coordination':
+      case 'restore_service_in_review_with_gbv_coordination':
         if (in_array($user_role, $gbv_coordination_roles)) {
           $can_edit = TRUE;
         }
@@ -815,6 +955,8 @@ class ServiceSubmissionsView extends ControllerBase {
       case 'draft':
       case 'approve':
       case 'reject':
+      case 'archived':
+      case 'rejected_archive_service_request':
         $can_edit = TRUE;
         break;
 

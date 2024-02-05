@@ -94,18 +94,14 @@ class ShareFeedbackBlock extends BlockBase implements ContainerFactoryPluginInte
       $blockTitle = str_contains($requestUri, 'ratings-by-service-type') ? t('Improvise your Service Information') : t('Feedback Reminder');
       $blockDescription = str_contains($requestUri, 'ratings-by-service-type') ? t('Help other service providers reach you without any hassle by updating information as per feedback.') : t('Help Service Providers to improvise their Service Provision information with your valuable feedback.');
 
+      // @todo enable Block cache and move the markup to twig template. - Done
       return [
-        '#markup' => '<div class="share-feedback-block">
-                <div class="feedback-text-block">
-                    <div class="feedback-text-header">
-                        <p>' . $blockTitle . '</p>
-                    </div>
-                    <div class="feedback-text">
-                        <p>' . $blockDescription . '</p>
-                    </div>
-                </div>
-                <a href="/share-feedback">' . t('Share feedback') . '</a>
-            </div>',
+        '#theme' => 'share_feedback_block',
+        '#blockTitle' => $blockTitle,
+        '#blockDescription' => $blockDescription,
+        '#cache' => [
+          'contexts' => ['user.roles:authenticated'],
+        ],
       ];
     }
     else {

@@ -2,6 +2,7 @@
 
 namespace Drupal\erpw_location;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
@@ -215,14 +216,34 @@ class LocationService {
    * Get location entities.
    */
   public function getLocationEntities() {
-    $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
-      ['type' => 'country', 'status' => 1]);
-    $location_options = [];
-    foreach ($location_entities as $location) {
-      $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
+
+    $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $cache_tags = ['location'];
+    $cache_id = 'location_entities_query_' . $active_domain_id;
+    $cache_data = \Drupal::cache()->get($cache_id);
+
+    // Check if data is not in cache.
+    if (!$cache_data) {
+      // If data is not in cache, execute the build logic.
+      $location_entities = $this->entityTypeManager->getStorage('location')->loadByProperties(
+        ['type' => 'country', 'status' => 1]);
+      $location_options = [];
+      foreach ($location_entities as $location) {
+        $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
+      }
+
+      // Store the result in cache.
+      \Drupal::cache()->set($cache_id, $location_options, Cache::PERMANENT, $cache_tags);
     }
+    else {
+      // If data is in cache, use the cached result.
+      $location_options = $cache_data->data;
+    }
+
     return $location_options;
   }
+
+  // @todo Cache the result - Done
 
   /**
    * Get location entities.
@@ -251,8 +272,27 @@ class LocationService {
    * Get ancestors of taxonomy.
    */
   public function getAllAncestors($tid) {
-    $ancestors = $this->entityTypeManager->getStorage('taxonomy_term')->loadAllParents($tid);
-    $ancestors = array_reverse(array_keys($ancestors));
+
+    $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $cache_tags = ['taxonomy_term_list'];
+    $cache_id = 'all_ancestors_query_' . $tid . $active_domain_id;
+    $cache_data = \Drupal::cache()->get($cache_id);
+
+    // Check if data is not in cache.
+    if (!$cache_data) {
+      // If data is not in cache, execute the build logic.
+      $ancestors = $this->entityTypeManager->getStorage('taxonomy_term')->loadAllParents($tid);
+      $ancestors = array_reverse(array_keys($ancestors));
+
+      // Store the result in cache.
+      \Drupal::cache()->set($cache_id, $ancestors, Cache::PERMANENT, $cache_tags);
+    }
+    else {
+      // If data is in cache, use the cached result.
+      $ancestors = $cache_data->data;
+    }
+
+    // @todo Cache the result - Done
     return $ancestors;
   }
 
@@ -328,12 +368,30 @@ class LocationService {
    *   Return of default location id.
    */
   public function getDefaultLocation() {
-    $query = $this->connection->select('location__field_location_taxonomy_term', 'tm');
-    $query->innerJoin('taxonomy_term_data', 't', 't.tid = tm.field_location_taxonomy_term_target_id');
-    $query->fields('t', ['tid']);
-    $result = $query->execute();
 
-    return $result->fetchField();
+    $cache_tags = ['location', 'taxonomy_term_list'];
+    $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $cache_id = 'default_location_query_' . $active_domain_id;
+    $cache_data = \Drupal::cache()->get($cache_id);
+
+    // Check if data is not in cache.
+    if (!$cache_data) {
+      // If data is not in cache, execute the build logic.
+      $query = $this->connection->select('location__field_location_taxonomy_term', 'tm');
+      $query->innerJoin('taxonomy_term_data', 't', 't.tid = tm.field_location_taxonomy_term_target_id');
+      $query->fields('t', ['tid']);
+      $result = $query->execute();
+
+      // Store the result in cache.
+      \Drupal::cache()->set($cache_id, $result->fetchField(), Cache::PERMANENT, $cache_tags);
+    }
+    else {
+      // If data is in cache, use the cached result.
+      $result = $cache_data->data;
+    }
+
+    // @todo Cache the query executed result - Done
+    return $result;
   }
 
   /**
@@ -516,25 +574,6 @@ class LocationService {
   }
 
   /**
-   * Checks if a term ID corresponds to a location entity.
-   *
-   * @param int $tid
-   *   The term ID to check.
-   *
-   * @return bool
-   *   TRUE if the term ID is a location entity (in the predefined list), FALSE otherwise.
-   */
-  public function isLocationEntity($tid) {
-    $location_ids = array_keys($this->getLocationEntities());
-    if (in_array($tid, $location_ids)) {
-      return TRUE;
-    }
-    else {
-      return FALSE;
-    }
-  }
-
-  /**
    * Get the country term ID associated with a location entity.
    *
    * @param int $country_location_id
@@ -550,6 +589,50 @@ class LocationService {
       $country_tid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
     }
     return $country_tid;
+  }
+
+  /**
+   * Check if only Country level has entry, that is:
+   * only the 'location_options' and 'location_tid' keys have values,
+   * while all other keys are empty in the given $location_value array.
+   *
+   * @param array $location_value
+   *   The input array containing location values.
+   *
+   * @return bool
+   *   TRUE if only 'location_options' and 'location_tid' have values and all other keys are empty,
+   *   FALSE otherwise.
+   */
+  public function onlyCountryValuePresent(array $location_value): bool {
+    // Extract 'location_options' and 'location_tid' from the input array.
+    $location_options = $location_value['location_options'];
+    $location_tid = $location_value['location_tid'];
+
+    // Check if 'location_options' and 'location_tid' have values while others are empty.
+    $hasValues = !empty($location_options) && !empty($location_tid);
+
+    // Iterate through other keys and check if they are empty.
+    foreach ($location_value as $key => $value) {
+      // Skip 'location_options' and 'location_tid'.
+      if ($key === 'location_options' || $key === 'location_tid') {
+        continue;
+      }
+
+      // Check if the value is not empty.
+      if (!empty($value)) {
+        $hasValues = FALSE;
+        // Break the loop if any non-empty value is found.
+        break;
+      }
+    }
+
+    // Check that location_tid is indeed a location entity id.
+    $location_entity_ids = array_keys($this->getLocationEntities());
+    if (!in_array($location_tid, $location_entity_ids)) {
+      $hasValues = FALSE;
+    }
+
+    return $hasValues;
   }
 
 }

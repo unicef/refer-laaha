@@ -5,6 +5,7 @@ dependencies:
   config:
     - filter.format.basic_html
     - rest.resource.erpw_webform_serviceformsexporter
+    - rest.resource.erpw_webform_serviceslatestupdate
     - rest.resource.webform_rest_elements
     - rest.resource.webform_rest_submission
     - rest.resource.webform_rest_submit
@@ -33,6 +34,7 @@ permissions:
   - 'opt-in or out of google analytics tracking'
   - 'post comments'
   - 'restful get erpw_webform_serviceformsexporter'
+  - 'restful get erpw_webform_serviceslatestupdate'
   - 'restful get webform_rest_elements'
   - 'restful get webform_rest_submission'
   - 'restful patch webform_rest_submission'

@@ -4,6 +4,22 @@
         attach: function (context, settings) {
 
             const pathName = window.location.pathname;
+            if (pathName.includes('users-list')) {
+                const viewContent = document.getElementsByClassName('edit-delete-links');
+                for (i = 0; i < viewContent.length; i++) {
+                    const user_id = viewContent[i]?.attributes[1]?.value;
+                    if (user_id != null) {
+                        const current_logged_in_user_id = drupalSettings.user.uid ?? null;
+                        if (current_logged_in_user_id != null && user_id != null && parseInt(drupalSettings.user.uid) > 0) {
+                            if (current_logged_in_user_id === user_id) {
+                                if (viewContent[i].style.display != "none") {
+                                    viewContent[i].style.display = "none";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             const path = pathName.split('/');
             const service_rating_form_id = path[path.length - 1];
             if (pathName.includes('admin/structure/webform/manage/webform_service_rating_')) {
@@ -43,6 +59,7 @@
                     let publish = document.createElement("button");
                     // publish.textContent = "Publish";
                     publish.id = "service-rating-form-publish-btn";
+                    publish.textContent = 'Loading..'
 
                     $.ajax({
                         url: `/service-rating-form/${service_rating_form_id}`,
@@ -67,9 +84,7 @@
                 }
             }
 
-            $(once("click", "#service-rating-form-publish-btn")).on(
-              "click",
-              function (event) {
+            $(once("click", "#service-rating-form-publish-btn")).on("click", function (event) {
                 event.preventDefault();
                 $.ajax({
                     url: `/service-rating-form/publish/${service_rating_form_id}`,
@@ -109,15 +124,17 @@
                     }
                 }
             }
-
+            
             // Star ratings
             const serviceRatingsList = document.getElementsByClassName('service-ratings-services-list')[0];
+            const serviceRatingListClass = serviceRatingsList.classList;
             if (serviceRatingsList != null && serviceRatingsList.children != null) {
                 for (rating of serviceRatingsList.children) {
                     const ratingValue = rating.getElementsByClassName('service-average-rating')[0]?.innerText.replace(/\s/g, "");
                     if (ratingValue != null) {
                         // const stars = rating.getElementById(`service-star-rating-${ratingValue}`).children
-                        const stars = rating.children[2].children
+                        const stars = serviceRatingListClass.length > 1 ? rating.children[1].children : rating.children[2].children;
+
                         for (let i = ratingValue; i < 5; i++) {
                             stars[i].classList.add('star-empty')
                         }

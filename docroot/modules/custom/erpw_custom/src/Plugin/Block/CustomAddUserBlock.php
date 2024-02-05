@@ -3,6 +3,7 @@
 namespace Drupal\erpw_custom\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -59,23 +60,44 @@ class CustomAddUserBlock extends BlockBase implements ContainerFactoryPluginInte
    * {@inheritdoc}
    */
   public function build() {
-    $link = Link::createFromRoute(t('Add user'), 'erpw_custom.sign_up_form', [], ['query' => ['destination' => '/user-list']]);
 
     $user = \Drupal::currentUser();
-    $hasPermission = $user->hasPermission('view users of their own country');
+    $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $cache_tags = ['custom_block', 'user_list'];
+    $cache_id = 'custom_add_user_block_query_' . $user->id() . $active_domain_id;
 
-    $markup = '<div class="plus-icon button-with-icon">' . $link->toString() . '</div>';
+    // Try to load data from cache.
+    $cache_data = \Drupal::cache()->get($cache_id);
 
-    // Check if the user has the permission to show the additional markup.
-    if ($hasPermission) {
-      $markup = '<div id="user-status-listing">User Status Listing<a href="/en/users-status">Users by Status</a></div>' . $markup;
+    // Check if data is not in cache.
+    if (!$cache_data) {
+      // If data is not in cache, execute the build logic.
+      $link = Link::createFromRoute(t('Add user'), 'erpw_custom.sign_up_form', [], ['query' => ['destination' => '/user-list']]);
+
+      $hasPermission = $user->hasPermission('view users of their own country');
+
+      $markup = '<div class="plus-icon button-with-icon">' . $link->toString() . '</div>';
+
+      // Check if the user has the permission to show the additional markup.
+      if ($hasPermission) {
+        $markup = '<div id="user-status-listing">User Status Listing<a href="/en/users-status">Users by Status</a></div>' . $markup;
+      }
+
+      // Build the render array.
+      $build = [
+        '#type' => 'markup',
+        '#markup' => $markup,
+      ];
+
+      // Store the result in cache.
+      \Drupal::cache()->set($cache_id, $build, Cache::PERMANENT, $cache_tags);
+    }
+    else {
+      // If data is in cache, use the cached result.
+      $build = $cache_data->data;
     }
 
-    $build = [
-      '#type' => 'markup',
-      '#markup' => $markup,
-    ];
-
+    // @todo Block cache. - Done
     return $build;
   }
 

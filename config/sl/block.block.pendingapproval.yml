@@ -13,7 +13,7 @@ dependencies:
 id: pendingapproval
 theme: erpw
 region: content
-weight: -11
+weight: -12
 provider: null
 plugin: 'block_content:527727ee-ba52-4e83-9715-0d4859a386b3'
 settings:
@@ -35,8 +35,9 @@ visibility:
     context_mapping:
       user: '@user.current_user_context:current_user'
     roles:
-      administrator: administrator
-      super_admin: super_admin
-      country_admin: country_admin
-      interagency_gbv_coordinator: interagency_gbv_coordinator
       service_provider_focal_point: service_provider_focal_point
+      gbv_focal_point: gbv_focal_point
+      interagency_gbv_coordinator: interagency_gbv_coordinator
+      country_admin: country_admin
+      super_admin: super_admin
+      administrator: administrator

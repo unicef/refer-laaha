@@ -1,0 +1,27 @@
+uuid: c04e4e26-6165-4a50-9549-ddcab3dd1842
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_entity.field_domain
+  module:
+    - erpw_in_app_notification
+id: notification_entity.notification_entity.field_domain
+field_name: field_domain
+entity_type: notification_entity
+bundle: notification_entity
+label: Domain
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:domain'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: weight
+      direction: ASC
+    auto_create: false
+field_type: entity_reference

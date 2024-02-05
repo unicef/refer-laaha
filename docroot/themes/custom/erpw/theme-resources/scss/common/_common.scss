@@ -231,7 +231,8 @@ form input[type="submit"] {
 .ui-autocomplete {
   border: 1px solid #f3c1bf !important;
   border-radius: 5px;
-  height: 194px;
+  height: auto;
+  max-height: 200px;
   width: calc(100% - 40px) !important;
   overflow-y: scroll;
   li {
@@ -344,9 +345,13 @@ label.error + .select2-container .select2-selection {
   display: none;
 }
 
+.ui-autocomplete::-webkit-scrollbar {
+  display: none;
+}
+
 .path-sign-up {
   -ms-overflow-style: none;
-  scrollbar-width: none;  
+  scrollbar-width: none;
 }
 
 //common form actions button
@@ -356,6 +361,7 @@ label.error + .select2-container .select2-selection {
 .node-service-type-edit-form,
 .node-service-provider-form,
 .node-service-provider-edit-form,
+.node-feedback-area-form,
 .user-form {
   .form-actions {
     display: -webkit-box;
@@ -503,3 +509,6 @@ span.service-title.no-service a {
   }
 }
 
+.hide-block-sl-bn {
+  display: none;
+}

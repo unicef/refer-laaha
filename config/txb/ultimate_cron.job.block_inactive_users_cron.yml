@@ -1,0 +1,17 @@
+uuid: 0ee7437c-ff23-4697-b530-5d78dc50f59b
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_inactive_users
+title: 'Default cron handler'
+id: block_inactive_users_cron
+weight: 0
+module: block_inactive_users
+callback: block_inactive_users_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

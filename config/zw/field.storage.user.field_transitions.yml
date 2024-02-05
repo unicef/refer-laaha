@@ -28,11 +28,26 @@ settings:
       value: spfp-register-spfp
       label: 'SPFP - Register - SPFP'
     -
+      value: self-register-gbvfp
+      label: 'Self - Register - GBVFP'
+    -
+      value: gbvfp-register-sp-staff
+      label: 'GBVFP - Register - SP Staff'
+    -
+      value: gbvfp-register-spfp
+      label: 'GBVFP - Register - SPFP'
+    -
+      value: gbvfp-register-gbvfp
+      label: 'GBVFP - Register - GBVFP'
+    -
       value: gbv-coordination-register-sp-staff
       label: 'GBV Coordination - Register - SP Staff'
     -
       value: gbv-coordination-register-spfp
       label: 'GBV Coordination - Register - SPFP'
+    -
+      value: gbv-coordination-register-gbvfp
+      label: 'GBV Coordination - Register - GBVFP'
     -
       value: ia-coordinator-register-ia-coordinator
       label: 'IA Coordinator - Register - IA Coordinator'
@@ -48,6 +63,12 @@ settings:
     -
       value: spfp-reject
       label: 'SPFP - Reject'
+    -
+      value: gbvfp-accept
+      label: 'GBVFP - Accept'
+    -
+      value: gbvfp-reject
+      label: 'GBVFP - Reject'
     -
       value: gbv-coordination-accept
       label: 'GBV Coordination - Accept'

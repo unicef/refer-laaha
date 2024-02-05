@@ -148,16 +148,11 @@ class UserLocationForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
     $location_value = $values['location_value'];
+
     // We need this for the redirect, even if we have a higher level.
     $country_tid = NULL;
     if ($location_value) {
-      if ($this->locationService->isLocationEntity($location_value)) {
-        $country_tid = $this->locationService->getCountryTidbyLocationId($location_value);
-        $location_value = $country_tid;
-      }
-      else {
-        $country_tid = $this->locationService->getAllAncestors($location_value)[0] ?? NULL;
-      }
+      $country_tid = $this->locationService->getAllAncestors($location_value)[0] ?? NULL;
     }
 
     $country_location_id = $this->locationService->getLocationSingleEntityIdByTid($country_tid);
@@ -169,13 +164,11 @@ class UserLocationForm extends FormBase {
       if (empty($this->locationCookie->getCookieValue())) {
         $this->locationCookie->setDefaultCookieValue();
       }
-      // $this->tempStoreFactory->set(base64_decode($this->locationCookie->getCookieValue()), $location_value);
       $cookie_name = $this->locationCookie->getCookieName();
       if ($country_tid != $this->locationCookie->getCountryId()) {
         $cookie_name = $this->locationCookie->changeCookieName($country_tid);
       }
       $this->locationCookie->setCookieValue($cookie_name, $location_value);
-      // setcookie($cookie_name, $location_value, strtotime('+1 year'), '/', $full_url, FALSE);.
       $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $location_value]]);
       // First level is the country taxonomy term; if we have it we want to
       // modify the redirect to include the matching subdomain.

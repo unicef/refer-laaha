@@ -1,0 +1,17 @@
+uuid: eeb7bfc8-019e-4e03-8e28-256a95906c28
+langcode: en
+status: true
+dependencies:
+  module:
+    - content_translation
+    - erpw_in_app_notification
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: broadcast_notification_entity.broadcast_notification_entity
+target_entity_type_id: broadcast_notification_entity
+target_bundle: broadcast_notification_entity
+default_langcode: site_default
+language_alterable: true

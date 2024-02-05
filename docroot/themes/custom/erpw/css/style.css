@@ -17,7 +17,6 @@ main {
   text-align: center;
   font-size: 1.125em;
   font-weight: 500;
-  text-transform: capitalize;
   margin: 0;
 }
 
@@ -307,7 +306,8 @@ form input[type=submit].button-border {
 .ui-autocomplete {
   border: 1px solid #f3c1bf !important;
   border-radius: 5px;
-  height: 194px;
+  height: auto;
+  max-height: 200px;
   width: calc(100% - 40px) !important;
   overflow-y: scroll;
 }
@@ -417,6 +417,10 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
   display: none;
 }
 
+.ui-autocomplete::-webkit-scrollbar {
+  display: none;
+}
+
 .path-sign-up {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -428,6 +432,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-type-edit-form .form-actions,
 .node-service-provider-form .form-actions,
 .node-service-provider-edit-form .form-actions,
+.node-feedback-area-form .form-actions,
 .user-form .form-actions {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -443,6 +448,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-type-edit-form .form-actions input[type=submit],
 .node-service-provider-form .form-actions input[type=submit],
 .node-service-provider-edit-form .form-actions input[type=submit],
+.node-feedback-area-form .form-actions input[type=submit],
 .user-form .form-actions input[type=submit] {
   padding: 10px 0 !important;
   width: 134px;
@@ -453,6 +459,7 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-type-edit-form .form-actions [id^=edit-submit],
 .node-service-provider-form .form-actions [id^=edit-submit],
 .node-service-provider-edit-form .form-actions [id^=edit-submit],
+.node-feedback-area-form .form-actions [id^=edit-submit],
 .user-form .form-actions [id^=edit-submit] {
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
@@ -470,6 +477,8 @@ label.error + .select2-container .select2-selection, .service-provider-class [id
 .node-service-provider-form .form-actions [id^=edit-cancel],
 .node-service-provider-edit-form .form-actions [id^=edit-preview],
 .node-service-provider-edit-form .form-actions [id^=edit-cancel],
+.node-feedback-area-form .form-actions [id^=edit-preview],
+.node-feedback-area-form .form-actions [id^=edit-cancel],
 .user-form .form-actions [id^=edit-preview],
 .user-form .form-actions [id^=edit-cancel] {
   background: none;
@@ -598,6 +607,10 @@ span.service-title.no-service a {
   height: 40px;
   display: block;
   margin: auto;
+}
+
+.hide-block-sl-bn {
+  display: none;
 }
 
 form .form-required::after {
@@ -3453,20 +3466,18 @@ body.path-user {
   display: flex;
   gap: 22px;
 }
-[class*=webform-submission-webform-service-rating-] .form-actions #edit-back {
-  border-radius: 4px;
-  border: 1px solid #A85766;
-  color: #A85766;
+[class*=webform-submission-webform-service-rating-] .form-actions #edit-submit {
+  margin: 0;
+}
+[class*=webform-submission-webform-service-rating-] .form-actions #edit-cancel {
+  margin: 0;
+  width: 100%;
   text-align: center;
-  -webkit-font-feature-settings: "clig" off, "liga" off;
-          font-feature-settings: "clig" off, "liga" off;
-  font-family: Roboto;
-  font-size: 14px;
-  font-style: normal;
+  padding: 10px 0;
+  border-radius: 4px;
   font-weight: 500;
-  line-height: 32px;
-  /* 228.571% */
-  letter-spacing: 0.021px;
+  color: #A85766;
+  border: 2px solid #A85766;
   background: #FFF;
 }
 
@@ -3591,8 +3602,14 @@ body.path-user {
   line-height: 32px;
 }
 
+#block-erpw-content .service-rating-question-form .service-rating-description-limit, #block-erpw-content .service-rating-new-question-form .service-rating-description-limit {
+  color: red;
+}
 #block-erpw-content .webform-ajax-form-wrapper .table-format {
   margin-bottom: 16px;
+}
+#block-erpw-content .webform-ajax-form-wrapper .webform-service-rating-edit .table-format .webform-ui-elements-table .duplicate {
+  display: none;
 }
 @media screen and (max-width: 768px) {
   #block-erpw-content .tabledrag-toggle-weight-wrapper {
@@ -3602,7 +3619,7 @@ body.path-user {
 
 .block-share-feedback-block {
   background: #F6FAFF;
-  margin-top: 10px;
+  margin-top: 16px;
   padding: 16px;
   border-radius: 20px;
   text-align: left;
@@ -3618,6 +3635,7 @@ body.path-user {
   gap: 10px;
 }
 .block-share-feedback-block .share-feedback-block .feedback-text-block .feedback-text-header p {
+  margin-bottom: 6px;
   color: #444;
   font-family: Roboto;
   font-style: normal;
@@ -3848,6 +3866,17 @@ body.path-user {
   line-height: 100%;
   /* 12px */
 }
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .location-name, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .location-name, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .location-name {
+  margin-top: 16px;
+  margin-bottom: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 4px;
+}
+.path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .location-name::before, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .location-name::before, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .location-name::before {
+  content: url("../images/service-rating-location-pin.svg");
+}
 .path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .rating-value-container, .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .rating-value-container, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .rating-value-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3966,6 +3995,7 @@ body.path-user {
   border-bottom: 1px solid #D7D7D7;
 }
 .path-manage-feedback-surveys .layout-content ul li .feedback-survey-card .feedback-survey-card-content p {
+  margin-bottom: 20px;
   color: #444;
   font-family: Roboto;
   font-style: normal;
@@ -4028,5 +4058,180 @@ body.path-user {
 
 .config-translation-form [id*=edit-webformwebformwebform-service-rating-] #edit-settings {
   display: none;
+}
+
+.webform-edit-form .form-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.webform-edit-form .form-actions #edit-cancel {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 4px;
+  font-weight: 500;
+  color: #A85766;
+  border: 2px solid #A85766;
+  background: #FFF;
+}
+
+.path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container, .user-logged-in #block-notificationblock .bell-container {
+  position: absolute;
+  top: 2%;
+  right: 6%;
+}
+.path-frontpage #block-notificationblock .bell-container .notification-bell-icon, .path-notifications #block-notificationblock .bell-container .notification-bell-icon, .user-logged-in #block-notificationblock .bell-container .notification-bell-icon {
+  width: 20px;
+  height: 25px;
+  background: url("../images/bell-icon.png") no-repeat center;
+}
+.path-frontpage #block-notificationblock .bell-container .scaled, .path-notifications #block-notificationblock .bell-container .scaled, .user-logged-in #block-notificationblock .bell-container .scaled {
+  -webkit-animation: bell-animation 0.5s ease-in-out infinite;
+          animation: bell-animation 0.5s ease-in-out infinite;
+}
+@-webkit-keyframes bell-animation {
+  0%, 100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+}
+@keyframes bell-animation {
+  0%, 100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+}
+.path-frontpage #block-notificationblock .bell-container .notification-count, .path-notifications #block-notificationblock .bell-container .notification-count, .user-logged-in #block-notificationblock .bell-container .notification-count {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 13px;
+  padding: 1px;
+  background-color: green;
+  color: #FFF;
+  text-align: center;
+  -webkit-font-feature-settings: "clig" off, "liga" off;
+          font-feature-settings: "clig" off, "liga" off;
+  font-family: Roboto;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 170%;
+  letter-spacing: 0.012px;
+  min-width: 13px;
+  max-width: 20px;
+}
+@media screen and (min-width: 1025px) {
+  .path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container, .user-logged-in #block-notificationblock .bell-container {
+    top: 19px;
+  }
+}
+
+.path-notifications #block-erpw-content .tab {
+  background: none;
+  border: none;
+}
+.path-notifications #block-erpw-content .tab button {
+  padding: 4px 12px;
+  text-align: center;
+  font-family: Arial;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 20px;
+  color: #4A4A4A;
+  font-weight: 400;
+  border-bottom: 3px solid #F4F4F4;
+}
+.path-notifications #block-erpw-content .tab button span {
+  padding: 2px 5px;
+  border-radius: 32px;
+  background: #767676;
+  text-align: center;
+  color: #FFF;
+  font-family: Arial;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
+.path-notifications #block-erpw-content .tab button.active {
+  text-align: center;
+  font-family: Arial;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 20px;
+  color: #A85766;
+  font-weight: 700;
+  border-bottom: 3px solid #A85766;
+  background: none;
+}
+.path-notifications #block-erpw-content .tab button.active span {
+  background: #A85766;
+}
+.path-notifications #block-erpw-content .notification__content {
+  margin-top: 16px;
+  padding: 0;
+  border: none;
+}
+.path-notifications #block-erpw-content .notification__content .link-unread {
+  background: #F8F9F9;
+  border-bottom: 1px solid #F4F4F4;
+}
+.path-notifications #block-erpw-content .notification {
+  padding: 12px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  gap: 10px;
+}
+.path-notifications #block-erpw-content .notification .icon {
+  width: 50px;
+  height: 50px;
+}
+.path-notifications #block-erpw-content .notification .icon img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.path-notifications #block-erpw-content .notification .content {
+  margin-top: 7px;
+}
+.path-notifications #block-erpw-content .notification .content .notification-data {
+  color: #444;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 160%;
+  font-weight: 400;
+}
+.path-notifications #block-erpw-content .notification .content .notification-data strong {
+  font-weight: 700;
+}
+.path-notifications #block-erpw-content .notification .content .notification-status-data, .path-notifications #block-erpw-content .notification .content .time {
+  color: #A85766;
+  font-family: Roboto;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18.5px;
+  letter-spacing: 0.5px;
 }
 /*# sourceMappingURL=style.css.map */

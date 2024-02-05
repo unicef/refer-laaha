@@ -67,11 +67,60 @@
 .deleted-workflow {
   background-color: #fff !important;
   fill: #fff;
-  color: #8B0000 !important;
-  stroke: #8B0000;
-  border-color: #8B0000;
+  color: #8b0000 !important;
+  stroke: #8b0000;
+  border-color: #8b0000;
   border-style: solid;
   border-width: 2px;
+}
+
+.archive-in-review-focal-point-workflow {
+  background-color: #daa03dff !important;
+  fill: #daa03dff;
+  color: #616247ff !important;
+  stroke: #616247ff;
+}
+
+.archive-in-review-coordination-workflow {
+  background-color: #d6ed17ff !important;
+  fill: #d6ed17ff;
+  color: #606060ff !important;
+  stroke: #606060ff;
+}
+
+.archived-workflow {
+  background-color: #adefd1ff !important;
+  fill: #adefd1ff;
+  color: #00203fff !important;
+  stroke: #00203fff;
+}
+
+.restore-service-in-review-with-focal-point {
+  background-color: #adefd1ff !important;
+  fill: #adefd1ff;
+  color: #00203fff !important;
+  stroke: #00203fff;
+}
+
+.restore-service-in-review-with-gbv-coordination {
+  background-color: #adefd1ff !important;
+  fill: #adefd1ff;
+  color: #00203fff !important;
+  stroke: #00203fff;
+}
+
+.rejected-restore-service-request {
+  background-color: #adefd1ff !important;
+  fill: #adefd1ff;
+  color: #00203fff !important;
+  stroke: #00203fff;
+}
+
+.rejected-archive-service-request {
+  background-color: #adefd1ff !important;
+  fill: #adefd1ff;
+  color: #00203fff !important;
+  stroke: #00203fff;
 }
 
 .hide-webform-action-links .block-local-tasks-block nav ul li.tabs__tab {
@@ -103,7 +152,7 @@
 }
 .hide-webform-action-links a.webform-ajax-link::before {
   background: url("/themes/custom/erpw/images/plus.svg") center center no-repeat
-    #a85766;
+  #a85766;
   content: "*";
   border-radius: 50%;
   height: 57px;
@@ -126,12 +175,7 @@
   margin: 0px;
   border-radius: 0px;
 }
-.hide-webform-action-links
-  .webform-bulk-form
-  .webform-dropbutton
-  ul
-  li:first-child
-  a {
+.hide-webform-action-links .webform-bulk-form .webform-dropbutton ul li:first-child a {
   color: #a85766;
   background-color: #fff;
 }
@@ -154,11 +198,7 @@
   margin: 0;
   padding: 3px;
 }
-.hide-webform-action-links
-  .ui-dialog
-  .ui-dialog-buttonpane
-  .ui-dialog-buttonset.form-actions
-  .js-form-submit {
+.hide-webform-action-links .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset.form-actions .js-form-submit {
   margin: auto !important;
   margin-bottom: 30px !important;
 }
@@ -177,10 +217,7 @@
   margin: auto;
   border-radius: 0px;
 }
-.hide-webform-action-links
-  .webform-dropbutton
-  .dropbutton-wrapper.open
-  .dropbutton {
+.hide-webform-action-links .webform-dropbutton .dropbutton-wrapper.open .dropbutton {
   background-color: #fff;
   padding: 10px;
   border: 1px solid black;

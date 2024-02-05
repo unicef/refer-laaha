@@ -18,12 +18,9 @@
 		</div>
 	</div>
 
-	<ul class="service-ratings-services-list">
+	<ul class="service-ratings-services-list location">
 		{% for data in location_list %}
 			<li>
-				<p class="service-name">
-					<a href={{ data.location_link }}>{{ data.location_name }}</a>
-				</p>
 				<div class="rating-value-container">
 					<p class="service-average-rating">
 						{% apply spaceless %}
@@ -41,6 +38,10 @@
 					<span class="star">&#9733;</span>
 				</div>
 				<p class="reviews">{{ '(' }}{{ data.location_review_count }}{{ ')' }}</p>
+			
+				<p class="service-name location-name">
+					<a href={{ data.location_link }}>{{ data.location_name }}</a>
+				</p>
 			</li>
 		{% endfor %}
 	</ul>

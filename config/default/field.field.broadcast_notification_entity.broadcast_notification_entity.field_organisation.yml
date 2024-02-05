@@ -1,0 +1,26 @@
+uuid: 8f23660b-f2dd-4b42-8abc-19accce476bb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.broadcast_notification_entity.field_organisation
+  module:
+    - erpw_in_app_notification
+id: broadcast_notification_entity.broadcast_notification_entity.field_organisation
+field_name: field_organisation
+entity_type: broadcast_notification_entity
+bundle: broadcast_notification_entity
+label: 'Select Organisation'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: organisations
+      display_name: org_entity_reference
+      arguments: {  }
+field_type: entity_reference

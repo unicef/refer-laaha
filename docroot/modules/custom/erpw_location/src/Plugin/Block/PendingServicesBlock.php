@@ -74,6 +74,7 @@ class PendingServicesBlock extends BlockBase implements ContainerFactoryPluginIn
     $view = Views::getView('manage_in_review_webform_services_listing');
     $view->setDisplay('page_1');
     $view->execute();
+
     // Unset rows that are not in review workflow states as per roles.
     // @todo replace this code with query alter.
     foreach ($view->result as $key => $row) {
@@ -83,18 +84,19 @@ class PendingServicesBlock extends BlockBase implements ContainerFactoryPluginIn
       $current_user = User::load(\Drupal::currentUser()->id());
       // Get the user's roles.
       $roles = $current_user->getRoles();
-      if (in_array('service_provider_focal_point', $roles)) {
-        if ($state != 'in_review_with_focal_point' && $state != 'edits_in_review_with_focal_point' && $state != 'deletion_in_review_with_focal_point') {
+      if (in_array('service_provider_focal_point', $roles)
+       || in_array('gbv_focal_point', $roles)) {
+        if ($state != 'in_review_with_focal_point' && $state != 'edits_in_review_with_focal_point' && $state != 'deletion_in_review_with_focal_point' && $state != 'archive_in_review_with_focal_point' && $state != 'restore_service_in_review_with_focal_point') {
           unset($view->result[$key]);
         }
       }
       elseif (in_array('country_admin', $roles) || in_array('interagency_gbv_coordinator', $roles)) {
-        if ($state != 'in_review' && $state != 'edits_in_review_with_gbv_coordination' && $state != 'deletion_in_review_with_gbv_coordination') {
+        if ($state != 'in_review' && $state != 'edits_in_review_with_gbv_coordination' && $state != 'deletion_in_review_with_gbv_coordination' && $state != 'archive_in_review_with_gbv_coordination' && $state != 'restore_service_in_review_with_gbv_coordination') {
           unset($view->result[$key]);
         }
       }
       elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
-        if ($state != 'in_review_with_focal_point' && $state != 'in_review' && $state != 'edits_in_review_with_focal_point' && $state != 'edits_in_review_with_gbv_coordination' && $state != 'deletion_in_review_with_focal_point' && $state != 'deletion_in_review_with_gbv_coordination') {
+        if ($state != 'in_review_with_focal_point' && $state != 'in_review' && $state != 'edits_in_review_with_focal_point' && $state != 'edits_in_review_with_gbv_coordination' && $state != 'deletion_in_review_with_focal_point' && $state != 'deletion_in_review_with_gbv_coordination' && $state != 'archive_in_review_with_focal_point' && $state != 'archive_in_review_with_gbv_coordination' && $state != 'restore_service_in_review_with_focal_point' && $state != 'restore_service_in_review_with_gbv_coordination') {
           unset($view->result[$key]);
         }
       }
@@ -102,7 +104,7 @@ class PendingServicesBlock extends BlockBase implements ContainerFactoryPluginIn
         unset($view->result[$key]);
       }
     }
-    $count = count($view->result);
+    $count = $view->query->query()->countQuery()->execute()->fetchField();
 
     return [
       '#theme' => 'pending_service_count',

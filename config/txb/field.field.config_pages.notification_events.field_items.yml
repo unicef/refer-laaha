@@ -1,0 +1,34 @@
+uuid: ba6b35b9-d130-4dff-be3a-455e8f893bf9
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.notification_events
+    - field.storage.config_pages.field_items
+    - paragraphs.paragraphs_type.notification_event_item
+  module:
+    - entity_reference_revisions
+id: config_pages.notification_events.field_items
+field_name: field_items
+entity_type: config_pages
+bundle: notification_events
+label: Items
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      notification_event_item: notification_event_item
+    negate: 0
+    target_bundles_drag_drop:
+      notification_event_item:
+        weight: 3
+        enabled: true
+      sections:
+        weight: 4
+        enabled: false
+field_type: entity_reference_revisions
