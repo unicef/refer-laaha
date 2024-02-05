@@ -1,0 +1,19 @@
+uuid: 22126937-7143-4ea3-9fa6-fe49cfbc289c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_submission_data
+    - node.type.wsr
+id: node.wsr.field_submission_data
+field_name: field_submission_data
+entity_type: node
+bundle: wsr
+label: 'Submission Data'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

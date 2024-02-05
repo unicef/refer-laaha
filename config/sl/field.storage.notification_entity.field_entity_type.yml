@@ -1,0 +1,31 @@
+uuid: 5d8e79a1-3010-46a6-a52a-6962c5d02fc6
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_in_app_notification
+    - field_permissions
+    - options
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: notification_entity.field_entity_type
+field_name: field_entity_type
+entity_type: notification_entity
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: user
+      label: User
+    -
+      value: service
+      label: Service
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

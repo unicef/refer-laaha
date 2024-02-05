@@ -1,0 +1,18 @@
+uuid: ffa42a1a-9fcb-46cc-9c4b-3e84c6ebf716
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.service_type
+id: node.service_type.title
+field_name: title
+entity_type: node
+bundle: service_type
+label: 'Name of Service Type'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

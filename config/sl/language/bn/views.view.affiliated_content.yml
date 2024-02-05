@@ -1,0 +1,75 @@
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Filter
+      fields:
+        name:
+          label: লেখক
+        status:
+          label: স্ট্যাটাস
+          settings:
+            format_custom_true: প্রকাশিত
+        changed:
+          label: আপডেটকৃত
+        operations:
+          label: কার্যাবলী
+      filters:
+        status:
+          expose:
+            label: স্ট্যাটাস
+          group_info:
+            group_items:
+              1:
+                title: প্রকাশিত
+        type:
+          expose:
+            label: টাইপ
+        langcode:
+          expose:
+            label: ভাষা
+      empty:
+        area_text_custom:
+          content: 'কোন কন্টেন্ট নেই।'
+      arguments:
+        field_domain_access_target_id:
+          exception:
+            title: সমস্ত
+  page_1:
+    display_options:
+      menu:
+        title: কনটেন্ট
+      tab_options:
+        title: কনটেন্ট
+      filters:
+        status:
+          expose:
+            label: স্ট্যাটাস
+          group_info:
+            group_items:
+              1:
+                title: প্রকাশিত
+        type:
+          expose:
+            label: টাইপ
+        langcode:
+          expose:
+            label: ভাষা
+      title: কনটেন্ট
+  page_2:
+    display_options:
+      filters:
+        status:
+          expose:
+            label: স্ট্যাটাস
+          group_info:
+            group_items:
+              1:
+                title: প্রকাশিত
+        type:
+          expose:
+            label: টাইপ
+        langcode:
+          expose:
+            label: ভাষা

@@ -1,0 +1,14 @@
+uuid: 47e93602-c6ba-42c6-b2ed-7a6b11aef6f4
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.zm_erefer_org
+  module:
+    - domain_access
+id: domain_access_add_editor_action.zm_erefer_org
+label: 'Add editors to the Zimbabwe eRPW domain'
+type: user
+plugin: domain_access_add_editor_action
+configuration:
+  domain_id: zm_erefer_org

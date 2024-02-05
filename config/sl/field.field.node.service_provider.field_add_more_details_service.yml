@@ -1,0 +1,19 @@
+uuid: 7277e32f-3b9f-47b6-9852-df42cfe89ecf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_add_more_details_service
+    - node.type.service_provider
+id: node.service_provider.field_add_more_details_service
+field_name: field_add_more_details_service
+entity_type: node
+bundle: service_provider
+label: 'Add More Details'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

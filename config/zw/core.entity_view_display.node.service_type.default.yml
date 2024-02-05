@@ -1,0 +1,49 @@
+uuid: 99fa8528-89ad-4df4-8b38-ad8f65f94e4d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.service_type.field_domain_access
+    - field.field.node.service_type.field_domain_all_affiliates
+    - field.field.node.service_type.field_domain_source
+    - field.field.node.service_type.field_service_type_color
+    - field.field.node.service_type.field_service_type_icon
+    - node.type.service_type
+  module:
+    - color_field
+    - user
+id: node.service_type.default
+targetEntityType: node
+bundle: service_type
+mode: default
+content:
+  field_service_type_color:
+    type: color_field_formatter_swatch_options
+    label: above
+    settings:
+      shape: square
+      width: '50'
+      height: '50'
+      opacity: false
+      data_attribute: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_service_type_icon:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  langcode: true

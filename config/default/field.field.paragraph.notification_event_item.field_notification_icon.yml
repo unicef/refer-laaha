@@ -1,0 +1,38 @@
+uuid: 9513fa1a-4b34-4bd0-ae62-2e961cf27b50
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_notification_icon
+    - paragraphs.paragraphs_type.notification_event_item
+  module:
+    - image
+id: paragraph.notification_event_item.field_notification_icon
+field_name: field_notification_icon
+entity_type: paragraph
+bundle: notification_event_item
+label: Icon
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: '100 KB'
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: false
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

@@ -1,0 +1,27 @@
+uuid: 52bd01cb-d067-4c54-b85d-3ffe8a7c8230
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.organisation.field_domain_access
+    - field.field.node.organisation.field_domain_all_affiliates
+    - field.field.node.organisation.field_domain_source
+    - node.type.organisation
+  module:
+    - user
+id: node.organisation.teaser
+targetEntityType: node
+bundle: organisation
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  langcode: true

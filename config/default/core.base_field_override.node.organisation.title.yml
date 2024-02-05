@@ -1,0 +1,18 @@
+uuid: 9142c006-a579-4dfc-b35c-8709b687034c
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.organisation
+id: node.organisation.title
+field_name: title
+entity_type: node
+bundle: organisation
+label: 'Organisation name'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

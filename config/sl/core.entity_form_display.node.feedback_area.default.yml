@@ -1,0 +1,93 @@
+uuid: 70e9e4c9-37c2-41f9-920c-14dd546d6e61
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.feedback_area.body
+    - field.field.node.feedback_area.field_domain_access
+    - field.field.node.feedback_area.field_domain_all_affiliates
+    - field.field.node.feedback_area.field_domain_source
+    - node.type.feedback_area
+  module:
+    - path
+    - workflow_buttons
+id: node.feedback_area.default
+targetEntityType: node
+bundle: feedback_area
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_domain_access:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  moderation_state:
+    type: workflow_buttons
+    weight: 4
+    region: content
+    settings:
+      show_current_state: false
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 6
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 9
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 7
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  body: true
+  field_domain_all_affiliates: true
+  field_domain_source: true

@@ -1,0 +1,29 @@
+uuid: 5b9ad19f-d049-4483-92c9-9d6b4957a879
+langcode: sn
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_location
+    - node.type.referral_path_way
+    - taxonomy.vocabulary.country
+id: node.referral_path_way.field_location
+field_name: field_location
+entity_type: node
+bundle: referral_path_way
+label: Location
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      country: country
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

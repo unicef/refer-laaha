@@ -1,0 +1,47 @@
+uuid: 7ca26822-8c5a-494c-a85a-97d23d723a61
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.cta_buttons_on_rpw_homepage
+    - field.field.block_content.cta_buttons_on_rpw_homepage.body
+    - field.field.block_content.cta_buttons_on_rpw_homepage.field_pocket_guide_app_link
+    - field.field.block_content.cta_buttons_on_rpw_homepage.field_upload_gbv_referrals_guide
+  module:
+    - file
+    - link
+    - text
+id: block_content.cta_buttons_on_rpw_homepage.default
+targetEntityType: block_content
+bundle: cta_buttons_on_rpw_homepage
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_pocket_guide_app_link:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: '0'
+      target: _blank
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_upload_gbv_referrals_guide:
+    type: file_default
+    label: hidden
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  langcode: true

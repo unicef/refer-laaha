@@ -1,0 +1,24 @@
+uuid: bea38ccc-ad0b-4a9c-a46e-2fb3e852beb6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_processed_entity.field_read
+  module:
+    - erpw_in_app_notification
+id: notification_processed_entity.notification_processed_entity.field_read
+field_name: field_read
+entity_type: notification_processed_entity
+bundle: notification_processed_entity
+label: Read
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

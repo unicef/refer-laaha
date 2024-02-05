@@ -1,0 +1,24 @@
+_core:
+  default_config_hash: dqouFqVseNJNvEjsoYKxbinFOITuCxYhi4y2OTNQP_8
+all:
+  - language_interface
+  - language_content
+  - language_url
+configurable:
+  - language_interface
+  - language_content
+negotiation:
+  language_content:
+    enabled:
+      language-url: -20
+      language-content-entity: -19
+      language-interface: -14
+  language_url:
+    enabled:
+      language-url: 0
+      language-url-fallback: 1
+  language_interface:
+    enabled:
+      language-user-admin: -10
+      language-url: -8
+      language-selected: 12

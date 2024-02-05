@@ -1,0 +1,23 @@
+erpw_multisite.delete_content_page:
+  path: '/admin/config/system/delete-content-other-domains'
+  defaults:
+    _controller: '\Drupal\erpw_multisite\Controller\DeleteContentController::deleteContentPage'
+    _title: 'Delete Content of other Domains'
+  requirements:
+    _permission: 'administer site configuration'
+
+erpw_multisite.delete_webforms_and_submissions:
+  path: '/delete-webforms-submissions-multisite'
+  defaults:
+    _controller: '\Drupal\erpw_multisite\Controller\DeleteWebformController::deleteWebformsAndSubmissions'
+    _title: 'Delete Webforms and Submissions of other domains'
+  requirements:
+    _permission: 'administer site configuration'
+
+erpw_multisite.delete_nodes:
+  path: '/delete-nodes-multisite/{content_type}'
+  defaults:
+    _controller: '\Drupal\erpw_multisite\Controller\DeleteNodesController::deleteNodes'
+    _title: 'Delete Nodes of other domains'
+  requirements:
+    _permission: 'administer site configuration'

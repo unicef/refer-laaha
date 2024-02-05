@@ -1,0 +1,20 @@
+uuid: f341524d-480e-47c5-889e-b79459b36fe1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_processed_entity.field_color
+  module:
+    - erpw_in_app_notification
+id: notification_processed_entity.notification_processed_entity.field_color
+field_name: field_color
+entity_type: notification_processed_entity
+bundle: notification_processed_entity
+label: Color
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

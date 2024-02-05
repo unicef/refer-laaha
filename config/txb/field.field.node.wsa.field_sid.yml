@@ -1,0 +1,23 @@
+uuid: f63834de-de47-4697-a985-69602eb89a56
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sid
+    - node.type.wsa
+id: node.wsa.field_sid
+field_name: field_sid
+entity_type: node
+bundle: wsa
+label: 'Submission ID'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

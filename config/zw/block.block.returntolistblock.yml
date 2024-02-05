@@ -1,0 +1,25 @@
+uuid: 0c81aa0a-1bc6-4853-b753-8b1e50142961
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_custom
+    - system
+  theme:
+    - erpw
+id: returntolistblock
+theme: erpw
+region: content
+weight: 1
+provider: null
+plugin: return_to_list_button
+settings:
+  id: return_to_list_button
+  label: 'Return To List Block'
+  label_display: '0'
+  provider: erpw_custom
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/service/*\r\n/view-location/*"

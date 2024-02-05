@@ -1,0 +1,29 @@
+uuid: 4cf0ca4c-1e83-49e6-b150-b36f6c63b9c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.manage_webform_services
+  module:
+    - system
+    - views
+  theme:
+    - erpw
+id: views_block__manage_webform_services_feedback
+theme: erpw
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:manage_webform_services-feedback'
+settings:
+  id: 'views_block:manage_webform_services-feedback'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /share-feedback

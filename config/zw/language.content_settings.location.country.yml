@@ -1,0 +1,18 @@
+uuid: 40c106b6-2d6c-4d3e-b2fb-1b488a1f45ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - erpw_location.location_type.country
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: location.country
+target_entity_type_id: location
+target_bundle: country
+default_langcode: site_default
+language_alterable: true

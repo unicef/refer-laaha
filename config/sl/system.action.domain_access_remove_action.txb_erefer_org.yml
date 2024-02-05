@@ -1,0 +1,14 @@
+uuid: 68102e35-e88f-4146-8cc5-b2ae5cfcc11c
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.txb_erefer_org
+  module:
+    - domain_access
+id: domain_access_remove_action.txb_erefer_org
+label: 'Remove selected content from the Turkey cross-border domain'
+type: node
+plugin: domain_access_remove_action
+configuration:
+  domain_id: txb_erefer_org

@@ -1,0 +1,14 @@
+uuid: 238d8a43-59da-440b-aeae-5abb0ee1de85
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.txb_erefer_org
+  module:
+    - domain_access
+id: domain_access_add_action.txb_erefer_org
+label: 'Add selected content to the Turkey cross-border domain'
+type: node
+plugin: domain_access_add_action
+configuration:
+  domain_id: txb_erefer_org

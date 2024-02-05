@@ -1,0 +1,42 @@
+uuid: c02af67e-2114-41b2-b8d2-237b06b8d5e2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.wsr.field_domain_access
+    - field.field.node.wsr.field_domain_source
+    - field.field.node.wsr.field_sid
+    - field.field.node.wsr.field_submission_data
+    - node.type.wsr
+  module:
+    - user
+id: node.wsr.default
+targetEntityType: node
+bundle: wsr
+mode: default
+content:
+  field_sid:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_submission_data:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_source: true
+  langcode: true

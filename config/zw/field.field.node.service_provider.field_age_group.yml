@@ -1,0 +1,21 @@
+uuid: b8b516ce-1409-4d3c-a330-ee57d2786419
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_age_group
+    - node.type.service_provider
+  module:
+    - options
+id: node.service_provider.field_age_group
+field_name: field_age_group
+entity_type: node
+bundle: service_provider
+label: 'Age Group'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

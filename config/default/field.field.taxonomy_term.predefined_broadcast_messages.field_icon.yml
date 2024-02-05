@@ -1,0 +1,19 @@
+uuid: 171a6947-b323-46ab-8d70-7a323f931511
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_icon
+    - taxonomy.vocabulary.predefined_broadcast_messages
+id: taxonomy_term.predefined_broadcast_messages.field_icon
+field_name: field_icon
+entity_type: taxonomy_term
+bundle: predefined_broadcast_messages
+label: Icon
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,27 @@
+uuid: 2921dd05-05cc-4568-a5d3-e4240cbc5931
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_processed_entity.field_notification_id
+  module:
+    - erpw_in_app_notification
+id: notification_processed_entity.notification_processed_entity.field_notification_id
+field_name: field_notification_id
+entity_type: notification_processed_entity
+bundle: notification_processed_entity
+label: 'Notification ID'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:notification_entity'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+field_type: entity_reference

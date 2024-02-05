@@ -1,0 +1,24 @@
+uuid: 3b1d0fc5-20e1-48f9-acdf-aa9c8de71a52
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_entity.field_role
+  module:
+    - erpw_in_app_notification
+id: notification_entity.notification_entity.field_role
+field_name: field_role
+entity_type: notification_entity
+bundle: notification_entity
+label: Role
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user_role'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference

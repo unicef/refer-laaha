@@ -1,0 +1,14 @@
+uuid: d97a74f3-3320-455e-abe3-136b8661de1f
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.interagency_gbv_coordinator
+  module:
+    - user
+id: user_add_role_action.interagency_gbv_coordinator
+label: 'Add the Interagency GBV Coordinator role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: interagency_gbv_coordinator

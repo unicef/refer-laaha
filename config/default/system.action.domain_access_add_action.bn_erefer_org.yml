@@ -1,0 +1,14 @@
+uuid: 9d8e9a13-4f5c-44cd-9da4-5284958cbcc7
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.bn_erefer_org
+  module:
+    - domain_access
+id: domain_access_add_action.bn_erefer_org
+label: 'Add selected content to the Bangladesh eRPW domain'
+type: node
+plugin: domain_access_add_action
+configuration:
+  domain_id: bn_erefer_org
