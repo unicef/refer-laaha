@@ -1,0 +1,24 @@
+uuid: 4e984896-5e08-4b1c-812f-c880b49b4c8d
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_in_app_notification
+    - field_permissions
+    - user
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: notification_entity.field_excluded_users
+field_name: field_excluded_users
+entity_type: notification_entity
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

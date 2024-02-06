@@ -1,0 +1,35 @@
+uuid: 4ba7d5de-ca0e-4d89-9c5f-2611889e05c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.feedback_area.body
+    - field.field.node.feedback_area.field_domain_access
+    - field.field.node.feedback_area.field_domain_all_affiliates
+    - field.field.node.feedback_area.field_domain_source
+    - node.type.feedback_area
+  module:
+    - text
+    - user
+id: node.feedback_area.default
+targetEntityType: node
+bundle: feedback_area
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  langcode: true

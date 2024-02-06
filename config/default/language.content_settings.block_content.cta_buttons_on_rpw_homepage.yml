@@ -1,0 +1,18 @@
+uuid: 6df31f78-6772-42da-b4cb-e4bb9c6abe35
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.cta_buttons_on_rpw_homepage
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: block_content.cta_buttons_on_rpw_homepage
+target_entity_type_id: block_content
+target_bundle: cta_buttons_on_rpw_homepage
+default_langcode: current_interface
+language_alterable: false

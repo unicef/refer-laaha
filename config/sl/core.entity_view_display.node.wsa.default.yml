@@ -1,0 +1,42 @@
+uuid: 79d5cfaa-6618-48a0-b9be-c129b4416cb6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.wsa.field_domain_access
+    - field.field.node.wsa.field_domain_source
+    - field.field.node.wsa.field_sid
+    - field.field.node.wsa.field_submission_data
+    - node.type.wsa
+  module:
+    - user
+id: node.wsa.default
+targetEntityType: node
+bundle: wsa
+mode: default
+content:
+  field_sid:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_submission_data:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_source: true
+  langcode: true

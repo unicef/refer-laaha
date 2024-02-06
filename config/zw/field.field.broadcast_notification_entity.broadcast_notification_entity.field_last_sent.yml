@@ -1,0 +1,22 @@
+uuid: 7ace4bb1-b3cb-430f-b335-d815caf19691
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.broadcast_notification_entity.field_last_sent
+  module:
+    - erpw_in_app_notification
+id: broadcast_notification_entity.broadcast_notification_entity.field_last_sent
+field_name: field_last_sent
+entity_type: broadcast_notification_entity
+bundle: broadcast_notification_entity
+label: 'Last sent'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1701367200
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

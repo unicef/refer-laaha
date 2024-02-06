@@ -1,0 +1,33 @@
+display:
+  default:
+    display_options:
+      title: 'إدارة مستخدمي التطبيق'
+      filters:
+        field_organisation_target_id_verf:
+          expose:
+            label: 'أضف مستخدم جديد'
+        roles_target_id:
+          expose:
+            label: 'دور المستخدم'
+      header:
+        result:
+          content: '<div class="service-count more-link">@total المستخدمين</div>'
+  page_1:
+    display_title: 'إدارة مستخدمي التطبيق'
+    display_options:
+      empty:
+        area:
+          content:
+            value: "<p>There are currently no users available for you to manage.</p>\r\n"
+            format: basic_html
+      filters:
+        field_organisation_target_id_verf:
+          expose:
+            label: 'أضف مستخدم جديد'
+        roles_target_id:
+          expose:
+            label: 'دور المستخدم'
+      fields:
+        nothing:
+          alter:
+            text: "<div class=\"location-card\">\r\n  <div class=\"title-with-icons\">\r\n    <a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div id=\"location-title\" class=\"location-title\">{{ field_first_name }} {{ field_last_name }} </div></a>\r\n    <div class=\"location-operations\"><div class=\"edit-delete-links\">\r\n      {% if edit_user %}\r\n        <span class=\"edit-link\"><a href=\"{{ path('entity.user.edit_form', {'user': uid}, {'query': {'destination': path('<current>') }}) }}\">{{ 'Edit'|t }}</a></span>\r\n        <span class=\"delete-link\"><a  href=\"#\" class=\"delete-user-button\" data-user-id=\"{{ uid }}\">{{ 'Cancel'|t }}</a></span>\r\n      {% endif %}\r\n    </div>\r\n  </div>\r\n</div>\r\n  <a href=\"{{ path('entity.user.canonical', {'user': uid}) }}\"><div><div class=\"level\">{{ 'Organisation'|t }} : {{ field_organisation }}</div><div class=\"level\">{{ 'Role'|t }} : {{ roles_target_id }}</div><div class=\"level\">{{ 'رقم الهاتف الخاص بمسؤول التواصل'|t }} : {{ field_phone }}</div></div></a>\r\n</div>"

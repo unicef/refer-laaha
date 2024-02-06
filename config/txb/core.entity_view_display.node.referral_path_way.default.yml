@@ -1,0 +1,55 @@
+uuid: 7b9f932d-719c-4e8a-a0fc-1da5749929dc
+langcode: sn
+status: true
+dependencies:
+  config:
+    - field.field.node.referral_path_way.body
+    - field.field.node.referral_path_way.field_domain_access
+    - field.field.node.referral_path_way.field_domain_all_affiliates
+    - field.field.node.referral_path_way.field_domain_source
+    - field.field.node.referral_path_way.field_location
+    - field.field.node.referral_path_way.field_section
+    - node.type.referral_path_way
+  module:
+    - entity_reference_revisions
+    - text
+    - user
+id: node.referral_path_way.default
+targetEntityType: node
+bundle: referral_path_way
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_location:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_section:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  langcode: true

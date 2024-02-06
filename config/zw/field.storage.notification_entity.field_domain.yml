@@ -1,0 +1,24 @@
+uuid: f1d8e4e6-6860-40b1-84ca-0f5ed8050cd1
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain
+    - erpw_in_app_notification
+    - field_permissions
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: notification_entity.field_domain
+field_name: field_domain
+entity_type: notification_entity
+type: entity_reference
+settings:
+  target_type: domain
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

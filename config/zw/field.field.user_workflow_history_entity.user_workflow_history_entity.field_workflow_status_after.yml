@@ -1,0 +1,20 @@
+uuid: 4427ba3b-d728-49ef-8d4d-e7b31b458be5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user_workflow_history_entity.field_workflow_status_after
+  module:
+    - erpw_user_workflow_history
+id: user_workflow_history_entity.user_workflow_history_entity.field_workflow_status_after
+field_name: field_workflow_status_after
+entity_type: user_workflow_history_entity
+bundle: user_workflow_history_entity
+label: 'Workflow status after'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

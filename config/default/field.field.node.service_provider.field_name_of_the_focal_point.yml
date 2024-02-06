@@ -1,0 +1,19 @@
+uuid: 215fdaf2-58d8-4682-be5c-bc70bf9f179c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_name_of_the_focal_point
+    - node.type.service_provider
+id: node.service_provider.field_name_of_the_focal_point
+field_name: field_name_of_the_focal_point
+entity_type: node
+bundle: service_provider
+label: 'Name of the Focal Point'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,14 @@
+uuid: abbc278b-453c-4a4b-b59d-3cde2685458e
+langcode: sn
+status: true
+dependencies:
+  config:
+    - user.role.service_provider_focal_point
+  module:
+    - user
+id: user_remove_role_action.service_provider_focal_point
+label: 'Remove the Service provider/ focal point role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: service_provider_focal_point

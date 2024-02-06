@@ -1,0 +1,18 @@
+uuid: b95e73e7-f551-4752-b106-07b56ee22754
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.service_provider
+id: node.service_provider.title
+field_name: title
+entity_type: node
+bundle: service_provider
+label: 'Name of focal point for referrals (first/last name)'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

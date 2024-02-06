@@ -1,0 +1,29 @@
+uuid: 0d6d1425-6179-462a-b008-051a1f63b8e1
+langcode: en
+status: true
+dependencies:
+  config:
+    - erpw_location.location_type.country
+    - field.storage.location.field_location_taxonomy_term
+    - taxonomy.vocabulary.country
+id: location.country.field_location_taxonomy_term
+field_name: field_location_taxonomy_term
+entity_type: location
+bundle: country
+label: 'Location Taxonomy Term'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      country: country
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

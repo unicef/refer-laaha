@@ -1,0 +1,14 @@
+uuid: deeafb3f-d844-4c5d-881d-4a03c81c7cdc
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.gbv_focal_point
+  module:
+    - user
+id: user_add_role_action.gbv_focal_point
+label: 'Add the GBV Focal Point role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: gbv_focal_point

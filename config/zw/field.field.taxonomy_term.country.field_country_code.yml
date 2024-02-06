@@ -1,0 +1,19 @@
+uuid: 63dbb837-f016-484b-9c81-340759506ef5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_country_code
+    - taxonomy.vocabulary.country
+id: taxonomy_term.country.field_country_code
+field_name: field_country_code
+entity_type: taxonomy_term
+bundle: country
+label: 'Country Code'
+description: 'This is for capturing the country code (ISO 3166-1 alpha-2 code) for the root taxonomy.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

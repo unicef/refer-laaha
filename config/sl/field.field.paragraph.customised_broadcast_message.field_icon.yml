@@ -1,0 +1,19 @@
+uuid: 355f980e-9d20-46ac-a503-e7585e4a383e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_icon
+    - paragraphs.paragraphs_type.customised_broadcast_message
+id: paragraph.customised_broadcast_message.field_icon
+field_name: field_icon
+entity_type: paragraph
+bundle: customised_broadcast_message
+label: Icon
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

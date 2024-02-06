@@ -1,0 +1,21 @@
+uuid: 617b5869-1e01-41b9-98fb-b71cc49d7800
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_transportation_available
+    - node.type.service_provider
+  module:
+    - options
+id: node.service_provider.field_transportation_available
+field_name: field_transportation_available
+entity_type: node
+bundle: service_provider
+label: 'Transportation Available'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

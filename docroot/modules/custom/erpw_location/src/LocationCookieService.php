@@ -140,26 +140,26 @@ class LocationCookieService {
     $subdomain = $parts[0];
     if (!empty($subdomain)) {
       switch ($subdomain) {
-        case 'bn':{
-          $cookie_name = 'bn_location_tid';
-          break;
-}
-        case 'zw':{
-          $cookie_name = 'zw_location_tid';
-          break;
-}
-        case 'sl':{
-          $cookie_name = 'sl_location_tid';
-          break;
-}
-        case 'txb':{
-          $cookie_name = 'txb_location_tid';
-          break;
-}
-        default:{
-          $cookie_name = 'zw_location_tid';
-          break;
-}
+        case 'bn': {
+            $cookie_name = 'bn_location_tid';
+            break;
+          }
+        case 'zw': {
+            $cookie_name = 'zw_location_tid';
+            break;
+          }
+        case 'sl': {
+            $cookie_name = 'sl_location_tid';
+            break;
+          }
+        case 'txb': {
+            $cookie_name = 'txb_location_tid';
+            break;
+          }
+        default: {
+            $cookie_name = 'zw_location_tid';
+            break;
+          }
       }
     }
     return $cookie_name;

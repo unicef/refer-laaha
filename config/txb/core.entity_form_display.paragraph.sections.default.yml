@@ -1,0 +1,39 @@
+uuid: aa8efe92-c3f8-46c4-8fc1-0e4c6274f04a
+langcode: sn
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.sections.field_section_name
+    - field.field.paragraph.sections.field_service_type
+    - paragraphs.paragraphs_type.sections
+id: paragraph.sections.default
+targetEntityType: paragraph
+bundle: sections
+mode: default
+content:
+  field_section_name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Enter Section Name e.g: Immediate Response'
+    third_party_settings: {  }
+  field_service_type:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 0
+      size: 60
+      placeholder: 'Select Service Type'
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

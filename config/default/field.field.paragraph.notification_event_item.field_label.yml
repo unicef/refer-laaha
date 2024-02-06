@@ -1,0 +1,19 @@
+uuid: 94ebe3ae-8ac8-44ba-a0cf-e69c9a41f767
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_label
+    - paragraphs.paragraphs_type.notification_event_item
+id: paragraph.notification_event_item.field_label
+field_name: field_label
+entity_type: paragraph
+bundle: notification_event_item
+label: Label
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

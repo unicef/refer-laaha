@@ -1,0 +1,25 @@
+uuid: bdb7da31-9822-41b7-aa8a-bd87ce7c7ad5
+langcode: en
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - erpw_in_app_notification
+    - field_permissions
+    - paragraphs
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: broadcast_notification_entity.field_customised_message
+field_name: field_customised_message
+entity_type: broadcast_notification_entity
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

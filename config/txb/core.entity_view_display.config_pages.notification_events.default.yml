@@ -1,0 +1,24 @@
+uuid: d6015cef-1e1f-491a-932c-59d527c77092
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.notification_events
+    - field.field.config_pages.notification_events.field_items
+  module:
+    - entity_reference_revisions
+id: config_pages.notification_events.default
+targetEntityType: config_pages
+bundle: notification_events
+mode: default
+content:
+  field_items:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

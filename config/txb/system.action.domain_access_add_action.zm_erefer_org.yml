@@ -1,0 +1,14 @@
+uuid: 35ebc7ea-5f59-406c-b501-2c2c6500c92a
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.zm_erefer_org
+  module:
+    - domain_access
+id: domain_access_add_action.zm_erefer_org
+label: 'Add selected content to the Zimbabwe eRPW domain'
+type: node
+plugin: domain_access_add_action
+configuration:
+  domain_id: zm_erefer_org

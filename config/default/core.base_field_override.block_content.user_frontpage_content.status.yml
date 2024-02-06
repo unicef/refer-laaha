@@ -1,0 +1,22 @@
+uuid: dae66122-b5e7-4cb4-a74a-9e239fba4db7
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.user_frontpage_content
+id: block_content.user_frontpage_content.status
+field_name: status
+entity_type: block_content
+bundle: user_frontpage_content
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

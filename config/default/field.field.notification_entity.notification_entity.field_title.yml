@@ -1,0 +1,20 @@
+uuid: 5cd45825-470e-4a44-acc9-66c60afdb7a7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_entity.field_title
+  module:
+    - erpw_in_app_notification
+id: notification_entity.notification_entity.field_title
+field_name: field_title
+entity_type: notification_entity
+bundle: notification_entity
+label: Title
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
