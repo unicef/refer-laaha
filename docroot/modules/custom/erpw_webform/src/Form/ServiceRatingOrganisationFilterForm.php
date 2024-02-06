@@ -1,10 +1,11 @@
 <?php
 
-namespace Drupal\erpw_webform\Controller;
+namespace Drupal\erpw_webform\Form;
 
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Cache\Cache;
-use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
 use Drupal\webform\Entity\Webform;
@@ -12,9 +13,37 @@ use Drupal\webform\Entity\WebformSubmission;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Calulate and display the averages grouped by service type of the Feedback form.
+ * Custom form example form.
  */
-class ServiceRatingServiceTypeController extends ControllerBase {
+class ServiceRatingOrganisationFilterForm extends FormBase {
+
+  /**
+   * Drupal\domain\DomainNegotiatorInterface definition.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
+   * Drupal\language\ConfigurableLanguageManagerInterface definition.
+   *
+   * @var \Drupal\language\ConfigurableLanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The messenger.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
 
   /**
    * The RouteMatch service.
@@ -31,38 +60,53 @@ class ServiceRatingServiceTypeController extends ControllerBase {
   protected $serviceRating;
 
   /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManager
-   */
-  protected $entityTypeManager;
-
-  /**
-   * Drupal\domain\DomainNegotiatorInterface definition.
-   *
-   * @var \Drupal\domain\DomainNegotiatorInterface
-   */
-  protected $domainNegotiator;
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
+    $instance->domainNegotiator = $container->get('domain.negotiator');
+    $instance->languageManager = $container->get('language_manager');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->messenger = $container->get('messenger');
     $instance->routeMatch = $container->get('current_route_match');
     $instance->serviceRating = $container->get('erpw_webform.service_rating_service');
-    $instance->entityTypeManager = $container->get('entity_type.manager');
-    $instance->domainNegotiator = $container->get('domain.negotiator');
     return $instance;
   }
 
   /**
-   * Function to calulate and display the averages grouped by service type of the Feedback form.
+   * {@inheritdoc}
    */
-  public function displayAverageWebformRatings() {
+  public function getFormId() {
+    return 'service_rating_organisation_filter_form';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDomainOrganisations() {
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $activeDomainID = $active_domain->id();
+    $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery();
+    $query->condition('type', 'organisation');
+    $query->condition('field_domain_access', $activeDomainID);
+    $query->accessCheck(FALSE);
+    $entity_ids = $query->execute();
+    $organisations = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($entity_ids);
+
+    $organisation_values = [];
+    foreach ($organisations as $organisation) {
+      $organisation_values[$organisation->id()] = $this->t('@org_title', ['@org_title' => $organisation->label()]);
+    }
+
+    return $organisation_values;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAverageWebformRatingsOfOrg(string $org_id) {
     // Get all webforms.
     $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
-    $org_id = $this->serviceRating->organisationForFiltering();
 
     // Initialize an array to store webform names and their average ratings.
     $webform_ratings = [];
@@ -176,11 +220,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       }
     }
 
-    // TODO: Import the Org selection Form here using - form builder.
-    $orgFilterForm = $this->formBuilder()->getForm('\Drupal\erpw_webform\Form\ServiceRatingOrganisationFilterForm');
-
-    // @todo Cache computed value. - Done
-    return [
+    $output = [
       '#theme' => 'service_rating_page',
       '#title' => $this->t('Service Ratings'),
       '#organisation_name' => $organisation_name,
@@ -188,8 +228,45 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       '#organisation_total_services_count' => $servicesCount,
       '#organisation_total_reviews' => $totalReviewsCount > 1 ? $totalReviewsCount . ' Reviews' : $totalReviewsCount . ' Review',
       '#service_list' => $organisation_services_list,
-      '#org_filter_form' => $orgFilterForm,
     ];
+
+    return $output;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+
+    $org_values = $this->getDomainOrganisations();
+
+    $form['organisation_select_field'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Select Organisation'),
+      '#options' => $org_values,
+      '#required' => TRUE,
+    ];
+
+    $form['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Apply'),
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    // Handle form submission.
+    // For demonstration purposes, we'll just display a message.
+
+    $formStateValues = $form_state->getValues();
+    $org_id = $formStateValues['organisation_select_field'];
+    $this->getAverageWebformRatingsOfOrg($org_id);
+
+    // drupal_set_message($this->t('Form submitted successfully.'));
   }
 
 }
