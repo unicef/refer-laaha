@@ -60,6 +60,13 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
   protected $serviceRating;
 
   /**
+   * The State API service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $state;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -70,6 +77,7 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
     $instance->messenger = $container->get('messenger');
     $instance->routeMatch = $container->get('current_route_match');
     $instance->serviceRating = $container->get('erpw_webform.service_rating_service');
+    $instance->state = $container->get('state');
     return $instance;
   }
 
@@ -83,31 +91,11 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function getDomainOrganisations() {
-    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
-    $activeDomainID = $active_domain->id();
-    $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery();
-    $query->condition('type', 'organisation');
-    $query->condition('field_domain_access', $activeDomainID);
-    $query->accessCheck(FALSE);
-    $entity_ids = $query->execute();
-    $organisations = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($entity_ids);
-
-    $organisation_values = [];
-    foreach ($organisations as $organisation) {
-      $organisation_values[$organisation->id()] = $this->t('@org_title', ['@org_title' => $organisation->label()]);
-    }
-
-    return $organisation_values;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getAverageWebformRatingsOfOrg(string $org_id) {
     // Get all webforms.
     $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
 
+    
     // Initialize an array to store webform names and their average ratings.
     $webform_ratings = [];
 
@@ -236,6 +224,28 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
   /**
    * {@inheritdoc}
    */
+  public function getDomainOrganisations() {
+    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $activeDomainID = $active_domain->id();
+    $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery();
+    $query->condition('type', 'organisation');
+    $query->condition('field_domain_access', $activeDomainID);
+    $query->accessCheck(FALSE);
+    $entity_ids = $query->execute();
+    $organisations = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($entity_ids);
+
+    $organisation_values = [];
+    foreach ($organisations as $organisation) {
+      $org_avg_rating = $this->getAverageWebformRatingsOfOrg($organisation->id());
+      $organisation_values[$organisation->id()] = $this->t('@org_title (Rating - @org_avg_rating/5)', ['@org_title' => $organisation->label(), '@org_avg_rating' => (int)$org_avg_rating['#organisation_average']]);
+    }
+
+    return $organisation_values;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
     $org_values = $this->getDomainOrganisations();
@@ -259,14 +269,12 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // Handle form submission.
-    // For demonstration purposes, we'll just display a message.
-
     $formStateValues = $form_state->getValues();
     $org_id = $formStateValues['organisation_select_field'];
-    $this->getAverageWebformRatingsOfOrg($org_id);
+    $org_average_ratings = $this->getAverageWebformRatingsOfOrg($org_id);
+    $this->state->set('service_rating.org_average_rating', $org_average_ratings);
 
-    // drupal_set_message($this->t('Form submitted successfully.'));
+    // TODO: Can also add a success message here stating that the form has been updated.
   }
 
 }

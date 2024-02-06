@@ -45,6 +45,13 @@ class ServiceRatingServiceTypeController extends ControllerBase {
   protected $domainNegotiator;
 
   /**
+   * The State API service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $state;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -53,6 +60,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
     $instance->serviceRating = $container->get('erpw_webform.service_rating_service');
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->domainNegotiator = $container->get('domain.negotiator');
+    $instance->state = $container->get('state');
     return $instance;
   }
 
@@ -178,6 +186,11 @@ class ServiceRatingServiceTypeController extends ControllerBase {
 
     // TODO: Import the Org selection Form here using - form builder.
     $orgFilterForm = $this->formBuilder()->getForm('\Drupal\erpw_webform\Form\ServiceRatingOrganisationFilterForm');
+    $org_average_ratings_state = $this->state->get('service_rating.org_average_rating');
+    if ($org_average_ratings_state != NULL && count($org_average_ratings_state) > 0) {
+      $org_average_ratings_state['#org_filter_form'] = $orgFilterForm;
+      return $org_average_ratings_state;
+    }
 
     // @todo Cache computed value. - Done
     return [

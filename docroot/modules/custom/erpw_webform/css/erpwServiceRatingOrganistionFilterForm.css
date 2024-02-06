@@ -1,0 +1,31 @@
+.service-ratings-org-filter-form form {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.service-ratings-org-filter-form form .form-item-organisation-select-field {
+    flex: 0.9;
+}
+
+.service-ratings-org-filter-form form .form-submit {
+    flex: 0.1;
+    height: 50px;
+    margin-top: 26px;
+}
+
+.gbv-org-filter-switch-button {
+    margin-top: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    .service-ratings-org-filter-form form {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .service-ratings-org-filter-form form .form-item-organisation-select-field {
+        width: 100%;
+    }
+}
