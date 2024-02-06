@@ -6,7 +6,11 @@ additional_hostnames:
 
 hooks:
   post-start:
-  - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS db; GRANT ALL ON db.* to 'db'@'%';"
+  - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS bn; GRANT ALL ON zw.* to 'db'@'%';"
     service: db
   - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS bn; GRANT ALL ON bn.* to 'db'@'%';"
+    service: db
+  - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS bn; GRANT ALL ON sl.* to 'db'@'%';"
+    service: db
+  - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS bn; GRANT ALL ON txb.* to 'db'@'%';"
     service: db
