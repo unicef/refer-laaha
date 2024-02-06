@@ -139,3 +139,8 @@ $settings['config_sync_directory'] = '../config/zw';
 $settings['config_vcs_directory'] = '../config/zw';
 
 $databases['default']['default']['database'] = 'zw';
+
+// Acquia database connection.
+if (file_exists('/var/www/site-php')) {
+  require '/var/www/site-php/vss2/zw-settings.inc';
+}

@@ -139,3 +139,8 @@ $settings['config_sync_directory'] = '../config/txb';
 $settings['config_vcs_directory'] = '../config/txb';
 
 $databases['default']['default']['database'] = 'txb';
+
+// Acquia database connection.
+if (file_exists('/var/www/site-php')) {
+  require '/var/www/site-php/vss2/txb-settings.inc';
+}

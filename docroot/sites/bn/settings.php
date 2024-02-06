@@ -140,3 +140,8 @@ $settings['config_sync_directory'] = '../config/bn';
 $settings['config_vcs_directory'] = '../config/bn';
 
 $databases['default']['default']['database'] = 'bn';
+
+// Acquia database connection.
+if (file_exists('/var/www/site-php')) {
+  require '/var/www/site-php/vss2/bn-settings.inc';
+}
