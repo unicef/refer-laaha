@@ -526,6 +526,12 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       }
     }
     $form['elements']['step_1_add_service_details']['organisation']['#options'] = $options;
+
+    // Validation for service webform submissions.
+    if ($form['elements']['submission_domain']) {
+      $form['#validate'][] = 'erpw_webform_service_submission_validation';
+    }
+    
   }
 
   if ($form_id == 'views_exposed_form') {
@@ -607,6 +613,16 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
     $form['actions']['cancel']['#url'] = $url;
     unset($form['actions']['submit']);
+  }
+}
+
+/**
+ * Custom validation function for service webform submission forms.
+ */
+function erpw_webform_service_submission_validation ($form, &$form_state) {
+  if (isset($form['elements']['submission_domain'])) {
+    dump($form_state);
+    exit;
   }
 }
 
