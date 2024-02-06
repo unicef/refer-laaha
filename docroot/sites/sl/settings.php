@@ -140,3 +140,8 @@ $settings['config_sync_directory'] = '../config/sl';
 $settings['config_vcs_directory'] = '../config/sl';
 
 $databases['default']['default']['database'] = 'sl';
+
+// Acquia database connection.
+if (file_exists('/var/www/site-php')) {
+  require '/var/www/site-php/vss2/sl-settings.inc';
+}
