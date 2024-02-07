@@ -1094,7 +1094,13 @@ function erpw_webform_theme_suggestions_views_view_fields_alter(array &$suggesti
  */
 function erpw_webform_preprocess_views_view_fields(&$variables) {
   // Get the fields for the current View.
-  if ($variables['view']->storage->id() == 'manage_webform_services' || $variables['view']->storage->id() == 'service_based_service_providers_listing' || $variables['view']->storage->id() == 'webform_submissions' || $variables['view']->storage->id() == 'manage_in_review_webform_services_listing') {
+  $views = [
+    'manage_webform_services',
+    'service_based_service_providers_listing',
+    'webform_submissions',
+    'manage_in_review_webform_services_listing',
+  ];
+  if (in_array($variables['view']->storage->id(), $views)) {
     $sid = $variables['row']->sid;
     $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($sid);
     $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
