@@ -44,6 +44,10 @@ class BroadcastNotificationEntityForm extends ContentEntityForm {
         $form['field_roles']['widget']['#options']['service_provider_focal_point'] = 'GBV Service Provider Focal Point';
       }
     }
+    // Remove GBV FP from all domains except BN.
+    if ($current_domain_id != 'bn_erefer_org') {
+      unset($form['field_roles']['widget']['#options']['gbv_focal_point']);
+    }
     $organisation_options = $form['field_organisation']['widget']['#options'];
     foreach ($organisation_options as &$value) {
       $value = trim($value);
