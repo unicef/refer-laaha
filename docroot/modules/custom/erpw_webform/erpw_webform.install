@@ -164,7 +164,13 @@ function erpw_webform_update_10001() {
         $last_non_empty_value = \Drupal::service('erpw_location.location_services')->getCountryTidbyLocationId($locations['location_tid']);
       }
       else {
-        $last_non_empty_value = $locations['location_tid'];
+        // Find last non empty value.
+        for ($i = 4; $i >= 1; $i--) {
+          if (!empty($locations['level_' . $i]) && $locations['level_' . $i] != 0) {
+            $last_non_empty_value = $locations['level_' . $i];
+            break;
+          }
+        }
       }
       $parents = \Drupal::service('erpw_location.location_services')->getAllAncestors($last_non_empty_value);
       if ($parents[0] == 1) {
@@ -204,7 +210,13 @@ function erpw_webform_update_10002() {
         $last_non_empty_value = \Drupal::service('erpw_location.location_services')->getCountryTidbyLocationId($locations['location_tid']);
       }
       else {
-        $last_non_empty_value = $locations['location_tid'];
+        // Find last non empty value.
+        for ($i = 4; $i >= 1; $i--) {
+          if (!empty($locations['level_' . $i]) && $locations['level_' . $i] != 0) {
+            $last_non_empty_value = $locations['level_' . $i];
+            break;
+          }
+        }
       }
       $parents = \Drupal::service('erpw_location.location_services')->getAllAncestors($last_non_empty_value);
       if ($parents[0] == 10401) {
@@ -243,7 +255,13 @@ function erpw_webform_update_10003() {
         $last_non_empty_value = \Drupal::service('erpw_location.location_services')->getCountryTidbyLocationId($locations['location_tid']);
       }
       else {
-        $last_non_empty_value = $locations['location_tid'];
+        // Find last non empty value.
+        for ($i = 4; $i >= 1; $i--) {
+          if (!empty($locations['level_' . $i]) && $locations['level_' . $i] != 0) {
+            $last_non_empty_value = $locations['level_' . $i];
+            break;
+          }
+        }
       }
       $parents = \Drupal::service('erpw_location.location_services')->getAllAncestors($last_non_empty_value);
       if ($parents[0] == 10926) {
@@ -283,7 +301,13 @@ function erpw_webform_update_10004() {
         $last_non_empty_value = \Drupal::service('erpw_location.location_services')->getCountryTidbyLocationId($locations['location_tid']);
       }
       else {
-        $last_non_empty_value = $locations['location_tid'];
+        // Find last non empty value.
+        for ($i = 4; $i >= 1; $i--) {
+          if (!empty($locations['level_' . $i]) && $locations['level_' . $i] != 0) {
+            $last_non_empty_value = $locations['level_' . $i];
+            break;
+          }
+        }
       }
       $parents = \Drupal::service('erpw_location.location_services')->getAllAncestors($last_non_empty_value);
       if ($parents[0] == 16821) {
