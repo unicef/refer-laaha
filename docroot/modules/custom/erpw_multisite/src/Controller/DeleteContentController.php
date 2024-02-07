@@ -15,7 +15,7 @@ class DeleteContentController extends ControllerBase {
    * Function to delete webforms, submissions and nodes of other domains.
    */
   public function deleteContentPage() {
-    $content_types = ['referral_path_way', 'service_provider', 'organisation', 'service_type'];
+    $content_types = ['referral_path_way', 'service_provider', 'organisation', 'service_type', 'feedback_area' ];
 
     $url = Url::fromRoute('erpw_multisite.delete_webforms_and_submissions');
     $link = Link::fromTextAndUrl($this->t('Delete Webform Submissions & Webforms'), $url);
