@@ -200,8 +200,9 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       }
     }
 
+    $activeDomainId = $this->domainNegotiator->getActiveDomain()->id();
     $config = $this->configFactory->get('erpw_webform.service_rating.settings');
-    $gbvCoordinationStatus = $config->get('service_rating_gbv_org_filter_status');
+    $gbvCoordinationStatus = $config->get($activeDomainId . '_service_rating_gbv_org_filter_status');
     $serviceRatingEnableGbvForm = $this->formBuilder()->getForm('\Drupal\erpw_webform\Form\ServiceRatingEnableGbvCoordinationForm');
     $currentUserRoles = $this->currentUser->getRoles();
 

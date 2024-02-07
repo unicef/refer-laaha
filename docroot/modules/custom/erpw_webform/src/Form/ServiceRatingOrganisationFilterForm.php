@@ -233,14 +233,23 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
     $entity_ids = $query->execute();
     $organisations = $this->entityTypeManager->getStorage('node')->loadMultiple($entity_ids);
 
-    $organisation_values = [];
+    // Structure the organisation data.
+    $organisation_data = [];
     foreach ($organisations as $organisation) {
       $org_avg_rating = $this->getAverageWebformRatingsOfOrg($organisation->id());
-      $organisation_values[$organisation->id()] = $this->t(
+      $organisation_data[$organisation->id()] = (int) $org_avg_rating['#organisation_average'];
+    }
+    // Sort the organisation ratingg in descending order.
+    arsort($organisation_data);
+
+    $organisation_values = [];
+    foreach ($organisation_data as $organisation_id => $organisation_rating) {
+      $organisation_title = $this->entityTypeManager->getStorage('node')->load($organisation_id)->label();
+      $organisation_values[$organisation_id] = $this->t(
         '@org_title (Rating - @org_avg_rating/5)',
         [
-          '@org_title' => $organisation->label(),
-          '@org_avg_rating' => (int) $org_avg_rating['#organisation_average'],
+          '@org_title' => $organisation_title,
+          '@org_avg_rating' => (int) $organisation_rating,
         ]
       );
     }
@@ -252,7 +261,6 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-
     $org_values = $this->getDomainOrganisations();
 
     $form['organisation_select_field'] = [
