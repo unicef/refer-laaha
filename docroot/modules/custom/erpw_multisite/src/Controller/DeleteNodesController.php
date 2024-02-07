@@ -18,7 +18,8 @@ class DeleteNodesController extends ControllerBase {
     if ($content_type == 'referral_path_way' || $content_type == 'service_provider') {
       $nids = $this->findNidsOfRpwOldServices($content_type);
     }
-    elseif ($content_type == 'organisation' || $content_type == 'service_type') {
+    elseif ($content_type == 'organisation' || $content_type == 'service_type' || 
+    $content_type == 'feedback_area') {
       $nids = $this->findNidsOfOrganisationServiceType($content_type);
     }
 
