@@ -81,9 +81,9 @@ class ServicesPwaExportController extends ControllerBase {
     }
 
     if ($this->currentUser->isAuthenticated()) {
-      $cacheId = $activeDomain . $language . $shortrolestr .  $user_org_id . $tidsstring;
+      $cacheId = $activeDomain . $language . $node . $shortrolestr .  $user_org_id . $tidsstring;
     } else {
-      $cacheId = $activeDomain . '_' . $language . '_' . $shortrolestr ;
+      $cacheId = $activeDomain . '_' . $language . '_' . $node . '_' . $shortrolestr ;
     }
 
     $jsondecode = [];
