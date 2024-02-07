@@ -2,15 +2,15 @@
 
 namespace Drupal\erpw_webform\Controller;
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\Component\Serialization\Json;
+use Drupal\user\Entity\User;
 use Drupal\views\Views;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Drupal\Core\Cache\Cache;
-use Drupal\user\Entity\User;
 
 /**
  * Controller for custom PWA export.
@@ -88,8 +88,9 @@ class ServicesPwaExportController extends ControllerBase {
     }
 
     if ($this->currentUser->isAuthenticated()) {
-      $cacheId = $activeDomain . $language . $node . $shortrolestr .  $user_org_id . $tidsstring . $cookie_tid;
-    } else {
+      $cacheId = $activeDomain . $language . $node . $shortrolestr . $user_org_id . $tidsstring . $cookie_tid;
+    }
+    else {
       $cacheId = $activeDomain . '_' . $language . '_' . $node . '_' . $shortrolestr . '_' . $cookie_tid;
     }
 
@@ -104,7 +105,7 @@ class ServicesPwaExportController extends ControllerBase {
       $view->setArguments([$node]);
       $view->setDisplay('rest_export_1');
       $view->execute();
-      // Check if the result is empty
+      // Check if the result is empty.
       if (!empty($view->result)) {
         $jsondecode = Json::decode($view->render()['#markup']);
         \Drupal::cache()->set($cacheId, $jsondecode, Cache::PERMANENT);
