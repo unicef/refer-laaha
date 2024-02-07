@@ -80,10 +80,17 @@ class ServicesPwaExportController extends ControllerBase {
       $tidsstring = implode('', $tids);
     }
 
+    // Filter out rows which do not belong to the current location.
+    $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
+    // Add a default cookie value in case there is no location cookie set.
+    if (!$cookie_tid) {
+      $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getDefaultDomainCookieValue();
+    }
+
     if ($this->currentUser->isAuthenticated()) {
-      $cacheId = $activeDomain . $language . $node . $shortrolestr .  $user_org_id . $tidsstring;
+      $cacheId = $activeDomain . $language . $node . $shortrolestr .  $user_org_id . $tidsstring . $cookie_tid;
     } else {
-      $cacheId = $activeDomain . '_' . $language . '_' . $node . '_' . $shortrolestr ;
+      $cacheId = $activeDomain . '_' . $language . '_' . $node . '_' . $shortrolestr . '_' . $cookie_tid;
     }
 
     $jsondecode = [];
