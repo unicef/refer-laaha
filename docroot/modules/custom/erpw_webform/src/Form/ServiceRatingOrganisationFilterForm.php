@@ -246,7 +246,7 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
     foreach ($organisation_data as $organisation_id => $organisation_rating) {
       $organisation_title = $this->entityTypeManager->getStorage('node')->load($organisation_id)->label();
       $organisation_values[$organisation_id] = $this->t(
-        '@org_title (Rating - @org_avg_rating/5)',
+        '@org_title - @org_avg_rating',
         [
           '@org_title' => $organisation_title,
           '@org_avg_rating' => (int) $organisation_rating,
