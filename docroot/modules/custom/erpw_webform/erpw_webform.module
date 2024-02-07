@@ -1478,7 +1478,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
     }
   }
   // Unset rows that are not in approve, edit or delete workflow states.
-  if ($view->id() == 'manage_webform_services' || $view->id() == 'service_based_service_providers_listing') {
+  if ($view->id() == 'service_based_service_providers_listing') {
     if ($view->id() == 'service_based_service_providers_listing') {
       // Filter out rows which do not belong to the current location.
       $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
