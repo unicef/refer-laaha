@@ -95,7 +95,6 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
     // Get all webforms.
     $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
 
-    
     // Initialize an array to store webform names and their average ratings.
     $webform_ratings = [];
 
@@ -225,19 +224,25 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
    * {@inheritdoc}
    */
   public function getDomainOrganisations() {
-    $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
+    $active_domain = $this->domainNegotiator->getActiveDomain();
     $activeDomainID = $active_domain->id();
-    $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery();
+    $query = $this->entityTypeManager->getStorage('node')->getQuery();
     $query->condition('type', 'organisation');
     $query->condition('field_domain_access', $activeDomainID);
     $query->accessCheck(FALSE);
     $entity_ids = $query->execute();
-    $organisations = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($entity_ids);
+    $organisations = $this->entityTypeManager->getStorage('node')->loadMultiple($entity_ids);
 
     $organisation_values = [];
     foreach ($organisations as $organisation) {
       $org_avg_rating = $this->getAverageWebformRatingsOfOrg($organisation->id());
-      $organisation_values[$organisation->id()] = $this->t('@org_title (Rating - @org_avg_rating/5)', ['@org_title' => $organisation->label(), '@org_avg_rating' => (int)$org_avg_rating['#organisation_average']]);
+      $organisation_values[$organisation->id()] = $this->t(
+        '@org_title (Rating - @org_avg_rating/5)',
+        [
+          '@org_title' => $organisation->label(),
+          '@org_avg_rating' => (int) $org_avg_rating['#organisation_average'],
+        ]
+      );
     }
 
     return $organisation_values;
@@ -274,7 +279,8 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
     $org_average_ratings = $this->getAverageWebformRatingsOfOrg($org_id);
     $this->state->set('service_rating.org_average_rating', $org_average_ratings);
 
-    // TODO: Can also add a success message here stating that the form has been updated.
+    $org_title = $this->entityTypeManager->getStorage('node')->load($org_id)->label();
+    $this->messenger()->addMessage($this->t('Organisation updated to @org_title', ['@org_title' => $org_title]));
   }
 
 }

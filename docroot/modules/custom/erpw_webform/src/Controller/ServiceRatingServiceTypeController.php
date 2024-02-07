@@ -52,6 +52,20 @@ class ServiceRatingServiceTypeController extends ControllerBase {
   protected $state;
 
   /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
+   * The current user service.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -61,6 +75,8 @@ class ServiceRatingServiceTypeController extends ControllerBase {
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->domainNegotiator = $container->get('domain.negotiator');
     $instance->state = $container->get('state');
+    $instance->configFactory = $container->get('config.factory');
+    $instance->currentUser = $container->get('current_user');
     return $instance;
   }
 
@@ -184,12 +200,19 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       }
     }
 
-    // TODO: Import the Org selection Form here using - form builder.
-    $orgFilterForm = $this->formBuilder()->getForm('\Drupal\erpw_webform\Form\ServiceRatingOrganisationFilterForm');
-    $org_average_ratings_state = $this->state->get('service_rating.org_average_rating');
-    if ($org_average_ratings_state != NULL && count($org_average_ratings_state) > 0) {
-      $org_average_ratings_state['#org_filter_form'] = $orgFilterForm;
-      return $org_average_ratings_state;
+    $config = $this->configFactory->get('erpw_webform.service_rating.settings');
+    $gbvCoordinationStatus = $config->get('service_rating_gbv_org_filter_status');
+    $serviceRatingEnableGbvForm = $this->formBuilder()->getForm('\Drupal\erpw_webform\Form\ServiceRatingEnableGbvCoordinationForm');
+    $currentUserRoles = $this->currentUser->getRoles();
+
+    if ((in_array('administrator', $currentUserRoles) || in_array('interagency_gbv_coordinator', $currentUserRoles)) && $gbvCoordinationStatus) {
+      $orgFilterForm = $this->formBuilder()->getForm('\Drupal\erpw_webform\Form\ServiceRatingOrganisationFilterForm');
+      $org_average_ratings_state = $this->state->get('service_rating.org_average_rating');
+      if ($org_average_ratings_state != NULL && count($org_average_ratings_state) > 0) {
+        $org_average_ratings_state['#org_filter_form'] = $orgFilterForm;
+        $org_average_ratings_state['#service_rating_enable_gbv_form'] = $serviceRatingEnableGbvForm;
+        return $org_average_ratings_state;
+      }
     }
 
     // @todo Cache computed value. - Done
@@ -202,6 +225,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       '#organisation_total_reviews' => $totalReviewsCount > 1 ? $totalReviewsCount . ' Reviews' : $totalReviewsCount . ' Review',
       '#service_list' => $organisation_services_list,
       '#org_filter_form' => $orgFilterForm,
+      '#service_rating_enable_gbv_form' => $serviceRatingEnableGbvForm,
     ];
   }
 
