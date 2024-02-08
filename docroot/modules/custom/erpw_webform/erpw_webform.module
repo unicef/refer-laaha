@@ -171,7 +171,7 @@ function erpw_webform_preprocess_page(&$variables) {
   }
   if ($currentPath == '/service-providers-changes-offline') {
     $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-    
+
     $cacheId = 'serviceproviderschangesoffline' . $activeDomain;
     if ($cache = \Drupal::cache()->get($cacheId)) {
       $services = $cache->data;
@@ -214,7 +214,7 @@ function erpw_webform_preprocess_page(&$variables) {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_add';
     $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
     $variables['#attached']['drupalSettings']['activeDomain'] = $activeDomain;
-    
+
     $cacheId = 'ms_org' . $activeDomain;
     if ($cache = \Drupal::cache()->get($cacheId)) {
       $nid_title_pairs = $cache->data;
@@ -243,7 +243,7 @@ function erpw_webform_preprocess_page(&$variables) {
     // Current domain location.
     $location_entities = \Drupal::entityTypeManager()->getStorage('location')->loadByProperties(
     ['type' => 'country', 'status' => 1]);
-   
+
     $location_options = [];
     foreach ($location_entities as $location) {
       $location_options[$location->id()] = $location->get('name')->getValue()[0]['value'];
@@ -261,7 +261,7 @@ function erpw_webform_preprocess_page(&$variables) {
         $variables['#attached']['drupalSettings']['activeDomainTermID'] = $location->id();
       }
     }
-    
+
     $cacheId = 'ms_location';
     if ($cache = \Drupal::cache()->get($cacheId)) {
       $terms_array = $cache->data;
