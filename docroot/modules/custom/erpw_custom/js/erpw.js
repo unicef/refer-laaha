@@ -212,6 +212,11 @@
           .addClass('disable-country-select-default');
         }
       }
+
+      var currentPath = window.location.pathname;
+      if (currentPath == '/en/admin/structure/taxonomy/manage/predefined_broadcast_messages/overview') {
+        $('.tabledrag-toggle-weight-wrapper').hide();
+      }
     },
   };
 
