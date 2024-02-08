@@ -19,7 +19,7 @@
     margin-top: 20px;
 }
 
-.select2-container .select2-results__option:not(:first-child)::after {
+.select2-container .select2-results__option:not(:first-child)::after, .select2-container .select2-selection__rendered::after {
     content: "★";
     color: #ffc20e;
     font-size: 20px;
