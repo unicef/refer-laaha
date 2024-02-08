@@ -71,27 +71,35 @@ class ServicesPwaExportController extends ControllerBase {
     }
     $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'] ?? '';
 
-    // Processing the location ids and generating a uniq string.
-    $tidsstring = '';
-    if (!$current_user->get('field_location')->isEmpty()) {
-      $location_ids = $current_user->get('field_location')->getValue();
-      $tids = array_column($location_ids, 'target_id');
-      sort($tids);
-      $tidsstring = implode('', $tids);
-    }
+    // // Processing the location ids and generating a uniq string.
+    // $tidsstring = '';
+    // if (!$current_user->get('field_location')->isEmpty()) {
+    //   $location_ids = $current_user->get('field_location')->getValue();
+    //   $tids = array_column($location_ids, 'target_id');
+    //   sort($tids);
+    //   $tidsstring = implode('', $tids);
+    // }
 
-    // Filter out rows which do not belong to the current location.
-    $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
-    // Add a default cookie value in case there is no location cookie set.
-    if (!$cookie_tid) {
-      $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getDefaultDomainCookieValue();
-    }
+     // Filter out rows which do not belong to the current location.
+     $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
+     // Add a default cookie value in case there is no location cookie set.
+     if (!$cookie_tid) {
+       $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getDefaultDomainCookieValue();
+     }
 
     if ($this->currentUser->isAuthenticated()) {
-      $cacheId = $activeDomain . $language . $node . $shortrolestr . $user_org_id . $tidsstring . $cookie_tid;
+      if (in_array('service_provider_staff' ,$roles) || in_array('service_provider_focal_point' ,$roles)) {
+        $cacheId = $activeDomain . $language . $node . $shortrolestr . $user_org_id . $cookie_tid;
+      }
+      elseif (in_array('gbv_focal_point' ,$roles) || in_array('interagency_gbv_coordinator' ,$roles) || in_array('country_admin' ,$roles)) {
+        $cacheId = $activeDomain . $language . $node . $shortrolestr . $cookie_tid;
+      }
+      else {
+        $cacheId = $activeDomain . $language . $node . $shortrolestr;
+      }
     }
     else {
-      $cacheId = $activeDomain . '_' . $language . '_' . $node . '_' . $shortrolestr . '_' . $cookie_tid;
+      $cacheId = $activeDomain . '_' . $language . '_' . $node . '_' . $shortrolestr;
     }
 
     $jsondecode = [];
