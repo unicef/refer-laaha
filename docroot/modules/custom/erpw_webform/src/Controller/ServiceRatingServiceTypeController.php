@@ -201,12 +201,21 @@ class ServiceRatingServiceTypeController extends ControllerBase {
     }
 
     $activeDomainId = $this->domainNegotiator->getActiveDomain()->id();
+    $currentUserRoles = $this->currentUser->getRoles();
     $config = $this->configFactory->get('erpw_webform.service_rating.settings');
     $gbvCoordinationStatus = $config->get($activeDomainId . '_service_rating_gbv_org_filter_status');
-    $serviceRatingEnableGbvForm = $this->formBuilder()->getForm('\Drupal\erpw_webform\Form\ServiceRatingEnableGbvCoordinationForm');
-    $currentUserRoles = $this->currentUser->getRoles();
 
-    if ((in_array('administrator', $currentUserRoles) || in_array('interagency_gbv_coordinator', $currentUserRoles)) && $gbvCoordinationStatus) {
+    if (in_array('administrator', $currentUserRoles)) {
+      $serviceRatingEnableGbvForm = $this->formBuilder()->getForm('\Drupal\erpw_webform\Form\ServiceRatingEnableGbvCoordinationForm');
+    }
+
+    if ((
+      in_array('administrator', $currentUserRoles) ||
+      in_array('super_admin', $currentUserRoles) ||
+      in_array('country_admin', $currentUserRoles) ||
+      in_array('gbv_focal_point', $currentUserRoles) ||
+      in_array('interagency_gbv_coordinator', $currentUserRoles) 
+      ) && $gbvCoordinationStatus) {
       $orgFilterForm = $this->formBuilder()->getForm('\Drupal\erpw_webform\Form\ServiceRatingOrganisationFilterForm');
       $org_average_ratings_state = $this->state->get('service_rating.org_average_rating');
       if ($org_average_ratings_state != NULL && count($org_average_ratings_state) > 0) {
