@@ -1828,3 +1828,15 @@ function erpw_webform_get_child_term_ids() {
 function erpw_webform_pwa_exclude_urls_alter(&$excludeUrls, CacheableMetadata &$cacheableMetadata) {
   $excludeUrls[] = "available.php";
 }
+
+/**
+ * Implements hook_views_pre_view().
+ */
+function erpw_webform_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
+
+  // Service list page.
+  if ($view->id() == 'service_based_service_providers_listing' && $display_id == 'page_1') {
+    // Custom cache context added.
+    $view->element['#cache']['contexts'][] = 'servicelist';
+  }
+}

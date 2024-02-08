@@ -79,19 +79,18 @@ class ServicesPwaExportController extends ControllerBase {
     //   sort($tids);
     //   $tidsstring = implode('', $tids);
     // }
-
-     // Filter out rows which do not belong to the current location.
-     $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
-     // Add a default cookie value in case there is no location cookie set.
-     if (!$cookie_tid) {
-       $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getDefaultDomainCookieValue();
-     }
+    // Filter out rows which do not belong to the current location.
+    $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
+    // Add a default cookie value in case there is no location cookie set.
+    if (!$cookie_tid) {
+      $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getDefaultDomainCookieValue();
+    }
 
     if ($this->currentUser->isAuthenticated()) {
-      if (in_array('service_provider_staff' ,$roles) || in_array('service_provider_focal_point' ,$roles)) {
+      if (in_array('service_provider_staff', $roles) || in_array('service_provider_focal_point', $roles)) {
         $cacheId = $activeDomain . $language . $node . $shortrolestr . $user_org_id . $cookie_tid;
       }
-      elseif (in_array('gbv_focal_point' ,$roles) || in_array('interagency_gbv_coordinator' ,$roles) || in_array('country_admin' ,$roles)) {
+      elseif (in_array('gbv_focal_point', $roles) || in_array('interagency_gbv_coordinator', $roles) || in_array('country_admin', $roles)) {
         $cacheId = $activeDomain . $language . $node . $shortrolestr . $cookie_tid;
       }
       else {
