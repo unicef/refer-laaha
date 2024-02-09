@@ -148,3 +148,11 @@ erpw_webform.manage_feedback_surveys:
     _title: 'Manage Feedback Surveys'
   requirements:
     _permission: 'add service rating question'
+
+erpw_webform.pwa_service_provider_list_export:
+  path: '/service-provider-list/{node}/export'
+  methods:  [GET]
+  defaults:
+    _controller: '\Drupal\erpw_webform\Controller\ServicesPwaExportController::getServiceProviderList'
+  requirements:
+    _permission: 'access content'
