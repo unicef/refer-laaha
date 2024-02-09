@@ -2211,11 +2211,10 @@ function erpw_in_app_notification_form_alter(&$form, FormStateInterface $form_st
  */
 function erpw_in_app_notification_menu_local_actions_alter(&$local_tasks) {
   $route_match = \Drupal::routeMatch();
-  $parameters = $route_match->getParameters()->all();
-  if ($route_match->getRouteName() == 'entity.taxonomy_vocabulary.overview_form' && isset($parameters['taxonomy_vocabulary'])) {
-    $vocabulary = $parameters['taxonomy_vocabulary']->id();
-    if ($vocabulary == 'predefined_broadcast_messages') {
-      $local_tasks['entity.taxonomy_term.add_form']['title'] = t('Add Message');
+  if ($route_match->getRouteName() == 'entity.taxonomy_vocabulary.overview_form') {
+    $vocabulary = $route_match->getParameter('taxonomy_vocabulary');
+    if (!empty($vocabulary) && $vocabulary->id() == 'predefined_broadcast_messages') {
+      $local_tasks['entity.taxonomy_term.add_form']['title'] = t('Add Predefined Message');
     }
   }
 }
