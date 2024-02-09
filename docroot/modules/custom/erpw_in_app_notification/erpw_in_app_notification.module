@@ -2139,19 +2139,6 @@ function erpw_in_app_notification_user_cancel($edit, UserInterface $account, $me
 }
 
 /**
- * Implements hook_ENTITY_TYPE_predelete() for user entities.
- */
-function erpw_in_app_notification_user_predelete(UserInterface $account) {
-  // Delete broadcast notification entities.
-  $storage = \Drupal::entityTypeManager()->getStorage('broadcast_notification_entity');
-  $broadcast_notification_entity_ids = $storage->getQuery()
-    ->condition('uid', $account->id())
-    ->execute();
-  $broadcast_notification_entities = $storage->loadMultiple($broadcast_notification_entity_ids);
-  $storage->delete($broadcast_notification_entities);
-}
-
-/**
  * Implements hook_preprocess_table().
  */
 function erpw_in_app_notification_preprocess_table(&$variables) {
@@ -2197,9 +2184,39 @@ function erpw_in_app_notification_form_broadcast_notification_entity_edit_form_a
  * Implements hook_form_alter().
  */
 function erpw_in_app_notification_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $route_match = \Drupal::routeMatch();
+  $parameters = $route_match->getParameters()->all();
+  if ($route_match->getRouteName() == 'entity.taxonomy_vocabulary.overview_form' && isset($parameters['taxonomy_vocabulary'])) {
+    $vocabulary = $parameters['taxonomy_vocabulary']->id();
+    if ($vocabulary == 'predefined_broadcast_messages') {
+      $form['help']['#access'] = FALSE;
+      $form['terms']['#empty'] = t('No messages available. <a href="add">Add message</a>.');
+    }
+  }
+
+  if ($form_id == 'taxonomy_term_predefined_broadcast_messages_form') {
+    $form['#title'] = t('Add Message');
+    $form['relations']['#access'] = FALSE;
+    $form['name']['widget'][0]['value']['#title'] = t('Message');
+  }
+
   if ($form_id == 'config_pages_notification_events_form') {
     $form['actions']['reset']['#access'] = FALSE;
     $form['other_context']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_menu_local_actions_alter().
+ */
+function erpw_in_app_notification_menu_local_actions_alter(&$local_tasks) {
+  $route_match = \Drupal::routeMatch();
+  $parameters = $route_match->getParameters()->all();
+  if ($route_match->getRouteName() == 'entity.taxonomy_vocabulary.overview_form' && isset($parameters['taxonomy_vocabulary'])) {
+    $vocabulary = $parameters['taxonomy_vocabulary']->id();
+    if ($vocabulary == 'predefined_broadcast_messages') {
+      $local_tasks['entity.taxonomy_term.add_form']['title'] = t('Add Message');
+    }
   }
 }
 
