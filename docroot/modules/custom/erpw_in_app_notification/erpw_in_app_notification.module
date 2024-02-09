@@ -2207,20 +2207,6 @@ function erpw_in_app_notification_form_alter(&$form, FormStateInterface $form_st
 }
 
 /**
- * Implements hook_menu_local_actions_alter().
- */
-function erpw_in_app_notification_menu_local_actions_alter(&$local_tasks) {
-  $route_match = \Drupal::routeMatch();
-  $parameters = $route_match->getParameters()->all();
-  if ($route_match->getRouteName() == 'entity.taxonomy_vocabulary.overview_form' && isset($parameters['taxonomy_vocabulary'])) {
-    $vocabulary = $parameters['taxonomy_vocabulary']->id();
-    if ($vocabulary == 'predefined_broadcast_messages') {
-      $local_tasks['entity.taxonomy_term.add_form']['title'] = t('Add Message');
-    }
-  }
-}
-
-/**
  * Implements hook_webform_submission_presave().
  */
 function erpw_in_app_notification_webform_submission_presave($webform_submission) {
