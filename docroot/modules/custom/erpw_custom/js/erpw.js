@@ -213,9 +213,11 @@
         }
       }
 
+      // Broadcast predefined messages vocabulary changes.
       var currentPath = window.location.pathname;
       if (currentPath == '/en/admin/structure/taxonomy/manage/predefined_broadcast_messages/overview') {
         $('.tabledrag-toggle-weight-wrapper').hide();
+        $('.action-links li a').text('Add Predefined Message');
       }
     },
   };
