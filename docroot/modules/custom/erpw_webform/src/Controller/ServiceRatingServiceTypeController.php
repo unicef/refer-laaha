@@ -209,13 +209,8 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       $serviceRatingEnableGbvForm = $this->formBuilder()->getForm('\Drupal\erpw_webform\Form\ServiceRatingEnableGbvCoordinationForm');
     }
 
-    if ((
-      in_array('administrator', $currentUserRoles) ||
-      in_array('super_admin', $currentUserRoles) ||
-      in_array('country_admin', $currentUserRoles) ||
-      in_array('gbv_focal_point', $currentUserRoles) ||
-      in_array('interagency_gbv_coordinator', $currentUserRoles) 
-      ) && $gbvCoordinationStatus) {
+    $acceptedUserRoles = ['administrator', 'super_admin', 'country_admin', 'gbv_focal_point', 'interagency_gbv_coordinator'];
+    if (in_array('authenticated', $currentUserRoles) && in_array($currentUserRoles[1], $acceptedUserRoles) && $gbvCoordinationStatus) {
       $orgFilterForm = $this->formBuilder()->getForm('\Drupal\erpw_webform\Form\ServiceRatingOrganisationFilterForm');
       $org_average_ratings_state = $this->state->get('service_rating.org_average_rating');
       if ($org_average_ratings_state != NULL && count($org_average_ratings_state) > 0) {
