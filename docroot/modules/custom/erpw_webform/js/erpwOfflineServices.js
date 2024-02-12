@@ -1554,7 +1554,9 @@
             }
           }
         }
-        fetchDataAndStore();
+        if (localStorage.getItem('onlinestatus') !== null && localStorage.getItem('onlinestatus') == true) {
+          fetchDataAndStore();
+        }
         // Check if the user is online and start the interval only if online
         $(document).on('customOnline', function(event, data) {
           window.location.reload(true);
