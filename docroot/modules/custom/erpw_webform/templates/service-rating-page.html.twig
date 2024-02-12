@@ -1,4 +1,8 @@
 <div>
+	{{ attach_library('erpw_webform/erpw_service_rating_organisation_filter') }}
+	<div class="service-ratings-org-filter-form">
+		{{ org_filter_form }}
+	</div>
 	<div class="service-ratings-location-header">
 		<div>
 			<h1>{{ organisation_name }}</h1>
@@ -52,4 +56,9 @@
 	  {{ 'No Feedback Form available' | t }}
 	{% endif %}	
 	</ul>
+
+	<div class="service-rating-enable-gbv-form">
+		{{ service_rating_enable_gbv_form }}
+	</div>
+
 </div>
