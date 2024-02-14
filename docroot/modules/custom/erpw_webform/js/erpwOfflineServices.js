@@ -13,7 +13,7 @@
     // Define a mapping of view classes to their respective REST export paths.
     let viewsData = {};
     viewsData["view-service-based-service-providers-listing"] =
-      "/service-based/%node/export";
+      "/service-provider-list/%node/export";
     viewsData["block-views-blockmanage-webform-services-block-1"] =
       "/manage-services/export";
     viewsData["block-views-blockwebform-submissions-block-1"] =
@@ -1259,7 +1259,7 @@
         // Define a mapping of view classes to their respective REST export paths.
         let viewsData = {};
         viewsData["view-service-based-service-providers-listing"] =
-          "/service-based/%node/export";
+          "/service-provider-list/%node/export";
         viewsData["block-views-blockmanage-webform-services-block-1"] =
           "/manage-services/export";
         viewsData["block-views-blockwebform-submissions-block-1"] =
@@ -1312,7 +1312,7 @@
                 viewClass == "view-service-based-service-providers-listing" &&
                 dynamicValue != null
               ) {
-                urlFetch = `${baseUrl}/service-based/${dynamicValue}/export`;
+                urlFetch = `${baseUrl}/service-provider-list/${dynamicValue}/export`;
               }
 
               localforage.config({
@@ -1554,7 +1554,9 @@
             }
           }
         }
-        fetchDataAndStore();
+        if (localStorage.getItem('onlinestatus') !== null && localStorage.getItem('onlinestatus') == true) {
+          fetchDataAndStore();
+        }
         // Check if the user is online and start the interval only if online
         $(document).on('customOnline', function(event, data) {
           window.location.reload(true);

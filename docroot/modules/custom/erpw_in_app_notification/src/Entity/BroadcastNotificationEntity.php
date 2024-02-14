@@ -15,13 +15,13 @@ use Drupal\user\EntityOwnerTrait;
  *
  * @ContentEntityType(
  *   id = "broadcast_notification_entity",
- *   label = @Translation("Broadcast Notification Entity"),
- *   label_collection = @Translation("Broadcast Notification Entities"),
- *   label_singular = @Translation("broadcast notification entity"),
- *   label_plural = @Translation("broadcast notification entities"),
+ *   label = @Translation("Broadcast Notification"),
+ *   label_collection = @Translation("Broadcast Notifications"),
+ *   label_singular = @Translation("broadcast notification"),
+ *   label_plural = @Translation("broadcast notifications"),
  *   label_count = @PluralTranslation(
- *     singular = "@count broadcast notification entities",
- *     plural = "@count broadcast notification entities",
+ *     singular = "@count broadcast notification",
+ *     plural = "@count broadcast notifications",
  *   ),
  *   handlers = {
  *     "list_builder" = "Drupal\erpw_in_app_notification\BroadcastNotificationEntityListBuilder",
@@ -82,7 +82,7 @@ class BroadcastNotificationEntity extends ContentEntityBase implements Broadcast
 
     $fields['label'] = BaseFieldDefinition::create('string')
       ->setTranslatable(TRUE)
-      ->setLabel(t('Title'))
+      ->setLabel(t('Notification Title'))
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [

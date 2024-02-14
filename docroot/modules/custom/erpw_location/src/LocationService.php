@@ -635,4 +635,40 @@ class LocationService {
     return $hasValues;
   }
 
+  /**
+   * Retrieves the domain associated with a location entity.
+   *
+   * @param int $location_id
+   *   The ID of the location entity.
+   *
+   * @return string|null
+   *   The domain associated with the location entity, or NULL if not found.
+   */
+  public function getDomainFromLocationEntityId($location_id) {
+    // Load the location entity.
+    $location_entity = \Drupal::entityTypeManager()->getStorage('location')->load($location_id);
+
+    // Get the name of the location entity.
+    $location_entity_name = $location_entity->getName();
+
+    // Load all domain entities.
+    $domains = \Drupal::entityTypeManager()->getStorage('domain')->loadMultiple();
+
+    // Iterate through each domain entity.
+    foreach ($domains as $key => $entity) {
+      // Get the name of the domain entity.
+      $domain_name = $entity->get('name');
+
+      // Check if the location name is part of the domain name.
+      if (strpos((string) $domain_name, $location_entity_name) !== FALSE) {
+        // If found, store the domain key and exit the loop.
+        $location_domain = $key;
+        break;
+      }
+    }
+
+    // Return the domain associated with the location entity.
+    return $location_domain ?? NULL;
+  }
+
 }
