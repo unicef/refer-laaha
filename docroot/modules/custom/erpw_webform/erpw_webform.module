@@ -668,7 +668,11 @@ function erpw_webform_service_rating_delete_handler(&$form, FormStateInterface $
 function erpw_webform_service_rating_submit_handler(&$form, FormStateInterface $form_state) {
   \Drupal::service('messenger')->addMessage("Thank you for your Feedback!");
   $alias = $form_state->getValue('share-feedback');
-  $url = Url::fromUserInput($alias);
+  if ($alias != NULL) {
+    $url = Url::fromUserInput($alias);
+  } else {
+    $url = Url::fromUri('internal:/share-feedback');
+  }
   $form_state->setRedirectUrl($url);
   return;
 }
