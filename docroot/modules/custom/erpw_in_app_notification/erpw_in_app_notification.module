@@ -2213,8 +2213,6 @@ function erpw_in_app_notification_webform_submission_presave($webform_submission
   // Returning if the submission is related to service rating.
   $current_path = \Drupal::service('path.current')->getPath();
   if (str_contains($current_path, 'service_rating')) {
-    dump($webform_submission);die;
-    \Drupal::service('cache_tags.invalidator')->invalidateTags(['webform']);
     return;
   }
 
