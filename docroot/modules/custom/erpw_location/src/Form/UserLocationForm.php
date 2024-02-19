@@ -14,6 +14,7 @@ use Drupal\Core\Url;
 use Drupal\erpw_location\LocationCookieService;
 use Drupal\erpw_location\LocationService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -182,7 +183,11 @@ class UserLocationForm extends FormBase {
         \Drupal::logger('erpw_location')->notice('Attempting to redirect to URL: %url.', ['%url' => $url_string]);
         $url = Url::fromUri($url_string);
       }
-      $form['location_level']['button'] = $form_state->setRedirectUrl($url);
+
+      $response = new RedirectResponse($url->toString());
+
+      // Set the redirect response.
+      $form['location_level']['button'] = $form_state->setResponse($response);
     }
   }
 
