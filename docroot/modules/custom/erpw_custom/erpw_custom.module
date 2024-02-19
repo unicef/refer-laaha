@@ -538,6 +538,18 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['#validate'][] = '_erpw_custom_entity_special_character_handler';
   }
 
+  // Restrict the domain access field to current domain.
+  $forms_with_domain_field = ['node_service_type_form', 'node_service_type_edit_form', 'node_service_type_quick_node_clone_form', 'node_organisation_form', 'node_organisation_edit_form', 'node_organisation_quick_node_clone_form', 'node_feedback_area_form', 'node_feedback_area_edit_form', 'node_feedback_area_quick_node_clone_form'];
+  if (in_array($form_id, $forms_with_domain_field)) {
+    $active_domain_id = \Drupal::service('domain.negotiator')->getActiveId();
+    $domain_field_options = $form['field_domain_access']['widget']['#options'];
+    foreach ($domain_field_options as $domain => $domain_name) {
+      if ($domain != $active_domain_id) {
+        unset($form['field_domain_access']['widget']['#options'][$domain]);
+      }
+    }
+  }
+
 }
 
 /**
