@@ -1737,6 +1737,15 @@ function erpw_view_results_own_location_organisation($query, $location_condition
             'operator' => '=',
           ];
         }
+        // Hide Admin users from user listing pages.
+        if ($condition['field'] == 'user__field_system_role.field_system_role') {
+          $condition = [
+            'field' => 'user__field_system_role.field_system_role',
+            'value' => ['administrator', 'super_admin'],
+            'operator' => 'NOT IN',
+          ];
+          break;
+        }
       }
     }
   }
@@ -1762,6 +1771,15 @@ function erpw_view_results_own_organisation($query, $org_condition = NULL, $perm
             'value' => $org_id,
             'operator' => '=',
           ];
+        }
+        // Hide Admin users from user listing pages.
+        if ($condition['field'] == 'user__field_system_role.field_system_role') {
+          $condition = [
+            'field' => 'user__field_system_role.field_system_role',
+            'value' => ['administrator', 'super_admin'],
+            'operator' => 'NOT IN',
+          ];
+          break;
         }
       }
     }
@@ -1791,6 +1809,14 @@ function erpw_view_results_own_country_permissions($query, $condition_field, $pe
             'field' => $condition_field,
             'value' => $ptids,
             'operator' => 'in',
+          ];
+        }
+        // Hide Admin users from user listing pages.
+        if ($condition['field'] == 'user__field_system_role.field_system_role') {
+          $condition = [
+            'field' => 'user__field_system_role.field_system_role',
+            'value' => ['administrator', 'super_admin'],
+            'operator' => 'NOT IN',
           ];
           break;
         }
