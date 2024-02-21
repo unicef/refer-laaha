@@ -670,7 +670,8 @@ function erpw_webform_service_rating_submit_handler(&$form, FormStateInterface $
   $alias = $form_state->getValue('share-feedback');
   if ($alias != NULL) {
     $url = Url::fromUserInput($alias);
-  } else {
+  }
+  else {
     $url = Url::fromUri('internal:/share-feedback');
   }
   $form_state->setRedirectUrl($url);

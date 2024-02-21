@@ -5,7 +5,6 @@ namespace Drupal\erpw_webform\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\user\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Drupal\Core\Session\AccountInterface;
 
 /**
  * Deletes user.
@@ -111,17 +110,16 @@ class DeleteUserController extends ControllerBase {
           '%uid' => $user->id(),
         ]);
 
-      } 
+      }
       else {
         // If the current user doesn't have permission, throw an exception or handle it appropriately.
         \Drupal::messenger()->addError('You do not have permission to remove users.');
       }
-    } 
+    }
     else {
       // If the user doesn't exist or is anonymous, throw an exception or handle it appropriately.
       \Drupal::messenger()->addError('User not found or cannot remove anonymous users.');
     }
   }
-
 
 }
