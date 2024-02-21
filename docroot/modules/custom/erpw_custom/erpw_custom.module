@@ -2142,3 +2142,59 @@ function erpw_custom_preprocess_block__pendingapproval(&$variables) {
     }
   }
 }
+
+/**
+ * Implements hook_ENTITY_TYPE_delete() for user entities.
+ */
+function erpw_custom_user_delete(EntityInterface $entity) {
+  // Load all nodes created by the user being deleted.
+  $query = \Drupal::entityQuery('node')
+    ->condition('uid', $entity->id());
+  $nids = $query->accessCheck(FALSE)->execute();
+
+  // Reassign the nodes to the anonymous user.
+  if (!empty($nids)) {
+    $anonymous_user = \Drupal::entityTypeManager()->getStorage('user')->load(0);
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+    foreach ($nids as $nid) {
+      /** @var \Drupal\node\Entity\Node $node */
+      $node = $node_storage->load($nid);
+      $node->setOwnerId($anonymous_user->id());
+      $node->save();
+    }
+  }
+
+  // Load all webforms created by the user being deleted.
+  $query = \Drupal::entityQuery('webform')
+    ->condition('uid', $entity->id());
+  $webform_ids = $query->accessCheck(FALSE)->execute();
+
+  // Reassign the webforms to the anonymous user.
+  if (!empty($webform_ids)) {
+    $anonymous_user = \Drupal::entityTypeManager()->getStorage('user')->load(0);
+    $webform_storage = \Drupal::entityTypeManager()->getStorage('webform');
+    foreach ($webform_ids as $webform_id) {
+      /** @var \Drupal\webform\Entity\Webform $webform */
+      $webform = $webform_storage->load($webform_id);
+      $webform->setOwnerId($anonymous_user->id());
+      $webform->save();
+    }
+  }
+
+  // Load all webform submissions created by the user being deleted.
+  $query = \Drupal::entityQuery('webform_submission')
+    ->condition('uid', $entity->id());
+  $submission_ids = $query->accessCheck(FALSE)->execute();
+
+  // Reassign the webform submissions to the anonymous user.
+  if (!empty($submission_ids)) {
+    $anonymous_user = \Drupal::entityTypeManager()->getStorage('user')->load(0);
+    $submission_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
+    foreach ($submission_ids as $submission_id) {
+      /** @var \Drupal\webform\Entity\WebformSubmission $submission */
+      $submission = $submission_storage->load($submission_id);
+      $submission->setOwnerId($anonymous_user->id());
+      $submission->save();
+    }
+  }
+}
