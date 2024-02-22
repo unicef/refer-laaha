@@ -666,6 +666,7 @@ function erpw_webform_service_rating_delete_handler(&$form, FormStateInterface $
  * Service Rating Submit Handler.
  */
 function erpw_webform_service_rating_submit_handler(&$form, FormStateInterface $form_state) {
+  \Drupal::service('cache_tags.invalidator')->invalidateTags(['webform' . $form['#webform_id']]);
   \Drupal::service('messenger')->addMessage("Thank you for your Feedback!");
   $alias = $form_state->getValue('share-feedback');
   if ($alias != NULL) {
