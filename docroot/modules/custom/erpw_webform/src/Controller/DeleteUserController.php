@@ -5,6 +5,8 @@ namespace Drupal\erpw_webform\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\user\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Drupal\webform\Entity\Webform;
+use Drupal\webform\Entity\WebformSubmission;
 
 /**
  * Deletes user.
@@ -79,8 +81,9 @@ class DeleteUserController extends ControllerBase {
    * Define the function to safely remove a user.
    */
   public function custom_remove_user($uid) {
-    // Load the user entity.
+
     $user = User::load($uid);
+    $admin_user = User::load(1);
 
     // Check if the user exists and is not anonymous.
     if ($user && !$user->isAnonymous()) {
@@ -93,15 +96,45 @@ class DeleteUserController extends ControllerBase {
 
         // Reassign the nodes to the anonymous user.
         if (!empty($nids)) {
-          $anonymous_user = \Drupal::entityTypeManager()->getStorage('user')->load(0);
           $node_storage = \Drupal::entityTypeManager()->getStorage('node');
           foreach ($nids as $nid) {
             /** @var \Drupal\node\Entity\Node $node */
             $node = $node_storage->load($nid);
-            $node->setOwnerId($anonymous_user->id());
+            $node->setOwnerId($admin_user->id());
             $node->save();
           }
         }
+
+        // Load all webforms created by the user being deleted.
+        $query = \Drupal::entityQuery('webform')
+          ->condition('uid', $uid);
+        $webform_ids = $query->accessCheck(FALSE)->execute();
+
+        // Reassign the webforms to the anonymous user.
+        if (!empty($webform_ids)) {
+          foreach ($webform_ids as $webform_id) {
+            /** @var \Drupal\webform\Entity\Webform $webform */
+            $webform = Webform::load($webform_id);
+            $webform->setOwnerId($admin_user->id());
+            $webform->save();
+          }
+        }
+
+        // Load all webform submissions created by the user being deleted.
+        $query = \Drupal::entityQuery('webform_submission')
+          ->condition('uid', $uid);
+        $submission_ids = $query->accessCheck(FALSE)->execute();
+
+        // Reassign the webform submissions to the anonymous user.
+        if (!empty($submission_ids)) {
+          foreach ($submission_ids as $submission_id) {
+            /** @var \Drupal\webform\Entity\WebformSubmission $submission */
+            $submission = WebformSubmission::load($submission_id);
+            $submission->setOwnerId($admin_user->id());
+            $submission->save();
+          }
+        }
+
         $user->delete();
 
         // Log the action.
