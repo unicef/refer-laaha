@@ -11,8 +11,8 @@
 
 .service-ratings-org-filter-form form .form-submit {
     flex: 0.1;
-    height: 50px;
-    margin-top: 26px;
+    /* height: 50px; */
+    margin-top: 38px;
 }
 
 .gbv-org-filter-switch-button {
@@ -34,5 +34,9 @@
 
     .service-ratings-org-filter-form form .form-item-organisation-select-field {
         width: 100%;
+    }
+
+    .service-ratings-org-filter-form form .form-submit {
+        margin-top: 10px;
     }
 }
