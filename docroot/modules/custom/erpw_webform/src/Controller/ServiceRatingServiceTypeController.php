@@ -115,74 +115,46 @@ class ServiceRatingServiceTypeController extends ControllerBase {
         // Serialize and hash the sorted submission IDs.
         $submission_ids_hash = hash('sha256', Json::encode($submission_ids));
         $active_domain_id = $this->domainNegotiator->getActiveDomain()->id();
-        $cache_tags = ['webform_submission:' . $submission_ids_hash, 'service_rating_webform_' . $webform_id];
+        $cache_tags = ['webform_submission:' . $submission_ids_hash, 'webform' . $webform_id];
         $cache_id = 'service_rating_location_normalized_values_' . $active_domain_id . $webform_id . $org_id;
         $cache_data = \Drupal::cache()->get($cache_id);
 
-        // if (!$cache_data) {
-        //   // Iterate through each submission.
-        //   foreach ($submission_ids as $submission_id) {
-        //     $submission = WebformSubmission::load($submission_id);
+        if (!$cache_data) {
+          // Iterate through each submission.
+          foreach ($submission_ids as $submission_id) {
+            $submission = WebformSubmission::load($submission_id);
 
-        //     // Get all elements of the webform.
-        //     $elements = $webform->getElementsDecodedAndFlattened();
+            // Get all elements of the webform.
+            $elements = $webform->getElementsDecodedAndFlattened();
 
-        //     // Initialize an array to store normalized values for this submission.
-        //     $normalized_values = [];
+            // Initialize an array to store normalized values for this submission.
+            $normalized_values = [];
 
-        //     // Iterate through each element of the webform.
-        //     foreach ($elements as $element_key => $element) {
-        //       if ($element['#type'] == 'radios') {
-        //         $element_value = $submission->getElementData($element_key);
+            // Iterate through each element of the webform.
+            foreach ($elements as $element_key => $element) {
+              if ($element['#type'] == 'radios') {
+                $element_value = $submission->getElementData($element_key);
 
-        //         // Check if the element value is numeric.
-        //         if (!empty($element_value) && is_numeric($element_value)) {
-        //           // Normalize the rating to the range of 1 to 5.
-        //           $normalized_rating = $this->serviceRating->normalizeRating($element_value, $element['#options']);
-        //           $normalized_values[] = $normalized_rating;
-        //         }
-        //       }
-        //     }
-
-        //     // Store the normalized values for this submission.
-        //     $normalized_element_values[] = $normalized_values;
-        //   }
-        //   // Cache the computed value.
-        //   \Drupal::cache()->set($cache_id, $normalized_element_values, Cache::PERMANENT, $cache_tags);
-        // }
-        // else {
-        //   // Retrieve the data from the cache.
-        //   $normalized_element_values = $cache_data->data;
-        // }
-
-        // Iterate through each submission.
-        foreach ($submission_ids as $submission_id) {
-          $submission = WebformSubmission::load($submission_id);
-
-          // Get all elements of the webform.
-          $elements = $webform->getElementsDecodedAndFlattened();
-
-          // Initialize an array to store normalized values for this submission.
-          $normalized_values = [];
-
-          // Iterate through each element of the webform.
-          foreach ($elements as $element_key => $element) {
-            if ($element['#type'] == 'radios') {
-              $element_value = $submission->getElementData($element_key);
-
-              // Check if the element value is numeric.
-              if (!empty($element_value) && is_numeric($element_value)) {
-                // Normalize the rating to the range of 1 to 5.
-                $normalized_rating = $this->serviceRating->normalizeRating($element_value, $element['#options']);
-                $normalized_values[] = $normalized_rating;
+                // Check if the element value is numeric.
+                if (!empty($element_value) && is_numeric($element_value)) {
+                  // Normalize the rating to the range of 1 to 5.
+                  $normalized_rating = $this->serviceRating->normalizeRating($element_value, $element['#options']);
+                  $normalized_values[] = $normalized_rating;
+                }
               }
             }
+
+            // Store the normalized values for this submission.
+            $normalized_element_values[] = $normalized_values;
           }
-
-          // Store the normalized values for this submission.
-          $normalized_element_values[] = $normalized_values;
+          // Cache the computed value.
+          \Drupal::cache()->set($cache_id, $normalized_element_values, Cache::PERMANENT, $cache_tags);
         }
-
+        else {
+          // Retrieve the data from the cache.
+          $normalized_element_values = $cache_data->data;
+        }
+        
         // Calculate the average rating for this webform and round to the nearest whole number.
         $average_rating = round($this->serviceRating->calculateAverageRating($normalized_element_values));
         $webform_ratings[$webform_id] = $average_rating;
