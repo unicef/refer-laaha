@@ -88,6 +88,11 @@ class ServiceRatingServiceTypeController extends ControllerBase {
     $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
     $org_id = $this->serviceRating->organisationForFiltering();
 
+    $service_rating_org_state = $this->state->get('service_rating.org_average_rating');
+    if ($service_rating_org_state != NULL && $service_rating_org_state['org_id'] != NULL && !empty($service_rating_org_state['org_id'])) {
+      $org_id = $service_rating_org_state['org_id'];
+    }
+
     // Initialize an array to store webform names and their average ratings.
     $webform_ratings = [];
 
@@ -110,44 +115,72 @@ class ServiceRatingServiceTypeController extends ControllerBase {
         // Serialize and hash the sorted submission IDs.
         $submission_ids_hash = hash('sha256', Json::encode($submission_ids));
         $active_domain_id = $this->domainNegotiator->getActiveDomain()->id();
-        $cache_tags = ['webform_submission:' . $submission_ids_hash];
+        $cache_tags = ['webform_submission:' . $submission_ids_hash, 'service_rating_webform_' . $webform_id];
         $cache_id = 'service_rating_location_normalized_values_' . $active_domain_id . $webform_id . $org_id;
         $cache_data = \Drupal::cache()->get($cache_id);
 
-        if (!$cache_data) {
-          // Iterate through each submission.
-          foreach ($submission_ids as $submission_id) {
-            $submission = WebformSubmission::load($submission_id);
+        // if (!$cache_data) {
+        //   // Iterate through each submission.
+        //   foreach ($submission_ids as $submission_id) {
+        //     $submission = WebformSubmission::load($submission_id);
 
-            // Get all elements of the webform.
-            $elements = $webform->getElementsDecodedAndFlattened();
+        //     // Get all elements of the webform.
+        //     $elements = $webform->getElementsDecodedAndFlattened();
 
-            // Initialize an array to store normalized values for this submission.
-            $normalized_values = [];
+        //     // Initialize an array to store normalized values for this submission.
+        //     $normalized_values = [];
 
-            // Iterate through each element of the webform.
-            foreach ($elements as $element_key => $element) {
-              if ($element['#type'] == 'radios') {
-                $element_value = $submission->getElementData($element_key);
+        //     // Iterate through each element of the webform.
+        //     foreach ($elements as $element_key => $element) {
+        //       if ($element['#type'] == 'radios') {
+        //         $element_value = $submission->getElementData($element_key);
 
-                // Check if the element value is numeric.
-                if (!empty($element_value) && is_numeric($element_value)) {
-                  // Normalize the rating to the range of 1 to 5.
-                  $normalized_rating = $this->serviceRating->normalizeRating($element_value, $element['#options']);
-                  $normalized_values[] = $normalized_rating;
-                }
+        //         // Check if the element value is numeric.
+        //         if (!empty($element_value) && is_numeric($element_value)) {
+        //           // Normalize the rating to the range of 1 to 5.
+        //           $normalized_rating = $this->serviceRating->normalizeRating($element_value, $element['#options']);
+        //           $normalized_values[] = $normalized_rating;
+        //         }
+        //       }
+        //     }
+
+        //     // Store the normalized values for this submission.
+        //     $normalized_element_values[] = $normalized_values;
+        //   }
+        //   // Cache the computed value.
+        //   \Drupal::cache()->set($cache_id, $normalized_element_values, Cache::PERMANENT, $cache_tags);
+        // }
+        // else {
+        //   // Retrieve the data from the cache.
+        //   $normalized_element_values = $cache_data->data;
+        // }
+
+        // Iterate through each submission.
+        foreach ($submission_ids as $submission_id) {
+          $submission = WebformSubmission::load($submission_id);
+
+          // Get all elements of the webform.
+          $elements = $webform->getElementsDecodedAndFlattened();
+
+          // Initialize an array to store normalized values for this submission.
+          $normalized_values = [];
+
+          // Iterate through each element of the webform.
+          foreach ($elements as $element_key => $element) {
+            if ($element['#type'] == 'radios') {
+              $element_value = $submission->getElementData($element_key);
+
+              // Check if the element value is numeric.
+              if (!empty($element_value) && is_numeric($element_value)) {
+                // Normalize the rating to the range of 1 to 5.
+                $normalized_rating = $this->serviceRating->normalizeRating($element_value, $element['#options']);
+                $normalized_values[] = $normalized_rating;
               }
             }
-
-            // Store the normalized values for this submission.
-            $normalized_element_values[] = $normalized_values;
           }
-          // Cache the computed value.
-          \Drupal::cache()->set($cache_id, $normalized_element_values, Cache::PERMANENT, $cache_tags);
-        }
-        else {
-          // Retrieve the data from the cache.
-          $normalized_element_values = $cache_data->data;
+
+          // Store the normalized values for this submission.
+          $normalized_element_values[] = $normalized_values;
         }
 
         // Calculate the average rating for this webform and round to the nearest whole number.
@@ -212,12 +245,6 @@ class ServiceRatingServiceTypeController extends ControllerBase {
     $acceptedUserRoles = ['administrator', 'super_admin', 'country_admin', 'gbv_focal_point', 'interagency_gbv_coordinator'];
     if (in_array('authenticated', $currentUserRoles) && in_array($currentUserRoles[1], $acceptedUserRoles) && $gbvCoordinationStatus) {
       $orgFilterForm = $this->formBuilder()->getForm('\Drupal\erpw_webform\Form\ServiceRatingOrganisationFilterForm');
-      $org_average_ratings_state = $this->state->get('service_rating.org_average_rating');
-      if ($org_average_ratings_state != NULL && count($org_average_ratings_state) > 0) {
-        $org_average_ratings_state['#org_filter_form'] = $orgFilterForm;
-        $org_average_ratings_state['#service_rating_enable_gbv_form'] = $serviceRatingEnableGbvForm;
-        return $org_average_ratings_state;
-      }
     }
 
     // @todo Cache computed value. - Done
@@ -228,7 +255,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       '#organisation_average' => round($organisational_average),
       '#organisation_total_services_count' => $servicesCount,
       '#organisation_total_reviews' => $totalReviewsCount > 1 ? $totalReviewsCount . ' Reviews' : $totalReviewsCount . ' Review',
-      '#service_list' => $organisation_services_list,
+      '#service_list' => $organisation_services_list, 
       '#org_filter_form' => $orgFilterForm,
       '#service_rating_enable_gbv_form' => $serviceRatingEnableGbvForm,
     ];
