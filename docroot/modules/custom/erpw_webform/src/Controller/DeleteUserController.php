@@ -4,9 +4,9 @@ namespace Drupal\erpw_webform\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\user\Entity\User;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\webform\Entity\Webform;
 use Drupal\webform\Entity\WebformSubmission;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Deletes user.
