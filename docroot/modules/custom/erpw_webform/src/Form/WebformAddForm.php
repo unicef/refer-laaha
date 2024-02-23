@@ -113,6 +113,13 @@ class WebformAddForm extends WebformEntityAddForm {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
+    // Service type is mandatory.
+    $form_values = $form_state->getValues();
+    if (isset($form_values['service_type'])) {
+      if (empty($form_values['service_type'])) {
+        $form_state->setErrorByName('service_type', $this->t('A form cannot be created without a service type.'));
+      }
+    }
     $query = $this->entityTypeManager->getStorage('webform')->getQuery();
     $webform_ids = $query->condition('category', 'eRPW')->accessCheck(FALSE)->execute();
     $webforms = $this->entityTypeManager->getStorage('webform')->loadMultiple($webform_ids);
@@ -121,7 +128,7 @@ class WebformAddForm extends WebformEntityAddForm {
       $settings = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
       if (isset($settings[$current_domain])) {
         if ($settings[$current_domain][0] == $form_state->getValues()['service_type']) {
-          $form_state->setErrorByName('service_type', $this->t('A webform of the selected service type already exists.'));
+          $form_state->setErrorByName('service_type', $this->t('A form of the selected service type already exists.'));
         }
       }
     }

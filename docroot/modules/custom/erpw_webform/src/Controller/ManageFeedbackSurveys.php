@@ -2,7 +2,6 @@
 
 namespace Drupal\erpw_webform\Controller;
 
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -85,8 +84,7 @@ class ManageFeedbackSurveys extends ControllerBase {
     // if (!$cache_data) {
     //   // If data is not in cache, execute the build logic.
     //   $service_rating_webforms = [];
-
-    //   foreach ($webforms as $webform => $webform_data) {
+    // foreach ($webforms as $webform => $webform_data) {
     //     if (str_contains($webform, 'webform_service_rating_')) {
     //       // Omit the webform if it does not belong to current domain.
     //       $service_type_domain = $this->serviceRating->fetchServiceTypeDomains($webform_data->id());
@@ -104,16 +102,14 @@ class ManageFeedbackSurveys extends ControllerBase {
     //         continue;
     //       }
     //     }
-    //   }
-
-    //   // Store the result in cache.
+    //   }.
+    // // Store the result in cache.
     //   \Drupal::cache()->set($cache_id, $service_rating_webforms, Cache::PERMANENT, $cache_tags);
     // }
     // else {
     //   // If data is in cache, use the cached result.
     //   $service_rating_webforms = $cache_data->data;
     // }
-
     // If data is not in cache, execute the build logic.
     $service_rating_webforms = [];
     foreach ($webforms as $webform => $webform_data) {
