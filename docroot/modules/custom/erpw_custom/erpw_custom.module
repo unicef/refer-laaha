@@ -1440,14 +1440,12 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $permission = 'view users of their own country';
     $location_condition = 'user__field_location.field_location_target_id';
     $query = erpw_view_results_own_country_permissions($query, $location_condition, $permission);
+    $active_domain_id = \Drupal::service('domain.negotiator')->getActiveId();
 
-    // Add query for User status filter.
-    $join_configuration = [
-      'type' => 'INNER',
-      'left_table' => 'users_field_data',
-      'left_field' => 'uid',
-      'operator' => '=',
-    ];
+    if ($user_status != 'blocked') {
+      // Filter users by active domain.
+      erpw_add_entity_relationship_join($query, 'users_field_data', 'active_domain', 'uid', 'user__field_domain_access', 'entity_id', '=', 0, 'field_domain_access_target_id', $active_domain_id);
+    }
 
     // User with Blocked status and no location.
     if ($user_status === 'blocked') {
@@ -1461,17 +1459,14 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
           unset($conditions[$index]);
         }
       }
-      $join_configuration['table'] = 'user__field_location';
-      $join_configuration['field'] = 'entity_id';
-      $query->addRelationship('location', Views::pluginManager('join')->createInstance('standard', $join_configuration), 'users_field_data');
-      $query->addWhere(0, 'location.field_location_target_id', '0', '=');
+      erpw_add_entity_relationship_join($query, 'users_field_data', 'location', 'uid', 'user__field_location', 'entity_id', '=', 0, 'field_location_target_id');
+
+      // Condition to only show the users if their organisation matches with the active domain.
+      erpw_add_entity_relationship_join($query, 'user__field_organisation', 'domain_access', 'field_organisation_target_id', 'node__field_domain_access', 'entity_id', '=', 1, 'field_domain_access_target_id', $active_domain_id);
     }
     // User with Rejected status.
     elseif ($user_status === '0') {
-      $join_configuration['table'] = 'user__field_transitions';
-      $join_configuration['field'] = 'entity_id';
-      $query->addRelationship('transition', Views::pluginManager('join')->createInstance('standard', $join_configuration), 'users_field_data');
-      $query->addWhere(1, 'transition.field_transitions_value', ['spfp-reject', 'gbv-coordination-reject'], 'IN');
+      erpw_add_entity_relationship_join($query, 'users_field_data', 'user_transition', 'uid', 'user__field_transitions', 'entity_id', 'IN', 1, 'field_transitions_value', ['spfp-reject', 'gbv-coordination-reject']);
     }
   }
 
@@ -2195,5 +2190,49 @@ function erpw_custom_user_delete(EntityInterface $entity) {
       $submission->setOwnerId($admin_user->id());
       $submission->save();
     }
+  }
+}
+
+/**
+ * Adds an entity relationship join to a query.
+ *
+ * @param \Drupal\views\Plugin\views\query\QueryPluginBase $query
+ *   The query object to which the join will be added.
+ * @param string $table_name
+ *   The name of the base table for the join.
+ * @param string $alias_slug
+ *   The alias for the join table.
+ * @param string $field_name
+ *   The field name in the base table to join on.
+ * @param string $join_table
+ *   The name of the table to join with.
+ * @param string $join_field
+ *   The field name in the join table to join on.
+ * @param string $operator
+ *   The operator for the where condition (e.g., '=', 'IN').
+ * @param int $group
+ *   The group for the join.
+ * @param string $column_name
+ *   The column name for the where condition.
+ * @param string $column_value
+ *   The column value for the where condition.
+ */
+function erpw_add_entity_relationship_join(QueryPluginBase &$query, string $table_name, string $alias_slug, string $field_name, string $join_table, string $join_field, string $operator = '=', $group = 1, string $column_name = 'value', mixed $column_value = NULL) {
+  $configuration = [
+    'type' => 'INNER',
+    'table' => $join_table,
+    'field' => $join_field,
+    'left_table' => $table_name,
+    'left_field' => $field_name,
+    'operator' => '=',
+  ];
+  $join = Views::pluginManager('join')->createInstance('standard', $configuration);
+  $query->addRelationship($alias_slug, $join, $table_name);
+
+  if ($column_value) {
+    $query->addWhere($group, "$alias_slug.$column_name", $column_value, $operator);
+  }
+  else {
+    $query->addWhere($group, "$alias_slug.$column_name", $column_name, $operator);
   }
 }
