@@ -126,8 +126,8 @@
             }
             
             // Star ratings
-            const serviceRatingsList = document.getElementsByClassName('service-ratings-services-list')[0];
-            const serviceRatingListClass = serviceRatingsList.classList;
+            const serviceRatingsList = document.getElementsByClassName('service-ratings-services-list')?.[0];
+            const serviceRatingListClass = serviceRatingsList != null ? serviceRatingsList.classList : [];
             if (serviceRatingsList != null && serviceRatingsList.children != null) {
                 for (rating of serviceRatingsList.children) {
                     const ratingValue = rating.getElementsByClassName('service-average-rating')[0]?.innerText.replace(/\s/g, "");
