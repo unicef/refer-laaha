@@ -1,0 +1,8 @@
+display:
+  default:
+    display_options:
+      header:
+        area:
+          content:
+            value: '<div class="new-service-type button-with-icon"><a href="{{ path(&apos;node.add&apos;, {&apos;node_type&apos;: &apos;service_type&apos;}) }}">{{ ''Add a new Service Type''|t }}</a></div>'
+            format: full_html

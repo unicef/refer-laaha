@@ -79,6 +79,8 @@ class CustomAddUserBlock extends BlockBase implements ContainerFactoryPluginInte
       $markup = '<div class="plus-icon button-with-icon">' . $link->toString() . '</div>';
 
       // Check if the user has the permission to show the additional markup.
+      // todo make this translatable.
+      // todo don't redirect them to only english page.
       if ($hasPermission) {
         $markup = '<div id="user-status-listing">User Status Listing<a href="/en/users-status">Users by Status</a></div>' . $markup;
       }
