@@ -1462,7 +1462,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       erpw_add_entity_relationship_join($query, 'users_field_data', 'location', 'uid', 'user__field_location', 'entity_id', '=', 0, 'field_location_target_id');
 
       // Condition to only show the users if their organisation matches with the active domain.
-      erpw_add_entity_relationship_join($query, 'user__field_organisation', 'domain_access', 'field_organisation_target_id', 'node__field_domain_access', 'entity_id', '=', 1, 'field_domain_access_target_id', $active_domain_id);
+      // erpw_add_entity_relationship_join($query, 'user__field_organisation', 'domain_access', 'field_organisation_target_id', 'node__field_domain_access', 'entity_id', '=', 1, 'field_domain_access_target_id', $active_domain_id);
     }
     // User with Rejected status.
     elseif ($user_status === '0') {
@@ -2214,7 +2214,7 @@ function erpw_custom_user_delete(EntityInterface $entity) {
  *   The group for the join.
  * @param string $column_name
  *   The column name for the where condition.
- * @param string $column_value
+ * @param mixed $column_value
  *   The column value for the where condition.
  */
 function erpw_add_entity_relationship_join(QueryPluginBase &$query, string $table_name, string $alias_slug, string $field_name, string $join_table, string $join_field, string $operator = '=', $group = 1, string $column_name = 'value', mixed $column_value = NULL) {
