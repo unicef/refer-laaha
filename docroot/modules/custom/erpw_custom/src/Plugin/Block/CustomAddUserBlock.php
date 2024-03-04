@@ -7,6 +7,7 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -79,10 +80,13 @@ class CustomAddUserBlock extends BlockBase implements ContainerFactoryPluginInte
       $markup = '<div class="plus-icon button-with-icon">' . $link->toString() . '</div>';
 
       // Check if the user has the permission to show the additional markup.
-      // todo make this translatable.
-      // todo don't redirect them to only english page.
       if ($hasPermission) {
-        $markup = '<div id="user-status-listing">User Status Listing<a href="/en/users-status">Users by Status</a></div>' . $markup;
+        $translated_text = t('User Status Listing');
+        $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        $link_url = '/' . $current_language . '/users-status';
+        $link = Link::fromTextAndUrl(t('Users by Status'), Url::fromUserInput($link_url));
+        $translated_markup = '<div id="user-status-listing">' . $translated_text . $link->toString() . '</div>';
+        $markup = $translated_markup . $markup;
       }
 
       // Build the render array.
