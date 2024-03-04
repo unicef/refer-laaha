@@ -1,8 +1,9 @@
 display:
+  page_1:
+    display_title: 'إدارة أنواع الخدمات'
   default:
     display_options:
+      title: 'إدارة أنواع الخدمات'
       header:
-        area:
-          content:
-            value: '<div class="new-service-type button-with-icon"><a href="{{ path(&apos;node.add&apos;, {&apos;node_type&apos;: &apos;service_type&apos;}) }}">{{ ''Add a new Service Type''|t }}</a></div>'
-            format: full_html
+        result:
+          content: '<div class="service-count more-link">@total أنواع الخدمات</div>'
