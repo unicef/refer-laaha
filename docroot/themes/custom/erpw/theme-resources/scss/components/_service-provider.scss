@@ -243,6 +243,11 @@
 		width: 15px;
 	}
 }
+html[dir="rtl"] .service-list-icons {
+	&::before {
+		margin-left: 10px;
+	}
+}
 .org-icon {
 	&::before {
 		background-color: #282C7B;
