@@ -4089,6 +4089,18 @@ body.path-user {
   background: #FFF;
 }
 
+html[dir=rtl] .block-share-feedback-block .share-feedback-block {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+html[dir=rtl] .block-share-feedback-block .share-feedback-block .feedback-text-block .feedback-text-header p::before {
+  margin-left: 8px;
+}
+html[dir=rtl] .path-ratings-by-service-type #block-erpw-content .service-ratings-services-list li .rating-value-container .service-average-rating, html[dir=rtl] .path-ratings-by-locations #block-erpw-content .service-ratings-services-list li .rating-value-container .service-average-rating, html[dir=rtl] .path-ratings-by-feedback-area #block-erpw-content .service-ratings-services-list li .rating-value-container .service-average-rating {
+  margin-left: 10px;
+}
+
 .path-frontpage #block-notificationblock .bell-container, .path-notifications #block-notificationblock .bell-container, .user-logged-in #block-notificationblock .bell-container {
   position: absolute;
   top: 2%;
