@@ -7,9 +7,6 @@ display:
       fields:
         title:
           label: العنوان
-          separator: ', '
-        moderation_state:
-          separator: ', '
       exposed_form:
         options:
           submit_button: انتقاء
@@ -17,5 +14,8 @@ display:
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
           sort_desc_label: تنازلي
+      empty:
+        area_text_custom:
+          content: '<div>No service content is available for approval.</div>'
   moderated_content:
     display_title: 'محتوى خاضع للإشراف'

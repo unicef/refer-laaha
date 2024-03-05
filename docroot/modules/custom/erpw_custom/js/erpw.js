@@ -1,4 +1,5 @@
 (function ($, Drupal, drupalSettings) {
+  let slReloadFlag = false;
   Drupal.behaviors.catapult_img_preview = {
     attach: function (context, settings) {
       //Home page guideline link add attr
@@ -41,9 +42,11 @@
       }
 
       const subDomain = window.location.hostname.split(".")[0];
-      if (subDomain != null && subDomain.length < 3) {
-        if (document.referrer != null && !document.referrer.includes(subDomain) && window.location.hostname.includes(subDomain) && subDomain == "sl") {
-          window.location.reload();
+      if (window.location.pathname == "/en") {
+        slReloadFlag = true;
+      } else if (subDomain != null && subDomain.length < 3 && !slReloadFlag) {
+        if (document.referrer != null && !document.referrer.includes(subDomain) && window.location.hostname.includes(subDomain) && subDomain == "sl" && window.location.pathname != '/en') {
+          window.location.href = '/en';
         }
       }
       

@@ -356,4 +356,59 @@ class WebformSubmissionAllData extends FieldPluginBase {
     return $restData;
   }
 
+  /**
+   * Helper function which provides the opening hours in a structured format.
+   */
+  public function getOpeningHoursData(array $opening_hours_data) {
+    $temp_opening_hours = [];
+    $updated_opening_hours = [];
+    foreach ($opening_hours_data as $key => $value) {
+      $key = strtolower($key);
+      switch (trim($key)) {
+        case 'monday':
+        case 'mon':
+          $temp_opening_hours[0][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+
+        case 'tuesday':
+        case 'tue':
+          $temp_opening_hours[1][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+
+        case 'wednesday':
+        case 'wed':
+          $temp_opening_hours[2][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+
+        case 'thursday':
+        case 'thu':
+          $temp_opening_hours[3][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+
+        case 'friday':
+        case 'fri':
+          $temp_opening_hours[4][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+
+        case 'saturday':
+        case 'sat':
+          $temp_opening_hours[5][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+
+        case 'sunday':
+        case 'sun':
+          $temp_opening_hours[6][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+          break;
+
+        default:
+          $temp_opening_hours[][$key] = "<p class='opening-hours-value'>" . ucfirst($key) . " : " . $value . '</p>';
+      }
+    }
+    ksort($temp_opening_hours);
+    foreach ($temp_opening_hours as $key => $value) {
+      $updated_opening_hours[key($value)] = reset($value);
+    }
+    return $updated_opening_hours;
+  }
+
 }

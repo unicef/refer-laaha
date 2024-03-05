@@ -2977,6 +2977,10 @@ html[dir=rtl] .view-referral-pathway-listing .views-field-field-service-type-ico
   width: 15px;
 }
 
+html[dir=rtl] .service-list-icons::before {
+  margin-left: 10px;
+}
+
 .org-icon::before {
   background-color: #282C7B;
   content: "";
@@ -3718,6 +3722,10 @@ body.path-user {
 
 .path-webform .block-help-block {
   display: none;
+}
+
+.path-ratings-by-service-type .block-share-feedback-block {
+  margin-bottom: 300px;
 }
 
 .path-ratings-by-service-type #block-erpw-content .service-ratings-location-header, .path-ratings-by-locations #block-erpw-content .service-ratings-location-header, .path-ratings-by-feedback-area #block-erpw-content .service-ratings-location-header {

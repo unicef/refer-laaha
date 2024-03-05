@@ -50,8 +50,8 @@ Thumbs.db
 ## Drupal Ignored Files
 
 # Ignore local configuration files
-/docroot/sites/default/settings.ddev.php
-/docroot/sites/default/local.services.yml
+/docroot/sites/**/settings.ddev.php
+/docroot/sites/**/local.services.yml
 
 # Ignore webform config files
 /config/**/webform.webform*

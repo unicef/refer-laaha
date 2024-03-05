@@ -384,7 +384,12 @@ class ServiceSubmissionsView extends ControllerBase {
 
         foreach ($output as $item) {
           foreach ($item as $key => $value) {
-            $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
+            if($key == 'Last updated time') {
+              $markup .= '<div class="pair-container"><span class="label">' . Markup::create(t('Last updated time')) . ':</span>';
+            }
+            else {
+              $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
+            }
             if ($key == 'Opening Times' && is_array($value)) {
               $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
             }
@@ -797,6 +802,9 @@ class ServiceSubmissionsView extends ControllerBase {
           foreach ($item as $key => $value) {
             if ($key == 'Service Rating Link') {
               $markup .= '<div class="pair-container"><span class="service-rating-label">' . Markup::create($key) . ':</span>';
+            }
+            elseif($key == 'Last updated time') {
+              $markup .= '<div class="pair-container"><span class="label">' . Markup::create(t('Last updated time')) . ':</span>';
             }
             else {
               $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';

@@ -7,6 +7,7 @@ display:
           tags:
             next: 'التالي ›'
             previous: '‹ السابق'
+            last: الأخير»
           expose:
             items_per_page_options_all_label: '- الكل -'
             offset_label: الإزاحة
@@ -17,6 +18,9 @@ display:
           exposed_sorts_label: 'الترتيب حسب'
           sort_asc_label: تصاعدي
           sort_desc_label: تنازلي
+      empty:
+        title:
+          title: 'أهلا وسهلا!'
   feed_1:
     display_title: التلقيمة
   page_1:

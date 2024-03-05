@@ -1452,14 +1452,12 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
     $permission = 'view users of their own country';
     $location_condition = 'user__field_location.field_location_target_id';
     $query = erpw_view_results_own_country_permissions($query, $location_condition, $permission);
+    $active_domain_id = \Drupal::service('domain.negotiator')->getActiveId();
 
-    // Add query for User status filter.
-    $join_configuration = [
-      'type' => 'INNER',
-      'left_table' => 'users_field_data',
-      'left_field' => 'uid',
-      'operator' => '=',
-    ];
+    if ($user_status != 'blocked') {
+      // Filter users by active domain.
+      erpw_add_entity_relationship_join($query, 'users_field_data', 'active_domain', 'uid', 'user__field_domain_access', 'entity_id', '=', 0, 'field_domain_access_target_id', $active_domain_id);
+    }
 
     // User with Blocked status and no location.
     if ($user_status === 'blocked') {
@@ -1473,17 +1471,14 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
           unset($conditions[$index]);
         }
       }
-      $join_configuration['table'] = 'user__field_location';
-      $join_configuration['field'] = 'entity_id';
-      $query->addRelationship('location', Views::pluginManager('join')->createInstance('standard', $join_configuration), 'users_field_data');
-      $query->addWhere(0, 'location.field_location_target_id', '0', '=');
+      erpw_add_entity_relationship_join($query, 'users_field_data', 'location', 'uid', 'user__field_location', 'entity_id', '=', 0, 'field_location_target_id');
+
+      // Condition to only show the users if their organisation matches with the active domain.
+      // erpw_add_entity_relationship_join($query, 'user__field_organisation', 'domain_access', 'field_organisation_target_id', 'node__field_domain_access', 'entity_id', '=', 1, 'field_domain_access_target_id', $active_domain_id);
     }
     // User with Rejected status.
     elseif ($user_status === '0') {
-      $join_configuration['table'] = 'user__field_transitions';
-      $join_configuration['field'] = 'entity_id';
-      $query->addRelationship('transition', Views::pluginManager('join')->createInstance('standard', $join_configuration), 'users_field_data');
-      $query->addWhere(1, 'transition.field_transitions_value', ['spfp-reject', 'gbv-coordination-reject'], 'IN');
+      erpw_add_entity_relationship_join($query, 'users_field_data', 'user_transition', 'uid', 'user__field_transitions', 'entity_id', 'IN', 1, 'field_transitions_value', ['spfp-reject', 'gbv-coordination-reject']);
     }
   }
 
@@ -1749,6 +1744,15 @@ function erpw_view_results_own_location_organisation($query, $location_condition
             'operator' => '=',
           ];
         }
+        // Hide Admin users from user listing pages.
+        if ($condition['field'] == 'user__field_system_role.field_system_role') {
+          $condition = [
+            'field' => 'user__field_system_role.field_system_role',
+            'value' => ['administrator', 'super_admin'],
+            'operator' => 'NOT IN',
+          ];
+          break;
+        }
       }
     }
   }
@@ -1774,6 +1778,15 @@ function erpw_view_results_own_organisation($query, $org_condition = NULL, $perm
             'value' => $org_id,
             'operator' => '=',
           ];
+        }
+        // Hide Admin users from user listing pages.
+        if ($condition['field'] == 'user__field_system_role.field_system_role') {
+          $condition = [
+            'field' => 'user__field_system_role.field_system_role',
+            'value' => ['administrator', 'super_admin'],
+            'operator' => 'NOT IN',
+          ];
+          break;
         }
       }
     }
@@ -1803,6 +1816,14 @@ function erpw_view_results_own_country_permissions($query, $condition_field, $pe
             'field' => $condition_field,
             'value' => $ptids,
             'operator' => 'in',
+          ];
+        }
+        // Hide Admin users from user listing pages.
+        if ($condition['field'] == 'user__field_system_role.field_system_role') {
+          $condition = [
+            'field' => 'user__field_system_role.field_system_role',
+            'value' => ['administrator', 'super_admin'],
+            'operator' => 'NOT IN',
           ];
           break;
         }
@@ -2126,5 +2147,104 @@ function erpw_custom_preprocess_block__pendingapproval(&$variables) {
         }
       }
     }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete() for user entities.
+ */
+function erpw_custom_user_delete(EntityInterface $entity) {
+
+  $admin_user = User::load(1);
+  // Load all nodes created by the user being deleted.
+  $query = \Drupal::entityQuery('node')
+    ->condition('uid', $entity->id());
+  $nids = $query->accessCheck(FALSE)->execute();
+
+  // Reassign the nodes to the anonymous user.
+  if (!empty($nids)) {
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+    foreach ($nids as $nid) {
+      /** @var \Drupal\node\Entity\Node $node */
+      $node = $node_storage->load($nid);
+      $node->setOwnerId($admin_user->id());
+      $node->save();
+    }
+  }
+
+  // Load all webforms created by the user being deleted.
+  $query = \Drupal::entityQuery('webform')
+    ->condition('uid', $entity->id());
+  $webform_ids = $query->accessCheck(FALSE)->execute();
+
+  // Reassign the webforms to the anonymous user.
+  if (!empty($webform_ids)) {
+    $webform_storage = \Drupal::entityTypeManager()->getStorage('webform');
+    foreach ($webform_ids as $webform_id) {
+      /** @var \Drupal\webform\Entity\Webform $webform */
+      $webform = $webform_storage->load($webform_id);
+      $webform->setOwnerId($admin_user->id());
+      $webform->save();
+    }
+  }
+
+  // Load all webform submissions created by the user being deleted.
+  $query = \Drupal::entityQuery('webform_submission')
+    ->condition('uid', $entity->id());
+  $submission_ids = $query->accessCheck(FALSE)->execute();
+
+  // Reassign the webform submissions to the anonymous user.
+  if (!empty($submission_ids)) {
+    $submission_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
+    foreach ($submission_ids as $submission_id) {
+      /** @var \Drupal\webform\Entity\WebformSubmission $submission */
+      $submission = $submission_storage->load($submission_id);
+      $submission->setOwnerId($admin_user->id());
+      $submission->save();
+    }
+  }
+}
+
+/**
+ * Adds an entity relationship join to a query.
+ *
+ * @param \Drupal\views\Plugin\views\query\QueryPluginBase $query
+ *   The query object to which the join will be added.
+ * @param string $table_name
+ *   The name of the base table for the join.
+ * @param string $alias_slug
+ *   The alias for the join table.
+ * @param string $field_name
+ *   The field name in the base table to join on.
+ * @param string $join_table
+ *   The name of the table to join with.
+ * @param string $join_field
+ *   The field name in the join table to join on.
+ * @param string $operator
+ *   The operator for the where condition (e.g., '=', 'IN').
+ * @param int $group
+ *   The group for the join.
+ * @param string $column_name
+ *   The column name for the where condition.
+ * @param mixed $column_value
+ *   The column value for the where condition.
+ */
+function erpw_add_entity_relationship_join(QueryPluginBase &$query, string $table_name, string $alias_slug, string $field_name, string $join_table, string $join_field, string $operator = '=', $group = 1, string $column_name = 'value', mixed $column_value = NULL) {
+  $configuration = [
+    'type' => 'INNER',
+    'table' => $join_table,
+    'field' => $join_field,
+    'left_table' => $table_name,
+    'left_field' => $field_name,
+    'operator' => '=',
+  ];
+  $join = Views::pluginManager('join')->createInstance('standard', $configuration);
+  $query->addRelationship($alias_slug, $join, $table_name);
+
+  if ($column_value) {
+    $query->addWhere($group, "$alias_slug.$column_name", $column_value, $operator);
+  }
+  else {
+    $query->addWhere($group, "$alias_slug.$column_name", $column_name, $operator);
   }
 }

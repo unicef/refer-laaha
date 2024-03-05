@@ -1833,23 +1833,16 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        roles_target_id_1:
-          id: roles_target_id_1
-          table: user__roles
-          field: roles_target_id
+        field_system_role_target_id:
+          id: field_system_role_target_id
+          table: user__field_system_role
+          field: field_system_role_target_id
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: user
-          entity_field: roles
-          plugin_id: user_roles
-          operator: or
-          value:
-            service_provider_staff: service_provider_staff
-            service_provider_focal_point: service_provider_focal_point
-            gbv_focal_point: gbv_focal_point
-            interagency_gbv_coordinator: interagency_gbv_coordinator
-            country_admin: country_admin
+          plugin_id: string
+          operator: 'not empty'
+          value: ''
           group: 1
           exposed: false
           expose:
@@ -1866,7 +1859,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-            reduce: false
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -1879,7 +1872,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: false
       filter_groups:
         operator: AND
         groups:

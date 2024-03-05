@@ -12,3 +12,13 @@ services:
     arguments: ['@current_user']
     tags:
       - { name: cache.context }
+  
+  erpw_webform.event_subscriber:
+    class: Drupal\erpw_webform\Routing\ServiceFormRouteSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  erpw_webform.access_check:
+    class: Drupal\erpw_webform\Access\ServiceFormAccessCheck
+    tags:
+      - { name: access_check, applies_to: _custom_access }

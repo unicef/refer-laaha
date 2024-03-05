@@ -140,6 +140,9 @@
   height: fit-content;
   right: 33px;
 }
+html[dir="rtl"] .service-providers-submission-row .row-header .service-type-color-logo-container .service-type-logo {
+  right: -30px !important;
+}
 .service-providers-submission-row .row-header .service-type-org a {
   font-family: Roboto;
   font-size: 12px;
