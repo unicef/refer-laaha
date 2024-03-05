@@ -644,3 +644,34 @@
         }
     }
 }
+
+html[dir="rtl"] {
+    .block-share-feedback-block {
+        .share-feedback-block { 
+            align-items: flex-start;
+            .feedback-text-block{
+                .feedback-text-header p {
+                    &::before {
+                        margin-left: 8px;
+                    }
+                }
+            }
+        }
+    }
+
+    .path-ratings-by-service-type, .path-ratings-by-locations, .path-ratings-by-feedback-area {
+        #block-erpw-content {    
+            .service-ratings-services-list {
+                li {
+                    .rating-value-container {    
+                        .service-average-rating {
+                            margin-left: 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+

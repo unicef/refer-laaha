@@ -93,12 +93,14 @@ class ShareFeedbackBlock extends BlockBase implements ContainerFactoryPluginInte
       $requestUri = $this->requestStack->getCurrentRequest()->getUri();
       $blockTitle = str_contains($requestUri, 'ratings-by-service-type') ? t('Improvise your Service Information') : t('Feedback Reminder');
       $blockDescription = str_contains($requestUri, 'ratings-by-service-type') ? t('Help other service providers reach you without any hassle by updating information as per feedback.') : t('Help Service Providers to improvise their Service Provision information with your valuable feedback.');
+      $languageCode = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
       // @todo enable Block cache and move the markup to twig template. - Done
       return [
         '#theme' => 'share_feedback_block',
         '#blockTitle' => $blockTitle,
         '#blockDescription' => $blockDescription,
+        '#langCode' => $languageCode,
         '#cache' => [
           'contexts' => ['user.roles:authenticated'],
         ],
