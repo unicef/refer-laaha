@@ -1,9 +1,6 @@
 display:
   default:
     display_options:
-      exposed_form:
-        options:
-          submit_button: Filter
       fields:
         name:
           label: 'ব্যবহারকারীর নাম'
@@ -29,6 +26,9 @@ display:
                 title: সক্রিয়
               2:
                 title: নিষ্ক্রিয়
+        roles_target_id:
+          expose:
+            label: Role
       title: ব্যবহারকারীবৃন্দ
   page_1:
     display_options:

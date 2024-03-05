@@ -1,9 +1,6 @@
 display:
   default:
     display_options:
-      exposed_form:
-        options:
-          submit_button: Filter
       fields:
         name:
           label: 'ব্যবহারকারীর নাম'
@@ -21,6 +18,9 @@ display:
         operations:
           label: কার্যাবলী
       filters:
+        roles_target_id:
+          expose:
+            label: Role
         status:
           group_info:
             label: স্ট্যাটাস
@@ -43,6 +43,9 @@ display:
   page_2:
     display_options:
       filters:
+        roles_target_id:
+          expose:
+            label: Role
         status:
           group_info:
             label: স্ট্যাটাস

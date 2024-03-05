@@ -20,9 +20,6 @@ display:
           label: 'সর্বশেষ ব্যবহার'
         operations:
           label: কার্যাবলী
-      exposed_form:
-        options:
-          submit_button: Filter
       filters:
         status:
           group_info:
@@ -32,6 +29,9 @@ display:
                 title: সক্রিয়
               2:
                 title: নিষ্ক্রিয়
+        roles_target_id:
+          expose:
+            label: Role
   page_1:
     display_options:
       menu:
