@@ -328,12 +328,7 @@ class ServiceSubmissionsView extends ControllerBase {
 
         $last_updated_timestamp = $webform_submission->getChangedTime();
         $formatted_last_updated = \Drupal::service('date.formatter')->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
-        $output[] = [
-          $this->t('Last updated time') => [
-            '#type' => 'markup',
-            '#markup' => $formatted_last_updated,
-          ],
-        ];        
+        $output[] = ['Last updated time' => $formatted_last_updated];
 
         $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
           'webform' => $webform_submission->getWebform()->id(),
@@ -389,7 +384,12 @@ class ServiceSubmissionsView extends ControllerBase {
 
         foreach ($output as $item) {
           foreach ($item as $key => $value) {
-            $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
+            if($key == 'Last updated time') {
+              $markup .= '<div class="pair-container"><span class="label">' . Markup::create(t('Last updated time')) . ':</span>';
+            }
+            else {
+              $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
+            }
             if ($key == 'Opening Times' && is_array($value)) {
               $markup .= '<span class="value">' . Markup::create(implode("", $value)) . '</span>';
             }
@@ -802,6 +802,9 @@ class ServiceSubmissionsView extends ControllerBase {
           foreach ($item as $key => $value) {
             if ($key == 'Service Rating Link') {
               $markup .= '<div class="pair-container"><span class="service-rating-label">' . Markup::create($key) . ':</span>';
+            }
+            elseif($key == 'Last updated time') {
+              $markup .= '<div class="pair-container"><span class="label">' . Markup::create(t('Last updated time')) . ':</span>';
             }
             else {
               $markup .= '<div class="pair-container"><span class="label">' . Markup::create($key) . ':</span>';
