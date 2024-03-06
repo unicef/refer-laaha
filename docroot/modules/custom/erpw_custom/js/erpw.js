@@ -1,7 +1,8 @@
 (function ($, Drupal, drupalSettings) {
-  let slReloadFlag = false;
   Drupal.behaviors.catapult_img_preview = {
     attach: function (context, settings) {
+      const referrerPage = drupalSettings.erpw_custom?.referrer_page;
+
       //Home page guideline link add attr
       $('.field--name-field-upload-gbv-referrals-guide .file--application-pdf a').attr('target', '_blank');
 
@@ -24,7 +25,7 @@
 
       // Sierra Leone domain handler code.
       if (window.location.hostname.includes('sl') && window.location.pathname == "/select-language") {
-      window.location.href = '/en';
+          window.location.href = '/en';
       } else if (window.location.pathname == "/select-language") {
         const countryList = document.getElementById('country-dropdown').children;
         let activeCountry = null;
@@ -42,10 +43,14 @@
       }
 
       const subDomain = window.location.hostname.split(".")[0];
-      if (window.location.pathname == "/en") {
-        slReloadFlag = true;
-      } else if (subDomain != null && subDomain.length < 3 && !slReloadFlag) {
-        if (document.referrer != null && !document.referrer.includes(subDomain) && window.location.hostname.includes(subDomain) && subDomain == "sl" && window.location.pathname != '/en') {
+      // if (subDomain != null && subDomain.length < 3) {
+      //   if (slReloadFlag && referrerPage != null && !referrerPage.includes(subDomain) && window.location.hostname.includes(subDomain) && subDomain == "sl") {
+      //     window.location.reload();
+      //   }
+      // }
+
+      if (subDomain != null && subDomain.length < 3) {
+        if (referrerPage != null && !referrerPage.includes(subDomain) && window.location.hostname.includes(subDomain) && subDomain == "sl" && window.location.pathname != '/en') {
           window.location.href = '/en';
         }
       }

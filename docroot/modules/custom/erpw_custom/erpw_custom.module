@@ -1637,6 +1637,7 @@ function erpw_custom_page_attachments(array &$attachments) {
   // Check if the user has admin or super_admin or country_admin role.
   $is_admin = in_array('administrator', $user_roles) || in_array('super_admin', $user_roles) || in_array('country_admin', $user_roles);
   $attachments['#attached']['drupalSettings']['erpw_custom']['userRoles'] = $is_admin;
+  $attachments['#attached']['drupalSettings']['erpw_custom']['referrer_page'] = $_SERVER['HTTP_REFERER'];
 }
 
 /**
