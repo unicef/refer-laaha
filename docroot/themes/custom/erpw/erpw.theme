@@ -332,12 +332,6 @@ function erpw_preprocess_field__node__service_provider(&$variables) {
  */
 function erpw_preprocess_page(&$variables) {
   $url_array = explode("/", Url::fromRoute('<current>', [], ['absolute' => TRUE])->toString());
-  $urlPaths = ['users-list', 'manage-location', 'manage-services'];
-  foreach ($urlPaths as $key => $path) {
-    if (in_array($path, $url_array)) {
-      Cache::invalidateTags(['return_to_list_button']);
-    }
-  }
   if (\Drupal::service('domain.negotiator')->getActiveId() == 'txb_erefer_org' && \Drupal::currentUser()->isAnonymous()) {
     foreach ($url_array as $key => $url) {
       if ($url == "manage-service" || $url == 'services') {
