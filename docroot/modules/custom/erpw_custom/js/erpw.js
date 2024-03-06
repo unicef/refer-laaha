@@ -50,7 +50,7 @@
       // }
 
       if (subDomain != null && subDomain.length < 3) {
-        if (referrerPage != null && !referrerPage.includes(subDomain) && window.location.hostname.includes(subDomain) && subDomain == "sl" && window.location.pathname != '/en') {
+        if (referrerPage != null && !referrerPage.includes(subDomain) && window.location.hostname.includes(subDomain) && subDomain == "sl" && !window.location.pathname.includes('en')) {
           window.location.href = '/en';
         }
       }
