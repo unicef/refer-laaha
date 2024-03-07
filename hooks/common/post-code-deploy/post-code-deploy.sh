@@ -24,9 +24,35 @@ repo_root="/var/www/html/$site.$target_env"
 export PATH=$repo_root/vendor/bin:$PATH
 cd $repo_root
 
+
+# Default site.
 drush cr
 drush updb -y
 drush cim -y
 drush cr
+
+# Bangladesh domain.
+drush cr -l bn
+drush updb -y -l bn
+drush cim -y -l bn
+drush cr -l bn
+
+# Zimbabwe domain.
+drush cr -l zw
+drush updb -y -l zw
+drush cim -y -l zw
+drush cr -l zw
+
+# Sierra Leone domain.
+drush cr -l sl
+drush updb -y -l sl
+drush cim -y -l sl
+drush cr -l sl
+
+# Turkey Cross Border domain.
+drush cr -l txb
+drush updb -y -l txb
+drush cim -y -l txb
+drush cr -l txb
 
 set +v
