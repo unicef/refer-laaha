@@ -1,0 +1,111 @@
+uuid: 5fb88ca9-dcac-40e0-a1ee-a44d113f3699
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.user.update_user_form
+    - field.field.user.user.field_domain_access
+    - field.field.user.user.field_domain_admin
+    - field.field.user.user.field_domain_all_affiliates
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_last_name
+    - field.field.user.user.field_location
+    - field.field.user.user.field_organisation
+    - field.field.user.user.field_phone
+    - field.field.user.user.field_position
+    - field.field.user.user.field_soft_delete
+    - field.field.user.user.field_system_role
+    - field.field.user.user.field_transitions
+    - field.field.user.user.user_picture
+  module:
+    - path
+    - user
+id: user.user.update_user_form
+targetEntityType: user
+bundle: user
+mode: update_user_form
+content:
+  account:
+    weight: -5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  email_tfa_status:
+    type: boolean_checkbox
+    weight: 1
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_first_name:
+    type: string_textfield
+    weight: -7
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Enter first name'
+    third_party_settings: {  }
+  field_last_name:
+    type: string_textfield
+    weight: -6
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Enter last name'
+    third_party_settings: {  }
+  field_location:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_organisation:
+    type: options_select
+    weight: -3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_phone:
+    type: string_textfield
+    weight: -4
+    region: content
+    settings:
+      size: 60
+      placeholder: '**********'
+    third_party_settings: {  }
+  field_position:
+    type: string_textfield
+    weight: -2
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Select position'
+    third_party_settings: {  }
+  field_system_role:
+    type: options_select
+    weight: -1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  contact: true
+  field_domain_access: true
+  field_domain_admin: true
+  field_domain_all_affiliates: true
+  field_soft_delete: true
+  field_transitions: true
+  google_analytics: true
+  langcode: true
+  language: true
+  timezone: true
+  user_picture: true

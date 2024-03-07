@@ -1,0 +1,40 @@
+uuid: d18d4b6f-5701-4f23-9359-1b3f34319904
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.organisation.field_domain_access
+    - field.field.node.organisation.field_domain_all_affiliates
+    - field.field.node.organisation.field_domain_source
+    - node.type.organisation
+id: node.organisation.default
+targetEntityType: node
+bundle: organisation
+mode: default
+content:
+  field_domain_access:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  langcode: true
+  moderation_state: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  translation: true
+  uid: true

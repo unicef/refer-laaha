@@ -18,8 +18,8 @@
  * directory in the public files path. The setting below allows you to set
  * its location.
  */
-$settings['config_sync_directory'] = '../config/vcs';
-$settings['config_vcs_directory'] = '../config/vcs';
+$settings['config_sync_directory'] = '../config/default';
+$settings['config_vcs_directory'] = '../config/default';
 
 /**
  * Acquia sets a hash salt per environment.
@@ -78,18 +78,13 @@ $settings['entity_update_backup'] = TRUE;
  */
 $settings['migrate_node_migrate_type_classic'] = FALSE;
 
+
 // On Acquia Cloud, this include file configures Drupal to use the correct
 // database in each site environment (Dev, Stage, or Prod). To use this
 // settings.php for development on your local workstation, set $db_url
 // (Drupal 5 or 6) or $databases (Drupal 7 or 8) as described in comments above.
-if (file_exists('/var/www/site-php/vss2/erpw-settings.inc')) {
-  require('/var/www/site-php/vss2/erpw-settings.inc');
-
-  // Memcached settings for Acquia Hosting
-  $memcache_settings_file = DRUPAL_ROOT . "/../vendor/acquia/memcache-settings/memcache.settings.php";
-  if (file_exists($memcache_settings_file)) {
-    require_once $memcache_settings_file;
-  }
+if (file_exists('/var/www/site-php')) {
+  require '/var/www/site-php/vss2/vss2-settings.inc';
 }
 
 ini_set("session.cookie_samesite", "lax");
@@ -113,6 +108,7 @@ if (isset($_ENV['AH_SITE_ENVIRONMENT'])) {
   include $app_root . '/' . $site_path . '/settings.local-dev-shared.php';
 }
 
+$settings['config_sync_directory'] = '../config/default';
 
 /**
  * Load local development override configuration, if available.
@@ -140,5 +136,7 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
 }
 
 // Repeat this at the bottom so it knows we really need business.
-$settings['config_sync_directory'] = '../config/vcs';
-$settings['config_vcs_directory'] = '../config/vcs';
+$settings['config_sync_directory'] = '../config/default';
+$settings['config_vcs_directory'] = '../config/default';
+
+$databases['default']['default']['database'] = 'db';

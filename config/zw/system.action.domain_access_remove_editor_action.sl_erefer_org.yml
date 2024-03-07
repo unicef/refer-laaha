@@ -1,0 +1,14 @@
+uuid: 01ada8a0-b37b-4922-b7bd-65ad209fffca
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.sl_erefer_org
+  module:
+    - domain_access
+id: domain_access_remove_editor_action.sl_erefer_org
+label: 'Remove editors from the Sierra Leone (sl) domain'
+type: user
+plugin: domain_access_remove_editor_action
+configuration:
+  domain_id: sl_erefer_org

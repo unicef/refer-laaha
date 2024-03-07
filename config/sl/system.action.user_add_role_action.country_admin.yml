@@ -1,0 +1,14 @@
+uuid: ce0a3a71-78c9-4ee3-80ae-97e1950a2154
+langcode: sn
+status: true
+dependencies:
+  config:
+    - user.role.country_admin
+  module:
+    - user
+id: user_add_role_action.country_admin
+label: 'Add the Country Admin role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: country_admin

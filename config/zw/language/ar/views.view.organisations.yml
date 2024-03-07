@@ -1,0 +1,25 @@
+display:
+  default:
+    display_options:
+      title: 'إدارة المنظمات'
+      empty:
+        area:
+          content:
+            value: '<div class="manage-list"><div class="plus-icon button-with-icon"><a href="/node/add/organisation?destination=/organisations">Add new organisation</a></div></div>'
+            format: full_html
+      header:
+        area:
+          content:
+            value: '<div class="plus-icon button-with-icon"><a href="/node/add/organisation?destination=/organisations">أضف منظمة جديدة</a></div>'
+            format: full_html
+        result:
+          content: '<div class="service-count more-link">@total المنظمات</div>'
+  page_1:
+    display_options:
+      header:
+        area:
+          content:
+            value: '<div class="plus-icon button-with-icon"><a href="/node/add/organisation?destination=/organisations">أضف منظمة جديدة</a></div>'
+            format: full_html
+        result:
+          content: '<div class="service-count more-link">@total المنظمات</div>'

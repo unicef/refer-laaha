@@ -1,0 +1,20 @@
+display:
+  default:
+    display_options:
+      empty:
+        area:
+          content:
+            value: '<p>There are currently no users available for you to manage.</p>'
+            format: basic_html
+      header:
+        result:
+          content: '<div class="service-count more-link">@total مستخدم</div>'
+      title: 'المستخدم حسب الحالة'
+      fields:
+        nothing:
+          alter:
+            text: "<a href=\"{{ view_user }}\">\r\n<div class=\"location-card\">\r\n  <div class=\"title-with-icons\">\r\n    <div id=\"location-title\" class=\"location-title\">{{ field_first_name }} {{ field_last_name }} \r\n  </div>\r\n</div>\r\n<div><div class=\"level\">{{ 'المنظمة'|t }} : {{ field_organisation }}</div><div class=\"level\">{{ 'Role'|t }} : {{ role_name_change }}</div><div class=\"level\">{{ 'Contact No.'|t }} : {{ field_phone }}</div></div>\r\n</div>\r\n</a>"
+      filters:
+        status:
+          expose:
+            label: 'حالة المستخدم'

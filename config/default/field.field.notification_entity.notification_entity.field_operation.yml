@@ -1,0 +1,20 @@
+uuid: af146e0b-8d26-41f2-b1e6-ea8160f8c5ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_entity.field_operation
+  module:
+    - erpw_in_app_notification
+id: notification_entity.notification_entity.field_operation
+field_name: field_operation
+entity_type: notification_entity
+bundle: notification_entity
+label: Operation
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

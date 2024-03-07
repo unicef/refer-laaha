@@ -1,0 +1,19 @@
+uuid: 5279b515-e003-4678-91b6-d9cb347e5426
+langcode: en
+status: true
+dependencies:
+  module:
+    - serialization
+    - user
+    - webform_rest
+id: webform_rest_submission
+plugin_id: webform_rest_submission
+granularity: resource
+configuration:
+  methods:
+    - GET
+    - PATCH
+  formats:
+    - json
+  authentication:
+    - cookie

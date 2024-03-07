@@ -1,0 +1,21 @@
+uuid: a52422d4-ac00-4165-b95b-5dbfa64e0c7e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_entity.field_behavior
+  module:
+    - erpw_in_app_notification
+    - options
+id: notification_entity.notification_entity.field_behavior
+field_name: field_behavior
+entity_type: notification_entity
+bundle: notification_entity
+label: Behavior
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

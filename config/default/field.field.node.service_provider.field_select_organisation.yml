@@ -1,0 +1,25 @@
+uuid: dedfb3e9-982d-410d-97fc-fc41800d29e0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_select_organisation
+    - node.type.service_provider
+id: node.service_provider.field_select_organisation
+field_name: field_select_organisation
+entity_type: node
+bundle: service_provider
+label: Organisation
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: organisations
+      display_name: org_entity_reference
+      arguments: {  }
+field_type: entity_reference

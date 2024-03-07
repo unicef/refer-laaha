@@ -1,0 +1,24 @@
+uuid: 855bbfdd-09cc-42cb-8356-017ca6f7b6ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_entity.field_specific_user
+  module:
+    - erpw_in_app_notification
+id: notification_entity.notification_entity.field_specific_user
+field_name: field_specific_user
+entity_type: notification_entity
+bundle: notification_entity
+label: 'Specific user'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

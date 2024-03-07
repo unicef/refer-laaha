@@ -1,0 +1,27 @@
+uuid: 932b0039-922d-4483-8342-1efbb557011c
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.cta_buttons_on_rpw_homepage
+    - field.storage.block_content.field_upload_gbv_referrals_guide
+  module:
+    - file
+id: block_content.cta_buttons_on_rpw_homepage.field_upload_gbv_referrals_guide
+field_name: field_upload_gbv_referrals_guide
+entity_type: block_content
+bundle: cta_buttons_on_rpw_homepage
+label: 'Upload GBV Referrals Guidelines'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: pdf
+  max_filesize: ''
+  description_field: true
+field_type: file

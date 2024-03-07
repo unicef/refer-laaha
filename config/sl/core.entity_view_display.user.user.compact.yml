@@ -1,0 +1,56 @@
+uuid: 280eea34-13f9-496a-a75f-d64e7e881208
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.user.compact
+    - field.field.user.user.field_domain_access
+    - field.field.user.user.field_domain_admin
+    - field.field.user.user.field_domain_all_affiliates
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_last_name
+    - field.field.user.user.field_location
+    - field.field.user.user.field_organisation
+    - field.field.user.user.field_phone
+    - field.field.user.user.field_position
+    - field.field.user.user.field_soft_delete
+    - field.field.user.user.field_system_role
+    - field.field.user.user.field_transitions
+    - field.field.user.user.user_picture
+    - image.style.thumbnail
+  module:
+    - image
+    - user
+_core:
+  default_config_hash: '-cLsS3M3JycipXQt9rEb81_HxKneReoGuRh8ijcOPXs'
+id: user.user.compact
+targetEntityType: user
+bundle: user
+mode: compact
+content:
+  user_picture:
+    type: image
+    label: hidden
+    settings:
+      image_link: content
+      image_style: thumbnail
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_domain_access: true
+  field_domain_admin: true
+  field_domain_all_affiliates: true
+  field_first_name: true
+  field_last_name: true
+  field_location: true
+  field_organisation: true
+  field_phone: true
+  field_position: true
+  field_soft_delete: true
+  field_system_role: true
+  field_transitions: true
+  langcode: true
+  member_for: true

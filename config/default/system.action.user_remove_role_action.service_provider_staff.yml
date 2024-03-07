@@ -1,0 +1,14 @@
+uuid: f3edf0b7-07d9-4009-88be-80b63c08bd77
+langcode: sn
+status: true
+dependencies:
+  config:
+    - user.role.service_provider_staff
+  module:
+    - user
+id: user_remove_role_action.service_provider_staff
+label: 'Remove the Service Provider/ Staff role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: service_provider_staff

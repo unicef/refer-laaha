@@ -1,0 +1,23 @@
+uuid: 9f31f0ee-cdd3-4f43-80bc-ef11eb57b907
+langcode: sn
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.referral_path_way
+  module:
+    - text
+id: node.referral_path_way.body
+field_name: body
+entity_type: node
+bundle: referral_path_way
+label: Body
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

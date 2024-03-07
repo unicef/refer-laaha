@@ -1,0 +1,21 @@
+label: 'محتوى خاضع للإشراف'
+display:
+  default:
+    display_title: الافتراضي
+    display_options:
+      title: 'محتوى خاضع للإشراف'
+      fields:
+        title:
+          label: العنوان
+      exposed_form:
+        options:
+          submit_button: انتقاء
+          reset_button_label: 'إعادة الضبط'
+          exposed_sorts_label: 'الترتيب حسب'
+          sort_asc_label: تصاعدي
+          sort_desc_label: تنازلي
+      empty:
+        area_text_custom:
+          content: '<div>No service content is available for approval.</div>'
+  moderated_content:
+    display_title: 'محتوى خاضع للإشراف'

@@ -1,0 +1,58 @@
+uuid: e9774282-3718-45cf-88b0-e4dd41ab1fd7
+langcode: sn
+status: true
+dependencies:
+  config:
+    - field.field.node.referral_path_way.body
+    - field.field.node.referral_path_way.field_domain_access
+    - field.field.node.referral_path_way.field_domain_all_affiliates
+    - field.field.node.referral_path_way.field_domain_source
+    - field.field.node.referral_path_way.field_location
+    - field.field.node.referral_path_way.field_section
+    - node.type.referral_path_way
+  module:
+    - paragraphs
+id: node.referral_path_way.default
+targetEntityType: node
+bundle: referral_path_way
+mode: default
+content:
+  field_section:
+    type: entity_reference_paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Section
+      title_plural: Sections
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: sections
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  body: true
+  created: true
+  field_domain_access: true
+  field_domain_all_affiliates: true
+  field_domain_source: true
+  field_location: true
+  langcode: true
+  moderation_state: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true
