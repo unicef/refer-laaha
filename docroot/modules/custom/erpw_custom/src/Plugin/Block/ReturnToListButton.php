@@ -90,6 +90,9 @@ class ReturnToListButton extends BlockBase implements ContainerFactoryPluginInte
       $build = [
         '#markup' => $markup,
         '#weight' => 105,
+        '#cache' => [
+          'contexts' => ['url'],
+        ],
       ];
 
       // Store the result in cache.
