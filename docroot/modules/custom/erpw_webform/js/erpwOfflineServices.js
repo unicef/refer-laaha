@@ -1,4 +1,4 @@
-(function ($, Drupal, drupalSettings, localforage) {
+(function($, Drupal, drupalSettings, localforage) {
   var elementCreated = false;
   var additionalInfoClick = [];
   var alreadyExecuted = false;
@@ -7,9 +7,9 @@
     // Get the current domain dynamically
     var baseUrl = window.location.protocol + "//" + window.location.host;
     var dynamicValue =
-      window.location.pathname.match(/\d+/) === null
-        ? null
-        : window.location.pathname.match(/\d+/)[0];
+      window.location.pathname.match(/\d+/) === null ?
+      null :
+      window.location.pathname.match(/\d+/)[0];
     // Define a mapping of view classes to their respective REST export paths.
     let viewsData = {};
     viewsData["view-service-based-service-providers-listing"] =
@@ -37,7 +37,7 @@
         if (customElement) {
           customElement.style.display = "block";
         }
-        $(".load-more-button a").on("click", function (event) {
+        $(".load-more-button a").on("click", function(event) {
           customElement.style.display = "none";
           if (localStorage.getItem('onlinestatus') === 'false') {
             event.preventDefault(); // Prevent default link behavior
@@ -77,8 +77,7 @@
                   var parsedStatus = "";
                   var parsedSubmittedBy = "";
                   var parsedStatusClass = "";
-                  if (key == moreDetailsLink[0]) {
-                  } else {
+                  if (key == moreDetailsLink[0]) {} else {
                     if (parsedValue["Organisation"]) {
                       parsedOrganisation = parsedValue["Organisation"];
                     } else {
@@ -333,22 +332,23 @@
     $(".view-content").on(
       "click",
       ".service-detail-heading a",
-      function (event) {
+      function(event) {
         if (localStorage.getItem('onlinestatus') === 'false') {
           event.preventDefault();
         }
       }
     );
-    $(".views-row").each(function () {
+    $(".views-row").each(function() {
       if (localStorage.getItem('onlinestatus') === 'false') {
         // Find the anchor tag inside .service-detail-heading
         var anchorTag = $(this).find(".service-detail-heading a");
 
         // Set pointer events to "none"
         anchorTag.css("pointer-events", "none");
+        anchorTag.css("display", "none");
       }
     });
-    $(".views-row").each(function () {
+    $(".views-row").each(function() {
       if (localStorage.getItem('onlinestatus') === 'false') {
         // Find the edit anchor tag inside .service-detail-heading
         var anchorTag = $(this).find(
@@ -364,7 +364,7 @@
     $(".view-content").on(
       "click",
       ".views-row .row-header a",
-      function (event) {
+      function(event) {
         if (localStorage.getItem('onlinestatus') === 'false') {
           event.preventDefault(); // Prevent default link behavior
           var viewRow = $(this).closest(".views-row");
@@ -532,7 +532,7 @@
     );
 
     // Integrate form on edit offline link click.
-    $(".view-content").on("click", "#offline-edit", function (event) {
+    $(".view-content").on("click", "#offline-edit", function(event) {
       if (localStorage.getItem('onlinestatus') === 'false') {
         event.preventDefault();
         $(this)[0].style.display = "none";
@@ -586,8 +586,8 @@
                     .then((serviceFormData) => {
                       // Loop through the elements.
                       for (const elementKey in serviceFormData[
-                        "elementsFlattened"
-                      ]) {
+                          "elementsFlattened"
+                        ]) {
                         elementData =
                           serviceFormData["elementsFlattened"][elementKey];
                         // Find the nearest .views-row
@@ -597,7 +597,7 @@
                         // Find .pair-container elements within the nearest .views-row
                         nearestViewsRow
                           .find(".pair-container")
-                          .each(function () {
+                          .each(function() {
                             // Get the label and value elements within the pair container
                             var labelElement = $(this).find(".label");
                             var valueElement = $(this).find(".value");
@@ -812,7 +812,7 @@
                               }
                             }
                           });
-                        nearestViewsRow.find(".views-field").each(function () {
+                        nearestViewsRow.find(".views-field").each(function() {
                           // Get the label and value elements within the pair container
                           var labelElement = $(this).find(".views-label");
                           var valueElement = $(this).find(".field-content");
@@ -917,8 +917,7 @@
                     );
                 }
               }
-            } else {
-            }
+            } else {}
           })
           .catch((error) =>
             console.error(`Error checking existing data for key ${id}`, error)
@@ -928,7 +927,7 @@
 
     // Save the edit offline form.
     // Handle the click event of the new save anchor tag
-    $(".view-content").on("click", "#offline-save", function (event) {
+    $(".view-content").on("click", "#offline-save", function(event) {
       event.preventDefault();
       var currentUserId = drupalSettings.user.uid;
       var serviceID = $(this).attr("class").match(/\d+/)[0];
@@ -962,7 +961,7 @@
             // Find all elements with contentEditable="true"
             nearestViewsRow
               .find(".field-content[contenteditable='true']")
-              .each(function () {
+              .each(function() {
                 // Get the label text
                 var label = $(this).siblings(".views-label").text().trim();
                 var value = $(this).text().trim();
@@ -972,7 +971,7 @@
 
             nearestViewsRow
               .find(".pair-container .value[contenteditable='true']")
-              .each(function () {
+              .each(function() {
                 // Get the label text
                 var label = $(this).siblings(".label").text().trim();
                 var value = $(this).text().trim(); // Get the value text
@@ -981,7 +980,7 @@
               });
             nearestViewsRow
               .find(".offline-checkbox-list-wrapper")
-              .each(function () {
+              .each(function() {
                 // Get the label text
                 var label = $(this).siblings(".label").text().trim();
                 // Initialize an empty array to store checked values
@@ -994,7 +993,7 @@
                 // Loop through the child nodes of the wrapper
                 $(this)
                   .children()
-                  .each(function () {
+                  .each(function() {
                     var input = $(this).find('input[type="checkbox"]');
                     if (input.length > 0 && input.prop("checked")) {
                       // Get the value of the checked checkbox
@@ -1011,8 +1010,8 @@
                 }
                 if (
                   $(this)[0]
-                    .parentElement.className.split(" ")
-                    .includes("views-field")
+                  .parentElement.className.split(" ")
+                  .includes("views-field")
                 ) {
                   valueDiv.className = "field-content";
                 }
@@ -1024,7 +1023,7 @@
               });
             nearestViewsRow
               .find(".offline-radio-list-wrapper")
-              .each(function () {
+              .each(function() {
                 // Get the label text
                 var label = $(this).siblings(".label").text().trim();
                 // Initialize an empty array to store checked values
@@ -1036,7 +1035,7 @@
                 // Loop through the child nodes of the wrapper
                 $(this)
                   .children()
-                  .each(function () {
+                  .each(function() {
                     var input = $(this).find('input[type="radio"]:checked');
                     if (input.length > 0 && input.prop("checked")) {
                       // Get the value of the checked checkbox
@@ -1052,8 +1051,8 @@
                 }
                 if (
                   $(this)[0]
-                    .parentElement.className.split(" ")
-                    .includes("views-field")
+                  .parentElement.className.split(" ")
+                  .includes("views-field")
                 ) {
                   valueDiv.className = "field-content";
                 }
@@ -1063,7 +1062,7 @@
               });
             nearestViewsRow
               .find(".offline-select-list-wrapper")
-              .each(function () {
+              .each(function() {
                 // Get the label text
                 var label = $(this).siblings(".label").text().trim();
                 // Initialize an empty array to store checked values
@@ -1075,7 +1074,7 @@
                 // Loop through the child nodes of the wrapper
                 $(this)
                   .children()
-                  .each(function () {
+                  .each(function() {
                     var input = $(this).find('input[type="select"]');
                     if (input.length > 0 && input.prop("checked")) {
                       // Get the value of the checked checkbox
@@ -1096,7 +1095,7 @@
                 if (
                   contentKey == Drupal.t("Contact").concat(":") &&
                   JSON.parse(serviceData)["Phone number of focal point"] ===
-                    undefined &&
+                  undefined &&
                   contentEditableData[contentKey] != "Not available."
                 ) {
                   contentKeyData = contentEditableData[contentKey];
@@ -1166,288 +1165,176 @@
     });
   });
 
-  Drupal.behaviors.erpwOfflineServices = {
-    attach: function (context, settings) {
-      $(document).ready(function () {
-        // Reminder details
-        $(document).on('customOnline', function(event, data) {
-          // Check if the code has already been executed
-          if (alreadyExecuted) {
-            return;
-          }
-          // Set the flag to indicate that the code has been executed
-          alreadyExecuted = true;
+  // Run the first time; all subsequent calls will take care of themselves.
+  localStorage.setItem('onlinestatus', true);
 
-          var currentUserId = drupalSettings.user.uid;
-          if (currentUserId != 0) {
-            // Inside fetchDataAndStore function:
-            localforageUserServiceChanges = localforage.createInstance({
-              driver: localforage.INDEXEDDB,
-              name: "userServiceChanges".concat(currentUserId),
-              version: 1.0,
-              storeName: "userServiceChanges".concat(currentUserId),
-            });
+  // Reminder details
+  $(document).on('customOnline', function(event, data) {
+    // Check if the code has already been executed
+    if (alreadyExecuted) {
+      return;
+    }
+    // Set the flag to indicate that the code has been executed
+    alreadyExecuted = true;
 
-            localforageUserServiceCreated = localforage.createInstance({
-              driver: localforage.INDEXEDDB,
-              name: "userServiceCreated".concat(currentUserId),
-              version: 1.0,
-              storeName: "userServiceCreated".concat(currentUserId),
-            });
-            // Check if localforageUserServiceChanges has any key-value pairs
-            localforageUserServiceChanges
-              .length()
-              .then(function (numberOfKeys) {
-                localforageUserServiceCreated
-                  .length()
-                  .then(function (count) {
-                    if (numberOfKeys > 0 || count > 0) {
-                      const container = document.createElement("div");
-                      container.id = "reminder-details";
-                      container.className = "reminder-details-offline";
-                      container.style.backgroundColor =
-                        "rgba(243, 193, 191, 0.53)";
+    var currentUserId = drupalSettings.user.uid;
+    if (currentUserId != 0) {
+      // Inside fetchDataAndStore function:
+      localforageUserServiceChanges = localforage.createInstance({
+        driver: localforage.INDEXEDDB,
+        name: "userServiceChanges".concat(currentUserId),
+        version: 1.0,
+        storeName: "userServiceChanges".concat(currentUserId),
+      });
 
-                      const reminderHeading = document.createElement("div");
-                      reminderHeading.className = "reminder-detail-heading";
-                      reminderHeading.textContent = Drupal.t(
-                        "You have made changes to service providers while being offline."
-                      );
+      localforageUserServiceCreated = localforage.createInstance({
+        driver: localforage.INDEXEDDB,
+        name: "userServiceCreated".concat(currentUserId),
+        version: 1.0,
+        storeName: "userServiceCreated".concat(currentUserId),
+      });
+      // Check if localforageUserServiceChanges has any key-value pairs
+      localforageUserServiceChanges
+        .length()
+        .then(function(numberOfKeys) {
+          localforageUserServiceCreated
+            .length()
+            .then(function(count) {
+              if (numberOfKeys > 0 || count > 0) {
+                const container = document.createElement("div");
+                container.id = "reminder-details";
+                container.className = "reminder-details-offline";
+                container.style.backgroundColor =
+                  "rgba(243, 193, 191, 0.53)";
 
-                      const listingAnchor = document.createElement("a");
-                      listingAnchor.href = "/service-providers-changes-offline";
-                      listingAnchor.textContent =
-                        "Click here review and submit them."; // Set the text for the link
-                      listingAnchor.id = "offline-changes-listing"; // Set the ID for the link
-
-                      reminderHeading.appendChild(listingAnchor);
-                      container.appendChild(reminderHeading);
-                      // Get a reference to the existing <div class="region region-content">
-                      var regionContent =
-                        document.querySelector(".region-content");
-
-                      // Insert the new <div> as the first child inside the existing <div class="region region-content">
-                      regionContent.insertBefore(
-                        container,
-                        regionContent.firstChild
-                      );
-                    } else {
-                      console.log("localforageUserServiceChanges is empty.");
-                    }
-                  })
-                  .catch(function (error) {
-                    console.error("No offline changes: error", error);
-                  });
-              })
-              .catch(function (error) {
-                console.error("No offline changes: error", error);
-              });
-          }
-        });
-
-        const addedDiv = document.getElementById("offline-message-div");
-        if (addedDiv) {
-          addedDiv.remove();
-        }
-        const formElements = Array.from($("select"));
-        formElements.forEach((element) => {
-          element.disabled = false;
-        });
-        var viewClassFinal = "";
-        var localforageID; // Define localforageID here
-        let keysArray = [];
-        // Define a mapping of view classes to their respective REST export paths.
-        let viewsData = {};
-        viewsData["view-service-based-service-providers-listing"] =
-          "/service-provider-list/%node/export";
-        viewsData["block-views-blockmanage-webform-services-block-1"] =
-          "/manage-services/export";
-        viewsData["block-views-blockwebform-submissions-block-1"] =
-          "/webform_submission/rest_export";
-        viewsData["view-manage-in-review-webform-services-listing"] =
-          "/manage-draft-services/export";
-
-        function fetchDataAndStore() {
-          // Get the current domain dynamically
-          var baseUrl = window.location.protocol + "//" + window.location.host;
-          var dynamicValue =
-            window.location.pathname.match(/\d+/) === null
-              ? null
-              : window.location.pathname.match(/\d+/)[0];
-
-          // Loop through the viewsData array and make AJAX requests.
-          for (let viewClass in viewsData) {
-            const viewElement = document.querySelector(`.${viewClass}`);
-            if (viewElement) {
-              // Find the parent nav element
-              const pagerNav = document.querySelector(`.${viewClass} .pager`);
-
-              if (pagerNav) {
-                // Insert the custom element before the pagerNav
-                if (!elementCreated) {
-                  // Create the custom element
-                  const customElement = document.createElement("div");
-                  customElement.id = "offline-load-more-button";
-                  customElement.className = "load-more-button";
-                  customElement.innerHTML = '<a href="#">Load More</a>';
-                  pagerNav.parentNode.insertBefore(
-                    customElement,
-                    pagerNav.nextSibling
-                  );
-                  elementCreated = true;
-                }
-                const customElement = document.querySelector(
-                  "#offline-load-more-button"
+                const reminderHeading = document.createElement("div");
+                reminderHeading.className = "reminder-detail-heading";
+                reminderHeading.textContent = Drupal.t(
+                  "You have made changes to service providers while being offline."
                 );
-                customElement.style.display = "none";
 
-                const pagerItems = document.querySelector(
-                  `.${viewClass} .pager .pager__items`
+                const listingAnchor = document.createElement("a");
+                listingAnchor.href = "/service-providers-changes-offline";
+                listingAnchor.textContent =
+                  "Click here review and submit them."; // Set the text for the link
+                listingAnchor.id = "offline-changes-listing"; // Set the ID for the link
+
+                reminderHeading.appendChild(listingAnchor);
+                container.appendChild(reminderHeading);
+                // Get a reference to the existing <div class="region region-content">
+                var regionContent =
+                  document.querySelector(".region-content");
+
+                // Insert the new <div> as the first child inside the existing <div class="region region-content">
+                regionContent.insertBefore(
+                  container,
+                  regionContent.firstChild
                 );
-                pagerItems.style.display = "block";
-              }
-              urlFetch = `${baseUrl}${viewsData[viewClass]}`;
-              // Modify AJAX request to fetch data from REST export route.
-              if (
-                viewClass == "view-service-based-service-providers-listing" &&
-                dynamicValue != null
-              ) {
-                urlFetch = `${baseUrl}/service-provider-list/${dynamicValue}/export`;
-              }
-
-              localforage.config({
-                driver: localforage.INDEXEDDB,
-                name: viewClass,
-                version: 1.0,
-                storeName: viewClass,
-              });
-              // Inside fetchDataAndStore function:
-              localforageID = localforage.createInstance({
-                driver: localforage.INDEXEDDB,
-                name: viewClass + "IDS",
-                version: 1.0,
-                storeName: viewClass + "IDS",
-              });
-              viewClassFinal = viewClass;
-              if (localStorage.getItem(viewClassFinal) !== null) {
-                var changedTime = localStorage.getItem(viewClassFinal);
-                // Get the current Unix timestamp in seconds.
-                urlFetchTime = `${baseUrl}/api/erpw-webform-serviceslatestupdate/service`;
-                fetch(urlFetchTime)
-                  .then((responseTime) => responseTime.json())
-                  .then((responseTimeArray) => {
-                    if (responseTimeArray[0].changed > changedTime) {
-                      fetch(urlFetch)
-                        .then((response) => response.json())
-                        .then((dataArray) => {
-                          // Use localForage to store data
-                          dataArray.forEach((dataItem) => {
-                            try {
-                              const webformData = JSON.parse(
-                                dataItem.webform_submission_all_data
-                              );
-                              if (webformData && webformData.sid) {
-                                const key = webformData.sid; // Use 'sid' property from the parsed object
-
-                                // Check if key already exists
-                                localforage
-                                  .getItem(key)
-                                  .then((existingData) => {
-                                    if (existingData) {
-                                      // Update the value
-                                      localforage
-                                        .setItem(
-                                          key,
-                                          dataItem.webform_submission_all_data
-                                        )
-                                        .then(() => {
-                                          console.log(
-                                            `Data for key ${key} updated successfully.`
-                                          );
-                                        })
-                                        .catch((error) =>
-                                          console.error(
-                                            `Error updating data for key ${key}`,
-                                            error
-                                          )
-                                        );
-                                    } else {
-                                      // Key doesn't exist, create a new entry
-                                      localforage
-                                        .setItem(
-                                          key,
-                                          dataItem.webform_submission_all_data
-                                        )
-                                        .then(() => {
-                                          console.log(
-                                            `Data for key ${key} stored successfully.`
-                                          );
-                                        })
-                                        .catch((error) =>
-                                          console.error(
-                                            `Error storing data for key ${key}`,
-                                            error
-                                          )
-                                        );
-                                    }
-                                  })
-                                  .catch((error) =>
-                                    console.error(
-                                      `Error checking existing data for key ${key}`,
-                                      error
-                                    )
-                                  );
-
-                                if (!keysArray.includes(key)) {
-                                  keysArray.push(key);
-                                }
-                                // Update the value in localforageID with the updated array
-                                localforageID
-                                  .setItem("keys", keysArray)
-                                  .then(() => {
-                                    console.log(
-                                      `Data for keys Array updated successfully.`
-                                    );
-                                  })
-                                  .catch((error) =>
-                                    console.error(
-                                      `Error updating data for keys array`,
-                                      error
-                                    )
-                                  );
-                                localStorage.setItem(
-                                  viewClassFinal,
-                                  Math.floor(Date.now() / 1000)
-                                );
-                              } else {
-                                console.error(
-                                  `'sid' property not found in webform_submission_all_data`,
-                                  dataItem
-                                );
-                              }
-                            } catch (parseError) {
-                              console.error(
-                                `Error parsing 'webform_submission_all_data' property`,
-                                dataItem
-                              );
-                            }
-                          });
-                        })
-                        .catch((error) =>
-                          console.error(
-                            `Error fetching data from REST endpoint`,
-                            error
-                          )
-                        );
-                    }
-                  })
-                  .catch((error) =>
-                    console.error(
-                      `Error fetching data from REST endpoint`,
-                      error
-                    )
-                  );
               } else {
+                console.log("localforageUserServiceChanges is empty.");
+              }
+            })
+            .catch(function(error) {
+              console.error("No offline changes: error", error);
+            });
+        })
+        .catch(function(error) {
+          console.error("No offline changes: error", error);
+        });
+    }
+  });
+
+  function fetchDataAndStore() {
+    const addedDiv = document.getElementById("offline-message-div");
+    if (addedDiv) {
+      addedDiv.remove();
+    }
+    const formElements = Array.from($("select"));
+    formElements.forEach((element) => {
+      element.disabled = false;
+    });
+    var viewClassFinal = "";
+    var localforageID; // Define localforageID here
+    let keysArray = [];
+    // Define a mapping of view classes to their respective REST export paths.
+    let viewsData = {};
+    viewsData["view-service-based-service-providers-listing"] =
+      "/service-provider-list/%node/export";
+    viewsData["block-views-blockmanage-webform-services-block-1"] =
+      "/manage-services/export";
+    viewsData["block-views-blockwebform-submissions-block-1"] =
+      "/webform_submission/rest_export";
+    viewsData["view-manage-in-review-webform-services-listing"] =
+      "/manage-draft-services/export";
+    // Get the current domain dynamically
+    var baseUrl = window.location.protocol + "//" + window.location.host;
+    var dynamicValue =
+      window.location.pathname.match(/\d+/) === null ?
+      null :
+      window.location.pathname.match(/\d+/)[0];
+
+    // Loop through the viewsData array and make AJAX requests.
+    for (let viewClass in viewsData) {
+      const viewElement = document.querySelector(`.${viewClass}`);
+      if (viewElement) {
+        // Find the parent nav element
+        const pagerNav = document.querySelector(`.${viewClass} .pager`);
+
+        if (pagerNav) {
+          // Insert the custom element before the pagerNav
+          if (!elementCreated) {
+            // Create the custom element
+            const customElement = document.createElement("div");
+            customElement.id = "offline-load-more-button";
+            customElement.className = "load-more-button";
+            customElement.innerHTML = '<a href="#">Load More</a>';
+            pagerNav.parentNode.insertBefore(
+              customElement,
+              pagerNav.nextSibling
+            );
+            elementCreated = true;
+          }
+          const customElement = document.querySelector(
+            "#offline-load-more-button"
+          );
+          customElement.style.display = "none";
+
+          const pagerItems = document.querySelector(
+            `.${viewClass} .pager .pager__items`
+          );
+          pagerItems.style.display = "block";
+        }
+        urlFetch = `${baseUrl}${viewsData[viewClass]}`;
+        // Modify AJAX request to fetch data from REST export route.
+        if (
+          viewClass == "view-service-based-service-providers-listing" &&
+          dynamicValue != null
+        ) {
+          urlFetch = `${baseUrl}/service-provider-list/${dynamicValue}/export`;
+        }
+
+        localforage.config({
+          driver: localforage.INDEXEDDB,
+          name: viewClass,
+          version: 1.0,
+          storeName: viewClass,
+        });
+        // Inside fetchDataAndStore function:
+        localforageID = localforage.createInstance({
+          driver: localforage.INDEXEDDB,
+          name: viewClass + "IDS",
+          version: 1.0,
+          storeName: viewClass + "IDS",
+        });
+        viewClassFinal = viewClass;
+        if (localStorage.getItem(viewClassFinal) !== null) {
+          var changedTime = localStorage.getItem(viewClassFinal);
+          // Get the current Unix timestamp in seconds.
+          urlFetchTime = `${baseUrl}/api/erpw-webform-serviceslatestupdate/service`;
+          fetch(urlFetchTime)
+            .then((responseTime) => responseTime.json())
+            .then((responseTimeArray) => {
+              if (responseTimeArray[0].changed > changedTime) {
                 fetch(urlFetch)
                   .then((response) => response.json())
                   .then((dataArray) => {
@@ -1551,60 +1438,173 @@
                     )
                   );
               }
-            }
-          }
-        }
-        if (localStorage.getItem('onlinestatus') !== null && localStorage.getItem('onlinestatus') == true) {
-          fetchDataAndStore();
-        }
-        // Check if the user is online and start the interval only if online
-        $(document).on('customOnline', function(event, data) {
-          window.location.reload(true);
-          $("#reminder-details").css("display", "block");
-          formElements.forEach((element) => {
-            element.disabled = false;
-          });
-          const addedDiv = document.getElementById("offline-message-div");
-          if (addedDiv) {
-            addedDiv.remove();
-          }
-          fetchDataAndStore(); // Run the code immediately on page load
+            })
+            .catch((error) =>
+              console.error(
+                `Error fetching data from REST endpoint`,
+                error
+              )
+            );
+        } else {
+          fetch(urlFetch)
+            .then((response) => response.json())
+            .then((dataArray) => {
+              // Use localForage to store data
+              dataArray.forEach((dataItem) => {
+                try {
+                  const webformData = JSON.parse(
+                    dataItem.webform_submission_all_data
+                  );
+                  if (webformData && webformData.sid) {
+                    const key = webformData.sid; // Use 'sid' property from the parsed object
 
-          // Set up an interval to run the code every 2 minutes
-          const intervalTime = 2 * 60 * 1000; // 2 minutes in milliseconds
-          setInterval(fetchDataAndStore, intervalTime);
-        });
-        $(document).on('customOffline', function(event, data) {
-          $("#reminder-details").css("display", "none");
-          // Disable form elements.
-          formElements.forEach((element) => {
-            element.disabled = true;
-          });
-        });
-      });
-    },
-  };
+                    // Check if key already exists
+                    localforage
+                      .getItem(key)
+                      .then((existingData) => {
+                        if (existingData) {
+                          // Update the value
+                          localforage
+                            .setItem(
+                              key,
+                              dataItem.webform_submission_all_data
+                            )
+                            .then(() => {
+                              console.log(
+                                `Data for key ${key} updated successfully.`
+                              );
+                            })
+                            .catch((error) =>
+                              console.error(
+                                `Error updating data for key ${key}`,
+                                error
+                              )
+                            );
+                        } else {
+                          // Key doesn't exist, create a new entry
+                          localforage
+                            .setItem(
+                              key,
+                              dataItem.webform_submission_all_data
+                            )
+                            .then(() => {
+                              console.log(
+                                `Data for key ${key} stored successfully.`
+                              );
+                            })
+                            .catch((error) =>
+                              console.error(
+                                `Error storing data for key ${key}`,
+                                error
+                              )
+                            );
+                        }
+                      })
+                      .catch((error) =>
+                        console.error(
+                          `Error checking existing data for key ${key}`,
+                          error
+                        )
+                      );
+
+                    if (!keysArray.includes(key)) {
+                      keysArray.push(key);
+                    }
+                    // Update the value in localforageID with the updated array
+                    localforageID
+                      .setItem("keys", keysArray)
+                      .then(() => {
+                        console.log(
+                          `Data for keys Array updated successfully.`
+                        );
+                      })
+                      .catch((error) =>
+                        console.error(
+                          `Error updating data for keys array`,
+                          error
+                        )
+                      );
+                    localStorage.setItem(
+                      viewClassFinal,
+                      Math.floor(Date.now() / 1000)
+                    );
+                  } else {
+                    console.error(
+                      `'sid' property not found in webform_submission_all_data`,
+                      dataItem
+                    );
+                  }
+                } catch (parseError) {
+                  console.error(
+                    `Error parsing 'webform_submission_all_data' property`,
+                    dataItem
+                  );
+                }
+              });
+            })
+            .catch((error) =>
+              console.error(
+                `Error fetching data from REST endpoint`,
+                error
+              )
+            );
+        }
+      }
+    }
+  }
+
+  // Check if the user is online and start the interval only if online
+  $(document).on('customOnline', function(event, data) {
+    // window.location.reload(true);
+    $("#reminder-details").css("display", "block");
+    const formElements = Array.from($("select"));
+    formElements.forEach((element) => {
+      element.disabled = false;
+    });
+    const addedDiv = document.getElementById("offline-message-div");
+    if (addedDiv) {
+      addedDiv.remove();
+    }
+    fetchDataAndStore(); // Run the code immediately on page load
+
+    // Set up an interval to run the code every 2 minutes
+    const intervalTime = 120000; // 2 minutes in milliseconds
+    setInterval(fetchDataAndStore, intervalTime);
+  });
+
+  $(document).on('customOffline', function(event, data) {
+    $("#reminder-details").css("display", "none");
+    // Disable form elements.
+    const formElements = Array.from($("select"));
+    formElements.forEach((element) => {
+      element.disabled = true;
+    });
+  });
 
   function checkNetwork() {
     $.ajax({
       type: "GET",
       url: document.location.origin + '/' + 'available.php',
-      success: function(msg){
+      success: function(msg) {
         if (msg.code) {
           console.log("Connection active!");
-          var eventData = { status: true };
+          var eventData = {
+            status: true
+          };
           if (localStorage.getItem('onlinestatus') === null) {
             localStorage.setItem('onlinestatus', true);
+            fetchDataAndStore();
           } else {
             if (localStorage.getItem('onlinestatus') !== 'true') {
               localStorage.setItem('onlinestatus', true);
               $(document).trigger('customOnline', eventData);
             }
           }
-        }
-        else {
+        } else {
           console.log("Connection seems dead!")
-          var eventData = { status: false };
+          var eventData = {
+            status: false
+          };
           if (localStorage.getItem('onlinestatus') === null) {
             localStorage.setItem('onlinestatus', false);
           } else {
@@ -1614,30 +1614,32 @@
             }
           }
         }
-        
+
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
-          if(textStatus == 'timeout') {
-            console.log('Connection seems dead!');
-            var eventData = { status: false };
-            if (localStorage.getItem('onlinestatus') === null) {
+        if (textStatus == 'timeout') {
+          console.log('Connection seems dead!');
+          var eventData = {
+            status: false
+          };
+          if (localStorage.getItem('onlinestatus') === null) {
+            localStorage.setItem('onlinestatus', false);
+          } else {
+            if (localStorage.getItem('onlinestatus') !== 'false') {
               localStorage.setItem('onlinestatus', false);
-            } else {
-              if (localStorage.getItem('onlinestatus') !== 'false') {
-                localStorage.setItem('onlinestatus', false);
-                $(document).trigger('customOffline', eventData);
-              }
+              $(document).trigger('customOffline', eventData);
             }
           }
+        }
       }
     });
     setTimeout(checkNetwork, 5000);
   }
-  
-  $(document).ready(function() {
-    // Run the first time; all subsequent calls will take care of themselves.
-    localStorage.setItem('onlinestatus', true);
-    setTimeout(checkNetwork, 5000);
-  });
+
+  checkNetwork();
+
+  setTimeout(function() {
+    fetchDataAndStore();
+  }, 3000); 
 
 })(jQuery, Drupal, drupalSettings, localforage);
