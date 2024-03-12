@@ -149,7 +149,7 @@ class ServiceSubmissionsView extends ControllerBase {
                     }
                     $output[] = ['Location' => $location];
                   }
-                  elseif ($element['#type'] == 'checkbox') {
+                  elseif (isset($element['#type']) && $element['#type'] == 'checkbox') {
                     if ($content != NULL) {
                       if ($content == 1) {
                         $output[] = [$element['#title'] => t('Yes')];
@@ -159,7 +159,7 @@ class ServiceSubmissionsView extends ControllerBase {
                       }
                     }
                   }
-                  elseif ($element['#type'] == 'checkboxes') {
+                  elseif (isset($element['#type']) && $element['#type'] == 'checkboxes') {
                     $values = [];
                     if (gettype($content) == 'array' & $content != NULL) {
                       foreach ($content as $key) {
@@ -175,12 +175,12 @@ class ServiceSubmissionsView extends ControllerBase {
                       }
                     }
                   }
-                  elseif ($element['#type'] == 'radios') {
-                    if ($element['#options'][$content] != NULL) {
+                  elseif (isset($element['#type']) && $element['#type'] == 'radios') {
+                    if ($content != NULL && !empty($content) && $element['#options'][$content] != NULL) {
                       $output[] = [$element['#title'] => $element['#options'][$content]];
                     }
                   }
-                  elseif ($element['#type'] == 'select') {
+                  elseif (isset($element['#type']) && $element['#type'] == 'select') {
                     $values = [];
                     if (gettype($content) == 'array' & $content != NULL) {
                       foreach ($content as $key) {
@@ -196,7 +196,7 @@ class ServiceSubmissionsView extends ControllerBase {
                       }
                     }
                   }
-                  elseif ($element['#type'] == 'webform_entity_select') {
+                  elseif (isset($element['#type']) && $element['#type'] == 'webform_entity_select') {
                     if ($element['#title'] = 'Organisation') {
                       if (!empty($content)) {
                         $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
@@ -204,7 +204,7 @@ class ServiceSubmissionsView extends ControllerBase {
                       }
                     }
                   }
-                  elseif ($element['#type'] == 'webform_mapping') {
+                  elseif (isset($element['#type']) && $element['#type'] == 'webform_mapping') {
                     $form_data = $webform_submission->getData();
                     if (isset($form_data['opening_times'])) {
                       $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
@@ -250,7 +250,7 @@ class ServiceSubmissionsView extends ControllerBase {
                 }
                 $output[] = ['Location' => $location];
               }
-              elseif ($element['#type'] == 'checkbox') {
+              elseif (isset($element['#type']) && $element['#type'] == 'checkbox') {
                 if ($content != NULL) {
                   if ($content == 1) {
                     $output[] = [$element['#title'] => t('Yes')];
@@ -260,7 +260,7 @@ class ServiceSubmissionsView extends ControllerBase {
                   }
                 }
               }
-              elseif ($element['#type'] == 'checkboxes') {
+              elseif (isset($element['#type']) && $element['#type'] == 'checkboxes') {
                 $values = [];
                 if (gettype($content) == 'array' & $content != NULL) {
                   foreach ($content as $key) {
@@ -276,12 +276,12 @@ class ServiceSubmissionsView extends ControllerBase {
                   }
                 }
               }
-              elseif ($element['#type'] == 'radios') {
-                if ($element['#options'][$content] != NULL) {
+              elseif (isset($element['#type']) && $element['#type'] == 'radios') {
+                if ($content != NULL && !empty($content) && $element['#options'][$content] != NULL) {
                   $output[] = [$element['#title'] => $element['#options'][$content]];
                 }
               }
-              elseif ($element['#type'] == 'select') {
+              elseif (isset($element['#type']) && $element['#type'] == 'select') {
                 $values = [];
                 if (gettype($content) == 'array' & $content != NULL) {
                   foreach ($content as $key) {
@@ -297,7 +297,7 @@ class ServiceSubmissionsView extends ControllerBase {
                   }
                 }
               }
-              elseif ($element['#type'] == 'webform_entity_select') {
+              elseif (isset($element['#type']) && $element['#type'] == 'webform_entity_select') {
                 if ($element['#title'] = 'Organisation') {
                   if (!empty($content)) {
                     $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
@@ -305,7 +305,7 @@ class ServiceSubmissionsView extends ControllerBase {
                   }
                 }
               }
-              elseif ($element['#type'] == 'webform_mapping') {
+              elseif (isset($element['#type']) && $element['#type'] == 'webform_mapping') {
                 $form_data = $webform_submission->getData();
                 if (isset($form_data['opening_times'])) {
                   $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
@@ -425,7 +425,7 @@ class ServiceSubmissionsView extends ControllerBase {
    * Generate key value pair of elements in the webform submission which are in edit or delete
    * workflow.
    */
-  public function content_approved(WebformSubmission $webform_submission) {
+  public function contentApproved(WebformSubmission $webform_submission) {
     $cid = 'service_submissions_view' . $webform_submission->id();
     $markup = '';
     $cache_tags = ['webform_submission:' . $webform_submission->id()];
@@ -515,7 +515,7 @@ class ServiceSubmissionsView extends ControllerBase {
                     }
                     $output[] = ['Location' => $location];
                   }
-                  elseif ($element['#type'] == 'checkbox') {
+                  elseif (isset($element['#type']) && $element['#type'] == 'checkbox') {
                     if ($content != NULL) {
                       if ($content == 1) {
                         $output[] = [$element['#title'] => t('Yes')];
@@ -525,7 +525,7 @@ class ServiceSubmissionsView extends ControllerBase {
                       }
                     }
                   }
-                  elseif ($element['#type'] == 'checkboxes') {
+                  elseif (isset($element['#type']) && $element['#type'] == 'checkboxes') {
                     $values = [];
                     if (gettype($content) == 'array' & $content != NULL) {
                       foreach ($content as $key) {
@@ -541,12 +541,12 @@ class ServiceSubmissionsView extends ControllerBase {
                       }
                     }
                   }
-                  elseif ($element['#type'] == 'radios') {
-                    if ($element['#options'][$content] != NULL) {
+                  elseif (isset($element['#type']) && $element['#type'] == 'radios') {
+                    if ($content != NULL && !empty($content) && $element['#options'][$content] != NULL) {
                       $output[] = [$element['#title'] => $element['#options'][$content]];
                     }
                   }
-                  elseif ($element['#type'] == 'select') {
+                  elseif (isset($element['#type']) && $element['#type'] == 'select') {
                     $values = [];
                     if (gettype($content) == 'array' & $content != NULL) {
                       foreach ($content as $key) {
@@ -562,7 +562,7 @@ class ServiceSubmissionsView extends ControllerBase {
                       }
                     }
                   }
-                  elseif ($element['#type'] == 'webform_entity_select') {
+                  elseif (isset($element['#type']) && $element['#type'] == 'webform_entity_select') {
                     if ($element['#title'] = 'Organisation') {
                       if (!empty($content)) {
                         $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
@@ -570,7 +570,7 @@ class ServiceSubmissionsView extends ControllerBase {
                       }
                     }
                   }
-                  elseif ($element['#type'] == 'webform_mapping') {
+                  elseif (isset($element['#type']) && $element['#type'] == 'webform_mapping') {
                     $form_data = $webform_submission->getData();
                     if (isset($form_data['opening_times'])) {
                       $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
@@ -616,7 +616,7 @@ class ServiceSubmissionsView extends ControllerBase {
                 }
                 $output[] = ['Location' => $location];
               }
-              elseif ($element['#type'] == 'checkbox') {
+              elseif (isset($element['#type']) && $element['#type'] == 'checkbox') {
                 if ($content != NULL) {
                   if ($content == 1) {
                     $output[] = [$element['#title'] => t('Yes')];
@@ -626,7 +626,7 @@ class ServiceSubmissionsView extends ControllerBase {
                   }
                 }
               }
-              elseif ($element['#type'] == 'checkboxes') {
+              elseif (isset($element['#type']) && $element['#type'] == 'checkboxes') {
                 $values = [];
                 if (gettype($content) == 'array' & $content != NULL) {
                   foreach ($content as $key) {
@@ -642,12 +642,12 @@ class ServiceSubmissionsView extends ControllerBase {
                   }
                 }
               }
-              elseif ($element['#type'] == 'radios') {
-                if ($element['#options'][$content] != NULL) {
+              elseif (isset($element['#type']) && $element['#type'] == 'radios') {
+                if ($content != NULL && !empty($content) && $element['#options'][$content] != NULL) {
                   $output[] = [$element['#title'] => $element['#options'][$content]];
                 }
               }
-              elseif ($element['#type'] == 'select') {
+              elseif (isset($element['#type']) && $element['#type'] == 'select') {
                 $values = [];
                 if (gettype($content) == 'array' & $content != NULL) {
                   foreach ($content as $key) {
@@ -663,7 +663,7 @@ class ServiceSubmissionsView extends ControllerBase {
                   }
                 }
               }
-              elseif ($element['#type'] == 'webform_entity_select') {
+              elseif (isset($element['#type']) && $element['#type'] == 'webform_entity_select') {
                 if ($element['#title'] = 'Organisation') {
                   if (!empty($content)) {
                     $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
@@ -671,7 +671,7 @@ class ServiceSubmissionsView extends ControllerBase {
                   }
                 }
               }
-              elseif ($element['#type'] == 'webform_mapping') {
+              elseif (isset($element['#type']) && $element['#type'] == 'webform_mapping') {
                 $form_data = $webform_submission->getData();
                 if (isset($form_data['opening_times'])) {
                   $opening_hours_structured_data = $this->getOpeningHoursData($form_data['opening_times']);
@@ -936,8 +936,17 @@ class ServiceSubmissionsView extends ControllerBase {
   public function checkUserEditRights(string $workflow_state, string $user_role): bool {
     $can_edit = FALSE;
 
-    $focal_point_roles = ['service_provider_focal_point', 'super_admin', 'administrator'];
-    $gbv_coordination_roles = ['country_admin', 'interagency_gbv_coordinator', 'super_admin', 'administrator'];
+    $focal_point_roles = [
+      'service_provider_focal_point',
+      'super_admin',
+      'administrator',
+    ];
+    $gbv_coordination_roles = [
+      'country_admin',
+      'interagency_gbv_coordinator',
+      'super_admin',
+      'administrator',
+    ];
 
     switch ($workflow_state) {
       case 'in_review_with_focal_point':

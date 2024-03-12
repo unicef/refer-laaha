@@ -199,7 +199,9 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
   }
   if ($form_id == 'node_referral_path_way_edit_form' || $form_id == 'node_referral_path_way_form') {
     $permission = ($form_id == 'node_referral_path_way_edit_form') ? 'edit referral pathway of their own country' : 'add referral pathway of their own country';
-    $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
+    if (isset($form['location'])) {
+      $form['location']['level_0']['#options'] = erpw_filter_locations_permissions($form['location']['level_0']['#options'], $permission);
+    }
     $form['location']['level_0']['#empty_option'] = t('Select country');
   }
 
@@ -493,14 +495,16 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
       }
 
       $delete_confirmation_message = t('Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.');
+      $delete_confirmation_message_placeholders = ['@domains' => count($user_ids)];
+      $delete_confirmation_message_placeholders['@services'] = $number_of_services_provided_by_the_organisation;
       if (count($user_ids) > 0 && $number_of_services_provided_by_the_organisation > 0) {
-        $delete_confirmation_message = t('This organization is related to @domains users and @services services. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', ['@domains' => count($user_ids), '@services' => $number_of_services_provided_by_the_organisation]);
+        $delete_confirmation_message = t('This organization is related to @domains users and @services services. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', $delete_confirmation_message_placeholders);
       }
       elseif (count($user_ids) === 0 && $number_of_services_provided_by_the_organisation > 0) {
-        $delete_confirmation_message = t('This organization is related to @services services. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', ['@domains' => count($user_ids), '@services' => $number_of_services_provided_by_the_organisation]);
+        $delete_confirmation_message = t('This organization is related to @services services. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', $delete_confirmation_message_placeholders);
       }
       elseif (count($user_ids) > 0 && $number_of_services_provided_by_the_organisation === 0) {
-        $delete_confirmation_message = t('This organization is related to @domains users. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', ['@domains' => count($user_ids), '@services' => $number_of_services_provided_by_the_organisation]);
+        $delete_confirmation_message = t('This organization is related to @domains users. Deleting the organization will lead to deleting or distorting the existing data. Please review the existing organizations and services first.', $delete_confirmation_message_placeholders);
       }
       $form['description']['#markup'] = $delete_confirmation_message;
     }
@@ -528,7 +532,10 @@ function erpw_custom_form_alter(&$form, FormStateInterface $form_state, $form_id
     if ($webform_feedback_area_count > 0) {
       $webform_plurality = $webform_feedback_area_count > 1 ? 'feedback surveys' : 'feedback survey';
       $webform_name = implode(", ", $webform_names);
-      $delete_confirmation_message = t('This feedback area has @webforms_count @webform_plurality (@webform_name). Please review the existing @webform_plurality first.', ['@webforms_count' => $webform_feedback_area_count, '@webform_name' => $webform_name, '@webform_plurality' => $webform_plurality]);
+      $message_placeholders = ['@webforms_count' => $webform_feedback_area_count];
+      $message_placeholders['@webform_name'] = $webform_name;
+      $message_placeholders['@webform_plurality'] = $webform_plurality;
+      $delete_confirmation_message = t('This feedback area has @webforms_count @webform_plurality (@webform_name). Please review the existing @webform_plurality first.', $message_placeholders);
       unset($form['actions']['submit']);
     }
     $form['description']['#markup'] = $delete_confirmation_message;
@@ -663,7 +670,7 @@ function user_form_validation_organisation_validate($form, &$form_state) {
  *   TRUE if there is a match between the organization domain access and any of the location PTIDs,
  *   FALSE otherwise.
  */
-function match_user_organisation_domain_location($organisation_domain_access, $location_ptids) {
+function match_user_organisation_domain_location($organisation_domain_access, array $location_ptids) {
   $location_match = FALSE;
 
   // If $organisation_domain_access is not an array, convert it to an array.
@@ -739,7 +746,8 @@ function erpw_custom_current_user_assignable_system_roles($uid) {
     $current_user = User::load($uid);
     foreach ($roles as $role) {
       $permission = "role-assign users with role " . $role->id();
-      if ($current_user->hasPermission($permission) && !in_array($role->id(), ['anonymous', 'authenticated', 'administrator'])) {
+      $not_allowed_roles = ['anonymous', 'authenticated', 'administrator'];
+      if ($current_user->hasPermission($permission) && !in_array($role->id(), $not_allowed_roles)) {
         $system_roles[$role->id()] = $role->label();
         if ($active_domain_id == 'bn_erefer_org') {
           $system_roles['service_provider_focal_point'] = "GBV Service Provider Focal Point";
@@ -1474,7 +1482,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       erpw_add_entity_relationship_join($query, 'users_field_data', 'location', 'uid', 'user__field_location', 'entity_id', '=', 0, 'field_location_target_id');
 
       // Condition to only show the users if their organisation matches with the active domain.
-      // erpw_add_entity_relationship_join($query, 'user__field_organisation', 'domain_access', 'field_organisation_target_id', 'node__field_domain_access', 'entity_id', '=', 1, 'field_domain_access_target_id', $active_domain_id);
+      // erpw_add_entity_relationship_join($query, 'user__field_organisation', 'domain_access', 'field_organisation_target_id', 'node__field_domain_access', 'entity_id', '=', 1, 'field_domain_access_target_id', $active_domain_id);.
     }
     // User with Rejected status.
     elseif ($user_status === '0') {
@@ -2046,6 +2054,7 @@ function erpw_custom_node_view(array &$build, EntityInterface $entity, EntityVie
         $url = Url::fromRoute($route_name, $route_parameters)->toString();
         $response = new RedirectResponse($url);
         $response->send();
+        exit;
       }
     }
   }
@@ -2062,7 +2071,7 @@ function erpw_custom_node_view(array &$build, EntityInterface $entity, EntityVie
  * @return bool
  *   TRUE if the current user can edit the user, FALSE otherwise.
  */
-function erpw_custom_can_edit_user(AccountProxyInterface $current_user, $user) {
+function erpw_custom_can_edit_user(AccountProxyInterface $current_user, User $user) {
   $user_roles = $user->getRoles();
   $current_user_roles = $current_user->getRoles();
 

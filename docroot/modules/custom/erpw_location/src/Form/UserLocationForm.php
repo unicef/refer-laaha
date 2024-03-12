@@ -170,7 +170,12 @@ class UserLocationForm extends FormBase {
         $cookie_name = $this->locationCookie->changeCookieName($country_tid);
       }
       $this->locationCookie->setCookieValue($cookie_name, $location_value);
-      $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [], ['query' => ['location' => $location_value]]);
+      $url = Url::fromRoute('view.referral_pathway_on_homepage.page_1', [],
+      [
+        'query' => [
+          'location' => $location_value,
+        ],
+      ]);
       // First level is the country taxonomy term; if we have it we want to
       // modify the redirect to include the matching subdomain.
       if ($country_tid) {

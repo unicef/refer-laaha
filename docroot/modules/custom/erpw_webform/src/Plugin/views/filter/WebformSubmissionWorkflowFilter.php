@@ -100,7 +100,6 @@ class WebformSubmissionWorkflowFilter extends ManyToOne {
       'rejected_restoration_service_request' => 'Rejected Restore Service Request',
       'rejected_archive_service_request' => 'Rejected Archive Service Request',
     ];
-    // You can add your custom code here to add custom labels for state transitions.
     return $states;
   }
 
