@@ -442,6 +442,7 @@ class SignUpForm extends FormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Location'),
       '#required' => TRUE,
+      '#placeholder' => $this->t('Type your location and select the best match from the options'),
       '#autocomplete_route_name' => 'erpw_entity_autocomplete.signup.location',
     ];
 
