@@ -1474,7 +1474,7 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       erpw_add_entity_relationship_join($query, 'users_field_data', 'location', 'uid', 'user__field_location', 'entity_id', '=', 0, 'field_location_target_id');
 
       // Condition to only show the users if their organisation matches with the active domain.
-      // erpw_add_entity_relationship_join($query, 'user__field_organisation', 'domain_access', 'field_organisation_target_id', 'node__field_domain_access', 'entity_id', '=', 1, 'field_domain_access_target_id', $active_domain_id);
+      // erpw_add_entity_relationship_join($query, 'user__field_organisation', 'domain_access', 'field_organisation_target_id', 'node__field_domain_access', 'entity_id', '=', 1, 'field_domain_access_target_id', $active_domain_id);.
     }
     // User with Rejected status.
     elseif ($user_status === '0') {
@@ -1880,13 +1880,20 @@ function erpw_custom_entity_access(EntityInterface $entity, $operation, AccountI
         if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
           $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
           $user_location = $entity->get('field_location')->getValue()[0]['target_id'];
-          $loggedin_user_ancestors = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($location_id);
-          $view_user_ancestors = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($user_location);
-          if (end(array_keys($loggedin_user_ancestors)) == end(array_keys($view_user_ancestors))) {
-            return AccessResult::allowed();
+          if ($user_location) {
+            $loggedin_user_ancestors = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($location_id);
+            $view_user_ancestors = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($user_location);
+            $loggedin_user_ancestors_keys = array_keys($loggedin_user_ancestors);
+            $view_user_ancestors_keys = array_keys($view_user_ancestors);
+            if (end($loggedin_user_ancestors_keys) == end($view_user_ancestors_keys)) {
+              return AccessResult::allowed();
+            }
+            else {
+              return AccessResult::forbidden();
+            }
           }
           else {
-            return AccessResult::forbidden();
+            return AccessResult::allowed();
           }
         }
       }
