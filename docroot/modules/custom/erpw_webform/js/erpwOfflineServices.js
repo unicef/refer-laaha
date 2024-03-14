@@ -1617,18 +1617,16 @@
 
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
-        if (textStatus == 'timeout') {
-          console.log('Connection seems dead!');
-          var eventData = {
-            status: false
-          };
-          if (localStorage.getItem('onlinestatus') === null) {
+        console.log('Connection seems dead!');
+        var eventData = {
+          status: false
+        };
+        if (localStorage.getItem('onlinestatus') === null) {
+          localStorage.setItem('onlinestatus', false);
+        } else {
+          if (localStorage.getItem('onlinestatus') !== 'false') {
             localStorage.setItem('onlinestatus', false);
-          } else {
-            if (localStorage.getItem('onlinestatus') !== 'false') {
-              localStorage.setItem('onlinestatus', false);
-              $(document).trigger('customOffline', eventData);
-            }
+            $(document).trigger('customOffline', eventData);
           }
         }
       }
