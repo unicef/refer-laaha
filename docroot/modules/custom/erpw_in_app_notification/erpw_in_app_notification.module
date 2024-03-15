@@ -2089,8 +2089,8 @@ function erpw_in_app_notification__user_operation($user) {
 
     // GBV Focal Point - User Registration - Approved by GBV Coordination.
     $gbvfpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'gbvfp-accept');
-    if (empty($fpuser)) {
-      $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'gbvfp-register-sp-staff');
+    if (empty($gbvfpuser)) {
+      $gbvfpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'gbvfp-register-sp-staff');
     }
     if (empty($gbvfpuser)) {
       $gbvfpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'gbvfp-register-spfp');
@@ -2187,8 +2187,8 @@ function erpw_in_app_notification__user_operation($user) {
 
     // GBV Focal Point - User Registration - Rejected by GBV Coordination.
     $gbvfpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'gbvfp-accept');
-    if (empty($fpuser)) {
-      $fpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'gbvfp-register-sp-staff');
+    if (empty($gbvfpuser)) {
+      $gbvfpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'gbvfp-register-sp-staff');
     }
     if (empty($gbvfpuser)) {
       $gbvfpuser = \Drupal::service('erpw_in_app_notification.default')->getEvaluatorOfUser($user->id(), 'gbvfp-register-spfp');
