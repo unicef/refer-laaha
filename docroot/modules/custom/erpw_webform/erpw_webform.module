@@ -1507,9 +1507,11 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
             $conditions_group['value'] = $sid;
             $conditions_group['operator'] = 'NOT IN';
           }
-          if ($conditions_group['field'] == 'webform_submission.uid') {
-            unset($conditions[$key]);
-          }
+        }
+      }
+      foreach ($conditions as $key => &$conditions_group) {
+        if ($conditions_group['field'] == 'webform_submission.uid') {
+          unset($conditions[$key]);
         }
       }
     }
