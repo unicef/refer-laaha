@@ -26,10 +26,10 @@ cd $repo_root
 
 
 # Default site.
-drush cr
-drush updb -y
-drush cim -y
-drush cr
+# drush cr
+# drush updb -y
+# drush cim -y
+# drush cr
 
 # Bangladesh domain.
 drush cr -l bn
