@@ -62,7 +62,8 @@ Thumbs.db
 !/config/**/webform.webform_options.target_group.yml
 
 # Ignore paths that may contain user-generated content
-/docroot/sites/*/files
+/docroot/sites/*/files/*
+!/docroot/sites/*/files/favicons
 /docroot/sites/*/public
 /docroot/sites/*/private
 /docroot/sites/*/files-public
