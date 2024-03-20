@@ -407,13 +407,11 @@
                                     valueData[fieldLabel].includes(labelText)
                                   ) {
                                     // Uncheck the checkbox
-                                    eachcheckbox.checked = true;
-                                  } else {
-                                    // Uncheck the checkbox
-                                    eachcheckbox.checked = false;
+                                    $(eachcheckbox).prop('checked', true).trigger('change');
                                   }
-                                  eachcheckbox.trigger("change");
                                 }
+                                $(eachcheckbox).removeAttr('required');
+                                $(eachcheckbox).removeAttr('data-msg-required');
                               });
                             }
                           }
