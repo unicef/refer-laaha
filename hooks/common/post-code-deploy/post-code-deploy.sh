@@ -32,27 +32,27 @@ cd $repo_root
 # drush cr
 
 # Bangladesh domain.
-drush cr -l bn
-# drush updb -y -l bn
-# drush cim -y -l bn
-# drush cr -l bn
+drush cr --uri=bn
+drush updb -y --uri=bn
+drush cim -y --uri=bn
+drush cr --uri=bn
 
 # Zimbabwe domain.
-drush cr -l zw
-# drush updb -y -l zw
-# drush cim -y -l zw
-# drush cr -l zw
+drush cr --uri=zw
+drush updb -y --uri=zw
+drush cim -y --uri=zw
+drush cr --uri=zw
 
 # Sierra Leone domain.
-drush cr -l sl
-# drush updb -y -l sl
-# drush cim -y -l sl
-# drush cr -l sl
+drush cr --uri=sl
+drush updb -y --uri=sl
+drush cim -y --uri=sl
+drush cr --uri=sl
 
 # Turkey Cross Border domain.
-drush cr -l txb
-# drush updb -y -l txb
-# drush cim -y -l txb
-# drush cr -l txb
+drush cr --uri=txb
+drush updb -y --uri=txb
+drush cim -y --uri=txb
+drush cr --uri=txb
 
 set +v
