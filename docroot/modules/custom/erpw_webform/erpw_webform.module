@@ -603,9 +603,11 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     ];
     $form['#attributes']['class'][] = 'webform-service-rating-edit';
 
-    $service_rating_form_id = end(explode('/', $currentPath));
+    $id_from_path = explode('/', $currentPath);
+    $service_rating_form_id = end($id_from_path);
     $webform_entity = Webform::load($service_rating_form_id);
-    $webform_name_last_word = end(explode(' ', $webform_entity->label()));
+    $webform_label = explode(' ', $webform_entity->label());
+    $webform_name_last_word = end($webform_label);
     if ($webform_name_last_word !== "Rating" && $webform_entity) {
       $new_service_rating_form_title = explode('Rating ', $webform_entity->label())[1] . ' - ' . t('Service Rating');
       $webform_entity->set('title', $new_service_rating_form_title);
@@ -620,16 +622,44 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
     $id = $form['#id'];
     $options_key = ($id == 'views-exposed-form-webform-submissions-block-1') ? 'service_type' : 'webform_id';
     $service_type_filter_options = $form[$options_key]['#options'];
-    if ($service_type_filter_options !== NULL) {
-      $service_type_filter_options_keys = array_keys($service_type_filter_options);
-      $new_service_type_filter = [];
-      foreach ($service_type_filter_options_keys as $option) {
-        if (!str_contains($option, 'service_rating') && !str_contains($option, 'service_provider') && !str_contains($option, 'template_erpw_workflow')) {
-          $new_service_type_filter[$option] = $service_type_filter_options[$option];
+    $activeDomainId = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $service_type_filter_options_keys = array_keys($service_type_filter_options);
+
+    $cache_tags = ['config:webform_list', 'webform_list'];
+    $cache_id = 'service_type_filter_webform_list' . $activeDomainId;
+    if ($cache = \Drupal::cache()->get($cache_id)) {
+      $new_service_type_filter = $cache->data;
+    }
+    else {
+      if ($service_type_filter_options !== NULL) {
+        $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple($service_type_filter_options_keys);
+        $queryTwo = \Drupal::entityQuery('node')
+          ->condition('type', 'service_type')
+          ->accessCheck(FALSE);
+        $nids = $queryTwo->execute();
+        // Load nodes.
+        $serviceTypes = Node::loadMultiple($nids);
+        // Generate key-value pairs of serviceTypes.
+        $new_service_type_filter = [];
+        foreach ($webforms as $webform) {
+          $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
+          if (is_array($tpa)) {
+            if (is_array($tpa[$activeDomainId])) {
+              foreach ($serviceTypes as $key => $servicetype) {
+                if ($key == $tpa[$activeDomainId][0]) {
+                  if ($servicetype instanceof Node) {
+                    $servicetypelabel = $servicetype->get('title')->getValue()[0]['value'];
+                    $new_service_type_filter[$webform->id()] = $servicetypelabel;
+                  }
+                }
+              }
+            }
+          }
         }
       }
-      $form[$options_key]['#options'] = $new_service_type_filter;
+      \Drupal::cache()->set($cache_id, $new_service_type_filter, Cache::PERMANENT, $cache_tags);
     }
+    $form[$options_key]['#options'] = ['All' => t('All')] + $new_service_type_filter;
   }
 
   if ($currentRoute === "entity.webform.test_form" && str_contains($currentPath, 'webform_service_rating') && str_contains($currentPath, '/test')) {
