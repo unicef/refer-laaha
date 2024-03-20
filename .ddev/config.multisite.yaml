@@ -10,3 +10,9 @@ hooks:
     service: db
   - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS bn; GRANT ALL ON bn.* to 'db'@'%';"
     service: db
+  - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS sl; GRANT ALL ON sl.* to 'db'@'%';"
+    service: db
+  - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS txb; GRANT ALL ON txb.* to 'db'@'%';"
+    service: db
+  - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS zw; GRANT ALL ON zw.* to 'db'@'%';"
+    service: db
