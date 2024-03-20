@@ -412,6 +412,7 @@
                                     // Uncheck the checkbox
                                     eachcheckbox.checked = false;
                                   }
+                                  eachcheckbox.trigger("change");
                                 }
                               });
                             }
