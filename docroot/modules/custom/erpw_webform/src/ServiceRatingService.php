@@ -546,27 +546,13 @@ class ServiceRatingService {
       $organisation_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
     }
     else {
-      $current_domain = $this->domainNegotiator->getActiveDomain()->id();
-      switch ($current_domain) {
-        case 'zm_erefer_org':
-          $organisation_id = 456;
-          break;
-
-        case 'bn_erefer_org':
-          $organisation_id = 336;
-          break;
-
-        case 'sl_erefer_org':
-          $organisation_id = 4456;
-          break;
-
-        case 'txb_erefer_org':
-          $organisation_id = 5175;
-          break;
-
-        default:
-          $organisation_id = NULL;
-      }
+      $activeDomainID = $this->domainNegotiator->getActiveDomain()->id();
+      $organisation_nids = \Drupal::entityQuery('node')
+        ->condition('type', 'organisation')
+        ->condition('field_domain_access', $activeDomainID)
+        ->accessCheck(FALSE)
+        ->execute();
+      $organisation_id = reset($organisation_nids);
     }
 
     return $organisation_id;
