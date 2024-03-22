@@ -546,8 +546,10 @@ class ServiceRatingService {
       $organisation_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
     }
     else {
+      $activeDomainID = $this->domainNegotiator->getActiveDomain()->id();
       $organisation_nids = \Drupal::entityQuery('node')
         ->condition('type', 'organisation')
+        ->condition('field_domain_access', $activeDomainID)
         ->accessCheck(FALSE)
         ->execute();
       $organisation_id = reset($organisation_nids);
