@@ -154,7 +154,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
           // Retrieve the data from the cache.
           $normalized_element_values = $cache_data->data;
         }
-        
+
         // Calculate the average rating for this webform and round to the nearest whole number.
         $average_rating = round($this->serviceRating->calculateAverageRating($normalized_element_values));
         $webform_ratings[$webform_id] = $average_rating;
@@ -227,7 +227,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       '#organisation_average' => round($organisational_average),
       '#organisation_total_services_count' => $servicesCount,
       '#organisation_total_reviews' => $totalReviewsCount > 1 ? $totalReviewsCount . ' Reviews' : $totalReviewsCount . ' Review',
-      '#service_list' => $organisation_services_list, 
+      '#service_list' => $organisation_services_list,
       '#org_filter_form' => $orgFilterForm,
       '#service_rating_enable_gbv_form' => $serviceRatingEnableGbvForm,
     ];
