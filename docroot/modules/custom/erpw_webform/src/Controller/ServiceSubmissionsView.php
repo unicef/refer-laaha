@@ -384,7 +384,7 @@ class ServiceSubmissionsView extends ControllerBase {
 
         foreach ($output as $item) {
           foreach ($item as $key => $value) {
-            if($key == 'Last updated time') {
+            if ($key == 'Last updated time') {
               $markup .= '<div class="pair-container"><span class="label">' . Markup::create(t('Last updated time')) . ':</span>';
             }
             else {
@@ -428,7 +428,7 @@ class ServiceSubmissionsView extends ControllerBase {
   public function contentApproved(WebformSubmission $webform_submission) {
     $cid = 'service_submissions_view' . $webform_submission->id();
     $markup = '';
-    $cache_tags = ['webform_submission:' . $webform_submission->id()];
+    $cache_tags = ['webform_submission:' . $webform_submission->id(), 'config:webform_list', 'webform_list'];
     if ($cache = \Drupal::cache()->get($cid)) {
       $markup = $cache->data;
       return [
@@ -803,7 +803,7 @@ class ServiceSubmissionsView extends ControllerBase {
             if ($key == 'Service Rating Link') {
               $markup .= '<div class="pair-container"><span class="service-rating-label">' . Markup::create($key) . ':</span>';
             }
-            elseif($key == 'Last updated time') {
+            elseif ($key == 'Last updated time') {
               $markup .= '<div class="pair-container"><span class="label">' . Markup::create(t('Last updated time')) . ':</span>';
             }
             else {

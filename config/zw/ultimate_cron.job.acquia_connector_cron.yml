@@ -1,0 +1,17 @@
+uuid: 7b36fd43-203d-4663-9e2e-f3e82716a53a
+langcode: en
+status: true
+dependencies:
+  module:
+    - acquia_connector
+title: 'Default cron handler'
+id: acquia_connector_cron
+weight: 0
+module: acquia_connector
+callback: acquia_connector_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

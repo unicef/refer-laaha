@@ -1888,13 +1888,20 @@ function erpw_custom_entity_access(EntityInterface $entity, $operation, AccountI
         if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
           $location_id = $current_user->get('field_location')->getValue()[0]['target_id'];
           $user_location = $entity->get('field_location')->getValue()[0]['target_id'];
-          $loggedin_user_ancestors = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($location_id);
-          $view_user_ancestors = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($user_location);
-          if (end(array_keys($loggedin_user_ancestors)) == end(array_keys($view_user_ancestors))) {
-            return AccessResult::allowed();
+          if ($user_location) {
+            $loggedin_user_ancestors = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($location_id);
+            $view_user_ancestors = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($user_location);
+            $loggedin_user_ancestors_keys = array_keys($loggedin_user_ancestors);
+            $view_user_ancestors_keys = array_keys($view_user_ancestors);
+            if (end($loggedin_user_ancestors_keys) == end($view_user_ancestors_keys)) {
+              return AccessResult::allowed();
+            }
+            else {
+              return AccessResult::forbidden();
+            }
           }
           else {
-            return AccessResult::forbidden();
+            return AccessResult::allowed();
           }
         }
       }
@@ -2257,4 +2264,11 @@ function erpw_add_entity_relationship_join(QueryPluginBase &$query, string $tabl
   else {
     $query->addWhere($group, "$alias_slug.$column_name", $column_name, $operator);
   }
+}
+
+/**
+ * Implements hook_library_info_alter().
+ */
+function erpw_custom_library_info_alter(&$libraries, $extension) {
+  unset($libraries['pwa_a2hs/pwa_a2hs_prompt']);
 }

@@ -84,7 +84,7 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 // settings.php for development on your local workstation, set $db_url
 // (Drupal 5 or 6) or $databases (Drupal 7 or 8) as described in comments above.
 if (file_exists('/var/www/site-php')) {
-  require '/var/www/site-php/vss2/vss2-settings.inc';
+  require '/var/www/site-php/vss2/erpw-settings.inc';
 }
 
 ini_set("session.cookie_samesite", "lax");

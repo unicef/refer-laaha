@@ -110,6 +110,7 @@ class UserWorkflowController extends ControllerBase {
           'field_workflow_status_after' => 'gbvfp-accept',
         ]);
         $euwh->save();
+        erpw_in_app_notification__user_operation($user);
       }
       else {
         $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
@@ -158,6 +159,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-accept',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
         if ($user->get('field_transitions')->getString() == 'spfp-register-sp-staff') {
           // Update the user with new transition.
@@ -193,6 +195,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-accept',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
       }
 
@@ -250,6 +253,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-accept',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
       }
 
@@ -271,6 +275,25 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-accept',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
+        }
+        if ($user->get('field_transitions')->getString() == 'gbvfp-register-spfp') {
+          // Update the user with new transition.
+          $user->activate();
+          $user->set('field_transitions', 'gbv-coordination-accept');
+          $user->save();
+
+          // Update user workflow history entity.
+          $current_time = \Drupal::time()->getCurrentTime('d');
+          $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'status' => 1,
+            'field_user' => $user->id(),
+            'field_workflow_status_before' => 'gbvfp-register-gbvfp',
+            'field_workflow_status_after' => 'gbv-coordination-accept',
+          ]);
+          $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
         if ($user->get('field_transitions')->getString() == 'gbvfp-register-gbvfp') {
           // Update the user with new transition.
@@ -288,6 +311,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-accept',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
       }
       else {
@@ -383,6 +407,7 @@ class UserWorkflowController extends ControllerBase {
           'field_workflow_status_after' => 'gbvfp-reject',
         ]);
         $euwh->save();
+        erpw_in_app_notification__user_operation($user);
       }
       else {
         $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
@@ -451,6 +476,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-reject',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
         if ($user->get('field_transitions')->getString() == 'spfp-register-sp-staff') {
           // Update the user with new transition.
@@ -506,6 +532,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-reject',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
       }
       elseif ($user->hasRole('service_provider_focal_point')) {
@@ -591,10 +618,10 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-reject',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
       }
-
-      elseif ($user->hasRole('service_provider_focal_point')) {
+      elseif ($user->hasRole('gbv_focal_point')) {
         if ($user->get('field_transitions')->getString() == 'self-register-gbvfp') {
           // Update the user with new transition.
           $user->set('field_transitions', 'gbv-coordination-reject');
@@ -621,6 +648,35 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-reject',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
+        }
+        if ($user->get('field_transitions')->getString() == 'gbvfp-register-spfp') {
+          // Update the user with new transition.
+          $user->set('field_transitions', 'gbv-coordination-reject');
+          $time = time();
+          // Email update.
+          $current_email = $user->getEmail();
+          $new_email = $current_email . '_' . $time;
+          $user->setEmail($new_email);
+          // Username update.
+          $current_username = $user->getAccountName();
+          $new_username = $current_username . '_' . $time;
+          $user->setUsername($new_username);
+          // Softdelete flag.
+          $user->set('field_soft_delete', 1);
+          $user->save();
+
+          // Update user workflow history entity.
+          $current_time = \Drupal::time()->getCurrentTime('d');
+          $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
+            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'status' => 1,
+            'field_user' => $user->id(),
+            'field_workflow_status_before' => 'gbvfp-register-spfp',
+            'field_workflow_status_after' => 'gbv-coordination-reject',
+          ]);
+          $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
         if ($user->get('field_transitions')->getString() == 'gbvfp-register-gbvfp') {
           // Update the user with new transition.
@@ -648,6 +704,7 @@ class UserWorkflowController extends ControllerBase {
             'field_workflow_status_after' => 'gbv-coordination-reject',
           ]);
           $euwh->save();
+          erpw_in_app_notification__user_operation($user);
         }
       }
 

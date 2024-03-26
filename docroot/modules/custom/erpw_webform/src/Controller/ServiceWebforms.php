@@ -64,7 +64,7 @@ class ServiceWebforms extends ControllerBase {
     $cid = 'service_webforms_list' . $this->domainNegotiator->getActiveDomain()->id();
     $markup = '';
     // Specify cache tags related to webforms.
-    $cacheTags = ['webform'];
+    $cacheTags = ['config:webform_list', 'webform_list'];
     if ($cache = \Drupal::cache()->get($cid)) {
       $markup = $cache->data;
     }

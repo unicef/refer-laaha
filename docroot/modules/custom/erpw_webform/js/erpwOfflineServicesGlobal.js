@@ -45,7 +45,7 @@
   localforage
     .length()
     .then((numberOfItems) => {
-      if (numberOfItems == 0) {
+      if (numberOfItems <= 1) {
         fetchDataAndStoreForms();
       }
     })
@@ -67,7 +67,7 @@
     const timeDifference = currentTimestamp - storedTimestampNumber;
 
     // Convert the time difference to days
-    const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+    const daysDifference = timeDifference / 86400000;
 
     // Check if the stored timestamp is less than 2 days old
     if (daysDifference >= 2) {
