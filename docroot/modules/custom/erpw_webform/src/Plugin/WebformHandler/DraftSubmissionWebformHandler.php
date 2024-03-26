@@ -25,10 +25,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class DraftSubmissionWebformHandler extends WebformHandlerBase {
 
+  /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
   protected $messenger;
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -36,7 +41,7 @@ class DraftSubmissionWebformHandler extends WebformHandlerBase {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(

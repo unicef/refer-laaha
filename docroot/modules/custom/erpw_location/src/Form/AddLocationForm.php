@@ -291,7 +291,7 @@ class AddLocationForm extends FormBase {
       }
       if (isset($location_levels[1]) && !empty($location_levels[1])) {
         if ($id) {
-          if ($id != $ancestors[2]) {
+          if (isset($ancestors[2]) && $id != $ancestors[2]) {
             $readonly_level2 = 'disabled';
 
           }
@@ -332,7 +332,7 @@ class AddLocationForm extends FormBase {
       }
       if (isset($location_levels[2]) && !empty($location_levels[2])) {
         if ($id) {
-          if ($id != $ancestors[3]) {
+          if (isset($ancestors[3]) && $id != $ancestors[3]) {
             $readonly_level3 = 'disabled';
 
           }
@@ -656,7 +656,10 @@ class AddLocationForm extends FormBase {
     $termStorage = $this->entityManager->getStorage('taxonomy_term');
 
     // Check if the top-level term exists.
-    $topLevelTerm = $termStorage->loadByProperties(['name' => $level1, 'vid' => 'country']);
+    $topLevelTerm = $termStorage->loadByProperties([
+      'name' => $level1,
+      'vid' => 'country',
+    ]);
     if (empty($topLevelTerm) && !empty($level1)) {
       // Create the top-level term.
       $topLevelTerm = $termStorage->create([
@@ -672,7 +675,11 @@ class AddLocationForm extends FormBase {
     }
 
     // Check if the second-level term exists.
-    $secondLevelTerm = $termStorage->loadByProperties(['name' => $level2, 'vid' => 'country', 'parent' => $topLevelTerm->id()]);
+    $secondLevelTerm = $termStorage->loadByProperties([
+      'name' => $level2,
+      'vid' => 'country',
+      'parent' => $topLevelTerm->id(),
+    ]);
     if (empty($secondLevelTerm) && !empty($level2)) {
       // Create the second-level term.
       $secondLevelTerm = $termStorage->create([
@@ -689,7 +696,11 @@ class AddLocationForm extends FormBase {
 
     // Check if the third-level term exists.
     if (!empty($secondLevelTerm) && !empty($level3)) {
-      $thirdLevelTerm = $termStorage->loadByProperties(['name' => $level3, 'vid' => 'country', 'parent' => $secondLevelTerm->id()]);
+      $thirdLevelTerm = $termStorage->loadByProperties([
+        'name' => $level3,
+        'vid' => 'country',
+        'parent' => $secondLevelTerm->id(),
+      ]);
       if (empty($thirdLevelTerm)) {
         // Create the third-level term.
         $thirdLevelTerm = $termStorage->create([
@@ -707,7 +718,11 @@ class AddLocationForm extends FormBase {
 
     // Check if the fourth-level term exists.
     if (!empty($thirdLevelTerm) && !empty($level4)) {
-      $fourthLevelTerm = $termStorage->loadByProperties(['name' => $level4, 'vid' => 'country', 'parent' => $thirdLevelTerm->id()]);
+      $fourthLevelTerm = $termStorage->loadByProperties([
+        'name' => $level4,
+        'vid' => 'country',
+        'parent' => $thirdLevelTerm->id(),
+      ]);
       if (empty($fourthLevelTerm)) {
         // Create the fourth-level term.
         $fourthLevelTerm = $termStorage->create([
