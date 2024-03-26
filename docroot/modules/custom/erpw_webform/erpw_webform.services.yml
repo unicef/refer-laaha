@@ -14,7 +14,8 @@ services:
       - { name: cache.context }
   
   erpw_webform.event_subscriber:
-    class: Drupal\erpw_webform\Routing\ServiceFormRouteSubscriber
+    class: Drupal\erpw_webform\Routing\ServiceRouteSubscriber
+    arguments: ['@router.route_provider']
     tags:
       - { name: event_subscriber }
 
