@@ -32,3 +32,11 @@ erpw_in_app_notification.duplicatebroadcast:
     parameters:
       id:
         type: 'entity:broadcast_notification_entity'
+
+erpw_in_app_notification.settings_form:
+  path: '/admin/config/erpw_in_app_notification/settings'
+  defaults:
+    _form: '\Drupal\erpw_in_app_notification\Form\NotificationsSettingsForm'
+    _title: 'Notification Settings'
+  requirements:
+    _permission: 'administer site configuration'

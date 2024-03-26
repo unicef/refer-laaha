@@ -3,6 +3,7 @@ type: module
 description: 'Module will enable the inapp notification feature'
 core_version_requirement: ^9 || ^10
 package: 'Custom'
+configure: 'erpw_in_app_notification.settings_form'
 dependencies:
   - user
   - node
