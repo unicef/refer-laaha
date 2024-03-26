@@ -19,7 +19,7 @@ class ServicesCsvExportController extends ControllerBase {
 
   /**
    * Add a private property to store the EntityTypeManager.
-   * 
+   *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
@@ -50,7 +50,7 @@ class ServicesCsvExportController extends ControllerBase {
   }
 
   /**
-   *  Get Child Term.
+   * Get Child Term.
    */
   public function getChildTermId($ptid) {
     $tree = $this->entityTypeManager->getStorage('taxonomy_term')->loadTree(
