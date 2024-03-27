@@ -1,0 +1,25 @@
+uuid: c22d061a-3ecb-4471-ab57-07a001c6bed0
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_webform
+    - system
+  theme:
+    - erpw
+id: customaddnewserviceblock
+theme: erpw
+region: content
+weight: -11
+provider: null
+plugin: custom_add_service_block
+settings:
+  id: custom_add_service_block
+  label: 'Custom Add New Service Block'
+  label_display: '0'
+  provider: erpw_webform
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /manage-services
