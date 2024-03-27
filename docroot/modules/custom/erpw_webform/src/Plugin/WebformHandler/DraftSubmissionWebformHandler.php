@@ -5,7 +5,6 @@ namespace Drupal\erpw_webform\Plugin\WebformHandler;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
-use Drupal\node\Entity\Node;
 use Drupal\webform\Plugin\WebformHandlerBase;
 use Drupal\webform\WebformSubmissionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -62,29 +61,19 @@ class DraftSubmissionWebformHandler extends WebformHandlerBase {
     $manage_service_alias = '/manage-services';
     $draft_path = \Drupal::service('path_alias.manager')->getPathByAlias($draft_alias);
     $manage_service_path = \Drupal::service('path_alias.manager')->getPathByAlias($manage_service_alias);
-    $draft_url = Url::fromUri('internal:' . $draft_path);
-    $manage_service_url = Url::fromUri('internal:' . $manage_service_path);
-    $parameters = $draft_url->getRouteParameters();
-    $parameters2 = $manage_service_url->getRouteParameters();
-    if (isset($parameters['node']) || isset($parameters2['node'])) {
-      $node = Node::load($parameters['node']);
-      $manage_service_node = Node::load($parameters2['node']);
 
-      // Redirect the user to their saved Drafts if their transition was Save as Draft.
-      if ($workflow_selected['transition'] == "save_as_draft") {
-        $query = [
-          'service_type' => 'All',
-          'webform_submission_workflow_filter' => 'draft',
-        ];
-        $this->messenger->addMessage($this->t('Draft Saved Successfully!'));
-        $form_state->setRedirect('entity.node.canonical', ['node' => $node->id()], ['query' => $query]);
-      }
-
-      // For all other transitions, redirect them to Manage Services page.
-      else {
-        $this->messenger->addMessage($this->t('Changes Saved Successfully!'));
-        $form_state->setRedirect('entity.node.canonical', ['node' => $manage_service_node->id()]);
-      }
+    // Redirect the user to their saved Drafts if their transition was Save as Draft.
+    if ($workflow_selected['transition'] == "save_as_draft") {
+      $query = [
+        'service_type' => 'All',
+        'webform_submission_workflow_filter' => 'draft',
+      ];
+      $this->messenger->addMessage($this->t('Draft Saved Successfully!'));
+      $form_state->setRedirectUrl(Url::fromUri('internal:' . $draft_path, ['query' => $query]));
+    }
+    else {
+      $this->messenger->addMessage($this->t('Changes Saved Successfully!'));
+      $form_state->setRedirectUrl(Url::fromUri('internal:' . $manage_service_path));
     }
   }
 
