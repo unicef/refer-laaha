@@ -23,3 +23,8 @@ services:
     class: Drupal\erpw_webform\Access\ServiceFormAccessCheck
     tags:
       - { name: access_check, applies_to: _custom_access }
+
+  erpw_webform.manage_service_access_check:
+    class: Drupal\erpw_webform\Access\ManageServiceAccessCheck
+    tags:
+      - { name: access_check, applies_to: _custom_services_access }

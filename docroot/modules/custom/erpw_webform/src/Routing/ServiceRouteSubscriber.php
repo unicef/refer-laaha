@@ -43,7 +43,7 @@ class ServiceRouteSubscriber extends RouteSubscriberBase {
     $manage_service_alias = '/manage-services';
     $manage_service_route = Url::fromUserInput($manage_service_alias)->getRouteName();
     if ($manage_service_route = $collection->get($manage_service_route)) {
-      $manage_service_route->setRequirement('_custom_access', '\Drupal\erpw_webform\Access\ManageServiceAccessCheck::access');
+      $manage_service_route->setRequirement('_custom_services_access', '\Drupal\erpw_webform\Access\ManageServiceAccessCheck::access');
     }
   }
 
