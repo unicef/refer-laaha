@@ -9,6 +9,8 @@ use Drupal\Core\Link;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Access\AccessResult;
 
 /**
  * Provides a custom block to Add a Service according to active language.
@@ -105,6 +107,16 @@ class AddServiceBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // @todo Block cache. - Done
     return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function blockAccess(AccountInterface $account) {
+    if ($account->isAuthenticated()) {
+      return AccessResult::allowed();
+    }
+    return AccessResult::forbidden();
   }
 
 }
