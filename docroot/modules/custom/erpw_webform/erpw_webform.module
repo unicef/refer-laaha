@@ -1711,7 +1711,7 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
         $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
         $ancestors = array_reverse(array_keys($term_storage->loadAllParents(reset($user_location_ids))));
         // If the location of the IA coord is not country level, then only add location condition.
-        if (!in_array(reset($ancestors), reset($user_location_ids))) {
+        if (!in_array(reset($ancestors), $user_location_ids)) {
           erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
         }
       }
