@@ -1704,7 +1704,16 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       ];
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
       if (in_array('interagency_gbv_coordinator', $roles)) {
-        erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
+        $current_user = User::load(\Drupal::currentUser()->id());
+        // A user may have multiple location values.
+        $user_location = $current_user->get('field_location')->getValue();
+        $user_location_ids = array_column($user_location, 'target_id');
+        $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+        $ancestors = array_reverse(array_keys($term_storage->loadAllParents(reset($user_location_ids))));
+        // If the location of the IA coord is not country level, then only add location condition.
+        if (!in_array(reset($ancestors), reset($user_location_ids))) {
+          erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
+        }
       }
     }
     elseif (in_array('administrator', $roles) || in_array('super_admin', $roles)) {
