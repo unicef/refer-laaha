@@ -218,6 +218,8 @@
                   radio.type = "radio";
                   radio.value = optionKey;
                   radio.id = `option-${optionKey}`;
+                  // Set the name attribute to the label text
+                  radio.name = label.textContent;
 
                   const label = document.createElement("label");
                   label.htmlFor = `option-${optionKey}`;
