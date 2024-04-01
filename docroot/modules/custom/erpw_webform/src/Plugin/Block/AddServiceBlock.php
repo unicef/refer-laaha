@@ -2,11 +2,13 @@
 
 namespace Drupal\erpw_webform\Plugin\Block;
 
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -105,6 +107,16 @@ class AddServiceBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // @todo Block cache. - Done
     return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function blockAccess(AccountInterface $account) {
+    if ($account->isAuthenticated()) {
+      return AccessResult::allowed();
+    }
+    return AccessResult::forbidden();
   }
 
 }
