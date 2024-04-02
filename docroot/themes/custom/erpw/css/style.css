@@ -3962,11 +3962,16 @@ body.path-user {
 .path-manage-feedback-surveys .layout-content .new-service-type {
   display: none;
 }
+.path-manage-feedback-surveys .layout-content main .layout-content {
+  display: flex;
+  flex-wrap: wrap;
+}
 .path-manage-feedback-surveys .layout-content main .layout-content .new-service-type {
   display: block;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  margin-right: 10px;
 }
 @media screen and (max-width: 768px) {
   .path-manage-feedback-surveys .layout-content main {
