@@ -64,6 +64,7 @@
         <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
 
         <div class="layout-content">
+            <div class="new-service-type button-with-icon"><a href="{{ path("view.manage_feedback.page_1") }}">{{ 'Add Feedback Area'|t }}</a></div>
             <div class="new-service-type button-with-icon"><a href="{{ path('erpw_webform.add_rating_question') }}">{{ 'Add Feedback Form'|t }}</a></div>
             <ul>
                 {% for data in page.data %}
