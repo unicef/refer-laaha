@@ -4,6 +4,7 @@ namespace Drupal\erpw_webform\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\webform\Entity\Webform;
+use Drupal\webform\WebformInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -30,17 +31,17 @@ class ServiceRatingController extends ControllerBase {
       $form_button_text = "";
       if ($webform) {
         if ($webform->get('status') === "open") {
-          $webform->set('status', Webform::STATUS_CLOSED);
+          $webform->set('status', WebformInterface::STATUS_CLOSED);
           $form_button_text = "Publish";
         }
         else {
-          $webform->set('status', Webform::STATUS_OPEN);
+          $webform->set('status', WebformInterface::STATUS_OPEN);
           $form_button_text = "Unpublish";
         }
         $webform->save();
         return new JsonResponse([
           'form_button_text' => $form_button_text,
-          'message' => $form_button_text === "Publish" ? 'Webform closed successfully.' : 'Webform opened successfully.',
+          'message' => $form_button_text === "Publish" ? 'Webform unpublished successfully.' : 'Webform published successfully.',
         ]);
       }
       else {
