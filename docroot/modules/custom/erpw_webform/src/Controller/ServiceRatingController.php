@@ -16,7 +16,7 @@ class ServiceRatingController extends ControllerBase {
   /**
    * Publish the service rating webform.
    *
-   * @param \Drupal\webform\Entity\Webform $id
+   * @param string $id
    *   The webform entity to be updated.
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The request entity.
@@ -24,7 +24,7 @@ class ServiceRatingController extends ControllerBase {
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   A JSON response indicating the status of webform status.
    */
-  public function publishServiceRatingForm(Webform $id, Request $request) {
+  public function publishServiceRatingForm(string $id, Request $request) {
     // Check if the request is an Ajax request.
     if ($request->isXmlHttpRequest()) {
       $webform = Webform::load($id);
@@ -55,7 +55,7 @@ class ServiceRatingController extends ControllerBase {
   /**
    * Get the status of the service rating webform.
    *
-   * @param \Drupal\webform\Entity\Webform $id
+   * @param string $id
    *   The webform entity to be updated.
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The request entity.
@@ -63,7 +63,7 @@ class ServiceRatingController extends ControllerBase {
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   A JSON response indicating the status of webform status.
    */
-  public function getStatusOfServiceRatingForm(Webform $id, Request $request) {
+  public function getStatusOfServiceRatingForm(string $id, Request $request) {
     // Check if the request is an Ajax request.
     if ($request->isXmlHttpRequest()) {
       $webform = Webform::load($id);
