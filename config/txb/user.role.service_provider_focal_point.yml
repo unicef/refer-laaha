@@ -20,7 +20,7 @@ dependencies:
     - webform
 id: service_provider_focal_point
 label: 'Service Provider - Focal Point'
-weight: -7
+weight: -6
 is_admin: null
 permissions:
   - 'access content'
@@ -78,3 +78,4 @@ permissions:
   - 'view users with role interagency_gbv_coordinator'
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'
+  - 'view users with role txb_service_viewer'
