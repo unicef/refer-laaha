@@ -32,7 +32,7 @@ dependencies:
     - webform_submission_log
 id: super_admin
 label: 'Super Admin'
-weight: -3
+weight: -2
 is_admin: null
 permissions:
   - 'access any webform configuration'
@@ -66,6 +66,7 @@ permissions:
   - 'cancel users with role interagency_gbv_coordinator'
   - 'cancel users with role service_provider_focal_point'
   - 'cancel users with role service_provider_staff'
+  - 'cancel users with role txb_service_viewer'
   - 'clone referral_path_way content'
   - 'clone service_type content'
   - 'create broadcast notification entity'
@@ -127,6 +128,7 @@ permissions:
   - 'edit users with role interagency_gbv_coordinator'
   - 'edit users with role service_provider_focal_point'
   - 'edit users with role service_provider_staff'
+  - 'edit users with role txb_service_viewer'
   - 'edit webform assets'
   - 'edit webform source'
   - 'edit webform source'
@@ -149,6 +151,7 @@ permissions:
   - 'role-assign users with role interagency_gbv_coordinator'
   - 'role-assign users with role service_provider_focal_point'
   - 'role-assign users with role service_provider_staff'
+  - 'role-assign users with role txb_service_viewer'
   - 'translate broadcast_notification_entity'
   - 'translate configuration'
   - 'translate predefined_broadcast_messages taxonomy_term'
@@ -193,3 +196,4 @@ permissions:
   - 'view users with role interagency_gbv_coordinator'
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'
+  - 'view users with role txb_service_viewer'

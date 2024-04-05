@@ -1,0 +1,14 @@
+uuid: aab01768-1242-4690-96bf-32e07bf1a104
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.txb_service_viewer
+  module:
+    - user
+id: user_remove_role_action.txb_service_viewer
+label: 'Remove the TXB Service Viewer role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: txb_service_viewer

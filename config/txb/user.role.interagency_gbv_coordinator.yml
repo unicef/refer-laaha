@@ -32,7 +32,7 @@ dependencies:
     - webform_submission_log
 id: interagency_gbv_coordinator
 label: 'Interagency GBV Coordinator'
-weight: -5
+weight: -4
 is_admin: null
 permissions:
   - 'access content'
@@ -60,6 +60,7 @@ permissions:
   - 'cancel users by role'
   - 'cancel users with role service_provider_focal_point'
   - 'cancel users with role service_provider_staff'
+  - 'cancel users with role txb_service_viewer'
   - 'clone service_provider content'
   - 'create broadcast notification entity'
   - 'create feedback_area content on assigned domains'
@@ -102,6 +103,7 @@ permissions:
   - 'edit users with role gbv_focal_point'
   - 'edit users with role service_provider_focal_point'
   - 'edit users with role service_provider_staff'
+  - 'edit users with role txb_service_viewer'
   - 'erpw view pending service block'
   - 'process broadcast_process_queue_worker queue'
   - 'reject registered user'
@@ -111,6 +113,7 @@ permissions:
   - 'role-assign users with role interagency_gbv_coordinator'
   - 'role-assign users with role service_provider_focal_point'
   - 'role-assign users with role service_provider_staff'
+  - 'role-assign users with role txb_service_viewer'
   - 'translate broadcast_notification_entity'
   - 'translate configuration'
   - 'translate predefined_broadcast_messages taxonomy_term'
@@ -148,3 +151,4 @@ permissions:
   - 'view users with role interagency_gbv_coordinator'
   - 'view users with role service_provider_focal_point'
   - 'view users with role service_provider_staff'
+  - 'view users with role txb_service_viewer'

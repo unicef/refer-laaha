@@ -542,10 +542,21 @@
         }
 
         main { 
-            .layout-content .new-service-type {
-                display: block;
-                width: fit-content;
+            .layout-content {
+                .service-type-buttons {
+                    display: flex;
+                    gap: 8px;
+                    .new-service-type {
+                        display: block;
+                        width: fit-content;
+                    }
+
+                    @media screen and (max-width: 768px) {
+                        flex-direction: column;
+                    }
+                }
             }
+            
             @media screen and (max-width: 768px) {
                 padding: 0;
             }

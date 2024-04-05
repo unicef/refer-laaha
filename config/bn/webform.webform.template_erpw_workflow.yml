@@ -225,6 +225,54 @@ elements: |-
       - country_admin
       - super_admin
       - administrator
+    '#access_transition_submit_for_archive_to_focal_point_roles':
+      - service_provider_staff
+      - super_admin
+      - administrator
+    '#access_transition_submit_for_archive_to_gbv_coordination_roles':
+      - service_provider_focal_point
+      - gbv_focal_point
+      - super_admin
+      - administrator
+    '#access_transition_service_archive_rejected_by_focal_point_roles':
+      - service_provider_focal_point
+      - gbv_focal_point
+      - super_admin
+      - administrator
+    '#access_transition_service_archive_rejected_by_gbv_coordination_roles':
+      - interagency_gbv_coordinator
+      - country_admin
+      - super_admin
+      - administrator
+    '#access_transition_archive_service_roles':
+      - interagency_gbv_coordinator
+      - country_admin
+      - super_admin
+      - administrator
+    '#access_transition_submit_for_restoration_to_focal_point_roles':
+      - service_provider_staff
+      - super_admin
+      - administrator
+    '#access_transition_submit_for_restoration_to_gbv_coordination_roles':
+      - service_provider_focal_point
+      - gbv_focal_point
+      - super_admin
+      - administrator
+    '#access_transition_restore_service_roles':
+      - interagency_gbv_coordinator
+      - country_admin
+      - super_admin
+      - administrator
+    '#access_transition_service_restore_rejected_by_focal_point_roles':
+      - service_provider_focal_point
+      - gbv_focal_point
+      - super_admin
+      - administrator
+    '#access_transition_service_restore_rejected_by_gbv_coordination_roles':
+      - interagency_gbv_coordinator
+      - country_admin
+      - super_admin
+      - administrator
     '#workflow': webform_workflow
     '#require_transition_if_available': true
     '#log_public_setting': Disabled
@@ -545,7 +593,7 @@ handlers:
                       notes: ''
                       status: true
                       conditions: {  }
-                      weight: -50
+                      weight: null
                       settings:
                         id: redirect_to_drafts
                         handler_id: null
@@ -569,7 +617,7 @@ handlers:
                             notes: ''
                             status: true
                             conditions: {  }
-                            weight: null
+                            weight: -50
                             settings:
                               id: redirect_to_drafts
                               handler_id: null

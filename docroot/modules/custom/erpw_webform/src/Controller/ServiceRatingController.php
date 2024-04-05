@@ -4,6 +4,7 @@ namespace Drupal\erpw_webform\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\webform\Entity\Webform;
+use Drupal\webform\WebformInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -15,7 +16,7 @@ class ServiceRatingController extends ControllerBase {
   /**
    * Publish the service rating webform.
    *
-   * @param \Drupal\webform\Entity\Webform $id
+   * @param string $id
    *   The webform entity to be updated.
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The request entity.
@@ -23,24 +24,24 @@ class ServiceRatingController extends ControllerBase {
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   A JSON response indicating the status of webform status.
    */
-  public function publishServiceRatingForm(Webform $id, Request $request) {
+  public function publishServiceRatingForm(string $id, Request $request) {
     // Check if the request is an Ajax request.
     if ($request->isXmlHttpRequest()) {
       $webform = Webform::load($id);
       $form_button_text = "";
       if ($webform) {
         if ($webform->get('status') === "open") {
-          $webform->set('status', Webform::STATUS_CLOSED);
+          $webform->set('status', WebformInterface::STATUS_CLOSED);
           $form_button_text = "Publish";
         }
         else {
-          $webform->set('status', Webform::STATUS_OPEN);
+          $webform->set('status', WebformInterface::STATUS_OPEN);
           $form_button_text = "Unpublish";
         }
         $webform->save();
         return new JsonResponse([
           'form_button_text' => $form_button_text,
-          'message' => $form_button_text === "Publish" ? 'Webform closed successfully.' : 'Webform opened successfully.',
+          'message' => $form_button_text === "Publish" ? 'Webform unpublished successfully.' : 'Webform published successfully.',
         ]);
       }
       else {
@@ -54,7 +55,7 @@ class ServiceRatingController extends ControllerBase {
   /**
    * Get the status of the service rating webform.
    *
-   * @param \Drupal\webform\Entity\Webform $id
+   * @param string $id
    *   The webform entity to be updated.
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The request entity.
@@ -62,7 +63,7 @@ class ServiceRatingController extends ControllerBase {
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   A JSON response indicating the status of webform status.
    */
-  public function getStatusOfServiceRatingForm(Webform $id, Request $request) {
+  public function getStatusOfServiceRatingForm(string $id, Request $request) {
     // Check if the request is an Ajax request.
     if ($request->isXmlHttpRequest()) {
       $webform = Webform::load($id);

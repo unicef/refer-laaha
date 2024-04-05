@@ -565,6 +565,11 @@ display:
     display_plugin: block
     position: 1
     display_options:
+      access:
+        type: role
+        options:
+          role:
+            authenticated: authenticated
       sorts:
         created:
           id: created
@@ -583,6 +588,7 @@ display:
           exposed: false
           granularity: second
       defaults:
+        access: false
         sorts: false
         header: false
       display_description: ''
@@ -609,6 +615,7 @@ display:
         - url
         - url.query_args
         - user
+        - user.roles
       tags: {  }
   feedback:
     id: feedback
