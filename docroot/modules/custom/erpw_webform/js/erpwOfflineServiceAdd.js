@@ -89,7 +89,7 @@
               divElement.classList.add("form-item");
               divElement.classList.add(
                 "js-form-type-" +
-                  elementKey.replace(/_/g, "-").replace(/-([^_]*)$/, "$1")
+                elementKey.replace(/_/g, "-").replace(/-([^_]*)$/, "$1")
               );
               if (
                 element.hasOwnProperty("#required") &&
@@ -204,6 +204,7 @@
                   form.appendChild(divElement);
                 }
               } else if (element["#type"] == "radios") {
+                const parent_label = element["#title"];
                 // Create a new div element for radio buttons
                 const radioDiv = document.createElement("div");
                 radioDiv.className = "offline-radio-list-wrapper";
@@ -219,7 +220,7 @@
                   radio.value = optionKey;
                   radio.id = `option-${optionKey}`;
                   // Set the name attribute to the label text
-                  radio.name = label.textContent;
+                  radio.name = parent_label;
 
                   const label = document.createElement("label");
                   label.htmlFor = `option-${optionKey}`;
@@ -486,7 +487,7 @@
                       var select = $("select.level_2")[0];
                       var level_2 = Drupal.t(
                         "Select " +
-                          termsArray[zeroKey]["children"][oneTid]["level_label"]
+                        termsArray[zeroKey]["children"][oneTid]["level_label"]
                       );
                       $("select.level_2").siblings("label").text(level_2);
                       select.add(new Option(level_2, 0));
@@ -509,7 +510,7 @@
                     if (zeroKey == zeroTid) {
                       const newoptions =
                         termsArray[zeroKey]["children"][oneTid]["children"][
-                          twoTid
+                        twoTid
                         ]["children"];
                       $("select.level_3").parent().css({
                         display: "block",
@@ -521,9 +522,9 @@
                       $("select.level_3").empty();
                       var level_3 = Drupal.t(
                         "Select " +
-                          termsArray[zeroKey]["children"][oneTid]["children"][
-                            twoTid
-                          ]["level_label"]
+                        termsArray[zeroKey]["children"][oneTid]["children"][
+                        twoTid
+                        ]["level_label"]
                       );
                       $("select.level_3").siblings("label").text(level_3);
                       select.add(new Option(level_3, 0));
@@ -547,7 +548,7 @@
                     if (zeroKey == zeroTid) {
                       const newoptions =
                         termsArray[zeroKey]["children"][oneTid]["children"][
-                          twoTid
+                        twoTid
                         ]["children"][threeTid];
                       for (const keys in newoptions) {
                         if (keys == "children") {
@@ -558,9 +559,9 @@
                           $("select.level_4").empty();
                           var level_4 = Drupal.t(
                             "Select " +
-                              termsArray[zeroKey]["children"][oneTid][
-                                "children"
-                              ][twoTid]["children"][threeTid]["level_label"]
+                            termsArray[zeroKey]["children"][oneTid][
+                            "children"
+                            ][twoTid]["children"][threeTid]["level_label"]
                           );
                           $("select.level_4").siblings("label").text(level_4);
                           select.add(new Option(level_4, 0));
@@ -857,6 +858,6 @@
     }
   }
   Drupal.behaviors.erpwOfflineServiceAdd = {
-    attach: function (context, settings) {},
+    attach: function (context, settings) { },
   };
 })(jQuery, Drupal, drupalSettings, localforage);
