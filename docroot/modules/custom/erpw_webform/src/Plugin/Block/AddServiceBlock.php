@@ -95,6 +95,11 @@ class AddServiceBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $build = [
         '#type' => 'markup',
         '#markup' => $markup,
+        '#attached' => [
+          'library' => [
+            'erpw_webform/erpw_webform_offline_add'
+          ],
+        ]
       ];
 
       // Store the result in cache.

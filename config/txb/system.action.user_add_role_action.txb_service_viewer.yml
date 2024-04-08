@@ -1,0 +1,14 @@
+uuid: 23c806a5-e8f4-401f-abfd-05e09c019b1b
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.txb_service_viewer
+  module:
+    - user
+id: user_add_role_action.txb_service_viewer
+label: 'Add the TXB Service Viewer role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: txb_service_viewer

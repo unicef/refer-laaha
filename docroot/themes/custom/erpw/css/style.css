@@ -3962,16 +3962,25 @@ body.path-user {
 .path-manage-feedback-surveys .layout-content .new-service-type {
   display: none;
 }
-.path-manage-feedback-surveys .layout-content main .layout-content {
+.path-manage-feedback-surveys .layout-content main .layout-content .service-type-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  gap: 8px;
 }
-.path-manage-feedback-surveys .layout-content main .layout-content .new-service-type {
+.path-manage-feedback-surveys .layout-content main .layout-content .service-type-buttons .new-service-type {
   display: block;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  margin-right: 10px;
+}
+@media screen and (max-width: 768px) {
+  .path-manage-feedback-surveys .layout-content main .layout-content .service-type-buttons {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
 }
 @media screen and (max-width: 768px) {
   .path-manage-feedback-surveys .layout-content main {

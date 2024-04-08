@@ -65,7 +65,6 @@
                         url: `/service-rating-form/${service_rating_form_id}`,
                         method: 'GET',
                         success: function (data) {
-                            console.log(`DATA`, data)
                             document.getElementById('service-rating-form-publish-btn').textContent = data.form_status;
                         },
                         error: function (xhr, status, error) {
