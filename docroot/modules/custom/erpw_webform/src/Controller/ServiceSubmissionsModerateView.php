@@ -317,8 +317,9 @@ class ServiceSubmissionsModerateView extends ControllerBase {
           'webform' => $webform_submission->getWebform()->id(),
           'webform_submission' => $webform_submission->id(),
         ])->toString();
+        $user_role = $this->currentUser->getRoles();
 
-        if ($this->currentUser->isAnonymous()) {
+        if ($this->currentUser->isAnonymous() || in_array('txb_service_viewer', $user_role)) {
           $markup = '
             <div class="service-provider-details">
               <div class="service-detail-heading">

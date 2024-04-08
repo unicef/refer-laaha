@@ -97,9 +97,9 @@ class AddServiceBlock extends BlockBase implements ContainerFactoryPluginInterfa
         '#markup' => $markup,
         '#attached' => [
           'library' => [
-            'erpw_webform/erpw_webform_offline_add'
+            'erpw_webform/erpw_webform_offline_add',
           ],
-        ]
+        ],
       ];
 
       // Store the result in cache.
@@ -118,7 +118,8 @@ class AddServiceBlock extends BlockBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   protected function blockAccess(AccountInterface $account) {
-    if ($account->isAuthenticated()) {
+    $user_role = $account->getRoles();
+    if ($account->isAuthenticated() && !in_array('txb_service_viewer', $user_role)) {
       return AccessResult::allowed();
     }
     return AccessResult::forbidden();
