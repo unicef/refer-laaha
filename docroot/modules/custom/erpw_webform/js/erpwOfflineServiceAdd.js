@@ -13,7 +13,7 @@
     version: 1.0,
     storeName: "userServiceCreated".concat(currentUserId),
   });
-  $(".new-service-type a").on("click", function (event) {
+  $(document).on("click", ".new-service-type a", function (event) {
     if (!navigator.onLine) {
       event.preventDefault();
       if (appendOnce) {
@@ -218,6 +218,8 @@
                   radio.type = "radio";
                   radio.value = optionKey;
                   radio.id = `option-${optionKey}`;
+                  // Set the name attribute to the label text
+                  radio.name = label.textContent;
 
                   const label = document.createElement("label");
                   label.htmlFor = `option-${optionKey}`;
