@@ -92,7 +92,8 @@ function erpw_webform_preprocess_html(&$variables) {
   }
   if ($currentRoute == 'entity.webform.templates' || $currentRoute == 'entity.webform.collection') {
     $current_user = \Drupal::currentUser();
-    if ($current_user->isAuthenticated()) {
+    $user_role = $current_user->getRoles();
+    if ($current_user->isAuthenticated() && !in_array('txb_service_viewer', $user_role)) {
       $uid = $current_user->id();
       $user = User::load($uid);
       if ($user) {

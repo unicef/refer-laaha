@@ -334,8 +334,9 @@ class ServiceSubmissionsView extends ControllerBase {
           'webform' => $webform_submission->getWebform()->id(),
           'webform_submission' => $webform_submission->id(),
         ])->toString();
+        $user_role = $this->currentUser->getRoles();
 
-        if ($this->currentUser->isAnonymous()) {
+        if ($this->currentUser->isAnonymous() || in_array('txb_service_viewer', $user_role)) {
           $markup = '
             <div class="service-provider-details">
               <div class="service-detail-heading">
@@ -697,8 +698,9 @@ class ServiceSubmissionsView extends ControllerBase {
         $feedback_webform = \Drupal::entityTypeManager()
           ->getStorage('webform')
           ->load($rating_webform);
+        $user_role = $this->currentUser->getRoles();
 
-        if ($feedback_webform && $feedback_webform->isOpen() && $this->currentUser->isAuthenticated()) {
+        if ($feedback_webform && $feedback_webform->isOpen() && $this->currentUser->isAuthenticated()  && !in_array('txb_service_viewer', $user_role)) {
           // Get the URL for the loaded webform.
           $routeName = 'erpw_webform.webform.feedback_form';
 
@@ -729,8 +731,9 @@ class ServiceSubmissionsView extends ControllerBase {
           'webform' => $webform_submission->getWebform()->id(),
           'webform_submission' => $webform_submission->id(),
         ])->toString();
+        $user_role = $this->currentUser->getRoles();
 
-        if ($this->currentUser->isAnonymous()) {
+        if ($this->currentUser->isAnonymous() || in_array('txb_service_viewer', $user_role)) {
           $markup = '
             <div class="service-provider-details">
               <div class="service-detail-heading">

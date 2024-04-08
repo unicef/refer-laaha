@@ -74,7 +74,11 @@
 					*
 				</label>
 				{% for role in roles %}
-					<span class='f-position'>{{ role }}</span>
+				  {% if role == 'Txb service viewer' %}
+					  <span class='f-position'>PSEA</span>
+					{% else %}
+						<span class='f-position'>{{ role }}</span>
+					{% endif %}
 				{% endfor %}
 			</div>
 		{% endif %}

@@ -17,7 +17,8 @@ class ManageServiceAccessCheck implements AccessInterface {
    */
   public function access(RouteMatchInterface $route_match, AccountInterface $account) {
     $flag = FALSE;
-    if ($account->isAuthenticated()) {
+    $user_role = $account->getRoles();
+    if ($account->isAuthenticated() && !in_array('txb_service_viewer', $user_role)) {
       $flag = TRUE;
     }
     if ($flag) {
