@@ -4,7 +4,6 @@ namespace Drupal\erpw_webform\Routing;
 
 use Drupal\Core\Routing\RouteProviderInterface;
 use Drupal\Core\Routing\RouteSubscriberBase;
-use Drupal\Core\Url;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
@@ -40,9 +39,7 @@ class ServiceRouteSubscriber extends RouteSubscriberBase {
     }
 
     // Manage Services view page.
-    $manage_service_alias = '/manage-services';
-    $manage_service_route = Url::fromUserInput($manage_service_alias)->getRouteName();
-    if ($manage_service_route = $collection->get($manage_service_route)) {
+    if ($manage_service_route = $collection->get('entity.node.canonical')) {
       $manage_service_route->setRequirement('_custom_services_access', '\Drupal\erpw_webform\Access\ManageServiceAccessCheck::access');
     }
   }
