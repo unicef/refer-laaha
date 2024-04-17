@@ -613,19 +613,6 @@ display:
       css_class: service-list
       group_by: true
       header:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: true
-          content:
-            value: "<div class=\"new-service-type button-with-icon\"><a href=\"{{ path('node.add', {'node_type': 'referral_path_way'}) }}\">{{ 'Add new Referral Pathway' | t }}</a></div>"
-            format: full_html
-          tokenize: true
         result:
           id: result
           table: views
