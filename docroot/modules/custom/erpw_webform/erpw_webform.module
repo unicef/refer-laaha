@@ -1874,7 +1874,7 @@ function erpw_webform_getLocationEntityIdByTid($tid) {
  *
  * @throws \Drupal\Core\Entity\EntityStorageException
  */
-function erpw_webform_create_or_update_wsa_node($service_type, $submission_id, array $original_data, $deletion_node = FALSE) {
+function erpw_webform_create_or_update_wsa_node($service_type, $submission_id, string $original_data, $deletion_node = FALSE) {
   $entity_type_manager = \Drupal::entityTypeManager();
 
   $query = $entity_type_manager->getStorage('node')->getQuery()

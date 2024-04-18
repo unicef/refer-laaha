@@ -735,9 +735,11 @@ class AddLocationForm extends FormBase {
       }
     }
     if ($counterSave == 0) {
-      $text = t('Error! Couldnot save the location. Try with new location names.');
+      $error = 1;
+      $text = t('Error! Could not save the location as it already exists. Try with new location names.');
     }
     else {
+      $error = 0;
       $text = t('Success! New location successfully created.');
     }
     // Display a success message.
@@ -745,7 +747,13 @@ class AddLocationForm extends FormBase {
     // Redirect the user to a different page.
     $redirect = Url::fromRoute('erpw_location.manage_location');
     $response->addCommand(new RedirectCommand($redirect->toString()));
-    $this->messenger()->addMessage($text);
+    if ($error) {
+      $this->messenger()->addError($text);
+    }
+    else {
+      $this->messenger()->addMessage($text);
+    }
+
     return $response;
   }
 
