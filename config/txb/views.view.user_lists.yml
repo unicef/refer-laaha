@@ -16,6 +16,7 @@ dependencies:
     - user.role.service_provider_focal_point
     - user.role.service_provider_staff
     - user.role.super_admin
+    - user.role.txb_service_viewer
   module:
     - better_exposed_filters
     - erpw_custom
@@ -912,7 +913,6 @@ display:
         - url
         - url.query_args
         - url.site
-        - user
         - 'user.node_grants:view'
         - user.roles
       tags:
@@ -1667,6 +1667,7 @@ display:
           plugin_id: user_roles
           operator: or
           value:
+            txb_service_viewer: txb_service_viewer
             service_provider_staff: service_provider_staff
             service_provider_focal_point: service_provider_focal_point
             gbv_focal_point: gbv_focal_point
@@ -1689,6 +1690,7 @@ display:
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
+              txb_service_viewer: '0'
               service_provider_staff: '0'
               service_provider_focal_point: '0'
               gbv_focal_point: '0'
@@ -2505,6 +2507,15 @@ display:
             date_format: medium
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -2888,7 +2899,6 @@ display:
         - url
         - url.query_args
         - url.site
-        - user
         - 'user.node_grants:view'
         - user.roles
       tags:
@@ -3496,6 +3506,15 @@ display:
             date_format: medium
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -3868,7 +3887,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.site
-        - user
         - 'user.node_grants:view'
         - user.roles
       tags:
