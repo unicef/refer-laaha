@@ -14,13 +14,13 @@ type_settings:
       label: Approved
       weight: -4
     archive_in_review_with_focal_point:
-      label: 'Archive In - Review with Focal Point'
+      label: 'Deactivation In - Review with Focal Point'
       weight: -1
     archive_in_review_with_gbv_coordination:
-      label: 'Archive In -  Review with GBV Coordination'
+      label: 'Deactivation In -  Review with GBV Coordination'
       weight: 0
     archived:
-      label: Archived
+      label: Deactivated
       weight: 1
     deleted:
       label: Deleted
@@ -49,14 +49,11 @@ type_settings:
     reject:
       label: Rejected
       weight: -3
-    rejected_archive_service_request:
-      label: 'Rejected Archive Service Request'
-      weight: 4
     restore_service_in_review_with_focal_point:
-      label: 'Restore Service In - Review with Focal Point'
+      label: 'Service Activation In - Review with Focal Point'
       weight: 5
     restore_service_in_review_with_gbv_coordination:
-      label: 'Restore Service In - Review with GBV Coordination'
+      label: 'Service Activation In - Review with GBV Coordination'
       weight: 6
   transitions:
     approve:
@@ -75,7 +72,7 @@ type_settings:
       to: deleted
       weight: 2
     archive_service:
-      label: 'Archive Service'
+      label: 'Deactivate Service'
       from:
         - approve
         - archive_in_review_with_gbv_coordination
@@ -132,7 +129,7 @@ type_settings:
       to: draft
       weight: -8
     restore_service:
-      label: 'Restore Service'
+      label: 'Activate Service'
       from:
         - archived
         - restore_service_in_review_with_gbv_coordination
@@ -145,25 +142,25 @@ type_settings:
       to: draft
       weight: -10
     service_archive_rejected_by_focal_point:
-      label: 'Service Archive Rejected by Focal Point'
+      label: 'Service Deactivation Rejected by Focal Point'
       from:
         - archive_in_review_with_focal_point
       to: approve
       weight: 5
     service_archive_rejected_by_gbv_coordination:
-      label: 'Service Archive Rejected by GBV Coordination'
+      label: 'Service Deactivation Rejected by GBV Coordination'
       from:
         - archive_in_review_with_gbv_coordination
       to: approve
       weight: 6
     service_restore_rejected_by_focal_point:
-      label: 'Service Restore Rejected by Focal Point'
+      label: 'Service Activation Rejected by Focal Point'
       from:
         - restore_service_in_review_with_focal_point
       to: archived
       weight: 11
     service_restore_rejected_by_gbv_coordination:
-      label: 'Service Restore Rejected by GBV Coordination'
+      label: 'Service Activation Rejected by GBV Coordination'
       from:
         - restore_service_in_review_with_gbv_coordination
       to: archived
@@ -184,14 +181,14 @@ type_settings:
       to: edits_in_review_with_gbv_coordination
       weight: -6
     submit_for_archive_to_focal_point:
-      label: 'Submit for Archive to Focal Point'
+      label: 'Submit for Deactivation to Focal Point'
       from:
         - approve
         - reject
       to: archive_in_review_with_focal_point
       weight: 3
     submit_for_archive_to_gbv_coordination:
-      label: 'Submit for Archive to GBV Coordination'
+      label: 'Submit for Deactivation to GBV Coordination'
       from:
         - approve
         - archive_in_review_with_focal_point
@@ -214,13 +211,13 @@ type_settings:
       to: deletion_in_review_with_gbv_coordination
       weight: -1
     submit_for_restoration_to_focal_point:
-      label: 'Submit for Restoration to Focal Point'
+      label: 'Submit for Activation to Focal Point'
       from:
         - archived
       to: restore_service_in_review_with_focal_point
       weight: 8
     submit_for_restoration_to_gbv_coordination:
-      label: 'Submit for Restoration to GBV Coordination'
+      label: 'Submit for Activation to GBV Coordination'
       from:
         - archived
         - restore_service_in_review_with_focal_point
