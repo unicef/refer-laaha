@@ -1109,7 +1109,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('archive'),
+        'field_operation' => t('deactivate'),
         'field_workflow_action' => '',
       ]);
       $notification_storage->save();
@@ -1138,7 +1138,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('archive'),
+        'field_operation' => t('deactivate'),
         'field_workflow_action' => t('approved'),
       ]);
       $notification_storage->save();
@@ -1165,7 +1165,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
           'changed' => $ctime,
           'name' => 'Service -' . $sid,
           'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-          'field_operation' => t('archive'),
+          'field_operation' => t('deactivate'),
           'field_workflow_action' => t('approved'),
         ]);
         $notification_storage->save();
@@ -1192,7 +1192,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('archive'),
+        'field_operation' => t('deactivate'),
         'field_workflow_action' => '',
       ]);
       $notification_storage->save();
@@ -1221,7 +1221,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('archive'),
+        'field_operation' => t('deactivate'),
         'field_workflow_action' => t('rejected'),
       ]);
       $notification_storage->save();
@@ -1248,7 +1248,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
           'changed' => $ctime,
           'name' => 'Service -' . $sid,
           'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-          'field_operation' => t('archive'),
+          'field_operation' => t('deactivate'),
           'field_workflow_action' => t('rejected'),
         ]);
         $notification_storage->save();
@@ -1281,7 +1281,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
           'changed' => $ctime,
           'name' => 'Service -' . $sid,
           'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-          'field_operation' => t('archive'),
+          'field_operation' => t('deactivate'),
           'field_workflow_action' => t('approved'),
         ]);
         $notification_storage->save();
@@ -1309,7 +1309,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
           'changed' => $ctime,
           'name' => 'Service -' . $sid,
           'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-          'field_operation' => t('archive'),
+          'field_operation' => t('deactivate'),
           'field_workflow_action' => t('approved'),
         ]);
         $notification_storage->save();
@@ -1336,7 +1336,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('archive'),
+        'field_operation' => t('deactivate'),
         'field_workflow_action' => t('approved'),
       ]);
       $notification_storage->save();
@@ -1368,7 +1368,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
           'changed' => $ctime,
           'name' => 'Service -' . $sid,
           'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-          'field_operation' => t('archive'),
+          'field_operation' => t('deactivate'),
           'field_workflow_action' => t('rejected'),
         ]);
         $notification_storage->save();
@@ -1396,7 +1396,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
           'changed' => $ctime,
           'name' => 'Service -' . $sid,
           'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-          'field_operation' => t('archive'),
+          'field_operation' => t('deactivate'),
           'field_workflow_action' => t('rejected'),
         ]);
         $notification_storage->save();
@@ -1423,7 +1423,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('archive'),
+        'field_operation' => t('deactivate'),
         'field_workflow_action' => t('rejected'),
       ]);
       $notification_storage->save();
@@ -1459,7 +1459,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('restore'),
+        'field_operation' => t('activate'),
         'field_workflow_action' => '',
       ]);
       $notification_storage->save();
@@ -1489,7 +1489,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('restore'),
+        'field_operation' => t('activate'),
         'field_workflow_action' => t('rejected'),
       ]);
       $notification_storage->save();
@@ -1516,7 +1516,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
           'changed' => $ctime,
           'name' => 'Service -' . $sid,
           'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-          'field_operation' => t('restore'),
+          'field_operation' => t('activate'),
           'field_workflow_action' => t('rejected'),
         ]);
         $notification_storage->save();
@@ -1546,7 +1546,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('restore'),
+        'field_operation' => t('activate'),
         'field_workflow_action' => t('approved'),
       ]);
       $notification_storage->save();
@@ -1573,7 +1573,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
           'changed' => $ctime,
           'name' => 'Service -' . $sid,
           'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-          'field_operation' => t('restore'),
+          'field_operation' => t('activate'),
           'field_workflow_action' => t('approved'),
         ]);
         $notification_storage->save();
@@ -1600,7 +1600,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('restore'),
+        'field_operation' => t('activate'),
         'field_workflow_action' => '',
       ]);
       $notification_storage->save();
@@ -1633,7 +1633,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
           'changed' => $ctime,
           'name' => 'Service -' . $sid,
           'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-          'field_operation' => t('restore'),
+          'field_operation' => t('activate'),
           'field_workflow_action' => t('rejected'),
         ]);
         $notification_storage->save();
@@ -1660,7 +1660,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('restore'),
+        'field_operation' => t('activate'),
         'field_workflow_action' => t('rejected'),
       ]);
       $notification_storage->save();
@@ -1686,7 +1686,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('restore'),
+        'field_operation' => t('activate'),
         'field_workflow_action' => t('rejected'),
       ]);
       $notification_storage->save();
@@ -1718,7 +1718,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
           'changed' => $ctime,
           'name' => 'Service -' . $sid,
           'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-          'field_operation' => t('restore'),
+          'field_operation' => t('activate'),
           'field_workflow_action' => t('approved'),
         ]);
         $notification_storage->save();
@@ -1745,7 +1745,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('restore'),
+        'field_operation' => t('activate'),
         'field_workflow_action' => t('approved'),
       ]);
       $notification_storage->save();
@@ -1771,7 +1771,7 @@ function erpw_in_app_notification__service_operation($webform_submission, $webfo
         'changed' => $ctime,
         'name' => 'Service -' . $sid,
         'field_title' => $sid . ' ' . $org->title->value . ' - ' . $webform->label(),
-        'field_operation' => t('restore'),
+        'field_operation' => t('activate'),
         'field_workflow_action' => t('approved'),
       ]);
       $notification_storage->save();
