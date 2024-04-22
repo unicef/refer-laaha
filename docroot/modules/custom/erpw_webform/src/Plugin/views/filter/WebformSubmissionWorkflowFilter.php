@@ -92,13 +92,11 @@ class WebformSubmissionWorkflowFilter extends ManyToOne {
       'deletion_in_review_with_focal_point' => 'Deletion In Review with Focal Point',
       'deletion_in_review_with_gbv_coordination' => 'Deletion In Review with GBV Coordination',
       'reject' => 'Rejected',
-      'archive_in_review_with_focal_point' => 'Archive In Review With Focal Point',
-      'archive_in_review_with_gbv_coordination' => 'Archive In Review With GBV Coordination',
-      'archived' => 'Archived',
-      'restore_service_in_review_with_focal_point' => 'Restore Service In Review With Focal Point',
-      'restore_service_in_review_with_gbv_coordination' => 'Restore Service In Review with GBV Coordination',
-      'rejected_restoration_service_request' => 'Rejected Restore Service Request',
-      'rejected_archive_service_request' => 'Rejected Archive Service Request',
+      'archive_in_review_with_focal_point' => 'Deactivation In Review With Focal Point',
+      'archive_in_review_with_gbv_coordination' => 'Deactivation In Review With GBV Coordination',
+      'archived' => 'Deactivated',
+      'restore_service_in_review_with_focal_point' => 'Service Activation In Review With Focal Point',
+      'restore_service_in_review_with_gbv_coordination' => 'Service Activation In Review with GBV Coordination',
     ];
     return $states;
   }
