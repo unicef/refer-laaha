@@ -11,7 +11,6 @@ dependencies:
     - taxonomy.vocabulary.country
     - user.role.administrator
     - user.role.country_admin
-    - user.role.gbv_focal_point
     - user.role.interagency_gbv_coordinator
     - user.role.service_provider_focal_point
     - user.role.service_provider_staff
@@ -587,7 +586,6 @@ display:
         options:
           role:
             service_provider_focal_point: service_provider_focal_point
-            gbv_focal_point: gbv_focal_point
             interagency_gbv_coordinator: interagency_gbv_coordinator
             country_admin: country_admin
             super_admin: super_admin
@@ -1670,7 +1668,6 @@ display:
             txb_service_viewer: txb_service_viewer
             service_provider_staff: service_provider_staff
             service_provider_focal_point: service_provider_focal_point
-            gbv_focal_point: gbv_focal_point
             interagency_gbv_coordinator: interagency_gbv_coordinator
             country_admin: country_admin
           group: 1
@@ -1693,7 +1690,6 @@ display:
               txb_service_viewer: '0'
               service_provider_staff: '0'
               service_provider_focal_point: '0'
-              gbv_focal_point: '0'
               interagency_gbv_coordinator: '0'
               country_admin: '0'
               super_admin: '0'
@@ -2614,7 +2610,6 @@ display:
           value:
             service_provider_staff: service_provider_staff
             service_provider_focal_point: service_provider_focal_point
-            gbv_focal_point: gbv_focal_point
             interagency_gbv_coordinator: interagency_gbv_coordinator
             country_admin: country_admin
           group: 1
@@ -2636,7 +2631,6 @@ display:
               anonymous: '0'
               service_provider_staff: '0'
               service_provider_focal_point: '0'
-              gbv_focal_point: '0'
               interagency_gbv_coordinator: '0'
               country_admin: '0'
               super_admin: '0'
@@ -3603,7 +3597,6 @@ display:
           value:
             service_provider_staff: service_provider_staff
             service_provider_focal_point: service_provider_focal_point
-            gbv_focal_point: gbv_focal_point
             interagency_gbv_coordinator: interagency_gbv_coordinator
             country_admin: country_admin
           group: 1
@@ -3625,7 +3618,6 @@ display:
               anonymous: '0'
               service_provider_staff: '0'
               service_provider_focal_point: '0'
-              gbv_focal_point: '0'
               interagency_gbv_coordinator: '0'
               country_admin: '0'
               super_admin: '0'

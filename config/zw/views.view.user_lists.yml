@@ -11,7 +11,6 @@ dependencies:
     - taxonomy.vocabulary.country
     - user.role.administrator
     - user.role.country_admin
-    - user.role.gbv_focal_point
     - user.role.interagency_gbv_coordinator
     - user.role.service_provider_focal_point
     - user.role.service_provider_staff
@@ -586,7 +585,6 @@ display:
         options:
           role:
             service_provider_focal_point: service_provider_focal_point
-            gbv_focal_point: gbv_focal_point
             interagency_gbv_coordinator: interagency_gbv_coordinator
             country_admin: country_admin
             super_admin: super_admin
@@ -912,7 +910,6 @@ display:
         - url
         - url.query_args
         - url.site
-        - user
         - 'user.node_grants:view'
         - user.roles
       tags:
@@ -1669,7 +1666,6 @@ display:
           value:
             service_provider_staff: service_provider_staff
             service_provider_focal_point: service_provider_focal_point
-            gbv_focal_point: gbv_focal_point
             interagency_gbv_coordinator: interagency_gbv_coordinator
             country_admin: country_admin
           group: 1
@@ -2505,6 +2501,15 @@ display:
             date_format: medium
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -2642,7 +2647,6 @@ display:
           value:
             service_provider_staff: service_provider_staff
             service_provider_focal_point: service_provider_focal_point
-            gbv_focal_point: gbv_focal_point
             interagency_gbv_coordinator: interagency_gbv_coordinator
             country_admin: country_admin
           group: 1
@@ -2888,7 +2892,6 @@ display:
         - url
         - url.query_args
         - url.site
-        - user
         - 'user.node_grants:view'
         - user.roles
       tags:
@@ -3496,6 +3499,15 @@ display:
             date_format: medium
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -3623,7 +3635,6 @@ display:
           value:
             service_provider_staff: service_provider_staff
             service_provider_focal_point: service_provider_focal_point
-            gbv_focal_point: gbv_focal_point
             interagency_gbv_coordinator: interagency_gbv_coordinator
             country_admin: country_admin
           group: 1
@@ -3868,7 +3879,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.site
-        - user
         - 'user.node_grants:view'
         - user.roles
       tags:

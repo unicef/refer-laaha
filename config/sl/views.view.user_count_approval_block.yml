@@ -6,7 +6,6 @@ dependencies:
     - taxonomy.vocabulary.country
     - user.role.administrator
     - user.role.country_admin
-    - user.role.gbv_focal_point
     - user.role.interagency_gbv_coordinator
     - user.role.service_provider_focal_point
     - user.role.service_provider_staff
@@ -241,7 +240,6 @@ display:
         options:
           role:
             service_provider_focal_point: service_provider_focal_point
-            gbv_focal_point: gbv_focal_point
             interagency_gbv_coordinator: interagency_gbv_coordinator
             country_admin: country_admin
             administrator: administrator
@@ -463,7 +461,6 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - user
         - user.roles
       tags: {  }
   block_1:
@@ -714,7 +711,6 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - user
         - user.roles
       tags: {  }
   block_2:
@@ -862,7 +858,6 @@ display:
           default_argument_type: user
           default_argument_options:
             user: false
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -934,7 +929,6 @@ display:
           value:
             service_provider_staff: service_provider_staff
             service_provider_focal_point: service_provider_focal_point
-            gbv_focal_point: gbv_focal_point
           group: 1
           exposed: false
           expose:
