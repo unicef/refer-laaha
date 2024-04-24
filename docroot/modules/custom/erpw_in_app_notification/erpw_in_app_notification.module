@@ -2277,6 +2277,7 @@ function erpw_in_app_notification_user_cancel($edit, UserInterface $account, $me
       $broadcast_notification_entity_ids = $storage->getQuery()
         ->condition('uid', $account->id())
         ->condition('status', 1)
+        ->accessCheck(FALSE)
         ->execute();
       foreach ($storage->loadMultiple($broadcast_notification_entity_ids) as $broadcast_notification_entity) {
         $broadcast_notification_entity->set('status', FALSE);
@@ -2289,6 +2290,7 @@ function erpw_in_app_notification_user_cancel($edit, UserInterface $account, $me
       $storage = \Drupal::entityTypeManager()->getStorage('broadcast_notification_entity');
       $broadcast_notification_entity_ids = $storage->getQuery()
         ->condition('uid', $account->id())
+        ->accessCheck(FALSE)
         ->execute();
       foreach ($storage->loadMultiple($broadcast_notification_entity_ids) as $broadcast_notification_entity) {
         $broadcast_notification_entity->setOwnerId(0);
