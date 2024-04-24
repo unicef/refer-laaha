@@ -18,7 +18,7 @@ class DeleteNodesController extends ControllerBase {
     if ($content_type == 'referral_path_way' || $content_type == 'service_provider') {
       $nids = $this->findNidsOfRpwOldServices($content_type);
     }
-    elseif ($content_type == 'organisation' || $content_type == 'service_type' || 
+    elseif ($content_type == 'organisation' || $content_type == 'service_type' ||
     $content_type == 'feedback_area') {
       $nids = $this->findNidsOfOrganisationServiceType($content_type);
     }
@@ -75,13 +75,13 @@ class DeleteNodesController extends ControllerBase {
       $domain_query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
         ->condition('type', $bundle_name)
         ->condition('field_domain_access', $current_domain)
-        ->accessCheck(TRUE);
+        ->accessCheck(FALSE);
       $domain_nids = $domain_query->execute();
 
       // Query all nodes in the specified bundle.
       $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
         ->condition('type', $bundle_name)
-        ->accessCheck(TRUE);
+        ->accessCheck(FALSE);
       $nids = $query->execute();
 
       // Calculate the set difference to find nodes in other domains.
@@ -126,13 +126,13 @@ class DeleteNodesController extends ControllerBase {
       $domain_query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
         ->condition('type', $bundle_name)
         ->condition('field_location', $ptids, 'IN')
-        ->accessCheck(TRUE);
+        ->accessCheck(FALSE);
       $domain_nids = $domain_query->execute();
 
       // Query all nodes in the specified bundle.
       $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
         ->condition('type', $bundle_name)
-        ->accessCheck(TRUE);
+        ->accessCheck(FALSE);
       $nids = $query->execute();
 
       // Calculate the set difference to find nodes in other domains.
