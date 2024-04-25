@@ -2286,7 +2286,7 @@ function erpw_in_app_notification_user_cancel($edit, UserInterface $account, $me
       break;
 
     case 'user_cancel_reassign':
-      // Anonymize broadcast notification entities.
+      // Set author of broadcast notification entities to Anonymous user.
       $storage = \Drupal::entityTypeManager()->getStorage('broadcast_notification_entity');
       $broadcast_notification_entity_ids = $storage->getQuery()
         ->condition('uid', $account->id())
