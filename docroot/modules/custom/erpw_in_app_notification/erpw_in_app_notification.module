@@ -2272,7 +2272,7 @@ function template_preprocess_broadcast_notification_entity(array &$variables) {
 function erpw_in_app_notification_user_cancel($edit, UserInterface $account, $method) {
   switch ($method) {
     case 'user_cancel_block_unpublish':
-      // Unpublish broadcast notification entities.
+      // Unpublish broadcast notification entities of deleted user.
       $storage = \Drupal::entityTypeManager()->getStorage('broadcast_notification_entity');
       $broadcast_notification_entity_ids = $storage->getQuery()
         ->condition('uid', $account->id())
