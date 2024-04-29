@@ -211,6 +211,15 @@
                 // Define the options and their values
                 const options = element["#options"];
 
+                // Extract the first three non-space characters,
+                // and add two random numbers to create a unique id for options.
+                var uniqueRadioId = '';
+                uniqueRadioId = parent_label.substring(0, 3);
+                uniqueRadioId = uniqueRadioId.toLowerCase();
+                for (var j = 0; j < 2; j++) {
+                  uniqueRadioId += Math.floor(Math.random() * 10);
+                }
+
                 // Create and add radio buttons to the div element
                 for (const optionKey in options) {
                   const radioWrapperDiv = document.createElement("div");
@@ -218,12 +227,13 @@
                   const radio = document.createElement("input");
                   radio.type = "radio";
                   radio.value = optionKey;
-                  radio.id = `option-${optionKey}`;
+                  var optionId = optionKey.replace(/\s/g, "").replace(/'/g, "").toLowerCase();
+                  radio.id = `option-${optionId}-${uniqueRadioId}`;
                   // Set the name attribute to the label text
                   radio.name = parent_label;
 
                   const label = document.createElement("label");
-                  label.htmlFor = `option-${optionKey}`;
+                  label.htmlFor = `option-${optionId}-${uniqueRadioId}`;
                   label.textContent = options[optionKey];
 
                   radioWrapperDiv.appendChild(radio);
