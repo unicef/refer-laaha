@@ -113,7 +113,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
                     foreach ($content as $lkey => $lvalue) {
                       if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                         $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
-                        $location = $country . '.';
+                        $location = $location . $country . '.';
                       }
                       if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                         $level_1 = $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
@@ -215,7 +215,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
                 foreach ($content as $lkey => $lvalue) {
                   if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                     $country = $this->entityTypeManager()->getStorage('location')->load($lvalue)->getName();
-                    $location = $country . '.';
+                    $location = $location . $country . '.';
                   }
                   if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
                     $level_1 = !is_null($this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)) ? $this->entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName() : '';
