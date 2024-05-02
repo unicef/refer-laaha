@@ -222,9 +222,8 @@
   padding: 10px;
   border: 1px solid black;
 }
-.hide-webform-action-links .webform-filter-form .js-form-type-search input {
-  max-width: 100%;
-  width: 100%;
+.hide-webform-action-links #webform-filter-form{
+  display: none;
 }
 .webform-dropbutton .dropbutton-wrapper .dropbutton-widget {
   background: white !important;
