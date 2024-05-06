@@ -29,7 +29,7 @@ class AddLocationForm extends FormBase {
   /**
    * A logger instance.
    *
-   * @var \Psr\Log\LoggerChannelFactory
+   * @var \Drupal\Core\Logger\LoggerChannelFactory
    */
   protected $logger;
 
@@ -43,53 +43,68 @@ class AddLocationForm extends FormBase {
   /**
    * A entityManager instance.
    *
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityManager;
 
   /**
    * A LocationService instance.
    *
-   * @var Drupal\erpw_location\LocationService
+   * @var \Drupal\erpw_location\LocationService
    */
   protected $locationService;
 
   /**
    * A UrlService instance.
    *
-   * @var Drupal\Core\Routing\UrlGeneratorInterface
+   * @var \Drupal\Core\Routing\UrlGeneratorInterface
    */
   protected $urlGenerator;
 
   /**
    * A cid variable.
    *
-   * @var Drupal\erpw_location
+   * @var \Drupal\erpw_location
    */
   protected $cid;
 
   /**
    * A tid variable.
    *
-   * @var Drupal\erpw_location
+   * @var \Drupal\erpw_location
    */
   protected $tid;
 
   /**
    * The Current user service.
    *
-   * @var Drupal\Core\Session\AccountProxyInterface
+   * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
+
+
+  /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilder
+   */
+  protected $formBuilder;
+
+  /**
+   * The Messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
 
   /**
    * ManageLocation constructor.
    *
-   * @param \Psr\Log\LoggerChannelFactory $logger
+   * @param \Drupal\Core\Logger\LoggerChannelFactory $logger
    *   Logger object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   EntityManager object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.

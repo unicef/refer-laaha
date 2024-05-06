@@ -290,13 +290,13 @@ class ServiceRatingService {
   /**
    * Get options for the radios element for multiple choice questions.
    *
-   * @param array $form_state
+   * @param mixed $form_state
    *   The form state array containing the options.
    *
    * @return array
    *   An array of options for the radios element.
    */
-  public function getMultipleChoiceOptions(array $form_state) {
+  public function getMultipleChoiceOptions(mixed $form_state) {
     $options = [];
     $option_count = $form_state->get('option_count');
 

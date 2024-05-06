@@ -73,10 +73,10 @@ class ReturnToListButton extends BlockBase implements ContainerFactoryPluginInte
   public function build() {
 
     $referer = $this->requestStack->getCurrentRequest()->headers->get('referer');
-    // Remove both http and https protocols
+    // Remove both http and https protocols.
     $url = preg_replace("#^https?://#i", "", $referer);
 
-    // Remove all dots, slashes, and hyphens
+    // Remove all dots, slashes, and hyphens.
     $url = str_replace(['.', '/', '-'], '', $url);
 
     $cache_tags = ['return_to_list_button'];

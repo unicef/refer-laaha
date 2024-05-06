@@ -25,7 +25,7 @@ class DeleteLocationForm extends FormBase {
   /**
    * A logger instance.
    *
-   * @var \Psr\Log\LoggerChannelFactory
+   * @var \Drupal\Core\Logger\LoggerChannelFactory
    */
   protected $logger;
 
@@ -39,28 +39,28 @@ class DeleteLocationForm extends FormBase {
   /**
    * A entityTypeManager instance.
    *
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
   /**
    * A currentPathStack instance.
    *
-   * @var Drupal\Core\Path\CurrentPathStack
+   * @var \Drupal\Core\Path\CurrentPathStack
    */
   protected $currentPathStack;
 
   /**
    * A LocationService instance.
    *
-   * @var Drupal\erpw_location\LocationService
+   * @var \Drupal\erpw_location\LocationService
    */
   protected $locationService;
 
   /**
    * A UrlService instance.
    *
-   * @var Drupal\Core\Routing\UrlGeneratorInterface
+   * @var \Drupal\Core\Routing\UrlGeneratorInterface
    */
   protected $urlGenerator;
 
@@ -74,17 +74,17 @@ class DeleteLocationForm extends FormBase {
   /**
    * ManageLocation constructor.
    *
-   * @param \Psr\Log\LoggerChannelFactory $logger
+   * @param \Drupal\Core\Logger\LoggerChannelFactory $logger
    *   Logger object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   EntityManager object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
    *   The form_builder service.
-   * @param Drupal\Core\Path\CurrentPathStack $current_path_stack
+   * @param \Drupal\Core\Path\CurrentPathStack $current_path_stack
    *   The location service.
    * @param \Drupal\erpw_location\LocationService $location_service
    *   The location service.

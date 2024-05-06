@@ -274,7 +274,7 @@ class LocationCookieService {
 
   /**
    * Gets Default location cookie according to active domain.
-   * 
+   *
    * @return int
    *   The country tid based on active domain.
    */
@@ -289,7 +289,7 @@ class LocationCookieService {
    * Get the cookie value saved in UserLocationForm.
    *
    * @return mixed
-   *    Return mixed value.
+   *   Return mixed value.
    */
   public function getSavedCookie() {
     return $this->savedCookie;
@@ -338,7 +338,7 @@ class LocationCookieService {
     if ($domain_current_url[0] != NULL && $domain_current_url[0] === 'sl') {
       $this->currentRequest->cookies->set('userLanguage', 'TRUE');
       $this->currentRequest->cookies->set('userLanguage', 'en');
-    } 
+    }
     else {
       if (!in_array($currentLang, $langs_for_this_domain)) {
         $this->currentRequest->cookies->set('userLanguage', $langs_for_this_domain[0]);

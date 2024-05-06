@@ -34,7 +34,7 @@ class ManageLocationForm extends FormBase {
   /**
    * A logger instance.
    *
-   * @var \Psr\Log\LoggerChannelFactory
+   * @var \Drupal\Core\Logger\LoggerChannelFactory
    */
   protected $logger;
 
@@ -116,9 +116,23 @@ class ManageLocationForm extends FormBase {
   protected $pagerManager;
 
   /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilder
+   */
+  protected $formBuilder;
+
+  /**
+   * The Messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * ManageLocation constructor.
    *
-   * @param \Psr\Log\LoggerChannelFactory $logger
+   * @param \Drupal\Core\Logger\LoggerChannelFactory $logger
    *   Logger object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
@@ -368,6 +382,8 @@ class ManageLocationForm extends FormBase {
 
       // Calculate the offset.
       $offset = ($current_page - 1) * $limit;
+
+      $current_location_level = '';
 
       // Loop through locations with pagination.
       $pagedLocations = array_slice($finalArray, $offset, $limit, TRUE);

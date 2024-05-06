@@ -35,6 +35,13 @@ class WebformSubmissionOrganisationFilter extends ManyToOne {
   protected $joinHandler;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * Constructs a new TransactionId instance.
    *
    * @param array $configuration
