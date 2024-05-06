@@ -33,9 +33,9 @@
         "drupal/config_pages": "^3.0@dev",
         "drupal/config_split": "^1.9",
         "drupal/content_lock": "^2.3",
-        "drupal/core-composer-scaffold": "10.2.5",
-        "drupal/core-project-message": "10.2.5",
-        "drupal/core-recommended": "10.2.5",
+        "drupal/core-composer-scaffold": "10.2.6",
+        "drupal/core-project-message": "10.2.6",
+        "drupal/core-recommended": "10.2.6",
         "drupal/core-vendor-hardening": "^10.0",
         "drupal/csp": "^1.20",
         "drupal/default_content": "^2.0@alpha",
@@ -46,14 +46,14 @@
         "drupal/domain_entity": "^1.0@RC",
         "drupal/domain_lang": "^1.0@beta",
         "drupal/domain_language_negotiation": "^3.0@alpha",
-        "drupal/email_tfa": "^1.0",
+        "drupal/email_tfa": "^2.0",
         "drupal/environment_indicator": "^4.0",
         "drupal/field_group": "^3.4",
         "drupal/field_permissions": "^1.2",
         "drupal/google_analytics": "^4.0",
         "drupal/google_tag": "^2.0",
         "drupal/hal": "^2.0",
-        "drupal/hook_event_dispatcher": "^4.0@RC",
+        "drupal/hook_event_dispatcher": "^4.0",
         "drupal/jquery_ui_dialog": "^2.0",
         "drupal/jquery_ui_slider": "^2.0",
         "drupal/mail_login": "^3.0",
@@ -87,7 +87,7 @@
         "drupal/view_password": "^6.0",
         "drupal/views_attach_library": "^2.0",
         "drupal/views_data_export": "^1.4",
-        "drupal/webform": "^6.2@beta",
+        "drupal/webform": "^6.2",
         "drupal/webform_rest": "^4.0",
         "drupal/webform_workflows_element": "^1.0@alpha",
         "drupal/workflow_buttons": "^1.0@beta",
@@ -173,9 +173,6 @@
             },
             "drupal/pwa": {
                 "Add schema to pwa block to enable translation for Add to Home Screen Block.": "patches/pwa_a2hs-schema-changes.patch"
-            },
-            "drupal/views_attach_library": {
-                "Drupal 10 compatibility": "https://www.drupal.org/files/issues/2022-08-06/views_attach_library_2.0.2.patch"
             },
             "drupal/webform": {
                 "Add feedback area property to webform elements": "patches/webform-feedback_area-property.patch",

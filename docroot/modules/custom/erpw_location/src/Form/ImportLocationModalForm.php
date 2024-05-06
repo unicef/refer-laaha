@@ -27,7 +27,7 @@ class ImportLocationModalForm extends FormBase {
   /**
    * A logger instance.
    *
-   * @var \Psr\Log\LoggerChannelFactory
+   * @var \Drupal\Core\Logger\LoggerChannelFactory
    */
   protected $logger;
 
@@ -41,7 +41,7 @@ class ImportLocationModalForm extends FormBase {
   /**
    * A entityManager instance.
    *
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityManager;
 
@@ -55,11 +55,11 @@ class ImportLocationModalForm extends FormBase {
   /**
    * ManageLocation constructor.
    *
-   * @param \Psr\Log\LoggerChannelFactory $logger
+   * @param \Drupal\Core\Logger\LoggerChannelFactory $logger
    *   Logger object.
    * @param \Drupal\Core\Database\Connection $connection
    *   Connection Object.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   EntityManager object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
