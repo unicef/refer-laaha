@@ -88,6 +88,9 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
           // Create notification.
           if (!empty($uids)) {
             foreach ($uids as $uid) {
+              if ($uid == $notification->getOwnerId()) {
+                continue;
+              }
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
@@ -115,6 +118,9 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
           // Create notification.
           if (!empty($uids)) {
             foreach ($uids as $uid) {
+              if ($uid == $notification->getOwnerId()) {
+                continue;
+              }
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
@@ -141,6 +147,9 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
           // Create notification.
           if (!empty($uids)) {
             foreach ($uids as $uid) {
+              if ($uid == $notification->getOwnerId()) {
+                continue;
+              }
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
@@ -174,6 +183,9 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
           // Create notification.
           if (!empty($uids)) {
             foreach ($uids as $uid) {
+              if ($uid == $notification->getOwnerId()) {
+                continue;
+              }
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
@@ -195,6 +207,9 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
           // Create notification.
           if (!empty($uids)) {
             foreach ($uids as $uid) {
+              if ($uid == $notification->getOwnerId()) {
+                continue;
+              }
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
@@ -230,6 +245,9 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
             // Create notification.
             if (!empty($uids)) {
               foreach ($uids as $uid) {
+                if ($uid == $notification->getOwnerId()) {
+                  continue;
+                }
                 $npstorage->create([
                   'field_notification_id' => $notification->id(),
                   'field_read' => 0,
@@ -261,6 +279,9 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
             // Create notification.
             if (!empty($uids)) {
               foreach ($uids as $uid) {
+                if ($uid == $notification->getOwnerId()) {
+                  continue;
+                }
                 $npstorage->create([
                   'field_notification_id' => $notification->id(),
                   'field_read' => 0,
@@ -291,6 +312,9 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
             // Create notification.
             if (!empty($uids)) {
               foreach ($uids as $uid) {
+                if ($uid == $notification->getOwnerId()) {
+                  continue;
+                }
                 $npstorage->create([
                   'field_notification_id' => $notification->id(),
                   'field_read' => 0,
@@ -329,6 +353,9 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
             // Create notification.
             if (!empty($uids)) {
               foreach ($uids as $uid) {
+                if ($uid == $notification->getOwnerId()) {
+                  continue;
+                }
                 $npstorage->create([
                   'field_notification_id' => $notification->id(),
                   'field_read' => 0,
