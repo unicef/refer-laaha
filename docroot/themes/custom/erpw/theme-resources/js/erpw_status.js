@@ -1,22 +1,22 @@
 (function ($, Drupal, drupalSettings) {
   Drupal.behaviors.erpw_status = {
-    attach: function (context, settings) {
-      //Update user status
+    attach(context, settings) {
+      // Update user status
       function updateConnectionStatus(msg, connected) {
-        var current_status = document.getElementById("status");
-        var current_dot = document.getElementById("dot");
+        const currentStatus = document.getElementById("status");
+        const currentDot = document.getElementById("dot");
         if (connected) {
-          current_status.innerHTML = "Online";
-          current_status.classList.add("online");
-          current_status.classList.remove("offline");
-          current_dot.classList.add("green-dot");
-          current_dot.classList.remove("red-dot");
+          currentStatus.innerHTML = "Online";
+          currentStatus.classList.add("online");
+          currentStatus.classList.remove("offline");
+          currentDot.classList.add("green-dot");
+          currentDot.classList.remove("red-dot");
         } else {
-          current_status.innerHTML = "Offline";
-          current_status.classList.add("offline");
-          current_status.classList.remove("online");
-          current_dot.classList.add("red-dot");
-          current_dot.classList.remove("green-dot");
+          currentStatus.innerHTML = "Offline";
+          currentStatus.classList.add("offline");
+          currentStatus.classList.remove("online");
+          currentDot.classList.add("red-dot");
+          currentDot.classList.remove("green-dot");
         }
       }
       window.addEventListener(
@@ -28,14 +28,14 @@
             updateConnectionStatus("Offline", false);
           }
         },
-        false
+        false,
       );
       window.addEventListener(
         "online",
         function (e) {
           updateConnectionStatus("Online", true);
         },
-        false
+        false,
       );
 
       window.addEventListener(
@@ -43,7 +43,7 @@
         function (e) {
           updateConnectionStatus("Offline", false);
         },
-        false
+        false,
       );
     },
   };
