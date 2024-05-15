@@ -4,12 +4,10 @@
  */
 
 (function ($, Drupal) {
-  "use strict";
-
   Drupal.behaviors.unicefIconpicker = {
-    attach: function (context, settings) {
+    attach(context, settings) {
       // Define unicef Icons
-      var unicef_icon = {
+      const unicefIcon = {
         Unicef: [
           "uf uf-Abduction-kidnapping",
           "uf uf-About",
@@ -371,21 +369,21 @@
           "uf icon-mental-health-3",
           "uf icon-police-3",
           "uf icon-reproductive-health",
-          "uf icon-security"
+          "uf icon-security",
         ],
       };
       once("jsunicefIconpicker", ".unicef-iconpicker-element", context).forEach(
         function (element) {
           const $element = $(element);
           $element.fontIconPicker({
-            source: unicef_icon,
+            source: unicefIcon,
             emptyIcon: false,
             hasSearch: true,
             useAttribute: true,
             attributeName: "class",
             convertToHex: false,
           });
-        }
+        },
       );
     },
   };

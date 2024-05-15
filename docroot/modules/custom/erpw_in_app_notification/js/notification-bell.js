@@ -4,8 +4,8 @@
 		// Set the interval time in milliseconds (e.g., 5000ms for 5 seconds).
     var intervalTime = 60000;
     var bellIconImg = document.querySelector('.notification-bell-icon');
-    var notificationcount = document.getElementById('notificationCount');
-    if (notificationcount) {
+    var notificationCount = document.getElementById('notificationCount');
+    if (notificationCount) {
       var notificationNum = document.getElementById('notificationCount').innerText;
       if (notificationNum > 0) {
         bellIconImg.classList.add('scaled');
@@ -24,9 +24,9 @@
       success: function (response) {
         var bellIcon = document.querySelector('.notification-bell-icon');
         var notificationValue = response.count;
-        var notificationcount = document.getElementById('notificationCount');
-        if (notificationcount) {
-          notificationcount.innerText = notificationValue;
+        var notificationCount = document.getElementById('notificationCount');
+        if (notificationCount) {
+          notificationCount.innerText = notificationValue;
           if (notificationValue > 0) {
             bellIcon.classList.add('scaled');
           } else {
