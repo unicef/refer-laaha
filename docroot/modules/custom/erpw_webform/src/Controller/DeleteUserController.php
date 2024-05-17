@@ -33,7 +33,7 @@ class DeleteUserController extends ControllerBase {
     if (in_array('anonymous', $currentUserRole) || in_array('service_provider_staff', $currentUserRole)) {
       return new JsonResponse([
         'status' => 'error',
-        'message' => $this->t('You dont have the permission to delete user.'),
+        'message' => $this->t("You don't have the permission to delete user."),
       ]);
     }
     elseif ((in_array('country_admin', $currentUserRole) || in_array('interagency_gbv_coordinator', $currentUserRole)) && !(in_array('interagency_gbv_coordinator', $userRole) || in_array('country_admin', $userRole) || in_array('administrator', $userRole) || in_array('super_admin', $userRole))) {
@@ -48,7 +48,7 @@ class DeleteUserController extends ControllerBase {
     elseif ((in_array('country_admin', $currentUserRole) || in_array('interagency_gbv_coordinator', $currentUserRole)) && (in_array('interagency_gbv_coordinator', $userRole) || in_array('country_admin', $userRole) || in_array('administrator', $userRole) || in_array('super_admin', $userRole))) {
       return new JsonResponse([
         'status' => 'error',
-        'message' => $this->t('You dont have the permission to delete user.'),
+        'message' => $this->t("You don't have the permission to delete user."),
       ]);
     }
     elseif (in_array('country_admin', $currentUserRole) || in_array('administrator', $currentUserRole) || in_array('super_admin', $currentUserRole)) {
@@ -72,7 +72,7 @@ class DeleteUserController extends ControllerBase {
     else {
       return new JsonResponse([
         'status' => 'error',
-        'message' => $this->t('You dont have the permission to delete user.'),
+        'message' => $this->t("You don't have the permission to delete user."),
       ]);
     }
   }
@@ -88,7 +88,7 @@ class DeleteUserController extends ControllerBase {
     // Check if the user exists and is not anonymous.
     if ($user && !$user->isAnonymous()) {
       // Check if the current user has permission to cancel users.
-      if (\Drupal::currentUser()->hasPermission('administer users')) {
+      if (\Drupal::currentUser()->hasPermission('cancel users by role')) {
         // Fetch all nodes of the user.
         $query = \Drupal::entityQuery('node')
           ->condition('uid', $uid);
