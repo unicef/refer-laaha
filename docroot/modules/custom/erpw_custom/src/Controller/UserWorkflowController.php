@@ -25,7 +25,7 @@ class UserWorkflowController extends ControllerBase {
   /**
    * A entityTypeManager instance.
    *
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
