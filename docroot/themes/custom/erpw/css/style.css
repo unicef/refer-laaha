@@ -1847,6 +1847,14 @@ html[dir=rtl] [id^=block-erpw-main-menu] .current-status #status {
 .node-referral-path-way-edit-form .table-format table tbody tr td.delta-order {
   display: none;
 }
+.node-referral-path-way-form .table-format table tbody tr td .cancel,
+.node-referral-path-way-edit-form .table-format table tbody tr td .cancel {
+  display: none;
+}
+.node-referral-path-way-form .table-format table tbody tr td .multiple-fields-remove-button,
+.node-referral-path-way-edit-form .table-format table tbody tr td .multiple-fields-remove-button {
+  display: block;
+}
 .node-referral-path-way-form .table-format table .table-format tbody,
 .node-referral-path-way-form .table-format table .table-format thead,
 .node-referral-path-way-edit-form .table-format table .table-format tbody,
