@@ -4,6 +4,7 @@
       $(document).ready(function () {
         var currentPath = drupalSettings.path.currentPath;
         if (drupalSettings.erpw_webform !== undefined) {
+          defaultDomain = drupalSettings.erpw_webform.defaultDomain;
           if (drupalSettings.erpw_webform.defaultDomainRequired == "Yes") {
             $(document).ready(function () {
               localStorage.setItem(

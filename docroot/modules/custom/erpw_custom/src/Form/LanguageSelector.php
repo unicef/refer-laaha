@@ -13,6 +13,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class LanguageSelector extends FormBase {
 
   /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * The Current user service.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
