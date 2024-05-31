@@ -1,11 +1,12 @@
 (function ($, Drupal, drupalSettings) {
   Drupal.behaviors.erpwWebformLocationList = {
     attach: function (context, settings) {
-      $(document).ready(function () {
+      //$(document).ready(function () {
         var currentPath = drupalSettings.path.currentPath;
         if (drupalSettings.erpw_webform !== undefined) {
           defaultDomain = drupalSettings.erpw_webform.defaultDomain;
           if (drupalSettings.erpw_webform.defaultDomainRequired == "Yes") {
+            var termsArray;
             $(document).ready(function () {
               localStorage.setItem(
                 "termArray",
@@ -486,7 +487,7 @@
             }
           }
         });
-      });
+      //});
     },
   };
 })(jQuery, Drupal, drupalSettings);
