@@ -17,6 +17,14 @@
 			td.delta-order {
 				display: none;
 			}
+			td {
+				.cancel {
+					display: none;
+				}
+				.multiple-fields-remove-button {
+					display: block;
+				}
+			}
 		}
 		.table-format {
 			@extend .card-shadow;
