@@ -199,8 +199,14 @@ class ServiceSubmissionsView extends ControllerBase {
                   elseif (isset($element['#type']) && $element['#type'] == 'webform_entity_select') {
                     if ($element['#title'] = 'Organisation') {
                       if (!empty($content)) {
-                        $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                        $output[] = [$element['#title'] => $orgLabel];
+                        $org_node = $this->entityTypeManager->getStorage('node')->load($content);
+                        if ($org_node) {
+                          $orgLabel = $org_node->get('title')->getValue()[0]['value'];
+                          $output[] = [$element['#title'] => $orgLabel];
+                        }
+                        else {
+                          $output[] = [$element['#title'] => $this->t('Organisation not available or deleted')];
+                        }
                       }
                     }
                   }
@@ -300,8 +306,14 @@ class ServiceSubmissionsView extends ControllerBase {
               elseif (isset($element['#type']) && $element['#type'] == 'webform_entity_select') {
                 if ($element['#title'] = 'Organisation') {
                   if (!empty($content)) {
-                    $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                    $output[] = [$element['#title'] => $orgLabel];
+                    $org_node = $this->entityTypeManager->getStorage('node')->load($content);
+                    if ($org_node) {
+                      $orgLabel = $org_node->get('title')->getValue()[0]['value'];
+                      $output[] = [$element['#title'] => $orgLabel];
+                    }
+                    else {
+                      $output[] = [$element['#title'] => $this->t('Organisation not available or deleted')];
+                    }
                   }
                 }
               }
@@ -566,8 +578,14 @@ class ServiceSubmissionsView extends ControllerBase {
                   elseif (isset($element['#type']) && $element['#type'] == 'webform_entity_select') {
                     if ($element['#title'] = 'Organisation') {
                       if (!empty($content)) {
-                        $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                        $output[] = [$element['#title'] => $orgLabel];
+                        $org_node = $this->entityTypeManager->getStorage('node')->load($content);
+                        if ($org_node) {
+                          $orgLabel = $org_node->get('title')->getValue()[0]['value'];
+                          $output[] = [$element['#title'] => $orgLabel];
+                        }
+                        else {
+                          $output[] = [$element['#title'] => $this->t('Organisation not available or deleted')];
+                        }
                       }
                     }
                   }
@@ -667,8 +685,14 @@ class ServiceSubmissionsView extends ControllerBase {
               elseif (isset($element['#type']) && $element['#type'] == 'webform_entity_select') {
                 if ($element['#title'] = 'Organisation') {
                   if (!empty($content)) {
-                    $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                    $output[] = [$element['#title'] => $orgLabel];
+                    $org_node = $this->entityTypeManager->getStorage('node')->load($content);
+                    if ($org_node) {
+                      $orgLabel = $org_node->get('title')->getValue()[0]['value'];
+                      $output[] = [$element['#title'] => $orgLabel];
+                    }
+                    else {
+                      $output[] = [$element['#title'] => $this->t('Organisation not available or deleted')];
+                    }
                   }
                 }
               }
