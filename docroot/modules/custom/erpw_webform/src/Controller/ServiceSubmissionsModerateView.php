@@ -85,7 +85,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
 
         $fields = $webform_submission->getData();
         $orginalData = json_decode($fields['orignal_data'], TRUE);
-        $changedData = !is_null($orginalData) ? array_diff_assoc($orginalData, $fields) : '';
+        $changedData = !is_null($orginalData) ? array_diff_assoc($orginalData, $fields) : [];
         $changedUser = !is_null($orginalData) ? $orginalData['erpw_workflow']['changed_user'] : '';
         $oldUserMail = !is_null($orginalData['erpw_workflow']['changed_user']) ? $this->entityTypeManager->getStorage('user')->load($orginalData['erpw_workflow']['changed_user'])->getEmail() : '';
         if (!is_null($this->entityTypeManager->getStorage('user')->load($fields['erpw_workflow']['changed_user']))) {
@@ -184,8 +184,14 @@ class ServiceSubmissionsModerateView extends ControllerBase {
                   elseif ($element['#type'] == 'webform_entity_select') {
                     if ($element['#title'] = 'Organisation') {
                       if (!empty($content)) {
-                        $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                        $output[] = [$element['#title'] => $orgLabel];
+                        $org_node = $this->entityTypeManager->getStorage('node')->load($content);
+                        if ($org_node) {
+                          $orgLabel = $org_node->get('title')->getValue()[0]['value'];
+                          $output[] = [$element['#title'] => $orgLabel];
+                        }
+                        else {
+                          $output[] = [$element['#title'] => $this->t('Organisation not available or deleted')];
+                        }
                       }
                     }
                   }
@@ -286,8 +292,14 @@ class ServiceSubmissionsModerateView extends ControllerBase {
               elseif ($element['#type'] == 'webform_entity_select') {
                 if ($element['#title'] = 'Organisation') {
                   if (!empty($content)) {
-                    $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
-                    $output[] = [$element['#title'] => $orgLabel];
+                    $org_node = $this->entityTypeManager->getStorage('node')->load($content);
+                    if ($org_node) {
+                      $orgLabel = $org_node->get('title')->getValue()[0]['value'];
+                      $output[] = [$element['#title'] => $orgLabel];
+                    }
+                    else {
+                      $output[] = [$element['#title'] => $this->t('Organisation not available or deleted')];
+                    }
                   }
                 }
               }
