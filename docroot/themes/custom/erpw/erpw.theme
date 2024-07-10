@@ -148,6 +148,11 @@ function erpw_preprocess_node(&$variables) {
   }
   switch ($node->bundle()) {
     case "service_type":
+      // Get translation.
+      $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+      $node_translation = \Drupal::service('entity.repository')->getTranslationFromContext($node, $langcode);
+      $variables['node_title'] = $node_translation->getTitle();
+
       $node = \Drupal::routeMatch()->getParameter('node');
       if ($node instanceof NodeInterface) {
         $nid = $node->id();

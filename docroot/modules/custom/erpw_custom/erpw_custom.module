@@ -1600,8 +1600,11 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
           $service_type_id = $service_type_array[0][0];
           $entity_type_manager = \Drupal::service('entity_type.manager');
           $nodes = $entity_type_manager->getStorage('node')->loadMultiple([$service_type_id]);
+          $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
           foreach ($nodes as $node) {
-            $service_type_titles[] = $node->label();
+            // Get translation.
+            $node_translation = \Drupal::service('entity.repository')->getTranslationFromContext($node, $langcode);
+            $service_type_titles[] = $node_translation->label();
           }
         }
       }
@@ -1626,17 +1629,19 @@ function erpw_custom_preprocess_node(&$variables) {
   $node = $variables['node'];
   $current_path = \Drupal::service('path.current')->getPath();
   $cookie = \Drupal::service('erpw_location.location_cookie');
+  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
   if (!is_null($cookie->getCookieValue())) {
     if ($current_path == '/referral-pathway') {
       // The active Service Types for the current location.
       $service_types = erpw_custom_load_submissions_by_term($cookie->getCookieValue());
+      $node_translation = \Drupal::service('entity.repository')->getTranslationFromContext($node, $langcode);
       $variables['#cache']['contexts'][] = 'url';
       $variables['#cache']['contexts'][] = 'cookies';
       $is_incognito = \Drupal::request()->headers->has('incognito');
       if ($is_incognito) {
         $variables['#cache']['contexts'][] = 'headers:incognito';
       }
-      if (!in_array($node->getTitle(), $service_types)) {
+      if (!in_array($node_translation->getTitle(), $service_types)) {
         // Add no-service class to titles which are not in $service_types.
         $variables['service_status'] = 'no-service';
       }
