@@ -1503,10 +1503,12 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
  */
 function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
 
+  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
   $active_domain = \Drupal::service('domain.negotiator')->getActiveDomain();
   // Fetch all parent term ids of the Country vocabulary.
   $cache_tags = ['taxonomy_term_list:country'];
-  $cache_id = 'taxonomy_term_query_country_parents_' . $active_domain->id();
+  $cache_id = 'taxonomy_term_query_country_parents_' . $active_domain->id() . $langcode;
   $cache_data = \Drupal::cache()->get($cache_id);
 
   // Check if data is not in cache.
@@ -1531,7 +1533,7 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
   $cache_tags = ['webform'];
 
   // Define cache ID based on your query conditions.
-  $cache_id = 'webform_submission_data_query_' . serialize($taxonomy_term_id . $active_domain->id());
+  $cache_id = 'webform_submission_data_query_' . serialize($taxonomy_term_id . $active_domain->id()) . $langcode;
 
   // Try to load data from cache.
   $cache_data = \Drupal::cache()->get($cache_id);
@@ -1583,7 +1585,7 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
   $service_type_titles = [];
   // Fetch Service Type titles using webform ids.
   $cache_tags = ['node_list:service_type'];
-  $cache_id = 'webform_service_type_titles_query_' . serialize($webform_ids) . $active_domain->id();
+  $cache_id = 'webform_service_type_titles_query_' . serialize($webform_ids) . $active_domain->id() . $langcode;
   $cache_data = \Drupal::cache()->get($cache_id);
 
   // Check if data is not in cache.
@@ -1600,7 +1602,6 @@ function erpw_custom_load_submissions_by_term($taxonomy_term_id) {
           $service_type_id = $service_type_array[0][0];
           $entity_type_manager = \Drupal::service('entity_type.manager');
           $nodes = $entity_type_manager->getStorage('node')->loadMultiple([$service_type_id]);
-          $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
           foreach ($nodes as $node) {
             // Get translation.
             $node_translation = \Drupal::service('entity.repository')->getTranslationFromContext($node, $langcode);
@@ -1637,6 +1638,7 @@ function erpw_custom_preprocess_node(&$variables) {
       $node_translation = \Drupal::service('entity.repository')->getTranslationFromContext($node, $langcode);
       $variables['#cache']['contexts'][] = 'url';
       $variables['#cache']['contexts'][] = 'cookies';
+      $variables['#cache']['contexts'][] = 'languages';
       $is_incognito = \Drupal::request()->headers->has('incognito');
       if ($is_incognito) {
         $variables['#cache']['contexts'][] = 'headers:incognito';
