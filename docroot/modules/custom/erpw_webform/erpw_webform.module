@@ -540,18 +540,24 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
   if ($currentRoute == 'entity.webform_submission.edit_form' || ($currentRoute == 'entity.webform.canonical' && ($form["#webform_id"] != "" && !is_null($form["#webform_id"])))) {
     $options = $form['elements']['step_1_add_service_details']['organisation']['#options'];
     $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-    foreach ($options as $key => $label) {
+    foreach ($options as $key => &$label) {
       $org = \Drupal::entityTypeManager()->getStorage('node')->load($key);
-      $orgDomains = $org->get('field_domain_access')->getValue();
-      $c = 0;
-      foreach ($orgDomains as $orgDomain) {
-        if ($orgDomain['target_id'] == $activeDomain) {
-          $c++;
+      if ($org) {
+        $orgDomains = $org->get('field_domain_access')->getValue();
+        $c = 0;
+        foreach ($orgDomains as $orgDomain) {
+          if ($orgDomain['target_id'] == $activeDomain) {
+            $c++;
+          }
+        }
+        if ($c == 0) {
+          unset($options[$key]);
         }
       }
-      if ($c == 0) {
-        unset($options[$key]);
+      if (!preg_match('/[a-zA-Z]/', $label)) {
+        $label = 'Organisation not available or deleted';
       }
+      
     }
     $form['elements']['step_1_add_service_details']['organisation']['#options'] = $options;
 
