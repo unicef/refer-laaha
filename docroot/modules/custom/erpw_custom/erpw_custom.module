@@ -1398,12 +1398,12 @@ function erpw_custom_views_query_alter(ViewExecutable $view, QueryPluginBase $qu
       // Get the ancestors of the current taxonomy term.
       $parent_terms = \Drupal::service('erpw_location.location_services')->getAllAncestors($cookie_tid);
 
-      /**
+      /*
        * This array should consist of the active tid, the level 1 tid (in case of lower levels)
        * and country tid.
        * This is done so that for all levels below level 1,
        * a separate referral pathway is not required.
-      */
+       */
 
       $term_array = [$cookie_tid, $parent_terms[1] ?? $parent_terms[0], $parent_terms[0]];
 

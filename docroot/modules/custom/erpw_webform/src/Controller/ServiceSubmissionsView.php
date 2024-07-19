@@ -435,13 +435,16 @@ class ServiceSubmissionsView extends ControllerBase {
   }
 
   /**
-   * Generate key value pair of elements in the webform submission which are in edit or delete
-   * workflow.
+   * Generate key value pair of elements in the webform submission
+   * which are in edit or delete workflow.
    */
   public function contentApproved(WebformSubmission $webform_submission) {
-    $cid = 'service_submissions_view' . $webform_submission->id();
+    $roles = $this->currentUser->getRoles();
+    $cid = 'service_submissions_view' . $webform_submission->id() . implode("-", $roles);
     $markup = '';
-    $cache_tags = ['webform_submission:' . $webform_submission->id(), 'config:webform_list', 'webform_list'];
+    $cache_tags = ['webform_submission:' . $webform_submission->id(),
+      'config:webform_list', 'webform_list',
+    ];
     if ($cache = \Drupal::cache()->get($cid)) {
       $markup = $cache->data;
       return [
@@ -451,9 +454,9 @@ class ServiceSubmissionsView extends ControllerBase {
     }
     else {
       if (!is_null($webform_submission)) {
-        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($webform_submission->id());
+        $webformSubmission = $this->entityTypeManager()->getStorage('webform_submission')->load($webform_submission->id());
         $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
-        $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+        $webform = $this->entityTypeManager()->getStorage('webform')->load($webformID);
         $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
         $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
         $stype = '';
@@ -464,7 +467,7 @@ class ServiceSubmissionsView extends ControllerBase {
         }
         $output = [];
         if (!is_null($stype) && !empty($stype)) {
-          $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype));
+          $servicetype = $this->entityTypeManager()->getStorage('node')->load(intval($stype));
           $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
           $output[] = ['Service Type' => $servicelabel];
         }
@@ -499,7 +502,6 @@ class ServiceSubmissionsView extends ControllerBase {
         foreach ($fields as $key => $content) {
           $element = $this->entityTypeManager->getStorage('webform')->load($webform_submission->getWebform()->id())->getElement($key);
           if ($key != 'erpw_workflow' && $key != 'submission_domain' && $key != 'service_type') {
-            $roles = $this->currentUser->getRoles();
             if (isset($element['#access_view_roles'])) {
               foreach ($roles as $role) {
                 if (in_array($role, $element['#access_view_roles'])) {
@@ -719,31 +721,41 @@ class ServiceSubmissionsView extends ControllerBase {
         // Service Rating Link.
         $service_type_id = $servicetype->get('nid')->getValue()[0]['value'];
         $rating_webform = 'webform_service_rating_' . $service_type_id;
-        $feedback_webform = \Drupal::entityTypeManager()
+        $feedback_webform = $this->entityTypeManager()
           ->getStorage('webform')
           ->load($rating_webform);
         $user_role = $this->currentUser->getRoles();
+        $user = $this->entityTypeManager()->getStorage('user')->load($this->currentUser->id());
+        $user_organisation = $user->get('field_organisation')->getValue()[0]['target_id'];
 
         if ($feedback_webform && $feedback_webform->isOpen() && $this->currentUser->isAuthenticated()  && !in_array('txb_service_viewer', $user_role)) {
-          // Get the URL for the loaded webform.
-          $routeName = 'erpw_webform.webform.feedback_form';
+          if (in_array('service_provider_staff', $user_role) || in_array('service_provider_focal_point', $user_role)
+          && $org_node->id() == $user_organisation) {
+            $output[]['Service Rating Link'] = [
+              '#markup' => '',
+            ];
+          }
+          else {
+            // Get the URL for the loaded webform.
+            $routeName = 'erpw_webform.webform.feedback_form';
 
-          // Define the route parameters as an associative array.
-          $routeParameters = [
-            'webform' => $rating_webform,
-            'servicesid' => $webform_submission->id(),
-          ];
+            // Define the route parameters as an associative array.
+            $routeParameters = [
+              'webform' => $rating_webform,
+              'servicesid' => $webform_submission->id(),
+            ];
 
-          // Create a URL object based on the route name and parameters.
-          $url = Url::fromRoute($routeName, $routeParameters);
+            // Create a URL object based on the route name and parameters.
+            $url = Url::fromRoute($routeName, $routeParameters);
 
-          // Create a Link object with a link text and the URL.
-          $service_rating_text = t('Give Feedback');
-          $service_rating_url = $url->toString();
+            // Create a Link object with a link text and the URL.
+            $service_rating_text = t('Give Feedback');
+            $service_rating_url = $url->toString();
 
-          $output[]['Service Rating Link'] = [
-            '#markup' => '<a class="service-feedback-form" href="' . $service_rating_url . '">' . $service_rating_text . '</a>',
-          ];
+            $output[]['Service Rating Link'] = [
+              '#markup' => '<a class="service-feedback-form" href="' . $service_rating_url . '">' . $service_rating_text . '</a>',
+            ];
+          }
         }
 
         $last_updated_timestamp = $webform_submission->getChangedTime();
