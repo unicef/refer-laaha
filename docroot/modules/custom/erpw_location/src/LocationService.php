@@ -274,7 +274,6 @@ class LocationService {
    * Get ancestors of taxonomy.
    */
   public function getAllAncestors($tid) {
-
     $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
     $cache_tags = ['taxonomy_term_list'];
     $cache_id = 'all_ancestors_query_' . $tid . $active_domain_id;
@@ -284,7 +283,12 @@ class LocationService {
     if (!$cache_data) {
       // If data is not in cache, execute the build logic.
       $ancestors = $this->entityTypeManager->getStorage('taxonomy_term')->loadAllParents($tid);
-      $ancestors = array_reverse(array_keys($ancestors));
+      if (empty($ancestors)) {
+        $ancestors = [$tid];
+      }
+      else {
+        $ancestors = array_reverse(array_keys($ancestors));
+      }
 
       // Store the result in cache.
       \Drupal::cache()->set($cache_id, $ancestors, Cache::PERMANENT, $cache_tags);
@@ -296,6 +300,7 @@ class LocationService {
 
     // @todo Cache the result - Done
     return $ancestors;
+
   }
 
   /**
@@ -345,7 +350,8 @@ class LocationService {
    *   Return of children with parent term id.
    */
   public function getChildrenByParent($location_id) {
-    $ptids = $this->getAllAncestors($location_id);
+    $tid = $this->getTidFromLocationId($location_id);
+    $ptids = $this->getAllAncestors($tid);
     $terms = [];
     if (!empty($ptids)) {
       // Getting zero level parent id.
@@ -649,13 +655,13 @@ class LocationService {
    */
   public function getDomainFromLocationEntityId($location_id) {
     // Load the location entity.
-    $location_entity = \Drupal::entityTypeManager()->getStorage('location')->load($location_id);
+    $location_entity = $this->entityTypeManager->getStorage('location')->load($location_id);
 
     // Get the name of the location entity.
     $location_entity_name = $location_entity->getName();
 
     // Load all domain entities.
-    $domains = \Drupal::entityTypeManager()->getStorage('domain')->loadMultiple();
+    $domains = $this->entityTypeManager->getStorage('domain')->loadMultiple();
 
     // Iterate through each domain entity.
     foreach ($domains as $key => $entity) {
@@ -672,6 +678,44 @@ class LocationService {
 
     // Return the domain associated with the location entity.
     return $location_domain ?? NULL;
+  }
+
+  /**
+   * Retrieves the taxonomy term ID(s) associated with a location entity.
+   *
+   * This function loads a 'location' entity using the provided location ID
+   * and returns the value(s) of the 'field_location_taxonomy_term' field.
+   *
+   * @param mixed $locationId
+   *   The ID of the location entity to load.
+   *
+   * @return array|null
+   *   An array of taxonomy term ID(s) associated with the location entity,
+   *   or NULL if the entity could not be loaded or the field is empty.
+   *   Each item in the array is an associative array containing:
+   *   - target_id: The ID of the referenced taxonomy term.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   *   Thrown if there is an issue loading the entity.
+   */
+  public function getTidFromLocationId($locationId) {
+    $maxRetries = 50;
+    $retryDelay = 100;
+
+    for ($i = 0; $i < $maxRetries; $i++) {
+      $location = $this->entityTypeManager->getStorage('location')->load($locationId);
+
+      if ($location) {
+        return $location->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
+      }
+
+      // If the entity is not loaded, wait for a short period before retrying.
+      usleep($retryDelay * 1000);
+    }
+
+    // Return $locationId if the entity can't be loaded after max retries,
+    // treating it as a taxonomy ID.
+    return $locationId;
   }
 
 }
