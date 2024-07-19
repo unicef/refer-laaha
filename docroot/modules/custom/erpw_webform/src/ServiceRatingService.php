@@ -184,7 +184,7 @@ class ServiceRatingService {
     $webform = Webform::create([
       'id' => $webform_id,
       'webform_type' => 'service_rating',
-      'title' => $service_type . ' - Service Rating',
+      'title' => $service_type . ' - Feedback',
     ]);
 
     // By default, the webforms will be closed.

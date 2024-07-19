@@ -557,7 +557,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       if (!preg_match('/[a-zA-Z]/', $label)) {
         $label = 'Organisation not available or deleted';
       }
-      
+
     }
     $form['elements']['step_1_add_service_details']['organisation']['#options'] = $options;
 
@@ -727,13 +727,20 @@ function erpw_webform_service_rating_submit_handler(&$form, FormStateInterface $
  */
 function erpw_webform_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // For SP Staff & SP Focal Point, remove the option to filter by organization since their listing is limited to their organization only.
+  $current_user = User::load(\Drupal::currentUser()->id());
+  $role = $current_user->getRoles();
   $request = \Drupal::request();
   $uri = $request->getRequestUri();
   if (strpos($uri, 'manage-services') != FALSE) {
-    $current_user = User::load(\Drupal::currentUser()->id());
-    $role = $current_user->getRoles();
     if (in_array('service_provider_focal_point', $role) || in_array('service_provider_staff', $role)) {
       $form['webform_submission_organisation_filter']['#access'] = FALSE;
+    }
+  }
+  // SP Users should not be able to give feedback to services of their own organisation.
+  if (strpos($uri, 'share-feedback') != FALSE) {
+    if (in_array('service_provider_focal_point', $role) || in_array('service_provider_staff', $role)) {
+      $user_org = $current_user->get('field_organisation')->getValue()[0]['target_id'];
+      unset($form['webform_submission_organisation_filter']['#options'][$user_org]);
     }
   }
 }
@@ -1342,7 +1349,7 @@ function erpw_webform_preprocess_page_title(&$variables) {
   if ($route_match->getRouteName() === 'erpw_webform.webform.feedback_form') {
     $webform = \Drupal::routeMatch()->getParameter('webform');
     if ($webform instanceof WebformInterface) {
-      $title = str_replace("Service Rating", "Feedback Form for", $webform->label());
+      $title = str_replace("Service Rating", "Feedback", $webform->label());
       $variables['title'] = $title;
     }
   }
@@ -1627,16 +1634,23 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
       erpw_webform_add_webform_submission_add_where_join($query, $workflow_states, 'workflow', 'IN');
     }
     else {
-
-      // Workflow join.
-      erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
+      if ($view->current_display != 'feedback') {
+        // Workflow join.
+        erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
+      }
 
       // For SP Staff & Focal Point - Services list should only include services by their organization.
       if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point')) {
         // Get the current user's organization ID.
         if ($current_user->hasField('field_organisation') && !$current_user->get('field_organisation')->isEmpty()) {
-          // Add a condition to the query to filter by organization.
-          erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
+          if ($view->current_display == 'feedback') {
+            // SP Users should not see services of their own organisation for feedback.
+            erpw_webform_add_webform_submission_negate_conditions($query, $user_org_id);
+          }
+          else {
+            // Add a condition to the query to filter by organization.
+            erpw_webform_add_webform_submission_add_where_join($query, $user_org_id, 'organisation');
+          }
         }
       }
       // Get the current user's location ID, #522 - overcoming the service data issue.
@@ -1656,12 +1670,15 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
               4 => 'level_4',
             ],
           ];
-          // Filter services by location.
-          erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
+
+          if ($view->current_display != 'feedback') {
+            // Filter services by location.
+            erpw_webform_add_webform_submission_add_where_join($query, $ptids, 'location', 'IN', 0, 'value', $extra);
+          }
         }
       }
       // Domain Join.
-      erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');
+      // erpw_webform_add_webform_submission_add_where_join($query, $activeDomain, 'domain');.
     }
   }
   // Unset rows that are not in review workflow states as per roles.
@@ -1775,6 +1792,41 @@ function erpw_webform_add_webform_submission_add_where_join(QueryPluginBase &$qu
   $join = Views::pluginManager('join')->createInstance('standard', $configuration);
   $query->addRelationship('webform_submission_data_' . $alias_slug, $join, 'webform_submission_data');
   $query->addWhere($group, "webform_submission_data_$alias_slug.$column_name", $column_value, $op);
+}
+
+/**
+ * Add condition to query on webform_submission_data for feedback view.
+ *
+ * This function adds a subquery to filter webform submission
+ * to prevent SP users from seeing services of their own organisation.
+ *
+ * @param \Drupal\views\Plugin\views\query\QueryPluginBase $query
+ *   The Query object.
+ * @param mixed $organisation_value
+ *   The organisation value to filter.
+ *
+ * @return void
+ *
+ * @throws \Drupal\Component\Plugin\Exception\PluginException
+ */
+function erpw_webform_add_webform_submission_negate_conditions(QueryPluginBase &$query, $organisation_value) {
+  // Get the database connection.
+  $database = \Drupal::database();
+
+  // Create the subquery.
+  $subquery_org = $database->select('webform_submission_data', 'wsd1')
+    ->fields('wsd1', ['sid'])
+    ->condition('wsd1.name', 'organisation')
+    ->condition('wsd1.value', $organisation_value);
+
+  // Get the subquery SQL with placeholders.
+  $subquery_org_sql = $subquery_org->__toString();
+
+  // Ensure placeholders are properly bound.
+  $subquery_org_args = $subquery_org->arguments();
+
+  // Add the subquery condition to the main query.
+  $query->addWhereExpression(0, "webform_submission.sid NOT IN ($subquery_org_sql)", $subquery_org_args);
 }
 
 /**
