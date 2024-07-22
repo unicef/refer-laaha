@@ -1653,6 +1653,12 @@ function erpw_webform_views_query_alter(ViewExecutable &$view, QueryPluginBase &
           }
         }
       }
+      else {
+        if ($view->current_display == 'feedback') {
+          erpw_webform_add_webform_submission_add_where_join($query, 'approve', 'workflow');
+        }
+      }
+
       // Get the current user's location ID, #522 - overcoming the service data issue.
       if ($current_user->hasRole('service_provider_staff') || $current_user->hasRole('service_provider_focal_point') || $current_user->hasRole('gbv_focal_point')) {
         if ($current_user->hasField('field_location') && !$current_user->get('field_location')->isEmpty()) {
@@ -1801,32 +1807,37 @@ function erpw_webform_add_webform_submission_add_where_join(QueryPluginBase &$qu
  * to prevent SP users from seeing services of their own organisation.
  *
  * @param \Drupal\views\Plugin\views\query\QueryPluginBase $query
- *   The Query object.
- * @param mixed $organisation_value
- *   The organisation value to filter.
- *
- * @return void
- *
- * @throws \Drupal\Component\Plugin\Exception\PluginException
+ *   The query object to be altered.
+ * @param int $organisation_value
+ *   The organisation value to exclude from the query.
  */
 function erpw_webform_add_webform_submission_negate_conditions(QueryPluginBase &$query, $organisation_value) {
-  // Get the database connection.
-  $database = \Drupal::database();
 
-  // Create the subquery.
-  $subquery_org = $database->select('webform_submission_data', 'wsd1')
-    ->fields('wsd1', ['sid'])
-    ->condition('wsd1.name', 'organisation')
-    ->condition('wsd1.value', $organisation_value);
+  // Define the join configuration for the relationship.
+  $configuration = [
+    'type' => 'LEFT',
+    'table' => 'webform_submission_data',
+    'field' => 'sid',
+    'left_table' => 'webform_submission',
+    'left_field' => 'sid',
+    'operator' => '=',
+  ];
 
-  // Get the subquery SQL with placeholders.
-  $subquery_org_sql = $subquery_org->__toString();
+  // Create the join instance and add it to the query.
+  $join = \Drupal::service('plugin.manager.views.join')->createInstance('standard', $configuration);
+  $query->addRelationship('webform_submission_data_workflow', $join, 'webform_submission_data');
 
-  // Ensure placeholders are properly bound.
-  $subquery_org_args = $subquery_org->arguments();
+  // Add the condition for approved submissions.
+  $query->addWhere(0, 'webform_submission_data_workflow.value', 'approve');
 
-  // Add the subquery condition to the main query.
-  $query->addWhereExpression(0, "webform_submission.sid NOT IN ($subquery_org_sql)", $subquery_org_args);
+  // Manually construct the subquery to ensure correct placeholders.
+  $subquery = "SELECT wsd1.sid FROM {webform_submission_data} wsd1 WHERE wsd1.name = :organisation_name AND wsd1.value = :organisation_value";
+
+  // Add the negation condition using the subquery.
+  $query->addWhereExpression(1, "webform_submission.sid NOT IN ($subquery)", [
+    ':organisation_name' => 'organisation',
+    ':organisation_value' => $organisation_value,
+  ]);
 }
 
 /**
