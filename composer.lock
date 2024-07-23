@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "190d8429a70a3ce231b5c1d02f40aba5",
+    "content-hash": "fae2f733ece8378c702a57561235f1d8",
     "packages": [
         {
             "name": "acquia/blt",
@@ -6669,26 +6669,29 @@
         },
         {
             "name": "drupal/ultimate_cron",
-            "version": "dev-2.x",
+            "version": "2.0.0-alpha7",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/ultimate_cron.git",
-                "reference": "492875301861637098562b501452881b9dace6a5"
+                "reference": "8.x-2.0-alpha7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/ultimate_cron-8.x-2.0-alpha7.zip",
+                "reference": "8.x-2.0-alpha7",
+                "shasum": "d3667775c113c9565adec6794f6e7e74d8f19ec7"
             },
             "require": {
                 "drupal/core": "^9 || ^10"
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
                 "drupal": {
-                    "version": "8.x-2.0-alpha6+2-dev",
-                    "datestamp": "1677797825",
+                    "version": "8.x-2.0-alpha7",
+                    "datestamp": "1707160107",
                     "security-coverage": {
                         "status": "not-covered",
-                        "message": "Dev releases are not covered by Drupal security advisories."
+                        "message": "Alpha releases are not covered by Drupal security advisories."
                     }
                 },
                 "drush": {
@@ -6709,10 +6712,6 @@
                 {
                     "name": "Berdir",
                     "homepage": "https://www.drupal.org/user/214652"
-                },
-                {
-                    "name": "Dane Powell",
-                    "homepage": "https://www.drupal.org/user/339326"
                 },
                 {
                     "name": "gielfeldt",
@@ -17433,7 +17432,7 @@
         "drupal/pwa": 5,
         "drupal/queue_ui": 20,
         "drupal/site_audit": 5,
-        "drupal/ultimate_cron": 20,
+        "drupal/ultimate_cron": 15,
         "drupal/webform_workflows_element": 15,
         "drupal/workflow_buttons": 10
     },
