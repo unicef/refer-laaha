@@ -1264,6 +1264,30 @@ html[dir=rtl] .dashboard .dashboard-link a {
   text-align: center;
   width: 40px;
 }
+.feedback-survey-card-header {
+  display: flex;
+}
+.feedback-survey-card-header label {
+  padding: 10px;
+  border-radius: 50%;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  height: 12px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-right: 10px;
+  text-align: center;
+  width: 12px;
+}
+.feedback-survey-card-header label .uf::before {
+  font-size: 18px;
+}
 .view-referral-pathway-on-homepage .listing-detail label .uf:before, .view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-transportation-available-wrapper] .fieldset-legend .uf:before, .service-provider-class [id^=edit-field-transportation-available-wrapper] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend .uf:before,
 .view-referral-pathway-on-homepage .listing-detail .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .fieldset-legend .uf:before,
 .service-provider-class [id^=edit-field-accessibility-for-persons-wrapper] .view-referral-pathway-on-homepage .listing-detail .fieldset-legend .uf:before {

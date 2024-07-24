@@ -572,11 +572,33 @@
                     .feedback-survey-card-header {
                         padding-bottom: 4px;
                         border-bottom: 1px solid #D7D7D7;
+                        display: flex;
                         h1 {
                             margin: 0;
                             @include feedback-survey-fonts;
                             font-size: 15px;
                             font-weight: 700;
+                        }
+                        label {
+                            padding: 10px;
+                            border-radius: 50%;
+                            -webkit-box-align: center;
+                            -ms-flex-align: center;
+                            align-items: center;
+                            border-radius: 50%;
+                            display: -webkit-inline-box;
+                            display: -ms-inline-flexbox;
+                            display: inline-flex;
+                            height: 12px;
+                            -webkit-box-pack: center;
+                            -ms-flex-pack: center;
+                            justify-content: center;
+                            margin-right: 10px;
+                            text-align: center;
+                            width: 12px;
+                            .uf::before {
+                                font-size: 18px;
+                            }
                         }
                     }
 

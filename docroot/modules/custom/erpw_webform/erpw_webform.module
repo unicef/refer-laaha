@@ -173,6 +173,9 @@ function erpw_webform_preprocess_page(&$variables) {
   if ($currentPath != '/service-providers' && $currentPath != '/manage-services' && $currentRoute != 'view.service_based_service_providers_listing.page_1' && $currentRoute != 'view.manage_in_review_webform_services_listing.page_1' && $currentPath != '/service-providers-changes-offline' && $currentRoute != 'entity.webform_submission.edit_form') {
     $variables['#attached']['library'][] = 'erpw_webform/erpw_webform_offline_global';
   }
+  if ($currentRoute == 'erpw_webform.manage_feedback_surveys') {
+    $variables['#attached']['library'][] = 'unicef_iconpicker/unicef-iconpicker';
+  }
   if ($currentPath == '/service-providers-changes-offline') {
     $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
 
@@ -601,6 +604,33 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
 
   if ($form_id === "webform_edit_form" && str_contains($currentPath, 'webform_service_rating_')) {
     $url = Url::fromRoute('erpw_webform.manage_feedback_surveys');
+    if (!in_array('administrator', $user_roles)) {
+      if (isset($form['webform_ui_elements']['#header']['key'])) {
+        unset($form['webform_ui_elements']['#header']['key']);
+      }
+      foreach ($form['webform_ui_elements'] as $key => &$element) {
+        if ((strpos($key, 'rating_question_') === 0) ||
+        (strpos($key, 'multiple_choice_question_') === 0)) {
+          unset($element['name']);
+        }
+      }
+      if (isset($form['webform_ui_elements']['#header']['weight'])) {
+        unset($form['webform_ui_elements']['#header']['weight']);
+      }
+      if (isset($form['webform_ui_elements']['#header']['parent'])) {
+        unset($form['webform_ui_elements']['#header']['parent']);
+      }
+      if (isset($form['webform_ui_elements']['#header']['title'])) {
+        $form['webform_ui_elements']['#header']['title'] = t('Service Rating Question');
+      }
+      if (isset($form['webform_ui_elements']['#header']['type'])) {
+        $form['webform_ui_elements']['#header']['type']['data'] = t('Question Type');
+      }
+      if (isset($form['actions']['submit'])) {
+        $form['actions']['submit']['#value'] = t('Save Questions');
+      }
+    }
+
     $form['actions']['cancel'] = [
       '#type' => 'link',
       '#title' => t('Cancel'),

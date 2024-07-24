@@ -116,6 +116,12 @@ class ManageFeedbackSurveys extends ControllerBase {
       if (str_contains($webform, 'webform_service_rating_')) {
         // Omit the webform if it does not belong to current domain.
         $service_type_domain = $this->serviceRating->fetchServiceTypeDomains($webform_data->id());
+        $service_type_id = intval(str_replace('webform_service_rating_', '', $webform));
+        $service_type_node = $this->entityTypeManager->getStorage('node')->load($service_type_id);
+        if ($service_type_node) {
+          $service_type_color = $service_type_node->get('field_service_type_color')->getValue()[0]['color'];
+          $service_type_icon = $service_type_node->get('field_service_type_icon')->getValue()[0]['value'];
+        }
         if (in_array($active_domain_id, $service_type_domain)) {
           $form_questions_count = $this->getServiceRatingFormQuestionCount($webform_data->getElementsDecoded());
           $service_rating_webforms[] = [
@@ -124,6 +130,8 @@ class ManageFeedbackSurveys extends ControllerBase {
             'webform_title' => $webform_data->label(),
             'webform_questions_count' => $form_questions_count,
             'webform_status' => $webform_data->isOpen() ? 'Published' : 'Draft',
+            'service_type_color' => $service_type_color,
+            'service_type_icon' => $service_type_icon,
           ];
         }
         else {
