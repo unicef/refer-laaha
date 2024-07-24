@@ -60,7 +60,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
     $cid = 'service_submissions_moderate_view_' . $webform_submission->id();
     $markup = '';
     $cache_tags = ['webform_submission'];
-    if ($cache = \Drupal::cache()->get($cid)) {
+    if ($cache = $this->cache()->get($cid)) {
       $markup = $cache->data;
       return [
         '#type' => 'markup',
@@ -430,7 +430,7 @@ class ServiceSubmissionsModerateView extends ControllerBase {
 
         // Invalidate cache tag when a new submission is created or edited.
         $cache_tags = ['webform_submission:' . $webform_submission->id()];
-        \Drupal::cache()->set($cid, $markup, Cache::PERMANENT, $cache_tags);
+        $this->cache()->set($cid, $markup, Cache::PERMANENT, $cache_tags);
         // @todo Cache computed value - Done
         return [
           '#type' => 'markup',

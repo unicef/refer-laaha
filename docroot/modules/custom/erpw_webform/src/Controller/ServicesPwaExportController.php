@@ -7,7 +7,8 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\user\Entity\User;
+use Drupal\domain\DomainNegotiatorInterface;
+use Drupal\erpw_location\LocationCookieService;
 use Drupal\views\Views;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,20 +31,38 @@ class ServicesPwaExportController extends ControllerBase {
   protected $currentUser;
 
   /**
+   * The location service.
+   *
+   * @var \Drupal\erpw_location\LocationCookieService
+   */
+  protected $locationCookie;
+
+  /**
+   * The Domain negotiator.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
    * Constructs a new ServiceWebforms object.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser, LocationCookieService $location_cookie, DomainNegotiatorInterface $domain_negotiator) {
     $this->entityTypeManager = $entityTypeManager;
     $this->currentUser = $currentUser;
+    $this->locationCookie = $location_cookie;
+    $this->domainNegotiator = $domain_negotiator;
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('entity_type.manager'),
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('erpw_location.location_cookie'),
+      $container->get('domain.negotiator')
     );
   }
 
@@ -57,9 +76,9 @@ class ServicesPwaExportController extends ControllerBase {
    */
   public function getServiceProviderList($node) {
 
-    $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-    $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
-    $current_user = User::load($this->currentUser->id());
+    $activeDomain = $this->domainNegotiator->getActiveDomain()->id();
+    $language = $this->languageManager->getCurrentLanguage()->getId();
+    $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
     $roles = $current_user->getRoles();
     // Short roles.
     $shortrolestr = '';
@@ -71,19 +90,11 @@ class ServicesPwaExportController extends ControllerBase {
     }
     $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'] ?? '';
 
-    // // Processing the location ids and generating a uniq string.
-    // $tidsstring = '';
-    // if (!$current_user->get('field_location')->isEmpty()) {
-    //   $location_ids = $current_user->get('field_location')->getValue();
-    //   $tids = array_column($location_ids, 'target_id');
-    //   sort($tids);
-    //   $tidsstring = implode('', $tids);
-    // }
     // Filter out rows which do not belong to the current location.
-    $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
+    $cookie_tid = $this->locationCookie->getCookieValue();
     // Add a default cookie value in case there is no location cookie set.
     if (!$cookie_tid) {
-      $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getDefaultDomainCookieValue();
+      $cookie_tid = $this->locationCookie->getDefaultDomainCookieValue();
     }
 
     if ($this->currentUser->isAuthenticated()) {
@@ -102,7 +113,7 @@ class ServicesPwaExportController extends ControllerBase {
     }
 
     $jsondecode = [];
-    if ($cache = \Drupal::cache()->get($cacheId)) {
+    if ($cache = $this->cache()->get($cacheId)) {
       $jsondecode = $cache->data;
     }
     else {
@@ -115,7 +126,7 @@ class ServicesPwaExportController extends ControllerBase {
       // Check if the result is empty.
       if (!empty($view->result)) {
         $jsondecode = Json::decode($view->render()['#markup']);
-        \Drupal::cache()->set($cacheId, $jsondecode, Cache::PERMANENT);
+        $this->cache()->set($cacheId, $jsondecode, Cache::PERMANENT);
       }
     }
 

@@ -5,6 +5,7 @@ namespace Drupal\erpw_webform\Controller;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGeneratorInterface;
 use Drupal\domain\DomainNegotiatorInterface;
@@ -38,12 +39,23 @@ class ServiceWebforms extends ControllerBase {
   protected $linkGenerator;
 
   /**
+   * A logger instance.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactory
+   */
+  protected $logger;
+
+  /**
    * Constructs a new ServiceWebforms object.
    */
-  public function __construct(LinkGeneratorInterface $linkGenerator, EntityTypeManagerInterface $entityTypeManager, DomainNegotiatorInterface $domainNegotiator) {
+  public function __construct(LinkGeneratorInterface $linkGenerator,
+  EntityTypeManagerInterface $entityTypeManager,
+  DomainNegotiatorInterface $domainNegotiator,
+  LoggerChannelFactoryInterface $logger_factory) {
     $this->linkGenerator = $linkGenerator;
     $this->entityTypeManager = $entityTypeManager;
     $this->domainNegotiator = $domainNegotiator;
+    $this->logger = $logger_factory;
   }
 
   /**
@@ -54,6 +66,7 @@ class ServiceWebforms extends ControllerBase {
     $container->get('link_generator'),
     $container->get('entity_type.manager'),
     $container->get('domain.negotiator'),
+    $container->get('logger.factory')
     );
   }
 
@@ -65,7 +78,7 @@ class ServiceWebforms extends ControllerBase {
     $markup = '';
     // Specify cache tags related to webforms.
     $cacheTags = ['config:webform_list', 'webform_list'];
-    if ($cache = \Drupal::cache()->get($cid)) {
+    if ($cache = $this->cache()->get($cid)) {
       $markup = $cache->data;
     }
     else {
@@ -115,7 +128,8 @@ class ServiceWebforms extends ControllerBase {
           </div>';
             }
             else {
-              \Drupal::logger('erpw_webform')->error(
+              $logger = $this->loggerFactory->get('erpw_webform');
+              $logger->error(
               'Service Type does not exist or has been deleted for Webform id %webform_id.',
               ['%webform_id' => $webform->id()]
                       );

@@ -5,9 +5,6 @@ namespace Drupal\erpw_webform\Controller;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\node\Entity\Node;
-use Drupal\webform\Entity\Webform;
-use Drupal\webform\Entity\WebformSubmission;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -53,7 +50,7 @@ class ServiceRatingQuestionsController extends ControllerBase {
   public function displayAverageRatings() {
     $org_id = $this->serviceRating->organisationForFiltering();
     $webform_id = $this->routeMatch->getParameter('webform_id');
-    $webform = Webform::load($webform_id);
+    $webform = $this->entityTypeManager()->getStorage('webform')->load($webform_id);
     $elements = $webform->getElementsDecodedAndFlattened();
     $location_id = $this->routeMatch->getParameter('location_id');
 
@@ -81,11 +78,11 @@ class ServiceRatingQuestionsController extends ControllerBase {
           $submission_ids_hash = hash('sha256', Json::encode($submission_ids));
           $cache_tags = ['webform_submission:' . $submission_ids_hash];
           $cache_id = 'service_rating_question_normalized_values_' . $element_feedback . $webform_id . $org_id;
-          $cache_data = \Drupal::cache()->get($cache_id);
+          $cache_data = $this->cache()->get($cache_id);
 
           if (!$cache_data) {
             foreach ($submission_ids as $submission_id) {
-              $submission = WebformSubmission::load($submission_id);
+              $submission = $this->entityTypeManager()->getStorage('webform_submission')->load($submission_id);
               $element_value = $submission->getElementData($element_key);
 
               if (is_numeric($element_value)) {
@@ -95,7 +92,7 @@ class ServiceRatingQuestionsController extends ControllerBase {
               }
             }
             // Cache the computed value.
-            \Drupal::cache()->set($cache_id, $normalized_element_values, Cache::PERMANENT, $cache_tags);
+            $this->cache()->set($cache_id, $normalized_element_values, Cache::PERMANENT, $cache_tags);
           }
           else {
             // Retrieve the data from the cache.
@@ -148,7 +145,7 @@ class ServiceRatingQuestionsController extends ControllerBase {
 
     $feedback_area_list = [];
     foreach ($average_ratings as $feedback => $average_rating) {
-      $node = Node::load($feedback);
+      $node = $this->entityTypeManager()->getStorage('node')->load($feedback);
       if ($node) {
         $feedback_name = $node->getTitle();
       }
