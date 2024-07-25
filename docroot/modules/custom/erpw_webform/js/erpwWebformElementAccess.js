@@ -41,6 +41,23 @@
             "disabled-for-delete",
           );
         }
+
+        // Target all <td> elements of Service Rating Webforms.
+        $('.webform-service-rating-edit .hide-submit-access-for-nonadmin-user td').each(function() {
+          // Get the text content of the <td>
+          var text = $(this).text();
+          
+          // Check if the text matches the pattern
+          var match = text.match(/(rating_question|multiple_choice_question)_\d+/);
+          if (match) {
+            // Remove the number, 'question' and replace '_' with space. 
+            var newText = match[1].replace(/_/g, ' ').replace('question', '').trim();
+            
+            // Update the <td> text
+            $(this).text(newText);
+          }
+        });
+
       });
     },
   };
