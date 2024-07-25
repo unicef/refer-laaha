@@ -611,7 +611,7 @@ function erpw_webform_form_alter(&$form, FormStateInterface $form_state, $form_i
       foreach ($form['webform_ui_elements'] as $key => &$element) {
         if ((strpos($key, 'rating_question_') === 0) ||
         (strpos($key, 'multiple_choice_question_') === 0)) {
-          unset($element['name']);
+          unset($element['type']);
         }
       }
       if (isset($form['webform_ui_elements']['#header']['weight'])) {
