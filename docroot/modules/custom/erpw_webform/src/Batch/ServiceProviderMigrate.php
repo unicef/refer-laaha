@@ -7,7 +7,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\webform\Entity\WebformSubmission;
 
 /**
  * Batch process to count transactions.
@@ -140,7 +139,7 @@ class ServiceProviderMigrate {
       $locations = [];
       foreach ($locationsValue as $location) {
         if (!empty($location['target_id']) && !is_null($location['target_id'])) {
-          $parents = array_reverse(\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadAllParents($location['target_id']));
+          $parents = array_reverse($this->entityTypeManager->getStorage('taxonomy_term')->loadAllParents($location['target_id']));
           foreach ($parents as $pkey => $parent) {
             switch ($pkey) {
               case 0:
@@ -354,7 +353,7 @@ class ServiceProviderMigrate {
         ];
 
         /** @var \Drupal\webform\WebformSubmissionInterface $webform_submission */
-        $webform_submission = WebformSubmission::create($values);
+        $webform_submission = $this->entityTypeManager->getStorage('webform_submission')->create($values);
         $webform_submission->save();
       }
     }

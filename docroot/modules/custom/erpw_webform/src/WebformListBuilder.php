@@ -3,6 +3,7 @@
 namespace Drupal\erpw_webform;
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\webform\WebformEntityListBuilder;
 
 /**
@@ -11,6 +12,20 @@ use Drupal\webform\WebformEntityListBuilder;
  * @see \Drupal\webform\Entity\Webform
  */
 class WebformListBuilder extends WebformEntityListBuilder {
+
+  /**
+   * The Domain negotiator.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
+   * Constructs an object.
+   */
+  public function __construct(DomainNegotiatorInterface $domain_negotiator) {
+    $this->domainNegotiator = $domain_negotiator;
+  }
 
   /**
    * {@inheritdoc}
@@ -29,7 +44,7 @@ class WebformListBuilder extends WebformEntityListBuilder {
     $user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
     $user_roles = $user->get('roles')->getValue();
     $tpa = $entity->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-    $currentDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $currentDomain = $this->domainNegotiator->getActiveDomain()->id();
     $row = parent::buildRow($entity);
     unset($row['description']);
     unset($row['category']);

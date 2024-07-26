@@ -43,7 +43,7 @@ class LanguageSelector extends FormBase {
   /**
    * The cookie as a service.
    *
-   * @var \Drupal\erpw_location\\LocationCookieService
+   * @var \Drupal\erpw_location\LocationCookieService
    */
   protected $locationCookie;
 

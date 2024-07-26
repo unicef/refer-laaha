@@ -5,11 +5,14 @@ namespace Drupal\erpw_webform\Plugin\Block;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Url;
+use Drupal\domain\DomainNegotiatorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -31,20 +34,35 @@ class AddServiceBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected $languageManager;
 
   /**
-   * Constructs a new CustomAddUserBlock instance.
+   * The Current user service.
    *
-   * @param array $configuration
-   *   The plugin configuration.
-   * @param string $plugin_id
-   *   The plugin ID.
-   * @param mixed $plugin_definition
-   *   The plugin definition.
-   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
-   *   The language manager.
+   * @var \Drupal\Core\Session\AccountProxyInterface
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, LanguageManagerInterface $language_manager) {
+  protected $currentUser;
+
+  /**
+   * The domain negotiator service.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
+   * The cache service.
+   *
+   * @var \Drupal\Core\Cache\CacheBackendInterface
+   */
+  protected $cache;
+
+  /**
+   * Constructs a new CustomAddUserBlock instance.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, LanguageManagerInterface $language_manager, AccountProxyInterface $current_user, DomainNegotiatorInterface $domain_negotiator, CacheBackendInterface $cache) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->languageManager = $language_manager;
+    $this->currentUser = $current_user;
+    $this->domainNegotiator = $domain_negotiator;
+    $this->cache = $cache;
   }
 
   /**
@@ -55,7 +73,10 @@ class AddServiceBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('language_manager')
+      $container->get('language_manager'),
+      $container->get('current_user'),
+      $container->get('domain.negotiator'),
+      $container->get('cache.default')
     );
   }
 
@@ -64,13 +85,13 @@ class AddServiceBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   public function build() {
 
-    $user = \Drupal::currentUser();
-    $active_domain_id = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $user = $this->currentUser;
+    $active_domain_id = $this->domainNegotiator->getActiveDomain()->id();
     $cache_tags = ['custom_block', 'user_list'];
     $cache_id = 'custom_add_service_block_' . $user->id() . $active_domain_id;
 
     // Try to load data from cache.
-    $cache_data = \Drupal::cache()->get($cache_id);
+    $cache_data = $this->cache->get($cache_id);
 
     // Check if data is not in cache.
     if (!$cache_data) {
@@ -84,7 +105,7 @@ class AddServiceBlock extends BlockBase implements ContainerFactoryPluginInterfa
       // Check if the user has the permission to show the additional markup.
       if ($hasPermission) {
         $translated_text = t('Service Changes Submissions');
-        $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        $current_language = $this->languageManager->getCurrentLanguage()->getId();
         $link_url = '/' . $current_language . '/service-providers';
         $link = Link::fromTextAndUrl(t('Service Updates History'), Url::fromUserInput($link_url));
         $translated_markup = '<div id="block-changes-submissions">' . $translated_text . $link->toString() . '</div>';
@@ -103,7 +124,7 @@ class AddServiceBlock extends BlockBase implements ContainerFactoryPluginInterfa
       ];
 
       // Store the result in cache.
-      \Drupal::cache()->set($cache_id, $build, Cache::PERMANENT, $cache_tags);
+      $this->cache->set($cache_id, $build, Cache::PERMANENT, $cache_tags);
     }
     else {
       // If data is in cache, use the cached result.

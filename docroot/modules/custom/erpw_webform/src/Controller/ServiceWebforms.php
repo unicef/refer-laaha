@@ -140,7 +140,7 @@ class ServiceWebforms extends ControllerBase {
         // Add cache tag for each webform.
         $cacheTags[] = 'webform:' . $webform->id();
       }
-      \Drupal::cache()->set($cid, $markup, Cache::PERMANENT, $cacheTags);
+      $this->cache()->set($cid, $markup, Cache::PERMANENT, $cacheTags);
     }
 
     // @todo Cache computed value.

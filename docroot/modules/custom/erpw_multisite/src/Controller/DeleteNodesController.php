@@ -3,6 +3,7 @@
 namespace Drupal\erpw_multisite\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Controller to delete nodes of other domains after Multisite.
@@ -10,10 +11,51 @@ use Drupal\Core\Controller\ControllerBase;
 class DeleteNodesController extends ControllerBase {
 
   /**
+   * The Domain negotiator.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
+   * The current route match service.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $currentRoute;
+
+  /**
+   * The location service.
+   *
+   * @var \Drupal\erpw_location\LocationService
+   */
+  protected $locationService;
+
+  /**
+   * The request stack service.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->currentRoute = $container->get('current_route_match');
+    $instance->domainNegotiator = $container->get('domain.negotiator');
+    $instance->locationService = $container->get('erpw_location.location_services');
+    $instance->requestStack = $container->get('request_stack');
+    return $instance;
+  }
+
+  /**
    * Function to delete referral pathway, services, organisation and service type nodes.
    */
   public function deleteNodes() {
-    $content_type = \Drupal::service('current_route_match')->getParameter('content_type');
+    $content_type = $this->currentRoute->getParameter('content_type');
     // Get the content type and execute corresponding function.
     if ($content_type == 'referral_path_way' || $content_type == 'service_provider') {
       $nids = $this->findNidsOfRpwOldServices($content_type);
@@ -25,7 +67,7 @@ class DeleteNodesController extends ControllerBase {
 
     $message = '';
     if (!empty($nids)) {
-      $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+      $node_storage = $this->entityTypeManager->getStorage('node');
       $nodes = $node_storage->loadMultiple($nids);
       $count = count($nodes);
 
@@ -61,7 +103,7 @@ class DeleteNodesController extends ControllerBase {
    */
   private function findNidsOfOrganisationServiceType($bundle_name) {
     // Get the current domain from the request URL.
-    $domain_current_url = explode(".", \Drupal::service('request_stack')->getCurrentRequest()->server->get('SERVER_NAME'));
+    $domain_current_url = explode(".", $this->requestStack->getCurrentRequest()->server->get('SERVER_NAME'));
 
     // List of domains without subdomains where the condition should be applied.
     $domains_without_subdomain = ['refer-laaha', 'stage', 'erefer'];
@@ -69,17 +111,17 @@ class DeleteNodesController extends ControllerBase {
     // Check if the current domain is in the list of domains without subdomains.
     if (!in_array($domain_current_url[0], $domains_without_subdomain)) {
       // Get the active domain ID.
-      $current_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+      $current_domain = $this->domainNegotiator->getActiveDomain()->id();
 
       // Query nodes in the specified bundle for the current domain.
-      $domain_query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+      $domain_query = $this->entityTypeManager->getStorage('node')->getQuery()
         ->condition('type', $bundle_name)
         ->condition('field_domain_access', $current_domain)
         ->accessCheck(FALSE);
       $domain_nids = $domain_query->execute();
 
       // Query all nodes in the specified bundle.
-      $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+      $query = $this->entityTypeManager->getStorage('node')->getQuery()
         ->condition('type', $bundle_name)
         ->accessCheck(FALSE);
       $nids = $query->execute();
@@ -105,7 +147,7 @@ class DeleteNodesController extends ControllerBase {
    */
   private function findNidsOfRpwOldServices($bundle_name) {
     // Get the current domain from the request URL.
-    $domain_current_url = explode(".", \Drupal::service('request_stack')->getCurrentRequest()->server->get('SERVER_NAME'));
+    $domain_current_url = explode(".", $this->requestStack->getCurrentRequest()->server->get('SERVER_NAME'));
 
     // List of domains without subdomains where the condition should be applied.
     $domains_without_subdomain = ['refer-laaha', 'stage', 'erefer'];
@@ -113,24 +155,24 @@ class DeleteNodesController extends ControllerBase {
     // Check if the current domain is in the list of domains without subdomains.
     if (!in_array($domain_current_url[0], $domains_without_subdomain)) {
       // Get the active domain ID.
-      $current_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+      $current_domain = $this->domainNegotiator->getActiveDomain()->id();
       $domain_tid = $this->tidByDomain($current_domain);
 
       // Get the child location term IDs for the current domain.
-      $ptids = \Drupal::service('erpw_location.location_services')->getChildrenByParent($domain_tid);
+      $ptids = $this->locationService->getChildrenByParent($domain_tid);
 
       // Prepend the domain term ID to the list of child location term IDs.
       $ptids = [$domain_tid, ...$ptids];
 
       // Query nodes in the specified bundle for the locations of the current domain.
-      $domain_query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+      $domain_query = $this->entityTypeManager->getStorage('node')->getQuery()
         ->condition('type', $bundle_name)
         ->condition('field_location', $ptids, 'IN')
         ->accessCheck(FALSE);
       $domain_nids = $domain_query->execute();
 
       // Query all nodes in the specified bundle.
-      $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery()
+      $query = $this->entityTypeManager->getStorage('node')->getQuery()
         ->condition('type', $bundle_name)
         ->accessCheck(FALSE);
       $nids = $query->execute();

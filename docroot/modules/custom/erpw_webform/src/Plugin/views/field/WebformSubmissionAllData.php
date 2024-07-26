@@ -2,10 +2,13 @@
 
 namespace Drupal\erpw_webform\Plugin\views\field;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\node\Entity\Node;
-use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Drupal\views\ResultRow;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Custom Views field plugin.
@@ -13,6 +16,57 @@ use Drupal\views\ResultRow;
  * @ViewsField("webform_submission_all_data")
  */
 class WebformSubmissionAllData extends FieldPluginBase {
+
+  /**
+   * Entity Manager instance.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The domain negotiator service.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
+   * The Current user service.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
+   * Constructs a new WebformSubmissionAllData instance.
+   */
+  public function __construct(array $configuration,
+   $plugin_id,
+    $plugin_definition,
+  EntityTypeManagerInterface $entityTypeManagerInterface,
+  AccountProxyInterface $current_user,
+   DomainNegotiatorInterface $domain_negotiator,
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->entityTypeManager = $entityTypeManagerInterface;
+    $this->currentUser = $current_user;
+    $this->domainNegotiator = $domain_negotiator;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager'),
+      $container->get('current_user'),
+      $container->get('domain.negotiator'),
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -27,11 +81,11 @@ class WebformSubmissionAllData extends FieldPluginBase {
     if ($values->_entity->getData() !== NULL) {
       $submissionID = $values->_entity->get('sid')->getValue()[0]['value'];
       if (!is_null($values)) {
-        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($submissionID);
+        $webformSubmission = $this->entityTypeManager->getStorage('webform_submission')->load($submissionID);
         $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
-        $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+        $webform = $this->entityTypeManager->getStorage('webform')->load($webformID);
         $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-        $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+        $activeDomain = $this->domainNegotiator->getActiveDomain()->id();
         $stype = '';
         foreach ($tpa as $domain => $servicetype) {
           if ($domain == $activeDomain) {
@@ -44,7 +98,7 @@ class WebformSubmissionAllData extends FieldPluginBase {
         $submitted_by_uid = $webformSubmission->get('uid')->target_id;
 
         // Load the user entity based on the user ID.
-        $user = User::load($submitted_by_uid);
+        $user = $this->entityTypeManager->getStorage('user')->load($submitted_by_uid);
 
         if ($user) {
           // Get user information, such as name and email.
@@ -54,7 +108,7 @@ class WebformSubmissionAllData extends FieldPluginBase {
           $output[] = ['Submitted By' => t('Not available')];
         }
         if (!is_null($stype) && !empty($stype)) {
-          $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype));
+          $servicetype = $this->entityTypeManager->getStorage('node')->load(intval($stype));
           if ($servicetype instanceof Node) {
             $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
             $output[] = ['Service Type' => $servicelabel];
@@ -76,32 +130,32 @@ class WebformSubmissionAllData extends FieldPluginBase {
         $level_3 = '';
         $level_4 = '';
         foreach ($fields as $key => $content) {
-          $element = \Drupal::entityTypeManager()->getStorage('webform')->load($webformSubmission->getWebform()->id())->getElement($key);
+          $element = $this->entityTypeManager->getStorage('webform')->load($webformSubmission->getWebform()->id())->getElement($key);
           if ($key != 'erpw_workflow' && $key != 'submission_domain' && $key != 'service_type') {
-            $roles = \Drupal::service('current_user')->getRoles();
+            $roles = $this->currentUser->getRoles();
             if (isset($element['#access_view_roles'])) {
               foreach ($roles as $role) {
                 if (in_array($role, $element['#access_view_roles'])) {
                   if ($key == 'location') {
                     foreach ($content as $lkey => $lvalue) {
                       if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                        $country = \Drupal::entityTypeManager()->getStorage('location')->load($lvalue)->getName();
+                        $country = $this->entityTypeManager->getStorage('location')->load($lvalue)->getName();
                         $location = $location . $country . '.';
                       }
                       if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                        $level_1 = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                        $level_1 = $this->entityTypeManager->getStorage('taxonomy_term')->load($lvalue)->getName();
                         $location = $level_1 . ', ' . $location;
                       }
                       if ($lkey == 'level_2' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                        $level_2 = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                        $level_2 = $this->entityTypeManager->getStorage('taxonomy_term')->load($lvalue)->getName();
                         $location = $level_2 . ', ' . $location;
                       }
                       if ($lkey == 'level_3' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                        $level_3 = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                        $level_3 = $this->entityTypeManager->getStorage('taxonomy_term')->load($lvalue)->getName();
                         $location = $level_3 . ', ' . $location;
                       }
                       if ($lkey == 'level_4' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                        $level_4 = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                        $level_4 = $this->entityTypeManager->getStorage('taxonomy_term')->load($lvalue)->getName();
                         $location = $level_4 . ', ' . $location;
                       }
                     }
@@ -157,7 +211,7 @@ class WebformSubmissionAllData extends FieldPluginBase {
                   elseif ($element['#type'] == 'webform_entity_select') {
                     if ($element['#title'] = 'Organisation') {
                       if (!empty($content)) {
-                        $orgLabel = \Drupal::entityTypeManager()->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
+                        $orgLabel = $this->entityTypeManager->getStorage('node')->load($content)->get('title')->getValue()[0]['value'];
                         $output[] = [$element['#title'] => $orgLabel];
                       }
                     }
@@ -185,23 +239,23 @@ class WebformSubmissionAllData extends FieldPluginBase {
               if ($key == 'location') {
                 foreach ($content as $lkey => $lvalue) {
                   if ($lkey == 'location_options' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                    $country = \Drupal::entityTypeManager()->getStorage('location')->load($lvalue)->getName();
+                    $country = $this->entityTypeManager->getStorage('location')->load($lvalue)->getName();
                     $location = $location . $country . '.';
                   }
                   if ($lkey == 'level_1' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                    $level_1 = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                    $level_1 = $this->entityTypeManager->getStorage('taxonomy_term')->load($lvalue)->getName();
                     $location = $level_1 . ', ' . $location;
                   }
                   if ($lkey == 'level_2' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                    $level_2 = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                    $level_2 = $this->entityTypeManager->getStorage('taxonomy_term')->load($lvalue)->getName();
                     $location = $level_2 . ', ' . $location;
                   }
                   if ($lkey == 'level_3' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                    $level_3 = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                    $level_3 = $this->entityTypeManager->getStorage('taxonomy_term')->load($lvalue)->getName();
                     $location = $level_3 . ', ' . $location;
                   }
                   if ($lkey == 'level_4' && ($lvalue != '' && $lvalue != NULL && $lvalue != 0)) {
-                    $level_4 = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($lvalue)->getName();
+                    $level_4 = $this->entityTypeManager->getStorage('taxonomy_term')->load($lvalue)->getName();
                     $location = $level_4 . ', ' . $location;
                   }
                 }
@@ -257,7 +311,7 @@ class WebformSubmissionAllData extends FieldPluginBase {
               elseif (isset($element['#type']) && $element['#type'] === 'webform_entity_select') {
                 if ($element['#title'] = 'Organisation') {
                   if (!empty($content)) {
-                    $org = \Drupal::entityTypeManager()->getStorage('node')->load($content);
+                    $org = $this->entityTypeManager->getStorage('node')->load($content);
                     // Null check for org.
                     $orgLabel = is_null($org) ? 'N/A' : $org->get('title')->getValue()[0]['value'];
                     $output[] = [$element['#title'] => $orgLabel];

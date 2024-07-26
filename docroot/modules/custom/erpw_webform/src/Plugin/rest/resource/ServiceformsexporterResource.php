@@ -3,6 +3,7 @@
 namespace Drupal\erpw_webform\Plugin\rest\resource;
 
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
 use Drupal\rest\Plugin\ResourceBase;
@@ -60,6 +61,13 @@ class ServiceformsexporterResource extends ResourceBase {
   protected $entityTypeManager;
 
   /**
+   * The cache service.
+   *
+   * @var \Drupal\Core\Cache\CacheBackendInterface
+   */
+  protected $cache;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -70,10 +78,13 @@ class ServiceformsexporterResource extends ResourceBase {
     LoggerInterface $logger,
     KeyValueFactoryInterface $keyValueFactory,
     EntityTypeManagerInterface $entityTypeManager,
+    CacheBackendInterface $cache
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger, $keyValueFactory);
+    $this->logger = $logger;
     $this->storage = $keyValueFactory->get('erpw_webform_serviceformsexporter');
     $this->entityTypeManager = $entityTypeManager;
+    $this->cache = $cache;
   }
 
   /**
@@ -88,6 +99,7 @@ class ServiceformsexporterResource extends ResourceBase {
       $container->get('logger.factory')->get('rest'),
       $container->get('keyvalue'),
       $container->get('entity_type.manager'),
+      $container->get('cache.default')
     );
   }
 
@@ -102,7 +114,7 @@ class ServiceformsexporterResource extends ResourceBase {
     $webformsRevised = [];
     // Specify cache tags related to webforms.
     $cacheTags = ['webform'];
-    if ($cache = \Drupal::cache()
+    if ($cache = $this->cache
       ->get($cid)) {
       $webformsRevised = $cache->data;
     }
@@ -115,7 +127,7 @@ class ServiceformsexporterResource extends ResourceBase {
         if ($tpa) {
           foreach ($tpa as $sid) {
             if ($sid[0] != '') {
-              $service_type_node = \Drupal::entityTypeManager()->getStorage('node')->load($sid[0]);
+              $service_type_node = $this->entityTypeManager->getStorage('node')->load($sid[0]);
               if ($service_type_node != NULL) {
                 $webformsRevised[$id]['serviceTypeTitle'] = $service_type_node->getTitle();
               }
@@ -126,7 +138,7 @@ class ServiceformsexporterResource extends ResourceBase {
         // Add cache tag for each webform.
         $cacheTags[] = 'webform:' . $id;
       }
-      \Drupal::cache()
+      $this->cache
         ->set($cid, $webformsRevised, Cache::PERMANENT, $cacheTags);
     }
     $this->logger->notice('Exported service forms.');

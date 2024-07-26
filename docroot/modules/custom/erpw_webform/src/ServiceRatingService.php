@@ -3,12 +3,12 @@
 namespace Drupal\erpw_webform;
 
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\domain\DomainNegotiatorInterface;
-use Drupal\node\Entity\Node;
 use Drupal\webform\Entity\Webform;
 use Drupal\webform\WebformInterface;
 
@@ -46,6 +46,13 @@ class ServiceRatingService {
   protected $currentUser;
 
   /**
+   * The Database service.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $database;
+
+  /**
    * ServiceRatingService constructor.
    *
    * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
@@ -56,17 +63,21 @@ class ServiceRatingService {
    *   Location Manager object.
    * @param \Drupal\Core\Session\AccountProxyInterface $current_user
    *   Current user details.
+   * @param \Drupal\Core\Database\Connection $database
+   *   Database Service.
    */
   public function __construct(
     DomainNegotiatorInterface $domain_negotiator,
     EntityTypeManagerInterface $entity_manager,
     LanguageManagerInterface $language_manager,
     AccountProxyInterface $current_user,
+    Connection $database
     ) {
     $this->domainNegotiator = $domain_negotiator;
     $this->entityTypeManager = $entity_manager;
     $this->languageManager = $language_manager;
     $this->currentUser = $current_user;
+    $this->database = $database;
   }
 
   /**
@@ -125,7 +136,7 @@ class ServiceRatingService {
     // Search for a webform with the specified service type id.
     $webform_id = 'webform_service_rating_' . $serviceTypeID;
 
-    $query = \Drupal::database()->select('webform', 'w');
+    $query = $this->database->select('webform', 'w');
     $query->fields('w', ['webform_id'])
       ->condition('w.webform_id', $webform_id);
 
@@ -134,7 +145,7 @@ class ServiceRatingService {
     if (!empty($result)) {
       $webform_id = $result->fetchField();
       // Load the webform entity using the ID.
-      $webform_entity = Webform::load($webform_id);
+      $webform_entity = $this->entityTypeManager->getStorage('webform')->load($webform_id);
 
       if ($webform_entity) {
         return $webform_entity;
@@ -160,7 +171,7 @@ class ServiceRatingService {
 
     if (is_numeric($service_type)) {
       $service_type_id = $service_type;
-      $node = Node::load($service_type_id);
+      $node = $this->entityTypeManager->getStorage('node')->load($service_type_id);
       if ($node) {
         $service_type = $node->getTitle();
       }
@@ -169,7 +180,7 @@ class ServiceRatingService {
       }
     }
     else {
-      $query = \Drupal::entityQuery('node')
+      $query = $this->entityTypeManager->getStorage('node')->getQuery()
         ->condition('type', 'service_type')
         ->condition('title', $service_type)
         ->accessCheck(FALSE);
@@ -181,7 +192,7 @@ class ServiceRatingService {
     $webform_id = 'webform_service_rating_' . $service_type_id;
 
     // Create a new webform entity.
-    $webform = Webform::create([
+    $webform = $this->entityTypeManager->getStorage('webform')->create([
       'id' => $webform_id,
       'webform_type' => 'service_rating',
       'title' => $service_type . ' - Feedback',
@@ -389,7 +400,7 @@ class ServiceRatingService {
    *   An array of submission IDs that match both element-key-value pairs.
    */
   public function getSubmissionIdsForMultipleElements($webform_id, $element1 = NULL, $element2 = NULL, $element3 = NULL) {
-    $database = \Drupal::database();
+    $database = $this->database;
 
     $query = $database->select('webform_submission_data', 'wsd1');
     $query->fields('wsd1', ['sid']);
@@ -440,7 +451,7 @@ class ServiceRatingService {
    *   An array of submission IDs that match both element-key-value pairs.
    */
   public function getSubmissionIdsForSingleElement($webform_id, array $element) {
-    $database = \Drupal::database();
+    $database = $this->database;
 
     $query = $database->select('webform_submission_data', 'wsd1');
     $query->fields('wsd1', ['sid']);
@@ -550,7 +561,7 @@ class ServiceRatingService {
     }
     else {
       $activeDomainID = $this->domainNegotiator->getActiveDomain()->id();
-      $organisation_nids = \Drupal::entityQuery('node')
+      $organisation_nids = $this->entityTypeManager->getStorage('node')->getQuery()
         ->condition('type', 'organisation')
         ->condition('field_domain_access', $activeDomainID)
         ->accessCheck(FALSE)
@@ -576,7 +587,7 @@ class ServiceRatingService {
     // Extract service type ID from the webform ID.
     if (preg_match('/webform_service_rating_(\d+)/', $webform_id, $matches)) {
       $service_type_id = $matches[1];
-      $service_type_node = Node::load($service_type_id);
+      $service_type_node = $this->entityTypeManager->getStorage('node')->load($service_type_id);
 
       if ($service_type_node && $service_type_node->hasField('field_domain_access')) {
         $domain_values = $service_type_node->get('field_domain_access')->getValue();

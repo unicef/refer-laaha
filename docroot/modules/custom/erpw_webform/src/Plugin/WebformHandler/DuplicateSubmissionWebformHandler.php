@@ -2,9 +2,11 @@
 
 namespace Drupal\erpw_webform\Plugin\WebformHandler;
 
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\webform\Plugin\WebformHandlerBase;
 use Drupal\webform\WebformSubmissionInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Duplicate Submission Webform handler.
@@ -20,6 +22,33 @@ use Drupal\webform\WebformSubmissionInterface;
  * )
  */
 class DuplicateSubmissionWebformHandler extends WebformHandlerBase {
+
+  /**
+   * The database service.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $database;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, Connection $database) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->database = $database;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('database')
+    );
+  }
 
   /**
    * Implements Drupal\webform\Plugin\WebformHandlerInterface::validateForm().
@@ -40,7 +69,7 @@ class DuplicateSubmissionWebformHandler extends WebformHandlerBase {
     // for level_4, and organisation values.
     $existing_submission_ids = [];
     if ($last_level_value != "") {
-      $query = \Drupal::database()->select('webform_submission_data', 'wsd');
+      $query = $this->database->select('webform_submission_data', 'wsd');
       $query->fields('wsd', ['sid']);
       $query->condition('wsd.webform_id', $webform_submission->getWebform()->id());
       $query->condition('wsd.property', $last_level);
