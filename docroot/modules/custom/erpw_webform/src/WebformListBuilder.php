@@ -3,7 +3,6 @@
 namespace Drupal\erpw_webform;
 
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\webform\WebformEntityListBuilder;
 
 /**
@@ -21,10 +20,13 @@ class WebformListBuilder extends WebformEntityListBuilder {
   protected $domainNegotiator;
 
   /**
-   * Constructs an object.
+   * {@inheritdoc}
    */
-  public function __construct(DomainNegotiatorInterface $domain_negotiator) {
-    $this->domainNegotiator = $domain_negotiator;
+  public static function createInstance($container, $entity_type) {
+    /** @var \Drupal\webform\WebformEntityListBuilder $instance */
+    $instance = parent::createInstance($container, $entity_type);
+    $instance->domainNegotiator = $container->get('domain.negotiator');
+    return $instance;
   }
 
   /**
