@@ -3,15 +3,76 @@
 namespace Drupal\erpw_webform\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\user\Entity\User;
-use Drupal\webform\Entity\Webform;
-use Drupal\webform\Entity\WebformSubmission;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Session\AccountProxyInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Deletes user.
  */
 class DeleteUserController extends ControllerBase {
+
+  /**
+   * The current user service.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
+
+  /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The logger service.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected $logger;
+
+  /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
+   * Constructs a new DeleteUserController object.
+   *
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   The current user service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   The logger service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   */
+  public function __construct(AccountProxyInterface $current_user, EntityTypeManagerInterface $entity_type_manager, LoggerInterface $logger, MessengerInterface $messenger) {
+    $this->currentUser = $current_user;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->logger = $logger;
+    $this->messenger = $messenger;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('current_user'),
+      $container->get('entity_type.manager'),
+      $container->get('logger.factory')->get('user'),
+      $container->get('messenger')
+    );
+  }
 
   /**
    * Delete user and display delete success message.
@@ -24,10 +85,11 @@ class DeleteUserController extends ControllerBase {
    */
   public function deleteUser(mixed $id) {
     // Load current user role.
-    $currentUserRole = User::load(\Drupal::currentUser()->id())->getRoles();
+    $currentUser = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
+    $currentUserRole = $currentUser->getRoles();
 
     // Load role of the user to be deleted.
-    $user = User::load($id);
+    $user = $this->entityTypeManager->getStorage('user')->load($id);
     $userRole = $user->getRoles();
 
     if (in_array('anonymous', $currentUserRole) || in_array('service_provider_staff', $currentUserRole)) {
@@ -82,21 +144,21 @@ class DeleteUserController extends ControllerBase {
    */
   public function custom_remove_user($uid) {
 
-    $user = User::load($uid);
-    $admin_user = User::load(1);
+    $user = $this->entityTypeManager->getStorage('user')->load($uid);
+    $admin_user = $this->entityTypeManager->getStorage('user')->load(1);
 
     // Check if the user exists and is not anonymous.
     if ($user && !$user->isAnonymous()) {
       // Check if the current user has permission to cancel users.
-      if (\Drupal::currentUser()->hasPermission('cancel users by role')) {
+      if ($this->currentUser()->hasPermission('cancel users by role')) {
         // Fetch all nodes of the user.
-        $query = \Drupal::entityQuery('node')
+        $query = $this->entityTypeManager->getStorage('node')->getQuery()
           ->condition('uid', $uid);
         $nids = $query->accessCheck(FALSE)->execute();
 
         // Reassign the nodes to the anonymous user.
         if (!empty($nids)) {
-          $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+          $node_storage = $this->entityTypeManager->getStorage('node');
           foreach ($nids as $nid) {
             /** @var \Drupal\node\Entity\Node $node */
             $node = $node_storage->load($nid);
@@ -106,7 +168,7 @@ class DeleteUserController extends ControllerBase {
         }
 
         // Load all webforms created by the user being deleted.
-        $query = \Drupal::entityQuery('webform')
+        $query = $this->entityTypeManager->getStorage('webform')->getQuery()
           ->condition('uid', $uid);
         $webform_ids = $query->accessCheck(FALSE)->execute();
 
@@ -114,14 +176,14 @@ class DeleteUserController extends ControllerBase {
         if (!empty($webform_ids)) {
           foreach ($webform_ids as $webform_id) {
             /** @var \Drupal\webform\Entity\Webform $webform */
-            $webform = Webform::load($webform_id);
+            $webform = $this->entityTypeManager->getStorage('webform')->load($webform_id);
             $webform->setOwnerId($admin_user->id());
             $webform->save();
           }
         }
 
         // Load all webform submissions created by the user being deleted.
-        $query = \Drupal::entityQuery('webform_submission')
+        $query = $this->entityTypeManager->getStorage('webform_submission')->getQuery()
           ->condition('uid', $uid);
         $submission_ids = $query->accessCheck(FALSE)->execute();
 
@@ -129,7 +191,7 @@ class DeleteUserController extends ControllerBase {
         if (!empty($submission_ids)) {
           foreach ($submission_ids as $submission_id) {
             /** @var \Drupal\webform\Entity\WebformSubmission $submission */
-            $submission = WebformSubmission::load($submission_id);
+            $submission = $this->entityTypeManager->getStorage('webform_submission')->load($submission_id);
             $submission->setOwnerId($admin_user->id());
             $submission->save();
           }
@@ -138,7 +200,7 @@ class DeleteUserController extends ControllerBase {
         $user->delete();
 
         // Log the action.
-        \Drupal::logger('user')->notice('User %name (%uid) has been removed.', [
+        $this->logger->notice('User %name (%uid) has been removed.', [
           '%name' => $user->getDisplayName(),
           '%uid' => $user->id(),
         ]);
@@ -146,12 +208,12 @@ class DeleteUserController extends ControllerBase {
       }
       else {
         // If the current user doesn't have permission, throw an exception or handle it appropriately.
-        \Drupal::messenger()->addError('You do not have permission to remove users.');
+        $this->messenger->addError('You do not have permission to remove users.');
       }
     }
     else {
       // If the user doesn't exist or is anonymous, throw an exception or handle it appropriately.
-      \Drupal::messenger()->addError('User not found or cannot remove anonymous users.');
+      $this->messenger->addError('User not found or cannot remove anonymous users.');
     }
   }
 

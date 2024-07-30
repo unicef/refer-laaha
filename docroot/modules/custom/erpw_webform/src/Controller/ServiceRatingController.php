@@ -3,7 +3,6 @@
 namespace Drupal\erpw_webform\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\webform\Entity\Webform;
 use Drupal\webform\WebformInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +26,7 @@ class ServiceRatingController extends ControllerBase {
   public function publishServiceRatingForm(string $id, Request $request) {
     // Check if the request is an Ajax request.
     if ($request->isXmlHttpRequest()) {
-      $webform = Webform::load($id);
+      $webform = $this->entityTypeManager()->getStorage('webform')->load($id);
       $form_button_text = "";
       if ($webform) {
         if ($webform->get('status') === "open") {
@@ -66,7 +65,7 @@ class ServiceRatingController extends ControllerBase {
   public function getStatusOfServiceRatingForm(string $id, Request $request) {
     // Check if the request is an Ajax request.
     if ($request->isXmlHttpRequest()) {
-      $webform = Webform::load($id);
+      $webform = $this->entityTypeManager()->getStorage('webform')->load($id);
       if ($webform) {
         return new JsonResponse([
           'form_status' => $webform->get('status') === "open" ? "Unpublish" : "Publish",

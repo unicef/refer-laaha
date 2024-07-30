@@ -90,7 +90,7 @@ class EntityLocationSubscriber implements EventSubscriberInterface {
   /**
    * The Current user service.
    *
-   * @var Drupal\Core\Session\AccountProxyInterface
+   * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
 

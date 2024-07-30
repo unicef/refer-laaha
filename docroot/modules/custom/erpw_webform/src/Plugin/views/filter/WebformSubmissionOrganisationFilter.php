@@ -3,6 +3,7 @@
 namespace Drupal\erpw_webform\Plugin\views\filter;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\node\Entity\Node;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use Drupal\views\Plugin\views\filter\ManyToOne;
@@ -42,6 +43,13 @@ class WebformSubmissionOrganisationFilter extends ManyToOne {
   protected $entityTypeManager;
 
   /**
+   * Drupal\domain\DomainNegotiatorInterface definition.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
    * Constructs a new TransactionId instance.
    *
    * @param array $configuration
@@ -57,11 +65,14 @@ class WebformSubmissionOrganisationFilter extends ManyToOne {
    *   The entity type manager.
    * @param \Drupal\views\Plugin\ViewsHandlerManager $join_handler
    *   The join handler.
+   * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiation
+   *   The domain negotiation service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ViewsHandlerManager $join_handler) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ViewsHandlerManager $join_handler, DomainNegotiatorInterface $domain_negotiation) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->joinHandler = $join_handler;
+    $this->domainNegotiator = $domain_negotiation;
   }
 
   /**
@@ -73,7 +84,8 @@ class WebformSubmissionOrganisationFilter extends ManyToOne {
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('plugin.manager.views.join')
+      $container->get('plugin.manager.views.join'),
+      $container->get('domain.negotiator')
     );
   }
 
@@ -94,7 +106,7 @@ class WebformSubmissionOrganisationFilter extends ManyToOne {
    *   An array of states and their ids.
    */
   public function generateOptions() {
-    $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $activeDomain = $this->domainNegotiator->getActiveDomain()->id();
     $nids = $this->entityTypeManager->getStorage('node')->getQuery()->condition('type', 'organisation')->accessCheck(FALSE)->execute();
     $organizations = Node::loadMultiple($nids);
 

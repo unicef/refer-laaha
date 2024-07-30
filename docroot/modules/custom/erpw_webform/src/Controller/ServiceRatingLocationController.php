@@ -6,9 +6,6 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
-use Drupal\node\Entity\Node;
-use Drupal\webform\Entity\Webform;
-use Drupal\webform\Entity\WebformSubmission;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -64,7 +61,7 @@ class ServiceRatingLocationController extends ControllerBase {
   public function displayServiceLocationAverages() {
     // Load the webform based on the provided webform ID.
     $webform_id = $this->routeMatch->getParameter('webform_id');
-    $webform = Webform::load($webform_id);
+    $webform = $this->entityTypeManager()->getStorage('webform')->load($webform_id);
     $org_id = $this->serviceRating->organisationForFiltering();
 
     // Check if the webform exists and matches the service rating form pattern.
@@ -85,12 +82,12 @@ class ServiceRatingLocationController extends ControllerBase {
       $active_domain_id = $this->domainNegotiator->getActiveDomain()->id();
       $cache_tags = ['webform_submission:' . $submission_ids_hash];
       $cache_id = 'rating_location_normalized_values_' . $active_domain_id . $webform_id;
-      $cache_data = \Drupal::cache()->get($cache_id);
+      $cache_data = $this->cache()->get($cache_id);
 
       if (!$cache_data) {
         // Iterate through each submission.
         foreach ($submission_ids as $submission_id) {
-          $submission = WebformSubmission::load($submission_id);
+          $submission = $this->entityTypeManager()->getStorage('webform_submission')->load($submission_id);
 
           // Get the service_location_tid element value for this submission.
           $service_location_tid = $submission->getElementData('service_location_tid');
@@ -120,7 +117,7 @@ class ServiceRatingLocationController extends ControllerBase {
         }
 
         // Cache the computed value.
-        \Drupal::cache()->set($cache_id, $normalized_element_values, Cache::PERMANENT, $cache_tags);
+        $this->cache()->set($cache_id, $normalized_element_values, Cache::PERMANENT, $cache_tags);
       }
       else {
         // Retrieve the data from the cache.
@@ -136,7 +133,7 @@ class ServiceRatingLocationController extends ControllerBase {
 
       $service_type_id = str_replace("webform_service_rating_", "", $webform_id);
       if (is_numeric($service_type_id)) {
-        $node = Node::load($service_type_id);
+        $node = $this->entityTypeManager()->getStorage('node')->load($service_type_id);
       }
       else {
         $node = NULL;

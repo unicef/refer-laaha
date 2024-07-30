@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\language\ConfigurableLanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -41,6 +42,13 @@ class ShareFeedbackBlock extends BlockBase implements ContainerFactoryPluginInte
   protected $currentUser;
 
   /**
+   * Drupal\language\ConfigurableLanguageManagerInterface definition.
+   *
+   * @var \Drupal\language\ConfigurableLanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * Constructs a Drupalist object.
    *
    * @param array $configuration
@@ -55,6 +63,8 @@ class ShareFeedbackBlock extends BlockBase implements ContainerFactoryPluginInte
    *   The request stack service.
    * @param \Drupal\Core\Session\AccountInterface $current_user
    *   The current user service.
+   * @param \Drupal\language\ConfigurableLanguageManagerInterface $langauge_manager
+   *   The language manager service.
    */
   public function __construct(
         array $configuration,
@@ -62,12 +72,14 @@ class ShareFeedbackBlock extends BlockBase implements ContainerFactoryPluginInte
         $plugin_definition,
         RouteMatchInterface $routeMatch,
         RequestStack $requestStack,
-        AccountInterface $current_user
+        AccountInterface $current_user,
+        ConfigurableLanguageManagerInterface $langauge_manager
     ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->routeMatch = $routeMatch;
     $this->requestStack = $requestStack;
     $this->currentUser = $current_user;
+    $this->languageManager = $langauge_manager;
   }
 
   /**
@@ -80,7 +92,8 @@ class ShareFeedbackBlock extends BlockBase implements ContainerFactoryPluginInte
           $plugin_definition,
           $container->get('current_route_match'),
           $container->get('request_stack'),
-          $container->get('current_user')
+          $container->get('current_user'),
+          $container->get('language_manager')
       );
   }
 
@@ -94,9 +107,8 @@ class ShareFeedbackBlock extends BlockBase implements ContainerFactoryPluginInte
       $requestUri = $this->requestStack->getCurrentRequest()->getUri();
       $blockTitle = str_contains($requestUri, 'ratings-by-service-type') ? t('Improvise your Service Information') : t('Feedback Reminder');
       $blockDescription = str_contains($requestUri, 'ratings-by-service-type') ? t('Help other service providers reach you without any hassle by updating information as per feedback.') : t('Help Service Providers to improvise their Service Provision information with your valuable feedback.');
-      $languageCode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+      $languageCode = $this->languageManager->getCurrentLanguage()->getId();
 
-      // @todo enable Block cache and move the markup to twig template. - Done
       return [
         '#theme' => 'share_feedback_block',
         '#blockTitle' => $blockTitle,

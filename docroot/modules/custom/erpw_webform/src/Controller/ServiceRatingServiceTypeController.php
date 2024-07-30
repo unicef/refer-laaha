@@ -6,9 +6,6 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
-use Drupal\node\Entity\Node;
-use Drupal\webform\Entity\Webform;
-use Drupal\webform\Entity\WebformSubmission;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -85,7 +82,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
    */
   public function displayAverageWebformRatings() {
     // Get all webforms.
-    $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
+    $webforms = $this->entityTypeManager()->getStorage('webform')->loadMultiple();
     $org_id = $this->serviceRating->organisationForFiltering();
 
     $service_rating_org_state = $this->state->get('service_rating.org_average_rating');
@@ -117,12 +114,12 @@ class ServiceRatingServiceTypeController extends ControllerBase {
         $active_domain_id = $this->domainNegotiator->getActiveDomain()->id();
         $cache_tags = ['webform_submission:' . $submission_ids_hash, 'webform' . $webform_id];
         $cache_id = 'service_rating_location_normalized_values_' . $active_domain_id . $webform_id . $org_id;
-        $cache_data = \Drupal::cache()->get($cache_id);
+        $cache_data = $this->cache()->get($cache_id);
 
         if (!$cache_data) {
           // Iterate through each submission.
           foreach ($submission_ids as $submission_id) {
-            $submission = WebformSubmission::load($submission_id);
+            $submission = $this->entityTypeManager()->getStorage('webform_submission')->load($submission_id);
 
             // Get all elements of the webform.
             $elements = $webform->getElementsDecodedAndFlattened();
@@ -148,7 +145,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
             $normalized_element_values[] = $normalized_values;
           }
           // Cache the computed value.
-          \Drupal::cache()->set($cache_id, $normalized_element_values, Cache::PERMANENT, $cache_tags);
+          $this->cache()->set($cache_id, $normalized_element_values, Cache::PERMANENT, $cache_tags);
         }
         else {
           // Retrieve the data from the cache.
@@ -162,7 +159,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
     }
 
     // Create an HTML list for displaying the webform ratings.
-    $node = Node::load($org_id);
+    $node = $this->entityTypeManager()->getStorage('node')->load($org_id);
     if ($node) {
       $organisation_name = $node->getTitle();
     }
@@ -179,7 +176,7 @@ class ServiceRatingServiceTypeController extends ControllerBase {
       // Omit the webform if it does not belong to current domain.
       $service_type_domain = $this->serviceRating->fetchServiceTypeDomains($webform_id);
       if (in_array($active_domain_id, $service_type_domain)) {
-        $webform = Webform::load($webform_id);
+        $webform = $this->entityTypeManager()->getStorage('webform')->load($webform_id);
         // Review Count:
         $element = [
           'key' => 'service_organisation',

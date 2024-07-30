@@ -24,7 +24,7 @@ class ModalController extends ControllerBase {
   /**
    * A entityManager instance.
    *
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityManager;
 
@@ -33,7 +33,7 @@ class ModalController extends ControllerBase {
    *
    * @param \Drupal\Core\Form\FormBuilder $form_builder
    *   The form builder.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   EntityManager object.
    */
   public function __construct(FormBuilder $form_builder, EntityTypeManagerInterface $entity_type_manager) {

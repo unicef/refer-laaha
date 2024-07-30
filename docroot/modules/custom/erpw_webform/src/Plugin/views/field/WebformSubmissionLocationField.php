@@ -2,8 +2,10 @@
 
 namespace Drupal\erpw_webform\Plugin\views\field;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Drupal\views\ResultRow;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Custom Views field plugin.
@@ -11,6 +13,37 @@ use Drupal\views\ResultRow;
  * @ViewsField("webform_submission_location_field")
  */
 class WebformSubmissionLocationField extends FieldPluginBase {
+
+  /**
+   * Entity Manager instance.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * Constructs a new WebformSubmissionLocationField instance.
+   */
+  public function __construct(array $configuration,
+   $plugin_id,
+    $plugin_definition,
+  EntityTypeManagerInterface $entityTypeManagerInterface
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->entityTypeManager = $entityTypeManagerInterface;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager'),
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -24,11 +57,11 @@ class WebformSubmissionLocationField extends FieldPluginBase {
   public function render(ResultRow $values) {
     if (isset($values->_entity->getData()['location'])) {
       $location = $values->_entity->getData()['location'];
-      $loadTerm = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+      $loadTerm = $this->entityTypeManager->getStorage('taxonomy_term');
       $output = '';
       if (is_array($location)) {
         if ($location['location_options'] != '') {
-          $country = \Drupal::entityTypeManager()->getStorage('location')->load($location['location_options'])->getName();
+          $country = $this->entityTypeManager->getStorage('location')->load($location['location_options'])->getName();
           $output = $country . '.';
         }
       }

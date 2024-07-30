@@ -5,7 +5,6 @@ namespace Drupal\erpw_webform\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -82,7 +81,7 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $service_type_id = $this->routeMatch->getParameter('service_type__id');
-    $node = Node::load($service_type_id);
+    $node = $this->entityTypeManager->getStorage('node')->load($service_type_id);
     if ($node) {
       $service_type = $node->getTitle();
     }
@@ -290,7 +289,7 @@ class ServiceRatingAddNewQuestionForm extends FormBase {
     $valid_option_count = $this->serviceRating->validOptionCount($form_state);
 
     // Fetch Service type ID by Service type Title.
-    $query = \Drupal::entityQuery('node')
+    $query = $this->entityTypeManager->getStorage('node')->getQuery()
       ->condition('type', 'service_type')
       ->condition('title', $service_type)
       ->accessCheck(FALSE);

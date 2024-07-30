@@ -6,10 +6,12 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\node\Entity\Node;
 use Drupal\webform\Entity\WebformSubmission;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -33,12 +35,28 @@ class ServiceSubmissionsView extends ControllerBase {
   protected $currentUser;
 
   /**
+   * The Domain negotiator.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
+   * The date formatter service.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   */
+  protected $dateFormatter;
+
+  /**
    * Constructs a new ServiceWebforms object.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser, ConfigFactory $config_factory) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser, ConfigFactory $config_factory, DomainNegotiatorInterface $domain_negotiator, DateFormatterInterface $date_formatter) {
     $this->entityTypeManager = $entityTypeManager;
     $this->currentUser = $currentUser;
     $this->configFactory = $config_factory;
+    $this->domainNegotiator = $domain_negotiator;
+    $this->dateFormatter = $date_formatter;
   }
 
   /**
@@ -49,6 +67,8 @@ class ServiceSubmissionsView extends ControllerBase {
     $container->get('entity_type.manager'),
     $container->get('current_user'),
     $container->get('config.factory'),
+    $container->get('domain.negotiator'),
+    $container->get('date.formatter')
     );
   }
 
@@ -59,7 +79,7 @@ class ServiceSubmissionsView extends ControllerBase {
     $cid = 'service_submissions_view' . $webform_submission->id();
     $markup = '';
     $cache_tags = ['webform_submission:' . $webform_submission->id()];
-    if ($cache = \Drupal::cache()->get($cid)) {
+    if ($cache = $this->cache()->get($cid)) {
       $markup = $cache->data;
       return [
         '#type' => 'markup',
@@ -68,11 +88,11 @@ class ServiceSubmissionsView extends ControllerBase {
     }
     else {
       if (!is_null($webform_submission)) {
-        $webformSubmission = \Drupal::entityTypeManager()->getStorage('webform_submission')->load($webform_submission->id());
+        $webformSubmission = $this->entityTypeManager()->getStorage('webform_submission')->load($webform_submission->id());
         $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
-        $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webformID);
+        $webform = $this->entityTypeManager()->getStorage('webform')->load($webformID);
         $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-        $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+        $activeDomain = $this->domainNegotiator->getActiveDomain()->id();
         $stype = '';
         $form_data = $webform_submission->getData();
         $workflow_state = $form_data['erpw_workflow']['workflow_state'];
@@ -88,7 +108,7 @@ class ServiceSubmissionsView extends ControllerBase {
         }
         $output = [];
         if (!is_null($stype) && !empty($stype)) {
-          $servicetype = \Drupal::entityTypeManager()->getStorage('node')->load(intval($stype));
+          $servicetype = $this->entityTypeManager()->getStorage('node')->load(intval($stype));
           if ($servicetype instanceof Node) {
             $servicelabel = $servicetype->get('title')->getValue()[0]['value'];
           }
@@ -339,7 +359,7 @@ class ServiceSubmissionsView extends ControllerBase {
         }
 
         $last_updated_timestamp = $webform_submission->getChangedTime();
-        $formatted_last_updated = \Drupal::service('date.formatter')->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
+        $formatted_last_updated = $this->dateFormatter->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
         $output[] = ['Last updated time' => $formatted_last_updated];
 
         $edit_url = Url::fromRoute('entity.webform_submission.edit_form', [
@@ -417,7 +437,7 @@ class ServiceSubmissionsView extends ControllerBase {
         }
 
         // Invalidate cache tag when a new submission is created or edited.
-        \Drupal::cache()->set($cid, $markup, Cache::PERMANENT, $cache_tags);
+        $this->cache()->set($cid, $markup, Cache::PERMANENT, $cache_tags);
 
         // @todo Cache computed value - done
         return [
@@ -445,7 +465,7 @@ class ServiceSubmissionsView extends ControllerBase {
     $cache_tags = ['webform_submission:' . $webform_submission->id(),
       'config:webform_list', 'webform_list',
     ];
-    if ($cache = \Drupal::cache()->get($cid)) {
+    if ($cache = $this->cache()->get($cid)) {
       $markup = $cache->data;
       return [
         '#type' => 'markup',
@@ -458,7 +478,7 @@ class ServiceSubmissionsView extends ControllerBase {
         $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
         $webform = $this->entityTypeManager()->getStorage('webform')->load($webformID);
         $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-        $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+        $activeDomain = $this->domainNegotiator->getActiveDomain()->id();
         $stype = '';
         foreach ($tpa as $domain => $servicetype) {
           if ($domain == $activeDomain) {
@@ -759,7 +779,7 @@ class ServiceSubmissionsView extends ControllerBase {
         }
 
         $last_updated_timestamp = $webform_submission->getChangedTime();
-        $formatted_last_updated = \Drupal::service('date.formatter')->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
+        $formatted_last_updated = $this->dateFormatter->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
         $output[] = ['Last updated time' => $formatted_last_updated];
 
         // Edit URL.
@@ -863,7 +883,7 @@ class ServiceSubmissionsView extends ControllerBase {
         }
 
         // Invalidate cache tag when a new submission is created or edited.
-        \Drupal::cache()->set($cid, $markup, Cache::PERMANENT, $cache_tags);
+        $this->cache()->set($cid, $markup, Cache::PERMANENT, $cache_tags);
 
         return [
           '#type' => 'markup',

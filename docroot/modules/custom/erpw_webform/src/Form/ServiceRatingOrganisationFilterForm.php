@@ -5,9 +5,6 @@ namespace Drupal\erpw_webform\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\node\Entity\Node;
-use Drupal\webform\Entity\Webform;
-use Drupal\webform\Entity\WebformSubmission;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -91,7 +88,7 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
    */
   public function getAverageWebformRatingsOfOrg(string $org_id) {
     // Get all webforms.
-    $webforms = \Drupal::entityTypeManager()->getStorage('webform')->loadMultiple();
+    $webforms = $this->entityTypeManager->getStorage('webform')->loadMultiple();
 
     // Initialize an array to store webform names and their average ratings.
     $webform_ratings = [];
@@ -115,7 +112,7 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
 
         // Iterate through each submission.
         foreach ($submission_ids as $submission_id) {
-          $submission = WebformSubmission::load($submission_id);
+          $submission = $this->entityTypeManager->getStorage('webform_submission')->load($submission_id);
 
           // Get all elements of the webform.
           $elements = $webform->getElementsDecodedAndFlattened();
@@ -148,7 +145,7 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
     }
 
     // Create an HTML list for displaying the webform ratings.
-    $node = Node::load($org_id);
+    $node = $this->entityTypeManager->getStorage('node')->load($org_id);
     if ($node) {
       $organisation_name = $node->getTitle();
     }
@@ -165,7 +162,7 @@ class ServiceRatingOrganisationFilterForm extends FormBase {
       // Omit the webform if it does not belong to current domain.
       $service_type_domain = $this->serviceRating->fetchServiceTypeDomains($webform_id);
       if (in_array($active_domain_id, $service_type_domain)) {
-        $webform = Webform::load($webform_id);
+        $webform = $this->entityTypeManager->getStorage('webform')->load($webform_id);
         // Review Count:
         $element = [
           'key' => 'service_organisation',

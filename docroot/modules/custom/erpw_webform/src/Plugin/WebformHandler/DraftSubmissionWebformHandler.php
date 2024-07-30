@@ -5,6 +5,7 @@ namespace Drupal\erpw_webform\Plugin\WebformHandler;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
+use Drupal\path_alias\AliasManagerInterface;
 use Drupal\webform\Plugin\WebformHandlerBase;
 use Drupal\webform\WebformSubmissionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -32,11 +33,19 @@ class DraftSubmissionWebformHandler extends WebformHandlerBase {
   protected $messenger;
 
   /**
+   * The Path alias service.
+   *
+   * @var \Drupal\path_alias\AliasManagerInterface
+   */
+  protected $aliasManager;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, AliasManagerInterface $alias_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->messenger = $messenger;
+    $this->aliasManager = $alias_manager;
   }
 
   /**
@@ -47,7 +56,8 @@ class DraftSubmissionWebformHandler extends WebformHandlerBase {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('messenger')
+      $container->get('messenger'),
+      $container->get('path_alias.manager')
     );
   }
 
@@ -59,8 +69,8 @@ class DraftSubmissionWebformHandler extends WebformHandlerBase {
     $workflow_selected = $webform_submission->getElementData('erpw_workflow');
     $draft_alias = '/service-providers';
     $manage_service_alias = '/manage-services';
-    $draft_path = \Drupal::service('path_alias.manager')->getPathByAlias($draft_alias);
-    $manage_service_path = \Drupal::service('path_alias.manager')->getPathByAlias($manage_service_alias);
+    $draft_path = $this->aliasManager->getPathByAlias($draft_alias);
+    $manage_service_path = $this->aliasManager->getPathByAlias($manage_service_alias);
 
     // Redirect the user to their saved Drafts if their transition was Save as Draft.
     if ($workflow_selected['transition'] == "save_as_draft") {

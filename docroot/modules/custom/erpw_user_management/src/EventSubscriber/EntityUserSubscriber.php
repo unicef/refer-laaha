@@ -12,7 +12,6 @@ use Drupal\core_event_dispatcher\Event\Form\FormAlterEvent;
 use Drupal\core_event_dispatcher\FormHookEvents;
 use Drupal\erpw_location\LocationService;
 use Drupal\erpw_pathway\Services\ErpwPathwayService;
-use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -31,7 +30,7 @@ class EntityUserSubscriber implements EventSubscriberInterface {
   const MAX_LEVEL = 4;
 
   /**
-   * The Messenger service.
+   * The Entity type Manager service.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
@@ -47,7 +46,7 @@ class EntityUserSubscriber implements EventSubscriberInterface {
   /**
    * A LocationService instance.
    *
-   * @var Drupal\erpw_location\LocationService
+   * @var \Drupal\erpw_location\LocationService
    */
   protected static $locationService;
 
@@ -75,7 +74,7 @@ class EntityUserSubscriber implements EventSubscriberInterface {
   /**
    * The Current user service.
    *
-   * @var Drupal\Core\Session\AccountProxyInterface
+   * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
 
@@ -249,7 +248,7 @@ class EntityUserSubscriber implements EventSubscriberInterface {
    */
   public function eprwUserSubmitHandler(&$form, $form_state) {
 
-    if (!\Drupal::request()->get('pass-reset-token')) {
+    if (!$this->requestStack->getCurrentRequest()->query->get('pass-reset-token')) {
       // Bring location data to save even though it is not displayed.
       $field_location = $form_state->getValue('field_location');
       $location_level = [];
@@ -275,8 +274,8 @@ class EntityUserSubscriber implements EventSubscriberInterface {
       }
       $current_user_id = $this->currentUser->id();
       $form_user_id = $this->requestStack->getCurrentRequest()->attributes->get('user')->id();
-      $access = User::load($form_user_id)->get('access')->value;
-      $status = User::load($form_user_id)->get('status')->value;
+      $access = self::$entityTypeManager->getStorage('user')->load($form_user_id)->get('access')->value;
+      $status = self::$entityTypeManager->getStorage('user')->load($form_user_id)->get('status')->value;
       if ($current_user_id == $form_user_id) {
         return _erpw_custom_redirect('user.page');
       }

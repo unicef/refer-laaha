@@ -3,7 +3,7 @@
 namespace Drupal\erpw_multisite\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\webform\Entity\Webform;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Controller to delete webforms and submissions of other domains after Multisite.
@@ -11,11 +11,36 @@ use Drupal\webform\Entity\Webform;
 class DeleteWebformController extends ControllerBase {
 
   /**
+   * The Domain negotiator.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
+   * The Database service.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $database;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->domainNegotiator = $container->get('domain.negotiator');
+    $instance->database = $container->get('database');
+    return $instance;
+  }
+
+  /**
    * Function to delete webforms and submissions of other domains after Multisite.
    */
   public function deleteWebformsAndSubmissions() {
     // Get a list of webforms matching the pattern.
-    $current_domain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $current_domain = $this->domainNegotiator->getActiveDomain()->id();
     $pattern = '/^(.*?)_erefer_org$/';
 
     if (preg_match($pattern, $current_domain, $matches)) {
@@ -25,7 +50,7 @@ class DeleteWebformController extends ControllerBase {
       }
     }
 
-    $query = \Drupal::database()->select('webform', 'w')
+    $query = $this->database->select('webform', 'w')
       ->fields('w', ['webform_id'])
       ->condition('webform_id', $subdomain . '%', 'NOT LIKE')
       ->condition('webform_id', 'webform_service_rating_%', 'NOT LIKE')
@@ -38,10 +63,10 @@ class DeleteWebformController extends ControllerBase {
 
     // Delete submissions for each webform.
     foreach ($webform_ids as $index => $webform_id) {
-      $webform = Webform::load($webform_id);
+      $webform = $this->entityTypeManager->getStorage('webform')->load($webform_id);
       if ($webform) {
         // Get the submission storage for the webform.
-        $submission_storage = \Drupal::entityTypeManager()->getStorage('webform_submission');
+        $submission_storage = $this->entityTypeManager->getStorage('webform_submission');
 
         // Get submissions for the webform.
         $submission_ids = $submission_storage->getQuery()

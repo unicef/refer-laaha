@@ -2,9 +2,13 @@
 
 namespace Drupal\erpw_custom\Controller;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBuilder;
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -25,21 +29,48 @@ class UserWorkflowController extends ControllerBase {
   /**
    * A entityTypeManager instance.
    *
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
   /**
-   * The ModalFormController constructor.
+   * The current user account.
    *
-   * @param \Drupal\Core\Form\FormBuilder $form_builder
-   *   The form builder.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   EntityManager object.
+   * @var \Drupal\Core\Session\AccountInterface
    */
-  public function __construct(FormBuilder $form_builder, EntityTypeManagerInterface $entity_type_manager) {
+  protected $currentUser;
+
+  /**
+   * The date formatter service.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   */
+  protected $dateFormatter;
+
+  /**
+   * The date time service.
+   *
+   * @var \Drupal\Component\Datetime\TimeInterface
+   */
+  protected $timeService;
+
+  /**
+   * The messenger.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
+   * The ModalFormController constructor.
+   */
+  public function __construct(FormBuilder $form_builder, EntityTypeManagerInterface $entity_type_manager, AccountInterface $currentUser, DateFormatterInterface $date_formatter, TimeInterface $time_service, MessengerInterface $messenger) {
     $this->formBuilder = $form_builder;
     $this->entityTypeManager = $entity_type_manager;
+    $this->currentUser = $currentUser;
+    $this->dateFormatter = $date_formatter;
+    $this->timeService = $time_service;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -53,7 +84,11 @@ class UserWorkflowController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('form_builder'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('current_user'),
+      $container->get('date.formatter'),
+      $container->get('datetime.time'),
+      $container->get('messenger')
     );
   }
 
@@ -62,7 +97,7 @@ class UserWorkflowController extends ControllerBase {
    */
   public function acceptUser(UserInterface $user) {
     // Get current user role.
-    $roles = \Drupal::currentUser()->getRoles();
+    $roles = $this->currentUser->getRoles();
     // For SPFP.
     if (in_array('service_provider_focal_point', $roles)) {
       // Make sure this is the right user take action.
@@ -72,9 +107,9 @@ class UserWorkflowController extends ControllerBase {
         $user->save();
 
         // Update user workflow history entity.
-        $current_time = \Drupal::time()->getCurrentTime('d');
+        $current_time = $this->timeService->getCurrentTime('d');
         $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-          'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+          'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
           'status' => 1,
           'field_user' => $user->id(),
           'field_workflow_status_before' => 'self-register-sp-staff',
@@ -85,7 +120,7 @@ class UserWorkflowController extends ControllerBase {
       }
       else {
         $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
-        \Drupal::messenger()->addMessage($this->t('You are not authorized to perform this action.'));
+        $this->messenger->addMessage($this->t('You are not authorized to perform this action.'));
         $response = new RedirectResponse($url);
         $response->send();
         return $response;
@@ -101,9 +136,9 @@ class UserWorkflowController extends ControllerBase {
         $user->save();
 
         // Update user workflow history entity.
-        $current_time = \Drupal::time()->getCurrentTime('d');
+        $current_time = $this->timeService->getCurrentTime('d');
         $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-          'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+          'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
           'status' => 1,
           'field_user' => $user->id(),
           'field_workflow_status_before' => 'self-register-sp-staff',
@@ -114,7 +149,7 @@ class UserWorkflowController extends ControllerBase {
       }
       else {
         $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
-        \Drupal::messenger()->addMessage($this->t('You are not authorized to perform this action.'));
+        $this->messenger->addMessage($this->t('You are not authorized to perform this action.'));
         $response = new RedirectResponse($url);
         $response->send();
         return $response;
@@ -132,9 +167,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'spfp-accept',
@@ -150,9 +185,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'gbvfp-accept',
@@ -168,9 +203,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'spfp-register-sp-staff',
@@ -186,9 +221,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'gbvfp-register-sp-staff',
@@ -208,9 +243,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'self-register-spfp',
@@ -226,9 +261,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'spfp-register-spfp',
@@ -244,9 +279,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'gbvfp-register-spfp',
@@ -266,9 +301,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'self-register-gbvfp',
@@ -284,9 +319,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'gbvfp-register-gbvfp',
@@ -302,9 +337,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'gbvfp-register-gbvfp',
@@ -316,7 +351,7 @@ class UserWorkflowController extends ControllerBase {
       }
       else {
         $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
-        \Drupal::messenger()->addMessage($this->t('You are not authorized to perform this action.'));
+        $this->messenger->addMessage($this->t('You are not authorized to perform this action.'));
         $response = new RedirectResponse($url);
         $response->send();
         return $response;
@@ -325,7 +360,7 @@ class UserWorkflowController extends ControllerBase {
     }
 
     $url = Url::fromRoute('view.user_lists.page_2')->toString();
-    \Drupal::messenger()->addMessage($this->t('Successfully accepted the user.'));
+    $this->messenger->addMessage($this->t('Successfully accepted the user.'));
     $response = new RedirectResponse($url);
     $response->send();
     return $response;
@@ -337,7 +372,7 @@ class UserWorkflowController extends ControllerBase {
   public function rejectUser(UserInterface $user) {
 
     // Get current user role.
-    $roles = \Drupal::currentUser()->getRoles();
+    $roles = $this->currentUser->getRoles();
     // For SPFP.
     if (in_array('service_provider_focal_point', $roles)) {
       // Make sure this is the right user take action.
@@ -358,9 +393,9 @@ class UserWorkflowController extends ControllerBase {
         $user->save();
 
         // Update user workflow history entity.
-        $current_time = \Drupal::time()->getCurrentTime('d');
+        $current_time = $this->timeService->getCurrentTime('d');
         $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-          'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+          'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
           'status' => 1,
           'field_user' => $user->id(),
           'field_workflow_status_before' => 'self-register-sp-staff',
@@ -371,7 +406,7 @@ class UserWorkflowController extends ControllerBase {
       }
       else {
         $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
-        \Drupal::messenger()->addMessage($this->t('You are not authorized to perform this action.'));
+        $this->messenger->addMessage($this->t('You are not authorized to perform this action.'));
         $response = new RedirectResponse($url);
         $response->send();
         return $response;
@@ -398,9 +433,9 @@ class UserWorkflowController extends ControllerBase {
         $user->save();
 
         // Update user workflow history entity.
-        $current_time = \Drupal::time()->getCurrentTime('d');
+        $current_time = $this->timeService->getCurrentTime('d');
         $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-          'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+          'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
           'status' => 1,
           'field_user' => $user->id(),
           'field_workflow_status_before' => 'self-register-sp-staff',
@@ -411,7 +446,7 @@ class UserWorkflowController extends ControllerBase {
       }
       else {
         $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
-        \Drupal::messenger()->addMessage($this->t('You are not authorized to perform this action.'));
+        $this->messenger->addMessage($this->t('You are not authorized to perform this action.'));
         $response = new RedirectResponse($url);
         $response->send();
         return $response;
@@ -439,9 +474,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'spfp-accept',
@@ -467,9 +502,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'gbvfp-accept',
@@ -495,9 +530,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'spfp-register-sp-staff',
@@ -523,9 +558,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'gbvfp-register-sp-staff',
@@ -553,9 +588,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'self-register-spfp',
@@ -581,9 +616,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'spfp-register-spfp',
@@ -609,9 +644,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'gbvfp-register-spfp',
@@ -639,9 +674,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'self-register-gbvfp',
@@ -667,9 +702,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'gbvfp-register-spfp',
@@ -695,9 +730,9 @@ class UserWorkflowController extends ControllerBase {
           $user->save();
 
           // Update user workflow history entity.
-          $current_time = \Drupal::time()->getCurrentTime('d');
+          $current_time = $this->timeService->getCurrentTime('d');
           $euwh = $this->entityTypeManager->getStorage('user_workflow_history_entity')->create([
-            'name' => \Drupal::service('date.formatter')->format($current_time, 'custom', 'd/m/Y H:i:s'),
+            'name' => $this->dateFormatter->format($current_time, 'custom', 'd/m/Y H:i:s'),
             'status' => 1,
             'field_user' => $user->id(),
             'field_workflow_status_before' => 'gbvfp-register-gbvfp',
@@ -710,7 +745,7 @@ class UserWorkflowController extends ControllerBase {
 
       else {
         $url = Url::fromRoute('entity.user.canonical', ['user' => $user->id()])->toString();
-        \Drupal::messenger()->addMessage($this->t('You are not authorized to perform this action.'));
+        $this->messenger->addMessage($this->t('You are not authorized to perform this action.'));
         $response = new RedirectResponse($url);
         $response->send();
         return $response;
@@ -719,7 +754,7 @@ class UserWorkflowController extends ControllerBase {
     }
 
     $url = Url::fromRoute('view.user_lists.page_2')->toString();
-    \Drupal::messenger()->addMessage($this->t('Successfully rejected the user.'));
+    $this->messenger->addMessage($this->t('Successfully rejected the user.'));
     $response = new RedirectResponse($url);
     $response->send();
     return $response;

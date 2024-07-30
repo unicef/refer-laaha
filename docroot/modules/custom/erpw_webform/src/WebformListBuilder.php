@@ -13,6 +13,23 @@ use Drupal\webform\WebformEntityListBuilder;
 class WebformListBuilder extends WebformEntityListBuilder {
 
   /**
+   * The Domain negotiator.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function createInstance($container, $entity_type) {
+    /** @var \Drupal\webform\WebformEntityListBuilder $instance */
+    $instance = parent::createInstance($container, $entity_type);
+    $instance->domainNegotiator = $container->get('domain.negotiator');
+    return $instance;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function buildHeader() {
@@ -29,7 +46,7 @@ class WebformListBuilder extends WebformEntityListBuilder {
     $user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
     $user_roles = $user->get('roles')->getValue();
     $tpa = $entity->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-    $currentDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+    $currentDomain = $this->domainNegotiator->getActiveDomain()->id();
     $row = parent::buildRow($entity);
     unset($row['description']);
     unset($row['category']);

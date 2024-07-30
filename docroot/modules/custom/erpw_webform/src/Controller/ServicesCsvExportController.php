@@ -3,10 +3,12 @@
 namespace Drupal\erpw_webform\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\node\Entity\Node;
-use Drupal\user\Entity\User;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\views\Views;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -32,11 +34,35 @@ class ServicesCsvExportController extends ControllerBase {
   protected $currentUser;
 
   /**
+   * The Domain negotiator.
+   *
+   * @var \Drupal\domain\DomainNegotiatorInterface
+   */
+  protected $domainNegotiator;
+
+  /**
+   * The current route match service.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
+
+  /**
+   * The date formatter service.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   */
+  protected $dateFormatter;
+
+  /**
    * Constructs a new ServiceWebforms object.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountInterface $currentUser, DomainNegotiatorInterface $domain_negotiator, RouteMatchInterface $route_match, DateFormatterInterface $date_formatter) {
     $this->entityTypeManager = $entityTypeManager;
     $this->currentUser = $currentUser;
+    $this->domainNegotiator = $domain_negotiator;
+    $this->routeMatch = $route_match;
+    $this->dateFormatter = $date_formatter;
   }
 
   /**
@@ -45,7 +71,10 @@ class ServicesCsvExportController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('entity_type.manager'),
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('domain.negotiator'),
+      $container->get('current_route_match'),
+      $container->get('date.formatter')
     );
   }
 
@@ -102,10 +131,10 @@ class ServicesCsvExportController extends ControllerBase {
     $view->setArguments([$node]);
     // Access the QueryPluginBase object.
     $query = $view->query;
-    $cookie_tid = \Drupal::service('erpw_location.location_cookie')->getCookieValue();
+    $cookie_tid = $this->locationCookie->getCookieValue();
     $ptids = $this->getChildTermId($cookie_tid);
-    $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
-    $current_user = User::load($this->currentUser->id());
+    $activeDomain = $this->domainNegotiator->getActiveDomain()->id();
+    $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
     $roles = $current_user->getRoles();
     $user_org_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
     $servicelabel = '';
@@ -116,7 +145,7 @@ class ServicesCsvExportController extends ControllerBase {
       $ptids = array_merge([strval($location_entity)], $ptids);
     }
 
-    if ($service_type = \Drupal::routeMatch()->getRawParameter('node')) {
+    if ($service_type = $this->routeMatch->getRawParameter('node')) {
       // Service type Join.
       $this->erpwQuery($query, $service_type, 'st');
     }
@@ -146,7 +175,7 @@ class ServicesCsvExportController extends ControllerBase {
         $webformID = $webformSubmission->get('webform_id')->getValue()[0]['target_id'];
         $webform = $this->entityTypeManager->getStorage('webform')->load($webformID);
         $tpa = $webform->getThirdPartySetting('erpw_webform', 'webform_service_type_map');
-        $activeDomain = \Drupal::service('domain.negotiator')->getActiveDomain()->id();
+        $activeDomain = $this->domainNegotiator->getActiveDomain()->id();
         $stype = '';
         foreach ($tpa as $domain => $servicetype) {
           if ($domain == $activeDomain) {
@@ -362,7 +391,7 @@ class ServicesCsvExportController extends ControllerBase {
           }
         }
         $last_updated_timestamp = $webform_submission->getChangedTime();
-        $formatted_last_updated = \Drupal::service('date.formatter')->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
+        $formatted_last_updated = $this->dateFormatter->format($last_updated_timestamp, 'custom', 'd/m/Y H:i:s');
         $output[] = ['Last updated time' => $formatted_last_updated];
 
         // Sort the output alphabetically.
