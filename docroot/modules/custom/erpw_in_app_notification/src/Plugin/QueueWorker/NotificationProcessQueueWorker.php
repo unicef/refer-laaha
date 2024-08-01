@@ -109,11 +109,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
             $locationid = $notification->get('field_location')->getString();
             $location_list_ia = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
             $gbvfpuserquery = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
-            $uids = $gbvfpuserquery->condition('status', 1)
+            $uids = [];
+            if ($location_list_ia) {
+              $uids = $gbvfpuserquery->condition('status', 1)
               ->condition('roles', 'gbv_focal_point')
               ->condition('field_location', $location_list_ia, 'IN')
               ->accessCheck(FALSE)
               ->execute();
+            }
           }
           // Create notification.
           if (!empty($uids)) {
@@ -138,11 +141,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
           if (!$notification->get('field_location')->isEmpty()) {
             $locationid = $notification->get('field_location')->getString();
             $location_list_ia = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
+            $uids = [];
+            if ($location_list_ia) {
             $uids = $userquery->condition('status', 1)
               ->condition('roles', 'interagency_gbv_coordinator')
               ->condition('field_location', $location_list_ia, 'IN')
               ->accessCheck(FALSE)
               ->execute();
+            }
           }
           // Create notification.
           if (!empty($uids)) {
@@ -172,11 +178,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 $locationid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
                 $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
                 $countryuserquery = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
-                $uids = $countryuserquery->condition('status', 1)
-                  ->condition('roles', 'country_admin')
-                  ->condition('field_location', $location_list, 'IN')
-                  ->accessCheck(FALSE)
-                  ->execute();
+                $uids = [];
+                if ($location_list) {
+                  $uids = $countryuserquery->condition('status', 1)
+                    ->condition('roles', 'country_admin')
+                    ->condition('field_location', $location_list, 'IN')
+                    ->accessCheck(FALSE)
+                    ->execute();
+                }
               }
             }
           }
@@ -266,11 +275,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               $locationid = $notification->get('field_location')->getString();
               $location_list_ia = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
               $gbvfpuserquery = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
-              $uids = $gbvfpuserquery->condition('status', 1)
-                ->condition('roles', 'gbv_focal_point')
-                ->condition('field_location', $location_list_ia, 'IN')
-                ->accessCheck(FALSE)
-                ->execute();
+              $uids = [];
+              if ($location_list_ia) {
+                $uids = $gbvfpuserquery->condition('status', 1)
+                  ->condition('roles', 'gbv_focal_point')
+                  ->condition('field_location', $location_list_ia, 'IN')
+                  ->accessCheck(FALSE)
+                  ->execute();
+              }
             }
             // Exclude the users.
             if (!empty($users)) {
@@ -299,33 +311,35 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
             if (!$notification->get('field_location')->isEmpty()) {
               $locationid = $notification->get('field_location')->getString();
               $location_list_ia = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
-              $users = $userquery->condition('status', 1)
-                ->condition('roles', 'interagency_gbv_coordinator')
-                ->condition('field_location', $location_list_ia, 'IN')
-                ->accessCheck(FALSE)
-                ->execute();
-            }
-            // Exclude the users.
-            if (!empty($users)) {
-              $uids = array_diff($users, $excludeuids);
-            }
-            // Create notification.
-            if (!empty($uids)) {
-              foreach ($uids as $uid) {
-                if ($uid == $notification->getOwnerId()) {
-                  continue;
-                }
-                $npstorage->create([
-                  'field_notification_id' => $notification->id(),
-                  'field_read' => 0,
-                  'field_message_string' => $message,
-                  'field_type_of_notification' => 'notification',
-                  'field_recipient' => $uid,
-                  'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
-                  'name' => 'NID ' . $notification->id() . ' EID ' . $notification->get('field_entity_id')->getString() . ' - UID ' . $uid,
-                ])->save();
+              $users = [];
+              if ($location_list_ia) {
+                $users = $userquery->condition('status', 1)
+                  ->condition('roles', 'interagency_gbv_coordinator')
+                  ->condition('field_location', $location_list_ia, 'IN')
+                  ->accessCheck(FALSE)
+                  ->execute();
               }
-            }
+              // Exclude the users.
+              if (!empty($users)) {
+                $uids = array_diff($users, $excludeuids);
+              }
+              // Create notification.
+              if (!empty($uids)) {
+                foreach ($uids as $uid) {
+                  if ($uid == $notification->getOwnerId()) {
+                    continue;
+                  }
+                  $npstorage->create([
+                    'field_notification_id' => $notification->id(),
+                    'field_read' => 0,
+                    'field_message_string' => $message,
+                    'field_type_of_notification' => 'notification',
+                    'field_recipient' => $uid,
+                    'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
+                    'name' => 'NID ' . $notification->id() . ' EID ' . $notification->get('field_entity_id')->getString() . ' - UID ' . $uid,
+                  ])->save();
+                }
+              }
           }
           if (in_array('country_admin', $roles)) {
             // Based on the root location or country.
@@ -338,11 +352,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                   $locationid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
                   $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
                   $countryuserquery = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
-                  $uids = $countryuserquery->condition('status', 1)
-                    ->condition('roles', 'country_admin')
-                    ->condition('field_location', $location_list, 'IN')
-                    ->accessCheck(FALSE)
-                    ->execute();
+                  $uids = [];
+                  if ($location_list) {
+                    $uids = $countryuserquery->condition('status', 1)
+                      ->condition('roles', 'country_admin')
+                      ->condition('field_location', $location_list, 'IN')
+                      ->accessCheck(FALSE)
+                      ->execute(); 
+                  }
                 }
               }
             }
@@ -427,11 +444,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
             $locationid = $notification->get('field_location')->getString();
             $location_list_ia = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
             $gbvfpuserquery = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
-            $uids = $gbvfpuserquery->condition('status', 1)
-              ->condition('roles', 'gbv_focal_point')
-              ->condition('field_location', $location_list_ia, 'IN')
-              ->accessCheck(FALSE)
-              ->execute();
+            $uids = [];
+            if ($location_list_ia) {
+              $uids = $gbvfpuserquery->condition('status', 1)
+                ->condition('roles', 'gbv_focal_point')
+                ->condition('field_location', $location_list_ia, 'IN')
+                ->accessCheck(FALSE)
+                ->execute();
+            }
           }
           // Create notification.
           if (!empty($uids)) {
@@ -453,11 +473,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
           if (!$notification->get('field_location')->isEmpty()) {
             $locationid = $notification->get('field_location')->getString();
             $location_list_ia = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
-            $uids = $userquery->condition('status', 1)
-              ->condition('roles', 'interagency_gbv_coordinator')
-              ->condition('field_location', $location_list_ia, 'IN')
-              ->accessCheck(FALSE)
-              ->execute();
+            $uids = [];
+            if ($location_list_ia) {
+              $uids = $userquery->condition('status', 1)
+                ->condition('roles', 'interagency_gbv_coordinator')
+                ->condition('field_location', $location_list_ia, 'IN')
+                ->accessCheck(FALSE)
+                ->execute();
+            }
           }
           // Create notification.
           if (!empty($uids)) {
@@ -484,11 +507,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 $locationid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
                 $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
                 $countryuserquery = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
-                $uids = $countryuserquery->condition('status', 1)
-                  ->condition('roles', 'country_admin')
-                  ->condition('field_location', $location_list, 'IN')
-                  ->accessCheck(FALSE)
-                  ->execute();
+                $uids = [];
+                if ($location_list) {
+                  $uids = $countryuserquery->condition('status', 1)
+                    ->condition('roles', 'country_admin')
+                    ->condition('field_location', $location_list, 'IN')
+                    ->accessCheck(FALSE)
+                    ->execute(); 
+                }
               }
             }
           }
@@ -569,11 +595,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               $locationid = $notification->get('field_location')->getString();
               $location_list_ia = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
               $gbvfpuserquery = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
-              $uids = $gbvfpuserquery->condition('status', 1)
-                ->condition('roles', 'gbv_focal_point')
-                ->condition('field_location', $location_list_ia, 'IN')
-                ->accessCheck(FALSE)
-                ->execute();
+              $uids = [];
+              if ($location_list_ia) {
+                $uids = $gbvfpuserquery->condition('status', 1)
+                  ->condition('roles', 'gbv_focal_point')
+                  ->condition('field_location', $location_list_ia, 'IN')
+                  ->accessCheck(FALSE)
+                  ->execute();
+              }
             }
             // Exclude the users.
             if (!empty($users)) {
@@ -599,11 +628,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
             if (!$notification->get('field_location')->isEmpty()) {
               $locationid = $notification->get('field_location')->getString();
               $location_list_ia = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
-              $users = $userquery->condition('status', 1)
-                ->condition('roles', 'interagency_gbv_coordinator')
-                ->condition('field_location', $location_list_ia, 'IN')
-                ->accessCheck(FALSE)
-                ->execute();
+              $users = [];
+              if ($location_list_ia) {
+                $users = $userquery->condition('status', 1)
+                  ->condition('roles', 'interagency_gbv_coordinator')
+                  ->condition('field_location', $location_list_ia, 'IN')
+                  ->accessCheck(FALSE)
+                  ->execute(); 
+              }
             }
             // Exclude the users.
             if (!empty($users)) {
@@ -635,11 +667,14 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                   $locationid = $location_entity->get('field_location_taxonomy_term')->getValue()[0]['target_id'];
                   $location_list = \Drupal::service('erpw_location.location_services')->getChildrenByParent($locationid);
                   $countryuserquery = \Drupal::entityTypeManager()->getStorage('user')->getQuery();
-                  $users = $countryuserquery->condition('status', 1)
-                    ->condition('roles', 'country_admin')
-                    ->condition('field_location', $location_list, 'IN')
-                    ->accessCheck(FALSE)
-                    ->execute();
+                  $users = [];
+                  if ($location_list) {
+                    $users = $countryuserquery->condition('status', 1)
+                      ->condition('roles', 'country_admin')
+                      ->condition('field_location', $location_list, 'IN')
+                      ->accessCheck(FALSE)
+                      ->execute(); 
+                  }
                 }
               }
             }
