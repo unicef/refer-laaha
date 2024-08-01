@@ -80,7 +80,7 @@ class ServiceRatingQuestionsController extends ControllerBase {
           $submission_ids = $this->serviceRating->getSubmissionIdsForMultipleElements($webform_id, $element_key, $element2, $element3);
           $submission_ids_hash = hash('sha256', Json::encode($submission_ids));
           $cache_tags = ['webform_submission:' . $submission_ids_hash];
-          $cache_id = 'service_rating_question_normalized_values_' . $element_feedback . $webform_id . $org_id;
+          $cache_id = 'service_rating_question_normalized_values_' . $element_feedback . $webform_id . $org_id . $location_id;
           $cache_data = \Drupal::cache()->get($cache_id);
 
           if (!$cache_data) {

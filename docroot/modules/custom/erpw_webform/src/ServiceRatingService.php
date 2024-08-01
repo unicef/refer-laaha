@@ -3,10 +3,12 @@
 namespace Drupal\erpw_webform;
 
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\State\StateInterface;
 use Drupal\domain\DomainNegotiatorInterface;
 use Drupal\node\Entity\Node;
 use Drupal\webform\Entity\Webform;
@@ -46,6 +48,20 @@ class ServiceRatingService {
   protected $currentUser;
 
   /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
+   * The State API service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $state;
+
+  /**
    * ServiceRatingService constructor.
    *
    * @param \Drupal\domain\DomainNegotiatorInterface $domain_negotiator
@@ -56,17 +72,25 @@ class ServiceRatingService {
    *   Location Manager object.
    * @param \Drupal\Core\Session\AccountProxyInterface $current_user
    *   Current user details.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   Config Factory service.
+   * @param \Drupal\Core\State\StateInterface $state
+   *   State service.
    */
   public function __construct(
     DomainNegotiatorInterface $domain_negotiator,
     EntityTypeManagerInterface $entity_manager,
     LanguageManagerInterface $language_manager,
     AccountProxyInterface $current_user,
+    ConfigFactoryInterface $config_factory,
+    StateInterface $state
     ) {
     $this->domainNegotiator = $domain_negotiator;
     $this->entityTypeManager = $entity_manager;
     $this->languageManager = $language_manager;
     $this->currentUser = $current_user;
+    $this->configFactory = $config_factory;
+    $this->state = $state;
   }
 
   /**
@@ -545,7 +569,16 @@ class ServiceRatingService {
    */
   public function organisationForFiltering() {
     $current_user = $this->entityTypeManager->getStorage('user')->load($this->currentUser->id());
-    if (!$current_user->hasRole('administrator')) {
+    $user_role = $this->currentUser->getRoles();
+    $config = $this->configFactory->get('erpw_webform.service_rating.settings');
+    $activeDomainId = $this->domainNegotiator->getActiveDomain()->id();
+    $gbvCoordinationStatus = $config->get($activeDomainId . '_service_rating_gbv_org_filter_status');
+    $multi_organisation_users = ['administrator', 'country_admin', 'interagency_gbv_coordinator', 'gbv_focal_point'];
+    if ($gbvCoordinationStatus && in_array($user_role[1], $multi_organisation_users)) {
+      $service_rating_org_state = $this->state->get('service_rating.org_average_rating');
+      $organisation_id = $service_rating_org_state['org_id'];
+    }
+    elseif (!$current_user->hasRole('administrator')) {
       $organisation_id = $current_user->get('field_organisation')->getValue()[0]['target_id'];
     }
     else {
