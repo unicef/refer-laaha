@@ -94,7 +94,8 @@ class NotificationController extends ControllerBase {
           $ne = $nestorage->load($npe->get('field_notification_id')->getString());
           if ($ne->get('field_entity_type')->getString() == 'service') {
             $service[$item]['icon'] = $npe->get('field_icon')->getString();
-            $service[$item]['message'] = $npe->get('field_message_string')->getString();
+            $message = $npe->get('field_message_string') ?? $npe->get('field_message_long');
+            $service[$item]['message'] = $message->getString();
             $service[$item]['link'] = Url::fromRoute('erpw_webform.service_moderate_content', ['webform_submission' => $ne->get('field_entity_id')->getString()], ['query' => ['_npeid' => $npe->id()]])->toString();
             $service[$item]['behavior'] = $ne->get('field_behavior')->getString();
             $service[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($ne->get('created')->getString());
@@ -106,7 +107,8 @@ class NotificationController extends ControllerBase {
           }
           else {
             $user[$item]['icon'] = $npe->get('field_icon')->getString();
-            $user[$item]['message'] = $npe->get('field_message_string')->getString();
+            $message = $npe->get('field_message_string') ?? $npe->get('field_message_long');
+            $user[$item]['message'] = $message->getString();
             $user[$item]['link'] = Url::fromRoute('entity.user.canonical', ['user' => $ne->get('field_entity_id')->getString()], ['query' => ['_npeid' => $npe->id()]])->toString();
             $user[$item]['behavior'] = $ne->get('field_behavior')->getString();
             $user[$item]['created'] = \Drupal::service('erpw_in_app_notification.default')->getDynamicDateFormate($ne->get('created')->getString());
