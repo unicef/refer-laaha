@@ -2,6 +2,7 @@
 
 namespace Drupal\erpw_in_app_notification;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -28,11 +29,19 @@ class HelperService implements HelperServiceInterface {
   protected $dateFormatter;
 
   /**
+   * Drupal\Core\Datetime\DateFormatterInterface definition.
+   *
+   * @var \Drupal\Component\Datetime\TimeInterface
+   */
+  protected $time;
+
+  /**
    * Constructs a new HelperService object.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, DateFormatterInterface $date_formatter) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, DateFormatterInterface $date_formatter, TimeInterface $time) {
     $this->entityTypeManager = $entity_type_manager;
     $this->dateFormatter = $date_formatter;
+    $this->time = $time;
   }
 
   /**
@@ -86,6 +95,21 @@ class HelperService implements HelperServiceInterface {
       ->accessCheck(FALSE)
       ->execute();
     return $ids ?? [];
+  }
+
+  /**
+   * Returns the notification deletion entity ids.
+   */
+  public function getNotificationDeletionIds() : array {
+
+    $thirty_days_ago = $this->time->getRequestTime() - (30 * 24 * 60 * 60);
+    // Fetch 30 days older notifications.
+    $query = $this->entityTypeManager->getStorage('notification_processed_entity')->getQuery()
+      ->condition('created', $thirty_days_ago, '<')
+      ->condition('status', 1)
+      ->accessCheck(FALSE);
+    $entity_ids = $query->execute();
+    return $entity_ids ?? [];
   }
 
   /**

@@ -4,7 +4,7 @@ services:
     arguments: ['erpw_in_app_notification']
   erpw_in_app_notification.default:
     class: Drupal\erpw_in_app_notification\HelperService
-    arguments: ['@entity_type.manager', '@date.formatter']
+    arguments: ['@entity_type.manager', '@date.formatter', '@datetime.time']
   erpw_in_app_notification.event_subscriber_user_page:
     class: Drupal\erpw_in_app_notification\EventSubscriber\ReadNotificaitonEventSubscriber
     tags:
