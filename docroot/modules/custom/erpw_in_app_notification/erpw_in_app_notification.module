@@ -2381,6 +2381,19 @@ function erpw_in_app_notification_form_alter(&$form, FormStateInterface $form_st
     $form['actions']['reset']['#access'] = FALSE;
     $form['other_context']['#access'] = FALSE;
   }
+  if ($form_id == 'notification_processed_entity_edit_form') {
+    $field_message_long = $form['field_message_long']['widget'][0]['value']['#default_value'];
+
+    // Hide the field which is empty.
+    if ($field_message_long) {
+      $form['field_message_string']['#attributes']['class'][] = 'hide-field';
+    }
+    else {
+      $form['field_message_long']['#attributes']['class'][] = 'hide-field';
+    }
+
+    $form['#attached']['library'][] = 'erpw_in_app_notification/notification-form';
+  }
 }
 
 /**

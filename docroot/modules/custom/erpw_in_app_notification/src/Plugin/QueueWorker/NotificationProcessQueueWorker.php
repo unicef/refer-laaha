@@ -94,7 +94,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
-                'field_message_string' => $message,
+                'field_message_long' => $message,
                 'field_type_of_notification' => 'notification',
                 'field_recipient' => $uid,
                 'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -124,7 +124,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
-                'field_message_string' => $message,
+                'field_message_long' => $message,
                 'field_type_of_notification' => 'notification',
                 'field_recipient' => $uid,
                 'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -153,7 +153,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
-                'field_message_string' => $message,
+                'field_message_long' => $message,
                 'field_type_of_notification' => 'notification',
                 'field_recipient' => $uid,
                 'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -189,7 +189,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
-                'field_message_string' => $message,
+                'field_message_long' => $message,
                 'field_type_of_notification' => 'notification',
                 'field_recipient' => $uid,
                 'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -213,7 +213,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
-                'field_message_string' => $message,
+                'field_message_long' => $message,
                 'field_type_of_notification' => 'notification',
                 'field_recipient' => $uid,
                 'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -251,7 +251,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 $npstorage->create([
                   'field_notification_id' => $notification->id(),
                   'field_read' => 0,
-                  'field_message_string' => $message,
+                  'field_message_long' => $message,
                   'field_type_of_notification' => 'notification',
                   'field_recipient' => $uid,
                   'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -285,7 +285,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 $npstorage->create([
                   'field_notification_id' => $notification->id(),
                   'field_read' => 0,
-                  'field_message_string' => $message,
+                  'field_message_long' => $message,
                   'field_type_of_notification' => 'notification',
                   'field_recipient' => $uid,
                   'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -318,7 +318,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 $npstorage->create([
                   'field_notification_id' => $notification->id(),
                   'field_read' => 0,
-                  'field_message_string' => $message,
+                  'field_message_long' => $message,
                   'field_type_of_notification' => 'notification',
                   'field_recipient' => $uid,
                   'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -359,7 +359,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 $npstorage->create([
                   'field_notification_id' => $notification->id(),
                   'field_read' => 0,
-                  'field_message_string' => $message,
+                  'field_message_long' => $message,
                   'field_type_of_notification' => 'notification',
                   'field_recipient' => $uid,
                   'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -412,7 +412,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
-                'field_message_string' => $message,
+                'field_message_long' => $message,
                 'field_type_of_notification' => 'notification',
                 'field_recipient' => $uid,
                 'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -439,7 +439,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
-                'field_message_string' => $message,
+                'field_message_long' => $message,
                 'field_type_of_notification' => 'notification',
                 'field_recipient' => $uid,
                 'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -465,7 +465,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
-                'field_message_string' => $message,
+                'field_message_long' => $message,
                 'field_type_of_notification' => 'notification',
                 'field_recipient' => $uid,
                 'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -498,7 +498,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
-                'field_message_string' => $message,
+                'field_message_long' => $message,
                 'field_type_of_notification' => 'notification',
                 'field_recipient' => $uid,
                 'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -519,7 +519,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
               $npstorage->create([
                 'field_notification_id' => $notification->id(),
                 'field_read' => 0,
-                'field_message_string' => $message,
+                'field_message_long' => $message,
                 'field_type_of_notification' => 'notification',
                 'field_recipient' => $uid,
                 'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -554,7 +554,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 $npstorage->create([
                   'field_notification_id' => $notification->id(),
                   'field_read' => 0,
-                  'field_message_string' => $message,
+                  'field_message_long' => $message,
                   'field_type_of_notification' => 'notification',
                   'field_recipient' => $uid,
                   'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -585,7 +585,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 $npstorage->create([
                   'field_notification_id' => $notification->id(),
                   'field_read' => 0,
-                  'field_message_string' => $message,
+                  'field_message_long' => $message,
                   'field_type_of_notification' => 'notification',
                   'field_recipient' => $uid,
                   'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -615,7 +615,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 $npstorage->create([
                   'field_notification_id' => $notification->id(),
                   'field_read' => 0,
-                  'field_message_string' => $message,
+                  'field_message_long' => $message,
                   'field_type_of_notification' => 'notification',
                   'field_recipient' => $uid,
                   'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
@@ -653,7 +653,7 @@ class NotificationProcessQueueWorker extends QueueWorkerBase implements Containe
                 $npstorage->create([
                   'field_notification_id' => $notification->id(),
                   'field_read' => 0,
-                  'field_message_string' => $message,
+                  'field_message_long' => $message,
                   'field_type_of_notification' => 'notification',
                   'field_recipient' => $uid,
                   'field_icon' => isset($event['icon_uri']) ? \Drupal::service('file_url_generator')->transformRelative($event['icon_uri']) : NULL,
