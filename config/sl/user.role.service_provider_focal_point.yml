@@ -3,15 +3,18 @@ langcode: sn
 status: true
 dependencies:
   config:
+    - filter.format.basic_html
     - node.type.service_provider
     - rest.resource.notification_count_resource
     - workflows.workflow.service_editorial
   module:
     - administerusersbyrole
+    - comment
     - content_moderation
     - erpw_custom
     - erpw_in_app_notification
     - erpw_location
+    - filter
     - node
     - node_view_permissions
     - quick_node_clone
@@ -48,16 +51,19 @@ permissions:
   - 'edit users of their own location and organisation'
   - 'edit users with role service_provider_staff'
   - 'erpw view pending service block'
+  - 'post comments'
   - 'reject registered user'
   - 'restful get notification_count_resource'
   - 'role-assign users by role'
   - 'role-assign users with role service_provider_focal_point'
   - 'role-assign users with role service_provider_staff'
+  - 'skip comment approval'
   - 'update user'
   - 'use service_editorial transition create_new_draft'
   - 'use service_editorial transition publish'
   - 'use service_editorial transition reject'
   - 'use service_editorial transition restore'
+  - 'use text format basic_html'
   - 'view all revisions'
   - 'view any service_provider content'
   - 'view any unpublished content'

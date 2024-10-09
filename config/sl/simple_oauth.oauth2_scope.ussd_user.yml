@@ -1,0 +1,22 @@
+uuid: 92869ec1-a3d5-4134-9a2c-34905246aca3
+langcode: en
+status: true
+dependencies: {  }
+id: ussd_user
+name: ussd_user
+description: 'USSD User'
+grant_types:
+  client_credentials:
+    status: true
+    description: 'Default user to use for API requests.'
+  authorization_code:
+    status: false
+    description: ''
+  refresh_token:
+    status: false
+    description: ''
+umbrella: false
+parent: _none
+granularity: role
+permission: ''
+role: ussd_user
