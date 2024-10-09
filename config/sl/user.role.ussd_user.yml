@@ -1,0 +1,27 @@
+uuid: c151148c-0f01-4aba-96fa-7db66717bbac
+langcode: en
+status: true
+dependencies:
+  module:
+    - erpw_custom
+    - erpw_location
+    - node_view_permissions
+    - simple_oauth
+id: ussd_user
+label: 'USSD User'
+weight: -1
+is_admin: null
+permissions:
+  - 'grant simple_oauth codes'
+  - 'view any organisation content'
+  - 'view any service_provider content'
+  - 'view any service_type content'
+  - 'view any wsa content'
+  - 'view location of their own country'
+  - 'view oauth2 scopes'
+  - 'view published location entity entities'
+  - 'view referral pathway of their own country'
+  - 'view referral pathway of their own location'
+  - 'view service of their own country'
+  - 'view service of their own location'
+  - 'view service of their own location and organisation'
