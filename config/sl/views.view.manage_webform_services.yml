@@ -13,6 +13,7 @@ dependencies:
     - user.role.ussd_user
   module:
     - better_exposed_filters
+    - erpw_ussd_api
     - erpw_webform
     - rest
     - serialization
@@ -829,15 +830,15 @@ display:
     display_options:
       title: Services
       fields:
-        webform_submission_all_data:
-          id: webform_submission_all_data
+        ussd_services_data:
+          id: ussd_services_data
           table: webform_submission
-          field: webform_submission_all_data
+          field: ussd_services_data
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: webform_submission
-          plugin_id: webform_submission_all_data
+          plugin_id: ussd_services_data
           label: ''
           exclude: false
           alter:

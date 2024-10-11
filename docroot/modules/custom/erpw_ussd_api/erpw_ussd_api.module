@@ -4,3 +4,22 @@
  * @file
  * Contains erpw_ussd_api.module.
  */
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function erpw_ussd_api_views_data_alter(array &$data) {
+
+  $data['webform_submission']['ussd_services_data'] = [
+    'title' => t('USSD Services Data.'),
+    'help' => t('Generic field for displaying all fields data all submissions for USSD.'),
+    'field' => [
+      'id' => 'ussd_services_data',
+      'entity type' => 'webform_submission',
+      'label' => t('USSD Services data.'),
+      'real field' => 'ussd_services_data',
+    ],
+  ];
+
+  return $data;
+}
