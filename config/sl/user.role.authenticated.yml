@@ -5,6 +5,7 @@ dependencies:
   config:
     - rest.resource.erpw_webform_serviceformsexporter
     - rest.resource.erpw_webform_serviceslatestupdate
+    - rest.resource.ussd_organisation_api
     - rest.resource.webform_rest_elements
     - rest.resource.webform_rest_submission
     - rest.resource.webform_rest_submit
@@ -32,6 +33,7 @@ permissions:
   - 'opt-in or out of google analytics tracking'
   - 'restful get erpw_webform_serviceformsexporter'
   - 'restful get erpw_webform_serviceslatestupdate'
+  - 'restful get ussd_organisation_api'
   - 'restful get webform_rest_elements'
   - 'restful get webform_rest_submission'
   - 'restful patch webform_rest_submission'

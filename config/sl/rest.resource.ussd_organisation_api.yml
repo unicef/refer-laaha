@@ -4,9 +4,8 @@ status: true
 dependencies:
   module:
     - erpw_ussd_api
+    - jwt
     - serialization
-    - simple_oauth
-    - user
 id: ussd_organisation_api
 plugin_id: ussd_organisation_api
 granularity: resource
@@ -16,5 +15,4 @@ configuration:
   formats:
     - json
   authentication:
-    - oauth2
-    - cookie
+    - jwt_auth

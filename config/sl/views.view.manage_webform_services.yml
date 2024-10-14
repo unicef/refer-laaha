@@ -10,7 +10,6 @@ dependencies:
     - user.role.service_provider_focal_point
     - user.role.service_provider_staff
     - user.role.super_admin
-    - user.role.ussd_user
   module:
     - better_exposed_filters
     - erpw_ussd_api
@@ -885,11 +884,8 @@ display:
         options:
           offset: 0
       access:
-        type: role
-        options:
-          role:
-            administrator: administrator
-            ussd_user: ussd_user
+        type: none
+        options: {  }
       filters: {  }
       filter_groups:
         operator: AND
@@ -931,12 +927,11 @@ display:
         library_in_views_display_extender: {  }
       path: api/ussd-services/export
       auth:
-        - oauth2
+        - jwt_auth
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_interface'
         - request_format
         - user
-        - user.roles
       tags: {  }
