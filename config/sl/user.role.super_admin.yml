@@ -3,6 +3,7 @@ langcode: sn
 status: true
 dependencies:
   config:
+    - filter.format.basic_html
     - node.type.feedback_area
     - node.type.organisation
     - node.type.referral_path_way
@@ -12,6 +13,7 @@ dependencies:
     - workflows.workflow.service_editorial
   module:
     - administerusersbyrole
+    - comment
     - config_translation
     - content_moderation
     - content_translation
@@ -22,6 +24,7 @@ dependencies:
     - erpw_webform
     - field_permissions
     - field_ui
+    - filter
     - node
     - node_view_permissions
     - queue_ui
@@ -140,6 +143,7 @@ permissions:
   - 'erpw location user location settings'
   - 'erpw location view location'
   - 'erpw view pending service block'
+  - 'post comments'
   - 'process broadcast_process_queue_worker queue'
   - 'revert all revisions'
   - 'role-assign users by role'
@@ -147,6 +151,7 @@ permissions:
   - 'role-assign users with role interagency_gbv_coordinator'
   - 'role-assign users with role service_provider_focal_point'
   - 'role-assign users with role service_provider_staff'
+  - 'skip comment approval'
   - 'translate broadcast_notification_entity'
   - 'translate configuration'
   - 'translate predefined_broadcast_messages taxonomy_term'
@@ -160,6 +165,7 @@ permissions:
   - 'use service_editorial transition publish'
   - 'use service_editorial transition reject'
   - 'use service_editorial transition restore'
+  - 'use text format basic_html'
   - 'view all revisions'
   - 'view any feedback_area content'
   - 'view any organisation content'
