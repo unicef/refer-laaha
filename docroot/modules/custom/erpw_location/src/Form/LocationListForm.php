@@ -125,7 +125,7 @@ class LocationListForm extends FormBase {
     }
     asort($location_options);
     // Terms array.
-    $level_zero_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+    $level_zero_tree = $this->entityTypeManager->getStorage('taxonomy_term')->loadTree(
       'country',
       0,
       1,
@@ -150,7 +150,7 @@ class LocationListForm extends FormBase {
               );
           }
         }
-        $level_one_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+        $level_one_tree = $this->entityTypeManager->getStorage('taxonomy_term')->loadTree(
           'country',
           $termid,
           1,
@@ -167,7 +167,7 @@ class LocationListForm extends FormBase {
                 $location_entities[$tid]->get('level_2')->getValue()[0]['value']
               )
             );
-          $level_two_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+          $level_two_tree = $this->entityTypeManager->getStorage('taxonomy_term')->loadTree(
             'country',
             $level_one->get('tid')->value,
             1,
@@ -185,7 +185,7 @@ class LocationListForm extends FormBase {
                   $location_entities[$tid]->get('level_3')->getValue()[0]['value']
                 )
               );
-            $level_three_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+            $level_three_tree = $this->entityTypeManager->getStorage('taxonomy_term')->loadTree(
               'country',
               $level_two->get('tid')->value,
               1,
@@ -200,7 +200,7 @@ class LocationListForm extends FormBase {
               $terms_array[$tid]['children'][$level_one->get('tid')->value]['children'][$level_two->get('tid')->value]['children'][$level_three->get('tid')->value]['level_label'] =
                 $location_entities[$tid]->get('level_4')->getValue() != [] ?
                   ucfirst(strtolower($location_entities[$tid]->get('level_4')->getValue()[0]['value'])) : '';
-              $level_four_tree = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree(
+              $level_four_tree = $this->entityTypeManager->getStorage('taxonomy_term')->loadTree(
                 'country',
                 $level_three->get('tid')->value,
                 1,

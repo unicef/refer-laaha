@@ -13,6 +13,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class LanguageSelector extends FormBase {
 
   /**
+   * Database Connection instance.
+   *
+   * @var \Drupal\Core\Config\configFactory
+   */
+  protected $configFactory;
+
+  /**
    * The Current user service.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
@@ -43,7 +50,7 @@ class LanguageSelector extends FormBase {
   /**
    * The cookie as a service.
    *
-   * @var \Drupal\erpw_location\\LocationCookieService
+   * @var \Drupal\erpw_location\LocationCookieService
    */
   protected $locationCookie;
 
@@ -80,7 +87,7 @@ class LanguageSelector extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
-    $instance->configfactory = $container->get('config.factory');
+    $instance->configFactory = $container->get('config.factory');
     $instance->languageManager = $container->get('language_manager');
     $instance->locationCookie = $container->get('erpw_location.location_cookie');
     $instance->domainNegotiator = $container->get('domain.negotiator');
@@ -143,7 +150,7 @@ class LanguageSelector extends FormBase {
       ],
     ];
     $form_state->setRebuild();
-    $lang = $this->configfactory->get('domain.language.' . $domain->id() . '.language.negotiation');
+    $lang = $this->configFactory->get('domain.language.' . $domain->id() . '.language.negotiation');
     $languages = $this->languageManager->getLanguages();
     $prefixes = $lang->get('languages');
     foreach ($languages as $langcode => $language) {
@@ -205,7 +212,7 @@ class LanguageSelector extends FormBase {
       $domain_site = '.' . $domain_slice[0] . '.' . $domain_slice[1];
       setcookie('userLanguageSelection', 'TRUE', strtotime('+1 year'), '/', $domain_site, FALSE);
       setcookie('userLanguage', $value['language_selector'], strtotime('+1 year'), '/', $domain_site, FALSE);
-      $config = $this->configfactory->getEditable('domain.location.' . $domain->get('id'));
+      $config = $this->configFactory->getEditable('domain.location.' . $domain->get('id'));
       $default_location = $config->get('location');
       if (!$default_location) {
         $default_location = $this->locationService->getDefaultLocation();

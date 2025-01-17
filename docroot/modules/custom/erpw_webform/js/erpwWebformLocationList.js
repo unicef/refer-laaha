@@ -2,6 +2,8 @@
   Drupal.behaviors.erpwWebformLocationList = {
     attach: function (context, settings) {
       $(document).ready(function () {
+        var termsArray = drupalSettings.erpw_webform.termsArray;
+        var defaultDomain = drupalSettings.erpw_webform.defaultDomain;
         var currentPath = drupalSettings.path.currentPath;
         if (drupalSettings.erpw_webform !== undefined) {
           if (drupalSettings.erpw_webform.defaultDomainRequired == "Yes") {
