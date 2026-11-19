@@ -89,8 +89,13 @@ jobs:
           acli auth:login --key="${{ secrets.API_KEY }}" --secret="${{ secrets.API_SECRET }}"
 
       - name: Run post-deploy Drush commands on Dev
+        env:
+          # "vss2.dev" alias is ambiguous for this Cloud Platform account (another
+          # application also matches "vss2"), so address the Dev environment by its
+          # unambiguous UUID instead (application refer / devcloud:vss2).
+          ACQUIA_ENV: 325122-249931c2-c947-4980-b6e4-953c4206177c
         run: |
-          acli ssh vss2.dev -- 'drush cr -y'
-          acli ssh vss2.dev -- 'drush updb -y'
-          acli ssh vss2.dev -- 'drush cim -y'
-          acli ssh vss2.dev -- 'drush cr -y'
+          acli ssh "$ACQUIA_ENV" -- 'drush cr -y'
+          acli ssh "$ACQUIA_ENV" -- 'drush updb -y'
+          acli ssh "$ACQUIA_ENV" -- 'drush cim -y'
+          acli ssh "$ACQUIA_ENV" -- 'drush cr -y'

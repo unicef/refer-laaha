@@ -94,16 +94,23 @@ jobs:
           acli auth:login --key="${{ secrets.API_KEY }}" --secret="${{ secrets.API_SECRET }}"
 
       - name: Code-switch Acquia Prod environment to the release tag
+        env:
+          # "vss2.prod" alias is ambiguous for this Cloud Platform account (another
+          # application also matches "vss2"), so address the Prod environment by its
+          # unambiguous UUID instead (application refer / devcloud:vss2).
+          ACQUIA_ENV: 325120-249931c2-c947-4980-b6e4-953c4206177c
         run: |
-          acli api:environments:code-switch vss2.prod "tags/${{ github.event.inputs.tag }}"
+          acli api:environments:code-switch "$ACQUIA_ENV" "tags/${{ github.event.inputs.tag }}"
           sleep 30s
 
       - name: Run post-deploy Drush commands on Prod
+        env:
+          ACQUIA_ENV: 325120-249931c2-c947-4980-b6e4-953c4206177c
         run: |
-          acli ssh vss2.prod -- 'drush cr -y'
-          acli ssh vss2.prod -- 'drush updb -y'
-          acli ssh vss2.prod -- 'drush cim -y'
-          acli ssh vss2.prod -- 'drush cr -y'
+          acli ssh "$ACQUIA_ENV" -- 'drush cr -y'
+          acli ssh "$ACQUIA_ENV" -- 'drush updb -y'
+          acli ssh "$ACQUIA_ENV" -- 'drush cim -y'
+          acli ssh "$ACQUIA_ENV" -- 'drush cr -y'
 
       - name: Publish GitHub Release
         env:
