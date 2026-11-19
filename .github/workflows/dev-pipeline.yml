@@ -81,9 +81,16 @@ jobs:
           git remote add acquia vss2@svn-5468.devcloud.hosting.acquia.com:vss2.git
           git push --force acquia HEAD:develop
 
+      - name: Install Acquia CLI
+        run: |
+          curl -fsSL https://github.com/acquia/cli/releases/latest/download/acli.phar -o /tmp/acli.phar
+          chmod +x /tmp/acli.phar
+          sudo mv /tmp/acli.phar /usr/local/bin/acli
+          acli auth:login --key="${{ secrets.API_KEY }}" --secret="${{ secrets.API_SECRET }}"
+
       - name: Run post-deploy Drush commands on Dev
         run: |
-          ./vendor/bin/drush @self.dev cr -y
-          ./vendor/bin/drush @self.dev updb -y
-          ./vendor/bin/drush @self.dev cim -y
-          ./vendor/bin/drush @self.dev cr -y
+          acli ssh vss2.dev -- 'drush cr -y'
+          acli ssh vss2.dev -- 'drush updb -y'
+          acli ssh vss2.dev -- 'drush cim -y'
+          acli ssh vss2.dev -- 'drush cr -y'
