@@ -542,6 +542,7 @@ display:
             offset: false
             offset_label: Offset
           quantity: 5
+          pagination_heading_level: h4
       exposed_form:
         type: bef
         options:
@@ -571,16 +572,20 @@ display:
                   sort_options: false
                   rewrite:
                     filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
                   collapsible: false
                   is_secondary: false
+                  collapsible_disable_automatic_open: false
               roles_target_id:
                 plugin_id: default
                 advanced:
                   sort_options: false
                   rewrite:
                     filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
                   collapsible: false
                   is_secondary: false
+                  collapsible_disable_automatic_open: false
       access:
         type: role
         options:
@@ -911,8 +916,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - url.site
-        - user
         - 'user.node_grants:view'
         - user.roles
       tags:
@@ -1896,7 +1899,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - url.site
         - user
         - 'user.node_grants:view'
         - user.roles
@@ -2505,6 +2507,15 @@ display:
             date_format: medium
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -2887,8 +2898,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - url.site
-        - user
         - 'user.node_grants:view'
         - user.roles
       tags:
@@ -3496,6 +3505,15 @@ display:
             date_format: medium
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -3867,8 +3885,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.site
-        - user
         - 'user.node_grants:view'
         - user.roles
       tags:

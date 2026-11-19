@@ -10,6 +10,7 @@ dependencies:
     - content_moderation
     - erpw_custom
     - erpw_in_app_notification
+    - file
     - node
     - node_view_permissions
     - quick_node_clone
@@ -28,6 +29,7 @@ permissions:
   - 'clone service_provider content'
   - 'create service_provider content'
   - 'create service_provider content'
+  - 'delete own files'
   - 'delete own service_provider content'
   - 'delete own webform submission'
   - 'edit any service_provider content'

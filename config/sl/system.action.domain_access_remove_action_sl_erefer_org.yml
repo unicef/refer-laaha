@@ -1,0 +1,15 @@
+uuid: 35ed51c5-08b8-487b-b8c3-ac6aeb7c0e7e
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.sl_erefer_org
+  module:
+    - domain_access
+id: domain_access_remove_action_sl_erefer_org
+label: 'Remove selected content from the Sierra Leone (sl) domain'
+type: node
+plugin: domain_access_remove_action
+configuration:
+  domain_id:
+    - sl_erefer_org

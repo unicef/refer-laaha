@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - filter.format.webform_default
     - rest.resource.erpw_webform_serviceformsexporter
     - rest.resource.erpw_webform_serviceslatestupdate
     - rest.resource.webform_rest_elements
@@ -11,6 +12,7 @@ dependencies:
   module:
     - comment
     - contact
+    - filter
     - google_analytics
     - node_view_permissions
     - rest
@@ -37,6 +39,7 @@ permissions:
   - 'restful patch webform_rest_submission'
   - 'restful post webform_rest_submit'
   - 'search content'
+  - 'use text format webform_default'
   - 'view any referral_path_way content'
   - 'view any webform submission'
   - 'view own webform submission'

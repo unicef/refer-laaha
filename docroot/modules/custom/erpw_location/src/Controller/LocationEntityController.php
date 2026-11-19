@@ -5,6 +5,8 @@ namespace Drupal\erpw_location\Controller;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Entity\RevisionableStorageInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\erpw_location\Entity\LocationEntityInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -50,8 +52,9 @@ class LocationEntityController extends ControllerBase implements ContainerInject
    *   An array suitable for drupal_render().
    */
   public function revisionShow($location_revision) {
-    $location = $this->entityTypeManager()->getStorage('location')
-      ->loadRevision($location_revision);
+    /** @var \Drupal\Core\Entity\RevisionableStorageInterface $location_storage */
+    $location_storage = $this->entityTypeManager()->getStorage('location');
+    $location = $location_storage->loadRevision($location_revision);
     $view_builder = $this->entityTypeManager()->getViewBuilder('location');
 
     return $view_builder->view($location);
@@ -67,8 +70,9 @@ class LocationEntityController extends ControllerBase implements ContainerInject
    *   The page title.
    */
   public function revisionPageTitle($location_revision) {
-    $location = $this->entityTypeManager()->getStorage('location')
-      ->loadRevision($location_revision);
+    /** @var \Drupal\Core\Entity\RevisionableStorageInterface $location_storage */
+    $location_storage = $this->entityTypeManager()->getStorage('location');
+    $location = $location_storage->loadRevision($location_revision);
     return $this->t('Revision of %title from %date', [
       '%title' => $location->label(),
       '%date' => $this->dateFormatter->format($location->getRevisionCreationTime()),
@@ -86,6 +90,7 @@ class LocationEntityController extends ControllerBase implements ContainerInject
    */
   public function revisionOverview(LocationEntityInterface $location) {
     $account = $this->currentUser();
+    /** @var \Drupal\Core\Entity\RevisionableStorageInterface $location_storage */
     $location_storage = $this->entityTypeManager()->getStorage('location');
 
     $langcode = $location->language()->getId();
@@ -125,10 +130,10 @@ class LocationEntityController extends ControllerBase implements ContainerInject
         // Use revision link to link to revisions that are not active.
         $date = $this->dateFormatter->format($revision->getRevisionCreationTime(), 'short');
         if ($vid != $location->getRevisionId()) {
-          $link = $this->l($date, new Url('entity.location.revision', [
+          $link = Link::fromTextAndUrl($date, new Url('entity.location.revision', [
             'location' => $location->id(),
             'location_revision' => $vid,
-          ]));
+          ]))->toString();
         }
         else {
           $link = $location->link($date);
@@ -142,7 +147,7 @@ class LocationEntityController extends ControllerBase implements ContainerInject
             '#template' => $msg,
             '#context' => [
               'date' => $link,
-              'username' => $this->renderer->renderPlain($username),
+              'username' => $this->renderer->renderInIsolation($username),
               'message' => [
                 '#markup' => $revision->getRevisionLogMessage(),
                 '#allowed_tags' => Xss::getHtmlTagList(),

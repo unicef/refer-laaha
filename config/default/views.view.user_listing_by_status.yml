@@ -757,6 +757,7 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
+          pagination_heading_level: h4
       exposed_form:
         type: bef
         options:
@@ -787,8 +788,10 @@ display:
                   sort_options: false
                   rewrite:
                     filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
                   collapsible: false
                   is_secondary: false
+                  collapsible_disable_automatic_open: false
       access:
         type: role
         options:
@@ -1010,7 +1013,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.roles
       tags:
         - 'config:field.storage.user.field_first_name'
@@ -1035,7 +1037,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.roles
       tags:
         - 'config:field.storage.user.field_first_name'

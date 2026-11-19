@@ -1024,6 +1024,7 @@ display:
                   placeholder_text: ''
                   collapsible: false
                   is_secondary: false
+                  collapsible_disable_automatic_open: false
       access:
         type: perm
         options:
@@ -1068,7 +1069,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: default
           exception:
             value: all
@@ -1078,7 +1079,6 @@ display:
           title: ''
           default_argument_type: node
           default_argument_options: {  }
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1095,6 +1095,7 @@ display:
           validate_options: {  }
           break_phrase: false
           not: false
+          target_entity_type_id: node
         term_node_tid_depth:
           id: term_node_tid_depth
           table: node_field_data
@@ -1118,7 +1119,6 @@ display:
             limit: false
             vids: {  }
             anyall: ','
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1335,7 +1335,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:
@@ -1365,7 +1364,6 @@ display:
       contexts:
         - 'languages:language_interface'
         - url
-        - user
         - 'user.node_grants:view'
         - user.permissions
       tags:

@@ -10,7 +10,7 @@ dependencies:
     - node
     - user
 id: manage_feedback
-label: 'Manage Feedback Area'
+label: 'Manage Feedback'
 module: views
 description: ''
 tag: ''
@@ -382,6 +382,7 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
+          pagination_heading_level: h4
       exposed_form:
         type: basic
         options:
@@ -401,21 +402,22 @@ display:
         options: {  }
       empty: {  }
       sorts:
-        title:
-          id: title
+        created:
+          id: created
           table: node_field_data
-          field: title
+          field: created
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: node
-          entity_field: title
-          plugin_id: standard
-          order: ASC
+          entity_field: created
+          plugin_id: date
+          order: DESC
           expose:
             label: ''
             field_identifier: ''
           exposed: false
+          granularity: second
       arguments: {  }
       filters:
         type:

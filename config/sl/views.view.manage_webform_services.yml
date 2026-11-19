@@ -371,6 +371,7 @@ display:
             offset: false
             offset_label: Offset
           quantity: 5
+          pagination_heading_level: h4
       exposed_form:
         type: bef
         options:
@@ -401,16 +402,20 @@ display:
                   sort_options: true
                   rewrite:
                     filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
                   collapsible: false
                   is_secondary: false
+                  collapsible_disable_automatic_open: false
               webform_submission_organisation_filter:
                 plugin_id: default
                 advanced:
                   sort_options: false
                   rewrite:
                     filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
                   collapsible: false
                   is_secondary: false
+                  collapsible_disable_automatic_open: false
       access:
         type: none
         options: {  }

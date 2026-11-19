@@ -12,11 +12,14 @@ role_exclusion_type: disable_for
 ignore_role:
   - administrator
   - super_admin
+dev_mode: false
 security_code_label_text: 'One-time security code'
 security_code_description_text: 'We sent you an email containing your one-time security code. Please enter the code provided to proceed.'
 security_code_verify_text: Verify
+security_code_resend_text: Resend
 verification_succeeded_message: 'One-time security code verification succeeded.'
 verification_failed_message: 'One-time security code verification failed.'
+verification_not_authorized_message: 'You are not authorized to access this page.'
 security_code_length: 4
-security_code_interrupt_text: Cancel
-verification_interrupted_message: 'One-time security code verification interrupted.'
+flood_threshold: 5
+flood_window: 3600

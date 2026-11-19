@@ -595,6 +595,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 50
           total_pages: 0
           id: 0
@@ -1057,7 +1058,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1389,7 +1389,7 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: domain_access_filter
-          operator: in
+          operator: or
           value: {  }
           group: 1
           exposed: true

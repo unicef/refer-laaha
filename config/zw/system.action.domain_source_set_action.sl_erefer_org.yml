@@ -1,0 +1,14 @@
+uuid: 1b6d83c9-6da2-4433-ab0a-b84ad1260dbc
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.sl_erefer_org
+  module:
+    - domain_source
+id: domain_source_set_action.sl_erefer_org
+label: 'Set content domain source value to the Sierra Leone domain'
+type: node
+plugin: domain_source_set_action
+configuration:
+  domain_id: sl_erefer_org

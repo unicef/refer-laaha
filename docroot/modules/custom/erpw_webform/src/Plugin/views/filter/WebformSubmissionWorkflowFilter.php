@@ -67,7 +67,7 @@ class WebformSubmissionWorkflowFilter extends ManyToOne {
   /**
    * {@inheritdoc}
    */
-  public function init(ViewExecutable $view, DisplayPluginBase $display, array &$options = NULL) {
+  public function init(ViewExecutable $view, DisplayPluginBase $display, ?array &$options = NULL) {
     parent::init($view, $display, $options);
     $this->valueTitle = t('Filter by workflow status');
     $this->definition['options callback'] = [$this, 'generateOptions'];

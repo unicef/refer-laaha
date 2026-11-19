@@ -1,0 +1,14 @@
+uuid: 7c18864c-7f17-4bca-9b17-ac6fc3246768
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.bn_erefer_org
+  module:
+    - domain_source
+id: domain_source_set_action.bn_erefer_org
+label: 'Set content domain source value to the Bangladesh domain'
+type: node
+plugin: domain_source_set_action
+configuration:
+  domain_id: bn_erefer_org

@@ -1,1 +1,26 @@
-urls_to_cache: "\r\n/form/erpw-service-provider-form"
+_core:
+  default_config_hash: mN2oCEdjGtL8kxM2pn61KraReH8xINSHCIEUT-_HtCA
+langcode: en
+short_name: eRPW
+description: eRPW
+start_url: /
+scope: /
+lang: en
+theme_color: '#a85766'
+background_color: '#000000'
+display: fullscreen
+cross_origin: false
+name: eRPW
+dir: auto
+orientation: portrait
+categories: {  }
+image_fid: 61
+image_small_fid: 196
+image_very_small_fid: 201
+manifest_path_mode: all_except_listed
+manifest_paths: |-
+  /admin
+  /admin/*
+  /batch
+  /node/add*
+  /node/*/*

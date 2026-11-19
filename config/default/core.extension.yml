@@ -35,13 +35,11 @@ module:
   diff: 0
   diff_moderate: 0
   domain: 0
-  domain_access: 0
   domain_config: 0
   domain_config_ui: 0
   domain_content: 0
   domain_lang: 0
   domain_language_negotiation: 0
-  domain_source: 0
   dynamic_page_cache: 0
   editor: 0
   email_tfa: 0
@@ -61,7 +59,6 @@ module:
   field_ui: 0
   file: 0
   filter: 0
-  google_analytics: 0
   google_tag: 0
   help: 0
   history: 0
@@ -101,6 +98,7 @@ module:
   path: 0
   path_alias: 0
   permissions_filter: 0
+  phpass: 0
   purge: 0
   purge_drush: 0
   purge_processor_cron: 0
@@ -159,6 +157,8 @@ module:
   content_translation: 10
   views: 10
   paragraphs: 11
+  domain_access: 20
+  domain_source: 30
   erpw_custom: 101
   unicef: 1000
 theme:

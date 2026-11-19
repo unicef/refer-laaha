@@ -50,7 +50,7 @@ class AddLocationPopup extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, string $header_message = NULL, string $message = NULL, string $mode = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?string $header_message = NULL, ?string $message = NULL, ?string $mode = NULL) {
     $url = Url::fromRoute('erpw_location.manage_location');
     $external_link = Link::fromTextAndUrl('BACK TO LOCATION', $url)->toString();
     $form['message'] = [

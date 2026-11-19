@@ -19,7 +19,7 @@ class WebformSubmissionServiceRatingFilter extends FilterPluginBase {
   /**
    * {@inheritdoc}
    */
-  public function init(ViewExecutable $view, DisplayPluginBase $display, array &$options = NULL) {
+  public function init(ViewExecutable $view, DisplayPluginBase $display, ?array &$options = NULL) {
     parent::init($view, $display, $options);
     $this->valueTitle = t('Webform ID starts with');
   }

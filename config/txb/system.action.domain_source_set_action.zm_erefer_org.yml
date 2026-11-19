@@ -1,0 +1,14 @@
+uuid: f3033546-123e-4eaf-bba2-789c4e2f9c35
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.zm_erefer_org
+  module:
+    - domain_source
+id: domain_source_set_action.zm_erefer_org
+label: 'Set content domain source value to the Zimbabwe domain'
+type: node
+plugin: domain_source_set_action
+configuration:
+  domain_id: zm_erefer_org

@@ -1,0 +1,12 @@
+uuid: cc7018ac-9be0-4aec-b192-da6f9fffb7c3
+langcode: en
+status: true
+dependencies:
+  module:
+    - domain_source
+id: domain_source_unset_action
+label: 'Unset domain source value'
+type: node
+plugin: domain_source_unset_action
+configuration:
+  domain_id: ''

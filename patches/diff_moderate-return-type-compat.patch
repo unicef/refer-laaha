@@ -1,0 +1,22 @@
+diff --git a/src/Controller/NodeModerateRevisionController.php b/src/Controller/NodeModerateRevisionController.php
+index 9db47c1..e68a3c8 100644
+--- a/src/Controller/NodeModerateRevisionController.php
++++ b/src/Controller/NodeModerateRevisionController.php
+@@ -22,7 +22,7 @@ class NodeModerateRevisionController extends NodeRevisionController {
+    * @return array
+    *   Render array containing the revisions table for $node.
+    */
+-  public function revisionOverview(NodeInterface $node) {
++  public function revisionOverview(NodeInterface $node): array {
+     return $this->formBuilder()->getForm('Drupal\diff\Form\RevisionOverviewForm', $node);
+   }
+ 
+@@ -42,7 +42,7 @@ class NodeModerateRevisionController extends NodeRevisionController {
+    * @return array
+    *   Table showing the diff between the two node revisions.
+    */
+-  public function compareNodeRevisions(NodeInterface $node, $left_revision, $right_revision, $filter) {
++  public function compareNodeRevisions(NodeInterface $node, $left_revision, $right_revision, $filter): array {
+     $storage = $this->entityTypeManager()->getStorage('node');
+     $route_match = \Drupal::routeMatch();
+     $left_revision = $storage->loadRevision($left_revision);
