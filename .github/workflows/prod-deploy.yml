@@ -100,11 +100,10 @@ jobs:
 
       - name: Run post-deploy Drush commands on Prod
         run: |
-          ssh-keyscan -H vss2fp9ktap4b5.ssh.devcloud.acquia-sites.com >> ~/.ssh/known_hosts
-          ./vendor/bin/drush @self.live cr -y
-          ./vendor/bin/drush @self.live updb -y
-          ./vendor/bin/drush @self.live cim -y
-          ./vendor/bin/drush @self.live cr -y
+          acli ssh vss2.prod -- 'drush cr -y'
+          acli ssh vss2.prod -- 'drush updb -y'
+          acli ssh vss2.prod -- 'drush cim -y'
+          acli ssh vss2.prod -- 'drush cr -y'
 
       - name: Publish GitHub Release
         env:

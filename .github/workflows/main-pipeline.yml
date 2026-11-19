@@ -81,13 +81,19 @@ jobs:
           git remote add acquia vss2@svn-5468.devcloud.hosting.acquia.com:vss2.git
           git push --force acquia HEAD:main
 
+      - name: Install Acquia CLI
+        run: |
+          curl -fsSL https://github.com/acquia/cli/releases/latest/download/acli.phar -o /tmp/acli.phar
+          chmod +x /tmp/acli.phar
+          sudo mv /tmp/acli.phar /usr/local/bin/acli
+          acli auth:login --key="${{ secrets.API_KEY }}" --secret="${{ secrets.API_SECRET }}"
+
       - name: Run post-deploy Drush commands on Stage
         run: |
-          ssh-keyscan -H vss26ctymneew2.ssh.devcloud.acquia-sites.com >> ~/.ssh/known_hosts
-          ./vendor/bin/drush @self.test cr -y
-          ./vendor/bin/drush @self.test updb -y
-          ./vendor/bin/drush @self.test cim -y
-          ./vendor/bin/drush @self.test cr -y
+          acli ssh vss2.test -- 'drush cr -y'
+          acli ssh vss2.test -- 'drush updb -y'
+          acli ssh vss2.test -- 'drush cim -y'
+          acli ssh vss2.test -- 'drush cr -y'
 
   create-release-tag:
     name: 🏷️ Create release tag for production
