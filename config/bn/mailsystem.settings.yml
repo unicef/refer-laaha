@@ -2,10 +2,5 @@ _core:
   default_config_hash: IhwTepsVwtbtbcT5GzQKhCXDCRvbk3MNkWqPiuiZ10s
 theme: current
 defaults:
-  sender: sendgrid_integration
-  formatter: php_mail
-modules:
-  sendgrid_integration:
-    none:
-      sender: sendgrid_integration
-      formatter: sendgrid_integration
+  sender: SMTPMailSystem
+  formatter: SMTPMailSystem

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - filter.format.basic_html
+    - filter.format.webform_default
     - rest.resource.erpw_webform_serviceformsexporter
     - rest.resource.erpw_webform_serviceslatestupdate
     - rest.resource.webform_rest_elements
@@ -12,8 +13,8 @@ dependencies:
   module:
     - comment
     - contact
+    - file
     - filter
-    - google_analytics
     - node_view_permissions
     - rest
     - search
@@ -31,7 +32,7 @@ permissions:
   - 'access content'
   - 'access shortcuts'
   - 'access site-wide contact form'
-  - 'opt-in or out of google analytics tracking'
+  - 'delete own files'
   - 'post comments'
   - 'restful get erpw_webform_serviceformsexporter'
   - 'restful get erpw_webform_serviceslatestupdate'
@@ -42,6 +43,7 @@ permissions:
   - 'search content'
   - 'skip comment approval'
   - 'use text format basic_html'
+  - 'use text format webform_default'
   - 'view any referral_path_way content'
   - 'view any webform submission'
   - 'view own webform submission'

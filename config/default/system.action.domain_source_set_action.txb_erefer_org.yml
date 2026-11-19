@@ -1,0 +1,14 @@
+uuid: 24d41127-88c3-4a35-b210-8e9c10596041
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.txb_erefer_org
+  module:
+    - domain_source
+id: domain_source_set_action.txb_erefer_org
+label: 'Set content domain source value to the Turkey Cross Border domain'
+type: node
+plugin: domain_source_set_action
+configuration:
+  domain_id: txb_erefer_org

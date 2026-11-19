@@ -1,0 +1,22 @@
+--- a/src/Entity/Paragraph.php
++++ b/src/Entity/Paragraph.php
+@@ -846,4 +846,19 @@
+ 
+     return $summary;
+   }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function toUrl($rel = 'canonical', array $options = []) {
++    try {
++      $url = parent::toUrl($rel, $options);
++    }
++    catch (UndefinedLinkTemplateException $e) {
++      return '';
++    }
++
++    return $url;
++  }
++
+ }

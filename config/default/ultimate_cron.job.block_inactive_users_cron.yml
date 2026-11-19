@@ -8,7 +8,7 @@ title: 'Default cron handler'
 id: block_inactive_users_cron
 weight: 0
 module: block_inactive_users
-callback: block_inactive_users_cron
+callback: 'block_inactive_users#cron'
 scheduler:
   id: simple
 launcher:

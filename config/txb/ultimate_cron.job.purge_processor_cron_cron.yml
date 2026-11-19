@@ -8,7 +8,7 @@ title: 'Default cron handler'
 id: purge_processor_cron_cron
 weight: 0
 module: purge_processor_cron
-callback: purge_processor_cron_cron
+callback: 'purge_processor_cron#cron'
 scheduler:
   id: simple
 launcher:

@@ -22,6 +22,7 @@ dependencies:
     - erpw_location
     - erpw_webform
     - field_ui
+    - file
     - node
     - node_view_permissions
     - queue_ui
@@ -60,6 +61,7 @@ permissions:
   - 'administer broadcast_notification_entity form display'
   - 'administer webform'
   - 'administer webform element access'
+  - 'administer webform overview'
   - 'administer webform submission'
   - 'cancel users by role'
   - 'cancel users with role country_admin'
@@ -90,6 +92,7 @@ permissions:
   - 'delete location entity entities'
   - 'delete own feedback_area content'
   - 'delete own feedback_area content'
+  - 'delete own files'
   - 'delete own organisation content'
   - 'delete own referral_path_way content'
   - 'delete own service_provider content'

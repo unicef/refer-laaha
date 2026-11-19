@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - filter.format.basic_html
+    - filter.format.webform_default
     - rest.resource.erpw_webform_serviceformsexporter
     - rest.resource.erpw_webform_serviceslatestupdate
     - rest.resource.webform_rest_elements
@@ -42,6 +43,7 @@ permissions:
   - 'search content'
   - 'skip comment approval'
   - 'use text format basic_html'
+  - 'use text format webform_default'
   - 'view any referral_path_way content'
   - 'view any webform submission'
   - 'view own webform submission'

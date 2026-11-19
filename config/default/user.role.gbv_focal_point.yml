@@ -7,6 +7,7 @@ dependencies:
     - erpw_custom
     - erpw_in_app_notification
     - erpw_location
+    - file
     - node
     - webform
 id: gbv_focal_point
@@ -22,6 +23,7 @@ permissions:
   - 'cancel users by role'
   - 'cancel users with role service_provider_focal_point'
   - 'cancel users with role service_provider_staff'
+  - 'delete own files'
   - 'delete own webform submission'
   - 'edit own webform submission'
   - 'edit service of their own location'

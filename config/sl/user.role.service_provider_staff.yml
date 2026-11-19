@@ -3,13 +3,16 @@ langcode: sn
 status: true
 dependencies:
   config:
+    - filter.format.basic_html
     - node.type.service_provider
     - rest.resource.notification_count_resource
     - workflows.workflow.service_editorial
   module:
+    - comment
     - content_moderation
     - erpw_custom
     - erpw_in_app_notification
+    - filter
     - node
     - node_view_permissions
     - quick_node_clone
@@ -35,9 +38,12 @@ permissions:
   - 'edit own webform submission'
   - 'edit service of their own location'
   - 'edit service of their own location and organisation'
+  - 'post comments'
   - 'restful get notification_count_resource'
+  - 'skip comment approval'
   - 'use service_editorial transition create_new_draft'
   - 'use service_editorial transition restore'
+  - 'use text format basic_html'
   - 'view any referral_path_way content'
   - 'view any service_provider content'
   - 'view any webform submission'

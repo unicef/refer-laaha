@@ -138,12 +138,11 @@ class BroadcastProcessQueueWorker extends QueueWorkerBase implements ContainerFa
         $staffuserquery = $this->entityTypeManager->getStorage('user')->getQuery();
         $staffuserquery->condition('status', 1)
           ->condition('roles', 'service_provider_staff')
-          ->condition('field_location', $location_list, 'IN')
-          ->accessCheck(FALSE);
+          ->condition('field_location', $location_list, 'IN');
         if ($org_type != 'all') {
           $staffuserquery->condition('field_organisation', $org);
         }
-        $staffuserquery_result = $staffuserquery->execute();
+        $staffuserquery_result = $staffuserquery->accessCheck(FALSE)->execute();
         if ($staffuserquery_result) {
           $uids = array_merge($uids, $staffuserquery_result);
         }
@@ -152,12 +151,11 @@ class BroadcastProcessQueueWorker extends QueueWorkerBase implements ContainerFa
         $spfpuserquery = $this->entityTypeManager->getStorage('user')->getQuery();
         $spfpuserquery->condition('status', 1)
           ->condition('roles', 'service_provider_focal_point')
-          ->condition('field_location', $location_list, 'IN')
-          ->accessCheck(FALSE);
+          ->condition('field_location', $location_list, 'IN');
         if ($org_type != 'all') {
           $spfpuserquery->condition('field_organisation', $org);
         }
-        $spfpuserquery_result = $spfpuserquery->execute();
+        $spfpuserquery_result = $spfpuserquery->accessCheck(FALSE)->execute();
         if ($spfpuserquery_result) {
           $uids = array_merge($uids, $spfpuserquery_result);
         }
