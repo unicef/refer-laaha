@@ -83,6 +83,7 @@ jobs:
 
       - name: Run post-deploy Drush commands on Dev
         run: |
+          ssh-keyscan -H vss2r9rhtjfnzn.ssh.devcloud.acquia-sites.com >> ~/.ssh/known_hosts
           ./vendor/bin/drush @self.dev cr -y
           ./vendor/bin/drush @self.dev updb -y
           ./vendor/bin/drush @self.dev cim -y

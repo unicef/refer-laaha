@@ -83,6 +83,7 @@ jobs:
 
       - name: Run post-deploy Drush commands on Stage
         run: |
+          ssh-keyscan -H vss26ctymneew2.ssh.devcloud.acquia-sites.com >> ~/.ssh/known_hosts
           ./vendor/bin/drush @self.test cr -y
           ./vendor/bin/drush @self.test updb -y
           ./vendor/bin/drush @self.test cim -y
