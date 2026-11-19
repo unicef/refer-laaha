@@ -116,7 +116,11 @@ class WebformSubmissionAllData extends FieldPluginBase {
                         $output[] = [$element['#title'] => t('No')];
                       }
                     }
+                    else {
+                      $output[] = [$element['#title'] => t('Not available')];
+                    }
                   }
+                  // @todo Add empty or not available for empty fields.
                   elseif ($element['#type'] == 'checkboxes') {
                     $values = [];
                     if (gettype($content) == 'array' & $content != NULL) {
