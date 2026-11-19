@@ -54,7 +54,7 @@ jobs:
       - name: Build custom theme assets
         run: |
           cd docroot/themes/custom/erpw
-          npm ci
+          npm ci --ignore-scripts
           npm run gulp
 
       - name: Install production-only PHP dependencies for build artifact
