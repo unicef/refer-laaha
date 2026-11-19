@@ -107,10 +107,12 @@ jobs:
         env:
           ACQUIA_ENV: 325120-249931c2-c947-4980-b6e4-953c4206177c
         run: |
-          acli ssh "$ACQUIA_ENV" -- 'drush cr -y'
-          acli ssh "$ACQUIA_ENV" -- 'drush updb -y'
-          acli ssh "$ACQUIA_ENV" -- 'drush cim -y'
-          acli ssh "$ACQUIA_ENV" -- 'drush cr -y'
+          for SITE_URI in bn.erefer.org zw.erefer.org sl.erefer.org txb.erefer.org; do
+            acli ssh "$ACQUIA_ENV" -- "drush cr -y --uri=$SITE_URI"
+            acli ssh "$ACQUIA_ENV" -- "drush updb -y --uri=$SITE_URI"
+            acli ssh "$ACQUIA_ENV" -- "drush cim -y --uri=$SITE_URI"
+            acli ssh "$ACQUIA_ENV" -- "drush cr -y --uri=$SITE_URI"
+          done
 
       - name: Publish GitHub Release
         env:
