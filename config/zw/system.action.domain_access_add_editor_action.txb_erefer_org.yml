@@ -1,0 +1,14 @@
+uuid: 96a95d56-9b8c-4afe-ad30-c87525cad0a2
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.txb_erefer_org
+  module:
+    - domain_access
+id: domain_access_add_editor_action.txb_erefer_org
+label: 'Add editors to the Turkey cross-border domain'
+type: user
+plugin: domain_access_add_editor_action
+configuration:
+  domain_id: txb_erefer_org

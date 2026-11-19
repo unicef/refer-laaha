@@ -5,11 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_domain_access
     - node.type.page
-  module:
-    - domain_access
-third_party_settings:
-  domain_access:
-    add_current_domain: true
 id: node.page.field_domain_access
 field_name: field_domain_access
 entity_type: node
@@ -19,7 +14,7 @@ description: 'Select the affiliate domain(s) for this content'
 required: true
 translatable: true
 default_value: {  }
-default_value_callback: null
+default_value_callback: 'Drupal\domain_access\DomainAccessManager::getDefaultValue'
 settings:
   handler: 'default:domain'
   handler_settings:

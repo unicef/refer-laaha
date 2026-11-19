@@ -1,0 +1,14 @@
+uuid: 8aa4771f-902b-4ab7-85d7-ab7ab55dee8d
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.bn_erefer_org
+  module:
+    - domain_access
+id: domain_access_remove_editor_action.bn_erefer_org
+label: 'Remove editors from the Bangladesh eRPW domain'
+type: user
+plugin: domain_access_remove_editor_action
+configuration:
+  domain_id: bn_erefer_org

@@ -1,0 +1,14 @@
+uuid: 08fb3401-62c7-4ecd-b57e-0fae22a39ce3
+langcode: en
+status: true
+dependencies:
+  config:
+    - domain.record.bn_erefer_org
+  module:
+    - domain_access
+id: domain_access_remove_action.bn_erefer_org
+label: 'Remove selected content from the Bangladesh eRPW domain'
+type: node
+plugin: domain_access_remove_action
+configuration:
+  domain_id: bn_erefer_org

@@ -1,0 +1,20 @@
+uuid: 016aca23-b866-40de-984e-a7cab3c266b8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.notification_processed_entity.field_message_long
+  module:
+    - erpw_in_app_notification
+id: notification_processed_entity.notification_processed_entity.field_message_long
+field_name: field_message_long
+entity_type: notification_processed_entity
+bundle: notification_processed_entity
+label: 'Message Long'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

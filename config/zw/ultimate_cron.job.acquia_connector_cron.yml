@@ -8,7 +8,7 @@ title: 'Default cron handler'
 id: acquia_connector_cron
 weight: 0
 module: acquia_connector
-callback: 'acquia_connector#cron'
+callback: acquia_connector_cron
 scheduler:
   id: simple
 launcher:
