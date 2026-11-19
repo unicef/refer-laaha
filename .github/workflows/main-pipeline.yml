@@ -96,7 +96,6 @@ jobs:
           ACQUIA_ENV: 325121-249931c2-c947-4980-b6e4-953c4206177c
         run: |
           for SITE_URI in bn-stage.erefer.org zw-stage.erefer.org sl-stage.erefer.org txb-stage.erefer.org; do
-            acli ssh "$ACQUIA_ENV" -- "drush cr -y --uri=$SITE_URI"
             acli ssh "$ACQUIA_ENV" -- "drush updb -y --uri=$SITE_URI"
             acli ssh "$ACQUIA_ENV" -- "drush cim -y --uri=$SITE_URI"
             acli ssh "$ACQUIA_ENV" -- "drush cr -y --uri=$SITE_URI"
