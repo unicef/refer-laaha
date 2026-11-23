@@ -64,6 +64,7 @@ jobs:
 
       - name: Prepare build artifact
         run: |
+          find . -mindepth 2 -name '.git' -type d -prune -exec rm -rf {} +
           rm -rf .git
           printf 'node_modules/\n*.log\n' > .gitignore
 
